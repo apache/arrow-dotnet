@@ -17,7 +17,7 @@
   under the License.
 -->
 
-# Apache Arrow
+# Apache Arrow .NET
 
 An implementation of Arrow targeting .NET Standard.
 
