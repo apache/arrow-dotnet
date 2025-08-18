@@ -13,6 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\..\..\format\FlightSql.proto" Access="public" />
+    <Protobuf Include="..\..\format\FlightSql.proto" Access="public" />
   </ItemGroup>
 </Project>
