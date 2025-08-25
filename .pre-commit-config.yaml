@@ -39,6 +39,6 @@ repos:
         name: Format
         language: system
         entry: |
-          dotnet format --exclude --exclude src/Apache.Arrow/Flatbuf/FlatBuffers/
+          dotnet format --exclude src/Apache.Arrow/Flatbuf/FlatBuffers/
         always_run: true
         pass_filenames: false
