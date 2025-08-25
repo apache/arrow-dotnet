@@ -35,3 +35,10 @@ repos:
             rm -f apache-arrow-dotnet.tar.gz"
         always_run: true
         pass_filenames: false
+      - id: format
+        name: Format
+        language: system
+        entry: |
+          dotnet format --exclude --exclude src/Apache.Arrow/Flatbuf/FlatBuffers/
+        always_run: true
+        pass_filenames: false

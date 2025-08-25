@@ -21,7 +21,7 @@ namespace Apache.Arrow.Flight.Extensions
     public static class FlightInfoExtensions
     {
         public static ByteString ToByteString(this FlightInfo flightInfo)
-        { 
+        {
             return flightInfo.ToProtocol().ToByteString();
         }
     }

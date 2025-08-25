@@ -13,10 +13,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Apache.Arrow.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Apache.Arrow.Types;
 using Xunit;
 using Xunit.Sdk;
 
@@ -279,9 +279,9 @@ namespace Apache.Arrow.Tests
 
             public static IEnumerable<object[]> SampleSchema1()
             {
-                yield return new object[] {"f0", Int32Type.Default, true};
-                yield return new object[] {"f1", DoubleType.Default, true};
-                yield return new object[] {"f2", Int64Type.Default, false};
+                yield return new object[] { "f0", Int32Type.Default, true };
+                yield return new object[] { "f1", DoubleType.Default, true };
+                yield return new object[] { "f2", Int64Type.Default, false };
             }
         }
     }

@@ -44,7 +44,7 @@ namespace Apache.Arrow.Flight
 
         public override bool Equals(object obj)
         {
-            if(obj is FlightLocation other)
+            if (obj is FlightLocation other)
             {
                 return Equals(_location, other._location);
             }

@@ -18,8 +18,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
-using Apache.Arrow.C;
 using Apache.Arrow.Arrays;
+using Apache.Arrow.C;
 using Apache.Arrow.Types;
 
 namespace Apache.Arrow.IntegrationTest
@@ -45,22 +45,22 @@ namespace Apache.Arrow.IntegrationTest
 
         public static unsafe Schema ImportSchema(long ptr)
         {
-            return CArrowSchemaImporter.ImportSchema((CArrowSchema*) ptr);
+            return CArrowSchemaImporter.ImportSchema((CArrowSchema*)ptr);
         }
 
         public static unsafe void ExportSchema(Schema schema, long ptr)
         {
-            CArrowSchemaExporter.ExportSchema(schema, (CArrowSchema*) ptr);
+            CArrowSchemaExporter.ExportSchema(schema, (CArrowSchema*)ptr);
         }
 
         public static unsafe RecordBatch ImportRecordBatch(long ptr, Schema schema)
         {
-            return CArrowArrayImporter.ImportRecordBatch((CArrowArray*) ptr, schema);
+            return CArrowArrayImporter.ImportRecordBatch((CArrowArray*)ptr, schema);
         }
 
         public static unsafe void ExportRecordBatch(RecordBatch batch, long ptr)
         {
-            CArrowArrayExporter.ExportRecordBatch(batch, (CArrowArray*) ptr);
+            CArrowArrayExporter.ExportRecordBatch(batch, (CArrowArray*)ptr);
         }
 
         public static JsonFile ParseJsonFile(string jsonPath)

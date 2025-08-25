@@ -38,7 +38,7 @@ namespace Apache.Arrow.Flight.Tests
             Assert.Equal(expected.Ordered, actual.Ordered);
 
             Assert.Equal(expected.AppMetadata, actual.AppMetadata);
-            
+
         }
     }
 }

@@ -39,14 +39,14 @@ public class FixedSizeBinaryArrayTests
             .Build();
         var arrayData = new ArrayData(
             new FixedSizeBinaryType(byteWidth),
-            length, nullCount, 0, new [] {validityBuffer, dataBuffer});
+            length, nullCount, 0, new[] { validityBuffer, dataBuffer });
         var array = new FixedSizeBinaryArray(arrayData);
 
         var slice = (FixedSizeBinaryArray)array.Slice(1, 3);
 
         Assert.Equal(3, slice.Length);
-        Assert.Equal(new byte[] {2, 3}, slice.GetBytes(0).ToArray());
+        Assert.Equal(new byte[] { 2, 3 }, slice.GetBytes(0).ToArray());
         Assert.True(slice.GetBytes(1).IsEmpty);
-        Assert.Equal(new byte[] {6, 7}, slice.GetBytes(2).ToArray());
+        Assert.Equal(new byte[] { 6, 7 }, slice.GetBytes(2).ToArray());
     }
 }

@@ -16,7 +16,7 @@
 
 namespace Apache.Arrow.Types
 {
-    public sealed class Date32Type: DateType
+    public sealed class Date32Type : DateType
     {
         public static readonly Date32Type Default = new Date32Type();
 

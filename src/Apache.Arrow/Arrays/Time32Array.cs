@@ -13,10 +13,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Apache.Arrow.Types;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Apache.Arrow.Types;
 
 namespace Apache.Arrow
 {
@@ -104,7 +104,7 @@ namespace Apache.Arrow
                 return null;
             }
 
-            var unit = ((Time32Type) Data.DataType).Unit;
+            var unit = ((Time32Type)Data.DataType).Unit;
             return unit switch
             {
                 TimeUnit.Second => value,

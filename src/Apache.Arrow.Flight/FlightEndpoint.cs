@@ -47,7 +47,7 @@ namespace Apache.Arrow.Flight
                 Ticket = _ticket.ToProtocol()
             };
 
-            foreach(var location in _locations)
+            foreach (var location in _locations)
             {
                 output.Location.Add(location.ToProtocol());
             }
@@ -56,7 +56,7 @@ namespace Apache.Arrow.Flight
 
         public override bool Equals(object obj)
         {
-            if(obj is FlightEndpoint other)
+            if (obj is FlightEndpoint other)
             {
                 return Equals(_ticket, other._ticket) &&
                     Enumerable.SequenceEqual(_locations, other._locations);

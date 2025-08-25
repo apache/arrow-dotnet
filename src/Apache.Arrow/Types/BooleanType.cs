@@ -16,7 +16,7 @@
 
 namespace Apache.Arrow.Types
 {
-    public sealed class BooleanType: NumberType
+    public sealed class BooleanType : NumberType
     {
         public static readonly BooleanType Default = new BooleanType();
 

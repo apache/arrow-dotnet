@@ -43,7 +43,7 @@ public class FlightSqlServerTests
         if (type == FlightDescriptorType.Command)
         {
             descriptor = expectedResult != null ?
-                FlightDescriptor.CreateCommandDescriptor(((IMessage) Activator.CreateInstance(expectedResult!)!).PackAndSerialize().ToByteArray()) :
+                FlightDescriptor.CreateCommandDescriptor(((IMessage)Activator.CreateInstance(expectedResult!)!).PackAndSerialize().ToByteArray()) :
                 FlightDescriptor.CreateCommandDescriptor(ByteString.Empty.ToStringUtf8());
         }
         else
@@ -74,14 +74,14 @@ public class FlightSqlServerTests
 
     [Theory]
     [InlineData(false,
-        new[] {"catalog_name", "db_schema_name", "table_name", "table_type"},
-        new[] {typeof(StringType), typeof(StringType), typeof(StringType), typeof(StringType)},
-        new[] {true, true, false, false})
+        new[] { "catalog_name", "db_schema_name", "table_name", "table_type" },
+        new[] { typeof(StringType), typeof(StringType), typeof(StringType), typeof(StringType) },
+        new[] { true, true, false, false })
     ]
     [InlineData(true,
-        new[] {"catalog_name", "db_schema_name", "table_name", "table_type", "table_schema"},
-        new[] {typeof(StringType), typeof(StringType), typeof(StringType), typeof(StringType), typeof(BinaryType)},
-        new[] {true, true, false, false, false})
+        new[] { "catalog_name", "db_schema_name", "table_name", "table_type", "table_schema" },
+        new[] { typeof(StringType), typeof(StringType), typeof(StringType), typeof(StringType), typeof(BinaryType) },
+        new[] { true, true, false, false, false })
     ]
     public void EnsureTableSchemaIsCorrectWithoutTableSchema(bool includeTableSchemaField, string[] expectedNames, Type[] expectedTypes, bool[] expectedIsNullable)
     {
@@ -119,7 +119,7 @@ public class FlightSqlServerTests
     public async Task EnsureGetFlightInfoIsCorrectlyRoutedForCommand(Type commandType, string expectedResult)
     {
         //Given
-        var command = (IMessage) Activator.CreateInstance(commandType)!;
+        var command = (IMessage)Activator.CreateInstance(commandType)!;
         var producer = new TestFlightSqlSever();
         var descriptor = FlightDescriptor.CreateCommandDescriptor(command.PackAndSerialize().ToArray());
 
@@ -180,7 +180,7 @@ public class FlightSqlServerTests
     {
         //Given
         var producer = new TestFlightSqlSever();
-        var command = (IMessage) Activator.CreateInstance(commandType)!;
+        var command = (IMessage)Activator.CreateInstance(commandType)!;
         var ticket = new FlightTicket(command.PackAndSerialize());
         var streamWriter = new MockServerStreamWriter<FlightData>();
 
@@ -218,7 +218,7 @@ public class FlightSqlServerTests
     {
         //Given
         var producer = new TestFlightSqlSever();
-        var actionBody = (IMessage) Activator.CreateInstance(actionBodyType)!;
+        var actionBody = (IMessage)Activator.CreateInstance(actionBodyType)!;
         var action = new FlightAction(actionType, actionBody.PackAndSerialize());
         var mockStreamWriter = new MockStreamWriter<FlightResult>();
 
@@ -241,7 +241,7 @@ public class FlightSqlServerTests
     public async Task EnsureDoPutIsCorrectlyRoutedForTheCommand(Type commandType, string expectedResponse, bool isException = false)
     {
         //Given
-        var command = (IMessage) Activator.CreateInstance(commandType)!;
+        var command = (IMessage)Activator.CreateInstance(commandType)!;
         var producer = new TestFlightSqlSever();
         var descriptor = FlightDescriptor.CreateCommandDescriptor(command.PackAndSerialize().ToArray());
         var recordBatch = new RecordBatch(new Schema(new List<Field>(), null), System.Array.Empty<Int8Array>(), 0);
@@ -338,7 +338,7 @@ internal static class MockStreamReaderWriterExtensions
     }
 }
 
-internal class MockStreamReader<T>: IAsyncStreamReader<T>
+internal class MockStreamReader<T> : IAsyncStreamReader<T>
 {
     private readonly IEnumerator<T> _flightActions;
 

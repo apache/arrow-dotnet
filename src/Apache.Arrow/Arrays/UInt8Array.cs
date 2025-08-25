@@ -30,8 +30,9 @@ namespace Apache.Arrow
         public UInt8Array(
             ArrowBuffer valueBuffer, ArrowBuffer nullBitmapBuffer,
             int length, int nullCount, int offset)
-            : this(new ArrayData(UInt8Type.Default, length, nullCount, offset, 
-                new[] { nullBitmapBuffer, valueBuffer })) { }
+            : this(new ArrayData(UInt8Type.Default, length, nullCount, offset,
+                new[] { nullBitmapBuffer, valueBuffer }))
+        { }
 
         public UInt8Array(ArrayData data)
             : base(data)

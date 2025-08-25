@@ -13,12 +13,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Apache.Arrow.Arrays;
-using Apache.Arrow.Scalars;
-using Apache.Arrow.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Apache.Arrow.Arrays;
+using Apache.Arrow.Scalars;
+using Apache.Arrow.Types;
 
 namespace Apache.Arrow.Tests
 {
@@ -757,7 +757,7 @@ namespace Apache.Arrow.Tests
                         var dayTimeBuilder = new DayTimeIntervalArray.Builder().Reserve(Length);
                         for (var i = 0; i < Length; i++)
                         {
-                            dayTimeBuilder.Append(new DayTimeInterval(100 - 50*i, 100 * i));
+                            dayTimeBuilder.Append(new DayTimeInterval(100 - 50 * i, 100 * i));
                         }
                         Array = dayTimeBuilder.Build();
                         break;
@@ -765,7 +765,7 @@ namespace Apache.Arrow.Tests
                         var monthDayNanoBuilder = new MonthDayNanosecondIntervalArray.Builder().Reserve(Length);
                         for (var i = 0; i < Length; i++)
                         {
-                            monthDayNanoBuilder.Append(new MonthDayNanosecondInterval(i, 5-i, 100*i));
+                            monthDayNanoBuilder.Append(new MonthDayNanosecondInterval(i, 5 - i, 100 * i));
                         }
                         Array = monthDayNanoBuilder.Build();
                         break;

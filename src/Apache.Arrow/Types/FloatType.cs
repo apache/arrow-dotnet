@@ -16,7 +16,7 @@
 
 namespace Apache.Arrow.Types
 {
-    public sealed class FloatType: FloatingPointType
+    public sealed class FloatType : FloatingPointType
     {
         public static readonly FloatType Default = new FloatType();
 

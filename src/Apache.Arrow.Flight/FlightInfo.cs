@@ -30,7 +30,7 @@ namespace Apache.Arrow.Flight
             Descriptor = new FlightDescriptor(flightInfo.FlightDescriptor);
 
             var endpoints = new List<FlightEndpoint>();
-            foreach(var endpoint in flightInfo.Endpoint)
+            foreach (var endpoint in flightInfo.Endpoint)
             {
                 endpoints.Add(new FlightEndpoint(endpoint));
             }
@@ -41,11 +41,11 @@ namespace Apache.Arrow.Flight
             Ordered = flightInfo.Ordered;
             AppMetadata = flightInfo.AppMetadata;
         }
-        public FlightInfo(Schema schema, FlightDescriptor descriptor, IReadOnlyList<FlightEndpoint> endpoints, long totalRecords = -1, long totalBytes = -1):this(schema,descriptor,endpoints,totalRecords,totalBytes,false, ByteString.Empty)
+        public FlightInfo(Schema schema, FlightDescriptor descriptor, IReadOnlyList<FlightEndpoint> endpoints, long totalRecords = -1, long totalBytes = -1) : this(schema, descriptor, endpoints, totalRecords, totalBytes, false, ByteString.Empty)
         {
         }
 
-        public FlightInfo(Schema schema, FlightDescriptor descriptor, IReadOnlyList<FlightEndpoint> endpoints, long totalRecords, long totalBytes, bool ordered = false, ByteString appMetadata=null)
+        public FlightInfo(Schema schema, FlightDescriptor descriptor, IReadOnlyList<FlightEndpoint> endpoints, long totalRecords, long totalBytes, bool ordered = false, ByteString appMetadata = null)
         {
             Schema = schema;
             Descriptor = descriptor;
@@ -81,7 +81,7 @@ namespace Apache.Arrow.Flight
                 TotalBytes = TotalBytes,
                 TotalRecords = TotalRecords,
                 Ordered = Ordered,
-                AppMetadata = AppMetadata 
+                AppMetadata = AppMetadata
             };
 
             foreach (var endpoint in Endpoints)

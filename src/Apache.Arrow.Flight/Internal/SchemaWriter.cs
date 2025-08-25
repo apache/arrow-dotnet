@@ -43,7 +43,7 @@ namespace Apache.Arrow.Flight.Internal
 
         public static ByteString SerializeSchema(Schema schema, CancellationToken cancellationToken = default(CancellationToken))
         {
-            using(var memoryStream = new MemoryStream())
+            using (var memoryStream = new MemoryStream())
             {
                 var writer = new SchemaWriter(memoryStream, schema);
                 writer.WriteSchema(schema, cancellationToken);

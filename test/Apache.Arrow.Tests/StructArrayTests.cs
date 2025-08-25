@@ -13,11 +13,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Apache.Arrow.Ipc;
-using Apache.Arrow.Types;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Apache.Arrow.Ipc;
+using Apache.Arrow.Types;
 using Xunit;
 
 namespace Apache.Arrow.Tests
@@ -140,18 +140,18 @@ namespace Apache.Arrow.Tests
             var nullBitmap = new ArrowBuffer.BitmapBuilder().AppendRange(true, numRows).Build();
             var array = new StructArray(new StructType(fields), numRows, arrays, nullBitmap, nullCount: 0);
 
-            var slicedArray = (StructArray) array.Slice(3, 4);
+            var slicedArray = (StructArray)array.Slice(3, 4);
 
             Assert.Equal(4, slicedArray.Length);
             Assert.Equal(2, slicedArray.Fields.Count);
 
             var slicedInts = slicedArray.Fields[0];
-            var expectedInts = Enumerable.Range(3, 4).Select(val => (int?) val).ToArray();
-            Assert.Equal(expectedInts, (IReadOnlyList<int?>) slicedInts);
+            var expectedInts = Enumerable.Range(3, 4).Select(val => (int?)val).ToArray();
+            Assert.Equal(expectedInts, (IReadOnlyList<int?>)slicedInts);
 
             var slicedDoubles = slicedArray.Fields[1];
-            var expectedDoubles = Enumerable.Range(3, 4).Select(val => (double?) (val * 0.1)).ToArray();
-            Assert.Equal(expectedDoubles, (IReadOnlyList<double?>) slicedDoubles);
+            var expectedDoubles = Enumerable.Range(3, 4).Select(val => (double?)(val * 0.1)).ToArray();
+            Assert.Equal(expectedDoubles, (IReadOnlyList<double?>)slicedDoubles);
         }
 
         [Fact]
@@ -181,24 +181,24 @@ namespace Apache.Arrow.Tests
             Assert.Equal(2, array.Fields.Count);
 
             var slicedInts = array.Fields[0];
-            var expectedInts = Enumerable.Range(3, 4).Select(val => (int?) val).ToArray();
-            Assert.Equal(expectedInts, (IReadOnlyList<int?>) slicedInts);
+            var expectedInts = Enumerable.Range(3, 4).Select(val => (int?)val).ToArray();
+            Assert.Equal(expectedInts, (IReadOnlyList<int?>)slicedInts);
 
             var slicedDoubles = array.Fields[1];
-            var expectedDoubles = Enumerable.Range(3, 4).Select(val => (double?) (val * 0.1)).ToArray();
-            Assert.Equal(expectedDoubles, (IReadOnlyList<double?>) slicedDoubles);
+            var expectedDoubles = Enumerable.Range(3, 4).Select(val => (double?)(val * 0.1)).ToArray();
+            Assert.Equal(expectedDoubles, (IReadOnlyList<double?>)slicedDoubles);
 
-            var subSlice = (StructArray) array.Slice(1, 2);
+            var subSlice = (StructArray)array.Slice(1, 2);
             Assert.Equal(2, subSlice.Length);
             Assert.Equal(2, subSlice.Fields.Count);
 
             var subSlicedInts = subSlice.Fields[0];
-            var expectedSubSliceInts = Enumerable.Range(4, 2).Select(val => (int?) val).ToArray();
-            Assert.Equal(expectedSubSliceInts, (IReadOnlyList<int?>) subSlicedInts);
+            var expectedSubSliceInts = Enumerable.Range(4, 2).Select(val => (int?)val).ToArray();
+            Assert.Equal(expectedSubSliceInts, (IReadOnlyList<int?>)subSlicedInts);
 
             var subSlicedDoubles = subSlice.Fields[1];
-            var expectedSubSliceDoubles = Enumerable.Range(4, 2).Select(val => (double?) (val * 0.1)).ToArray();
-            Assert.Equal(expectedSubSliceDoubles, (IReadOnlyList<double?>) subSlicedDoubles);
+            var expectedSubSliceDoubles = Enumerable.Range(4, 2).Select(val => (double?)(val * 0.1)).ToArray();
+            Assert.Equal(expectedSubSliceDoubles, (IReadOnlyList<double?>)subSlicedDoubles);
         }
 
         private static void TestRoundTripRecordBatch(RecordBatch originalBatch)

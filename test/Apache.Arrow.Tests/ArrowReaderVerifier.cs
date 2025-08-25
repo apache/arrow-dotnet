@@ -13,14 +13,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Apache.Arrow.Ipc;
-using Apache.Arrow.Types;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Apache.Arrow.Arrays;
+using Apache.Arrow.Ipc;
+using Apache.Arrow.Types;
 using Xunit;
-using System.Diagnostics;
 
 namespace Apache.Arrow.Tests
 {

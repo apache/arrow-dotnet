@@ -56,7 +56,7 @@ namespace Apache.Arrow.Flight
 
         public override bool Equals(object obj)
         {
-            if(obj is FlightResult other)
+            if (obj is FlightResult other)
             {
                 return Equals(_result, other._result);
             }

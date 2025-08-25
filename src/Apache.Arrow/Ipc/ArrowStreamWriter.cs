@@ -528,7 +528,7 @@ namespace Apache.Arrow.Ipc
                 return CreateBuffer(buffer.Memory, null);
             }
 
-            private Buffer CreateBuffer(IMemoryOwner<byte>  bufferOwner)
+            private Buffer CreateBuffer(IMemoryOwner<byte> bufferOwner)
             {
                 return CreateBuffer(bufferOwner.Memory, bufferOwner);
             }
@@ -539,7 +539,7 @@ namespace Apache.Arrow.Ipc
                 const int UncompressedLengthSize = 8;
 
                 ReadOnlyMemory<byte> bufferToWrite;
-                IMemoryOwner<byte> bufferOwner=null;
+                IMemoryOwner<byte> bufferOwner = null;
                 if (_compressionCodec == null)
                 {
                     bufferToWrite = buffer;
@@ -560,11 +560,11 @@ namespace Apache.Arrow.Ipc
                     int newBufferLength = UncompressedLengthSize + buffer.Length;
                     bufferOwner = _allocator.Allocate(newBufferLength);
 
-                    if(TryCompress(buffer, bufferOwner.Memory.Slice(UncompressedLengthSize, buffer.Length), out int bytesWritten))
+                    if (TryCompress(buffer, bufferOwner.Memory.Slice(UncompressedLengthSize, buffer.Length), out int bytesWritten))
                     {
                         // Write the uncompressed length to the start of the buffer
                         BinaryPrimitives.WriteInt64LittleEndian(bufferOwner.Memory.Span, buffer.Length);
-                        bufferToWrite = bufferOwner.Memory.Slice(0, bytesWritten+UncompressedLengthSize);
+                        bufferToWrite = bufferOwner.Memory.Slice(0, bytesWritten + UncompressedLengthSize);
                     }
                     else
                     {
@@ -587,7 +587,7 @@ namespace Apache.Arrow.Ipc
 
             private bool TryCompress(ReadOnlyMemory<byte> source, Memory<byte> destination, out int bytesWritten)
             {
-                if(_compressionCodec is ITryCompressionCodec tryCompressionCodec)
+                if (_compressionCodec is ITryCompressionCodec tryCompressionCodec)
                     return tryCompressionCodec.TryCompress(source, destination, out bytesWritten);
                 // Fallback to using a memory stream for compression
                 _fallbackCompressionStream.Seek(0, SeekOrigin.Begin);

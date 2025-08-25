@@ -45,7 +45,7 @@ namespace Apache.Arrow
 
         public static void ClearBit(Span<byte> data, int index)
         {
-            data[index / 8] &= (byte) ~BitMask[index % 8];
+            data[index / 8] &= (byte)~BitMask[index % 8];
         }
 
         public static void SetBit(Span<byte> data, int index)
@@ -75,7 +75,7 @@ namespace Apache.Arrow
                 return;
 
             int endBitIndex = checked(index + length - 1);
-                        
+
             // Use simpler method if there aren't many values
             if (length < 20)
             {
@@ -85,13 +85,13 @@ namespace Apache.Arrow
                 }
                 return;
             }
-            
+
             // Otherwise do the work to figure out how to copy whole bytes
             int startByteIndex = index / 8;
             int startBitOffset = index % 8;
             int endByteIndex = endBitIndex / 8;
             int endBitOffset = endBitIndex % 8;
-                        
+
             // If the starting index and ending index are not byte-aligned,
             // we'll need to set bits the slow way. If they are
             // byte-aligned, and for all other bytes in the 'middle', we

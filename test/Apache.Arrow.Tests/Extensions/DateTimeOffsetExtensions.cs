@@ -33,6 +33,6 @@ namespace Apache.Arrow.Tests
 
             return dateTimeOffset.AddTicks(-(dateTimeOffset.Ticks % offset.Ticks));
         }
-            
+
     }
 }

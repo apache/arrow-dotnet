@@ -16,7 +16,7 @@
 
 namespace Apache.Arrow.Types
 {
-    public abstract class FixedWidthType: ArrowType
+    public abstract class FixedWidthType : ArrowType
     {
         public override bool IsFixedWidth => true;
 

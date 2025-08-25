@@ -16,7 +16,7 @@
 
 namespace Apache.Arrow.Types
 {
-    public class BinaryType: ArrowType
+    public class BinaryType : ArrowType
     {
         public static readonly BinaryType Default = new BinaryType();
 

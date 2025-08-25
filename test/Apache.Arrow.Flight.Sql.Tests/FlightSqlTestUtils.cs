@@ -30,7 +30,7 @@ public class FlightSqlTestUtils
         _flightStore = flightStore;
     }
 
-    public RecordBatch CreateTestBatch(int startValue, int length) 
+    public RecordBatch CreateTestBatch(int startValue, int length)
     {
         var batchBuilder = new RecordBatch.Builder();
         Int32Array.Builder builder = new();

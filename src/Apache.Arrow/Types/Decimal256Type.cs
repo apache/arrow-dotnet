@@ -15,7 +15,7 @@
 
 namespace Apache.Arrow.Types
 {
-    public sealed class Decimal256Type: FixedSizeBinaryType
+    public sealed class Decimal256Type : FixedSizeBinaryType
     {
         public override ArrowTypeId TypeId => ArrowTypeId.Decimal256;
         public override string Name => "decimal256";

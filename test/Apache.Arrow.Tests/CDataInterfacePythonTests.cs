@@ -112,8 +112,8 @@ namespace Apache.Arrow.Tests
                     .Field(f => f.Name("time64_us").DataType(new Time64Type(TimeUnit.Microsecond)).Nullable(false))
                     .Field(f => f.Name("time64_ns").DataType(new Time64Type(TimeUnit.Nanosecond)).Nullable(false))
 
-                    .Field(f => f.Name("timestamp_ns").DataType(new TimestampType(TimeUnit.Nanosecond, (string) null)).Nullable(false))
-                    .Field(f => f.Name("timestamp_us").DataType(new TimestampType(TimeUnit.Microsecond, (string) null)).Nullable(false))
+                    .Field(f => f.Name("timestamp_ns").DataType(new TimestampType(TimeUnit.Nanosecond, (string)null)).Nullable(false))
+                    .Field(f => f.Name("timestamp_us").DataType(new TimestampType(TimeUnit.Microsecond, (string)null)).Nullable(false))
                     .Field(f => f.Name("timestamp_us_paris").DataType(new TimestampType(TimeUnit.Microsecond, "Europe/Paris")).Nullable(true))
 
                     .Field(f => f.Name("list_string").DataType(new ListType(StringType.Default)).Nullable(false))
@@ -627,7 +627,7 @@ namespace Apache.Arrow.Tests
 
             MapArray col10 = (MapArray)recordBatch.Column("col10");
             Assert.Equal(5, col10.Length);
-            Assert.Equal(new int[] { 0, 0, 1, 2, 4, 10}, col10.ValueOffsets.ToArray());
+            Assert.Equal(new int[] { 0, 0, 1, 2, 4, 10 }, col10.ValueOffsets.ToArray());
             Assert.Equal(new long?[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, ((Int64Array)col10.Values).ToList().ToArray());
 
             DurationArray col11 = (DurationArray)recordBatch.Column("col11");

@@ -22,7 +22,7 @@ using Apache.Arrow.Types;
 
 namespace Apache.Arrow
 {
-    public class StringArray: BinaryArray, IReadOnlyList<string>, ICollection<string>
+    public class StringArray : BinaryArray, IReadOnlyList<string>, ICollection<string>
     {
         public static readonly Encoding DefaultEncoding = Encoding.UTF8;
 

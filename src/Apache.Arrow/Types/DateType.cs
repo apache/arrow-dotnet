@@ -22,7 +22,7 @@ namespace Apache.Arrow.Types
         Milliseconds = 1
     }
 
-    public abstract class DateType: FixedWidthType
+    public abstract class DateType : FixedWidthType
     {
         public abstract DateUnit Unit { get; }
     }

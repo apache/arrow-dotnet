@@ -13,16 +13,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Apache.Arrow.Tests.Fixtures;
 using System;
 using System.Runtime.InteropServices;
+using Apache.Arrow.Tests.Fixtures;
 using Xunit;
 
 namespace Apache.Arrow.Tests
 {
     public class ArrowBufferTests
     {
-        public class Allocate : 
+        public class Allocate :
             IClassFixture<DefaultMemoryAllocatorFixture>
         {
             private readonly DefaultMemoryAllocatorFixture _memoryPoolFixture;
@@ -73,7 +73,7 @@ namespace Apache.Arrow.Tests
                 var buffer = builder.Build();
 
                 fixed (byte* ptr = &buffer.Span.GetPinnableReference())
-                { 
+                {
                     Assert.True(new IntPtr(ptr).ToInt64() % 64 == 0);
                 }
             }
@@ -85,7 +85,7 @@ namespace Apache.Arrow.Tests
             public void HasZeroPadding()
             {
                 var buffer = new ArrowBuffer.Builder<byte>(10).Append(0).Build();
-                
+
                 foreach (var b in buffer.Span)
                 {
                     Assert.Equal(0, b);

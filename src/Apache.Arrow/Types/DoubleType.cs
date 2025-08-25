@@ -16,7 +16,7 @@
 
 namespace Apache.Arrow.Types
 {
-    public sealed class DoubleType: FloatingPointType
+    public sealed class DoubleType : FloatingPointType
     {
         public static readonly DoubleType Default = new DoubleType();
 

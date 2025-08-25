@@ -266,7 +266,7 @@ namespace Apache.Arrow.Tests
         {
             using (MemoryStream stream = new MemoryStream())
             {
-                using (var writer = new ArrowStreamWriter(stream, originalBatches[0].Schema, leaveOpen: true, options, memoryAllocator ??  new TestMemoryAllocator()))
+                using (var writer = new ArrowStreamWriter(stream, originalBatches[0].Schema, leaveOpen: true, options, memoryAllocator ?? new TestMemoryAllocator()))
                 {
                     foreach (RecordBatch originalBatch in originalBatches)
                     {
@@ -659,7 +659,8 @@ namespace Apache.Arrow.Tests
             var listBuilder = new ListArray.Builder(StringType.Default);
             var valueBuilder = listBuilder.ValueBuilder as StringArray.Builder;
 
-            foreach(string data in dictionaryDataBase) {
+            foreach (string data in dictionaryDataBase)
+            {
                 listBuilder.Append();
                 valueBuilder.Append(data);
             }
@@ -730,10 +731,10 @@ namespace Apache.Arrow.Tests
                 .ToList();
             var slicedBatch = new RecordBatch(originalBatch.Schema, slicedArrays, sliceLength);
             var allocator = new TestMemoryAllocator();
-            await TestRoundTripRecordBatchesAsync(new List<RecordBatch> () {slicedBatch}, null, false, allocator);
-            if(sliceOffset % 8 != 0)
+            await TestRoundTripRecordBatchesAsync(new List<RecordBatch>() { slicedBatch }, null, false, allocator);
+            if (sliceOffset % 8 != 0)
                 Assert.True(allocator.Statistics.Allocations > 0);
-            Assert.Equal(0,allocator.Rented);
+            Assert.Equal(0, allocator.Rented);
         }
     }
 }

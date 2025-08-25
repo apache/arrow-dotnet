@@ -13,9 +13,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Apache.Arrow.Types;
 using System.Collections.Generic;
 using System.Linq;
+using Apache.Arrow.Types;
 
 namespace Apache.Arrow
 {
@@ -35,7 +35,7 @@ namespace Apache.Arrow
             ValidateMode(UnionMode.Sparse, Type.Mode);
         }
 
-        public SparseUnionArray(ArrayData data) 
+        public SparseUnionArray(ArrayData data)
             : base(data)
         {
             ValidateMode(UnionMode.Sparse, Type.Mode);

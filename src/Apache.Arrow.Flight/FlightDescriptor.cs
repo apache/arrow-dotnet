@@ -41,7 +41,7 @@ namespace Apache.Arrow.Flight
                 Type = Protocol.FlightDescriptor.Types.DescriptorType.Path
             };
 
-            foreach(var path in paths)
+            foreach (var path in paths)
             {
                 _flightDescriptor.Path.Add(path);
             }
@@ -66,7 +66,7 @@ namespace Apache.Arrow.Flight
 
         internal FlightDescriptor(Protocol.FlightDescriptor flightDescriptor)
         {
-            if(flightDescriptor.Type != Protocol.FlightDescriptor.Types.DescriptorType.Cmd && flightDescriptor.Type != Protocol.FlightDescriptor.Types.DescriptorType.Path)
+            if (flightDescriptor.Type != Protocol.FlightDescriptor.Types.DescriptorType.Cmd && flightDescriptor.Type != Protocol.FlightDescriptor.Types.DescriptorType.Path)
             {
                 throw new NotSupportedException();
             }
@@ -92,7 +92,7 @@ namespace Apache.Arrow.Flight
 
         public override bool Equals(object obj)
         {
-            if(obj is FlightDescriptor other)
+            if (obj is FlightDescriptor other)
             {
                 return Equals(_flightDescriptor, other._flightDescriptor);
             }

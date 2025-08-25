@@ -13,9 +13,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Apache.Arrow.Ipc;
 using System;
 using System.Reflection;
+using Apache.Arrow.Ipc;
 using Apache.Arrow.Tests;
 using Xunit;
 
@@ -88,8 +88,8 @@ namespace Apache.Arrow.Compression.Tests
 
         private static void VerifyCompressedIpcFileBatch(RecordBatch batch)
         {
-            var intArray = (Int32Array) batch.Column("integers");
-            var floatArray = (FloatArray) batch.Column("floats");
+            var intArray = (Int32Array)batch.Column("integers");
+            var floatArray = (FloatArray)batch.Column("floats");
 
             const int numRows = 100;
             Assert.Equal(numRows, intArray.Length);

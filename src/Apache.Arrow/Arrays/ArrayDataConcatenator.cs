@@ -13,11 +13,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+using System.Collections.Generic;
 using Apache.Arrow.Memory;
 using Apache.Arrow.Scalars;
 using Apache.Arrow.Types;
-using System;
-using System.Collections.Generic;
 
 namespace Apache.Arrow
 {
@@ -329,11 +329,11 @@ namespace Apache.Arrow
                     {
                         if (arrayData.NullCount == 0)
                         {
-                            builder.AppendRange(true , length);
+                            builder.AppendRange(true, length);
                         }
                         else if (arrayData.NullCount == length)
                         {
-                            builder.AppendRange(false , length);
+                            builder.AppendRange(false, length);
                         }
                         else
                         {
