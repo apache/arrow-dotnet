@@ -14,8 +14,8 @@
 // limitations under the License.
 
 using System;
-using Grpc.Core;
 using System.Threading.Tasks;
+using Grpc.Core;
 
 namespace Apache.Arrow.Flight.Client
 {

@@ -58,7 +58,7 @@ namespace Apache.Arrow.Tests
                 Assert.Equal(expectedCount,
                     BitUtility.CountBits(data, offset));
             }
-                        
+
             [Theory]
             [InlineData(new byte[] { 0b11111111 }, 0, 8, 8)]
             [InlineData(new byte[] { 0b11111111 }, 0, 4, 4)]
@@ -159,7 +159,7 @@ namespace Apache.Arrow.Tests
                 BitUtility.SetBits(data, index, length, value);
                 Assert.Equal(expectedValue, data);
             }
-                        
+
             [Fact]
             public void SetsBitsInRangeOnBigRanges()
             {

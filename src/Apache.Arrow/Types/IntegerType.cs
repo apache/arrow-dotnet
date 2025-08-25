@@ -16,7 +16,7 @@
 
 namespace Apache.Arrow.Types
 {
-    public abstract class IntegerType: NumberType
+    public abstract class IntegerType : NumberType
     {
     }
 }

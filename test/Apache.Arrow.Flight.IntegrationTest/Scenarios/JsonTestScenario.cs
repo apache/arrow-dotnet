@@ -23,8 +23,8 @@ using Apache.Arrow.IntegrationTest;
 using Apache.Arrow.Tests;
 using Apache.Arrow.Types;
 using Google.Protobuf;
-using Grpc.Net.Client;
 using Grpc.Core;
+using Grpc.Net.Client;
 using Grpc.Net.Client.Balancer;
 using Microsoft.Extensions.DependencyInjection;
 

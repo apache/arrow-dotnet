@@ -23,7 +23,7 @@ namespace Apache.Arrow.Memory
     {
         internal static readonly INativeAllocationOwner ExclusiveOwner = new NativeAllocationOwner();
 
-        public NativeMemoryAllocator(int alignment = DefaultAlignment) 
+        public NativeMemoryAllocator(int alignment = DefaultAlignment)
             : base(alignment) { }
 
         protected override IMemoryOwner<byte> AllocateInternal(int length, out int bytesAllocated)
@@ -36,7 +36,7 @@ namespace Apache.Arrow.Memory
             // TODO: Should the allocation be moved to NativeMemory?
 
             int size = length + Alignment;
-            IntPtr ptr =  Marshal.AllocHGlobal(size);
+            IntPtr ptr = Marshal.AllocHGlobal(size);
             int offset = (int)(Alignment - (ptr.ToInt64() & (Alignment - 1)));
             var manager = new NativeMemoryManager(ptr, offset, length);
 

@@ -125,7 +125,7 @@ public class UnionArrayTests
         Assert.Equal(originalValue, sliceValue);
     }
 
-    private static (UnionArray array, bool[] isNull) BuildUnionArray(UnionMode mode, int length, int offset=0)
+    private static (UnionArray array, bool[] isNull) BuildUnionArray(UnionMode mode, int length, int offset = 0)
     {
         var fields = new Field[]
         {

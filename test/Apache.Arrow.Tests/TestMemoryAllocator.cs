@@ -14,9 +14,9 @@
 // limitations under the License.
 
 using System;
-using Apache.Arrow.Memory;
 using System.Buffers;
 using System.Threading;
+using Apache.Arrow.Memory;
 
 namespace Apache.Arrow.Tests
 {

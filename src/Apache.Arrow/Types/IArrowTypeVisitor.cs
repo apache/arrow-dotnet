@@ -21,8 +21,8 @@ namespace Apache.Arrow.Types
         void Visit(IArrowType type);
     }
 
-    public interface IArrowTypeVisitor<in T>: IArrowTypeVisitor
-        where T: IArrowType
+    public interface IArrowTypeVisitor<in T> : IArrowTypeVisitor
+        where T : IArrowType
     {
         void Visit(T type);
     }

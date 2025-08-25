@@ -65,10 +65,10 @@ namespace Apache.Arrow.Types
         ArrowTypeId TypeId { get; }
 
         string Name { get; }
- 
+
         void Accept(IArrowTypeVisitor visitor);
 
         bool IsFixedWidth { get; }
-    
+
     }
 }

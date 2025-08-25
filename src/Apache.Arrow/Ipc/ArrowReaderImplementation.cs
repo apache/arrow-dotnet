@@ -21,8 +21,8 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Apache.Arrow.Flatbuf;
-using Apache.Arrow.Types;
 using Apache.Arrow.Memory;
+using Apache.Arrow.Types;
 using Google.FlatBuffers;
 using Type = System.Type;
 

@@ -101,7 +101,7 @@ namespace Apache.Arrow.Tests
         {
             var array = new Int64Array.Builder().Append(1).Append(2).Build();
 
-            foreach(long? foo in array)
+            foreach (long? foo in array)
             {
                 Assert.InRange(foo!.Value, 1, 2);
             }
@@ -262,14 +262,14 @@ namespace Apache.Arrow.Tests
             var initialValues = Enumerable.Range(0, 100).ToArray();
             var array = new Int32Array.Builder().AppendRange(initialValues).Build();
 
-            var sliced = (Int32Array) array.Slice(20, 30);
-            var slicedAgain = (Int32Array) sliced.Slice(5, 10);
+            var sliced = (Int32Array)array.Slice(20, 30);
+            var slicedAgain = (Int32Array)sliced.Slice(5, 10);
 
             Assert.Equal(25, slicedAgain.Offset);
             Assert.Equal(10, slicedAgain.Length);
             Assert.Equal(
-                initialValues.Skip(25).Take(10).Select(val => (int?) val).ToArray(),
-                (IReadOnlyList<int?>) slicedAgain);
+                initialValues.Skip(25).Take(10).Select(val => (int?)val).ToArray(),
+                (IReadOnlyList<int?>)slicedAgain);
         }
 
 #if NET5_0_OR_GREATER
@@ -461,7 +461,7 @@ namespace Apache.Arrow.Tests
                 Assert.True(baseArray.Values.SequenceEqual(slicedArray.Values));
 
                 Assert.True(
-                    baseArray.ValueBuffer.Span.Slice(0, (int) Math.Ceiling(slicedArray.Length / 8.0))
+                    baseArray.ValueBuffer.Span.Slice(0, (int)Math.Ceiling(slicedArray.Length / 8.0))
                         .SequenceEqual(slicedArray.Values));
 
                 Assert.Equal(baseArray.GetValue(slicedArray.Offset), slicedArray.GetValue(0));

@@ -55,7 +55,7 @@ namespace Apache.Arrow.Flight
 
         public override bool Equals(object obj)
         {
-            if(obj is FlightTicket other)
+            if (obj is FlightTicket other)
             {
                 return Equals(_ticket, other._ticket);
             }

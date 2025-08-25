@@ -16,7 +16,7 @@
 
 namespace Apache.Arrow.Types
 {
-    public abstract class FloatingPointType: NumberType
+    public abstract class FloatingPointType : NumberType
     {
         public enum PrecisionKind
         {

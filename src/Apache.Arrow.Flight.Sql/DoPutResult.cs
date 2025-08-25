@@ -30,7 +30,7 @@ public class DoPutResult
         Writer = writer;
         Reader = reader;
     }
-    
+
     /// <summary>
     /// Reads the metadata asynchronously from the reader.
     /// </summary>
@@ -43,7 +43,7 @@ public class DoPutResult
         }
         throw new RpcException(new Status(StatusCode.Internal, "No metadata available in the response stream."));
     }
-    
+
     /// <summary>
     /// Completes the writer by signaling the end of the writing process.
     /// </summary>

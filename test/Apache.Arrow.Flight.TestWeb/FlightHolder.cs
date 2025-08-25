@@ -30,7 +30,7 @@ namespace Apache.Arrow.Flight.TestWeb
 
         //Not thread safe, but only used in tests
         private readonly List<RecordBatchWithMetadata> _recordBatches = new List<RecordBatchWithMetadata>();
-        
+
         public FlightHolder(FlightDescriptor flightDescriptor, Schema schema, string location)
         {
             _flightDescriptor = flightDescriptor;
@@ -52,7 +52,7 @@ namespace Apache.Arrow.Flight.TestWeb
         public FlightInfo GetFlightInfo()
         {
             int batchArrayLength = _recordBatches.Sum(rb => rb.RecordBatch.Length);
-            int batchBytes = _recordBatches.Sum(rb => rb.RecordBatch.Arrays.Sum(arr => arr.Data.Buffers.Sum(b=>b.Length)));
+            int batchBytes = _recordBatches.Sum(rb => rb.RecordBatch.Arrays.Sum(arr => arr.Data.Buffers.Sum(b => b.Length)));
             return new FlightInfo(_schema, _flightDescriptor, new List<FlightEndpoint>()
             {
                 new FlightEndpoint(new FlightTicket(GetTicket(_flightDescriptor)), new List<FlightLocation>(){
@@ -67,7 +67,7 @@ namespace Apache.Arrow.Flight.TestWeb
             {
                 return descriptor.Paths.FirstOrDefault();
             }
-            
+
             if (descriptor.Command.Length > 0)
             {
                 return $"{descriptor.Command.ToStringUtf8()}";

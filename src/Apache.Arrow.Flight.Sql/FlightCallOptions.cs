@@ -26,7 +26,7 @@ public class FlightCallOptions
     {
         Timeout = TimeSpan.FromSeconds(-1);
     }
-    
+
     // Implement any necessary options for RPC calls
     public Metadata Headers { get; set; } = new();
 

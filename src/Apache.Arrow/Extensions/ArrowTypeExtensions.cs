@@ -20,7 +20,7 @@ namespace Apache.Arrow
 {
     public static class ArrowTypeExtensions
     {
-        private static readonly ISet<ArrowTypeId> s_integralTypes = 
+        private static readonly ISet<ArrowTypeId> s_integralTypes =
             new HashSet<ArrowTypeId>(new[]
             {
                 ArrowTypeId.Int8, ArrowTypeId.Int16, ArrowTypeId.Int32, ArrowTypeId.Int64,
@@ -33,7 +33,7 @@ namespace Apache.Arrow
                 ArrowTypeId.HalfFloat, ArrowTypeId.Float, ArrowTypeId.Double
             });
 
-        public static bool IsIntegral(this IArrowType type) 
+        public static bool IsIntegral(this IArrowType type)
             => s_integralTypes.Contains(type.TypeId);
 
         public static bool IsFloatingPoint(this IArrowType type)

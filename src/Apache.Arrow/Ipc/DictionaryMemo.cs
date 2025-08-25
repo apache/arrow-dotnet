@@ -110,7 +110,7 @@ namespace Apache.Arrow.Ipc
         public void AddDeltaDictionary(long id, IArrowArray deltaDictionary, MemoryAllocator allocator = default)
         {
             IArrowArray currentDictionary = _idToDictionary[id];
-            IArrowArray dictionary = ArrowArrayConcatenator.Concatenate(new List<IArrowArray>{ currentDictionary, deltaDictionary }, allocator);
+            IArrowArray dictionary = ArrowArrayConcatenator.Concatenate(new List<IArrowArray> { currentDictionary, deltaDictionary }, allocator);
             AddOrReplaceDictionary(id, dictionary);
         }
     }

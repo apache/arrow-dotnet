@@ -46,7 +46,7 @@ namespace Apache.Arrow.Tests
             Assert.Equal(20, column.Length);
             Assert.Equal(0, column.NullCount);
             Assert.Equal(field.DataType, column.Type);
-            
+
             Column slice5 = column.Slice(0, 5);
             Assert.Equal(5, slice5.Length);
             Column sliceFull = column.Slice(2);

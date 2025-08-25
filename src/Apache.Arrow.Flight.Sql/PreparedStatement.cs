@@ -230,10 +230,10 @@ public class PreparedStatement : IDisposable, IAsyncDisposable
         {
             PreparedStatementHandle = ByteString.CopyFrom(_handle, Encoding.UTF8),
         };
-        
+
         var descriptor = FlightDescriptor.CreateCommandDescriptor(command.PackAndSerialize());
         cancellationToken.ThrowIfCancellationRequested();
-        
+
         if (_recordsBatch != null)
         {
             await BindParametersAsync(descriptor, _recordsBatch, options, cancellationToken).ConfigureAwait(false);
@@ -286,7 +286,7 @@ public class PreparedStatement : IDisposable, IAsyncDisposable
         {
             throw new ArgumentNullException(nameof(parameterBatch), "Parameter batch cannot be null.");
         }
-        
+
         var command = new CommandPreparedStatementQuery
         {
             PreparedStatementHandle = ByteString.CopyFrom(_handle, Encoding.UTF8),

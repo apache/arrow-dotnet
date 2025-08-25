@@ -145,7 +145,7 @@ namespace Apache.Arrow.Tests
             public void Equality()
             {
                 Assert.Equal(new DayTimeInterval(10, -1), new DayTimeInterval(10, -1));
-                Assert.NotEqual(new DayTimeInterval(10, 0), new DayTimeInterval(9, 86400*1000));
+                Assert.NotEqual(new DayTimeInterval(10, 0), new DayTimeInterval(9, 86400 * 1000));
             }
 
             [Theory]

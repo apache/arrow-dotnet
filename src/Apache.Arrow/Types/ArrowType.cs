@@ -16,7 +16,7 @@
 
 namespace Apache.Arrow.Types
 {
-    public abstract class ArrowType: IArrowType
+    public abstract class ArrowType : IArrowType
     {
         public abstract ArrowTypeId TypeId { get; }
 
@@ -27,7 +27,7 @@ namespace Apache.Arrow.Types
         public abstract void Accept(IArrowTypeVisitor visitor);
 
         internal static void Accept<T>(T type, IArrowTypeVisitor visitor)
-            where T: class, IArrowType
+            where T : class, IArrowType
         {
             switch (visitor)
             {

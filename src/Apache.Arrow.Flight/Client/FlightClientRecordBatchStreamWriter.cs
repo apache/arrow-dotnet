@@ -17,8 +17,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Apache.Arrow.Flight.Protocol;
 using Apache.Arrow.Flight.Internal;
+using Apache.Arrow.Flight.Protocol;
 using Grpc.Core;
 
 namespace Apache.Arrow.Flight.Client

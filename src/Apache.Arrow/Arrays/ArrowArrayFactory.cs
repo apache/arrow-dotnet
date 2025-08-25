@@ -13,9 +13,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using Apache.Arrow.Arrays;
 using Apache.Arrow.Types;
-using System;
 
 namespace Apache.Arrow
 {

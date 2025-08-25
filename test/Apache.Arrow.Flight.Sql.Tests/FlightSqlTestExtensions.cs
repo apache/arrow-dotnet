@@ -97,13 +97,13 @@ internal static class TestSchemaExtensions
 
         return new RecordBatch(schema.Build(), paramsList, values.Length);
     }
-    
+
     public static void PrintSchema(this Schema schema)
     {
         Console.WriteLine("Schema Fields:");
         Console.WriteLine("{0,-20} {1,-20} {2,-20}", "Field Name", "Field Type", "Is Nullable");
         Console.WriteLine(new string('-', 60));
-    
+
         foreach (var field in schema.FieldsLookup)
         {
             string fieldName = field.First().Name;
@@ -125,7 +125,7 @@ internal static class TestSchemaExtensions
             _ => "Unsupported Type"
         };
     }
-    
+
     public static void PrintRecordBatch(RecordBatch recordBatch)
     {
         int rowCount = recordBatch.Length;
@@ -158,7 +158,7 @@ internal static class TestSchemaExtensions
 
         return new RecordBatch(schema, [idArrayBuilder.Build(), valueArrayBuilder.Build()], ids.Length);
     }
-    
+
     public static RecordBatch CreateRecordBatch<T>(T[] items)
     {
         if (items is null || items.Length == 0)
@@ -167,7 +167,7 @@ internal static class TestSchemaExtensions
         }
 
         var schema = BuildSchema(typeof(T));
-        
+
         var arrays = new List<IArrowArray>();
         foreach (var field in schema.FieldsList)
         {
@@ -176,7 +176,7 @@ internal static class TestSchemaExtensions
             {
                 throw new InvalidOperationException($"Property {field.Name} not found in type {typeof(T).Name}.");
             }
-            
+
             // extract values and build the array
             var values = items.Select(item => property.GetValue(item, null)).ToArray();
             var array = BuildArrowArray(field.DataType, values);
@@ -196,7 +196,7 @@ internal static class TestSchemaExtensions
 
         return builder.Build();
     }
-    
+
     private static IArrowType InferArrowType(Type type)
     {
         return type switch
@@ -209,7 +209,7 @@ internal static class TestSchemaExtensions
             _ => throw new NotSupportedException($"Unsupported type: {type}")
         };
     }
-    
+
     private static IArrowArray BuildArrowArray(IArrowType dataType, object[] values, MemoryAllocator allocator = default)
     {
         allocator ??= MemoryAllocator.Default.Value;
@@ -224,7 +224,7 @@ internal static class TestSchemaExtensions
             _ => throw new NotSupportedException($"Unsupported Arrow type: {dataType}")
         };
     }
-    
+
     private static IArrowArray BuildStringArray(object[] values)
     {
         var builder = new StringArray.Builder();
@@ -243,7 +243,7 @@ internal static class TestSchemaExtensions
 
         return builder.Build();
     }
-    
+
     private static IArrowArray BuildArray<T, TArray, TBuilder>(object[] values, MemoryAllocator allocator)
         where TArray : IArrowArray
         where TBuilder : IArrowArrayBuilder<T, TArray, TBuilder>, new()

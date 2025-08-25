@@ -39,7 +39,7 @@ public class LargeListArrayTests
         for (int i = 0; i < values.Length; ++i)
         {
             Assert.Equal(values[i] == null, array.IsNull(i));
-            var arrayItem = (Int32Array) array.GetSlicedValues(i);
+            var arrayItem = (Int32Array)array.GetSlicedValues(i);
             if (values[i] == null)
             {
                 Assert.Null(arrayItem);

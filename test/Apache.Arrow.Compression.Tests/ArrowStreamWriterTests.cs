@@ -58,7 +58,7 @@ namespace Apache.Arrow.Compression.Tests
                 CompressionCodec = codec,
                 CompressionLevel = compressionLevel,
             };
-            TestRoundTripRecordBatches(new [] {batch}, options, codecFactory);
+            TestRoundTripRecordBatches(new[] { batch }, options, codecFactory);
         }
 
         [Theory]
@@ -73,7 +73,7 @@ namespace Apache.Arrow.Compression.Tests
                 CompressionCodecFactory = codecFactory,
                 CompressionCodec = codec,
             };
-            await TestRoundTripRecordBatchesAsync(new [] {batch}, options, codecFactory);
+            await TestRoundTripRecordBatchesAsync(new[] { batch }, options, codecFactory);
         }
 
         [Fact]
@@ -86,7 +86,7 @@ namespace Apache.Arrow.Compression.Tests
                 CompressionCodecFactory = codecFactory,
                 CompressionCodec = CompressionCodecType.Lz4Frame,
             };
-            TestRoundTripRecordBatches(new [] {batch}, options, codecFactory);
+            TestRoundTripRecordBatches(new[] { batch }, options, codecFactory);
         }
 
         [Theory]
@@ -120,11 +120,11 @@ namespace Apache.Arrow.Compression.Tests
             var allocator = new TestMemoryAllocator();
             var originalBatch = TestData.CreateSampleRecordBatch(length: 100);
             var options = new IpcOptions() { CompressionCodecFactory = new CompressionCodecFactory(), CompressionCodec = codec };
-            await TestRoundTripRecordBatchesAsync(new List<RecordBatch> () {originalBatch}, options, options.CompressionCodecFactory,
+            await TestRoundTripRecordBatchesAsync(new List<RecordBatch>() { originalBatch }, options, options.CompressionCodecFactory,
                 allocator);
             Assert.True(allocator.Statistics.Allocations > 0);
             // make sure all memory allocated by the writer was disposed
-            Assert.Equal(0,allocator.Rented);
+            Assert.Equal(0, allocator.Rented);
         }
 
         private static void TestRoundTripRecordBatches(

@@ -84,7 +84,7 @@ namespace Apache.Arrow.Flight.Internal
 
                 // AppMetadata will never be null, but length 0 if empty
                 // Those are skipped
-                if(_flightDataStream.Current.AppMetadata.Length > 0)
+                if (_flightDataStream.Current.AppMetadata.Length > 0)
                 {
                     _applicationMetadatas.Add(_flightDataStream.Current.AppMetadata);
                 }

@@ -48,7 +48,7 @@ namespace Apache.Arrow.Flight.Internal
         {
             _currentFlightData = new Protocol.FlightData();
 
-            if(_flightDescriptor != null)
+            if (_flightDescriptor != null)
             {
                 _currentFlightData.FlightDescriptor = _flightDescriptor.ToProtocol();
             }
@@ -76,7 +76,7 @@ namespace Apache.Arrow.Flight.Internal
 
             _currentFlightData = new Protocol.FlightData();
 
-            if(applicationMetadata != null)
+            if (applicationMetadata != null)
             {
                 _currentFlightData.AppMetadata = applicationMetadata;
             }

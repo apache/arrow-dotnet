@@ -134,10 +134,10 @@ namespace Apache.Arrow.Tests
                     Assert.False(array.GetValue(0).Value);
                     Assert.True(array.GetValue(7).HasValue);
                     Assert.True(array.GetValue(7).Value);
-                    #pragma warning disable CS0618
+#pragma warning disable CS0618
                     Assert.False(array.GetBoolean(0));
                     Assert.True(array.GetBoolean(7));
-                    #pragma warning restore CS0618
+#pragma warning restore CS0618
                 }
 
                 [Fact]
@@ -200,9 +200,9 @@ namespace Apache.Arrow.Tests
                         {
                             Assert.True(array.GetValue(i).HasValue);
                             Assert.False(array.GetValue(i).Value);
-                            #pragma warning disable CS0618
+#pragma warning disable CS0618
                             Assert.False(array.GetBoolean(i));
-                            #pragma warning restore CS0618
+#pragma warning restore CS0618
                         }
                     }
                 }

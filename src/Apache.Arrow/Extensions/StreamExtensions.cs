@@ -27,7 +27,7 @@ namespace Apache.Arrow
             int totalBytesRead = 0;
             do
             {
-                int bytesRead = 
+                int bytesRead =
                     await stream.ReadAsync(
                         buffer.Slice(totalBytesRead, buffer.Length - totalBytesRead),
                         cancellationToken)

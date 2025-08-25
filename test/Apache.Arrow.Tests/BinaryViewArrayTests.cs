@@ -33,8 +33,8 @@ public class BinaryViewArrayTests
         var slice = (BinaryViewArray)array.Slice(1, 3);
 
         Assert.Equal(3, slice.Length);
-        Assert.Equal(new byte[] {3, 4}, slice.GetBytes(0).ToArray());
+        Assert.Equal(new byte[] { 3, 4 }, slice.GetBytes(0).ToArray());
         Assert.True(slice.GetBytes(1).IsEmpty);
-        Assert.Equal(new byte[] {5, 6}, slice.GetBytes(2).ToArray());
+        Assert.Equal(new byte[] { 5, 6 }, slice.GetBytes(2).ToArray());
     }
 }

@@ -21,11 +21,11 @@ namespace Apache.Arrow
     public static class SpanExtensions
     {
         public static Span<T> CastTo<T>(this Span<byte> span)
-            where T: struct =>
+            where T : struct =>
             MemoryMarshal.Cast<byte, T>(span);
 
         public static ReadOnlySpan<T> CastTo<T>(this ReadOnlySpan<byte> span)
-            where T: struct =>
+            where T : struct =>
                 MemoryMarshal.Cast<byte, T>(span);
     }
 }

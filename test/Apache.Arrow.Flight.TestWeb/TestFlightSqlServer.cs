@@ -97,7 +97,7 @@ public class TestFlightSqlServer : FlightServer
             }
         }
     }
-    
+
     public override async Task DoPut(FlightServerRecordBatchStreamReader requestStream, IAsyncStreamWriter<FlightPutResult> responseStream, ServerCallContext context)
     {
         var flightDescriptor = await requestStream.FlightDescriptor;
@@ -107,7 +107,7 @@ public class TestFlightSqlServer : FlightServer
             flightHolder = new FlightHolder(flightDescriptor, await requestStream.Schema, $"http://{context.Host}");
             _flightStore.Flights.Add(flightDescriptor, flightHolder);
         }
-        
+
         int affectedRows = 0;
         while (await requestStream.MoveNext())
         {
@@ -129,7 +129,7 @@ public class TestFlightSqlServer : FlightServer
         var flightPutResult = new FlightPutResult(metadata);
         await responseStream.WriteAsync(flightPutResult);
     }
-    
+
     public override Task<FlightInfo> GetFlightInfo(FlightDescriptor request, ServerCallContext context)
     {
         if (_flightStore.Flights.TryGetValue(request, out var flightHolder))
@@ -144,7 +144,7 @@ public class TestFlightSqlServer : FlightServer
 
         throw new RpcException(new Status(StatusCode.NotFound, "Flight not found"));
     }
-    
+
     public override Task<Schema> GetSchema(FlightDescriptor request, ServerCallContext context)
     {
         if (_flightStore.Flights.TryGetValue(request, out var flightHolder))

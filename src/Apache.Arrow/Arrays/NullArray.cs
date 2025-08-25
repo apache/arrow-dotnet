@@ -14,8 +14,8 @@
 // limitations under the License.
 
 using System;
-using Apache.Arrow.Types;
 using Apache.Arrow.Memory;
+using Apache.Arrow.Types;
 
 namespace Apache.Arrow
 {

@@ -22,7 +22,7 @@ namespace Apache.Arrow
         public class Builder : PrimitiveArrayBuilder<short, Int16Array, Builder>
         {
             protected override Int16Array Build(
-                ArrowBuffer valueBuffer, ArrowBuffer nullBitmapBuffer, 
+                ArrowBuffer valueBuffer, ArrowBuffer nullBitmapBuffer,
                 int length, int nullCount, int offset) =>
                 new Int16Array(valueBuffer, nullBitmapBuffer, length, nullCount, offset);
         }

@@ -13,15 +13,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Apache.Arrow.Memory;
-using Apache.Arrow.Types;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Apache.Arrow.Memory;
+using Apache.Arrow.Types;
 
 namespace Apache.Arrow
 {
-    public class BooleanArray: Array, IReadOnlyList<bool?>, ICollection<bool?>
+    public class BooleanArray : Array, IReadOnlyList<bool?>, ICollection<bool?>
     {
         public class Builder : IArrowArrayBuilder<bool, BooleanArray, Builder>
         {
@@ -162,7 +162,7 @@ namespace Apache.Arrow
         }
 
         public ArrowBuffer ValueBuffer => Data.Buffers[1];
-        public ReadOnlySpan<byte> Values => ValueBuffer.Span.Slice(0, (int) Math.Ceiling(Length / 8.0));
+        public ReadOnlySpan<byte> Values => ValueBuffer.Span.Slice(0, (int)Math.Ceiling(Length / 8.0));
 
         public BooleanArray(
             ArrowBuffer valueBuffer, ArrowBuffer nullBitmapBuffer,

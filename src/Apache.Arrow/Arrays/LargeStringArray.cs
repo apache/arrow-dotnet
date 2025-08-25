@@ -22,7 +22,7 @@ using Apache.Arrow.Types;
 
 namespace Apache.Arrow;
 
-public class LargeStringArray: LargeBinaryArray, IReadOnlyList<string>, ICollection<string>
+public class LargeStringArray : LargeBinaryArray, IReadOnlyList<string>, ICollection<string>
 {
     public static readonly Encoding DefaultEncoding = StringArray.DefaultEncoding;
 

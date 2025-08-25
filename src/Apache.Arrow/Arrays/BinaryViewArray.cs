@@ -13,13 +13,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Apache.Arrow.Memory;
 using Apache.Arrow.Scalars;
 using Apache.Arrow.Types;
-using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Collections;
 
 namespace Apache.Arrow
 {

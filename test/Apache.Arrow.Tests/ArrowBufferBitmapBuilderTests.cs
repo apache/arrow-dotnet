@@ -28,8 +28,8 @@ namespace Apache.Arrow.Tests
         public class Append
         {
             [Theory]
-            [InlineData(new bool[] {}, false, 1, 0, 1)]
-            [InlineData(new bool[] {}, true, 1, 1, 0)]
+            [InlineData(new bool[] { }, false, 1, 0, 1)]
+            [InlineData(new bool[] { }, true, 1, 1, 0)]
             [InlineData(new[] { true, false }, true, 3, 2, 1)]
             [InlineData(new[] { true, false }, false, 3, 1, 2)]
             public void IncreasesLength(
@@ -55,8 +55,8 @@ namespace Apache.Arrow.Tests
             }
 
             [Theory]
-            [InlineData(new bool[] {}, false)]
-            [InlineData(new bool[] {}, true)]
+            [InlineData(new bool[] { }, false)]
+            [InlineData(new bool[] { }, true)]
             [InlineData(new[] { true, false }, true)]
             [InlineData(new[] { true, false }, false)]
             public void AfterClearIncreasesLength(bool[] initialContentsToClear, bool valueToAppend)
@@ -98,7 +98,7 @@ namespace Apache.Arrow.Tests
         public class AppendSpan
         {
             [Theory]
-            [InlineData(new byte[] { 0b00000110 }, 4, 4, 2, 2)]    
+            [InlineData(new byte[] { 0b00000110 }, 4, 4, 2, 2)]
             [InlineData(new byte[] { 0b11111110 }, 4, 4, 3, 1)]
             [InlineData(new byte[] { 0b11111110, 0b00000001 }, 9, 9, 8, 1)]
             [InlineData(new byte[] { 0b11111001, 0b00000001 }, 9, 9, 7, 2)]
@@ -209,9 +209,9 @@ namespace Apache.Arrow.Tests
         public class AppendRange
         {
             [Theory]
-            [InlineData(new bool[] {}, new bool[] {}, 0, 0, 0)]
-            [InlineData(new bool[] {}, new[] { true, false }, 2, 1, 1)]
-            [InlineData(new[] { true, false }, new bool[] {}, 2, 1, 1)]
+            [InlineData(new bool[] { }, new bool[] { }, 0, 0, 0)]
+            [InlineData(new bool[] { }, new[] { true, false }, 2, 1, 1)]
+            [InlineData(new[] { true, false }, new bool[] { }, 2, 1, 1)]
             [InlineData(new[] { true, false }, new[] { true, false }, 4, 2, 2)]
             public void AppendingEnumerableIncreasesLength(
                 bool[] initialContents,
@@ -311,11 +311,11 @@ namespace Apache.Arrow.Tests
         public class Resize
         {
             [Theory]
-            [InlineData(new bool[] {}, 256, 0, 256)]
-            [InlineData(new[] { true, true, true, true}, 256, 4, 252)]
-            [InlineData(new[] { false, false, false, false}, 256, 0, 256)]
-            [InlineData(new[] { true, true, true, true}, 2, 2, 0)]
-            [InlineData(new[] { true, true, true, true}, 0, 0, 0)]
+            [InlineData(new bool[] { }, 256, 0, 256)]
+            [InlineData(new[] { true, true, true, true }, 256, 4, 252)]
+            [InlineData(new[] { false, false, false, false }, 256, 0, 256)]
+            [InlineData(new[] { true, true, true, true }, 2, 2, 0)]
+            [InlineData(new[] { true, true, true, true }, 0, 0, 0)]
             public void LengthHasExpectedValueAfterResize(
                 bool[] bits, int newSize, int expectedSetBitCount, int expectedUnsetBitCount)
             {
@@ -383,22 +383,22 @@ namespace Apache.Arrow.Tests
         {
             [Theory]
             [InlineData(
-                new[] { true, false, true, false, true, false, true, false, true, false},
+                new[] { true, false, true, false, true, false, true, false, true, false },
                 2,
                 new byte[] { 0b01010101, 0b00000001 },
                 5, 5)]
             [InlineData(
-                new[] { true, false, true, false, true, false, true, false, true, false},
+                new[] { true, false, true, false, true, false, true, false, true, false },
                 3,
                 new byte[] { 0b01011101, 0b00000001 },
                 6, 4)]
             [InlineData(
-                new[] { true, false, true, false, true, false, true, false, true, false},
+                new[] { true, false, true, false, true, false, true, false, true, false },
                 8,
                 new byte[] { 0b01010101, 0b00000001 },
                 5, 5)]
             [InlineData(
-                new[] { true, false, true, false, true, false, true, false, true, false},
+                new[] { true, false, true, false, true, false, true, false, true, false },
                 9,
                 new byte[] { 0b01010101, 0b00000011 },
                 6, 4)]
@@ -423,42 +423,42 @@ namespace Apache.Arrow.Tests
 
             [Theory]
             [InlineData(
-                new[] { true, false, true, false, true, false, true, false, true, false},
+                new[] { true, false, true, false, true, false, true, false, true, false },
                 2, true,
                 new byte[] { 0b01010101, 0b00000001 },
                 5, 5)]
             [InlineData(
-                new[] { true, false, true, false, true, false, true, false, true, false},
+                new[] { true, false, true, false, true, false, true, false, true, false },
                 2, false,
                 new byte[] { 0b01010001, 0b00000001 },
                 4, 6)]
             [InlineData(
-                new[] { true, false, true, false, true, false, true, false, true, false},
+                new[] { true, false, true, false, true, false, true, false, true, false },
                 3, true,
                 new byte[] { 0b01011101, 0b00000001 },
                 6, 4)]
             [InlineData(
-                new[] { true, false, true, false, true, false, true, false, true, false},
+                new[] { true, false, true, false, true, false, true, false, true, false },
                 3, false,
                 new byte[] { 0b01010101, 0b00000001 },
                 5, 5)]
             [InlineData(
-                new[] { true, false, true, false, true, false, true, false, true, false},
+                new[] { true, false, true, false, true, false, true, false, true, false },
                 8, true,
                 new byte[] { 0b01010101, 0b00000001 },
                 5, 5)]
             [InlineData(
-                new[] { true, false, true, false, true, false, true, false, true, false},
+                new[] { true, false, true, false, true, false, true, false, true, false },
                 8, false,
                 new byte[] { 0b01010101, 0b00000000 },
                 4, 6)]
             [InlineData(
-                new[] { true, false, true, false, true, false, true, false, true, false},
+                new[] { true, false, true, false, true, false, true, false, true, false },
                 9, true,
                 new byte[] { 0b01010101, 0b00000011 },
                 6, 4)]
             [InlineData(
-                new[] { true, false, true, false, true, false, true, false, true, false},
+                new[] { true, false, true, false, true, false, true, false, true, false },
                 9, false,
                 new byte[] { 0b01010101, 0b00000001 },
                 5, 5)]
@@ -504,19 +504,19 @@ namespace Apache.Arrow.Tests
         {
             [Theory]
             [InlineData(
-                new[] { true, false, true, false, true, false, true, false, true, false},
+                new[] { true, false, true, false, true, false, true, false, true, false },
                 0, 2,
                 new byte[] { 0b01010101, 0b00000001 })]
             [InlineData(
-                new[] { true, false, true, false, true, false, true, false, true, false},
+                new[] { true, false, true, false, true, false, true, false, true, false },
                 0, 3,
                 new byte[] { 0b01011100, 0b00000001 })]
             [InlineData(
-                new[] { true, false, true, false, true, false, true, false, true, false},
+                new[] { true, false, true, false, true, false, true, false, true, false },
                 4, 8,
                 new byte[] { 0b01010101, 0b00000001 })]
             [InlineData(
-                new[] { true, false, true, false, true, false, true, false, true, false},
+                new[] { true, false, true, false, true, false, true, false, true, false },
                 4, 9,
                 new byte[] { 0b01000101, 0b00000011 })]
             public void SwapsAsExpected(bool[] bits, int firstIndex, int secondIndex, byte[] expectedBytes)
@@ -565,22 +565,22 @@ namespace Apache.Arrow.Tests
         {
             [Theory]
             [InlineData(
-                new[] { true, false, true, false, true, false, true, false, true, false},
+                new[] { true, false, true, false, true, false, true, false, true, false },
                 2,
                 new byte[] { 0b01010001, 0b00000001 },
                 4, 6)]
             [InlineData(
-                new[] { true, false, true, false, true, false, true, false, true, false},
+                new[] { true, false, true, false, true, false, true, false, true, false },
                 3,
                 new byte[] { 0b01011101, 0b00000001 },
                 6, 4)]
             [InlineData(
-                new[] { true, false, true, false, true, false, true, false, true, false},
+                new[] { true, false, true, false, true, false, true, false, true, false },
                 8,
                 new byte[] { 0b01010101, 0b00000000 },
                 4, 6)]
             [InlineData(
-                new[] { true, false, true, false, true, false, true, false, true, false},
+                new[] { true, false, true, false, true, false, true, false, true, false },
                 9,
                 new byte[] { 0b01010101, 0b00000011 },
                 6, 4)]
