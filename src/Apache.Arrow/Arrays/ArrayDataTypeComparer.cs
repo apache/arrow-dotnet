@@ -165,7 +165,7 @@ namespace Apache.Arrow
                 }
             }
 
-            return true;   
+            return true;
         }
 
         public void Visit(IArrowType actualType)

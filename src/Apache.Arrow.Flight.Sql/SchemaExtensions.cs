@@ -35,7 +35,7 @@ public static class SchemaExtensions
         using var reader = new ArrowStreamReader(serializedSchema);
         return reader.Schema;
     }
-    
+
     /// <summary>
     /// Serializes the provided schema to a byte array.
     /// </summary>
@@ -43,7 +43,7 @@ public static class SchemaExtensions
     {
         using var memoryStream = new MemoryStream();
         using var writer = new ArrowStreamWriter(memoryStream, schema);
-        writer.WriteStart(); 
+        writer.WriteStart();
         writer.WriteEnd();
         return memoryStream.ToArray();
     }

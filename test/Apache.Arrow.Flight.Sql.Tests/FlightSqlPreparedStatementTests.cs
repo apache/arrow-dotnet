@@ -68,7 +68,7 @@ namespace Apache.Arrow.Flight.Sql.Tests
                     new Int32Array.Builder().AppendRange(new[] { 32, 255, 1 }).Build()
                 }, 3);
         }
-        
+
         [Fact]
         public async Task ExecuteAsync_ShouldReturnFlightInfo_WhenValidInputsAreProvided()
         {
@@ -184,7 +184,7 @@ namespace Apache.Arrow.Flight.Sql.Tests
             ActionCreatePreparedStatementResult actionResult = string.IsNullOrEmpty(handle)
                 ? new ActionCreatePreparedStatementResult()
                 : new ActionCreatePreparedStatementResult
-                    { PreparedStatementHandle = ByteString.CopyFrom(handle, Encoding.UTF8) };
+                { PreparedStatementHandle = ByteString.CopyFrom(handle, Encoding.UTF8) };
 
             var flightData = new FlightData(_flightDescriptor, ByteString.CopyFrom(actionResult.ToByteArray()));
             var results = GetAsyncEnumerable(new List<FlightData> { flightData });

@@ -22,8 +22,8 @@ namespace Apache.Arrow
         void Visit(IArrowArray array);
     }
 
-    public interface IArrowArrayVisitor<T>: IArrowArrayVisitor
-        where T: IArrowArray
+    public interface IArrowArrayVisitor<T> : IArrowArrayVisitor
+        where T : IArrowArray
     {
         void Visit(T array);
     }

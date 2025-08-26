@@ -57,7 +57,7 @@ namespace Apache.Arrow.Compression.Tests
                 CompressionCodec = codec,
                 CompressionLevel = compressionLevel,
             };
-            TestRoundTripRecordBatches(new [] {batch}, options, codecFactory);
+            TestRoundTripRecordBatches(new[] { batch }, options, codecFactory);
         }
 
         [Theory]
@@ -72,7 +72,7 @@ namespace Apache.Arrow.Compression.Tests
                 CompressionCodecFactory = codecFactory,
                 CompressionCodec = codec,
             };
-            await TestRoundTripRecordBatchesAsync(new [] {batch}, options, codecFactory);
+            await TestRoundTripRecordBatchesAsync(new[] { batch }, options, codecFactory);
         }
 
         private static void TestRoundTripRecordBatches(

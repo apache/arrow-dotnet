@@ -257,7 +257,7 @@ namespace Apache.Arrow.Tests
                     }
                     else
                     {
-                        builder.Append(new byte[] {(byte)x, (byte)(x + 1)}.AsSpan());
+                        builder.Append(new byte[] { (byte)x, (byte)(x + 1) }.AsSpan());
                     }
                 });
 
@@ -270,7 +270,7 @@ namespace Apache.Arrow.Tests
                     }
                     else
                     {
-                        builder.Append(new byte[] {(byte)x, (byte)(x + 1)}.AsSpan());
+                        builder.Append(new byte[] { (byte)x, (byte)(x + 1) }.AsSpan());
                     }
                 });
 
@@ -525,7 +525,7 @@ namespace Apache.Arrow.Tests
             }
 
             private void GenerateTestData<TArray, TArrayBuilder>(
-                IArrowType type, Action<TArrayBuilder, int> buildAction, Action<TArrayBuilder, int> initAction=null)
+                IArrowType type, Action<TArrayBuilder, int> buildAction, Action<TArrayBuilder, int> initAction = null)
                 where TArrayBuilder : IArrowArrayBuilder<TArray, TArrayBuilder>
                 where TArray : IArrowArray
             {

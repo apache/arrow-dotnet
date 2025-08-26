@@ -13,16 +13,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Apache.Arrow.Types;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using Apache.Arrow.Types;
 
 namespace Apache.Arrow
 {
-    public class StringViewArray: BinaryViewArray, IReadOnlyList<string>
+    public class StringViewArray : BinaryViewArray, IReadOnlyList<string>
     {
         public static readonly Encoding DefaultEncoding = Encoding.UTF8;
 

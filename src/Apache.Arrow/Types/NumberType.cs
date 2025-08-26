@@ -16,7 +16,7 @@
 
 namespace Apache.Arrow.Types
 {
-    public abstract class NumberType: FixedWidthType
+    public abstract class NumberType : FixedWidthType
     {
         public abstract bool IsSigned { get; }
     }

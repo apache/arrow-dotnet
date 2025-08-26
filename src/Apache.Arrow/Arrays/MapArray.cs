@@ -165,7 +165,7 @@ namespace Apache.Arrow
             }
         }
 
-        public IEnumerable<KeyValuePair<K,V>> GetKeyValuePairs<TKeyArray, K, TValueArray, V>(int index, Func<TKeyArray, int, K> getKey, Func<TValueArray, int, V> getValue)
+        public IEnumerable<KeyValuePair<K, V>> GetKeyValuePairs<TKeyArray, K, TValueArray, V>(int index, Func<TKeyArray, int, K> getKey, Func<TValueArray, int, V> getValue)
             where TKeyArray : Array where TValueArray : Array
         {
             ReadOnlySpan<int> offsets = ValueOffsets;
@@ -178,7 +178,7 @@ namespace Apache.Arrow
 
             for (int i = start; i < end; i++)
             {
-                yield return new KeyValuePair<K,V>(getKey(keyArray, i), getValue(valueArray, i));
+                yield return new KeyValuePair<K, V>(getKey(keyArray, i), getValue(valueArray, i));
             }
         }
     }

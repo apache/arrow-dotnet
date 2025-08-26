@@ -83,7 +83,7 @@ public class TestFlightSqlSever : FlightSqlServer
 
     private RecordBatch MockRecordBatch(string name)
     {
-        var schema = new Schema(new List<Field> {new(name, StringType.Default, false)}, System.Array.Empty<KeyValuePair<string, string>>());
-        return new RecordBatch(schema, new []{ new StringArray.Builder().Append(name).Build() }, 1);
+        var schema = new Schema(new List<Field> { new(name, StringType.Default, false) }, System.Array.Empty<KeyValuePair<string, string>>());
+        return new RecordBatch(schema, new[] { new StringArray.Builder().Append(name).Build() }, 1);
     }
 }

@@ -24,7 +24,7 @@ namespace Apache.Arrow
     /// </summary>
     public class Column
     {
-        public Field Field { get;  }
+        public Field Field { get; }
         public ChunkedArray Data { get; }
 
         public Column(Field field, IList<Array> arrays)

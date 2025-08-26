@@ -57,7 +57,7 @@ namespace Apache.Arrow
                 {
                     throw new OverflowException($"Value: {integerPart} of {integerValue} is too big be represented as a decimal");
                 }
-                else if (integerPart < _minDecimal) 
+                else if (integerPart < _minDecimal)
                 {
                     throw new OverflowException($"Value: {integerPart} of {integerValue} is too small be represented as a decimal");
                 }

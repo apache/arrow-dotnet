@@ -139,7 +139,7 @@ public class FlightSqlClientTests : IDisposable
         PreparedStatement preparedStatement;
         if (expectTransaction)
         {
-             preparedStatement = await _flightSqlClient.PrepareAsync(query, transaction);
+            preparedStatement = await _flightSqlClient.PrepareAsync(query, transaction);
         }
         else
         {

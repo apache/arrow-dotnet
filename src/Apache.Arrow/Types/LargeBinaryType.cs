@@ -15,7 +15,7 @@
 
 namespace Apache.Arrow.Types;
 
-public class LargeBinaryType: ArrowType
+public class LargeBinaryType : ArrowType
 {
     public static readonly LargeBinaryType Default = new LargeBinaryType();
 

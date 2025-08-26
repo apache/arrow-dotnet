@@ -54,7 +54,7 @@ namespace Apache.Arrow.Tests
                 public void AppendThenGetGivesNull()
                 {
                     // Arrange
-                    var builder = new Decimal256Array.Builder(new Decimal256Type(8,2));
+                    var builder = new Decimal256Array.Builder(new Decimal256Type(8, 2));
 
                     // Act
 
@@ -95,7 +95,7 @@ namespace Apache.Arrow.Tests
                             testData[i] = null;
                             continue;
                         }
-                        decimal rnd = i * (decimal)Math.Round(new Random().NextDouble(),10);
+                        decimal rnd = i * (decimal)Math.Round(new Random().NextDouble(), 10);
                         testData[i] = rnd;
                         builder.Append(rnd);
                     }
@@ -178,7 +178,7 @@ namespace Apache.Arrow.Tests
                 {
                     // Arrange
                     var builder = new Decimal256Array.Builder(new Decimal256Type(24, 8));
-                    var range = new decimal[] {2.123M, 1.5984M, -0.0000001M, 9878987987987987.1235407M};
+                    var range = new decimal[] { 2.123M, 1.5984M, -0.0000001M, 9878987987987987.1235407M };
 
                     // Act
                     builder.AppendRange(range);
@@ -186,13 +186,13 @@ namespace Apache.Arrow.Tests
 
                     // Assert
                     var array = builder.Build();
-                    for(int i = 0; i < range.Length; i ++)
+                    for (int i = 0; i < range.Length; i++)
                     {
                         Assert.Equal(range[i], array.GetValue(i));
                         Assert.Equal(Convert(range[i]), GetSqlDecimal(array, i));
                     }
 
-                    Assert.Null( array.GetValue(range.Length));
+                    Assert.Null(array.GetValue(range.Length));
                 }
 
                 [Fact]
@@ -200,7 +200,7 @@ namespace Apache.Arrow.Tests
                 {
                     // Arrange
                     var builder = new Decimal256Array.Builder(new Decimal256Type(24, 8));
-                    
+
                     // Act
                     builder.Append(1);
                     builder.Clear();
@@ -234,7 +234,7 @@ namespace Apache.Arrow.Tests
                     // Arrange
                     var builder = new Decimal256Array.Builder(new Decimal256Type(24, 8))
                         .Resize(1);
-                    
+
                     // Act
                     builder.Set(0, 50.123456M);
                     builder.Set(0, 1.01M);

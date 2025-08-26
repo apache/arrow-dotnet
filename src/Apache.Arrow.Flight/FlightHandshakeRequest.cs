@@ -44,7 +44,7 @@ public class FlightHandshakeRequest
 
     public override bool Equals(object obj)
     {
-        if(obj is FlightHandshakeRequest other)
+        if (obj is FlightHandshakeRequest other)
         {
             return Equals(_result, other._result);
         }

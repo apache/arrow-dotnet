@@ -13,16 +13,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Apache.Arrow.Memory;
 using System.Collections.Generic;
+using Apache.Arrow.Memory;
 
 namespace Apache.Arrow
 {
     public static class ArrowArrayConcatenator
     {
-        public static IArrowArray Concatenate(IReadOnlyList<IArrowArray> arrowArrayList , MemoryAllocator allocator = default)
+        public static IArrowArray Concatenate(IReadOnlyList<IArrowArray> arrowArrayList, MemoryAllocator allocator = default)
         {
-            if(arrowArrayList == null || arrowArrayList.Count == 0)
+            if (arrowArrayList == null || arrowArrayList.Count == 0)
             {
                 return null;
             }
@@ -34,7 +34,7 @@ namespace Apache.Arrow
 
             var arrayDataList = new List<ArrayData>(arrowArrayList.Count);
 
-            foreach(IArrowArray array in arrowArrayList)
+            foreach (IArrowArray array in arrowArrayList)
             {
                 arrayDataList.Add(array.Data);
             }

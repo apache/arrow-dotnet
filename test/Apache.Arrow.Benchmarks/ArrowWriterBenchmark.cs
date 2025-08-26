@@ -13,11 +13,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.IO;
+using System.Threading.Tasks;
 using Apache.Arrow.Ipc;
 using Apache.Arrow.Tests;
 using BenchmarkDotNet.Attributes;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace Apache.Arrow.Benchmarks
 {
@@ -26,7 +26,7 @@ namespace Apache.Arrow.Benchmarks
     public class ArrowWriterBenchmark
     {
         [Params(10_000, 1_000_000)]
-        public int BatchLength{ get; set; }
+        public int BatchLength { get; set; }
 
         //Max column set count is 15 before reaching 2gb limit of memory stream
         [Params(10, 14)]

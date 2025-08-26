@@ -239,7 +239,7 @@ namespace Apache.Arrow.C
 
         private unsafe static void DisposePrivateData(void** ptr)
         {
-            GCHandle gch = GCHandle.FromIntPtr((IntPtr) (*ptr));
+            GCHandle gch = GCHandle.FromIntPtr((IntPtr)(*ptr));
             if (!gch.IsAllocated)
             {
                 return;
@@ -247,7 +247,7 @@ namespace Apache.Arrow.C
             // We can't call IDisposable.Dispose() here as we create multiple
             // GCHandles to the same object. Instead, refcounting ensures
             // timely memory deallocation when all GCHandles are freed.
-            ((ExportedAllocationOwner) gch.Target).DecRef();
+            ((ExportedAllocationOwner)gch.Target).DecRef();
             gch.Free();
         }
     }

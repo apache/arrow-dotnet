@@ -13,10 +13,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Apache.Arrow.Types;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using Apache.Arrow.Types;
 
 namespace Apache.Arrow
 {
@@ -47,7 +47,7 @@ namespace Apache.Arrow
 
         public bool IsNull(int index) => !IsValid(index);
 
-        protected UnionArray(ArrayData data) 
+        protected UnionArray(ArrayData data)
         {
             Data = data;
             data.EnsureDataType(ArrowTypeId.Union);

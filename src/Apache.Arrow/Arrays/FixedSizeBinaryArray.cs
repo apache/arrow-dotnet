@@ -136,7 +136,8 @@ namespace Apache.Arrow.Arrays
                 return Instance;
             }
 
-            public TBuilder Clear() {
+            public TBuilder Clear()
+            {
 
                 ValueBuffer.Clear();
                 ValidityBuffer.Clear();
@@ -146,7 +147,7 @@ namespace Apache.Arrow.Arrays
 
             public TBuilder Append(byte[] value)
             {
-                if(value.Length % ByteWidth != 0)
+                if (value.Length % ByteWidth != 0)
                     throw new ArgumentOutOfRangeException("Bytes of length: " + value.Length + " do not conform to the fixed size: " + ByteWidth);
                 return Append(value.AsSpan());
             }

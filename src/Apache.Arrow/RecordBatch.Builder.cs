@@ -13,12 +13,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Apache.Arrow.Memory;
-using Apache.Arrow.Types;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
+using Apache.Arrow.Memory;
+using Apache.Arrow.Types;
 
 namespace Apache.Arrow
 {
@@ -82,8 +82,8 @@ namespace Apache.Arrow
                     new TimestampArray.Builder(new TimestampType(unit, timezone)), action);
 
             private TArray Build<TArray, TArrayBuilder>(TArrayBuilder builder, Action<TArrayBuilder> action)
-                where TArray: IArrowArray
-                where TArrayBuilder: IArrowArrayBuilder<TArray>
+                where TArray : IArrowArray
+                where TArrayBuilder : IArrowArrayBuilder<TArray>
             {
                 if (action == null)
                 {
@@ -147,7 +147,7 @@ namespace Apache.Arrow
             }
 
             public Builder Append<TArray>(string name, bool nullable, IArrowArrayBuilder<TArray> builder)
-                where TArray: IArrowArray
+                where TArray : IArrowArray
             {
                 return builder == null
                     ? this
@@ -155,7 +155,7 @@ namespace Apache.Arrow
             }
 
             public Builder Append<TArray>(string name, bool nullable, TArray array)
-                where TArray: IArrowArray
+                where TArray : IArrowArray
             {
                 if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
                 if (array == null) return this;
@@ -171,7 +171,7 @@ namespace Apache.Arrow
             }
 
             public Builder Append<TArray>(string name, bool nullable, Func<ArrayBuilder, TArray> action)
-                where TArray: IArrowArray
+                where TArray : IArrowArray
             {
                 if (action == null) return this;
 

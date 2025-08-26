@@ -13,15 +13,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using Apache.Arrow.Ipc;
 using Apache.Arrow.Memory;
 using Apache.Arrow.Tests;
 using Apache.Arrow.Types;
 using BenchmarkDotNet.Attributes;
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Apache.Arrow.Benchmarks
 {

@@ -49,13 +49,13 @@ namespace Apache.Arrow.Flight.TestWeb
         {
             var flightDescriptor = FlightDescriptor.CreatePathDescriptor(ticket.Ticket.ToStringUtf8());
 
-            if(_flightStore.Flights.TryGetValue(flightDescriptor, out var flightHolder))
+            if (_flightStore.Flights.TryGetValue(flightDescriptor, out var flightHolder))
             {
                 await responseStream.SetupStream(flightHolder.GetFlightInfo().Schema);
 
                 var batches = flightHolder.GetRecordBatches();
 
-                foreach(var batch in batches)
+                foreach (var batch in batches)
                 {
                     await responseStream.WriteAsync(batch.RecordBatch, batch.Metadata);
                 }
@@ -66,7 +66,7 @@ namespace Apache.Arrow.Flight.TestWeb
         {
             var flightDescriptor = await requestStream.FlightDescriptor;
 
-            if(!_flightStore.Flights.TryGetValue(flightDescriptor, out var flightHolder))
+            if (!_flightStore.Flights.TryGetValue(flightDescriptor, out var flightHolder))
             {
                 flightHolder = new FlightHolder(flightDescriptor, await requestStream.Schema, $"grpc+tcp://{context.Host}");
                 _flightStore.Flights.Add(flightDescriptor, flightHolder);
@@ -83,7 +83,7 @@ namespace Apache.Arrow.Flight.TestWeb
 
         public override Task<FlightInfo> GetFlightInfo(FlightDescriptor request, ServerCallContext context)
         {
-            if(_flightStore.Flights.TryGetValue(request, out var flightHolder))
+            if (_flightStore.Flights.TryGetValue(request, out var flightHolder))
             {
                 return Task.FromResult(flightHolder.GetFlightInfo());
             }
@@ -107,7 +107,7 @@ namespace Apache.Arrow.Flight.TestWeb
 
         public override Task<Schema> GetSchema(FlightDescriptor request, ServerCallContext context)
         {
-            if(_flightStore.Flights.TryGetValue(request, out var flightHolder))
+            if (_flightStore.Flights.TryGetValue(request, out var flightHolder))
             {
                 return Task.FromResult(flightHolder.GetFlightInfo().Schema);
             }
@@ -126,7 +126,7 @@ namespace Apache.Arrow.Flight.TestWeb
         {
             var flightInfos = _flightStore.Flights.Select(x => x.Value.GetFlightInfo()).ToList();
 
-            foreach(var flightInfo in flightInfos)
+            foreach (var flightInfo in flightInfos)
             {
                 await responseStream.WriteAsync(flightInfo);
             }
@@ -134,7 +134,7 @@ namespace Apache.Arrow.Flight.TestWeb
 
         public override async Task DoExchange(FlightServerRecordBatchStreamReader requestStream, FlightServerRecordBatchStreamWriter responseStream, ServerCallContext context)
         {
-            while(await requestStream.MoveNext().ConfigureAwait(false))
+            while (await requestStream.MoveNext().ConfigureAwait(false))
             {
                 await responseStream.WriteAsync(requestStream.Current, requestStream.ApplicationMetadata.FirstOrDefault()).ConfigureAwait(false);
             }

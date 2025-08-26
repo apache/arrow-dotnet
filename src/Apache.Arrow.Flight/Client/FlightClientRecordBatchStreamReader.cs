@@ -13,8 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Apache.Arrow.Flight.Protocol;
 using Apache.Arrow.Flight.Internal;
+using Apache.Arrow.Flight.Protocol;
 using Grpc.Core;
 
 namespace Apache.Arrow.Flight.Client

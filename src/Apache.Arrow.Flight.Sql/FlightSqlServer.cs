@@ -30,9 +30,9 @@ namespace Apache.Arrow.Flight.Sql;
 public abstract class FlightSqlServer : FlightServer
 {
     private ILogger? Logger { get; }
-    public static readonly Schema CatalogSchema = new(new List<Field> {new("catalog_name", StringType.Default, false)}, null);
-    public static readonly Schema TableTypesSchema = new(new List<Field> {new("table_type", StringType.Default, false)}, null);
-    public static readonly Schema DbSchemaFlightSchema = new(new List<Field> {new("catalog_name", StringType.Default, true), new("db_schema_name", StringType.Default, false)}, null);
+    public static readonly Schema CatalogSchema = new(new List<Field> { new("catalog_name", StringType.Default, false) }, null);
+    public static readonly Schema TableTypesSchema = new(new List<Field> { new("table_type", StringType.Default, false) }, null);
+    public static readonly Schema DbSchemaFlightSchema = new(new List<Field> { new("catalog_name", StringType.Default, true), new("db_schema_name", StringType.Default, false) }, null);
 
     public static readonly Schema PrimaryKeysSchema = new(new List<Field>
     {

@@ -13,11 +13,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Apache.Arrow.Ipc;
 using System;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using Apache.Arrow.Ipc;
 using Xunit;
 
 namespace Apache.Arrow.Tests

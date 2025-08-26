@@ -13,11 +13,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Apache.Arrow.Types;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using Apache.Arrow.Types;
 
 namespace Apache.Arrow
 {
@@ -25,7 +25,7 @@ namespace Apache.Arrow
     {
         private static readonly DateTimeOffset s_epoch = new DateTimeOffset(1970, 1, 1, 0, 0, 0, 0, TimeSpan.Zero);
 
-        public class Builder: PrimitiveArrayBuilder<DateTimeOffset, long, TimestampArray, Builder>
+        public class Builder : PrimitiveArrayBuilder<DateTimeOffset, long, TimestampArray, Builder>
         {
             internal class TimestampBuilder : PrimitiveArrayBuilder<long, TimestampArray, TimestampBuilder>
             {
@@ -55,7 +55,7 @@ namespace Apache.Arrow
                 : this(new TimestampType(unit, timezone)) { }
 
             public Builder(TimeUnit unit)
-                : this(new TimestampType(unit, (string) null)) { }
+                : this(new TimestampType(unit, (string)null)) { }
 
             public Builder(TimestampType type)
                 : base(new TimestampBuilder(type))
@@ -95,7 +95,8 @@ namespace Apache.Arrow
             ArrowBuffer valueBuffer, ArrowBuffer nullBitmapBuffer,
             int length, int nullCount, int offset)
             : this(new ArrayData(type, length, nullCount, offset,
-                new[] {nullBitmapBuffer, valueBuffer})) { }
+                new[] { nullBitmapBuffer, valueBuffer }))
+        { }
 
         public TimestampArray(ArrayData data)
             : base(data)
@@ -109,7 +110,7 @@ namespace Apache.Arrow
 
         public DateTimeOffset GetTimestampUnchecked(int index)
         {
-            var type = (TimestampType) Data.DataType;
+            var type = (TimestampType)Data.DataType;
             long value = Values[index];
 
             long ticks;
