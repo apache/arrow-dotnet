@@ -1,0 +1,201 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+
+name: RC
+
+on:
+  push:
+    branches:
+      - "**"
+      - "!dependabot/**"
+    tags:
+      - "*-rc*"
+  pull_request:
+
+concurrency:
+  group: ${{ github.repository }}-${{ github.head_ref || github.sha }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  target:
+    name: Target
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      version: ${{ steps.detect.outputs.version }}
+      rc: ${{ steps.detect.outputs.rc }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - name: Detect
+        id: detect
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          version=$(grep -E -o '<Version>(.*)</Version>' \
+                      Directory.Build.props |
+                      sed -E -e 's,</?Version>,,g')
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            rc=${GITHUB_REF_NAME#*-rc}
+          else
+            rc=$(date +%Y%m%d)
+          fi
+          echo "version=${version}" >> ${GITHUB_OUTPUT}
+          echo "rc=${rc}" >> ${GITHUB_OUTPUT}
+
+  source:
+    name: Source
+    needs: target
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      RC: ${{ needs.target.outputs.rc }}
+      VERSION: ${{ needs.target.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - name: Archive
+        run: |
+          id="apache-arrow-dotnet-${VERSION}"
+          tar_gz="${id}.tar.gz"
+          echo "TAR_GZ=${tar_gz}" >> ${GITHUB_ENV}
+          git archive HEAD --prefix "${id}/" --output "${tar_gz}"
+          sha256sum "${tar_gz}" > "${tar_gz}.sha256"
+          sha512sum "${tar_gz}" > "${tar_gz}.sha512"
+      - name: Upload
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: release-source
+          path: |
+            apache-arrow-dotnet-*.tar.gz*
+      - name: Audit
+        run: |
+          dev/release/run_rat.sh "${TAR_GZ}"
+
+  package:
+    name: Package
+    needs: target
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      RC: ${{ needs.target.outputs.rc }}
+      VERSION: ${{ needs.target.outputs.version }}
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Build
+        run: |
+          ci/scripts/pack.sh "$(pwd)"
+      - name: Prepare artifacts
+        run: |
+          shopt -s globstar
+          cp artifacts/**/*.{,s}nupkg ./
+          for artifact in *.{,s}nupkg; do
+            sha256sum "${artifact}" > "${artifact}.sha256"
+            sha512sum "${artifact}" > "${artifact}.sha512"
+          done
+      - name: Upload
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: release-package
+          path: |
+            *.nupkg
+            *.sha256
+            *.sha512
+            *.snupkg
+
+  verify:
+    name: Verify
+    needs:
+      - package
+      - source
+      - target
+    runs-on: ${{ matrix.runs-on }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        dotnet-version:
+          - 8.0.x
+        runs-on:
+          - macos-13
+          - ubuntu-latest
+          - windows-latest
+    env:
+      RC: ${{ needs.target.outputs.rc }}
+      VERSION: ${{ needs.target.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - name: Setup .NET
+        uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4.3.1
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: 3
+      - name: Download
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          pattern: release-*
+      - name: Verify
+        env:
+          VERIFY_BINARY: 1
+          VERIFY_DEFAULT: 0
+          VERIFY_SOURCE: 1
+        shell: bash
+        run: |
+          mv release-*/* ./
+          dev/release/verify_rc.sh "${VERSION}" "${RC}"
+
+  upload:
+    name: Upload
+    needs:
+      - target
+      - verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    env:
+      RC: ${{ needs.target.outputs.rc }}
+      VERSION: ${{ needs.target.outputs.version }}
+    steps:
+      - name: Download
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          pattern: release-*
+      - name: Upload
+        if: github.ref_type == 'tag'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create ${GITHUB_REF_NAME} \
+            --generate-notes \
+            --prerelease \
+            --repo ${GITHUB_REPOSITORY} \
+            --title "Apache Arrow .NET ${VERSION} RC${RC}" \
+            --verify-tag \
+            release-*/*
