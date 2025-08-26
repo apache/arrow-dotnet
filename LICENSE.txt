@@ -200,3 +200,13 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+
+--------------------------------------------------------------------------------
+This product includes code from FlatBuffers:
+
+* src/Apache.Arrow/Flatbuf/FlatBuffers/
+
+Copyright: (C) 2014 Google Inc.
+Home page: https://github.com/google/flatbuffers/
+Origin: https://github.com/google/flatbuffers/tree/v23.5.9/net/FlatBuffers
+License: https://www.apache.org/licenses/LICENSE-2.0
