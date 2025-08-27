@@ -22,7 +22,7 @@ _layout: landing
 
 # Apache Arrow .NET
 
-An implementation of Arrow targeting .NET Standard.
+An implementation of Arrow targeting .NET.
 
 See our current [feature matrix](https://github.com/apache/arrow/blob/main/docs/source/status.rst)
 for currently available features.
@@ -31,7 +31,7 @@ for currently available features.
 
 - Arrow specification 1.0.0. (Support for reading 0.11+.)
 - C# 11
-- .NET Standard 2.0 and .NET 6.0
+- .NET Standard 2.0, .NET 6.0, .NET 8.0 and .NET Framework 4.6.2
 - Asynchronous I/O
 - Uses modern .NET runtime features such as **Span&lt;T&gt;**, **Memory&lt;T&gt;**, **MemoryManager&lt;T&gt;**, and **System.Buffers** primitives for memory allocation, memory storage, and fast serialization.
 - Uses **Acyclic Visitor Pattern** for array types and arrays to facilitate serialization, record batch traversal, and format growth.
@@ -50,6 +50,9 @@ for currently available features.
 - Lack of usage examples
 
 # Usage
+
+Example demonstrating reading [RecordBatches](xref:Apache.Arrow.RecordBatch) from an Arrow IPC file using an
+[ArrowFileReader](xref:Apache.Arrow.Ipc.ArrowFileReader):
 
     using System.Diagnostics;
     using System.IO;
@@ -80,49 +83,49 @@ for currently available features.
 
 ### Primitive Types
 
-- Int8, Int16, Int32, Int64
-- UInt8, UInt16, UInt32, UInt64
-- Float, Double, Half-float (.NET 6+)
-- Binary (variable-length)
-- String (utf-8)
-- Null
+- [Int8](xref:Apache.Arrow.Types.Int8Type), [Int16](xref:Apache.Arrow.Types.Int16Type), [Int32](xref:Apache.Arrow.Types.Int32Type), [Int64](xref:Apache.Arrow.Types.Int64Type)
+- [UInt8](xref:Apache.Arrow.Types.UInt8Type), [UInt16](xref:Apache.Arrow.Types.UInt16Type), [UInt32](xref:Apache.Arrow.Types.UInt32Type), [UInt64](xref:Apache.Arrow.Types.UInt64Type)
+- [Float](xref:Apache.Arrow.Types.FloatType), [Double](xref:Apache.Arrow.Types.DoubleType), [Half-float](xref:Apache.Arrow.Types.HalfFloatType) (.NET 6+)
+- [Binary](xref:Apache.Arrow.Types.BinaryType) (variable-length)
+- [String](xref:Apache.Arrow.Types.StringType) (utf-8)
+- [Null](xref:Apache.Arrow.Types.NullType)
 
 ### Parametric Types
 
-- Timestamp
-- Date32
-- Date64
-- Decimal
-- Time32
-- Time64
-- Binary (fixed-length)
-- List
-- Struct
-- Union
-- Map
-- Duration
-- Interval
+- [Timestamp](xref:Apache.Arrow.Types.TimestampType)
+- [Date32](xref:Apache.Arrow.Types.Date32Type), [Date64](xref:Apache.Arrow.Types.Date64Type)
+- [Decimal32](xref:Apache.Arrow.Types.Decimal32Type), [Decimal64](xref:Apache.Arrow.Types.Decimal64Type), [Decimal128](xref:Apache.Arrow.Types.Decimal128Type), [Decimal256](xref:Apache.Arrow.Types.Decimal256Type)
+- [Time32](xref:Apache.Arrow.Types.Time32Type), [Time64](xref:Apache.Arrow.Types.Time64Type)
+- [Binary](xref:Apache.Arrow.Types.BinaryType) (fixed-length)
+- [List](xref:Apache.Arrow.Types.ListType)
+- [Struct](xref:Apache.Arrow.Types.StructType)
+- [Union](xref:Apache.Arrow.Types.UnionType)
+- [Map](xref:Apache.Arrow.Types.MapType)
+- [Duration](xref:Apache.Arrow.Types.DurationType)
+- [Interval](xref:Apache.Arrow.Types.IntervalType)
 
 ### Type Metadata
 
 - Data Types
-- Fields
-- Schema
+- [Fields](xref:Apache.Arrow.Field)
+- [Schema](xref:Apache.Arrow.Schema)
 
 ### Serialization
 
-- File
-- Stream
+- File [Reader](xref:Apache.Arrow.Ipc.ArrowFileReader) and [Writer](xref:Apache.Arrow.Ipc.ArrowFileWriter)
+- Stream [Reader](xref:Apache.Arrow.Ipc.ArrowStreamReader) and [Writer](xref:Apache.Arrow.Ipc.ArrowStreamWriter)
 
 ## IPC Format
 
 ### Compression
 
 - Buffer compression and decompression is supported, but requires installing the `Apache.Arrow.Compression` package.
-  When reading compressed data, you must pass an `Apache.Arrow.Compression.CompressionCodecFactory` instance to the
-  `ArrowFileReader` or `ArrowStreamReader` constructor, and when writing compressed data a
-  `CompressionCodecFactory` must be set in the `IpcOptions`.
-  Alternatively, a custom implementation of `ICompressionCodecFactory` can be used.
+  When reading compressed data, you must pass an [CompressionCodecFactory](xref:Apache.Arrow.Compression.CompressionCodecFactory)
+  instance to the [ArrowFileReader](xref:Apache.Arrow.Ipc.ArrowFileReader) or
+  [ArrowStreamReader](xref:Apache.Arrow.Ipc.ArrowStreamReader) constructor, and when writing compressed data a
+  [CompressionCodecFactory](xref:Apache.Arrow.Compression.CompressionCodecFactory) must be set in the
+  [IpcOptions](xref:Apache.Arrow.Ipc.IpcOptions).
+  Alternatively, a custom implementation of [ICompressionCodecFactory](xref:Apache.Arrow.Ipc.ICompressionCodecFactory) can be used.
 
 ## Not Implemented
 
@@ -134,16 +137,13 @@ for currently available features.
 - Arrays
     - Large Arrays. There are large array types provided to help with interoperability with other libraries,
       but these do not support buffers larger than 2 GiB and an exception will be raised if trying to import an array that is too large.
-        - Large Binary
-        - Large List
-        - Large String
+        - [Large Binary](xref:Apache.Arrow.Types.LargeBinaryType)
+        - [Large List](xref:Apache.Arrow.Types.LargeListType)
+        - [Large String](xref:Apache.Arrow.Types.LargeStringType)
     - Views
-        - Binary
-        - List
-        - String
-        - Large Binary
-        - Large List
-        - Large String
+        - [Binary View](xref:Apache.Arrow.Types.BinaryViewType)
+        - [List View](xref:Apache.Arrow.Types.ListViewType)
+        - [String View](xref:Apache.Arrow.Types.StringViewType)
 - Array Operations
     - Equality / Comparison
     - Casting
