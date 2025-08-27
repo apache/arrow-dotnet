@@ -52,7 +52,7 @@ for currently available features.
 # Usage
 
 Example demonstrating reading [RecordBatches](xref:Apache.Arrow.RecordBatch) from an Arrow IPC file using an
-[ArrowFileReader](xref:Apache.Arrow.Ipc.XArrowFileReader):
+[ArrowFileReader](xref:Apache.Arrow.Ipc.ArrowFileReader):
 
     using System.Diagnostics;
     using System.IO;
