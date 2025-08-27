@@ -1,0 +1,7 @@
+### YamlMime:TableOfContent
+items:
+- name: API Reference
+  type: Namespace
+  href: api/
+- name: GitHub
+  href: https://github.com/apache/arrow-dotnet

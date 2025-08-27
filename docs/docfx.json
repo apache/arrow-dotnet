@@ -1,0 +1,57 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dotnet/docfx/main/schemas/docfx.schema.json",
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "../src",
+          "files": [
+            "**/*.csproj"
+          ]
+        }
+      ],
+      "dest": "api",
+      "properties": {
+        "ProduceReferenceAssembly": "true"
+      }
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "**/*.{md,yml}"
+        ],
+        "exclude": [
+          "_site/**"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "images/*"
+        ]
+      }
+    ],
+    "output": "_site",
+    "template": [
+      "default",
+      "modern"
+    ],
+    "globalMetadata": {
+      "_appFaviconPath": "images/favicon.svg",
+      "_appLogoPath": "images/favicon.svg",
+      "_appName": "Apache Arrow .NET",
+      "_appTitle": "Apache Arrow .NET",
+      "_appFooter": "© The Apache Software Foundation",
+      "_enableNewTab": true,
+      "_enableSearch": true
+    },
+    "markdownEngineProperties": {
+      "markdigExtensions": [
+        "attributes"
+      ]
+    }
+  }
+}
