@@ -51,11 +51,11 @@ for currently available features.
 
 # Usage
 
-	using System.Diagnostics;
-	using System.IO;
-	using System.Threading.Tasks;
-	using Apache.Arrow;
-	using Apache.Arrow.Ipc;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Threading.Tasks;
+    using Apache.Arrow;
+    using Apache.Arrow.Ipc;
 
     public static async Task<RecordBatch> ReadArrowAsync(string filename)
     {
@@ -145,58 +145,7 @@ for currently available features.
         - Large List
         - Large String
 - Array Operations
-	- Equality / Comparison
-	- Casting
+    - Equality / Comparison
+    - Casting
 - Compute
     - There is currently no API available for a compute / kernel abstraction.
-
-# Build
-
-Install the latest `.NET Core SDK` from https://dotnet.microsoft.com/download.
-
-    dotnet build
-
-## NuGet Build
-
-To build the NuGet package run the following command to build a debug flavor, preview package into the **artifacts** folder.
-
-    dotnet pack
-
-When building the officially released version run: (see Note below about current `git` repository)
-
-    dotnet pack -c Release
-
-Which will build the final/stable package.
-
-NOTE: When building the officially released version, ensure that your `git` repository has the `origin` remote set to `https://github.com/apache/arrow.git`, which will ensure Source Link is set correctly. See https://github.com/dotnet/sourcelink/blob/main/docs/README.md for more information.
-
-There are two output artifacts:
-1. `Apache.Arrow.<version>.nupkg` - this contains the executable assemblies
-2. `Apache.Arrow.<version>.snupkg` - this contains the debug symbols files
-
-Both of these artifacts can then be uploaded to https://www.nuget.org/packages/manage/upload.
-
-## Docker Build
-
-Build from the Apache Arrow project root.
-
-    docker build -f csharp/build/docker/Dockerfile .
-
-## Testing
-
-	dotnet test
-
-All build artifacts are placed in the **artifacts** folder in the project root.
-
-# Coding Style
-
-This project follows the coding style specified in [Coding Style](https://github.com/dotnet/runtime/blob/main/docs/coding-guidelines/coding-style.md).
-
-# Updating FlatBuffers code
-
-See https://google.github.io/flatbuffers/flatbuffers_guide_use_java_c-sharp.html for how to get the `flatc` executable.
-
-Run `flatc --csharp` on each `.fbs` file in the [format](../format) folder. And replace the checked in `.cs` files under [FlatBuf](src/Apache.Arrow/Flatbuf) with the generated files.
-
-Update the non-generated [FlatBuffers](src/Apache.Arrow/Flatbuf/FlatBuffers) `.cs` files with the files from the [google/flatbuffers repo](https://github.com/google/flatbuffers/tree/master/net/FlatBuffers).
-
