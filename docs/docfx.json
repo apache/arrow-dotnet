@@ -23,7 +23,8 @@
           "**/*.{md,yml}"
         ],
         "exclude": [
-          "_site/**"
+          "_site/**",
+          "images/**"
         ]
       }
     ],
@@ -31,6 +32,9 @@
       {
         "files": [
           "images/*"
+        ],
+        "exclude": [
+          "**/*.md"
         ]
       }
     ],
