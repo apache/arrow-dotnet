@@ -93,4 +93,4 @@ jobs:
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Build documentation
         shell: bash
-        run: ci/scripts/build_docs.sh $(pwd)
+        run: ci/scripts/docs.sh $(pwd)
