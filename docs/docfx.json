@@ -44,8 +44,8 @@
       "modern"
     ],
     "globalMetadata": {
-      "_appFaviconPath": "images/favicon.svg",
-      "_appLogoPath": "images/favicon.svg",
+      "_appFaviconPath": "images/favicon.png",
+      "_appLogoPath": "images/logo.svg",
       "_appName": "Apache Arrow .NET",
       "_appTitle": "Apache Arrow .NET",
       "_appFooter": "© 2018 The Apache Software Foundation",
