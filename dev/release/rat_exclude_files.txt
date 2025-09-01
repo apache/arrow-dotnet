@@ -20,4 +20,5 @@
 *.sln
 .github/pull_request_template.md
 src/Apache.Arrow/Flatbuf/*
-docs/images/*
+docs/images/*.png
+docs/images/*.svg
