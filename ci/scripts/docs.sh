@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+#
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -15,10 +17,15 @@
 # specific language governing permissions and limitations
 # under the License.
 
-*.csproj
-*.resx
-*.sln
-.github/pull_request_template.md
-src/Apache.Arrow/Flatbuf/*
-docs/images/*.png
-docs/images/*.svg
+set -eux
+
+source_dir=${1}
+
+pushd "${source_dir}/docs"
+
+dotnet tool install -g docfx
+
+docfx metadata --warningsAsErrors docfx.json
+docfx build --warningsAsErrors docfx.json
+
+popd

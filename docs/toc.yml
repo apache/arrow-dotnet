@@ -1,3 +1,5 @@
+### YamlMime:TableOfContent
+
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -15,10 +17,9 @@
 # specific language governing permissions and limitations
 # under the License.
 
-*.csproj
-*.resx
-*.sln
-.github/pull_request_template.md
-src/Apache.Arrow/Flatbuf/*
-docs/images/*.png
-docs/images/*.svg
+items:
+- name: API Reference
+  type: Namespace
+  href: api/
+- name: GitHub
+  href: https://github.com/apache/arrow-dotnet
