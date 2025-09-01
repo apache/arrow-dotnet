@@ -27,7 +27,7 @@ An implementation of Arrow targeting .NET.
 See our current [feature matrix](https://github.com/apache/arrow/blob/main/docs/source/status.rst)
 for currently available features.
 
-# Implementation
+## Implementation
 
 - Arrow specification 1.0.0. (Support for reading 0.11+.)
 - C# 11
@@ -36,7 +36,7 @@ for currently available features.
 - Uses modern .NET runtime features such as **Span&lt;T&gt;**, **Memory&lt;T&gt;**, **MemoryManager&lt;T&gt;**, and **System.Buffers** primitives for memory allocation, memory storage, and fast serialization.
 - Uses **Acyclic Visitor Pattern** for array types and arrays to facilitate serialization, record batch traversal, and format growth.
 
-# Known Issues
+## Known Issues
 
 - Cannot read Arrow files containing tensors.
 - Cannot easily modify allocation strategy without implementing a custom memory pool. All allocations are currently 64-byte aligned and padded to 8-bytes.
@@ -49,7 +49,7 @@ for currently available features.
 - Lack of code documentation
 - Lack of usage examples
 
-# Usage
+## Usage
 
 Example demonstrating reading [RecordBatches](xref:Apache.Arrow.RecordBatch) from an Arrow IPC file using an
 [ArrowFileReader](xref:Apache.Arrow.Ipc.ArrowFileReader):
@@ -72,16 +72,16 @@ Example demonstrating reading [RecordBatches](xref:Apache.Arrow.RecordBatch) fro
     }
 
 
-# Status
+## Status
 
-## Memory Management
+### Memory Management
 
 - Allocations are 64-byte aligned and padded to 8-bytes.
 - Allocations are automatically garbage collected
 
-## Arrays
+### Arrays
 
-### Primitive Types
+#### Primitive Types
 
 - [Int8](xref:Apache.Arrow.Types.Int8Type), [Int16](xref:Apache.Arrow.Types.Int16Type), [Int32](xref:Apache.Arrow.Types.Int32Type), [Int64](xref:Apache.Arrow.Types.Int64Type)
 - [UInt8](xref:Apache.Arrow.Types.UInt8Type), [UInt16](xref:Apache.Arrow.Types.UInt16Type), [UInt32](xref:Apache.Arrow.Types.UInt32Type), [UInt64](xref:Apache.Arrow.Types.UInt64Type)
@@ -90,7 +90,7 @@ Example demonstrating reading [RecordBatches](xref:Apache.Arrow.RecordBatch) fro
 - [String](xref:Apache.Arrow.Types.StringType) (utf-8)
 - [Null](xref:Apache.Arrow.Types.NullType)
 
-### Parametric Types
+#### Parametric Types
 
 - [Timestamp](xref:Apache.Arrow.Types.TimestampType)
 - [Date32](xref:Apache.Arrow.Types.Date32Type), [Date64](xref:Apache.Arrow.Types.Date64Type)
@@ -104,20 +104,20 @@ Example demonstrating reading [RecordBatches](xref:Apache.Arrow.RecordBatch) fro
 - [Duration](xref:Apache.Arrow.Types.DurationType)
 - [Interval](xref:Apache.Arrow.Types.IntervalType)
 
-### Type Metadata
+#### Type Metadata
 
 - Data Types
 - [Fields](xref:Apache.Arrow.Field)
 - [Schema](xref:Apache.Arrow.Schema)
 
-### Serialization
+#### Serialization
 
 - File [Reader](xref:Apache.Arrow.Ipc.ArrowFileReader) and [Writer](xref:Apache.Arrow.Ipc.ArrowFileWriter)
 - Stream [Reader](xref:Apache.Arrow.Ipc.ArrowStreamReader) and [Writer](xref:Apache.Arrow.Ipc.ArrowStreamWriter)
 
-## IPC Format
+### IPC Format
 
-### Compression
+#### Compression
 
 - Buffer compression and decompression is supported, but requires installing the `Apache.Arrow.Compression` package.
   When reading compressed data, you must pass an [CompressionCodecFactory](xref:Apache.Arrow.Compression.CompressionCodecFactory)
@@ -127,7 +127,7 @@ Example demonstrating reading [RecordBatches](xref:Apache.Arrow.RecordBatch) fro
   [IpcOptions](xref:Apache.Arrow.Ipc.IpcOptions).
   Alternatively, a custom implementation of [ICompressionCodecFactory](xref:Apache.Arrow.Ipc.ICompressionCodecFactory) can be used.
 
-## Not Implemented
+### Not Implemented
 
 - Serialization
     - Exhaustive validation
