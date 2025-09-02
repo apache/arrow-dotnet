@@ -19,9 +19,8 @@
 
   <!-- Common repo directories -->
   <PropertyGroup>
-    <RepoRoot>$(MSBuildThisFileDirectory)../</RepoRoot>
     <CSharpDir>$(MSBuildThisFileDirectory)</CSharpDir>
-    <BaseOutputPath>$(CSharpDir)/artifacts/$(MSBuildProjectName)</BaseOutputPath>
+    <BaseOutputPath>$(CSharpDir)artifacts/$(MSBuildProjectName)</BaseOutputPath>
   </PropertyGroup>
 
   <!-- AssemblyInfo properties -->
@@ -29,7 +28,7 @@
     <Product>Apache Arrow library</Product>
     <Copyright>Copyright 2016-2024 The Apache Software Foundation</Copyright>
     <Company>The Apache Software Foundation</Company>
-    <Version>22.0.0-SNAPSHOT</Version>
+    <Version>22.0.0</Version>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -55,8 +54,8 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'$(IsPackable)' == 'true'">
-    <Content Include="$(RepoRoot)LICENSE.txt" Pack="true" PackagePath="" />
-    <Content Include="$(CSharpDir)/feather.png" Link="feather.png" Pack="true" PackagePath="\" />
+    <Content Include="$(CSharpDir)LICENSE.txt" Pack="true" PackagePath="" />
+    <Content Include="$(CSharpDir)feather.png" Link="feather.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
