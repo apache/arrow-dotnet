@@ -57,3 +57,31 @@ jobs:
             --title "Apache Arrow .NET ${version}" \
             --verify-tag \
             dists/*
+      - name: Checkout asf-site
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          ref: asf-site
+          path: site
+      - name: Update documentation
+        run: |
+          version=${GITHUB_REF_NAME#v}
+          tar_gz=${PWD}/dists/apache-arrow-dotnet-docs-${version}.tar.gz
+
+          pushd site
+
+          rm -rf current
+          mkdir -p current
+          pushd current
+          tar xf "${tar_gz}" --strip-components=1
+          popd
+          git add current
+
+          rm -rf "${version}"
+          cp -a current "${version}"
+          git add "${version}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git commit -m "Update docs for ${version}"
+          git push origin "$(git branch --show-current)"

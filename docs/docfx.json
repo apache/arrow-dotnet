@@ -23,6 +23,7 @@
           "**/*.{md,yml}"
         ],
         "exclude": [
+          "README.md",
           "_site/**",
           "images/**"
         ]
