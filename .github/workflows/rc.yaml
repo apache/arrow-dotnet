@@ -170,9 +170,80 @@ jobs:
           mv release-*/* ./
           dev/release/verify_rc.sh "${VERSION}" "${RC}"
 
+  docs:
+    name: Documentation
+    needs:
+      - target
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      RC: ${{ needs.target.outputs.rc }}
+      VERSION: ${{ needs.target.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - name: Build documentation
+        shell: bash
+        run: ci/scripts/docs.sh $(pwd)
+      - name: Package
+        run: |
+          id="apache-arrow-dotnet-docs-${VERSION}"
+          tar_gz="${id}.tar.gz"
+          mv docs/_site "${id}"
+          tar czf "${tar_gz}" "${id}"
+          sha256sum "${tar_gz}" > "${tar_gz}.sha256"
+          sha512sum "${tar_gz}" > "${tar_gz}.sha512"
+      - name: Upload
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: release-docs
+          path: |
+            apache-arrow-dotnet-docs-*.tar.gz*
+      - name: Upload pages
+        if: |
+          github.event_name == 'push' &&
+          github.repository != 'apache/arrow-dotnet'
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0
+        with:
+          path: apache-arrow-dotnet-docs-${{ env.VERSION }}
+      - name: Deploy for production
+        if: |
+          github.event_name == 'push' &&
+          github.repository == 'apache/arrow-dotnet' &&
+          github.ref_name == 'main'
+        run: |
+          ci/scripts/update_site.sh "${VERSION}"
+          cd site
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ "$(git diff --cached)" != "" ]; then
+            git commit -m "Update docs for ${GITHUB_SHA}"
+            git push origin "$(git branch --show-current)"
+          fi
+
+  docs-deploy-fork:
+    name: Deploy on fork
+    if: >-
+      github.event_name == 'push' &&
+      github.repository != 'apache/arrow-dotnet'
+    needs:
+        - docs
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
+
   upload:
     name: Upload
     needs:
+      - docs
       - target
       - verify
     runs-on: ubuntu-latest
