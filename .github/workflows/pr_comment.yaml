@@ -43,10 +43,10 @@ jobs:
           fork_owner=${FORK_REPOSITORY%/*}
           fork_repository=${FORK_REPOSITORY#*/}
           {
-            echo "Preview URL: https://${fork_owner}.github.io/${fork_repository}"
+            echo "Documentation preview URL: https://${fork_owner}.github.io/${fork_repository}"
             echo ""
-            echo "If the preview URL doesn't work, you may forget to configure your fork repository for preview."
-            echo "See ${configure_url} how to configure."
+            echo "If the preview URL doesn't work, you may need to configure your fork repository for preview."
+            echo "See ${configure_url} for instructions on how to configure."
           } | tee body.md
           gh pr comment ${PR_NUMBER} \
             --body-file body.md \
