@@ -97,8 +97,6 @@ jobs:
     env:
       RC: ${{ needs.target.outputs.rc }}
       VERSION: ${{ needs.target.outputs.version }}
-    permissions:
-      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -179,6 +177,8 @@ jobs:
     env:
       RC: ${{ needs.target.outputs.rc }}
       VERSION: ${{ needs.target.outputs.version }}
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
