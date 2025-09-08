@@ -83,3 +83,72 @@ jobs:
       - name: Test
         shell: bash
         run: ci/scripts/test.sh $(pwd)
+
+  integration:
+    name: Integration
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout Arrow
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          fetch-depth: 0
+          repository: apache/arrow
+          submodules: recursive
+      - name: Checkout Arrow Rust
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          repository: apache/arrow-rs
+          path: rust
+      - name: Checkout Arrow nanoarrow
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          repository: apache/arrow-nanoarrow
+          path: nanoarrow
+      - name: Checkout Arrow Go
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          repository: apache/arrow-go
+          path: go
+      - name: Checkout Arrow Java
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          repository: apache/arrow-java
+          path: java
+      - name: Checkout Arrow JavaScript
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          repository: apache/arrow-js
+          path: js
+      - name: Checkout Arrow .NET
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          path: dotnet
+      - name: Free up disk space
+        run: |
+          ci/scripts/util_free_space.sh
+      - name: Cache Docker Volumes
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4
+        with:
+          path: .docker
+          key: integration-conda-${{ hashFiles('cpp/**') }}
+          restore-keys: integration-conda-
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: 3
+      - name: Setup Archery
+        run: pip install -e dev/archery[docker]
+      - name: Execute Docker Build
+        run: |
+          source ci/scripts/util_enable_core_dumps.sh
+          archery docker run \
+            -e ARCHERY_DEFAULT_BRANCH=main \
+            -e ARCHERY_INTEGRATION_TARGET_IMPLEMENTATIONS=dotnet \
+            -e ARCHERY_INTEGRATION_WITH_DOTNET=1 \
+            -e ARCHERY_INTEGRATION_WITH_GO=1 \
+            -e ARCHERY_INTEGRATION_WITH_JAVA=1 \
+            -e ARCHERY_INTEGRATION_WITH_JS=1 \
+            -e ARCHERY_INTEGRATION_WITH_NANOARROW=1 \
+            -e ARCHERY_INTEGRATION_WITH_RUST=1 \
+            conda-integration
