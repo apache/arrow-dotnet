@@ -1,0 +1,1958 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class FlightSqlServer | Apache Arrow .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class FlightSqlServer | Apache Arrow .NET ">
+      
+      
+      <link rel="icon" href="../images/favicon.png">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Apache_Arrow_Flight_Sql_FlightSqlServer.md&amp;value=---%0Auid%3A%20Apache.Arrow.Flight.Sql.FlightSqlServer%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.svg" alt="Apache Arrow .NET">
+            Apache Arrow .NET
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer">
+
+
+
+  <h1 id="Apache_Arrow_Flight_Sql_FlightSqlServer" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer" class="text-break">
+Class FlightSqlServer  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L30"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Apache.html">Apache</a>.<a class="xref" href="Apache.Arrow.html">Arrow</a>.<a class="xref" href="Apache.Arrow.Flight.html">Flight</a>.<a class="xref" href="Apache.Arrow.Flight.Sql.html">Sql</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Apache.Arrow.Flight.Sql.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"></div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class FlightSqlServer : FlightServer</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><a class="xref" href="Apache.Arrow.Flight.Server.FlightServer.html">FlightServer</a></div>
+      <div><span class="xref">FlightSqlServer</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="Apache.Arrow.Flight.Server.FlightServer.html#Apache_Arrow_Flight_Server_FlightServer_ListFlights_Apache_Arrow_Flight_FlightCriteria_Grpc_Core_IAsyncStreamWriter_Apache_Arrow_Flight_FlightInfo__Grpc_Core_ServerCallContext_">FlightServer.ListFlights(FlightCriteria, IAsyncStreamWriter&lt;FlightInfo&gt;, ServerCallContext)</a>
+    </div>
+    <div>
+      <a class="xref" href="Apache.Arrow.Flight.Server.FlightServer.html#Apache_Arrow_Flight_Server_FlightServer_GetSchema_Apache_Arrow_Flight_FlightDescriptor_Grpc_Core_ServerCallContext_">FlightServer.GetSchema(FlightDescriptor, ServerCallContext)</a>
+    </div>
+    <div>
+      <a class="xref" href="Apache.Arrow.Flight.Server.FlightServer.html#Apache_Arrow_Flight_Server_FlightServer_Handshake_Grpc_Core_IAsyncStreamReader_Apache_Arrow_Flight_FlightHandshakeRequest__Grpc_Core_IAsyncStreamWriter_Apache_Arrow_Flight_FlightHandshakeResponse__Grpc_Core_ServerCallContext_">FlightServer.Handshake(IAsyncStreamReader&lt;FlightHandshakeRequest&gt;, IAsyncStreamWriter&lt;FlightHandshakeResponse&gt;, ServerCallContext)</a>
+    </div>
+    <div>
+      <a class="xref" href="Apache.Arrow.Flight.Server.FlightServer.html#Apache_Arrow_Flight_Server_FlightServer_DoExchange_Apache_Arrow_Flight_Server_FlightServerRecordBatchStreamReader_Apache_Arrow_Flight_Server_FlightServerRecordBatchStreamWriter_Grpc_Core_ServerCallContext_">FlightServer.DoExchange(FlightServerRecordBatchStreamReader, FlightServerRecordBatchStreamWriter, ServerCallContext)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer__ctor_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.#ctor*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer__ctor_Microsoft_Extensions_Logging_ILoggerFactory_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+  FlightSqlServer(ILoggerFactory?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L213"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected FlightSqlServer(ILoggerFactory? factory = null)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>factory</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/microsoft.extensions.logging.iloggerfactory">ILoggerFactory</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="fields">Fields
+</h2>
+
+
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_CatalogSchema" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.CatalogSchema">
+  CatalogSchema
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L33"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly Schema CatalogSchema</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Schema.html">Schema</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_DbSchemaFlightSchema" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DbSchemaFlightSchema">
+  DbSchemaFlightSchema
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L35"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly Schema DbSchemaFlightSchema</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Schema.html">Schema</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_KeyImportExportSchema" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.KeyImportExportSchema">
+  KeyImportExportSchema
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L47"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly Schema KeyImportExportSchema</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Schema.html">Schema</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_PrimaryKeysSchema" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.PrimaryKeysSchema">
+  PrimaryKeysSchema
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L37"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly Schema PrimaryKeysSchema</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Schema.html">Schema</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_SqlInfoSchema" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.SqlInfoSchema">
+  SqlInfoSchema
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L87"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly Schema SqlInfoSchema</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Schema.html">Schema</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_TableTypesSchema" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.TableTypesSchema">
+  TableTypesSchema
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L34"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly Schema TableTypesSchema</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Schema.html">Schema</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_TypeInfoSchema" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.TypeInfoSchema">
+  TypeInfoSchema
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L64"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly Schema TypeInfoSchema</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Schema.html">Schema</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_ClosePreparedStatement_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.ClosePreparedStatement*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_ClosePreparedStatement_Arrow_Flight_Protocol_Sql_ActionClosePreparedStatementRequest_Apache_Arrow_Flight_FlightAction_Grpc_Core_IAsyncStreamWriter_Apache_Arrow_Flight_FlightResult__Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.ClosePreparedStatement(Arrow.Flight.Protocol.Sql.ActionClosePreparedStatementRequest,Apache.Arrow.Flight.FlightAction,Grpc.Core.IAsyncStreamWriter{Apache.Arrow.Flight.FlightResult},Grpc.Core.ServerCallContext)">
+  ClosePreparedStatement(ActionClosePreparedStatementRequest, FlightAction, IAsyncStreamWriter&lt;FlightResult&gt;, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L378"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task ClosePreparedStatement(ActionClosePreparedStatementRequest request, FlightAction action, IAsyncStreamWriter&lt;FlightResult&gt; streamWriter, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>request</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.ActionClosePreparedStatementRequest.html">ActionClosePreparedStatementRequest</a></dt>
+    <dd></dd>
+    <dt><code>action</code> <a class="xref" href="Apache.Arrow.Flight.FlightAction.html">FlightAction</a></dt>
+    <dd></dd>
+    <dt><code>streamWriter</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/IAsyncStreamWriter.cs">IAsyncStreamWriter</a>&lt;<a class="xref" href="Apache.Arrow.Flight.FlightResult.html">FlightResult</a>&gt;</dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_CreatePreparedStatement_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.CreatePreparedStatement*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_CreatePreparedStatement_Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_Apache_Arrow_Flight_FlightAction_Grpc_Core_IAsyncStreamWriter_Apache_Arrow_Flight_FlightResult__Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.CreatePreparedStatement(Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest,Apache.Arrow.Flight.FlightAction,Grpc.Core.IAsyncStreamWriter{Apache.Arrow.Flight.FlightResult},Grpc.Core.ServerCallContext)">
+  CreatePreparedStatement(ActionCreatePreparedStatementRequest, FlightAction, IAsyncStreamWriter&lt;FlightResult&gt;, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L377"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task CreatePreparedStatement(ActionCreatePreparedStatementRequest request, FlightAction action, IAsyncStreamWriter&lt;FlightResult&gt; streamWriter, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>request</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.html">ActionCreatePreparedStatementRequest</a></dt>
+    <dd></dd>
+    <dt><code>action</code> <a class="xref" href="Apache.Arrow.Flight.FlightAction.html">FlightAction</a></dt>
+    <dd></dd>
+    <dt><code>streamWriter</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/IAsyncStreamWriter.cs">IAsyncStreamWriter</a>&lt;<a class="xref" href="Apache.Arrow.Flight.FlightResult.html">FlightResult</a>&gt;</dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoAction_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoAction*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoAction_Apache_Arrow_Flight_FlightAction_Grpc_Core_IAsyncStreamWriter_Apache_Arrow_Flight_FlightResult__Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoAction(Apache.Arrow.Flight.FlightAction,Grpc.Core.IAsyncStreamWriter{Apache.Arrow.Flight.FlightResult},Grpc.Core.ServerCallContext)">
+  DoAction(FlightAction, IAsyncStreamWriter&lt;FlightResult&gt;, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L285"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Attempts to execute a valid Flight SQL command.  For Flight RPC calls
+implementers should extend this method in order to handle RPC messages.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Task DoAction(FlightAction action, IAsyncStreamWriter&lt;FlightResult&gt; responseStream, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>action</code> <a class="xref" href="Apache.Arrow.Flight.FlightAction.html">FlightAction</a></dt>
+    <dd></dd>
+    <dt><code>responseStream</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/IAsyncStreamWriter.cs">IAsyncStreamWriter</a>&lt;<a class="xref" href="Apache.Arrow.Flight.FlightResult.html">FlightResult</a>&gt;</dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoGet_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoGet*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoGet_Apache_Arrow_Flight_FlightTicket_Apache_Arrow_Flight_Server_FlightServerRecordBatchStreamWriter_Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoGet(Apache.Arrow.Flight.FlightTicket,Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter,Grpc.Core.ServerCallContext)">
+  DoGet(FlightTicket, FlightServerRecordBatchStreamWriter, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L260"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Attempts to execute a valid Flight SQL command.  For Flight RPC calls
+implementers should extend this method in order to handle RPC messages.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Task DoGet(FlightTicket ticket, FlightServerRecordBatchStreamWriter responseStream, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ticket</code> <a class="xref" href="Apache.Arrow.Flight.FlightTicket.html">FlightTicket</a></dt>
+    <dd></dd>
+    <dt><code>responseStream</code> <a class="xref" href="Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter.html">FlightServerRecordBatchStreamWriter</a></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoGetCatalog_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoGetCatalog*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoGetCatalog_Arrow_Flight_Protocol_Sql_CommandGetCatalogs_Apache_Arrow_Flight_Server_FlightServerRecordBatchStreamWriter_Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoGetCatalog(Arrow.Flight.Protocol.Sql.CommandGetCatalogs,Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter,Grpc.Core.ServerCallContext)">
+  DoGetCatalog(CommandGetCatalogs, FlightServerRecordBatchStreamWriter, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L363"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task DoGetCatalog(CommandGetCatalogs command, FlightServerRecordBatchStreamWriter responseStream, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>command</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.html">CommandGetCatalogs</a></dt>
+    <dd></dd>
+    <dt><code>responseStream</code> <a class="xref" href="Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter.html">FlightServerRecordBatchStreamWriter</a></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoGetCrossReference_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoGetCrossReference*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoGetCrossReference_Arrow_Flight_Protocol_Sql_CommandGetCrossReference_Apache_Arrow_Flight_Server_FlightServerRecordBatchStreamWriter_Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoGetCrossReference(Arrow.Flight.Protocol.Sql.CommandGetCrossReference,Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter,Grpc.Core.ServerCallContext)">
+  DoGetCrossReference(CommandGetCrossReference, FlightServerRecordBatchStreamWriter, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L370"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task DoGetCrossReference(CommandGetCrossReference command, FlightServerRecordBatchStreamWriter responseStream, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>command</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetCrossReference.html">CommandGetCrossReference</a></dt>
+    <dd></dd>
+    <dt><code>responseStream</code> <a class="xref" href="Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter.html">FlightServerRecordBatchStreamWriter</a></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoGetDbSchema_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoGetDbSchema*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoGetDbSchema_Arrow_Flight_Protocol_Sql_CommandGetDbSchemas_Apache_Arrow_Flight_Server_FlightServerRecordBatchStreamWriter_Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoGetDbSchema(Arrow.Flight.Protocol.Sql.CommandGetDbSchemas,Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter,Grpc.Core.ServerCallContext)">
+  DoGetDbSchema(CommandGetDbSchemas, FlightServerRecordBatchStreamWriter, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L367"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task DoGetDbSchema(CommandGetDbSchemas command, FlightServerRecordBatchStreamWriter responseStream, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>command</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetDbSchemas.html">CommandGetDbSchemas</a></dt>
+    <dd></dd>
+    <dt><code>responseStream</code> <a class="xref" href="Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter.html">FlightServerRecordBatchStreamWriter</a></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoGetExportedKeys_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoGetExportedKeys*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoGetExportedKeys_Arrow_Flight_Protocol_Sql_CommandGetExportedKeys_Apache_Arrow_Flight_Server_FlightServerRecordBatchStreamWriter_Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoGetExportedKeys(Arrow.Flight.Protocol.Sql.CommandGetExportedKeys,Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter,Grpc.Core.ServerCallContext)">
+  DoGetExportedKeys(CommandGetExportedKeys, FlightServerRecordBatchStreamWriter, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L368"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task DoGetExportedKeys(CommandGetExportedKeys command, FlightServerRecordBatchStreamWriter responseStream, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>command</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetExportedKeys.html">CommandGetExportedKeys</a></dt>
+    <dd></dd>
+    <dt><code>responseStream</code> <a class="xref" href="Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter.html">FlightServerRecordBatchStreamWriter</a></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoGetImportedKeys_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoGetImportedKeys*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoGetImportedKeys_Arrow_Flight_Protocol_Sql_CommandGetImportedKeys_Apache_Arrow_Flight_Server_FlightServerRecordBatchStreamWriter_Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoGetImportedKeys(Arrow.Flight.Protocol.Sql.CommandGetImportedKeys,Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter,Grpc.Core.ServerCallContext)">
+  DoGetImportedKeys(CommandGetImportedKeys, FlightServerRecordBatchStreamWriter, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L369"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task DoGetImportedKeys(CommandGetImportedKeys command, FlightServerRecordBatchStreamWriter responseStream, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>command</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetImportedKeys.html">CommandGetImportedKeys</a></dt>
+    <dd></dd>
+    <dt><code>responseStream</code> <a class="xref" href="Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter.html">FlightServerRecordBatchStreamWriter</a></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoGetPreparedStatementQuery_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoGetPreparedStatementQuery*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoGetPreparedStatementQuery_Arrow_Flight_Protocol_Sql_CommandPreparedStatementQuery_Apache_Arrow_Flight_Server_FlightServerRecordBatchStreamWriter_Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoGetPreparedStatementQuery(Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery,Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter,Grpc.Core.ServerCallContext)">
+  DoGetPreparedStatementQuery(CommandPreparedStatementQuery, FlightServerRecordBatchStreamWriter, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L361"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task DoGetPreparedStatementQuery(CommandPreparedStatementQuery preparedStatementQuery, FlightServerRecordBatchStreamWriter responseStream, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>preparedStatementQuery</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.html">CommandPreparedStatementQuery</a></dt>
+    <dd></dd>
+    <dt><code>responseStream</code> <a class="xref" href="Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter.html">FlightServerRecordBatchStreamWriter</a></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoGetPrimaryKeys_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoGetPrimaryKeys*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoGetPrimaryKeys_Arrow_Flight_Protocol_Sql_CommandGetPrimaryKeys_Apache_Arrow_Flight_Server_FlightServerRecordBatchStreamWriter_Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoGetPrimaryKeys(Arrow.Flight.Protocol.Sql.CommandGetPrimaryKeys,Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter,Grpc.Core.ServerCallContext)">
+  DoGetPrimaryKeys(CommandGetPrimaryKeys, FlightServerRecordBatchStreamWriter, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L366"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task DoGetPrimaryKeys(CommandGetPrimaryKeys command, FlightServerRecordBatchStreamWriter responseStream, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>command</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetPrimaryKeys.html">CommandGetPrimaryKeys</a></dt>
+    <dd></dd>
+    <dt><code>responseStream</code> <a class="xref" href="Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter.html">FlightServerRecordBatchStreamWriter</a></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoGetSqlInfo_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoGetSqlInfo*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoGetSqlInfo_Arrow_Flight_Protocol_Sql_CommandGetSqlInfo_Apache_Arrow_Flight_Server_FlightServerRecordBatchStreamWriter_Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoGetSqlInfo(Arrow.Flight.Protocol.Sql.CommandGetSqlInfo,Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter,Grpc.Core.ServerCallContext)">
+  DoGetSqlInfo(CommandGetSqlInfo, FlightServerRecordBatchStreamWriter, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L362"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task DoGetSqlInfo(CommandGetSqlInfo getSqlInfo, FlightServerRecordBatchStreamWriter responseStream, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>getSqlInfo</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetSqlInfo.html">CommandGetSqlInfo</a></dt>
+    <dd></dd>
+    <dt><code>responseStream</code> <a class="xref" href="Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter.html">FlightServerRecordBatchStreamWriter</a></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoGetTableType_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoGetTableType*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoGetTableType_Arrow_Flight_Protocol_Sql_CommandGetTableTypes_Apache_Arrow_Flight_Server_FlightServerRecordBatchStreamWriter_Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoGetTableType(Arrow.Flight.Protocol.Sql.CommandGetTableTypes,Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter,Grpc.Core.ServerCallContext)">
+  DoGetTableType(CommandGetTableTypes, FlightServerRecordBatchStreamWriter, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L364"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task DoGetTableType(CommandGetTableTypes command, FlightServerRecordBatchStreamWriter responseStream, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>command</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetTableTypes.html">CommandGetTableTypes</a></dt>
+    <dd></dd>
+    <dt><code>responseStream</code> <a class="xref" href="Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter.html">FlightServerRecordBatchStreamWriter</a></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoGetTables_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoGetTables*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoGetTables_Arrow_Flight_Protocol_Sql_CommandGetTables_Apache_Arrow_Flight_Server_FlightServerRecordBatchStreamWriter_Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoGetTables(Arrow.Flight.Protocol.Sql.CommandGetTables,Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter,Grpc.Core.ServerCallContext)">
+  DoGetTables(CommandGetTables, FlightServerRecordBatchStreamWriter, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L365"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task DoGetTables(CommandGetTables command, FlightServerRecordBatchStreamWriter responseStream, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>command</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetTables.html">CommandGetTables</a></dt>
+    <dd></dd>
+    <dt><code>responseStream</code> <a class="xref" href="Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter.html">FlightServerRecordBatchStreamWriter</a></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoGetXbdcTypeInfo_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoGetXbdcTypeInfo*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoGetXbdcTypeInfo_Arrow_Flight_Protocol_Sql_CommandGetXdbcTypeInfo_Apache_Arrow_Flight_Server_FlightServerRecordBatchStreamWriter_Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoGetXbdcTypeInfo(Arrow.Flight.Protocol.Sql.CommandGetXdbcTypeInfo,Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter,Grpc.Core.ServerCallContext)">
+  DoGetXbdcTypeInfo(CommandGetXdbcTypeInfo, FlightServerRecordBatchStreamWriter, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L371"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task DoGetXbdcTypeInfo(CommandGetXdbcTypeInfo command, FlightServerRecordBatchStreamWriter responseStream, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>command</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetXdbcTypeInfo.html">CommandGetXdbcTypeInfo</a></dt>
+    <dd></dd>
+    <dt><code>responseStream</code> <a class="xref" href="Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter.html">FlightServerRecordBatchStreamWriter</a></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoPut_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoPut*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_DoPut_Apache_Arrow_Flight_Server_FlightServerRecordBatchStreamReader_Grpc_Core_IAsyncStreamWriter_Apache_Arrow_Flight_FlightPutResult__Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.DoPut(Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamReader,Grpc.Core.IAsyncStreamWriter{Apache.Arrow.Flight.FlightPutResult},Grpc.Core.ServerCallContext)">
+  DoPut(FlightServerRecordBatchStreamReader, IAsyncStreamWriter&lt;FlightPutResult&gt;, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L305"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Attempts to execute a valid Flight SQL command.  For Flight RPC calls
+implementers should extend this method in order to handle RPC messages.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Task DoPut(FlightServerRecordBatchStreamReader requestStream, IAsyncStreamWriter&lt;FlightPutResult&gt; responseStream, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>requestStream</code> <a class="xref" href="Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamReader.html">FlightServerRecordBatchStreamReader</a></dt>
+    <dd></dd>
+    <dt><code>responseStream</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/IAsyncStreamWriter.cs">IAsyncStreamWriter</a>&lt;<a class="xref" href="Apache.Arrow.Flight.FlightPutResult.html">FlightPutResult</a>&gt;</dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetCatalogFlightInfo_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetCatalogFlightInfo*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetCatalogFlightInfo_Arrow_Flight_Protocol_Sql_CommandGetCatalogs_Apache_Arrow_Flight_FlightDescriptor_Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetCatalogFlightInfo(Arrow.Flight.Protocol.Sql.CommandGetCatalogs,Apache.Arrow.Flight.FlightDescriptor,Grpc.Core.ServerCallContext)">
+  GetCatalogFlightInfo(CommandGetCatalogs, FlightDescriptor, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L346"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task&lt;FlightInfo&gt; GetCatalogFlightInfo(CommandGetCatalogs command, FlightDescriptor flightDescriptor, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>command</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.html">CommandGetCatalogs</a></dt>
+    <dd></dd>
+    <dt><code>flightDescriptor</code> <a class="xref" href="Apache.Arrow.Flight.FlightDescriptor.html">FlightDescriptor</a></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Apache.Arrow.Flight.FlightInfo.html">FlightInfo</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetCommand_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetCommand*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetCommand_Apache_Arrow_Flight_FlightDescriptor_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetCommand(Apache.Arrow.Flight.FlightDescriptor)">
+  GetCommand(FlightDescriptor?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L142"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IMessage? GetCommand(FlightDescriptor? request)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>request</code> <a class="xref" href="Apache.Arrow.Flight.FlightDescriptor.html">FlightDescriptor</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">IMessage</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetCommand_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetCommand*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetCommand_Apache_Arrow_Flight_FlightTicket_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetCommand(Apache.Arrow.Flight.FlightTicket)">
+  GetCommand(FlightTicket)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L126"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IMessage? GetCommand(FlightTicket ticket)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ticket</code> <a class="xref" href="Apache.Arrow.Flight.FlightTicket.html">FlightTicket</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">IMessage</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetCommand_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetCommand*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetCommand_Apache_Arrow_Flight_Server_FlightServerRecordBatchStreamReader_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetCommand(Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamReader)">
+  GetCommand(FlightServerRecordBatchStreamReader)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L137"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Task&lt;IMessage?&gt; GetCommand(FlightServerRecordBatchStreamReader requestStream)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>requestStream</code> <a class="xref" href="Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamReader.html">FlightServerRecordBatchStreamReader</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<span class="xref">IMessage</span>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetCrossReferenceFlightInfo_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetCrossReferenceFlightInfo*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetCrossReferenceFlightInfo_Arrow_Flight_Protocol_Sql_CommandGetCrossReference_Apache_Arrow_Flight_FlightDescriptor_Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetCrossReferenceFlightInfo(Arrow.Flight.Protocol.Sql.CommandGetCrossReference,Apache.Arrow.Flight.FlightDescriptor,Grpc.Core.ServerCallContext)">
+  GetCrossReferenceFlightInfo(CommandGetCrossReference, FlightDescriptor, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L354"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task&lt;FlightInfo&gt; GetCrossReferenceFlightInfo(CommandGetCrossReference command, FlightDescriptor flightDescriptor, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>command</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetCrossReference.html">CommandGetCrossReference</a></dt>
+    <dd></dd>
+    <dt><code>flightDescriptor</code> <a class="xref" href="Apache.Arrow.Flight.FlightDescriptor.html">FlightDescriptor</a></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Apache.Arrow.Flight.FlightInfo.html">FlightInfo</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetDbSchemaFlightInfo_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetDbSchemaFlightInfo*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetDbSchemaFlightInfo_Arrow_Flight_Protocol_Sql_CommandGetDbSchemas_Apache_Arrow_Flight_FlightDescriptor_Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetDbSchemaFlightInfo(Arrow.Flight.Protocol.Sql.CommandGetDbSchemas,Apache.Arrow.Flight.FlightDescriptor,Grpc.Core.ServerCallContext)">
+  GetDbSchemaFlightInfo(CommandGetDbSchemas, FlightDescriptor, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L347"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task&lt;FlightInfo&gt; GetDbSchemaFlightInfo(CommandGetDbSchemas command, FlightDescriptor flightDescriptor, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>command</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetDbSchemas.html">CommandGetDbSchemas</a></dt>
+    <dd></dd>
+    <dt><code>flightDescriptor</code> <a class="xref" href="Apache.Arrow.Flight.FlightDescriptor.html">FlightDescriptor</a></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Apache.Arrow.Flight.FlightInfo.html">FlightInfo</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetExportedKeysFlightInfo_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetExportedKeysFlightInfo*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetExportedKeysFlightInfo_Arrow_Flight_Protocol_Sql_CommandGetExportedKeys_Apache_Arrow_Flight_FlightDescriptor_Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetExportedKeysFlightInfo(Arrow.Flight.Protocol.Sql.CommandGetExportedKeys,Apache.Arrow.Flight.FlightDescriptor,Grpc.Core.ServerCallContext)">
+  GetExportedKeysFlightInfo(CommandGetExportedKeys, FlightDescriptor, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L352"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task&lt;FlightInfo&gt; GetExportedKeysFlightInfo(CommandGetExportedKeys command, FlightDescriptor flightDescriptor, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>command</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetExportedKeys.html">CommandGetExportedKeys</a></dt>
+    <dd></dd>
+    <dt><code>flightDescriptor</code> <a class="xref" href="Apache.Arrow.Flight.FlightDescriptor.html">FlightDescriptor</a></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Apache.Arrow.Flight.FlightInfo.html">FlightInfo</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetFlightInfo_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetFlightInfo*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetFlightInfo_Apache_Arrow_Flight_FlightDescriptor_Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetFlightInfo(Apache.Arrow.Flight.FlightDescriptor,Grpc.Core.ServerCallContext)">
+  GetFlightInfo(FlightDescriptor, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L234"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Attempts to execute a valid Flight SQL command.  For Flight RPC calls
+implementers should extend this method in order to handle RPC messages.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Task&lt;FlightInfo&gt; GetFlightInfo(FlightDescriptor flightDescriptor, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>flightDescriptor</code> <a class="xref" href="Apache.Arrow.Flight.FlightDescriptor.html">FlightDescriptor</a></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Apache.Arrow.Flight.FlightInfo.html">FlightInfo</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetImportedKeysFlightInfo_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetImportedKeysFlightInfo*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetImportedKeysFlightInfo_Arrow_Flight_Protocol_Sql_CommandGetImportedKeys_Apache_Arrow_Flight_FlightDescriptor_Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetImportedKeysFlightInfo(Arrow.Flight.Protocol.Sql.CommandGetImportedKeys,Apache.Arrow.Flight.FlightDescriptor,Grpc.Core.ServerCallContext)">
+  GetImportedKeysFlightInfo(CommandGetImportedKeys, FlightDescriptor, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L353"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task&lt;FlightInfo&gt; GetImportedKeysFlightInfo(CommandGetImportedKeys command, FlightDescriptor flightDescriptor, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>command</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetImportedKeys.html">CommandGetImportedKeys</a></dt>
+    <dd></dd>
+    <dt><code>flightDescriptor</code> <a class="xref" href="Apache.Arrow.Flight.FlightDescriptor.html">FlightDescriptor</a></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Apache.Arrow.Flight.FlightInfo.html">FlightInfo</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetPreparedStatementQueryFlightInfo_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetPreparedStatementQueryFlightInfo*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetPreparedStatementQueryFlightInfo_Arrow_Flight_Protocol_Sql_CommandPreparedStatementQuery_Apache_Arrow_Flight_FlightDescriptor_Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetPreparedStatementQueryFlightInfo(Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery,Apache.Arrow.Flight.FlightDescriptor,Grpc.Core.ServerCallContext)">
+  GetPreparedStatementQueryFlightInfo(CommandPreparedStatementQuery, FlightDescriptor, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L345"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task&lt;FlightInfo&gt; GetPreparedStatementQueryFlightInfo(CommandPreparedStatementQuery preparedStatementQuery, FlightDescriptor flightDescriptor, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>preparedStatementQuery</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.html">CommandPreparedStatementQuery</a></dt>
+    <dd></dd>
+    <dt><code>flightDescriptor</code> <a class="xref" href="Apache.Arrow.Flight.FlightDescriptor.html">FlightDescriptor</a></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Apache.Arrow.Flight.FlightInfo.html">FlightInfo</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetPrimaryKeysFlightInfo_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetPrimaryKeysFlightInfo*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetPrimaryKeysFlightInfo_Arrow_Flight_Protocol_Sql_CommandGetPrimaryKeys_Apache_Arrow_Flight_FlightDescriptor_Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetPrimaryKeysFlightInfo(Arrow.Flight.Protocol.Sql.CommandGetPrimaryKeys,Apache.Arrow.Flight.FlightDescriptor,Grpc.Core.ServerCallContext)">
+  GetPrimaryKeysFlightInfo(CommandGetPrimaryKeys, FlightDescriptor, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L351"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task&lt;FlightInfo&gt; GetPrimaryKeysFlightInfo(CommandGetPrimaryKeys command, FlightDescriptor flightDescriptor, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>command</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetPrimaryKeys.html">CommandGetPrimaryKeys</a></dt>
+    <dd></dd>
+    <dt><code>flightDescriptor</code> <a class="xref" href="Apache.Arrow.Flight.FlightDescriptor.html">FlightDescriptor</a></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Apache.Arrow.Flight.FlightInfo.html">FlightInfo</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetSqlFlightInfo_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetSqlFlightInfo*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetSqlFlightInfo_Arrow_Flight_Protocol_Sql_CommandGetSqlInfo_Apache_Arrow_Flight_FlightDescriptor_Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetSqlFlightInfo(Arrow.Flight.Protocol.Sql.CommandGetSqlInfo,Apache.Arrow.Flight.FlightDescriptor,Grpc.Core.ServerCallContext)">
+  GetSqlFlightInfo(CommandGetSqlInfo, FlightDescriptor, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L350"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task&lt;FlightInfo&gt; GetSqlFlightInfo(CommandGetSqlInfo commandGetSqlInfo, FlightDescriptor flightDescriptor, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>commandGetSqlInfo</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetSqlInfo.html">CommandGetSqlInfo</a></dt>
+    <dd></dd>
+    <dt><code>flightDescriptor</code> <a class="xref" href="Apache.Arrow.Flight.FlightDescriptor.html">FlightDescriptor</a></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Apache.Arrow.Flight.FlightInfo.html">FlightInfo</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetStatementQueryFlightInfo_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetStatementQueryFlightInfo*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetStatementQueryFlightInfo_Arrow_Flight_Protocol_Sql_CommandStatementQuery_Apache_Arrow_Flight_FlightDescriptor_Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetStatementQueryFlightInfo(Arrow.Flight.Protocol.Sql.CommandStatementQuery,Apache.Arrow.Flight.FlightDescriptor,Grpc.Core.ServerCallContext)">
+  GetStatementQueryFlightInfo(CommandStatementQuery, FlightDescriptor, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L344"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task&lt;FlightInfo&gt; GetStatementQueryFlightInfo(CommandStatementQuery commandStatementQuery, FlightDescriptor flightDescriptor, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>commandStatementQuery</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandStatementQuery.html">CommandStatementQuery</a></dt>
+    <dd></dd>
+    <dt><code>flightDescriptor</code> <a class="xref" href="Apache.Arrow.Flight.FlightDescriptor.html">FlightDescriptor</a></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Apache.Arrow.Flight.FlightInfo.html">FlightInfo</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetTableSchema_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetTableSchema*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetTableSchema_System_Boolean_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetTableSchema(System.Boolean)">
+  GetTableSchema(bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L113"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Schema GetTableSchema(bool includeTableSchemaField)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>includeTableSchemaField</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Schema.html">Schema</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetTableTypesFlightInfo_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetTableTypesFlightInfo*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetTableTypesFlightInfo_Arrow_Flight_Protocol_Sql_CommandGetTableTypes_Apache_Arrow_Flight_FlightDescriptor_Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetTableTypesFlightInfo(Arrow.Flight.Protocol.Sql.CommandGetTableTypes,Apache.Arrow.Flight.FlightDescriptor,Grpc.Core.ServerCallContext)">
+  GetTableTypesFlightInfo(CommandGetTableTypes, FlightDescriptor, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L349"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task&lt;FlightInfo&gt; GetTableTypesFlightInfo(CommandGetTableTypes command, FlightDescriptor flightDescriptor, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>command</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetTableTypes.html">CommandGetTableTypes</a></dt>
+    <dd></dd>
+    <dt><code>flightDescriptor</code> <a class="xref" href="Apache.Arrow.Flight.FlightDescriptor.html">FlightDescriptor</a></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Apache.Arrow.Flight.FlightInfo.html">FlightInfo</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetTablesFlightInfo_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetTablesFlightInfo*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetTablesFlightInfo_Arrow_Flight_Protocol_Sql_CommandGetTables_Apache_Arrow_Flight_FlightDescriptor_Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetTablesFlightInfo(Arrow.Flight.Protocol.Sql.CommandGetTables,Apache.Arrow.Flight.FlightDescriptor,Grpc.Core.ServerCallContext)">
+  GetTablesFlightInfo(CommandGetTables, FlightDescriptor, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L348"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task&lt;FlightInfo&gt; GetTablesFlightInfo(CommandGetTables command, FlightDescriptor flightDescriptor, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>command</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetTables.html">CommandGetTables</a></dt>
+    <dd></dd>
+    <dt><code>flightDescriptor</code> <a class="xref" href="Apache.Arrow.Flight.FlightDescriptor.html">FlightDescriptor</a></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Apache.Arrow.Flight.FlightInfo.html">FlightInfo</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetXdbcTypeFlightInfo_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetXdbcTypeFlightInfo*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_GetXdbcTypeFlightInfo_Arrow_Flight_Protocol_Sql_CommandGetXdbcTypeInfo_Apache_Arrow_Flight_FlightDescriptor_Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.GetXdbcTypeFlightInfo(Arrow.Flight.Protocol.Sql.CommandGetXdbcTypeInfo,Apache.Arrow.Flight.FlightDescriptor,Grpc.Core.ServerCallContext)">
+  GetXdbcTypeFlightInfo(CommandGetXdbcTypeInfo, FlightDescriptor, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L355"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task&lt;FlightInfo&gt; GetXdbcTypeFlightInfo(CommandGetXdbcTypeInfo command, FlightDescriptor flightDescriptor, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>command</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetXdbcTypeInfo.html">CommandGetXdbcTypeInfo</a></dt>
+    <dd></dd>
+    <dt><code>flightDescriptor</code> <a class="xref" href="Apache.Arrow.Flight.FlightDescriptor.html">FlightDescriptor</a></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Apache.Arrow.Flight.FlightInfo.html">FlightInfo</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_ListActions_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.ListActions*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_ListActions_Grpc_Core_IAsyncStreamWriter_Apache_Arrow_Flight_FlightActionType__Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.ListActions(Grpc.Core.IAsyncStreamWriter{Apache.Arrow.Flight.FlightActionType},Grpc.Core.ServerCallContext)">
+  ListActions(IAsyncStreamWriter&lt;FlightActionType&gt;, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L222"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Lists actions supported by Flight SQL.  For Flight RPC actions support
+implementers should extend this method to return additional supported actions.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Task ListActions(IAsyncStreamWriter&lt;FlightActionType&gt; responseStream, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>responseStream</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/IAsyncStreamWriter.cs">IAsyncStreamWriter</a>&lt;<a class="xref" href="Apache.Arrow.Flight.FlightActionType.html">FlightActionType</a>&gt;</dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_PutPreparedStatementQuery_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.PutPreparedStatementQuery*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_PutPreparedStatementQuery_Arrow_Flight_Protocol_Sql_CommandPreparedStatementQuery_Apache_Arrow_Flight_Server_FlightServerRecordBatchStreamReader_Grpc_Core_IAsyncStreamWriter_Apache_Arrow_Flight_FlightPutResult__Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.PutPreparedStatementQuery(Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery,Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamReader,Grpc.Core.IAsyncStreamWriter{Apache.Arrow.Flight.FlightPutResult},Grpc.Core.ServerCallContext)">
+  PutPreparedStatementQuery(CommandPreparedStatementQuery, FlightServerRecordBatchStreamReader, IAsyncStreamWriter&lt;FlightPutResult&gt;, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L386"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task PutPreparedStatementQuery(CommandPreparedStatementQuery command, FlightServerRecordBatchStreamReader requestStream, IAsyncStreamWriter&lt;FlightPutResult&gt; responseStream, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>command</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.html">CommandPreparedStatementQuery</a></dt>
+    <dd></dd>
+    <dt><code>requestStream</code> <a class="xref" href="Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamReader.html">FlightServerRecordBatchStreamReader</a></dt>
+    <dd></dd>
+    <dt><code>responseStream</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/IAsyncStreamWriter.cs">IAsyncStreamWriter</a>&lt;<a class="xref" href="Apache.Arrow.Flight.FlightPutResult.html">FlightPutResult</a>&gt;</dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_PutPreparedStatementUpdate_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.PutPreparedStatementUpdate*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_PutPreparedStatementUpdate_Arrow_Flight_Protocol_Sql_CommandPreparedStatementUpdate_Apache_Arrow_Flight_Server_FlightServerRecordBatchStreamReader_Grpc_Core_IAsyncStreamWriter_Apache_Arrow_Flight_FlightPutResult__Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.PutPreparedStatementUpdate(Arrow.Flight.Protocol.Sql.CommandPreparedStatementUpdate,Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamReader,Grpc.Core.IAsyncStreamWriter{Apache.Arrow.Flight.FlightPutResult},Grpc.Core.ServerCallContext)">
+  PutPreparedStatementUpdate(CommandPreparedStatementUpdate, FlightServerRecordBatchStreamReader, IAsyncStreamWriter&lt;FlightPutResult&gt;, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L384"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task PutPreparedStatementUpdate(CommandPreparedStatementUpdate command, FlightServerRecordBatchStreamReader requestStream, IAsyncStreamWriter&lt;FlightPutResult&gt; responseStream, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>command</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandPreparedStatementUpdate.html">CommandPreparedStatementUpdate</a></dt>
+    <dd></dd>
+    <dt><code>requestStream</code> <a class="xref" href="Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamReader.html">FlightServerRecordBatchStreamReader</a></dt>
+    <dd></dd>
+    <dt><code>responseStream</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/IAsyncStreamWriter.cs">IAsyncStreamWriter</a>&lt;<a class="xref" href="Apache.Arrow.Flight.FlightPutResult.html">FlightPutResult</a>&gt;</dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_PutStatementUpdate_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.PutStatementUpdate*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_PutStatementUpdate_Arrow_Flight_Protocol_Sql_CommandStatementUpdate_Apache_Arrow_Flight_Server_FlightServerRecordBatchStreamReader_Grpc_Core_IAsyncStreamWriter_Apache_Arrow_Flight_FlightPutResult__Grpc_Core_ServerCallContext_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.PutStatementUpdate(Arrow.Flight.Protocol.Sql.CommandStatementUpdate,Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamReader,Grpc.Core.IAsyncStreamWriter{Apache.Arrow.Flight.FlightPutResult},Grpc.Core.ServerCallContext)">
+  PutStatementUpdate(CommandStatementUpdate, FlightServerRecordBatchStreamReader, IAsyncStreamWriter&lt;FlightPutResult&gt;, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L385"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task PutStatementUpdate(CommandStatementUpdate command, FlightServerRecordBatchStreamReader requestStream, IAsyncStreamWriter&lt;FlightPutResult&gt; responseStream, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>command</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandStatementUpdate.html">CommandStatementUpdate</a></dt>
+    <dd></dd>
+    <dt><code>requestStream</code> <a class="xref" href="Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamReader.html">FlightServerRecordBatchStreamReader</a></dt>
+    <dd></dd>
+    <dt><code>responseStream</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/IAsyncStreamWriter.cs">IAsyncStreamWriter</a>&lt;<a class="xref" href="Apache.Arrow.Flight.FlightPutResult.html">FlightPutResult</a>&gt;</dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_FlightSqlServer_SupportsAction_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.SupportsAction*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_FlightSqlServer_SupportsAction_Apache_Arrow_Flight_FlightAction_" data-uid="Apache.Arrow.Flight.Sql.FlightSqlServer.SupportsAction(Apache.Arrow.Flight.FlightAction)">
+  SupportsAction(FlightAction)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L329"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool SupportsAction(FlightAction action)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>action</code> <a class="xref" href="Apache.Arrow.Flight.FlightAction.html">FlightAction</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/FlightSqlServer.cs/#L30" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2018 The Apache Software Foundation
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

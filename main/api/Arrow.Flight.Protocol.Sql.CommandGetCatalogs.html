@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class CommandGetCatalogs | Apache Arrow .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class CommandGetCatalogs | Apache Arrow .NET ">
+      
+      <meta name="description" content="Represents a request to retrieve the list of catalogs on a Flight SQL enabled backend. The definition of a catalog depends on vendor/implementation. It is usually the database itself Used in the command member of FlightDescriptor for the following RPC calls:  GetSchema: return the Arrow schema of the query. GetFlightInfo: execute the catalog metadata request.  The returned Arrow schema will be: &amp;lt; catalog_name: utf8 not null   The returned data should be ordered by catalog_name.">
+      <link rel="icon" href="../images/favicon.png">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Arrow_Flight_Protocol_Sql_CommandGetCatalogs.md&amp;value=---%0Auid%3A%20Arrow.Flight.Protocol.Sql.CommandGetCatalogs%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.svg" alt="Apache Arrow .NET">
+            Apache Arrow .NET
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs">
+
+
+
+  <h1 id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs" class="text-break">
+Class CommandGetCatalogs  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L1918"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Arrow.html">Arrow</a>.<a class="xref" href="Arrow.Flight.html">Flight</a>.<a class="xref" href="Arrow.Flight.Protocol.html">Protocol</a>.<a class="xref" href="Arrow.Flight.Protocol.Sql.html">Sql</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Apache.Arrow.Flight.Sql.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Represents a request to retrieve the list of catalogs on a Flight SQL enabled backend.
+The definition of a catalog depends on vendor/implementation. It is usually the database itself
+Used in the command member of FlightDescriptor for the following RPC calls:</p>
+<ul>
+<li>GetSchema: return the Arrow schema of the query.</li>
+<li>GetFlightInfo: execute the catalog metadata request.</li>
+</ul>
+<p>The returned Arrow schema will be:
+&lt;
+catalog_name: utf8 not null</p>
+<blockquote>
+</blockquote>
+<p>The returned data should be ordered by catalog_name.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class CommandGetCatalogs : IMessage&lt;CommandGetCatalogs&gt;, IEquatable&lt;CommandGetCatalogs&gt;, IDeepCloneable&lt;CommandGetCatalogs&gt;, IBufferMessage, IMessage</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">CommandGetCatalogs</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><span class="xref">IMessage</span>&lt;<a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.html">CommandGetCatalogs</a>&gt;</div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.html">CommandGetCatalogs</a>&gt;</div>
+      <div><span class="xref">IDeepCloneable</span>&lt;<a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.html">CommandGetCatalogs</a>&gt;</div>
+      <div><span class="xref">IBufferMessage</span></div>
+      <div><span class="xref">IMessage</span></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="Apache.Arrow.Flight.Sql.FlightSqlExtensions.html#Apache_Arrow_Flight_Sql_FlightSqlExtensions_Serialize_Google_Protobuf_IBufferMessage_">FlightSqlExtensions.Serialize(IBufferMessage)</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs__ctor_" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.#ctor*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs__ctor" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.#ctor">
+  CommandGetCatalogs()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L1942"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CommandGetCatalogs()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs__ctor_" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.#ctor*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs__ctor_Arrow_Flight_Protocol_Sql_CommandGetCatalogs_" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.#ctor(Arrow.Flight.Protocol.Sql.CommandGetCatalogs)">
+  CommandGetCatalogs(CommandGetCatalogs)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L1950"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CommandGetCatalogs(CommandGetCatalogs other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.html">CommandGetCatalogs</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs_Descriptor_" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.Descriptor*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs_Descriptor" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.Descriptor">
+  Descriptor
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L1930"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static MessageDescriptor Descriptor { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">MessageDescriptor</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs_Parser_" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.Parser*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs_Parser" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.Parser">
+  Parser
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L1926"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static MessageParser&lt;CommandGetCatalogs&gt; Parser { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">MessageParser</span>&lt;<a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.html">CommandGetCatalogs</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs_CalculateSize_" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.CalculateSize*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs_CalculateSize" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.CalculateSize">
+  CalculateSize()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L2018"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Calculates the size of this message in Protocol Buffer wire format, in bytes.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int CalculateSize()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The number of bytes required to write this message
+to a coded output stream.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs_Clone_" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.Clone*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs_Clone" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.Clone">
+  Clone()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L1956"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a deep clone of this object.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CommandGetCatalogs Clone()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.html">CommandGetCatalogs</a></dt>
+    <dd><p>A deep clone of this object.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs_Equals_" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.Equals*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs_Equals_Arrow_Flight_Protocol_Sql_CommandGetCatalogs_" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.Equals(Arrow.Flight.Protocol.Sql.CommandGetCatalogs)">
+  Equals(CommandGetCatalogs)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L1968"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Indicates whether the current object is equal to another object of the same type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Equals(CommandGetCatalogs other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.html">CommandGetCatalogs</a></dt>
+    <dd><p>An object to compare with this object.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the current object is equal to the <code class="paramref">other</code> parameter; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs_Equals_" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.Equals*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs_Equals_System_Object_" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.Equals(System.Object)">
+  Equals(object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L1962"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Determines whether the specified object is equal to the current object.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool Equals(object other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the specified object  is equal to the current object; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs_GetHashCode_" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.GetHashCode*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs_GetHashCode" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.GetHashCode">
+  GetHashCode()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L1980"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Serves as the default hash function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int GetHashCode()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>A hash code for the current object.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs_MergeFrom_" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.MergeFrom*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs_MergeFrom_Arrow_Flight_Protocol_Sql_CommandGetCatalogs_" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.MergeFrom(Arrow.Flight.Protocol.Sql.CommandGetCatalogs)">
+  MergeFrom(CommandGetCatalogs)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L2028"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Merges the given message into this one.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void MergeFrom(CommandGetCatalogs other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.html">CommandGetCatalogs</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section" id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs_MergeFrom_Arrow_Flight_Protocol_Sql_CommandGetCatalogs__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>See the user guide for precise merge semantics.</p>
+</div>
+
+
+
+
+  <a id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs_MergeFrom_" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.MergeFrom*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs_MergeFrom_Google_Protobuf_CodedInputStream_" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.MergeFrom(Google.Protobuf.CodedInputStream)">
+  MergeFrom(CodedInputStream)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L2037"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Merges the data from the specified coded input stream with the current message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void MergeFrom(CodedInputStream input)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>input</code> <span class="xref">CodedInputStream</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section" id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs_MergeFrom_Google_Protobuf_CodedInputStream__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>See the user guide for precise merge semantics.</p>
+</div>
+
+
+
+
+  <a id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs_ToString_" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.ToString*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs_ToString" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.ToString">
+  ToString()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L1990"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns a string that represents the current object.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>A string that represents the current object.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs_WriteTo_" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.WriteTo*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_CommandGetCatalogs_WriteTo_Google_Protobuf_CodedOutputStream_" data-uid="Arrow.Flight.Protocol.Sql.CommandGetCatalogs.WriteTo(Google.Protobuf.CodedOutputStream)">
+  WriteTo(CodedOutputStream)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L1996"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Writes the data to the given coded output stream.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void WriteTo(CodedOutputStream output)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>output</code> <span class="xref">CodedOutputStream</span></dt>
+    <dd><p>Coded output stream to write the data to. Must not be null.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L1918" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2018 The Apache Software Foundation
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

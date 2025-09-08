@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class ArrowStreamWriter | Apache Arrow .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class ArrowStreamWriter | Apache Arrow .NET ">
+      
+      
+      <link rel="icon" href="../images/favicon.png">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Apache_Arrow_Ipc_ArrowStreamWriter.md&amp;value=---%0Auid%3A%20Apache.Arrow.Ipc.ArrowStreamWriter%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.svg" alt="Apache Arrow .NET">
+            Apache Arrow .NET
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Apache.Arrow.Ipc.ArrowStreamWriter">
+
+
+
+  <h1 id="Apache_Arrow_Ipc_ArrowStreamWriter" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter" class="text-break">
+Class ArrowStreamWriter  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamWriter.cs/#L32"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Apache.html">Apache</a>.<a class="xref" href="Apache.Arrow.html">Arrow</a>.<a class="xref" href="Apache.Arrow.Ipc.html">Ipc</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Apache.Arrow.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"></div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class ArrowStreamWriter : IDisposable</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">ArrowStreamWriter</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist derived">
+    <dt>Derived</dt>
+    <dd>
+      <div><a class="xref" href="Apache.Arrow.Ipc.ArrowFileWriter.html">ArrowFileWriter</a></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Apache_Arrow_Ipc_ArrowStreamWriter__ctor_" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.#ctor*"></a>
+
+  <h3 id="Apache_Arrow_Ipc_ArrowStreamWriter__ctor_System_IO_Stream_Apache_Arrow_Schema_" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.#ctor(System.IO.Stream,Apache.Arrow.Schema)">
+  ArrowStreamWriter(Stream, Schema)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamWriter.cs/#L644"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ArrowStreamWriter(Stream baseStream, Schema schema)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>baseStream</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.stream">Stream</a></dt>
+    <dd></dd>
+    <dt><code>schema</code> <a class="xref" href="Apache.Arrow.Schema.html">Schema</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Ipc_ArrowStreamWriter__ctor_" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.#ctor*"></a>
+
+  <h3 id="Apache_Arrow_Ipc_ArrowStreamWriter__ctor_System_IO_Stream_Apache_Arrow_Schema_System_Boolean_" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.#ctor(System.IO.Stream,Apache.Arrow.Schema,System.Boolean)">
+  ArrowStreamWriter(Stream, Schema, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamWriter.cs/#L649"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ArrowStreamWriter(Stream baseStream, Schema schema, bool leaveOpen)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>baseStream</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.stream">Stream</a></dt>
+    <dd></dd>
+    <dt><code>schema</code> <a class="xref" href="Apache.Arrow.Schema.html">Schema</a></dt>
+    <dd></dd>
+    <dt><code>leaveOpen</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Ipc_ArrowStreamWriter__ctor_" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.#ctor*"></a>
+
+  <h3 id="Apache_Arrow_Ipc_ArrowStreamWriter__ctor_System_IO_Stream_Apache_Arrow_Schema_System_Boolean_Apache_Arrow_Ipc_IpcOptions_" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.#ctor(System.IO.Stream,Apache.Arrow.Schema,System.Boolean,Apache.Arrow.Ipc.IpcOptions)">
+  ArrowStreamWriter(Stream, Schema, bool, IpcOptions)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamWriter.cs/#L654"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ArrowStreamWriter(Stream baseStream, Schema schema, bool leaveOpen, IpcOptions options)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>baseStream</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.stream">Stream</a></dt>
+    <dd></dd>
+    <dt><code>schema</code> <a class="xref" href="Apache.Arrow.Schema.html">Schema</a></dt>
+    <dd></dd>
+    <dt><code>leaveOpen</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+    <dt><code>options</code> <a class="xref" href="Apache.Arrow.Ipc.IpcOptions.html">IpcOptions</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Ipc_ArrowStreamWriter__ctor_" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.#ctor*"></a>
+
+  <h3 id="Apache_Arrow_Ipc_ArrowStreamWriter__ctor_System_IO_Stream_Apache_Arrow_Schema_System_Boolean_Apache_Arrow_Ipc_IpcOptions_Apache_Arrow_Memory_MemoryAllocator_" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.#ctor(System.IO.Stream,Apache.Arrow.Schema,System.Boolean,Apache.Arrow.Ipc.IpcOptions,Apache.Arrow.Memory.MemoryAllocator)">
+  ArrowStreamWriter(Stream, Schema, bool, IpcOptions, MemoryAllocator)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamWriter.cs/#L659"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ArrowStreamWriter(Stream baseStream, Schema schema, bool leaveOpen, IpcOptions options, MemoryAllocator allocator)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>baseStream</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.stream">Stream</a></dt>
+    <dd></dd>
+    <dt><code>schema</code> <a class="xref" href="Apache.Arrow.Schema.html">Schema</a></dt>
+    <dd></dd>
+    <dt><code>leaveOpen</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+    <dt><code>options</code> <a class="xref" href="Apache.Arrow.Ipc.IpcOptions.html">IpcOptions</a></dt>
+    <dd></dd>
+    <dt><code>allocator</code> <a class="xref" href="Apache.Arrow.Memory.MemoryAllocator.html">MemoryAllocator</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Apache_Arrow_Ipc_ArrowStreamWriter_BaseStream_" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.BaseStream*"></a>
+
+  <h3 id="Apache_Arrow_Ipc_ArrowStreamWriter_BaseStream" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.BaseStream">
+  BaseStream
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamWriter.cs/#L612"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Stream BaseStream { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.stream">Stream</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Ipc_ArrowStreamWriter_Buffers_" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.Buffers*"></a>
+
+  <h3 id="Apache_Arrow_Ipc_ArrowStreamWriter_Buffers" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.Buffers">
+  Buffers
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamWriter.cs/#L614"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected ArrayPool&lt;byte&gt; Buffers { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.buffers.arraypool-1">ArrayPool</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Ipc_ArrowStreamWriter_HasWrittenSchema_" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.HasWrittenSchema*"></a>
+
+  <h3 id="Apache_Arrow_Ipc_ArrowStreamWriter_HasWrittenSchema" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.HasWrittenSchema">
+  HasWrittenSchema
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamWriter.cs/#L618"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected bool HasWrittenSchema { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Ipc_ArrowStreamWriter_Schema_" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.Schema*"></a>
+
+  <h3 id="Apache_Arrow_Ipc_ArrowStreamWriter_Schema" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.Schema">
+  Schema
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamWriter.cs/#L626"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Schema Schema { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Schema.html">Schema</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Apache_Arrow_Ipc_ArrowStreamWriter_CalculatePadding_" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.CalculatePadding*"></a>
+
+  <h3 id="Apache_Arrow_Ipc_ArrowStreamWriter_CalculatePadding_System_Int64_System_Int32_" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.CalculatePadding(System.Int64,System.Int32)">
+  CalculatePadding(long, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamWriter.cs/#L1312"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected int CalculatePadding(long offset, int alignment = 8)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>offset</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd></dd>
+    <dt><code>alignment</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Ipc_ArrowStreamWriter_Dispose_" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.Dispose*"></a>
+
+  <h3 id="Apache_Arrow_Ipc_ArrowStreamWriter_Dispose" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.Dispose">
+  Dispose()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamWriter.cs/#L1348"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void Dispose()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Ipc_ArrowStreamWriter_WriteEnd_" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.WriteEnd*"></a>
+
+  <h3 id="Apache_Arrow_Ipc_ArrowStreamWriter_WriteEnd" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.WriteEnd">
+  WriteEnd()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamWriter.cs/#L1040"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void WriteEnd()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Ipc_ArrowStreamWriter_WriteEndAsync_" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.WriteEndAsync*"></a>
+
+  <h3 id="Apache_Arrow_Ipc_ArrowStreamWriter_WriteEndAsync_System_Threading_CancellationToken_" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.WriteEndAsync(System.Threading.CancellationToken)">
+  WriteEndAsync(CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamWriter.cs/#L1049"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task WriteEndAsync(CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Ipc_ArrowStreamWriter_WriteRecordBatch_" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.WriteRecordBatch*"></a>
+
+  <h3 id="Apache_Arrow_Ipc_ArrowStreamWriter_WriteRecordBatch_Apache_Arrow_RecordBatch_" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.WriteRecordBatch(Apache.Arrow.RecordBatch)">
+  WriteRecordBatch(RecordBatch)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamWriter.cs/#L1012"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void WriteRecordBatch(RecordBatch recordBatch)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>recordBatch</code> <a class="xref" href="Apache.Arrow.RecordBatch.html">RecordBatch</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Ipc_ArrowStreamWriter_WriteRecordBatchAsync_" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.WriteRecordBatchAsync*"></a>
+
+  <h3 id="Apache_Arrow_Ipc_ArrowStreamWriter_WriteRecordBatchAsync_Apache_Arrow_RecordBatch_System_Threading_CancellationToken_" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.WriteRecordBatchAsync(Apache.Arrow.RecordBatch,System.Threading.CancellationToken)">
+  WriteRecordBatchAsync(RecordBatch, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamWriter.cs/#L1017"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual Task WriteRecordBatchAsync(RecordBatch recordBatch, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>recordBatch</code> <a class="xref" href="Apache.Arrow.RecordBatch.html">RecordBatch</a></dt>
+    <dd></dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Ipc_ArrowStreamWriter_WriteStart_" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.WriteStart*"></a>
+
+  <h3 id="Apache_Arrow_Ipc_ArrowStreamWriter_WriteStart" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.WriteStart">
+  WriteStart()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamWriter.cs/#L1022"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void WriteStart()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Ipc_ArrowStreamWriter_WriteStartAsync_" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.WriteStartAsync*"></a>
+
+  <h3 id="Apache_Arrow_Ipc_ArrowStreamWriter_WriteStartAsync_System_Threading_CancellationToken_" data-uid="Apache.Arrow.Ipc.ArrowStreamWriter.WriteStartAsync(System.Threading.CancellationToken)">
+  WriteStartAsync(CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamWriter.cs/#L1031"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task WriteStartAsync(CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamWriter.cs/#L32" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2018 The Apache Software Foundation
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Enum SqlInfo | Apache Arrow .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Enum SqlInfo | Apache Arrow .NET ">
+      
+      <meta name="description" content="Options for CommandGetSqlInfo.">
+      <link rel="icon" href="../images/favicon.png">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Arrow_Flight_Protocol_Sql_SqlInfo.md&amp;value=---%0Auid%3A%20Arrow.Flight.Protocol.Sql.SqlInfo%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.svg" alt="Apache Arrow .NET">
+            Apache Arrow .NET
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Arrow.Flight.Protocol.Sql.SqlInfo">
+
+
+
+
+  <h1 id="Arrow_Flight_Protocol_Sql_SqlInfo" data-uid="Arrow.Flight.Protocol.Sql.SqlInfo" class="text-break">
+Enum SqlInfo  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L346"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Arrow.html">Arrow</a>.<a class="xref" href="Arrow.Flight.html">Flight</a>.<a class="xref" href="Arrow.Flight.Protocol.html">Protocol</a>.<a class="xref" href="Arrow.Flight.Protocol.Sql.html">Sql</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Apache.Arrow.Flight.Sql.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Options for CommandGetSqlInfo.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public enum SqlInfo</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+  <h2 id="fields">Fields
+</h2>
+  <dl class="parameters">
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_FlightSqlServerArrowVersion"><code>[OriginalName(&quot;FLIGHT_SQL_SERVER_ARROW_VERSION&quot;)]
+FlightSqlServerArrowVersion = 2</code></dt>
+  
+  <dd><p>Retrieves a UTF-8 string with the Arrow format version of the Flight SQL Server.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_FlightSqlServerBulkIngestion"><code>[OriginalName(&quot;FLIGHT_SQL_SERVER_BULK_INGESTION&quot;)]
+FlightSqlServerBulkIngestion = 10</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether the Flight SQL Server supports executing
+bulk ingestion.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_FlightSqlServerCancel"><code>[OriginalName(&quot;FLIGHT_SQL_SERVER_CANCEL&quot;)]
+FlightSqlServerCancel = 9</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether the Flight SQL Server supports explicit
+query cancellation (the CancelQuery action).</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_FlightSqlServerIngestTransactionsSupported"><code>[OriginalName(&quot;FLIGHT_SQL_SERVER_INGEST_TRANSACTIONS_SUPPORTED&quot;)]
+FlightSqlServerIngestTransactionsSupported = 11</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether transactions are supported for bulk ingestion. If not, invoking
+the method commit in the context of a bulk ingestion is a noop, and the isolation level is
+<code>arrow.flight.protocol.sql.SqlTransactionIsolationLevel.TRANSACTION_NONE</code>.</p>
+<p>Returns:</p>
+<ul>
+<li>false: if bulk ingestion transactions are unsupported;</li>
+<li>true: if bulk ingestion transactions are supported.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_FlightSqlServerName"><code>[OriginalName(&quot;FLIGHT_SQL_SERVER_NAME&quot;)]
+FlightSqlServerName = 0</code></dt>
+  
+  <dd><p>Retrieves a UTF-8 string with the name of the Flight SQL Server.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_FlightSqlServerReadOnly"><code>[OriginalName(&quot;FLIGHT_SQL_SERVER_READ_ONLY&quot;)]
+FlightSqlServerReadOnly = 3</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether the Flight SQL Server is read only.</p>
+<p>Returns:</p>
+<ul>
+<li>false: if read-write</li>
+<li>true: if read only</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_FlightSqlServerSql"><code>[OriginalName(&quot;FLIGHT_SQL_SERVER_SQL&quot;)]
+FlightSqlServerSql = 4</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether the Flight SQL Server supports executing
+SQL queries.</p>
+<p>Note that the absence of this info (as opposed to a false value) does not necessarily
+mean that SQL is not supported, as this property was not originally defined.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_FlightSqlServerStatementTimeout"><code>[OriginalName(&quot;FLIGHT_SQL_SERVER_STATEMENT_TIMEOUT&quot;)]
+FlightSqlServerStatementTimeout = 100</code></dt>
+  
+  <dd><p>Retrieves an int32 indicating the timeout (in milliseconds) for prepared statement handles.</p>
+<p>If 0, there is no timeout.  Servers should reset the timeout when the handle is used in a command.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_FlightSqlServerSubstrait"><code>[OriginalName(&quot;FLIGHT_SQL_SERVER_SUBSTRAIT&quot;)]
+FlightSqlServerSubstrait = 5</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether the Flight SQL Server supports executing
+Substrait plans.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_FlightSqlServerSubstraitMaxVersion"><code>[OriginalName(&quot;FLIGHT_SQL_SERVER_SUBSTRAIT_MAX_VERSION&quot;)]
+FlightSqlServerSubstraitMaxVersion = 7</code></dt>
+  
+  <dd><p>Retrieves a string value indicating the maximum supported Substrait version, or null
+if Substrait is not supported.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_FlightSqlServerSubstraitMinVersion"><code>[OriginalName(&quot;FLIGHT_SQL_SERVER_SUBSTRAIT_MIN_VERSION&quot;)]
+FlightSqlServerSubstraitMinVersion = 6</code></dt>
+  
+  <dd><p>Retrieves a string value indicating the minimum supported Substrait version, or null
+if Substrait is not supported.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_FlightSqlServerTransaction"><code>[OriginalName(&quot;FLIGHT_SQL_SERVER_TRANSACTION&quot;)]
+FlightSqlServerTransaction = 8</code></dt>
+  
+  <dd><p>Retrieves an int32 indicating whether the Flight SQL Server supports the
+BeginTransaction/EndTransaction/BeginSavepoint/EndSavepoint actions.</p>
+<p>Even if this is not supported, the database may still support explicit &quot;BEGIN
+TRANSACTION&quot;/&quot;COMMIT&quot; SQL statements (see SQL_TRANSACTIONS_SUPPORTED); this property
+is only about whether the server implements the Flight SQL API endpoints.</p>
+<p>The possible values are listed in <code>SqlSupportedTransaction</code>.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_FlightSqlServerTransactionTimeout"><code>[OriginalName(&quot;FLIGHT_SQL_SERVER_TRANSACTION_TIMEOUT&quot;)]
+FlightSqlServerTransactionTimeout = 101</code></dt>
+  
+  <dd><p>Retrieves an int32 indicating the timeout (in milliseconds) for transactions, since transactions are not tied to a connection.</p>
+<p>If 0, there is no timeout.  Servers should reset the timeout when the handle is used in a command.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_FlightSqlServerVersion"><code>[OriginalName(&quot;FLIGHT_SQL_SERVER_VERSION&quot;)]
+FlightSqlServerVersion = 1</code></dt>
+  
+  <dd><p>Retrieves a UTF-8 string with the native version of the Flight SQL Server.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlAllTablesAreSelectable"><code>[OriginalName(&quot;SQL_ALL_TABLES_ARE_SELECTABLE&quot;)]
+SqlAllTablesAreSelectable = 506</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether all tables are selectable.</p>
+<p>Returns:</p>
+<ul>
+<li>false: if not all tables are selectable or if none are;</li>
+<li>true: if all tables are selectable.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlAnsi92SupportedLevel"><code>[OriginalName(&quot;SQL_ANSI92_SUPPORTED_LEVEL&quot;)]
+SqlAnsi92SupportedLevel = 526</code></dt>
+  
+  <dd><p>Retrieves the supported ANSI92 SQL grammar level.</p>
+<p>Returns an int32 bitmask value representing the supported ANSI92 SQL grammar level.
+The returned bitmask should be parsed in order to retrieve the supported commands.</p>
+<p>For instance:</p>
+<ul>
+<li>return 0 (\b0)   =&gt; [] (ANSI92 SQL grammar is unsupported);</li>
+<li>return 1 (\b1)   =&gt; [ANSI92_ENTRY_SQL];</li>
+<li>return 2 (\b10)  =&gt; [ANSI92_INTERMEDIATE_SQL];</li>
+<li>return 3 (\b11)  =&gt; [ANSI92_ENTRY_SQL, ANSI92_INTERMEDIATE_SQL];</li>
+<li>return 4 (\b100) =&gt; [ANSI92_FULL_SQL];</li>
+<li>return 5 (\b101) =&gt; [ANSI92_ENTRY_SQL, ANSI92_FULL_SQL];</li>
+<li>return 6 (\b110) =&gt; [ANSI92_INTERMEDIATE_SQL, ANSI92_FULL_SQL];</li>
+<li>return 7 (\b111) =&gt; [ANSI92_ENTRY_SQL, ANSI92_INTERMEDIATE_SQL, ANSI92_FULL_SQL].
+Valid ANSI92 SQL grammar levels are described under <code>arrow.flight.protocol.sql.SupportedAnsi92SqlGrammarLevel</code>.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlBatchUpdatesSupported"><code>[OriginalName(&quot;SQL_BATCH_UPDATES_SUPPORTED&quot;)]
+SqlBatchUpdatesSupported = 572</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether this database supports batch updates.</p>
+<ul>
+<li>false: if this database does not support batch updates;</li>
+<li>true: if this database supports batch updates.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlCatalogAtStart"><code>[OriginalName(&quot;SQL_CATALOG_AT_START&quot;)]
+SqlCatalogAtStart = 532</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether a catalog appears at the start of a fully qualified table name.</p>
+<ul>
+<li>false: if a catalog does not appear at the start of a fully qualified table name;</li>
+<li>true: if a catalog appears at the start of a fully qualified table name.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlCatalogTerm"><code>[OriginalName(&quot;SQL_CATALOG_TERM&quot;)]
+SqlCatalogTerm = 531</code></dt>
+  
+  <dd><p>Retrieves a UTF-8 string with the preferred term for &quot;catalog&quot;.
+If a empty string is returned its assumed that the server does NOT supports catalogs.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlCatalogsSupportedActions"><code>[OriginalName(&quot;SQL_CATALOGS_SUPPORTED_ACTIONS&quot;)]
+SqlCatalogsSupportedActions = 534</code></dt>
+  
+  <dd><p>Retrieves the supported actions for a SQL schema.</p>
+<p>Returns an int32 bitmask value representing the supported actions for a SQL catalog.
+The returned bitmask should be parsed in order to retrieve the supported actions for a SQL catalog.</p>
+<p>For instance:</p>
+<ul>
+<li>return 0 (\b0)   =&gt; [] (no supported actions for SQL catalog);</li>
+<li>return 1 (\b1)   =&gt; [SQL_ELEMENT_IN_PROCEDURE_CALLS];</li>
+<li>return 2 (\b10)  =&gt; [SQL_ELEMENT_IN_INDEX_DEFINITIONS];</li>
+<li>return 3 (\b11)  =&gt; [SQL_ELEMENT_IN_PROCEDURE_CALLS, SQL_ELEMENT_IN_INDEX_DEFINITIONS];</li>
+<li>return 4 (\b100) =&gt; [SQL_ELEMENT_IN_PRIVILEGE_DEFINITIONS];</li>
+<li>return 5 (\b101) =&gt; [SQL_ELEMENT_IN_PROCEDURE_CALLS, SQL_ELEMENT_IN_PRIVILEGE_DEFINITIONS];</li>
+<li>return 6 (\b110) =&gt; [SQL_ELEMENT_IN_INDEX_DEFINITIONS, SQL_ELEMENT_IN_PRIVILEGE_DEFINITIONS];</li>
+<li>return 7 (\b111) =&gt; [SQL_ELEMENT_IN_PROCEDURE_CALLS, SQL_ELEMENT_IN_INDEX_DEFINITIONS, SQL_ELEMENT_IN_PRIVILEGE_DEFINITIONS].
+Valid actions for a SQL catalog are described under <code>arrow.flight.protocol.sql.SqlSupportedElementActions</code>.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlCorrelatedSubqueriesSupported"><code>[OriginalName(&quot;SQL_CORRELATED_SUBQUERIES_SUPPORTED&quot;)]
+SqlCorrelatedSubqueriesSupported = 539</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether correlated subqueries are supported.</p>
+<p>Returns:</p>
+<ul>
+<li>false: if correlated subqueries are unsupported;</li>
+<li>true: if correlated subqueries are supported.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlDataDefinitionCausesTransactionCommit"><code>[OriginalName(&quot;SQL_DATA_DEFINITION_CAUSES_TRANSACTION_COMMIT&quot;)]
+SqlDataDefinitionCausesTransactionCommit = 565</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether a data definition statement within a transaction forces
+the transaction to commit.</p>
+<p>Returns:</p>
+<ul>
+<li>false: if a data definition statement within a transaction does not force the transaction to commit;</li>
+<li>true: if a data definition statement within a transaction forces the transaction to commit.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlDataDefinitionsInTransactionsIgnored"><code>[OriginalName(&quot;SQL_DATA_DEFINITIONS_IN_TRANSACTIONS_IGNORED&quot;)]
+SqlDataDefinitionsInTransactionsIgnored = 566</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether a data definition statement within a transaction is ignored.</p>
+<p>Returns:</p>
+<ul>
+<li>false: if a data definition statement within a transaction is taken into account;</li>
+<li>true: a data definition statement within a transaction is ignored.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlDatetimeFunctions"><code>[OriginalName(&quot;SQL_DATETIME_FUNCTIONS&quot;)]
+SqlDatetimeFunctions = 512</code></dt>
+  
+  <dd><p>Retrieves a UTF-8 string list with values of the supported datetime functions.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlDbSchemaNameLength"><code>[OriginalName(&quot;SQL_DB_SCHEMA_NAME_LENGTH&quot;)]
+SqlDbSchemaNameLength = 552</code></dt>
+  
+  <dd><p>Retrieves a int64 value representing the maximum number of characters allowed in a schema name.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlDdlCatalog"><code>[OriginalName(&quot;SQL_DDL_CATALOG&quot;)]
+SqlDdlCatalog = 500</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether the Flight SQL Server supports CREATE and DROP of catalogs.</p>
+<p>Returns:</p>
+<ul>
+<li>false: if it doesn't support CREATE and DROP of catalogs.</li>
+<li>true: if it supports CREATE and DROP of catalogs.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlDdlSchema"><code>[OriginalName(&quot;SQL_DDL_SCHEMA&quot;)]
+SqlDdlSchema = 501</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether the Flight SQL Server supports CREATE and DROP of schemas.</p>
+<p>Returns:</p>
+<ul>
+<li>false: if it doesn't support CREATE and DROP of schemas.</li>
+<li>true: if it supports CREATE and DROP of schemas.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlDdlTable"><code>[OriginalName(&quot;SQL_DDL_TABLE&quot;)]
+SqlDdlTable = 502</code></dt>
+  
+  <dd><p>Indicates whether the Flight SQL Server supports CREATE and DROP of tables.</p>
+<p>Returns:</p>
+<ul>
+<li>false: if it doesn't support CREATE and DROP of tables.</li>
+<li>true: if it supports CREATE and DROP of tables.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlDefaultTransactionIsolation"><code>[OriginalName(&quot;SQL_DEFAULT_TRANSACTION_ISOLATION&quot;)]
+SqlDefaultTransactionIsolation = 562</code></dt>
+  
+  <dd><p>Retrieves this database's default transaction isolation level as described in
+<code>arrow.flight.protocol.sql.SqlTransactionIsolationLevel</code>.</p>
+<p>Returns a int32 ordinal for the SQL transaction isolation level.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlExtraNameCharacters"><code>[OriginalName(&quot;SQL_EXTRA_NAME_CHARACTERS&quot;)]
+SqlExtraNameCharacters = 514</code></dt>
+  
+  <dd><p>Retrieves a UTF-8 string with all the &quot;extra&quot; characters that can be used in unquoted identifier names
+(those beyond a-z, A-Z, 0-9 and _).</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlIdentifierCase"><code>[OriginalName(&quot;SQL_IDENTIFIER_CASE&quot;)]
+SqlIdentifierCase = 503</code></dt>
+  
+  <dd><p>Retrieves a int32 ordinal representing the case sensitivity of catalog, table, schema and table names.</p>
+<p>The possible values are listed in <code>arrow.flight.protocol.sql.SqlSupportedCaseSensitivity</code>.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlIdentifierQuoteChar"><code>[OriginalName(&quot;SQL_IDENTIFIER_QUOTE_CHAR&quot;)]
+SqlIdentifierQuoteChar = 504</code></dt>
+  
+  <dd><p>Retrieves a UTF-8 string with the supported character(s) used to surround a delimited identifier.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlKeywords"><code>[OriginalName(&quot;SQL_KEYWORDS&quot;)]
+SqlKeywords = 508</code></dt>
+  
+  <dd><p>Retrieves a UTF-8 string list with values of the supported keywords.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlLocatorsUpdateCopy"><code>[OriginalName(&quot;SQL_LOCATORS_UPDATE_COPY&quot;)]
+SqlLocatorsUpdateCopy = 575</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether updates made to a LOB are made on a copy or directly to the LOB.</p>
+<p>Returns:</p>
+<ul>
+<li>false: if updates made to a LOB are made directly to the LOB;</li>
+<li>true: if updates made to a LOB are made on a copy.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlMaxBinaryLiteralLength"><code>[OriginalName(&quot;SQL_MAX_BINARY_LITERAL_LENGTH&quot;)]
+SqlMaxBinaryLiteralLength = 541</code></dt>
+  
+  <dd><p>Retrieves a int64 value representing the maximum number of hex characters allowed in an inline binary literal.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlMaxCatalogNameLength"><code>[OriginalName(&quot;SQL_MAX_CATALOG_NAME_LENGTH&quot;)]
+SqlMaxCatalogNameLength = 554</code></dt>
+  
+  <dd><p>Retrieves a int64 value representing the maximum number of characters allowed in a catalog name.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlMaxCharLiteralLength"><code>[OriginalName(&quot;SQL_MAX_CHAR_LITERAL_LENGTH&quot;)]
+SqlMaxCharLiteralLength = 542</code></dt>
+  
+  <dd><p>Retrieves a int64 value representing the maximum number of characters allowed for a character literal.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlMaxColumnNameLength"><code>[OriginalName(&quot;SQL_MAX_COLUMN_NAME_LENGTH&quot;)]
+SqlMaxColumnNameLength = 543</code></dt>
+  
+  <dd><p>Retrieves a int64 value representing the maximum number of characters allowed for a column name.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlMaxColumnsInGroupBy"><code>[OriginalName(&quot;SQL_MAX_COLUMNS_IN_GROUP_BY&quot;)]
+SqlMaxColumnsInGroupBy = 544</code></dt>
+  
+  <dd><p>Retrieves a int64 value representing the maximum number of columns allowed in a GROUP BY clause.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlMaxColumnsInIndex"><code>[OriginalName(&quot;SQL_MAX_COLUMNS_IN_INDEX&quot;)]
+SqlMaxColumnsInIndex = 545</code></dt>
+  
+  <dd><p>Retrieves a int64 value representing the maximum number of columns allowed in an index.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlMaxColumnsInOrderBy"><code>[OriginalName(&quot;SQL_MAX_COLUMNS_IN_ORDER_BY&quot;)]
+SqlMaxColumnsInOrderBy = 546</code></dt>
+  
+  <dd><p>Retrieves a int64 value representing the maximum number of columns allowed in an ORDER BY clause.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlMaxColumnsInSelect"><code>[OriginalName(&quot;SQL_MAX_COLUMNS_IN_SELECT&quot;)]
+SqlMaxColumnsInSelect = 547</code></dt>
+  
+  <dd><p>Retrieves a int64 value representing the maximum number of columns allowed in a SELECT list.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlMaxColumnsInTable"><code>[OriginalName(&quot;SQL_MAX_COLUMNS_IN_TABLE&quot;)]
+SqlMaxColumnsInTable = 548</code></dt>
+  
+  <dd><p>Retrieves a int64 value representing the maximum number of columns allowed in a table.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlMaxConnections"><code>[OriginalName(&quot;SQL_MAX_CONNECTIONS&quot;)]
+SqlMaxConnections = 549</code></dt>
+  
+  <dd><p>Retrieves a int64 value representing the maximum number of concurrent connections possible.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlMaxCursorNameLength"><code>[OriginalName(&quot;SQL_MAX_CURSOR_NAME_LENGTH&quot;)]
+SqlMaxCursorNameLength = 550</code></dt>
+  
+  <dd><p>Retrieves a int64 value the maximum number of characters allowed in a cursor name.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlMaxIndexLength"><code>[OriginalName(&quot;SQL_MAX_INDEX_LENGTH&quot;)]
+SqlMaxIndexLength = 551</code></dt>
+  
+  <dd><p>Retrieves a int64 value representing the maximum number of bytes allowed for an index,
+including all of the parts of the index.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlMaxProcedureNameLength"><code>[OriginalName(&quot;SQL_MAX_PROCEDURE_NAME_LENGTH&quot;)]
+SqlMaxProcedureNameLength = 553</code></dt>
+  
+  <dd><p>Retrieves a int64 value representing the maximum number of characters allowed in a procedure name.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlMaxRowSize"><code>[OriginalName(&quot;SQL_MAX_ROW_SIZE&quot;)]
+SqlMaxRowSize = 555</code></dt>
+  
+  <dd><p>Retrieves a int64 value representing the maximum number of bytes allowed in a single row.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlMaxRowSizeIncludesBlobs"><code>[OriginalName(&quot;SQL_MAX_ROW_SIZE_INCLUDES_BLOBS&quot;)]
+SqlMaxRowSizeIncludesBlobs = 556</code></dt>
+  
+  <dd><p>Retrieves a boolean indicating whether the return value for the JDBC method getMaxRowSize includes the SQL
+data types LONGVARCHAR and LONGVARBINARY.</p>
+<p>Returns:</p>
+<ul>
+<li>false: if return value for the JDBC method getMaxRowSize does
+not include the SQL data types LONGVARCHAR and LONGVARBINARY;</li>
+<li>true: if return value for the JDBC method getMaxRowSize includes
+the SQL data types LONGVARCHAR and LONGVARBINARY.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlMaxStatementLength"><code>[OriginalName(&quot;SQL_MAX_STATEMENT_LENGTH&quot;)]
+SqlMaxStatementLength = 557</code></dt>
+  
+  <dd><p>Retrieves a int64 value representing the maximum number of characters allowed for an SQL statement;
+a result of 0 (zero) means that there is no limit or the limit is not known.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlMaxStatements"><code>[OriginalName(&quot;SQL_MAX_STATEMENTS&quot;)]
+SqlMaxStatements = 558</code></dt>
+  
+  <dd><p>Retrieves a int64 value representing the maximum number of active statements that can be open at the same time.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlMaxTableNameLength"><code>[OriginalName(&quot;SQL_MAX_TABLE_NAME_LENGTH&quot;)]
+SqlMaxTableNameLength = 559</code></dt>
+  
+  <dd><p>Retrieves a int64 value representing the maximum number of characters allowed in a table name.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlMaxTablesInSelect"><code>[OriginalName(&quot;SQL_MAX_TABLES_IN_SELECT&quot;)]
+SqlMaxTablesInSelect = 560</code></dt>
+  
+  <dd><p>Retrieves a int64 value representing the maximum number of tables allowed in a SELECT statement.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlMaxUsernameLength"><code>[OriginalName(&quot;SQL_MAX_USERNAME_LENGTH&quot;)]
+SqlMaxUsernameLength = 561</code></dt>
+  
+  <dd><p>Retrieves a int64 value representing the maximum number of characters allowed in a user name.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlNamedParametersSupported"><code>[OriginalName(&quot;SQL_NAMED_PARAMETERS_SUPPORTED&quot;)]
+SqlNamedParametersSupported = 574</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether named parameters are supported in callable statements.</p>
+<p>Returns:</p>
+<ul>
+<li>false: if named parameters in callable statements are unsupported;</li>
+<li>true: if named parameters in callable statements are supported.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlNullOrdering"><code>[OriginalName(&quot;SQL_NULL_ORDERING&quot;)]
+SqlNullOrdering = 507</code></dt>
+  
+  <dd><p>Retrieves the null ordering.</p>
+<p>Returns a int32 ordinal for the null ordering being used, as described in
+<code>arrow.flight.protocol.sql.SqlNullOrdering</code>.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlNullPlusNullIsNull"><code>[OriginalName(&quot;SQL_NULL_PLUS_NULL_IS_NULL&quot;)]
+SqlNullPlusNullIsNull = 516</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether concatenations between null and non-null values being
+null are supported.</p>
+<ul>
+<li>Returns:</li>
+<li>false: if concatenations between null and non-null values being null are unsupported;</li>
+<li>true: if concatenations between null and non-null values being null are supported.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlNumericFunctions"><code>[OriginalName(&quot;SQL_NUMERIC_FUNCTIONS&quot;)]
+SqlNumericFunctions = 509</code></dt>
+  
+  <dd><p>Retrieves a UTF-8 string list with values of the supported numeric functions.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlOuterJoinsSupportLevel"><code>[OriginalName(&quot;SQL_OUTER_JOINS_SUPPORT_LEVEL&quot;)]
+SqlOuterJoinsSupportLevel = 528</code></dt>
+  
+  <dd><p>Retrieves the support level for SQL OUTER JOINs.</p>
+<p>Returns a int32 ordinal for the SQL ordering being used, as described in
+<code>arrow.flight.protocol.sql.SqlOuterJoinsSupportLevel</code>.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlProcedureTerm"><code>[OriginalName(&quot;SQL_PROCEDURE_TERM&quot;)]
+SqlProcedureTerm = 530</code></dt>
+  
+  <dd><p>Retrieves a UTF-8 string with the preferred term for &quot;procedure&quot;.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlQuotedIdentifierCase"><code>[OriginalName(&quot;SQL_QUOTED_IDENTIFIER_CASE&quot;)]
+SqlQuotedIdentifierCase = 505</code></dt>
+  
+  <dd><p>Retrieves a int32 describing the case sensitivity of quoted identifiers.</p>
+<p>The possible values are listed in <code>arrow.flight.protocol.sql.SqlSupportedCaseSensitivity</code>.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSavepointsSupported"><code>[OriginalName(&quot;SQL_SAVEPOINTS_SUPPORTED&quot;)]
+SqlSavepointsSupported = 573</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether this database supports savepoints.</p>
+<p>Returns:</p>
+<ul>
+<li>false: if this database does not support savepoints;</li>
+<li>true: if this database supports savepoints.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSchemaTerm"><code>[OriginalName(&quot;SQL_SCHEMA_TERM&quot;)]
+SqlSchemaTerm = 529</code></dt>
+  
+  <dd><p>Retrieves a UTF-8 string with the preferred term for &quot;schema&quot;.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSchemasSupportedActions"><code>[OriginalName(&quot;SQL_SCHEMAS_SUPPORTED_ACTIONS&quot;)]
+SqlSchemasSupportedActions = 533</code></dt>
+  
+  <dd><p>Retrieves the supported actions for a SQL schema.</p>
+<p>Returns an int32 bitmask value representing the supported actions for a SQL schema.
+The returned bitmask should be parsed in order to retrieve the supported actions for a SQL schema.</p>
+<p>For instance:</p>
+<ul>
+<li>return 0 (\b0)   =&gt; [] (no supported actions for SQL schema);</li>
+<li>return 1 (\b1)   =&gt; [SQL_ELEMENT_IN_PROCEDURE_CALLS];</li>
+<li>return 2 (\b10)  =&gt; [SQL_ELEMENT_IN_INDEX_DEFINITIONS];</li>
+<li>return 3 (\b11)  =&gt; [SQL_ELEMENT_IN_PROCEDURE_CALLS, SQL_ELEMENT_IN_INDEX_DEFINITIONS];</li>
+<li>return 4 (\b100) =&gt; [SQL_ELEMENT_IN_PRIVILEGE_DEFINITIONS];</li>
+<li>return 5 (\b101) =&gt; [SQL_ELEMENT_IN_PROCEDURE_CALLS, SQL_ELEMENT_IN_PRIVILEGE_DEFINITIONS];</li>
+<li>return 6 (\b110) =&gt; [SQL_ELEMENT_IN_INDEX_DEFINITIONS, SQL_ELEMENT_IN_PRIVILEGE_DEFINITIONS];</li>
+<li>return 7 (\b111) =&gt; [SQL_ELEMENT_IN_PROCEDURE_CALLS, SQL_ELEMENT_IN_INDEX_DEFINITIONS, SQL_ELEMENT_IN_PRIVILEGE_DEFINITIONS].
+Valid actions for a SQL schema described under <code>arrow.flight.protocol.sql.SqlSupportedElementActions</code>.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSearchStringEscape"><code>[OriginalName(&quot;SQL_SEARCH_STRING_ESCAPE&quot;)]
+SqlSearchStringEscape = 513</code></dt>
+  
+  <dd><p>Retrieves the UTF-8 string that can be used to escape wildcard characters.
+This is the string that can be used to escape '<em>' or '%' in the catalog search parameters that are a pattern
+(and therefore use one of the wildcard characters).
+The '</em>' character represents any single character; the '%' character represents any sequence of zero or more
+characters.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSelectForUpdateSupported"><code>[OriginalName(&quot;SQL_SELECT_FOR_UPDATE_SUPPORTED&quot;)]
+SqlSelectForUpdateSupported = 536</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether SELECT FOR UPDATE statements are supported.</p>
+<p>Returns:</p>
+<ul>
+<li>false: if SELECT FOR UPDATE statements are unsupported;</li>
+<li>true: if SELECT FOR UPDATE statements are supported.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlStoredFunctionsUsingCallSyntaxSupported"><code>[OriginalName(&quot;SQL_STORED_FUNCTIONS_USING_CALL_SYNTAX_SUPPORTED&quot;)]
+SqlStoredFunctionsUsingCallSyntaxSupported = 576</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether invoking user-defined or vendor functions
+using the stored procedure escape syntax is supported.</p>
+<p>Returns:</p>
+<ul>
+<li>false: if invoking user-defined or vendor functions using the stored procedure escape syntax is unsupported;</li>
+<li>true: if invoking user-defined or vendor functions using the stored procedure escape syntax is supported.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlStoredProceduresSupported"><code>[OriginalName(&quot;SQL_STORED_PROCEDURES_SUPPORTED&quot;)]
+SqlStoredProceduresSupported = 537</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether stored procedure calls that use the stored procedure escape syntax
+are supported.</p>
+<p>Returns:</p>
+<ul>
+<li>false: if stored procedure calls that use the stored procedure escape syntax are unsupported;</li>
+<li>true: if stored procedure calls that use the stored procedure escape syntax are supported.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlStringFunctions"><code>[OriginalName(&quot;SQL_STRING_FUNCTIONS&quot;)]
+SqlStringFunctions = 510</code></dt>
+  
+  <dd><p>Retrieves a UTF-8 string list with values of the supported string functions.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSupportedConcurrenciesForResultSetForwardOnly"><code>[OriginalName(&quot;SQL_SUPPORTED_CONCURRENCIES_FOR_RESULT_SET_FORWARD_ONLY&quot;)]
+SqlSupportedConcurrenciesForResultSetForwardOnly = 569</code></dt>
+  
+  <dd><p>Returns an int32 bitmask value concurrency types supported for
+<code>arrow.flight.protocol.sql.SqlSupportedResultSetType.SQL_RESULT_SET_TYPE_FORWARD_ONLY</code>.</p>
+<p>For instance:</p>
+<ul>
+<li>return 0 (\b0)   =&gt; [] (no supported concurrency types for this result set type)</li>
+<li>return 1 (\b1)   =&gt; [SQL_RESULT_SET_CONCURRENCY_UNSPECIFIED]</li>
+<li>return 2 (\b10)  =&gt; [SQL_RESULT_SET_CONCURRENCY_READ_ONLY]</li>
+<li>return 3 (\b11)  =&gt; [SQL_RESULT_SET_CONCURRENCY_UNSPECIFIED, SQL_RESULT_SET_CONCURRENCY_READ_ONLY]</li>
+<li>return 4 (\b100) =&gt; [SQL_RESULT_SET_CONCURRENCY_UPDATABLE]</li>
+<li>return 5 (\b101) =&gt; [SQL_RESULT_SET_CONCURRENCY_UNSPECIFIED, SQL_RESULT_SET_CONCURRENCY_UPDATABLE]</li>
+<li>return 6 (\b110)  =&gt; [SQL_RESULT_SET_CONCURRENCY_READ_ONLY, SQL_RESULT_SET_CONCURRENCY_UPDATABLE]</li>
+<li>return 7 (\b111)  =&gt; [SQL_RESULT_SET_CONCURRENCY_UNSPECIFIED, SQL_RESULT_SET_CONCURRENCY_READ_ONLY, SQL_RESULT_SET_CONCURRENCY_UPDATABLE]
+Valid result set types are described under <code>arrow.flight.protocol.sql.SqlSupportedResultSetConcurrency</code>.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSupportedConcurrenciesForResultSetScrollInsensitive"><code>[OriginalName(&quot;SQL_SUPPORTED_CONCURRENCIES_FOR_RESULT_SET_SCROLL_INSENSITIVE&quot;)]
+SqlSupportedConcurrenciesForResultSetScrollInsensitive = 571</code></dt>
+  
+  <dd><p>Returns an int32 bitmask value concurrency types supported for
+<code>arrow.flight.protocol.sql.SqlSupportedResultSetType.SQL_RESULT_SET_TYPE_SCROLL_INSENSITIVE</code>.</p>
+<p>For instance:</p>
+<ul>
+<li>return 0 (\b0)   =&gt; [] (no supported concurrency types for this result set type)</li>
+<li>return 1 (\b1)   =&gt; [SQL_RESULT_SET_CONCURRENCY_UNSPECIFIED]</li>
+<li>return 2 (\b10)  =&gt; [SQL_RESULT_SET_CONCURRENCY_READ_ONLY]</li>
+<li>return 3 (\b11)  =&gt; [SQL_RESULT_SET_CONCURRENCY_UNSPECIFIED, SQL_RESULT_SET_CONCURRENCY_READ_ONLY]</li>
+<li>return 4 (\b100) =&gt; [SQL_RESULT_SET_CONCURRENCY_UPDATABLE]</li>
+<li>return 5 (\b101) =&gt; [SQL_RESULT_SET_CONCURRENCY_UNSPECIFIED, SQL_RESULT_SET_CONCURRENCY_UPDATABLE]</li>
+<li>return 6 (\b110)  =&gt; [SQL_RESULT_SET_CONCURRENCY_READ_ONLY, SQL_RESULT_SET_CONCURRENCY_UPDATABLE]</li>
+<li>return 7 (\b111)  =&gt; [SQL_RESULT_SET_CONCURRENCY_UNSPECIFIED, SQL_RESULT_SET_CONCURRENCY_READ_ONLY, SQL_RESULT_SET_CONCURRENCY_UPDATABLE]
+Valid result set types are described under <code>arrow.flight.protocol.sql.SqlSupportedResultSetConcurrency</code>.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSupportedConcurrenciesForResultSetScrollSensitive"><code>[OriginalName(&quot;SQL_SUPPORTED_CONCURRENCIES_FOR_RESULT_SET_SCROLL_SENSITIVE&quot;)]
+SqlSupportedConcurrenciesForResultSetScrollSensitive = 570</code></dt>
+  
+  <dd><p>Returns an int32 bitmask value concurrency types supported for
+<code>arrow.flight.protocol.sql.SqlSupportedResultSetType.SQL_RESULT_SET_TYPE_SCROLL_SENSITIVE</code>.</p>
+<p>For instance:</p>
+<ul>
+<li>return 0 (\b0)   =&gt; [] (no supported concurrency types for this result set type)</li>
+<li>return 1 (\b1)   =&gt; [SQL_RESULT_SET_CONCURRENCY_UNSPECIFIED]</li>
+<li>return 2 (\b10)  =&gt; [SQL_RESULT_SET_CONCURRENCY_READ_ONLY]</li>
+<li>return 3 (\b11)  =&gt; [SQL_RESULT_SET_CONCURRENCY_UNSPECIFIED, SQL_RESULT_SET_CONCURRENCY_READ_ONLY]</li>
+<li>return 4 (\b100) =&gt; [SQL_RESULT_SET_CONCURRENCY_UPDATABLE]</li>
+<li>return 5 (\b101) =&gt; [SQL_RESULT_SET_CONCURRENCY_UNSPECIFIED, SQL_RESULT_SET_CONCURRENCY_UPDATABLE]</li>
+<li>return 6 (\b110)  =&gt; [SQL_RESULT_SET_CONCURRENCY_READ_ONLY, SQL_RESULT_SET_CONCURRENCY_UPDATABLE]</li>
+<li>return 7 (\b111)  =&gt; [SQL_RESULT_SET_CONCURRENCY_UNSPECIFIED, SQL_RESULT_SET_CONCURRENCY_READ_ONLY, SQL_RESULT_SET_CONCURRENCY_UPDATABLE]
+Valid result set types are described under <code>arrow.flight.protocol.sql.SqlSupportedResultSetConcurrency</code>.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSupportedConcurrenciesForResultSetUnspecified"><code>[OriginalName(&quot;SQL_SUPPORTED_CONCURRENCIES_FOR_RESULT_SET_UNSPECIFIED&quot;)]
+SqlSupportedConcurrenciesForResultSetUnspecified = 568</code></dt>
+  
+  <dd><p>Returns an int32 bitmask value concurrency types supported for
+<code>arrow.flight.protocol.sql.SqlSupportedResultSetType.SQL_RESULT_SET_TYPE_UNSPECIFIED</code>.</p>
+<p>For instance:</p>
+<ul>
+<li>return 0 (\b0)   =&gt; [] (no supported concurrency types for this result set type)</li>
+<li>return 1 (\b1)   =&gt; [SQL_RESULT_SET_CONCURRENCY_UNSPECIFIED]</li>
+<li>return 2 (\b10)  =&gt; [SQL_RESULT_SET_CONCURRENCY_READ_ONLY]</li>
+<li>return 3 (\b11)  =&gt; [SQL_RESULT_SET_CONCURRENCY_UNSPECIFIED, SQL_RESULT_SET_CONCURRENCY_READ_ONLY]</li>
+<li>return 4 (\b100) =&gt; [SQL_RESULT_SET_CONCURRENCY_UPDATABLE]</li>
+<li>return 5 (\b101) =&gt; [SQL_RESULT_SET_CONCURRENCY_UNSPECIFIED, SQL_RESULT_SET_CONCURRENCY_UPDATABLE]</li>
+<li>return 6 (\b110)  =&gt; [SQL_RESULT_SET_CONCURRENCY_READ_ONLY, SQL_RESULT_SET_CONCURRENCY_UPDATABLE]</li>
+<li>return 7 (\b111)  =&gt; [SQL_RESULT_SET_CONCURRENCY_UNSPECIFIED, SQL_RESULT_SET_CONCURRENCY_READ_ONLY, SQL_RESULT_SET_CONCURRENCY_UPDATABLE]
+Valid result set types are described under <code>arrow.flight.protocol.sql.SqlSupportedResultSetConcurrency</code>.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSupportedGrammar"><code>[OriginalName(&quot;SQL_SUPPORTED_GRAMMAR&quot;)]
+SqlSupportedGrammar = 525</code></dt>
+  
+  <dd><p>Retrieves the supported SQL grammar level as per the ODBC specification.</p>
+<p>Returns an int32 bitmask value representing the supported SQL grammar level.
+The returned bitmask should be parsed in order to retrieve the supported grammar levels.</p>
+<p>For instance:</p>
+<ul>
+<li>return 0 (\b0)   =&gt; [] (SQL grammar is unsupported);</li>
+<li>return 1 (\b1)   =&gt; [SQL_MINIMUM_GRAMMAR];</li>
+<li>return 2 (\b10)  =&gt; [SQL_CORE_GRAMMAR];</li>
+<li>return 3 (\b11)  =&gt; [SQL_MINIMUM_GRAMMAR, SQL_CORE_GRAMMAR];</li>
+<li>return 4 (\b100) =&gt; [SQL_EXTENDED_GRAMMAR];</li>
+<li>return 5 (\b101) =&gt; [SQL_MINIMUM_GRAMMAR, SQL_EXTENDED_GRAMMAR];</li>
+<li>return 6 (\b110) =&gt; [SQL_CORE_GRAMMAR, SQL_EXTENDED_GRAMMAR];</li>
+<li>return 7 (\b111) =&gt; [SQL_MINIMUM_GRAMMAR, SQL_CORE_GRAMMAR, SQL_EXTENDED_GRAMMAR].
+Valid SQL grammar levels are described under <code>arrow.flight.protocol.sql.SupportedSqlGrammar</code>.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSupportedGroupBy"><code>[OriginalName(&quot;SQL_SUPPORTED_GROUP_BY&quot;)]
+SqlSupportedGroupBy = 522</code></dt>
+  
+  <dd><p>Retrieves the supported GROUP BY commands;</p>
+<p>Returns an int32 bitmask value representing the supported commands.
+The returned bitmask should be parsed in order to retrieve the supported commands.</p>
+<p>For instance:</p>
+<ul>
+<li>return 0 (\b0)   =&gt; [] (GROUP BY is unsupported);</li>
+<li>return 1 (\b1)   =&gt; [SQL_GROUP_BY_UNRELATED];</li>
+<li>return 2 (\b10)  =&gt; [SQL_GROUP_BY_BEYOND_SELECT];</li>
+<li>return 3 (\b11)  =&gt; [SQL_GROUP_BY_UNRELATED, SQL_GROUP_BY_BEYOND_SELECT].
+Valid GROUP BY types are described under <code>arrow.flight.protocol.sql.SqlSupportedGroupBy</code>.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSupportedPositionedCommands"><code>[OriginalName(&quot;SQL_SUPPORTED_POSITIONED_COMMANDS&quot;)]
+SqlSupportedPositionedCommands = 535</code></dt>
+  
+  <dd><p>Retrieves the supported SQL positioned commands.</p>
+<p>Returns an int32 bitmask value representing the supported SQL positioned commands.
+The returned bitmask should be parsed in order to retrieve the supported SQL positioned commands.</p>
+<p>For instance:</p>
+<ul>
+<li>return 0 (\b0)   =&gt; [] (no supported SQL positioned commands);</li>
+<li>return 1 (\b1)   =&gt; [SQL_POSITIONED_DELETE];</li>
+<li>return 2 (\b10)  =&gt; [SQL_POSITIONED_UPDATE];</li>
+<li>return 3 (\b11)  =&gt; [SQL_POSITIONED_DELETE, SQL_POSITIONED_UPDATE].
+Valid SQL positioned commands are described under <code>arrow.flight.protocol.sql.SqlSupportedPositionedCommands</code>.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSupportedResultSetTypes"><code>[OriginalName(&quot;SQL_SUPPORTED_RESULT_SET_TYPES&quot;)]
+SqlSupportedResultSetTypes = 567</code></dt>
+  
+  <dd><p>Retrieves an int32 bitmask value representing the supported result set types.
+The returned bitmask should be parsed in order to retrieve the supported result set types.</p>
+<p>For instance:</p>
+<ul>
+<li>return 0   (\b0)     =&gt; [] (no supported result set types);</li>
+<li>return 1   (\b1)     =&gt; [SQL_RESULT_SET_TYPE_UNSPECIFIED];</li>
+<li>return 2   (\b10)    =&gt; [SQL_RESULT_SET_TYPE_FORWARD_ONLY];</li>
+<li>return 3   (\b11)    =&gt; [SQL_RESULT_SET_TYPE_UNSPECIFIED, SQL_RESULT_SET_TYPE_FORWARD_ONLY];</li>
+<li>return 4   (\b100)   =&gt; [SQL_RESULT_SET_TYPE_SCROLL_INSENSITIVE];</li>
+<li>return 5   (\b101)   =&gt; [SQL_RESULT_SET_TYPE_UNSPECIFIED, SQL_RESULT_SET_TYPE_SCROLL_INSENSITIVE];</li>
+<li>return 6   (\b110)   =&gt; [SQL_RESULT_SET_TYPE_FORWARD_ONLY, SQL_RESULT_SET_TYPE_SCROLL_INSENSITIVE];</li>
+<li>return 7   (\b111)   =&gt; [SQL_RESULT_SET_TYPE_UNSPECIFIED, SQL_RESULT_SET_TYPE_FORWARD_ONLY, SQL_RESULT_SET_TYPE_SCROLL_INSENSITIVE];</li>
+<li>return 8   (\b1000)  =&gt; [SQL_RESULT_SET_TYPE_SCROLL_SENSITIVE];</li>
+<li>...
+Valid result set types are described under <code>arrow.flight.protocol.sql.SqlSupportedResultSetType</code>.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSupportedSubqueries"><code>[OriginalName(&quot;SQL_SUPPORTED_SUBQUERIES&quot;)]
+SqlSupportedSubqueries = 538</code></dt>
+  
+  <dd><p>Retrieves the supported SQL subqueries.</p>
+<p>Returns an int32 bitmask value representing the supported SQL subqueries.
+The returned bitmask should be parsed in order to retrieve the supported SQL subqueries.</p>
+<p>For instance:</p>
+<ul>
+<li>return 0   (\b0)     =&gt; [] (no supported SQL subqueries);</li>
+<li>return 1   (\b1)     =&gt; [SQL_SUBQUERIES_IN_COMPARISONS];</li>
+<li>return 2   (\b10)    =&gt; [SQL_SUBQUERIES_IN_EXISTS];</li>
+<li>return 3   (\b11)    =&gt; [SQL_SUBQUERIES_IN_COMPARISONS, SQL_SUBQUERIES_IN_EXISTS];</li>
+<li>return 4   (\b100)   =&gt; [SQL_SUBQUERIES_IN_INS];</li>
+<li>return 5   (\b101)   =&gt; [SQL_SUBQUERIES_IN_COMPARISONS, SQL_SUBQUERIES_IN_INS];</li>
+<li>return 6   (\b110)   =&gt; [SQL_SUBQUERIES_IN_INS, SQL_SUBQUERIES_IN_EXISTS];</li>
+<li>return 7   (\b111)   =&gt; [SQL_SUBQUERIES_IN_COMPARISONS, SQL_SUBQUERIES_IN_EXISTS, SQL_SUBQUERIES_IN_INS];</li>
+<li>return 8   (\b1000)  =&gt; [SQL_SUBQUERIES_IN_QUANTIFIEDS];</li>
+<li>return 9   (\b1001)  =&gt; [SQL_SUBQUERIES_IN_COMPARISONS, SQL_SUBQUERIES_IN_QUANTIFIEDS];</li>
+<li>return 10  (\b1010)  =&gt; [SQL_SUBQUERIES_IN_EXISTS, SQL_SUBQUERIES_IN_QUANTIFIEDS];</li>
+<li>return 11  (\b1011)  =&gt; [SQL_SUBQUERIES_IN_COMPARISONS, SQL_SUBQUERIES_IN_EXISTS, SQL_SUBQUERIES_IN_QUANTIFIEDS];</li>
+<li>return 12  (\b1100)  =&gt; [SQL_SUBQUERIES_IN_INS, SQL_SUBQUERIES_IN_QUANTIFIEDS];</li>
+<li>return 13  (\b1101)  =&gt; [SQL_SUBQUERIES_IN_COMPARISONS, SQL_SUBQUERIES_IN_INS, SQL_SUBQUERIES_IN_QUANTIFIEDS];</li>
+<li>return 14  (\b1110)  =&gt; [SQL_SUBQUERIES_IN_EXISTS, SQL_SUBQUERIES_IN_INS, SQL_SUBQUERIES_IN_QUANTIFIEDS];</li>
+<li>return 15  (\b1111)  =&gt; [SQL_SUBQUERIES_IN_COMPARISONS, SQL_SUBQUERIES_IN_EXISTS, SQL_SUBQUERIES_IN_INS, SQL_SUBQUERIES_IN_QUANTIFIEDS];</li>
+<li>...
+Valid SQL subqueries are described under <code>arrow.flight.protocol.sql.SqlSupportedSubqueries</code>.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSupportedTransactionsIsolationLevels"><code>[OriginalName(&quot;SQL_SUPPORTED_TRANSACTIONS_ISOLATION_LEVELS&quot;)]
+SqlSupportedTransactionsIsolationLevels = 564</code></dt>
+  
+  <dd><p>Retrieves the supported transactions isolation levels.</p>
+<p>Returns an int32 bitmask value representing the supported transactions isolation levels.
+The returned bitmask should be parsed in order to retrieve the supported transactions isolation levels.</p>
+<p>For instance:</p>
+<ul>
+<li>return 0   (\b0)     =&gt; [] (no supported SQL transactions isolation levels);</li>
+<li>return 1   (\b1)     =&gt; [SQL_TRANSACTION_NONE];</li>
+<li>return 2   (\b10)    =&gt; [SQL_TRANSACTION_READ_UNCOMMITTED];</li>
+<li>return 3   (\b11)    =&gt; [SQL_TRANSACTION_NONE, SQL_TRANSACTION_READ_UNCOMMITTED];</li>
+<li>return 4   (\b100)   =&gt; [SQL_TRANSACTION_REPEATABLE_READ];</li>
+<li>return 5   (\b101)   =&gt; [SQL_TRANSACTION_NONE, SQL_TRANSACTION_REPEATABLE_READ];</li>
+<li>return 6   (\b110)   =&gt; [SQL_TRANSACTION_READ_UNCOMMITTED, SQL_TRANSACTION_REPEATABLE_READ];</li>
+<li>return 7   (\b111)   =&gt; [SQL_TRANSACTION_NONE, SQL_TRANSACTION_READ_UNCOMMITTED, SQL_TRANSACTION_REPEATABLE_READ];</li>
+<li>return 8   (\b1000)  =&gt; [SQL_TRANSACTION_REPEATABLE_READ];</li>
+<li>return 9   (\b1001)  =&gt; [SQL_TRANSACTION_NONE, SQL_TRANSACTION_REPEATABLE_READ];</li>
+<li>return 10  (\b1010)  =&gt; [SQL_TRANSACTION_READ_UNCOMMITTED, SQL_TRANSACTION_REPEATABLE_READ];</li>
+<li>return 11  (\b1011)  =&gt; [SQL_TRANSACTION_NONE, SQL_TRANSACTION_READ_UNCOMMITTED, SQL_TRANSACTION_REPEATABLE_READ];</li>
+<li>return 12  (\b1100)  =&gt; [SQL_TRANSACTION_REPEATABLE_READ, SQL_TRANSACTION_REPEATABLE_READ];</li>
+<li>return 13  (\b1101)  =&gt; [SQL_TRANSACTION_NONE, SQL_TRANSACTION_REPEATABLE_READ, SQL_TRANSACTION_REPEATABLE_READ];</li>
+<li>return 14  (\b1110)  =&gt; [SQL_TRANSACTION_READ_UNCOMMITTED, SQL_TRANSACTION_REPEATABLE_READ, SQL_TRANSACTION_REPEATABLE_READ];</li>
+<li>return 15  (\b1111)  =&gt; [SQL_TRANSACTION_NONE, SQL_TRANSACTION_READ_UNCOMMITTED, SQL_TRANSACTION_REPEATABLE_READ, SQL_TRANSACTION_REPEATABLE_READ];</li>
+<li>return 16  (\b10000) =&gt; [SQL_TRANSACTION_SERIALIZABLE];</li>
+<li>...
+Valid SQL positioned commands are described under <code>arrow.flight.protocol.sql.SqlTransactionIsolationLevel</code>.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSupportedUnions"><code>[OriginalName(&quot;SQL_SUPPORTED_UNIONS&quot;)]
+SqlSupportedUnions = 540</code></dt>
+  
+  <dd><p>Retrieves the supported SQL UNIONs.</p>
+<p>Returns an int32 bitmask value representing the supported SQL UNIONs.
+The returned bitmask should be parsed in order to retrieve the supported SQL UNIONs.</p>
+<p>For instance:</p>
+<ul>
+<li>return 0 (\b0)   =&gt; [] (no supported SQL positioned commands);</li>
+<li>return 1 (\b1)   =&gt; [SQL_UNION];</li>
+<li>return 2 (\b10)  =&gt; [SQL_UNION_ALL];</li>
+<li>return 3 (\b11)  =&gt; [SQL_UNION, SQL_UNION_ALL].
+Valid SQL positioned commands are described under <code>arrow.flight.protocol.sql.SqlSupportedUnions</code>.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSupportsColumnAliasing"><code>[OriginalName(&quot;SQL_SUPPORTS_COLUMN_ALIASING&quot;)]
+SqlSupportsColumnAliasing = 515</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether column aliasing is supported.
+If so, the SQL AS clause can be used to provide names for computed columns or to provide alias names for columns
+as required.</p>
+<p>Returns:</p>
+<ul>
+<li>false: if column aliasing is unsupported;</li>
+<li>true: if column aliasing is supported.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSupportsConvert"><code>[OriginalName(&quot;SQL_SUPPORTS_CONVERT&quot;)]
+SqlSupportsConvert = 517</code></dt>
+  
+  <dd><p>Retrieves a map where the key is the type to convert from and the value is a list with the types to convert to,
+indicating the supported conversions. Each key and each item on the list value is a value to a predefined type on
+SqlSupportsConvert enum.
+The returned map will be:  map&lt;int32, list&lt;int32&gt;&gt;</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSupportsDifferentTableCorrelationNames"><code>[OriginalName(&quot;SQL_SUPPORTS_DIFFERENT_TABLE_CORRELATION_NAMES&quot;)]
+SqlSupportsDifferentTableCorrelationNames = 519</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether, when table correlation names are supported,
+they are restricted to being different from the names of the tables.</p>
+<p>Returns:</p>
+<ul>
+<li>false: if different table correlation names are unsupported;</li>
+<li>true: if different table correlation names are supported</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSupportsExpressionsInOrderBy"><code>[OriginalName(&quot;SQL_SUPPORTS_EXPRESSIONS_IN_ORDER_BY&quot;)]
+SqlSupportsExpressionsInOrderBy = 520</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether expressions in ORDER BY lists are supported.</p>
+<p>Returns:</p>
+<ul>
+<li>false: if expressions in ORDER BY are unsupported;</li>
+<li>true: if expressions in ORDER BY are supported;</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSupportsIntegrityEnhancementFacility"><code>[OriginalName(&quot;SQL_SUPPORTS_INTEGRITY_ENHANCEMENT_FACILITY&quot;)]
+SqlSupportsIntegrityEnhancementFacility = 527</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether the SQL Integrity Enhancement Facility is supported.</p>
+<p>Returns:</p>
+<ul>
+<li>false: if the SQL Integrity Enhancement Facility is supported;</li>
+<li>true: if the SQL Integrity Enhancement Facility is supported.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSupportsLikeEscapeClause"><code>[OriginalName(&quot;SQL_SUPPORTS_LIKE_ESCAPE_CLAUSE&quot;)]
+SqlSupportsLikeEscapeClause = 523</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether specifying a LIKE escape clause is supported.</p>
+<p>Returns:</p>
+<ul>
+<li>false: if specifying a LIKE escape clause is unsupported;</li>
+<li>true: if specifying a LIKE escape clause is supported.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSupportsNonNullableColumns"><code>[OriginalName(&quot;SQL_SUPPORTS_NON_NULLABLE_COLUMNS&quot;)]
+SqlSupportsNonNullableColumns = 524</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether columns may be defined as non-nullable.</p>
+<p>Returns:</p>
+<ul>
+<li>false: if columns cannot be defined as non-nullable;</li>
+<li>true: if columns may be defined as non-nullable.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSupportsOrderByUnrelated"><code>[OriginalName(&quot;SQL_SUPPORTS_ORDER_BY_UNRELATED&quot;)]
+SqlSupportsOrderByUnrelated = 521</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether using a column that is not in the SELECT statement in a GROUP BY
+clause is supported.</p>
+<p>Returns:</p>
+<ul>
+<li>false: if using a column that is not in the SELECT statement in a GROUP BY clause is unsupported;</li>
+<li>true: if using a column that is not in the SELECT statement in a GROUP BY clause is supported.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSupportsTableCorrelationNames"><code>[OriginalName(&quot;SQL_SUPPORTS_TABLE_CORRELATION_NAMES&quot;)]
+SqlSupportsTableCorrelationNames = 518</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether, when table correlation names are supported,
+they are restricted to being different from the names of the tables.</p>
+<p>Returns:</p>
+<ul>
+<li>false: if table correlation names are unsupported;</li>
+<li>true: if table correlation names are supported.</li>
+</ul>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlSystemFunctions"><code>[OriginalName(&quot;SQL_SYSTEM_FUNCTIONS&quot;)]
+SqlSystemFunctions = 511</code></dt>
+  
+  <dd><p>Retrieves a UTF-8 string list with values of the supported system functions.</p>
+</dd>
+    <dt id="Arrow_Flight_Protocol_Sql_SqlInfo_SqlTransactionsSupported"><code>[OriginalName(&quot;SQL_TRANSACTIONS_SUPPORTED&quot;)]
+SqlTransactionsSupported = 563</code></dt>
+  
+  <dd><p>Retrieves a boolean value indicating whether transactions are supported. If not, invoking the method commit is a
+noop, and the isolation level is <code>arrow.flight.protocol.sql.SqlTransactionIsolationLevel.TRANSACTION_NONE</code>.</p>
+<p>Returns:</p>
+<ul>
+<li>false: if transactions are unsupported;</li>
+<li>true: if transactions are supported.</li>
+</ul>
+</dd>
+  </dl>
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L346" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2018 The Apache Software Foundation
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

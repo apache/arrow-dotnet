@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class PreparedStatement | Apache Arrow .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class PreparedStatement | Apache Arrow .NET ">
+      
+      
+      <link rel="icon" href="../images/favicon.png">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Apache_Arrow_Flight_Sql_PreparedStatement.md&amp;value=---%0Auid%3A%20Apache.Arrow.Flight.Sql.PreparedStatement%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.svg" alt="Apache Arrow .NET">
+            Apache Arrow .NET
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Apache.Arrow.Flight.Sql.PreparedStatement">
+
+
+
+  <h1 id="Apache_Arrow_Flight_Sql_PreparedStatement" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement" class="text-break">
+Class PreparedStatement  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/PreparedStatement.cs/#L29"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Apache.html">Apache</a>.<a class="xref" href="Apache.Arrow.html">Arrow</a>.<a class="xref" href="Apache.Arrow.Flight.html">Flight</a>.<a class="xref" href="Apache.Arrow.Flight.Sql.html">Sql</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Apache.Arrow.Flight.Sql.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"></div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class PreparedStatement : IDisposable, IAsyncDisposable</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">PreparedStatement</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iasyncdisposable">IAsyncDisposable</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Apache_Arrow_Flight_Sql_PreparedStatement__ctor_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.#ctor*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_PreparedStatement__ctor_Apache_Arrow_Flight_Sql_Client_FlightSqlClient_System_String_Apache_Arrow_Schema_Apache_Arrow_Schema_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.#ctor(Apache.Arrow.Flight.Sql.Client.FlightSqlClient,System.String,Apache.Arrow.Schema,Apache.Arrow.Schema)">
+  PreparedStatement(FlightSqlClient, string, Schema, Schema)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/PreparedStatement.cs/#L48"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Apache.Arrow.Flight.Sql.PreparedStatement.html">PreparedStatement</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PreparedStatement(FlightSqlClient client, string handle, Schema datasetSchema, Schema parameterSchema)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>client</code> <a class="xref" href="Apache.Arrow.Flight.Sql.Client.FlightSqlClient.html">FlightSqlClient</a></dt>
+    <dd><p>The Flight SQL client used for executing SQL operations.</p>
+</dd>
+    <dt><code>handle</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The handle representing the prepared statement.</p>
+</dd>
+    <dt><code>datasetSchema</code> <a class="xref" href="Apache.Arrow.Schema.html">Schema</a></dt>
+    <dd><p>The schema of the result dataset.</p>
+</dd>
+    <dt><code>parameterSchema</code> <a class="xref" href="Apache.Arrow.Schema.html">Schema</a></dt>
+    <dd><p>The schema of the parameters for this prepared statement.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Apache_Arrow_Flight_Sql_PreparedStatement_DatasetSchema_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.DatasetSchema*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_PreparedStatement_DatasetSchema" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.DatasetSchema">
+  DatasetSchema
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/PreparedStatement.cs/#L35"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Schema DatasetSchema { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Schema.html">Schema</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_PreparedStatement_Handle_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.Handle*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_PreparedStatement_Handle" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.Handle">
+  Handle
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/PreparedStatement.cs/#L38"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Handle { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_PreparedStatement_IsClosed_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.IsClosed*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_PreparedStatement_IsClosed" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.IsClosed">
+  IsClosed
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/PreparedStatement.cs/#L37"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsClosed { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_PreparedStatement_ParameterSchema_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.ParameterSchema*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_PreparedStatement_ParameterSchema" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.ParameterSchema">
+  ParameterSchema
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/PreparedStatement.cs/#L36"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Schema ParameterSchema { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Schema.html">Schema</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_PreparedStatement_ParametersBatch_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.ParametersBatch*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_PreparedStatement_ParametersBatch" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.ParametersBatch">
+  ParametersBatch
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/PreparedStatement.cs/#L39"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RecordBatch? ParametersBatch { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.RecordBatch.html">RecordBatch</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Apache_Arrow_Flight_Sql_PreparedStatement_BindParametersAsync_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.BindParametersAsync*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_PreparedStatement_BindParametersAsync_Apache_Arrow_Flight_FlightDescriptor_Apache_Arrow_RecordBatch_Apache_Arrow_Flight_Sql_FlightCallOptions_System_Threading_CancellationToken_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.BindParametersAsync(Apache.Arrow.Flight.FlightDescriptor,Apache.Arrow.RecordBatch,Apache.Arrow.Flight.Sql.FlightCallOptions,System.Threading.CancellationToken)">
+  BindParametersAsync(FlightDescriptor, RecordBatch, FlightCallOptions?, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/PreparedStatement.cs/#L334"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Binds parameters to the prepared statement by streaming the given RecordBatch to the server asynchronously.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;ByteString&gt; BindParametersAsync(FlightDescriptor descriptor, RecordBatch parameterBatch, FlightCallOptions? options = null, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>descriptor</code> <a class="xref" href="Apache.Arrow.Flight.FlightDescriptor.html">FlightDescriptor</a></dt>
+    <dd><p>The <a class="xref" href="Apache.Arrow.Flight.FlightDescriptor.html">FlightDescriptor</a> that identifies the statement or command being executed.</p>
+</dd>
+    <dt><code>parameterBatch</code> <a class="xref" href="Apache.Arrow.RecordBatch.html">RecordBatch</a></dt>
+    <dd><p>The <a class="xref" href="Apache.Arrow.RecordBatch.html">RecordBatch</a> containing the parameters to bind to the prepared statement.</p>
+</dd>
+    <dt><code>options</code> <a class="xref" href="Apache.Arrow.Flight.Sql.FlightCallOptions.html">FlightCallOptions</a></dt>
+    <dd><p>The <a class="xref" href="Apache.Arrow.Flight.Sql.FlightCallOptions.html">FlightCallOptions</a> for the operation, which may include timeouts, headers, and other options for the call.</p>
+</dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd><p>Cancellation token</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<span class="xref">ByteString</span>&gt;</dt>
+    <dd><p>A <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task&lt;TResult&gt;</a> that represents the asynchronous operation. The task result contains the metadata from the server after binding the parameters.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentnullexception">ArgumentNullException</a></dt>
+    <dd><p>Thrown when <code class="paramref">parameterBatch</code> is null.</p>
+</dd>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception">InvalidOperationException</a></dt>
+    <dd><p>Thrown if the operation is canceled or if there is an error during the DoPut operation.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_PreparedStatement_CloseAsync_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.CloseAsync*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_PreparedStatement_CloseAsync_Apache_Arrow_Flight_Sql_FlightCallOptions_System_Threading_CancellationToken_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.CloseAsync(Apache.Arrow.Flight.Sql.FlightCallOptions,System.Threading.CancellationToken)">
+  CloseAsync(FlightCallOptions?, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/PreparedStatement.cs/#L95"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Closes the prepared statement asynchronously.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task CloseAsync(FlightCallOptions? options = null, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>options</code> <a class="xref" href="Apache.Arrow.Flight.Sql.FlightCallOptions.html">FlightCallOptions</a></dt>
+    <dd><p>The options used to configure the Flight call.</p>
+</dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd><p>Cancellation token</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd><p>A task representing the asynchronous operation.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception">InvalidOperationException</a></dt>
+    <dd><p>Thrown if closing the prepared statement fails.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_PreparedStatement_Dispose_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.Dispose*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_PreparedStatement_Dispose" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.Dispose">
+  Dispose()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/PreparedStatement.cs/#L372"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Disposes of the resources used by the prepared statement.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_PreparedStatement_Dispose_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.Dispose*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_PreparedStatement_Dispose_System_Boolean_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.Dispose(System.Boolean)">
+  Dispose(bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/PreparedStatement.cs/#L382"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Disposes of the resources used by the prepared statement.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void Dispose(bool disposing)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>disposing</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>Whether the method is called from <a class="xref" href="Apache.Arrow.Flight.Sql.PreparedStatement.html#Apache_Arrow_Flight_Sql_PreparedStatement_Dispose">Dispose()</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_PreparedStatement_DisposeAsync_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.DisposeAsync*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_PreparedStatement_DisposeAsync" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.DisposeAsync">
+  DisposeAsync()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/PreparedStatement.cs/#L394"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources asynchronously.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ValueTask DisposeAsync()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask">ValueTask</a></dt>
+    <dd><p>A task that represents the asynchronous dispose operation.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_PreparedStatement_ExecuteAsync_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.ExecuteAsync*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_PreparedStatement_ExecuteAsync_Apache_Arrow_Flight_Sql_FlightCallOptions_System_Threading_CancellationToken_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.ExecuteAsync(Apache.Arrow.Flight.Sql.FlightCallOptions,System.Threading.CancellationToken)">
+  ExecuteAsync(FlightCallOptions?, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/PreparedStatement.cs/#L225"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Executes the prepared statement asynchronously and retrieves the query results as <a class="xref" href="Apache.Arrow.Flight.FlightInfo.html">FlightInfo</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;FlightInfo&gt; ExecuteAsync(FlightCallOptions? options = null, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>options</code> <a class="xref" href="Apache.Arrow.Flight.Sql.FlightCallOptions.html">FlightCallOptions</a></dt>
+    <dd><p>Optional <a class="xref" href="Apache.Arrow.Flight.Sql.FlightCallOptions.html">FlightCallOptions</a>The <a class="xref" href="Apache.Arrow.Flight.Sql.FlightCallOptions.html">FlightCallOptions</a> for the operation, which may include timeouts, headers, and other options for the call.</p>
+</dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd><p>Optional <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a> to observe while waiting for the task to complete. The task will be canceled if the token is canceled.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Apache.Arrow.Flight.FlightInfo.html">FlightInfo</a>&gt;</dt>
+    <dd><p>A <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task&lt;TResult&gt;</a> representing the asynchronous operation. The task result contains the <a class="xref" href="Apache.Arrow.Flight.FlightInfo.html">FlightInfo</a> describing the executed query results.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception">InvalidOperationException</a></dt>
+    <dd><p>Thrown if the prepared statement is closed or if there is an error during execution.</p>
+</dd>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.operationcanceledexception">OperationCanceledException</a></dt>
+    <dd><p>Thrown if the operation is canceled by the <code class="paramref">cancellationToken</code>.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_PreparedStatement_ExecuteUpdateAsync_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.ExecuteUpdateAsync*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_PreparedStatement_ExecuteUpdateAsync_Apache_Arrow_RecordBatch_Apache_Arrow_Flight_Sql_FlightCallOptions_System_Threading_CancellationToken_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.ExecuteUpdateAsync(Apache.Arrow.RecordBatch,Apache.Arrow.Flight.Sql.FlightCallOptions,System.Threading.CancellationToken)">
+  ExecuteUpdateAsync(RecordBatch, FlightCallOptions?, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/PreparedStatement.cs/#L280"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Executes a prepared update statement asynchronously with the provided parameter batch.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;long&gt; ExecuteUpdateAsync(RecordBatch parameterBatch, FlightCallOptions? options = null, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>parameterBatch</code> <a class="xref" href="Apache.Arrow.RecordBatch.html">RecordBatch</a></dt>
+    <dd><p>A <a class="xref" href="Apache.Arrow.RecordBatch.html">RecordBatch</a> containing the parameters to be bound to the update statement.
+This batch should match the schema expected by the prepared statement.</p>
+</dd>
+    <dt><code>options</code> <a class="xref" href="Apache.Arrow.Flight.Sql.FlightCallOptions.html">FlightCallOptions</a></dt>
+    <dd><p>The <a class="xref" href="Apache.Arrow.Flight.Sql.FlightCallOptions.html">FlightCallOptions</a> for this execution, containing headers and other options.</p>
+</dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd><p>Cancellation token</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a>&gt;</dt>
+    <dd><p>A <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task&lt;TResult&gt;</a> representing the asynchronous operation.
+The task result contains the number of rows affected by the update.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+  <h4 class="section" id="Apache_Arrow_Flight_Sql_PreparedStatement_ExecuteUpdateAsync_Apache_Arrow_RecordBatch_Apache_Arrow_Flight_Sql_FlightCallOptions_System_Threading_CancellationToken__examples">Examples</h4>
+  <p>The following example demonstrates how to use the <a class="xref" href="Apache.Arrow.Flight.Sql.PreparedStatement.html#Apache_Arrow_Flight_Sql_PreparedStatement_ExecuteUpdateAsync_Apache_Arrow_RecordBatch_Apache_Arrow_Flight_Sql_FlightCallOptions_System_Threading_CancellationToken_">ExecuteUpdateAsync(RecordBatch, FlightCallOptions?, CancellationToken)</a> method to execute an update operation:</p>
+<pre><code class="lang-csharp">var parameterBatch = CreateParameterBatch();
+var affectedRows = await preparedStatement.ExecuteUpdateAsync(new FlightCallOptions(), parameterBatch);
+Console.WriteLine($"Rows affected: {affectedRows}");</code></pre>
+
+
+  <h4 class="section" id="Apache_Arrow_Flight_Sql_PreparedStatement_ExecuteUpdateAsync_Apache_Arrow_RecordBatch_Apache_Arrow_Flight_Sql_FlightCallOptions_System_Threading_CancellationToken__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>This method executes an update operation using a prepared statement. The provided <code class="paramref">parameterBatch</code>
+is bound to the statement, and the operation is sent to the server. The server processes the update and returns
+metadata indicating the number of affected rows.</p>
+<p>This operation is asynchronous and can be canceled via the provided <code class="paramref">cancellationToken</code>.</p>
+</div>
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentnullexception">ArgumentNullException</a></dt>
+    <dd><p>Thrown if <code class="paramref">parameterBatch</code> is null, as a valid parameter batch is required for execution.</p>
+</dd>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception">InvalidOperationException</a></dt>
+    <dd><p>Thrown if the update operation fails for any reason, including when the server returns invalid or empty metadata,
+or if the operation is canceled via the <code class="paramref">cancellationToken</code>.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_PreparedStatement_GetSchemaAsync_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.GetSchemaAsync*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_PreparedStatement_GetSchemaAsync_Apache_Arrow_Flight_Sql_FlightCallOptions_System_Threading_CancellationToken_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.GetSchemaAsync(Apache.Arrow.Flight.Sql.FlightCallOptions,System.Threading.CancellationToken)">
+  GetSchemaAsync(FlightCallOptions?, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/PreparedStatement.cs/#L64"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Retrieves the schema associated with the prepared statement asynchronously.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;Schema&gt; GetSchemaAsync(FlightCallOptions? options = null, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>options</code> <a class="xref" href="Apache.Arrow.Flight.Sql.FlightCallOptions.html">FlightCallOptions</a></dt>
+    <dd><p>The options used to configure the Flight call.</p>
+</dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd><p>Cancellation token</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Apache.Arrow.Schema.html">Schema</a>&gt;</dt>
+    <dd><p>A task representing the asynchronous operation, which returns the schema of the result set.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception">InvalidOperationException</a></dt>
+    <dd><p>Thrown when the schema is empty or invalid.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_PreparedStatement_ParseResponseAsync_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.ParseResponseAsync*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_PreparedStatement_ParseResponseAsync_Apache_Arrow_Flight_Sql_Client_FlightSqlClient_System_Collections_Generic_IAsyncEnumerable_Apache_Arrow_Flight_FlightData__" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.ParseResponseAsync(Apache.Arrow.Flight.Sql.Client.FlightSqlClient,System.Collections.Generic.IAsyncEnumerable{Apache.Arrow.Flight.FlightData})">
+  ParseResponseAsync(FlightSqlClient, IAsyncEnumerable&lt;FlightData&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/PreparedStatement.cs/#L156"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Parses the response of a prepared statement execution from the FlightData stream.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;PreparedStatement&gt; ParseResponseAsync(FlightSqlClient client, IAsyncEnumerable&lt;FlightData&gt; results)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>client</code> <a class="xref" href="Apache.Arrow.Flight.Sql.Client.FlightSqlClient.html">FlightSqlClient</a></dt>
+    <dd><p>The Flight SQL client.</p>
+</dd>
+    <dt><code>results</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.iasyncenumerable-1">IAsyncEnumerable</a>&lt;<a class="xref" href="Apache.Arrow.Flight.FlightData.html">FlightData</a>&gt;</dt>
+    <dd><p>The asynchronous stream of <a class="xref" href="Apache.Arrow.Flight.FlightData.html">FlightData</a> objects.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Apache.Arrow.Flight.Sql.PreparedStatement.html">PreparedStatement</a>&gt;</dt>
+    <dd><p>A task representing the asynchronous operation, which returns the populated <a class="xref" href="Apache.Arrow.Flight.Sql.PreparedStatement.html">PreparedStatement</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentnullexception">ArgumentNullException</a></dt>
+    <dd><p>Thrown if <code class="paramref">client</code> or <code class="paramref">results</code> is null.</p>
+</dd>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception">InvalidOperationException</a></dt>
+    <dd><p>Thrown if the prepared statement handle or data is invalid.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_PreparedStatement_ReadResultAsync_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.ReadResultAsync*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_PreparedStatement_ReadResultAsync_System_Collections_Generic_IAsyncEnumerable_Apache_Arrow_Flight_FlightData__Google_Protobuf_IMessage_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.ReadResultAsync(System.Collections.Generic.IAsyncEnumerable{Apache.Arrow.Flight.FlightData},Google.Protobuf.IMessage)">
+  ReadResultAsync(IAsyncEnumerable&lt;FlightData&gt;, IMessage)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/PreparedStatement.cs/#L127"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads the result from an asynchronous stream of FlightData and populates the provided Protobuf message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task ReadResultAsync(IAsyncEnumerable&lt;FlightData&gt; results, IMessage message)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>results</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.iasyncenumerable-1">IAsyncEnumerable</a>&lt;<a class="xref" href="Apache.Arrow.Flight.FlightData.html">FlightData</a>&gt;</dt>
+    <dd><p>The asynchronous stream of <a class="xref" href="Apache.Arrow.Flight.FlightData.html">FlightData</a> objects.</p>
+</dd>
+    <dt><code>message</code> <span class="xref">IMessage</span></dt>
+    <dd><p>The Protobuf message to populate with the data from the stream.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd><p>A task that represents the asynchronous read operation.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentnullexception">ArgumentNullException</a></dt>
+    <dd><p>Thrown if <code class="paramref">results</code> or <code class="paramref">message</code> is null.</p>
+</dd>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception">InvalidOperationException</a></dt>
+    <dd><p>Thrown if parsing the data fails.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="Apache_Arrow_Flight_Sql_PreparedStatement_SetParameters_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.SetParameters*"></a>
+
+  <h3 id="Apache_Arrow_Flight_Sql_PreparedStatement_SetParameters_Apache_Arrow_RecordBatch_" data-uid="Apache.Arrow.Flight.Sql.PreparedStatement.SetParameters(Apache.Arrow.RecordBatch)">
+  SetParameters(RecordBatch)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/PreparedStatement.cs/#L212"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Binds the specified parameter batch to the prepared statement and returns the status.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetParameters(RecordBatch parameterBatch)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>parameterBatch</code> <a class="xref" href="Apache.Arrow.RecordBatch.html">RecordBatch</a></dt>
+    <dd><p>The <a class="xref" href="Apache.Arrow.RecordBatch.html">RecordBatch</a> containing parameters to bind to the statement.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentnullexception">ArgumentNullException</a></dt>
+    <dd><p>Thrown if <code class="paramref">parameterBatch</code> is null.</p>
+</dd>
+  </dl>
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/PreparedStatement.cs/#L29" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2018 The Apache Software Foundation
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

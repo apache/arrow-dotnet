@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class ActionCreatePreparedStatementRequest | Apache Arrow .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class ActionCreatePreparedStatementRequest | Apache Arrow .NET ">
+      
+      <meta name="description" content="Request message for the &amp;quot;CreatePreparedStatement&amp;quot; action on a Flight SQL enabled backend.">
+      <link rel="icon" href="../images/favicon.png">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest.md&amp;value=---%0Auid%3A%20Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.svg" alt="Apache Arrow .NET">
+            Apache Arrow .NET
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest">
+
+
+
+  <h1 id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest" class="text-break">
+Class ActionCreatePreparedStatementRequest  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L4514"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Arrow.html">Arrow</a>.<a class="xref" href="Arrow.Flight.html">Flight</a>.<a class="xref" href="Arrow.Flight.Protocol.html">Protocol</a>.<a class="xref" href="Arrow.Flight.Protocol.Sql.html">Sql</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Apache.Arrow.Flight.Sql.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Request message for the &quot;CreatePreparedStatement&quot; action on a Flight SQL enabled backend.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class ActionCreatePreparedStatementRequest : IMessage&lt;ActionCreatePreparedStatementRequest&gt;, IEquatable&lt;ActionCreatePreparedStatementRequest&gt;, IDeepCloneable&lt;ActionCreatePreparedStatementRequest&gt;, IBufferMessage, IMessage</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">ActionCreatePreparedStatementRequest</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><span class="xref">IMessage</span>&lt;<a class="xref" href="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.html">ActionCreatePreparedStatementRequest</a>&gt;</div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a class="xref" href="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.html">ActionCreatePreparedStatementRequest</a>&gt;</div>
+      <div><span class="xref">IDeepCloneable</span>&lt;<a class="xref" href="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.html">ActionCreatePreparedStatementRequest</a>&gt;</div>
+      <div><span class="xref">IBufferMessage</span></div>
+      <div><span class="xref">IMessage</span></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="Apache.Arrow.Flight.Sql.FlightSqlExtensions.html#Apache_Arrow_Flight_Sql_FlightSqlExtensions_Serialize_Google_Protobuf_IBufferMessage_">FlightSqlExtensions.Serialize(IBufferMessage)</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest__ctor_" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.#ctor*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest__ctor" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.#ctor">
+  ActionCreatePreparedStatementRequest()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L4538"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ActionCreatePreparedStatementRequest()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest__ctor_" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.#ctor*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest__ctor_Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.#ctor(Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest)">
+  ActionCreatePreparedStatementRequest(ActionCreatePreparedStatementRequest)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L4546"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ActionCreatePreparedStatementRequest(ActionCreatePreparedStatementRequest other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.html">ActionCreatePreparedStatementRequest</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="fields">Fields
+</h2>
+
+
+
+  <h3 id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_QueryFieldNumber" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.QueryFieldNumber">
+  QueryFieldNumber
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L4561"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Field number for the &quot;query&quot; field.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const int QueryFieldNumber = 1</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_TransactionIdFieldNumber" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.TransactionIdFieldNumber">
+  TransactionIdFieldNumber
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L4576"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Field number for the &quot;transaction_id&quot; field.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const int TransactionIdFieldNumber = 2</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_Descriptor_" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.Descriptor*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_Descriptor" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.Descriptor">
+  Descriptor
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L4526"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static MessageDescriptor Descriptor { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">MessageDescriptor</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_HasTransactionId_" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.HasTransactionId*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_HasTransactionId" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.HasTransactionId">
+  HasTransactionId
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L4593"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets whether the &quot;transaction_id&quot; field is set</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool HasTransactionId { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_Parser_" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.Parser*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_Parser" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.Parser">
+  Parser
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L4522"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static MessageParser&lt;ActionCreatePreparedStatementRequest&gt; Parser { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">MessageParser</span>&lt;<a class="xref" href="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.html">ActionCreatePreparedStatementRequest</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_Query_" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.Query*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_Query" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.Query">
+  Query
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L4566"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The valid SQL string to create a prepared statement for.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Query { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_TransactionId_" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.TransactionId*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_TransactionId" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.TransactionId">
+  TransactionId
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L4584"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Create/execute the prepared statement as part of this transaction (if
+unset, executions of the prepared statement will be auto-committed).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ByteString TransactionId { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">ByteString</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_CalculateSize_" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.CalculateSize*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_CalculateSize" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.CalculateSize">
+  CalculateSize()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L4681"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Calculates the size of this message in Protocol Buffer wire format, in bytes.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int CalculateSize()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The number of bytes required to write this message
+to a coded output stream.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_ClearTransactionId_" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.ClearTransactionId*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_ClearTransactionId" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.ClearTransactionId">
+  ClearTransactionId()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L4599"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Clears the value of the &quot;transaction_id&quot; field</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ClearTransactionId()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_Clone_" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.Clone*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_Clone" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.Clone">
+  Clone()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L4554"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a deep clone of this object.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ActionCreatePreparedStatementRequest Clone()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.html">ActionCreatePreparedStatementRequest</a></dt>
+    <dd><p>A deep clone of this object.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_Equals_" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.Equals*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_Equals_Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.Equals(Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest)">
+  Equals(ActionCreatePreparedStatementRequest)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L4611"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Indicates whether the current object is equal to another object of the same type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Equals(ActionCreatePreparedStatementRequest other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.html">ActionCreatePreparedStatementRequest</a></dt>
+    <dd><p>An object to compare with this object.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the current object is equal to the <code class="paramref">other</code> parameter; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_Equals_" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.Equals*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_Equals_System_Object_" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.Equals(System.Object)">
+  Equals(object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L4605"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Determines whether the specified object is equal to the current object.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool Equals(object other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the specified object  is equal to the current object; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_GetHashCode_" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.GetHashCode*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_GetHashCode" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.GetHashCode">
+  GetHashCode()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L4625"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Serves as the default hash function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int GetHashCode()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>A hash code for the current object.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_MergeFrom_" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.MergeFrom*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_MergeFrom_Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.MergeFrom(Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest)">
+  MergeFrom(ActionCreatePreparedStatementRequest)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L4697"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Merges the given message into this one.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void MergeFrom(ActionCreatePreparedStatementRequest other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.html">ActionCreatePreparedStatementRequest</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section" id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_MergeFrom_Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>See the user guide for precise merge semantics.</p>
+</div>
+
+
+
+
+  <a id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_MergeFrom_" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.MergeFrom*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_MergeFrom_Google_Protobuf_CodedInputStream_" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.MergeFrom(Google.Protobuf.CodedInputStream)">
+  MergeFrom(CodedInputStream)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L4712"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Merges the data from the specified coded input stream with the current message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void MergeFrom(CodedInputStream input)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>input</code> <span class="xref">CodedInputStream</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section" id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_MergeFrom_Google_Protobuf_CodedInputStream__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>See the user guide for precise merge semantics.</p>
+</div>
+
+
+
+
+  <a id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_ToString_" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.ToString*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_ToString" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.ToString">
+  ToString()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L4637"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns a string that represents the current object.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>A string that represents the current object.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_WriteTo_" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.WriteTo*"></a>
+
+  <h3 id="Arrow_Flight_Protocol_Sql_ActionCreatePreparedStatementRequest_WriteTo_Google_Protobuf_CodedOutputStream_" data-uid="Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.WriteTo(Google.Protobuf.CodedOutputStream)">
+  WriteTo(CodedOutputStream)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L4643"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Writes the data to the given coded output stream.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void WriteTo(CodedOutputStream output)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>output</code> <span class="xref">CodedOutputStream</span></dt>
+    <dd><p>Coded output stream to write the data to. Must not be null.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/obj/Release/netstandard2.1/FlightSql.cs/#L4514" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2018 The Apache Software Foundation
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

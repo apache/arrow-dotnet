@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class BinaryArray.BuilderBase&lt;TArray, TBuilder&gt; | Apache Arrow .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class BinaryArray.BuilderBase&lt;TArray, TBuilder&gt; | Apache Arrow .NET ">
+      
+      
+      <link rel="icon" href="../images/favicon.png">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Apache_Arrow_BinaryArray_BuilderBase_2.md&amp;value=---%0Auid%3A%20Apache.Arrow.BinaryArray.BuilderBase%602%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.svg" alt="Apache Arrow .NET">
+            Apache Arrow .NET
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Apache.Arrow.BinaryArray.BuilderBase`2">
+
+
+
+  <h1 id="Apache_Arrow_BinaryArray_BuilderBase_2" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2" class="text-break">
+Class BinaryArray.BuilderBase&lt;TArray, TBuilder&gt;  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L52"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Apache.html">Apache</a>.<a class="xref" href="Apache.Arrow.html">Arrow</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Apache.Arrow.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"></div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class BinaryArray.BuilderBase&lt;TArray, TBuilder&gt; : IArrowArrayBuilder&lt;byte, TArray, TBuilder&gt;, IArrowArrayBuilder&lt;TArray, TBuilder&gt;, IArrowArrayBuilder&lt;TArray&gt;, IArrowArrayBuilder where TArray : IArrowArray where TBuilder : class, IArrowArrayBuilder&lt;byte, TArray, TBuilder&gt;</code></pre>
+  </div>
+
+
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>TArray</code></dt>
+    <dd></dd>
+    <dt><code>TBuilder</code></dt>
+    <dd></dd>
+  </dl>
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">BinaryArray.BuilderBase&lt;TArray, TBuilder&gt;</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="Apache.Arrow.IArrowArrayBuilder-3.html">IArrowArrayBuilder</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>, TArray, TBuilder&gt;</div>
+      <div><a class="xref" href="Apache.Arrow.IArrowArrayBuilder-2.html">IArrowArrayBuilder</a>&lt;TArray, TBuilder&gt;</div>
+      <div><a class="xref" href="Apache.Arrow.IArrowArrayBuilder-1.html">IArrowArrayBuilder</a>&lt;TArray&gt;</div>
+      <div><a class="xref" href="Apache.Arrow.IArrowArrayBuilder.html">IArrowArrayBuilder</a></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist derived">
+    <dt>Derived</dt>
+    <dd>
+      <div><a class="xref" href="Apache.Arrow.BinaryArray.Builder.html">BinaryArray.Builder</a></div>
+      <div><a class="xref" href="Apache.Arrow.StringArray.Builder.html">StringArray.Builder</a></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Apache_Arrow_BinaryArray_BuilderBase_2__ctor_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.#ctor*"></a>
+
+  <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2__ctor_Apache_Arrow_Types_IArrowType_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.#ctor(Apache.Arrow.Types.IArrowType)">
+  BuilderBase(IArrowType)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L64"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected BuilderBase(IArrowType dataType)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dataType</code> <a class="xref" href="Apache.Arrow.Types.IArrowType.html">IArrowType</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Apache_Arrow_BinaryArray_BuilderBase_2_DataType_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.DataType*"></a>
+
+  <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_DataType" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.DataType">
+  DataType
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L56"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected IArrowType DataType { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Types.IArrowType.html">IArrowType</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_BinaryArray_BuilderBase_2_Instance_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Instance*"></a>
+
+  <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_Instance" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Instance">
+  Instance
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L57"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected TBuilder Instance { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TBuilder</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_BinaryArray_BuilderBase_2_Length_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Length*"></a>
+
+  <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_Length" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Length">
+  Length
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L88"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the length of the array built so far.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Length { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_BinaryArray_BuilderBase_2_NullCount_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.NullCount*"></a>
+
+  <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_NullCount" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.NullCount">
+  NullCount
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L62"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected int NullCount { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_BinaryArray_BuilderBase_2_Offset_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Offset*"></a>
+
+  <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_Offset" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Offset">
+  Offset
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L61"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected int Offset { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_BinaryArray_BuilderBase_2_ValidityBuffer_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.ValidityBuffer*"></a>
+
+  <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_ValidityBuffer" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.ValidityBuffer">
+  ValidityBuffer
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L60"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected ArrowBuffer.BitmapBuilder ValidityBuffer { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.ArrowBuffer.html">ArrowBuffer</a>.<a class="xref" href="Apache.Arrow.ArrowBuffer.BitmapBuilder.html">BitmapBuilder</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_BinaryArray_BuilderBase_2_ValueBuffer_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.ValueBuffer*"></a>
+
+  <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_ValueBuffer" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.ValueBuffer">
+  ValueBuffer
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L59"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected ArrowBuffer.Builder&lt;byte&gt; ValueBuffer { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.ArrowBuffer.html">ArrowBuffer</a>.<a class="xref" href="Apache.Arrow.ArrowBuffer.Builder-1.html">Builder</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_BinaryArray_BuilderBase_2_ValueOffsets_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.ValueOffsets*"></a>
+
+  <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_ValueOffsets" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.ValueOffsets">
+  ValueOffsets
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L58"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected ArrowBuffer.Builder&lt;int&gt; ValueOffsets { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.ArrowBuffer.html">ArrowBuffer</a>.<a class="xref" href="Apache.Arrow.ArrowBuffer.Builder-1.html">Builder</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Apache_Arrow_BinaryArray_BuilderBase_2_Append_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Append*"></a>
+
+  <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_Append_System_Byte_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Append(System.Byte)">
+  Append(byte)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L131"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Appends a value, consisting of a single byte, to the array.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TBuilder Append(byte value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a></dt>
+    <dd><p>Byte value to append.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TBuilder</span></dt>
+    <dd><p>Returns the builder (for fluent-style composition).</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_BinaryArray_BuilderBase_2_Append_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Append*"></a>
+
+  <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_Append_System_Collections_Generic_IEnumerable_System_Byte__" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Append(System.Collections.Generic.IEnumerable{System.Byte})">
+  Append(IEnumerable&lt;byte&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L167"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Append a value, consisting of an enumerable collection of bytes, to the array.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TBuilder Append(IEnumerable&lt;byte&gt; value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd><p>Enumerable collection of bytes to add.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TBuilder</span></dt>
+    <dd><p>Returns the builder (for fluent-style composition).</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Apache_Arrow_BinaryArray_BuilderBase_2_Append_System_Collections_Generic_IEnumerable_System_Byte___remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Note that this method appends a single value, which may consist of arbitrarily many bytes.  If multiple
+values are to be added, use the <a class="xref" href="Apache.Arrow.BinaryArray.BuilderBase-2.html#Apache_Arrow_BinaryArray_BuilderBase_2_AppendRange_System_Collections_Generic_IEnumerable_System_Byte__">AppendRange(IEnumerable&lt;byte&gt;)</a> method instead.</p>
+</div>
+
+
+
+
+  <a id="Apache_Arrow_BinaryArray_BuilderBase_2_Append_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Append*"></a>
+
+  <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_Append_System_ReadOnlySpan_System_Byte__" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Append(System.ReadOnlySpan{System.Byte})">
+  Append(ReadOnlySpan&lt;byte&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L149"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Append a value, consisting of a span of bytes, to the array.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TBuilder Append(ReadOnlySpan&lt;byte&gt; span)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>span</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd><p>Span of bytes to add.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TBuilder</span></dt>
+    <dd><p>Returns the builder (for fluent-style composition).</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Apache_Arrow_BinaryArray_BuilderBase_2_Append_System_ReadOnlySpan_System_Byte___remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Note that a single value is added, which consists of arbitrarily many bytes.  If multiple values are
+to be added, use the <a class="xref" href="Apache.Arrow.BinaryArray.BuilderBase-2.html#Apache_Arrow_BinaryArray_BuilderBase_2_AppendRange_System_Collections_Generic_IEnumerable_System_Byte__">AppendRange(IEnumerable&lt;byte&gt;)</a> method.</p>
+</div>
+
+
+
+
+  <a id="Apache_Arrow_BinaryArray_BuilderBase_2_AppendNull_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.AppendNull*"></a>
+
+  <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_AppendNull" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.AppendNull">
+  AppendNull()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L117"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Append a single null value to the array.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TBuilder AppendNull()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TBuilder</span></dt>
+    <dd><p>Returns the builder (for fluent-style composition).</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_BinaryArray_BuilderBase_2_AppendRange_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.AppendRange*"></a>
+
+  <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_AppendRange_System_Collections_Generic_IEnumerable_System_Byte____" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.AppendRange(System.Collections.Generic.IEnumerable{System.Byte[]})">
+  AppendRange(IEnumerable&lt;byte[]&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L214"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Append an enumerable collection of values to the array.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TBuilder AppendRange(IEnumerable&lt;byte[]&gt; values)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>values</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]&gt;</dt>
+    <dd><p>Values to add.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TBuilder</span></dt>
+    <dd><p>Returns the builder (for fluent-style composition).</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_BinaryArray_BuilderBase_2_AppendRange_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.AppendRange*"></a>
+
+  <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_AppendRange_System_Collections_Generic_IEnumerable_System_Byte__" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.AppendRange(System.Collections.Generic.IEnumerable{System.Byte})">
+  AppendRange(IEnumerable&lt;byte&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L194"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Append an enumerable collection of single-byte values to the array.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TBuilder AppendRange(IEnumerable&lt;byte&gt; values)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>values</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd><p>Single-byte values to add.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TBuilder</span></dt>
+    <dd><p>Returns the builder (for fluent-style composition).</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Apache_Arrow_BinaryArray_BuilderBase_2_AppendRange_System_Collections_Generic_IEnumerable_System_Byte___remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Note that this method appends multiple values, each of which is a single byte.  If a single value is
+to be added, use the <a class="xref" href="Apache.Arrow.BinaryArray.BuilderBase-2.html#Apache_Arrow_BinaryArray_BuilderBase_2_Append_System_Collections_Generic_IEnumerable_System_Byte__">Append(IEnumerable&lt;byte&gt;)</a> method instead.</p>
+</div>
+
+
+
+
+  <a id="Apache_Arrow_BinaryArray_BuilderBase_2_Build_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Build*"></a>
+
+  <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_Build_Apache_Arrow_ArrayData_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Build(Apache.Arrow.ArrayData)">
+  Build(ArrayData)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L83"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract TArray Build(ArrayData data)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>data</code> <a class="xref" href="Apache.Arrow.ArrayData.html">ArrayData</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TArray</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_BinaryArray_BuilderBase_2_Build_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Build*"></a>
+
+  <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_Build_Apache_Arrow_Memory_MemoryAllocator_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Build(Apache.Arrow.Memory.MemoryAllocator)">
+  Build(MemoryAllocator)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L95"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Build an Arrow array from the appended contents so far.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TArray Build(MemoryAllocator allocator = null)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>allocator</code> <a class="xref" href="Apache.Arrow.Memory.MemoryAllocator.html">MemoryAllocator</a></dt>
+    <dd><p>Optional memory allocator.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TArray</span></dt>
+    <dd><p>Returns an array of type <code class="typeparamref">TArray</code>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_BinaryArray_BuilderBase_2_Clear_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Clear*"></a>
+
+  <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_Clear" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Clear">
+  Clear()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L270"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Clear all contents appended so far.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TBuilder Clear()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TBuilder</span></dt>
+    <dd><p>Returns the builder (for fluent-style composition).</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_BinaryArray_BuilderBase_2_Reserve_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Reserve*"></a>
+
+  <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_Reserve_System_Int32_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Reserve(System.Int32)">
+  Reserve(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L236"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TBuilder Reserve(int capacity)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>capacity</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TBuilder</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_BinaryArray_BuilderBase_2_Resize_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Resize*"></a>
+
+  <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_Resize_System_Int32_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Resize(System.Int32)">
+  Resize(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L245"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TBuilder Resize(int length)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>length</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TBuilder</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_BinaryArray_BuilderBase_2_Set_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Set*"></a>
+
+  <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_Set_System_Int32_System_Byte_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Set(System.Int32,System.Byte)">
+  Set(int, byte)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L260"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TBuilder Set(int index, byte value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>value</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TBuilder</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_BinaryArray_BuilderBase_2_Swap_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Swap*"></a>
+
+  <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_Swap_System_Int32_System_Int32_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Swap(System.Int32,System.Int32)">
+  Swap(int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L254"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TBuilder Swap(int i, int j)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>i</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>j</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TBuilder</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L52" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2018 The Apache Software Foundation
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
