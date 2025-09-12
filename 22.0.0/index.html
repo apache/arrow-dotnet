@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Apache Arrow .NET | Apache Arrow .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Apache Arrow .NET | Apache Arrow .NET ">
+      
+      
+      <link rel="icon" href="images/favicon.png">
+      <link rel="stylesheet" href="public/docfx.min.css">
+      <link rel="stylesheet" href="public/main.css">
+      <meta name="docfx:navrel" content="toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/blob/v22.0.0-rc0/docs/index.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="landing" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="index.html">
+            <img id="logo" class="svg" src="images/logo.svg" alt="Apache Arrow .NET">
+            Apache Arrow .NET
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+
+      <div class="content">
+        <div class="actionbar">
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="apache-arrow-net">Apache Arrow .NET</h1>
+<!---
+  Licensed to the Apache Software Foundation (ASF) under one
+  or more contributor license agreements.  See the NOTICE file
+  distributed with this work for additional information
+  regarding copyright ownership.  The ASF licenses this file
+  to you under the Apache License, Version 2.0 (the
+  "License"); you may not use this file except in compliance
+  with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing,
+  software distributed under the License is distributed on an
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, either express or implied.  See the License for the
+  specific language governing permissions and limitations
+  under the License.
+-->
+
+<p>An implementation of Arrow targeting .NET.</p>
+<p>See our current <a href="https://github.com/apache/arrow/blob/main/docs/source/status.rst">feature matrix</a>
+for currently available features.</p>
+<h2 id="implementation">Implementation</h2>
+<ul>
+<li>Arrow specification 1.0.0. (Support for reading 0.11+.)</li>
+<li>C# 11</li>
+<li>.NET Standard 2.0, .NET 6.0, .NET 8.0 and .NET Framework 4.6.2</li>
+<li>Asynchronous I/O</li>
+<li>Uses modern .NET runtime features such as <strong>Span&lt;T&gt;</strong>, <strong>Memory&lt;T&gt;</strong>, <strong>MemoryManager&lt;T&gt;</strong>, and <strong>System.Buffers</strong> primitives for memory allocation, memory storage, and fast serialization.</li>
+<li>Uses <strong>Acyclic Visitor Pattern</strong> for array types and arrays to facilitate serialization, record batch traversal, and format growth.</li>
+</ul>
+<h2 id="known-issues">Known Issues</h2>
+<ul>
+<li>Cannot read Arrow files containing tensors.</li>
+<li>Cannot easily modify allocation strategy without implementing a custom memory pool. All allocations are currently 64-byte aligned and padded to 8-bytes.</li>
+<li>Default memory allocation strategy uses an over-allocation strategy with pointer fixing, which results in significant memory overhead for small buffers. A buffer that requires a single byte for storage may be backed by an allocation of up to 64-bytes to satisfy alignment requirements.</li>
+<li>There are currently few builder APIs available for specific array types. Arrays must be built manually with an arrow buffer builder abstraction.</li>
+<li>FlatBuffer code generation is not included in the build process.</li>
+<li>Serialization implementation does not perform exhaustive validation checks during deserialization in every scenario.</li>
+<li>Throws exceptions with vague, inconsistent, or non-localized messages in many situations</li>
+<li>Throws exceptions that are non-specific to the Arrow implementation in some circumstances where it probably should (eg. does not throw ArrowException exceptions)</li>
+<li>Lack of code documentation</li>
+<li>Lack of usage examples</li>
+</ul>
+<h2 id="usage">Usage</h2>
+<p>Example demonstrating reading <a class="xref" href="api/Apache.Arrow.RecordBatch.html">RecordBatches</a> from an Arrow IPC file using an
+<a class="xref" href="api/Apache.Arrow.Ipc.ArrowFileReader.html">ArrowFileReader</a>:</p>
+<pre><code>using System.Diagnostics;
+using System.IO;
+using System.Threading.Tasks;
+using Apache.Arrow;
+using Apache.Arrow.Ipc;
+
+public static async Task&lt;RecordBatch&gt; ReadArrowAsync(string filename)
+{
+    using (var stream = File.OpenRead(filename))
+    using (var reader = new ArrowFileReader(stream))
+    {
+        var recordBatch = await reader.ReadNextRecordBatchAsync();
+        Debug.WriteLine(&quot;Read record batch with {0} column(s)&quot;, recordBatch.ColumnCount);
+        return recordBatch;
+    }
+}
+</code></pre>
+<h2 id="status">Status</h2>
+<h3 id="memory-management">Memory Management</h3>
+<ul>
+<li>Allocations are 64-byte aligned and padded to 8-bytes.</li>
+<li>Allocations are automatically garbage collected</li>
+</ul>
+<h3 id="arrays">Arrays</h3>
+<h4 id="primitive-types">Primitive Types</h4>
+<ul>
+<li><a class="xref" href="api/Apache.Arrow.Types.Int8Type.html">Int8</a>, <a class="xref" href="api/Apache.Arrow.Types.Int16Type.html">Int16</a>, <a class="xref" href="api/Apache.Arrow.Types.Int32Type.html">Int32</a>, <a class="xref" href="api/Apache.Arrow.Types.Int64Type.html">Int64</a></li>
+<li><a class="xref" href="api/Apache.Arrow.Types.UInt8Type.html">UInt8</a>, <a class="xref" href="api/Apache.Arrow.Types.UInt16Type.html">UInt16</a>, <a class="xref" href="api/Apache.Arrow.Types.UInt32Type.html">UInt32</a>, <a class="xref" href="api/Apache.Arrow.Types.UInt64Type.html">UInt64</a></li>
+<li><a class="xref" href="api/Apache.Arrow.Types.FloatType.html">Float</a>, <a class="xref" href="api/Apache.Arrow.Types.DoubleType.html">Double</a>, <a class="xref" href="api/Apache.Arrow.Types.HalfFloatType.html">Half-float</a> (.NET 6+)</li>
+<li><a class="xref" href="api/Apache.Arrow.Types.BinaryType.html">Binary</a> (variable-length)</li>
+<li><a class="xref" href="api/Apache.Arrow.Types.StringType.html">String</a> (utf-8)</li>
+<li><a class="xref" href="api/Apache.Arrow.Types.NullType.html">Null</a></li>
+</ul>
+<h4 id="parametric-types">Parametric Types</h4>
+<ul>
+<li><a class="xref" href="api/Apache.Arrow.Types.TimestampType.html">Timestamp</a></li>
+<li><a class="xref" href="api/Apache.Arrow.Types.Date32Type.html">Date32</a>, <a class="xref" href="api/Apache.Arrow.Types.Date64Type.html">Date64</a></li>
+<li><a class="xref" href="api/Apache.Arrow.Types.Decimal32Type.html">Decimal32</a>, <a class="xref" href="api/Apache.Arrow.Types.Decimal64Type.html">Decimal64</a>, <a class="xref" href="api/Apache.Arrow.Types.Decimal128Type.html">Decimal128</a>, <a class="xref" href="api/Apache.Arrow.Types.Decimal256Type.html">Decimal256</a></li>
+<li><a class="xref" href="api/Apache.Arrow.Types.Time32Type.html">Time32</a>, <a class="xref" href="api/Apache.Arrow.Types.Time64Type.html">Time64</a></li>
+<li><a class="xref" href="api/Apache.Arrow.Types.BinaryType.html">Binary</a> (fixed-length)</li>
+<li><a class="xref" href="api/Apache.Arrow.Types.ListType.html">List</a></li>
+<li><a class="xref" href="api/Apache.Arrow.Types.StructType.html">Struct</a></li>
+<li><a class="xref" href="api/Apache.Arrow.Types.UnionType.html">Union</a></li>
+<li><a class="xref" href="api/Apache.Arrow.Types.MapType.html">Map</a></li>
+<li><a class="xref" href="api/Apache.Arrow.Types.DurationType.html">Duration</a></li>
+<li><a class="xref" href="api/Apache.Arrow.Types.IntervalType.html">Interval</a></li>
+</ul>
+<h4 id="type-metadata">Type Metadata</h4>
+<ul>
+<li>Data Types</li>
+<li><a class="xref" href="api/Apache.Arrow.Field.html">Fields</a></li>
+<li><a class="xref" href="api/Apache.Arrow.Schema.html">Schema</a></li>
+</ul>
+<h4 id="serialization">Serialization</h4>
+<ul>
+<li>File <a class="xref" href="api/Apache.Arrow.Ipc.ArrowFileReader.html">Reader</a> and <a class="xref" href="api/Apache.Arrow.Ipc.ArrowFileWriter.html">Writer</a></li>
+<li>Stream <a class="xref" href="api/Apache.Arrow.Ipc.ArrowStreamReader.html">Reader</a> and <a class="xref" href="api/Apache.Arrow.Ipc.ArrowStreamWriter.html">Writer</a></li>
+</ul>
+<h3 id="ipc-format">IPC Format</h3>
+<h4 id="compression">Compression</h4>
+<ul>
+<li>Buffer compression and decompression is supported, but requires installing the <code>Apache.Arrow.Compression</code> package.
+When reading compressed data, you must pass an <a class="xref" href="api/Apache.Arrow.Compression.CompressionCodecFactory.html">CompressionCodecFactory</a>
+instance to the <a class="xref" href="api/Apache.Arrow.Ipc.ArrowFileReader.html">ArrowFileReader</a> or
+<a class="xref" href="api/Apache.Arrow.Ipc.ArrowStreamReader.html">ArrowStreamReader</a> constructor, and when writing compressed data a
+<a class="xref" href="api/Apache.Arrow.Compression.CompressionCodecFactory.html">CompressionCodecFactory</a> must be set in the
+<a class="xref" href="api/Apache.Arrow.Ipc.IpcOptions.html">IpcOptions</a>.
+Alternatively, a custom implementation of <a class="xref" href="api/Apache.Arrow.Ipc.ICompressionCodecFactory.html">ICompressionCodecFactory</a> can be used.</li>
+</ul>
+<h3 id="not-implemented">Not Implemented</h3>
+<ul>
+<li>Serialization
+<ul>
+<li>Exhaustive validation</li>
+<li>Run End Encoding</li>
+</ul>
+</li>
+<li>Types
+<ul>
+<li>Tensor</li>
+</ul>
+</li>
+<li>Arrays
+<ul>
+<li>Large Arrays. There are large array types provided to help with interoperability with other libraries,
+but these do not support buffers larger than 2 GiB and an exception will be raised if trying to import an array that is too large.
+<ul>
+<li><a class="xref" href="api/Apache.Arrow.Types.LargeBinaryType.html">Large Binary</a></li>
+<li><a class="xref" href="api/Apache.Arrow.Types.LargeListType.html">Large List</a></li>
+<li><a class="xref" href="api/Apache.Arrow.Types.LargeStringType.html">Large String</a></li>
+</ul>
+</li>
+<li>Views
+<ul>
+<li><a class="xref" href="api/Apache.Arrow.Types.BinaryViewType.html">Binary View</a></li>
+<li><a class="xref" href="api/Apache.Arrow.Types.ListViewType.html">List View</a></li>
+<li><a class="xref" href="api/Apache.Arrow.Types.StringViewType.html">String View</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Array Operations
+<ul>
+<li>Equality / Comparison</li>
+<li>Casting</li>
+</ul>
+</li>
+<li>Compute
+<ul>
+<li>There is currently no API available for a compute / kernel abstraction.</li>
+</ul>
+</li>
+</ul>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/apache/arrow-dotnet/blob/v22.0.0-rc0/docs/index.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2018 The Apache Software Foundation
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class BinaryViewArray | Apache Arrow .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class BinaryViewArray | Apache Arrow .NET ">
+      
+      
+      <link rel="icon" href="../images/favicon.png">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/v22.0.0-rc0/apiSpec/new?filename=Apache_Arrow_BinaryViewArray.md&amp;value=---%0Auid%3A%20Apache.Arrow.BinaryViewArray%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.svg" alt="Apache Arrow .NET">
+            Apache Arrow .NET
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Apache.Arrow.BinaryViewArray">
+
+
+
+  <h1 id="Apache_Arrow_BinaryViewArray" data-uid="Apache.Arrow.BinaryViewArray" class="text-break">
+Class BinaryViewArray  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/v22.0.0-rc0/src/Apache.Arrow/Arrays/BinaryViewArray.cs/#L26"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Apache.html">Apache</a>.<a class="xref" href="Apache.Arrow.html">Arrow</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Apache.Arrow.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"></div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class BinaryViewArray : Array, IArrowArray, IDisposable, IReadOnlyList&lt;byte[]&gt;, IReadOnlyCollection&lt;byte[]&gt;, IEnumerable&lt;byte[]&gt;, IEnumerable</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><a class="xref" href="Apache.Arrow.Array.html">Array</a></div>
+      <div><span class="xref">BinaryViewArray</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="Apache.Arrow.IArrowArray.html">IArrowArray</a></div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]&gt;</div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1">IReadOnlyCollection</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]&gt;</div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]&gt;</div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.ienumerable">IEnumerable</a></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist derived">
+    <dt>Derived</dt>
+    <dd>
+      <div><a class="xref" href="Apache.Arrow.StringViewArray.html">StringViewArray</a></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="Apache.Arrow.Array.html#Apache_Arrow_Array_Data">Array.Data</a>
+    </div>
+    <div>
+      <a class="xref" href="Apache.Arrow.Array.html#Apache_Arrow_Array_Length">Array.Length</a>
+    </div>
+    <div>
+      <a class="xref" href="Apache.Arrow.Array.html#Apache_Arrow_Array_Offset">Array.Offset</a>
+    </div>
+    <div>
+      <a class="xref" href="Apache.Arrow.Array.html#Apache_Arrow_Array_NullCount">Array.NullCount</a>
+    </div>
+    <div>
+      <a class="xref" href="Apache.Arrow.Array.html#Apache_Arrow_Array_NullBitmapBuffer">Array.NullBitmapBuffer</a>
+    </div>
+    <div>
+      <a class="xref" href="Apache.Arrow.Array.html#Apache_Arrow_Array_IsValid_System_Int32_">Array.IsValid(int)</a>
+    </div>
+    <div>
+      <a class="xref" href="Apache.Arrow.Array.html#Apache_Arrow_Array_IsNull_System_Int32_">Array.IsNull(int)</a>
+    </div>
+    <div>
+      <a class="xref" href="Apache.Arrow.Array.html#Apache_Arrow_Array_Slice_System_Int32_System_Int32_">Array.Slice(int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="Apache.Arrow.Array.html#Apache_Arrow_Array_Dispose">Array.Dispose()</a>
+    </div>
+    <div>
+      <a class="xref" href="Apache.Arrow.Array.html#Apache_Arrow_Array_Dispose_System_Boolean_">Array.Dispose(bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Apache_Arrow_BinaryViewArray__ctor_" data-uid="Apache.Arrow.BinaryViewArray.#ctor*"></a>
+
+  <h3 id="Apache_Arrow_BinaryViewArray__ctor_Apache_Arrow_ArrayData_" data-uid="Apache.Arrow.BinaryViewArray.#ctor(Apache.Arrow.ArrayData)">
+  BinaryViewArray(ArrayData)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/v22.0.0-rc0/src/Apache.Arrow/Arrays/BinaryViewArray.cs/#L39"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public BinaryViewArray(ArrayData data)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>data</code> <a class="xref" href="Apache.Arrow.ArrayData.html">ArrayData</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_BinaryViewArray__ctor_" data-uid="Apache.Arrow.BinaryViewArray.#ctor*"></a>
+
+  <h3 id="Apache_Arrow_BinaryViewArray__ctor_Apache_Arrow_Types_ArrowTypeId_Apache_Arrow_ArrayData_" data-uid="Apache.Arrow.BinaryViewArray.#ctor(Apache.Arrow.Types.ArrowTypeId,Apache.Arrow.ArrayData)">
+  BinaryViewArray(ArrowTypeId, ArrayData)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/v22.0.0-rc0/src/Apache.Arrow/Arrays/BinaryViewArray.cs/#L46"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public BinaryViewArray(ArrowTypeId typeId, ArrayData data)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>typeId</code> <a class="xref" href="Apache.Arrow.Types.ArrowTypeId.html">ArrowTypeId</a></dt>
+    <dd></dd>
+    <dt><code>data</code> <a class="xref" href="Apache.Arrow.ArrayData.html">ArrayData</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_BinaryViewArray__ctor_" data-uid="Apache.Arrow.BinaryViewArray.#ctor*"></a>
+
+  <h3 id="Apache_Arrow_BinaryViewArray__ctor_Apache_Arrow_Types_IArrowType_System_Int32_Apache_Arrow_ArrowBuffer_Apache_Arrow_ArrowBuffer_Apache_Arrow_ArrowBuffer_System_Int32_System_Int32_" data-uid="Apache.Arrow.BinaryViewArray.#ctor(Apache.Arrow.Types.IArrowType,System.Int32,Apache.Arrow.ArrowBuffer,Apache.Arrow.ArrowBuffer,Apache.Arrow.ArrowBuffer,System.Int32,System.Int32)">
+  BinaryViewArray(IArrowType, int, ArrowBuffer, ArrowBuffer, ArrowBuffer, int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/v22.0.0-rc0/src/Apache.Arrow/Arrays/BinaryViewArray.cs/#L249"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public BinaryViewArray(IArrowType dataType, int length, ArrowBuffer binaryViewsBuffer, ArrowBuffer dataBuffer, ArrowBuffer nullBitmapBuffer, int nullCount = 0, int offset = 0)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dataType</code> <a class="xref" href="Apache.Arrow.Types.IArrowType.html">IArrowType</a></dt>
+    <dd></dd>
+    <dt><code>length</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>binaryViewsBuffer</code> <a class="xref" href="Apache.Arrow.ArrowBuffer.html">ArrowBuffer</a></dt>
+    <dd></dd>
+    <dt><code>dataBuffer</code> <a class="xref" href="Apache.Arrow.ArrowBuffer.html">ArrowBuffer</a></dt>
+    <dd></dd>
+    <dt><code>nullBitmapBuffer</code> <a class="xref" href="Apache.Arrow.ArrowBuffer.html">ArrowBuffer</a></dt>
+    <dd></dd>
+    <dt><code>nullCount</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>offset</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Apache_Arrow_BinaryViewArray_DataBufferCount_" data-uid="Apache.Arrow.BinaryViewArray.DataBufferCount*"></a>
+
+  <h3 id="Apache_Arrow_BinaryViewArray_DataBufferCount" data-uid="Apache.Arrow.BinaryViewArray.DataBufferCount">
+  DataBufferCount
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/v22.0.0-rc0/src/Apache.Arrow/Arrays/BinaryViewArray.cs/#L262"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int DataBufferCount { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_BinaryViewArray_Views_" data-uid="Apache.Arrow.BinaryViewArray.Views*"></a>
+
+  <h3 id="Apache_Arrow_BinaryViewArray_Views" data-uid="Apache.Arrow.BinaryViewArray.Views">
+  Views
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/v22.0.0-rc0/src/Apache.Arrow/Arrays/BinaryViewArray.cs/#L266"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ReadOnlySpan&lt;BinaryView&gt; Views { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="Apache.Arrow.Scalars.BinaryView.html">BinaryView</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_BinaryViewArray_ViewsBuffer_" data-uid="Apache.Arrow.BinaryViewArray.ViewsBuffer*"></a>
+
+  <h3 id="Apache_Arrow_BinaryViewArray_ViewsBuffer" data-uid="Apache.Arrow.BinaryViewArray.ViewsBuffer">
+  ViewsBuffer
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/v22.0.0-rc0/src/Apache.Arrow/Arrays/BinaryViewArray.cs/#L260"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ArrowBuffer ViewsBuffer { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.ArrowBuffer.html">ArrowBuffer</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Apache_Arrow_BinaryViewArray_Accept_" data-uid="Apache.Arrow.BinaryViewArray.Accept*"></a>
+
+  <h3 id="Apache_Arrow_BinaryViewArray_Accept_Apache_Arrow_IArrowArrayVisitor_" data-uid="Apache.Arrow.BinaryViewArray.Accept(Apache.Arrow.IArrowArrayVisitor)">
+  Accept(IArrowArrayVisitor)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/v22.0.0-rc0/src/Apache.Arrow/Arrays/BinaryViewArray.cs/#L258"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Accept(IArrowArrayVisitor visitor)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>visitor</code> <a class="xref" href="Apache.Arrow.IArrowArrayVisitor.html">IArrowArrayVisitor</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_BinaryViewArray_DataBuffer_" data-uid="Apache.Arrow.BinaryViewArray.DataBuffer*"></a>
+
+  <h3 id="Apache_Arrow_BinaryViewArray_DataBuffer_System_Int32_" data-uid="Apache.Arrow.BinaryViewArray.DataBuffer(System.Int32)">
+  DataBuffer(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/v22.0.0-rc0/src/Apache.Arrow/Arrays/BinaryViewArray.cs/#L264"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ArrowBuffer DataBuffer(int index)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.ArrowBuffer.html">ArrowBuffer</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_BinaryViewArray_GetBytes_" data-uid="Apache.Arrow.BinaryViewArray.GetBytes*"></a>
+
+  <h3 id="Apache_Arrow_BinaryViewArray_GetBytes_System_Int32_" data-uid="Apache.Arrow.BinaryViewArray.GetBytes(System.Int32)">
+  GetBytes(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/v22.0.0-rc0/src/Apache.Arrow/Arrays/BinaryViewArray.cs/#L296"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Get the collection of bytes, as a read-only span, at a given index in the array.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ReadOnlySpan&lt;byte&gt; GetBytes(int index)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Index at which to get bytes.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd><p>Returns a <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan&lt;T&gt;</a> object.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Apache_Arrow_BinaryViewArray_GetBytes_System_Int32__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Note that this method cannot reliably identify null values, which are indistinguishable from empty byte
+collection values when seen in the context of this method's return type of <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan&lt;T&gt;</a>.
+Use the <a class="xref" href="Apache.Arrow.Array.html#Apache_Arrow_Array_IsNull_System_Int32_">IsNull(int)</a> method or the <a class="xref" href="Apache.Arrow.BinaryViewArray.html#Apache_Arrow_BinaryViewArray_GetBytes_System_Int32_System_Boolean__">GetBytes(int, out bool)</a> overload instead
+to reliably determine null values.</p>
+</div>
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception">ArgumentOutOfRangeException</a></dt>
+    <dd><p>If the index is negative or beyond the length of the array.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="Apache_Arrow_BinaryViewArray_GetBytes_" data-uid="Apache.Arrow.BinaryViewArray.GetBytes*"></a>
+
+  <h3 id="Apache_Arrow_BinaryViewArray_GetBytes_System_Int32_System_Boolean__" data-uid="Apache.Arrow.BinaryViewArray.GetBytes(System.Int32,System.Boolean@)">
+  GetBytes(int, out bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/v22.0.0-rc0/src/Apache.Arrow/Arrays/BinaryViewArray.cs/#L306"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Get the collection of bytes, as a read-only span, at a given index in the array.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ReadOnlySpan&lt;byte&gt; GetBytes(int index, out bool isNull)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Index at which to get bytes.</p>
+</dd>
+    <dt><code>isNull</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>Set to <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the value at the given index is null.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd><p>Returns a <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan&lt;T&gt;</a> object.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception">ArgumentOutOfRangeException</a></dt>
+    <dd><p>If the index is negative or beyond the length of the array.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="Apache_Arrow_BinaryViewArray_GetValueLength_" data-uid="Apache.Arrow.BinaryViewArray.GetValueLength*"></a>
+
+  <h3 id="Apache_Arrow_BinaryViewArray_GetValueLength_System_Int32_" data-uid="Apache.Arrow.BinaryViewArray.GetValueLength(System.Int32)">
+  GetValueLength(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/v22.0.0-rc0/src/Apache.Arrow/Arrays/BinaryViewArray.cs/#L268"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int GetValueLength(int index)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/apache/arrow-dotnet/blob/v22.0.0-rc0/src/Apache.Arrow/Arrays/BinaryViewArray.cs/#L26" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2018 The Apache Software Foundation
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
