@@ -19,6 +19,9 @@ name: PR comment
 
 on:
   pull_request_target:
+    paths:
+      - 'ci/scripts/docs.sh'
+      - 'docs/**'
     types:
       - opened
 
