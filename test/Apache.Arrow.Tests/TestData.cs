@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using Apache.Arrow.Arrays;
 using Apache.Arrow.Scalars;
@@ -201,7 +202,8 @@ namespace Apache.Arrow.Tests
 
                 for (var i = 0; i < Length; i++)
                 {
-                    builder.Append((decimal)i / Length);
+                    SqlDecimal value = SqlDecimal.ConvertToPrecScale((decimal)i / Length, type.Precision, type.Scale);
+                    builder.Append((decimal)value);
                 }
 
                 Array = builder.Build();
@@ -213,7 +215,8 @@ namespace Apache.Arrow.Tests
 
                 for (var i = 0; i < Length; i++)
                 {
-                    builder.Append((decimal)i / Length);
+                    SqlDecimal value = SqlDecimal.ConvertToPrecScale((decimal)i / Length, type.Precision, type.Scale);
+                    builder.Append((decimal)value);
                 }
 
                 Array = builder.Build();
@@ -225,7 +228,8 @@ namespace Apache.Arrow.Tests
 
                 for (var i = 0; i < Length; i++)
                 {
-                    builder.Append((decimal)i / Length);
+                    SqlDecimal value = SqlDecimal.ConvertToPrecScale((decimal)i / Length, type.Precision, type.Scale);
+                    builder.Append((decimal)value);
                 }
 
                 Array = builder.Build();
@@ -237,7 +241,8 @@ namespace Apache.Arrow.Tests
 
                 for (var i = 0; i < Length; i++)
                 {
-                    builder.Append((decimal)i / Length);
+                    SqlDecimal value = SqlDecimal.ConvertToPrecScale((decimal)i / Length, type.Precision, type.Scale);
+                    builder.Append((decimal)value);
                 }
 
                 Array = builder.Build();
