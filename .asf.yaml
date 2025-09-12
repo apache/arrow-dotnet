@@ -19,7 +19,7 @@
 
 github:
   description: "Official .NET implementation of Apache Arrow"
-  homepage: https://github.com/apache/arrow-dotnet
+  homepage: https://arrow.apache.org/dotnet/
   labels:
     - apache-arrow
     - csharp
