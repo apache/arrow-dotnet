@@ -20,6 +20,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Apache.Arrow.Ipc;
 using Apache.Arrow.Memory;
+using Apache.Arrow.Types;
 using Xunit;
 
 namespace Apache.Arrow.Tests
@@ -280,6 +281,39 @@ namespace Apache.Arrow.Tests
             }
 #endif
         }
+
+        [Fact]
+        public unsafe void MalformedColumnNameLength()
+        {
+            const int FieldNameLengthOffset = 108;
+            const int FakeFieldNameLength = 165535;
+
+            byte[] buffer;
+            using (var stream = new MemoryStream())
+            {
+                Schema schema = new(
+                    [new Field("index", Int32Type.Default, nullable: false)],
+                    metadata: []);
+                using (var writer = new ArrowStreamWriter(stream, schema, leaveOpen: true))
+                {
+                    writer.WriteStart();
+                    writer.WriteEnd();
+                }
+                buffer = stream.ToArray();
+            }
+
+            Span<int> length = buffer.AsSpan().Slice(FieldNameLengthOffset, sizeof(int)).CastTo<int>();
+            Assert.Equal(5, length[0]);
+            length[0] = FakeFieldNameLength;
+
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                using (var stream = new MemoryStream(buffer))
+                using (var reader = new ArrowStreamReader(stream))
+                {
+                    reader.ReadNextRecordBatch();
+                }
+            });
+        }
     }
 }
-
