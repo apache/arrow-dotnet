@@ -185,7 +185,9 @@ echo "---------------------------------------------------------"
 echo
 echo "Success! The release is available here:"
 echo "  https://dist.apache.org/repos/dist/release/arrow/${release_id}"
-echo "  https://www.nuget.org/packages/Apache.Arrow"
+for nuget_package in "${nuget_packages[@]}"; do
+  echo "  https://www.nuget.org/packages/${nuget_package}"
+done
 echo
 echo "Add this release to ASF's report database:"
 echo "  https://reporter.apache.org/addrelease.html?arrow"
