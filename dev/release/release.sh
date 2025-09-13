@@ -124,7 +124,7 @@ if [ "${RELEASE_NUGET}" -gt 0 ]; then
     --repo "${repository}" \
     --skip-existing
   for nuget_package in "${nuget_packages[@]}"; do
-    nupkg="${packages_dir}/${nuget_package}.${version}.nuget"
+    nupkg="${packages_dir}/${nuget_package}.${version}.nupkg"
     dotnet nuget push \
       "${nupkg}" \
       -k "${NUGET_API_KEY}" \
