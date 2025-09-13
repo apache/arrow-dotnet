@@ -107,15 +107,15 @@ Run `dev/release/release_rc.sh` on a working copy of
 ```console
 $ git clone git@github.com:apache/arrow-dotnet.git
 $ cd arrow-dotnet
-$ dev/release/release_rc.sh ${VERSION} ${RC}
+$ dev/release/release_rc.sh ${RC}
 (Send a vote email to dev@arrow.apache.org.
  You can use a draft shown by release_rc.sh for the email.)
 ```
 
-Here is an example to release 22.0.0 RC0:
+Here is an example to release RC0:
 
 ```console
-$ dev/release/release_rc.sh 22.0.0 0
+$ dev/release/release_rc.sh 0
 ```
 
 The arguments of `release_rc.sh` are the version and the RC number. If
@@ -133,13 +133,13 @@ Run `dev/release/release.sh` on a working copy of
 source archive to apache.org:
 
 ```console
-$ dev/release/release.sh ${VERSION} ${RC}
+$ dev/release/release.sh ${RC}
 ```
 
-Here is an example to release 22.0.0 RC0:
+Here is an example to release RC0:
 
 ```console
-$ dev/release/release.sh 22.0.0 0
+$ dev/release/release.sh 0
 ```
 
 It generates a draft announce email. Send it to `announce@apache.org`
@@ -177,10 +177,10 @@ To verify a RC, run the following command line:
 $ dev/release/verify_rc.sh ${VERSION} ${RC}
 ```
 
-Here is an example to verify the release 21.0.0 RC0:
+Here is an example to verify the release 22.0.0 RC0:
 
 ```console
-$ dev/release/verify_rc.sh 21.0.0 0
+$ dev/release/verify_rc.sh 22.0.0 0
 ```
 
 If the verification is successful, the message `RC looks good!` is shown.
