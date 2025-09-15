@@ -25,10 +25,10 @@ namespace Apache.Arrow.Benchmarks
     [MemoryDiagnoser]
     public class ArrowWriterBenchmark
     {
-        [Params(10_000, 1_000_000)]
+        [Params(10_000, 300_000)]
         public int BatchLength { get; set; }
 
-        //Max column set count is 15 before reaching 2gb limit of memory stream
+        //Max column set count is 14 before reaching 2gb limit of memory stream
         [Params(10, 14)]
         public int ColumnSetCount { get; set; }
 
