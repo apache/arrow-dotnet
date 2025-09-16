@@ -611,11 +611,12 @@ namespace Apache.Arrow.Ipc
 
         protected Stream BaseStream { get; }
 
-        protected ArrayPool<byte> Buffers { get; }
 
         private protected FlatBufferBuilder Builder { get; }
 
         protected bool HasWrittenSchema { get; set; }
+
+        protected readonly byte[] SharedShortBuffer = new byte[8];
 
         private bool HasWrittenDictionaryBatch { get; set; }
 
@@ -663,7 +664,6 @@ namespace Apache.Arrow.Ipc
             _leaveOpen = leaveOpen;
             _allocator = allocator ?? MemoryAllocator.Default.Value;
 
-            Buffers = ArrayPool<byte>.Create();
             Builder = new FlatBufferBuilder(1024);
             HasWrittenSchema = false;
 
@@ -1277,36 +1277,32 @@ namespace Apache.Arrow.Ipc
 
         private void WriteIpcMessageLength(int length)
         {
-            using (Buffers.RentReturn(_options.SizeOfIpcLength, out Memory<byte> buffer))
+            Memory<byte> buffer = new(SharedShortBuffer, 0, _options.SizeOfIpcLength);
+            Span<byte> currentBufferPosition = buffer.Span;
+            if (!_options.WriteLegacyIpcFormat)
             {
-                Memory<byte> currentBufferPosition = buffer;
-                if (!_options.WriteLegacyIpcFormat)
-                {
-                    BinaryPrimitives.WriteInt32LittleEndian(
-                        currentBufferPosition.Span, MessageSerializer.IpcContinuationToken);
-                    currentBufferPosition = currentBufferPosition.Slice(sizeof(int));
-                }
-
-                BinaryPrimitives.WriteInt32LittleEndian(currentBufferPosition.Span, length);
-                BaseStream.Write(buffer);
+                BinaryPrimitives.WriteInt32LittleEndian(
+                    currentBufferPosition, MessageSerializer.IpcContinuationToken);
+                currentBufferPosition = currentBufferPosition.Slice(sizeof(int));
             }
+
+            BinaryPrimitives.WriteInt32LittleEndian(currentBufferPosition, length);
+            BaseStream.Write(buffer);
         }
 
         private async ValueTask WriteIpcMessageLengthAsync(int length, CancellationToken cancellationToken)
         {
-            using (Buffers.RentReturn(_options.SizeOfIpcLength, out Memory<byte> buffer))
+            Memory<byte> buffer = new(SharedShortBuffer, 0, _options.SizeOfIpcLength);
+            Memory<byte> currentBufferPosition = buffer;
+            if (!_options.WriteLegacyIpcFormat)
             {
-                Memory<byte> currentBufferPosition = buffer;
-                if (!_options.WriteLegacyIpcFormat)
-                {
-                    BinaryPrimitives.WriteInt32LittleEndian(
-                        currentBufferPosition.Span, MessageSerializer.IpcContinuationToken);
-                    currentBufferPosition = currentBufferPosition.Slice(sizeof(int));
-                }
-
-                BinaryPrimitives.WriteInt32LittleEndian(currentBufferPosition.Span, length);
-                await BaseStream.WriteAsync(buffer, cancellationToken).ConfigureAwait(false);
+                BinaryPrimitives.WriteInt32LittleEndian(
+                    currentBufferPosition.Span, MessageSerializer.IpcContinuationToken);
+                currentBufferPosition = currentBufferPosition.Slice(sizeof(int));
             }
+
+            BinaryPrimitives.WriteInt32LittleEndian(currentBufferPosition.Span, length);
+            await BaseStream.WriteAsync(buffer, cancellationToken).ConfigureAwait(false);
         }
 
         protected int CalculatePadding(long offset, int alignment = 8)
