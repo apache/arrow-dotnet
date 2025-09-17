@@ -220,16 +220,13 @@ namespace Apache.Arrow.Ipc
             WriteFlatBuffer();
 
             // Write footer length
-            Memory<byte> buffer = new(SharedShortBuffer, 0, 4);
             int footerLength;
             checked
             {
                 footerLength = (int)(BaseStream.Position - offset);
             }
 
-            BinaryPrimitives.WriteInt32LittleEndian(buffer.Span, footerLength);
-
-            BaseStream.Write(buffer);
+            StreamEndiannessHelper.WriteLittleEndian(BaseStream, footerLength);
 
             // Write magic
 
@@ -289,18 +286,13 @@ namespace Apache.Arrow.Ipc
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            Memory<byte> buffer = new(SharedShortBuffer, 0, 4);
-
             int footerLength;
             checked
             {
                 footerLength = (int)(BaseStream.Position - offset);
             }
 
-            BinaryPrimitives.WriteInt32LittleEndian(buffer.Span, footerLength);
-
-            await BaseStream.WriteAsync(buffer, cancellationToken).ConfigureAwait(false);
-
+            StreamEndiannessHelper.WriteLittleEndian(BaseStream, footerLength);
 
             // Write magic
 
