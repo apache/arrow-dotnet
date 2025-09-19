@@ -1,0 +1,4667 @@
+{
+  "source_base_path": "/home/runner/work/arrow-dotnet/arrow-dotnet/docs",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      }
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Array.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Array.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Array",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.ArrayData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.ArrayData.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.ArrayData",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.ArrayDataConcatenator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.ArrayDataConcatenator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.ArrayDataConcatenator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Arrays.FixedSizeBinaryArray.BuilderBase-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Arrays.FixedSizeBinaryArray.BuilderBase-2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Arrays.FixedSizeBinaryArray.BuilderBase<TArray, TBuilder>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Arrays.FixedSizeBinaryArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Arrays.FixedSizeBinaryArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Arrays.FixedSizeBinaryArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Arrays.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Arrays.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Arrays",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.ArrowArrayConcatenator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.ArrowArrayConcatenator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.ArrowArrayConcatenator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.ArrowArrayFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.ArrowArrayFactory.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.ArrowArrayFactory",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.ArrowArrayVisitor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.ArrowArrayVisitor.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.ArrowArrayVisitor",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.ArrowBuffer.BitmapBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.ArrowBuffer.BitmapBuilder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.ArrowBuffer.BitmapBuilder",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.ArrowBuffer.BitmapBuilder.yml\" sourcestartlinenumber=\"1\">The <xref href=\"Apache.Arrow.ArrowBuffer.BitmapBuilder\" data-throw-if-not-resolved=\"false\"></xref> class is a complement to <xref href=\"Apache.Arrow.ArrowBuffer.Builder%601\" data-throw-if-not-resolved=\"false\"></xref>\nand is designed for boolean fields, which are efficiently bit-packed into byte-aligned memory.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.ArrowBuffer.Builder-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.ArrowBuffer.Builder-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.ArrowBuffer.Builder<T>",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.ArrowBuffer.Builder-1.yml\" sourcestartlinenumber=\"1\">The <xref href=\"Apache.Arrow.ArrowBuffer.Builder%601\" data-throw-if-not-resolved=\"false\"></xref> class is able to append value-type items, with fluent-style methods, to build\nup an <xref href=\"Apache.Arrow.ArrowBuffer\" data-throw-if-not-resolved=\"false\"></xref> of contiguous items.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.ArrowBuffer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.ArrowBuffer.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.ArrowBuffer",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.ArrowTypeExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.ArrowTypeExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.ArrowTypeExtensions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.BinaryArray.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.BinaryArray.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.BinaryArray.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.BinaryArray.BuilderBase-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.BinaryArray.BuilderBase-2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.BinaryArray.BuilderBase<TArray, TBuilder>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.BinaryArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.BinaryArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.BinaryArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.BinaryViewArray.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.BinaryViewArray.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.BinaryViewArray.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.BinaryViewArray.BuilderBase-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.BinaryViewArray.BuilderBase-2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.BinaryViewArray.BuilderBase<TArray, TBuilder>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.BinaryViewArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.BinaryViewArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.BinaryViewArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.BitUtility.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.BitUtility.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.BitUtility",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.BooleanArray.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.BooleanArray.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.BooleanArray.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.BooleanArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.BooleanArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.BooleanArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.C.CArrowArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.C.CArrowArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.C.CArrowArray",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.C.CArrowArray.yml\" sourcestartlinenumber=\"1\">An Arrow C Data Interface Schema, which represents the data in an exported array or record batch.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.C.CArrowArrayExporter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.C.CArrowArrayExporter.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.C.CArrowArrayExporter",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.C.CArrowArrayImporter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.C.CArrowArrayImporter.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.C.CArrowArrayImporter",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.C.CArrowArrayStream.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.C.CArrowArrayStream.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.C.CArrowArrayStream",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.C.CArrowArrayStream.yml\" sourcestartlinenumber=\"1\">An Arrow C Data Interface ArrowArrayStream, which represents a stream of record batches.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.C.CArrowArrayStreamExporter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.C.CArrowArrayStreamExporter.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.C.CArrowArrayStreamExporter",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.C.CArrowArrayStreamImporter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.C.CArrowArrayStreamImporter.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.C.CArrowArrayStreamImporter",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.C.CArrowSchema.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.C.CArrowSchema.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.C.CArrowSchema",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.C.CArrowSchema.yml\" sourcestartlinenumber=\"1\">An Arrow C Data Interface Schema, which represents a type, field, or schema.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.C.CArrowSchemaExporter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.C.CArrowSchemaExporter.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.C.CArrowSchemaExporter",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.C.CArrowSchemaImporter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.C.CArrowSchemaImporter.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.C.CArrowSchemaImporter",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.C.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.C.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.C",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.ChunkedArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.ChunkedArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.ChunkedArray",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.ChunkedArray.yml\" sourcestartlinenumber=\"1\">A data structure to manage a list of primitive Array arrays logically as one large array</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Column.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Column.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Column",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Column.yml\" sourcestartlinenumber=\"1\">A Column data structure that logically represents a column in a dataset</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Compression.CompressionCodecFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Compression.CompressionCodecFactory.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Compression.CompressionCodecFactory",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Compression.CompressionCodecFactory.yml\" sourcestartlinenumber=\"1\">Creates compression codec implementations for decompressing Arrow IPC data</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Compression.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Compression.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Compression",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Date32Array.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Date32Array.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Date32Array.Builder",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Date32Array.Builder.yml\" sourcestartlinenumber=\"1\">The <xref href=\"Apache.Arrow.Date32Array.Builder\" data-throw-if-not-resolved=\"false\"></xref> class can be used to fluently build <xref href=\"Apache.Arrow.Date32Array\" data-throw-if-not-resolved=\"false\"></xref> objects.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Date32Array.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Date32Array.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Date32Array",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Date32Array.yml\" sourcestartlinenumber=\"1\">The <xref href=\"Apache.Arrow.Date32Array\" data-throw-if-not-resolved=\"false\"></xref> class holds an array of dates in the <code>Date32</code> format, where each date is\nstored as the number of days since the dawn of (UNIX) time.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Date64Array.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Date64Array.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Date64Array.Builder",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Date64Array.Builder.yml\" sourcestartlinenumber=\"1\">The <xref href=\"Apache.Arrow.Date64Array.Builder\" data-throw-if-not-resolved=\"false\"></xref> class can be used to fluently build <xref href=\"Apache.Arrow.Date64Array\" data-throw-if-not-resolved=\"false\"></xref> objects.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Date64Array.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Date64Array.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Date64Array",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Date64Array.yml\" sourcestartlinenumber=\"1\">The <xref href=\"Apache.Arrow.Date64Array\" data-throw-if-not-resolved=\"false\"></xref> class holds an array of dates in the <code>Date64</code> format, where each date is\nstored as the number of milliseconds since the dawn of (UNIX) time, excluding leap seconds, in multiples of\n86400000.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.DateArrayBuilder-3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.DateArrayBuilder-3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.DateArrayBuilder<TUnderlying, TArray, TBuilder>",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.DateArrayBuilder-3.yml\" sourcestartlinenumber=\"1\">The <xref href=\"Apache.Arrow.DateArrayBuilder%603\" data-throw-if-not-resolved=\"false\"></xref> class is an abstract array builder that can\naccept dates in the form of <xref href=\"System.DateTime\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.DateTimeOffset\" data-throw-if-not-resolved=\"false\"></xref> and convert to some\nunderlying date representation.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.DayTimeIntervalArray.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.DayTimeIntervalArray.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.DayTimeIntervalArray.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.DayTimeIntervalArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.DayTimeIntervalArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.DayTimeIntervalArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Decimal128Array.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Decimal128Array.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Decimal128Array.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Decimal128Array.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Decimal128Array.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Decimal128Array",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Decimal256Array.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Decimal256Array.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Decimal256Array.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Decimal256Array.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Decimal256Array.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Decimal256Array",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Decimal32Array.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Decimal32Array.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Decimal32Array.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Decimal32Array.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Decimal32Array.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Decimal32Array",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Decimal64Array.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Decimal64Array.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Decimal64Array.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Decimal64Array.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Decimal64Array.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Decimal64Array",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.DelegatingArrayBuilder-3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.DelegatingArrayBuilder-3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.DelegatingArrayBuilder<T, TArray, TBuilder>",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.DelegatingArrayBuilder-3.yml\" sourcestartlinenumber=\"1\">The <xref href=\"Apache.Arrow.DelegatingArrayBuilder%603\" data-throw-if-not-resolved=\"false\"></xref> class can be used as the base for any array builder\nthat needs to delegate most of its functionality to an inner array builder.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.DenseUnionArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.DenseUnionArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.DenseUnionArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.DictionaryArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.DictionaryArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.DictionaryArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.DoubleArray.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.DoubleArray.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.DoubleArray.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.DoubleArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.DoubleArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.DoubleArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.DurationArray.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.DurationArray.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.DurationArray.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.DurationArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.DurationArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.DurationArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Field.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Field.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Field.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Field.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Field.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Field",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.FixedSizeListArray.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.FixedSizeListArray.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.FixedSizeListArray.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.FixedSizeListArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.FixedSizeListArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.FixedSizeListArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Client.FlightClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Client.FlightClient.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Client.FlightClient",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Client.FlightClientRecordBatchStreamReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Client.FlightClientRecordBatchStreamReader.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Client.FlightClientRecordBatchStreamReader",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Client.FlightClientRecordBatchStreamWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Client.FlightClientRecordBatchStreamWriter.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Client.FlightClientRecordBatchStreamWriter",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Client.FlightRecordBatchDuplexStreamingCall.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Client.FlightRecordBatchDuplexStreamingCall.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Client.FlightRecordBatchDuplexStreamingCall",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Client.FlightRecordBatchExchangeCall.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Client.FlightRecordBatchExchangeCall.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Client.FlightRecordBatchExchangeCall",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Client.FlightRecordBatchStreamingCall.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Client.FlightRecordBatchStreamingCall.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Client.FlightRecordBatchStreamingCall",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Client.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Client.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Client",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Extensions.FlightInfoExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Extensions.FlightInfoExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Extensions.FlightInfoExtensions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Extensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Extensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Extensions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.FlightAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.FlightAction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.FlightAction",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.FlightActionType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.FlightActionType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.FlightActionType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.FlightCriteria.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.FlightCriteria.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.FlightCriteria",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.FlightData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.FlightData.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.FlightData",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.FlightDescriptor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.FlightDescriptor.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.FlightDescriptor",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.FlightDescriptorType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.FlightDescriptorType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.FlightDescriptorType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.FlightEndpoint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.FlightEndpoint.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.FlightEndpoint",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.FlightHandshakeRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.FlightHandshakeRequest.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.FlightHandshakeRequest",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.FlightHandshakeResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.FlightHandshakeResponse.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.FlightHandshakeResponse",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.FlightInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.FlightInfo.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.FlightInfo",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.FlightInfoCancelRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.FlightInfoCancelRequest.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.FlightInfoCancelRequest",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.FlightInfoCancelResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.FlightInfoCancelResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.FlightInfoCancelResult",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.FlightLocation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.FlightLocation.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.FlightLocation",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.FlightPutResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.FlightPutResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.FlightPutResult",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.FlightRecordBatchStreamReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.FlightRecordBatchStreamReader.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.FlightRecordBatchStreamReader",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Flight.FlightRecordBatchStreamReader.yml\" sourcestartlinenumber=\"1\">Stream of record batches</p>\n<p sourcefile=\"api/Apache.Arrow.Flight.FlightRecordBatchStreamReader.yml\" sourcestartlinenumber=\"3\">Use MoveNext() and Current to iterate over the batches.\nThere are also gRPC helper functions such as ToListAsync() etc.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.FlightRecordBatchStreamWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.FlightRecordBatchStreamWriter.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.FlightRecordBatchStreamWriter",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.FlightResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.FlightResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.FlightResult",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.FlightTicket.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.FlightTicket.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.FlightTicket",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Server.FlightServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Server.FlightServer.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Server.FlightServer",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamReader.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamReader",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamWriter",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Server.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Server.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Server",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Sql.Client.FlightSqlClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Sql.Client.FlightSqlClient.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Sql.Client.FlightSqlClient",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Sql.Client.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Sql.Client.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Sql.Client",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Sql.DoPutResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Sql.DoPutResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Sql.DoPutResult",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Sql.FlightCallOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Sql.FlightCallOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Sql.FlightCallOptions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Sql.FlightSqlExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Sql.FlightSqlExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Sql.FlightSqlExtensions",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Flight.Sql.FlightSqlExtensions.yml\" sourcestartlinenumber=\"1\">A set of helper functions for converting encoded commands to IMessage types</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Sql.FlightSqlServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Sql.FlightSqlServer.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Sql.FlightSqlServer",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Sql.FlightSqlUtils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Sql.FlightSqlUtils.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Sql.FlightSqlUtils",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Flight.Sql.FlightSqlUtils.yml\" sourcestartlinenumber=\"1\">Helper methods for doing common Flight Sql tasks and conversions</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Sql.PreparedStatement.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Sql.PreparedStatement.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Sql.PreparedStatement",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Sql.SchemaExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Sql.SchemaExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Sql.SchemaExtensions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Sql.SqlAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Sql.SqlAction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Sql.SqlAction",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Sql.TableRef.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Sql.TableRef.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Sql.TableRef",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Sql.Transaction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Sql.Transaction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Sql.Transaction",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Sql.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Sql.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Sql",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.FloatArray.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.FloatArray.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.FloatArray.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.FloatArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.FloatArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.FloatArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.IArrowArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.IArrowArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.IArrowArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.IArrowArrayBuilder-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.IArrowArrayBuilder-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.IArrowArrayBuilder<TArray>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.IArrowArrayBuilder-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.IArrowArrayBuilder-2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.IArrowArrayBuilder<TArray, TBuilder>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.IArrowArrayBuilder-3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.IArrowArrayBuilder-3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.IArrowArrayBuilder<T, TArray, TBuilder>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.IArrowArrayBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.IArrowArrayBuilder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.IArrowArrayBuilder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.IArrowArrayVisitor-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.IArrowArrayVisitor-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.IArrowArrayVisitor<T>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.IArrowArrayVisitor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.IArrowArrayVisitor.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.IArrowArrayVisitor",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.IArrowRecord.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.IArrowRecord.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.IArrowRecord",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Int16Array.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Int16Array.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Int16Array.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Int16Array.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Int16Array.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Int16Array",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Int32Array.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Int32Array.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Int32Array.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Int32Array.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Int32Array.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Int32Array",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Int64Array.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Int64Array.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Int64Array.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Int64Array.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Int64Array.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Int64Array",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Int8Array.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Int8Array.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Int8Array.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Int8Array.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Int8Array.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Int8Array",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.IntervalArray-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.IntervalArray-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.IntervalArray<T>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Ipc.ArrowFileReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Ipc.ArrowFileReader.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Ipc.ArrowFileReader",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Ipc.ArrowFileReader.yml\" sourcestartlinenumber=\"1\">Implements an <xref href=\"Apache.Arrow.Ipc.ArrowStreamReader\" data-throw-if-not-resolved=\"false\"></xref> that can read Arrow files.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Ipc.ArrowFileWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Ipc.ArrowFileWriter.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Ipc.ArrowFileWriter",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Ipc.ArrowStreamReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Ipc.ArrowStreamReader.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Ipc.ArrowStreamReader",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Ipc.ArrowStreamReader.yml\" sourcestartlinenumber=\"1\">Represents a reader that can read Arrow streams.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Ipc.ArrowStreamWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Ipc.ArrowStreamWriter.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Ipc.ArrowStreamWriter",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Ipc.CompressionCodecType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Ipc.CompressionCodecType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Ipc.CompressionCodecType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Ipc.IArrowArrayStream.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Ipc.IArrowArrayStream.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Ipc.IArrowArrayStream",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Ipc.IArrowReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Ipc.IArrowReader.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Ipc.IArrowReader",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Ipc.ICompressionCodec.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Ipc.ICompressionCodec.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Ipc.ICompressionCodec",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Ipc.ICompressionCodec.yml\" sourcestartlinenumber=\"1\">Codec for data compression and decompression (currently only decompression is supported)</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Ipc.ICompressionCodecFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Ipc.ICompressionCodecFactory.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Ipc.ICompressionCodecFactory",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Ipc.ICompressionCodecFactory.yml\" sourcestartlinenumber=\"1\">Provides compression codec implementations for different compression codecs</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Ipc.ITryCompressionCodec.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Ipc.ITryCompressionCodec.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Ipc.ITryCompressionCodec",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Ipc.IpcOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Ipc.IpcOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Ipc.IpcOptions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Ipc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Ipc.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Ipc",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.LargeBinaryArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.LargeBinaryArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.LargeBinaryArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.LargeListArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.LargeListArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.LargeListArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.LargeStringArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.LargeStringArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.LargeStringArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.ListArray.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.ListArray.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.ListArray.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.ListArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.ListArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.ListArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.ListViewArray.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.ListViewArray.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.ListViewArray.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.ListViewArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.ListViewArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.ListViewArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.MapArray.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.MapArray.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.MapArray.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.MapArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.MapArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.MapArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Memory.MemoryAllocator.Stats.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Memory.MemoryAllocator.Stats.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Memory.MemoryAllocator.Stats",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Memory.MemoryAllocator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Memory.MemoryAllocator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Memory.MemoryAllocator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Memory.NativeMemoryAllocator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Memory.NativeMemoryAllocator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Memory.NativeMemoryAllocator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Memory.NativeMemoryManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Memory.NativeMemoryManager.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Memory.NativeMemoryManager",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Memory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Memory.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Memory",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.MonthDayNanosecondIntervalArray.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.MonthDayNanosecondIntervalArray.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.MonthDayNanosecondIntervalArray.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.MonthDayNanosecondIntervalArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.MonthDayNanosecondIntervalArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.MonthDayNanosecondIntervalArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.NullArray.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.NullArray.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.NullArray.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.NullArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.NullArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.NullArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.PrimitiveArray-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.PrimitiveArray-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.PrimitiveArray<T>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.PrimitiveArrayBuilder-3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.PrimitiveArrayBuilder-3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.PrimitiveArrayBuilder<T, TArray, TBuilder>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.PrimitiveArrayBuilder-4.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.PrimitiveArrayBuilder-4.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.PrimitiveArrayBuilder<TFrom, TTo, TArray, TBuilder>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.RecordBatch.ArrayBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.RecordBatch.ArrayBuilder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.RecordBatch.ArrayBuilder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.RecordBatch.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.RecordBatch.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.RecordBatch.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.RecordBatch.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.RecordBatch.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.RecordBatch",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Scalars.BinaryView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Scalars.BinaryView.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Scalars.BinaryView",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Scalars.DayTimeInterval.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Scalars.DayTimeInterval.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Scalars.DayTimeInterval",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Scalars.MonthDayNanosecondInterval.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Scalars.MonthDayNanosecondInterval.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Scalars.MonthDayNanosecondInterval",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Scalars.YearMonthInterval.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Scalars.YearMonthInterval.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Scalars.YearMonthInterval",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Scalars.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Scalars.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Scalars",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Schema.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Schema.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Schema.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Schema.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Schema.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Schema",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.SpanExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.SpanExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.SpanExtensions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.SparseUnionArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.SparseUnionArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.SparseUnionArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.StringArray.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.StringArray.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.StringArray.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.StringArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.StringArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.StringArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.StringViewArray.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.StringViewArray.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.StringViewArray.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.StringViewArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.StringViewArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.StringViewArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.StructArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.StructArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.StructArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Table.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Table.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Table",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Table.yml\" sourcestartlinenumber=\"1\">A logical Table class to represent a dataset as a sequence of Columns</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Time32Array.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Time32Array.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Time32Array.Builder",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Time32Array.Builder.yml\" sourcestartlinenumber=\"1\">The <xref href=\"Apache.Arrow.Time32Array.Builder\" data-throw-if-not-resolved=\"false\"></xref> class can be used to fluently build <xref href=\"Apache.Arrow.Time32Array\" data-throw-if-not-resolved=\"false\"></xref> objects.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Time32Array.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Time32Array.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Time32Array",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Time32Array.yml\" sourcestartlinenumber=\"1\">The <xref href=\"Apache.Arrow.Time32Array\" data-throw-if-not-resolved=\"false\"></xref> class holds an array of <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref>, where each value is\nstored as the number of seconds/ milliseconds (depending on the Time32Type) since midnight.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Time64Array.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Time64Array.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Time64Array.Builder",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Time64Array.Builder.yml\" sourcestartlinenumber=\"1\">The <xref href=\"Apache.Arrow.Time64Array.Builder\" data-throw-if-not-resolved=\"false\"></xref> class can be used to fluently build <xref href=\"Apache.Arrow.Time64Array\" data-throw-if-not-resolved=\"false\"></xref> objects.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Time64Array.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Time64Array.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Time64Array",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Time64Array.yml\" sourcestartlinenumber=\"1\">The <xref href=\"Apache.Arrow.Time64Array\" data-throw-if-not-resolved=\"false\"></xref> class holds an array of <xref href=\"System.Int64\" data-throw-if-not-resolved=\"false\"></xref>, where each value is\nstored as the number of microseconds/nanoseconds (depending on the Time64Type) since midnight.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.TimeArrayBuilder-3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.TimeArrayBuilder-3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.TimeArrayBuilder<TUnderlying, TArray, TBuilder>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.TimeSpanExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.TimeSpanExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.TimeSpanExtensions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.TimestampArray.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.TimestampArray.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.TimestampArray.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.TimestampArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.TimestampArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.TimestampArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.ArrowType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.ArrowType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.ArrowType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.ArrowTypeId.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.ArrowTypeId.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.ArrowTypeId",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.BinaryType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.BinaryType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.BinaryType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.BinaryViewType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.BinaryViewType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.BinaryViewType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.BooleanType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.BooleanType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.BooleanType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.Date32Type.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.Date32Type.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.Date32Type",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.Date64Type.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.Date64Type.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.Date64Type",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.DateType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.DateType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.DateType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.DateUnit.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.DateUnit.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.DateUnit",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.Decimal128Type.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.Decimal128Type.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.Decimal128Type",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.Decimal256Type.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.Decimal256Type.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.Decimal256Type",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.Decimal32Type.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.Decimal32Type.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.Decimal32Type",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.Decimal64Type.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.Decimal64Type.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.Decimal64Type",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.DictionaryType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.DictionaryType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.DictionaryType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.DoubleType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.DoubleType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.DoubleType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.DurationType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.DurationType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.DurationType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.FixedSizeBinaryType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.FixedSizeBinaryType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.FixedSizeBinaryType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.FixedSizeListType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.FixedSizeListType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.FixedSizeListType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.FixedWidthType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.FixedWidthType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.FixedWidthType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.FloatType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.FloatType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.FloatType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.FloatingPointType.PrecisionKind.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.FloatingPointType.PrecisionKind.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.FloatingPointType.PrecisionKind",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.FloatingPointType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.FloatingPointType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.FloatingPointType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.HalfFloatType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.HalfFloatType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.HalfFloatType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.IArrowType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.IArrowType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.IArrowType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.IArrowTypeVisitor-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.IArrowTypeVisitor-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.IArrowTypeVisitor<T>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.IArrowTypeVisitor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.IArrowTypeVisitor.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.IArrowTypeVisitor",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.IRecordType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.IRecordType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.IRecordType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.Int16Type.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.Int16Type.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.Int16Type",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.Int32Type.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.Int32Type.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.Int32Type",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.Int64Type.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.Int64Type.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.Int64Type",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.Int8Type.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.Int8Type.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.Int8Type",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.IntegerType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.IntegerType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.IntegerType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.IntervalType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.IntervalType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.IntervalType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.IntervalUnit.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.IntervalUnit.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.IntervalUnit",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.LargeBinaryType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.LargeBinaryType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.LargeBinaryType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.LargeListType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.LargeListType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.LargeListType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.LargeStringType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.LargeStringType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.LargeStringType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.ListType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.ListType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.ListType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.ListViewType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.ListViewType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.ListViewType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.MapType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.MapType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.MapType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.NestedType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.NestedType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.NestedType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.NullType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.NullType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.NullType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.NumberType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.NumberType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.NumberType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.StringType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.StringType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.StringType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.StringViewType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.StringViewType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.StringViewType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.StructType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.StructType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.StructType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.Time32Type.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.Time32Type.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.Time32Type",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.Time64Type.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.Time64Type.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.Time64Type",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.TimeBasedType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.TimeBasedType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.TimeBasedType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.TimeType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.TimeType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.TimeType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.TimeUnit.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.TimeUnit.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.TimeUnit",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.TimestampType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.TimestampType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.TimestampType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.UInt16Type.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.UInt16Type.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.UInt16Type",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.UInt32Type.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.UInt32Type.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.UInt32Type",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.UInt64Type.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.UInt64Type.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.UInt64Type",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.UInt8Type.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.UInt8Type.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.UInt8Type",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.UnionMode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.UnionMode.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.UnionMode",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.UnionType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.UnionType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.UnionType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.UInt16Array.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.UInt16Array.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.UInt16Array.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.UInt16Array.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.UInt16Array.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.UInt16Array",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.UInt32Array.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.UInt32Array.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.UInt32Array.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.UInt32Array.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.UInt32Array.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.UInt32Array",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.UInt64Array.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.UInt64Array.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.UInt64Array.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.UInt64Array.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.UInt64Array.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.UInt64Array",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.UInt8Array.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.UInt8Array.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.UInt8Array.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.UInt8Array.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.UInt8Array.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.UInt8Array",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.UnionArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.UnionArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.UnionArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.YearMonthIntervalArray.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.YearMonthIntervalArray.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.YearMonthIntervalArray.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.YearMonthIntervalArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.YearMonthIntervalArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.YearMonthIntervalArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.ActionBeginSavepointRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.ActionBeginSavepointRequest.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.ActionBeginSavepointRequest",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionBeginSavepointRequest.yml\" sourcestartlinenumber=\"1\">Request message for the &quot;BeginSavepoint&quot; action.\nCreates a savepoint within a transaction.</p>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionBeginSavepointRequest.yml\" sourcestartlinenumber=\"4\">Only supported if FLIGHT_SQL_TRANSACTION is\nFLIGHT_SQL_TRANSACTION_SUPPORT_SAVEPOINT.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.ActionBeginSavepointResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.ActionBeginSavepointResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.ActionBeginSavepointResult",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionBeginSavepointResult.yml\" sourcestartlinenumber=\"1\">The result of a &quot;BeginSavepoint&quot; action.</p>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionBeginSavepointResult.yml\" sourcestartlinenumber=\"3\">The transaction can be manipulated with the &quot;EndSavepoint&quot; action.\nIf the associated transaction is committed, rolled back, or times\nout, then the savepoint is also invalidated.</p>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionBeginSavepointResult.yml\" sourcestartlinenumber=\"7\">The result should be wrapped in a google.protobuf.Any message.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.ActionBeginTransactionRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.ActionBeginTransactionRequest.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.ActionBeginTransactionRequest",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionBeginTransactionRequest.yml\" sourcestartlinenumber=\"1\">Request message for the &quot;BeginTransaction&quot; action.\nBegins a transaction.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.ActionBeginTransactionResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.ActionBeginTransactionResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.ActionBeginTransactionResult",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionBeginTransactionResult.yml\" sourcestartlinenumber=\"1\">The result of a &quot;BeginTransaction&quot; action.</p>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionBeginTransactionResult.yml\" sourcestartlinenumber=\"3\">The transaction can be manipulated with the &quot;EndTransaction&quot; action, or\nautomatically via server timeout. If the transaction times out, then it is\nautomatically rolled back.</p>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionBeginTransactionResult.yml\" sourcestartlinenumber=\"7\">The result should be wrapped in a google.protobuf.Any message.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.ActionCancelQueryRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.ActionCancelQueryRequest.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.ActionCancelQueryRequest",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionCancelQueryRequest.yml\" sourcestartlinenumber=\"1\">Request message for the &quot;CancelQuery&quot; action.</p>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionCancelQueryRequest.yml\" sourcestartlinenumber=\"3\">Explicitly cancel a running query.</p>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionCancelQueryRequest.yml\" sourcestartlinenumber=\"5\">This lets a single client explicitly cancel work, no matter how many clients\nare involved/whether the query is distributed or not, given server support.\nThe transaction/statement is not rolled back; it is the application's job to\ncommit or rollback as appropriate. This only indicates the client no longer\nwishes to read the remainder of the query results or continue submitting\ndata.</p>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionCancelQueryRequest.yml\" sourcestartlinenumber=\"12\">This command is idempotent.</p>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionCancelQueryRequest.yml\" sourcestartlinenumber=\"14\">This command is deprecated since 13.0.0. Use the &quot;CancelFlightInfo&quot;\naction with DoAction instead.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.ActionCancelQueryResult.Types.CancelResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.ActionCancelQueryResult.Types.CancelResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.ActionCancelQueryResult.Types.CancelResult",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.ActionCancelQueryResult.Types.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.ActionCancelQueryResult.Types.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.ActionCancelQueryResult.Types",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionCancelQueryResult.Types.yml\" sourcestartlinenumber=\"1\">Container for nested types declared in the ActionCancelQueryResult message type.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.ActionCancelQueryResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.ActionCancelQueryResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.ActionCancelQueryResult",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionCancelQueryResult.yml\" sourcestartlinenumber=\"1\">The result of cancelling a query.</p>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionCancelQueryResult.yml\" sourcestartlinenumber=\"3\">The result should be wrapped in a google.protobuf.Any message.</p>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionCancelQueryResult.yml\" sourcestartlinenumber=\"5\">This command is deprecated since 13.0.0. Use the &quot;CancelFlightInfo&quot;\naction with DoAction instead.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.ActionClosePreparedStatementRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.ActionClosePreparedStatementRequest.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.ActionClosePreparedStatementRequest",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionClosePreparedStatementRequest.yml\" sourcestartlinenumber=\"1\">Request message for the &quot;ClosePreparedStatement&quot; action on a Flight SQL enabled backend.\nCloses server resources associated with the prepared statement handle.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementRequest.yml\" sourcestartlinenumber=\"1\">Request message for the &quot;CreatePreparedStatement&quot; action on a Flight SQL enabled backend.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementResult",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementResult.yml\" sourcestartlinenumber=\"1\">Wrap the result of a &quot;CreatePreparedStatement&quot; or &quot;CreatePreparedSubstraitPlan&quot; action.</p>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementResult.yml\" sourcestartlinenumber=\"3\">The resultant PreparedStatement can be closed either:</p>\n<ul sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementResult.yml\" sourcestartlinenumber=\"4\">\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementResult.yml\" sourcestartlinenumber=\"4\">Manually, through the &quot;ClosePreparedStatement&quot; action;</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementResult.yml\" sourcestartlinenumber=\"5\">Automatically, by a server timeout.</li>\n</ul>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionCreatePreparedStatementResult.yml\" sourcestartlinenumber=\"7\">The result should be wrapped in a google.protobuf.Any message.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.ActionCreatePreparedSubstraitPlanRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.ActionCreatePreparedSubstraitPlanRequest.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.ActionCreatePreparedSubstraitPlanRequest",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionCreatePreparedSubstraitPlanRequest.yml\" sourcestartlinenumber=\"1\">Request message for the &quot;CreatePreparedSubstraitPlan&quot; action on a Flight SQL enabled backend.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.ActionEndSavepointRequest.Types.EndSavepoint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.ActionEndSavepointRequest.Types.EndSavepoint.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.ActionEndSavepointRequest.Types.EndSavepoint",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.ActionEndSavepointRequest.Types.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.ActionEndSavepointRequest.Types.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.ActionEndSavepointRequest.Types",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionEndSavepointRequest.Types.yml\" sourcestartlinenumber=\"1\">Container for nested types declared in the ActionEndSavepointRequest message type.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.ActionEndSavepointRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.ActionEndSavepointRequest.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.ActionEndSavepointRequest",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionEndSavepointRequest.yml\" sourcestartlinenumber=\"1\">Request message for the &quot;EndSavepoint&quot; action.</p>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionEndSavepointRequest.yml\" sourcestartlinenumber=\"3\">Release (RELEASE) the savepoint or rollback (ROLLBACK) to the\nsavepoint.</p>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionEndSavepointRequest.yml\" sourcestartlinenumber=\"6\">Releasing a savepoint invalidates that savepoint.  Rolling back to\na savepoint does not invalidate the savepoint, but invalidates all\nsavepoints created after the current savepoint.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.ActionEndTransactionRequest.Types.EndTransaction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.ActionEndTransactionRequest.Types.EndTransaction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.ActionEndTransactionRequest.Types.EndTransaction",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.ActionEndTransactionRequest.Types.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.ActionEndTransactionRequest.Types.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.ActionEndTransactionRequest.Types",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionEndTransactionRequest.Types.yml\" sourcestartlinenumber=\"1\">Container for nested types declared in the ActionEndTransactionRequest message type.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.ActionEndTransactionRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.ActionEndTransactionRequest.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.ActionEndTransactionRequest",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionEndTransactionRequest.yml\" sourcestartlinenumber=\"1\">Request message for the &quot;EndTransaction&quot; action.</p>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionEndTransactionRequest.yml\" sourcestartlinenumber=\"3\">Commit (COMMIT) or rollback (ROLLBACK) the transaction.</p>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.ActionEndTransactionRequest.yml\" sourcestartlinenumber=\"5\">If the action completes successfully, the transaction handle is\ninvalidated, as are all associated savepoints.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.CommandGetCatalogs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.CommandGetCatalogs.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.CommandGetCatalogs",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetCatalogs.yml\" sourcestartlinenumber=\"1\">Represents a request to retrieve the list of catalogs on a Flight SQL enabled backend.\nThe definition of a catalog depends on vendor/implementation. It is usually the database itself\nUsed in the command member of FlightDescriptor for the following RPC calls:</p>\n<ul sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetCatalogs.yml\" sourcestartlinenumber=\"4\">\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetCatalogs.yml\" sourcestartlinenumber=\"4\">GetSchema: return the Arrow schema of the query.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetCatalogs.yml\" sourcestartlinenumber=\"5\">GetFlightInfo: execute the catalog metadata request.</li>\n</ul>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetCatalogs.yml\" sourcestartlinenumber=\"7\">The returned Arrow schema will be:\n&lt;\ncatalog_name: utf8 not null</p>\n<blockquote sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetCatalogs.yml\" sourcestartlinenumber=\"10\">\n</blockquote>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetCatalogs.yml\" sourcestartlinenumber=\"12\">The returned data should be ordered by catalog_name.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.CommandGetCrossReference.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.CommandGetCrossReference.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.CommandGetCrossReference",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetCrossReference.yml\" sourcestartlinenumber=\"1\">Represents a request to retrieve a description of the foreign key columns in the given foreign key table that\nreference the primary key or the columns representing a unique constraint of the parent table (could be the same\nor a different table) on a Flight SQL enabled backend.\nUsed in the command member of FlightDescriptor for the following RPC calls:</p>\n<ul sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetCrossReference.yml\" sourcestartlinenumber=\"5\">\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetCrossReference.yml\" sourcestartlinenumber=\"5\">GetSchema: return the Arrow schema of the query.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetCrossReference.yml\" sourcestartlinenumber=\"6\">GetFlightInfo: execute the catalog metadata request.</li>\n</ul>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetCrossReference.yml\" sourcestartlinenumber=\"8\">The returned Arrow schema will be:\n&lt;\npk_catalog_name: utf8,\npk_db_schema_name: utf8,\npk_table_name: utf8 not null,\npk_column_name: utf8 not null,\nfk_catalog_name: utf8,\nfk_db_schema_name: utf8,\nfk_table_name: utf8 not null,\nfk_column_name: utf8 not null,\nkey_sequence: int32 not null,\nfk_key_name: utf8,\npk_key_name: utf8,\nupdate_rule: uint8 not null,\ndelete_rule: uint8 not null</p>\n<blockquote sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetCrossReference.yml\" sourcestartlinenumber=\"23\">\n</blockquote>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetCrossReference.yml\" sourcestartlinenumber=\"26\">The returned data should be ordered by pk_catalog_name, pk_db_schema_name, pk_table_name, pk_key_name, then key_sequence.\nupdate_rule and delete_rule returns a byte that is equivalent to actions:</p>\n<ul sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetCrossReference.yml\" sourcestartlinenumber=\"28\">\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetCrossReference.yml\" sourcestartlinenumber=\"28\">0 = CASCADE</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetCrossReference.yml\" sourcestartlinenumber=\"29\">1 = RESTRICT</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetCrossReference.yml\" sourcestartlinenumber=\"30\">2 = SET NULL</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetCrossReference.yml\" sourcestartlinenumber=\"31\">3 = NO ACTION</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetCrossReference.yml\" sourcestartlinenumber=\"32\">4 = SET DEFAULT</li>\n</ul>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.CommandGetDbSchemas.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.CommandGetDbSchemas.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.CommandGetDbSchemas",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetDbSchemas.yml\" sourcestartlinenumber=\"1\">Represents a request to retrieve the list of database schemas on a Flight SQL enabled backend.\nThe definition of a database schema depends on vendor/implementation. It is usually a collection of tables.\nUsed in the command member of FlightDescriptor for the following RPC calls:</p>\n<ul sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetDbSchemas.yml\" sourcestartlinenumber=\"4\">\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetDbSchemas.yml\" sourcestartlinenumber=\"4\">GetSchema: return the Arrow schema of the query.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetDbSchemas.yml\" sourcestartlinenumber=\"5\">GetFlightInfo: execute the catalog metadata request.</li>\n</ul>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetDbSchemas.yml\" sourcestartlinenumber=\"7\">The returned Arrow schema will be:\n&lt;\ncatalog_name: utf8,\ndb_schema_name: utf8 not null</p>\n<blockquote sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetDbSchemas.yml\" sourcestartlinenumber=\"11\">\n</blockquote>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetDbSchemas.yml\" sourcestartlinenumber=\"13\">The returned data should be ordered by catalog_name, then db_schema_name.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.CommandGetExportedKeys.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.CommandGetExportedKeys.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.CommandGetExportedKeys",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetExportedKeys.yml\" sourcestartlinenumber=\"1\">Represents a request to retrieve a description of the foreign key columns that reference the given table's\nprimary key columns (the foreign keys exported by a table) of a table on a Flight SQL enabled backend.\nUsed in the command member of FlightDescriptor for the following RPC calls:</p>\n<ul sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetExportedKeys.yml\" sourcestartlinenumber=\"4\">\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetExportedKeys.yml\" sourcestartlinenumber=\"4\">GetSchema: return the Arrow schema of the query.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetExportedKeys.yml\" sourcestartlinenumber=\"5\">GetFlightInfo: execute the catalog metadata request.</li>\n</ul>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetExportedKeys.yml\" sourcestartlinenumber=\"7\">The returned Arrow schema will be:\n&lt;\npk_catalog_name: utf8,\npk_db_schema_name: utf8,\npk_table_name: utf8 not null,\npk_column_name: utf8 not null,\nfk_catalog_name: utf8,\nfk_db_schema_name: utf8,\nfk_table_name: utf8 not null,\nfk_column_name: utf8 not null,\nkey_sequence: int32 not null,\nfk_key_name: utf8,\npk_key_name: utf8,\nupdate_rule: uint8 not null,\ndelete_rule: uint8 not null</p>\n<blockquote sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetExportedKeys.yml\" sourcestartlinenumber=\"22\">\n</blockquote>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetExportedKeys.yml\" sourcestartlinenumber=\"25\">The returned data should be ordered by fk_catalog_name, fk_db_schema_name, fk_table_name, fk_key_name, then key_sequence.\nupdate_rule and delete_rule returns a byte that is equivalent to actions declared on UpdateDeleteRules enum.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.CommandGetImportedKeys.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.CommandGetImportedKeys.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.CommandGetImportedKeys",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetImportedKeys.yml\" sourcestartlinenumber=\"1\">Represents a request to retrieve the foreign keys of a table on a Flight SQL enabled backend.\nUsed in the command member of FlightDescriptor for the following RPC calls:</p>\n<ul sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetImportedKeys.yml\" sourcestartlinenumber=\"3\">\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetImportedKeys.yml\" sourcestartlinenumber=\"3\">GetSchema: return the Arrow schema of the query.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetImportedKeys.yml\" sourcestartlinenumber=\"4\">GetFlightInfo: execute the catalog metadata request.</li>\n</ul>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetImportedKeys.yml\" sourcestartlinenumber=\"6\">The returned Arrow schema will be:\n&lt;\npk_catalog_name: utf8,\npk_db_schema_name: utf8,\npk_table_name: utf8 not null,\npk_column_name: utf8 not null,\nfk_catalog_name: utf8,\nfk_db_schema_name: utf8,\nfk_table_name: utf8 not null,\nfk_column_name: utf8 not null,\nkey_sequence: int32 not null,\nfk_key_name: utf8,\npk_key_name: utf8,\nupdate_rule: uint8 not null,\ndelete_rule: uint8 not null</p>\n<blockquote sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetImportedKeys.yml\" sourcestartlinenumber=\"21\">\n</blockquote>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetImportedKeys.yml\" sourcestartlinenumber=\"24\">The returned data should be ordered by pk_catalog_name, pk_db_schema_name, pk_table_name, pk_key_name, then key_sequence.\nupdate_rule and delete_rule returns a byte that is equivalent to actions:</p>\n<ul sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetImportedKeys.yml\" sourcestartlinenumber=\"26\">\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetImportedKeys.yml\" sourcestartlinenumber=\"26\">0 = CASCADE</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetImportedKeys.yml\" sourcestartlinenumber=\"27\">1 = RESTRICT</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetImportedKeys.yml\" sourcestartlinenumber=\"28\">2 = SET NULL</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetImportedKeys.yml\" sourcestartlinenumber=\"29\">3 = NO ACTION</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetImportedKeys.yml\" sourcestartlinenumber=\"30\">4 = SET DEFAULT</li>\n</ul>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.CommandGetPrimaryKeys.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.CommandGetPrimaryKeys.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.CommandGetPrimaryKeys",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetPrimaryKeys.yml\" sourcestartlinenumber=\"1\">Represents a request to retrieve the primary keys of a table on a Flight SQL enabled backend.\nUsed in the command member of FlightDescriptor for the following RPC calls:</p>\n<ul sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetPrimaryKeys.yml\" sourcestartlinenumber=\"3\">\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetPrimaryKeys.yml\" sourcestartlinenumber=\"3\">GetSchema: return the Arrow schema of the query.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetPrimaryKeys.yml\" sourcestartlinenumber=\"4\">GetFlightInfo: execute the catalog metadata request.</li>\n</ul>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetPrimaryKeys.yml\" sourcestartlinenumber=\"6\">The returned Arrow schema will be:\n&lt;\ncatalog_name: utf8,\ndb_schema_name: utf8,\ntable_name: utf8 not null,\ncolumn_name: utf8 not null,\nkey_name: utf8,\nkey_sequence: int32 not null</p>\n<blockquote sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetPrimaryKeys.yml\" sourcestartlinenumber=\"14\">\n</blockquote>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetPrimaryKeys.yml\" sourcestartlinenumber=\"16\">The returned data should be ordered by catalog_name, db_schema_name, table_name, key_name, then key_sequence.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.CommandGetSqlInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.CommandGetSqlInfo.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.CommandGetSqlInfo",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetSqlInfo.yml\" sourcestartlinenumber=\"1\">Represents a metadata request. Used in the command member of FlightDescriptor\nfor the following RPC calls:</p>\n<ul sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetSqlInfo.yml\" sourcestartlinenumber=\"3\">\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetSqlInfo.yml\" sourcestartlinenumber=\"3\">GetSchema: return the Arrow schema of the query.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetSqlInfo.yml\" sourcestartlinenumber=\"4\">GetFlightInfo: execute the metadata request.</li>\n</ul>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetSqlInfo.yml\" sourcestartlinenumber=\"6\">The returned Arrow schema will be:\n&lt;\ninfo_name: uint32 not null,\nvalue: dense_union&lt;\nstring_value: utf8,\nbool_value: bool,\nbigint_value: int64,\nint32_bitmask: int32,\nstring_list: list&lt;string_data: utf8&gt;\nint32_to_int32_list_map: map&lt;key: int32, value: list&lt;<span class=\"math\" sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetSqlInfo.yml\" sourcestartlinenumber=\"15\">\\(data\\)</span>: int32&gt;&gt;</p>\n<blockquote sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetSqlInfo.yml\" sourcestartlinenumber=\"16\">\n</blockquote>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetSqlInfo.yml\" sourcestartlinenumber=\"18\">where there is one row per requested piece of metadata information.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.CommandGetTableTypes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.CommandGetTableTypes.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.CommandGetTableTypes",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTableTypes.yml\" sourcestartlinenumber=\"1\">Represents a request to retrieve the list of table types on a Flight SQL enabled backend.\nThe table types depend on vendor/implementation. It is usually used to separate tables from views or system tables.\nTABLE, VIEW, and SYSTEM TABLE are commonly supported.\nUsed in the command member of FlightDescriptor for the following RPC calls:</p>\n<ul sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTableTypes.yml\" sourcestartlinenumber=\"5\">\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTableTypes.yml\" sourcestartlinenumber=\"5\">GetSchema: return the Arrow schema of the query.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTableTypes.yml\" sourcestartlinenumber=\"6\">GetFlightInfo: execute the catalog metadata request.</li>\n</ul>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTableTypes.yml\" sourcestartlinenumber=\"8\">The returned Arrow schema will be:\n&lt;\ntable_type: utf8 not null</p>\n<blockquote sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTableTypes.yml\" sourcestartlinenumber=\"11\">\n</blockquote>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTableTypes.yml\" sourcestartlinenumber=\"13\">The returned data should be ordered by table_type.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.CommandGetTables.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.CommandGetTables.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.CommandGetTables",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTables.yml\" sourcestartlinenumber=\"1\">Represents a request to retrieve the list of tables, and optionally their schemas, on a Flight SQL enabled backend.\nUsed in the command member of FlightDescriptor for the following RPC calls:</p>\n<ul sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTables.yml\" sourcestartlinenumber=\"3\">\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTables.yml\" sourcestartlinenumber=\"3\">GetSchema: return the Arrow schema of the query.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTables.yml\" sourcestartlinenumber=\"4\">GetFlightInfo: execute the catalog metadata request.</li>\n</ul>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTables.yml\" sourcestartlinenumber=\"6\">The returned Arrow schema will be:\n&lt;\ncatalog_name: utf8,\ndb_schema_name: utf8,\ntable_name: utf8 not null,\ntable_type: utf8 not null,\n[optional] table_schema: bytes not null (schema of the table as described in Schema.fbs::Schema,\nit is serialized as an IPC message.)</p>\n<blockquote sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTables.yml\" sourcestartlinenumber=\"14\">\n</blockquote>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTables.yml\" sourcestartlinenumber=\"17\">Fields on table_schema may contain the following metadata:</p>\n<ul sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTables.yml\" sourcestartlinenumber=\"18\">\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTables.yml\" sourcestartlinenumber=\"18\">ARROW:FLIGHT:SQL:CATALOG_NAME      - Table's catalog name</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTables.yml\" sourcestartlinenumber=\"19\">ARROW:FLIGHT:SQL:DB_SCHEMA_NAME    - Database schema name</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTables.yml\" sourcestartlinenumber=\"20\">ARROW:FLIGHT:SQL:TABLE_NAME        - Table name</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTables.yml\" sourcestartlinenumber=\"21\">ARROW:FLIGHT:SQL:TYPE_NAME         - The data source-specific name for the data type of the column.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTables.yml\" sourcestartlinenumber=\"22\">ARROW:FLIGHT:SQL:PRECISION         - Column precision/size</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTables.yml\" sourcestartlinenumber=\"23\">ARROW:FLIGHT:SQL:SCALE             - Column scale/decimal digits if applicable</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTables.yml\" sourcestartlinenumber=\"24\">ARROW:FLIGHT:SQL:IS_AUTO_INCREMENT - &quot;1&quot; indicates if the column is auto incremented, &quot;0&quot; otherwise.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTables.yml\" sourcestartlinenumber=\"25\">ARROW:FLIGHT:SQL:IS_CASE_SENSITIVE - &quot;1&quot; indicates if the column is case-sensitive, &quot;0&quot; otherwise.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTables.yml\" sourcestartlinenumber=\"26\">ARROW:FLIGHT:SQL:IS_READ_ONLY      - &quot;1&quot; indicates if the column is read only, &quot;0&quot; otherwise.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTables.yml\" sourcestartlinenumber=\"27\">ARROW:FLIGHT:SQL:IS_SEARCHABLE     - &quot;1&quot; indicates if the column is searchable via WHERE clause, &quot;0&quot; otherwise.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetTables.yml\" sourcestartlinenumber=\"28\">ARROW:FLIGHT:SQL:REMARKS           - A comment describing the column. This field has been added after all others, clients should be prepared to find it missing.\nThe returned data should be ordered by catalog_name, db_schema_name, table_name, then table_type, followed by table_schema if requested.</li>\n</ul>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.CommandGetXdbcTypeInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.CommandGetXdbcTypeInfo.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.CommandGetXdbcTypeInfo",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetXdbcTypeInfo.yml\" sourcestartlinenumber=\"1\">Represents a request to retrieve information about data type supported on a Flight SQL enabled backend.\nUsed in the command member of FlightDescriptor for the following RPC calls:</p>\n<ul sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetXdbcTypeInfo.yml\" sourcestartlinenumber=\"3\">\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetXdbcTypeInfo.yml\" sourcestartlinenumber=\"3\">GetSchema: return the schema of the query.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetXdbcTypeInfo.yml\" sourcestartlinenumber=\"4\">GetFlightInfo: execute the catalog metadata request.</li>\n</ul>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetXdbcTypeInfo.yml\" sourcestartlinenumber=\"6\">The returned schema will be:\n&lt;\ntype_name: utf8 not null (The name of the data type, for example: VARCHAR, INTEGER, etc),\ndata_type: int32 not null (The SQL data type),\ncolumn_size: int32 (The maximum size supported by that column.\nIn case of exact numeric types, this represents the maximum precision.\nIn case of string types, this represents the character length.\nIn case of datetime data types, this represents the length in characters of the string representation.\nNULL is returned for data types where column size is not applicable.),\nliteral_prefix: utf8 (Character or characters used to prefix a literal, NULL is returned for\ndata types where a literal prefix is not applicable.),\nliteral_suffix: utf8 (Character or characters used to terminate a literal,\nNULL is returned for data types where a literal suffix is not applicable.),\ncreate_params: list&lt;utf8 not null&gt;\n(A list of keywords corresponding to which parameters can be used when creating\na column for that specific type.\nNULL is returned if there are no parameters for the data type definition.),\nnullable: int32 not null (Shows if the data type accepts a NULL value. The possible values can be seen in the\nNullable enum.),\ncase_sensitive: bool not null (Shows if a character data type is case-sensitive in collations and comparisons),\nsearchable: int32 not null (Shows how the data type is used in a WHERE clause. The possible values can be seen in the\nSearchable enum.),\nunsigned_attribute: bool (Shows if the data type is unsigned. NULL is returned if the attribute is\nnot applicable to the data type or the data type is not numeric.),\nfixed_prec_scale: bool not null (Shows if the data type has predefined fixed precision and scale.),\nauto_increment: bool (Shows if the data type is auto incremental. NULL is returned if the attribute\nis not applicable to the data type or the data type is not numeric.),\nlocal_type_name: utf8 (Localized version of the data source-dependent name of the data type. NULL\nis returned if a localized name is not supported by the data source),\nminimum_scale: int32 (The minimum scale of the data type on the data source.\nIf a data type has a fixed scale, the MINIMUM_SCALE and MAXIMUM_SCALE\ncolumns both contain this value. NULL is returned if scale is not applicable.),\nmaximum_scale: int32 (The maximum scale of the data type on the data source.\nNULL is returned if scale is not applicable.),\nsql_data_type: int32 not null (The value of the SQL DATA TYPE which has the same values\nas data_type value. Except for interval and datetime, which\nuses generic values. More info about those types can be\nobtained through datetime_subcode. The possible values can be seen\nin the XdbcDataType enum.),\ndatetime_subcode: int32 (Only used when the SQL DATA TYPE is interval or datetime. It contains\nits sub types. For type different from interval and datetime, this value\nis NULL. The possible values can be seen in the XdbcDatetimeSubcode enum.),\nnum_prec_radix: int32 (If the data type is an approximate numeric type, this column contains\nthe value 2 to indicate that COLUMN_SIZE specifies a number of bits. For\nexact numeric types, this column contains the value 10 to indicate that\ncolumn size specifies a number of decimal digits. Otherwise, this column is NULL.),\ninterval_precision: int32 (If the data type is an interval data type, then this column contains the value\nof the interval leading precision. Otherwise, this column is NULL. This fields\nis only relevant to be used by ODBC).</p>\n<blockquote sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetXdbcTypeInfo.yml\" sourcestartlinenumber=\"55\">\n</blockquote>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandGetXdbcTypeInfo.yml\" sourcestartlinenumber=\"57\">The returned data should be ordered by data_type and then by type_name.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.yml\" sourcestartlinenumber=\"1\">Represents an instance of executing a prepared statement. Used in the command member of FlightDescriptor for\nthe following RPC calls:</p>\n<ul sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.yml\" sourcestartlinenumber=\"3\">\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.yml\" sourcestartlinenumber=\"3\"><p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.yml\" sourcestartlinenumber=\"3\">GetSchema: return the Arrow schema of the query.\nFields on this schema may contain the following metadata:</p>\n<ul sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.yml\" sourcestartlinenumber=\"5\">\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.yml\" sourcestartlinenumber=\"5\">ARROW:FLIGHT:SQL:CATALOG_NAME      - Table's catalog name</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.yml\" sourcestartlinenumber=\"6\">ARROW:FLIGHT:SQL:DB_SCHEMA_NAME    - Database schema name</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.yml\" sourcestartlinenumber=\"7\">ARROW:FLIGHT:SQL:TABLE_NAME        - Table name</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.yml\" sourcestartlinenumber=\"8\">ARROW:FLIGHT:SQL:TYPE_NAME         - The data source-specific name for the data type of the column.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.yml\" sourcestartlinenumber=\"9\">ARROW:FLIGHT:SQL:PRECISION         - Column precision/size</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.yml\" sourcestartlinenumber=\"10\">ARROW:FLIGHT:SQL:SCALE             - Column scale/decimal digits if applicable</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.yml\" sourcestartlinenumber=\"11\">ARROW:FLIGHT:SQL:IS_AUTO_INCREMENT - &quot;1&quot; indicates if the column is auto incremented, &quot;0&quot; otherwise.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.yml\" sourcestartlinenumber=\"12\">ARROW:FLIGHT:SQL:IS_CASE_SENSITIVE - &quot;1&quot; indicates if the column is case-sensitive, &quot;0&quot; otherwise.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.yml\" sourcestartlinenumber=\"13\">ARROW:FLIGHT:SQL:IS_READ_ONLY      - &quot;1&quot; indicates if the column is read only, &quot;0&quot; otherwise.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.yml\" sourcestartlinenumber=\"14\">ARROW:FLIGHT:SQL:IS_SEARCHABLE     - &quot;1&quot; indicates if the column is searchable via WHERE clause, &quot;0&quot; otherwise.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.yml\" sourcestartlinenumber=\"15\">ARROW:FLIGHT:SQL:REMARKS           - A comment describing the column. This field has been added after all others, clients should be prepared to find it missing.</li>\n</ul>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.yml\" sourcestartlinenumber=\"17\">If the schema is retrieved after parameter values have been bound with DoPut, then the server should account\nfor the parameters when determining the schema.</p>\n</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.yml\" sourcestartlinenumber=\"19\"><p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.yml\" sourcestartlinenumber=\"19\">DoPut: bind parameter values. All of the bound parameter sets will be executed as a single atomic execution.</p>\n</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.yml\" sourcestartlinenumber=\"20\"><p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementQuery.yml\" sourcestartlinenumber=\"20\">GetFlightInfo: execute the prepared statement instance.</p>\n</li>\n</ul>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementUpdate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementUpdate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.CommandPreparedStatementUpdate",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandPreparedStatementUpdate.yml\" sourcestartlinenumber=\"1\">Represents a SQL update query. Used in the command member of FlightDescriptor\nfor the RPC call DoPut to cause the server to execute the included\nprepared statement handle as an update.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.CommandStatementIngest.Types.TableDefinitionOptions.Types.TableExistsOption.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.CommandStatementIngest.Types.TableDefinitionOptions.Types.TableExistsOption.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.CommandStatementIngest.Types.TableDefinitionOptions.Types.TableExistsOption",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementIngest.Types.TableDefinitionOptions.Types.TableExistsOption.yml\" sourcestartlinenumber=\"1\">The action to take if the target table already exists</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.CommandStatementIngest.Types.TableDefinitionOptions.Types.TableNotExistOption.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.CommandStatementIngest.Types.TableDefinitionOptions.Types.TableNotExistOption.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.CommandStatementIngest.Types.TableDefinitionOptions.Types.TableNotExistOption",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementIngest.Types.TableDefinitionOptions.Types.TableNotExistOption.yml\" sourcestartlinenumber=\"1\">The action to take if the target table does not exist</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.CommandStatementIngest.Types.TableDefinitionOptions.Types.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.CommandStatementIngest.Types.TableDefinitionOptions.Types.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.CommandStatementIngest.Types.TableDefinitionOptions.Types",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementIngest.Types.TableDefinitionOptions.Types.yml\" sourcestartlinenumber=\"1\">Container for nested types declared in the TableDefinitionOptions message type.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.CommandStatementIngest.Types.TableDefinitionOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.CommandStatementIngest.Types.TableDefinitionOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.CommandStatementIngest.Types.TableDefinitionOptions",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementIngest.Types.TableDefinitionOptions.yml\" sourcestartlinenumber=\"1\">Options for table definition behavior</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.CommandStatementIngest.Types.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.CommandStatementIngest.Types.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.CommandStatementIngest.Types",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementIngest.Types.yml\" sourcestartlinenumber=\"1\">Container for nested types declared in the CommandStatementIngest message type.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.CommandStatementIngest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.CommandStatementIngest.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.CommandStatementIngest",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementIngest.yml\" sourcestartlinenumber=\"1\">Represents a bulk ingestion request. Used in the command member of FlightDescriptor\nfor the the RPC call DoPut to cause the server load the contents of the stream's\nFlightData into the target destination.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.CommandStatementQuery.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.CommandStatementQuery.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.CommandStatementQuery",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementQuery.yml\" sourcestartlinenumber=\"1\">Represents a SQL query. Used in the command member of FlightDescriptor\nfor the following RPC calls:</p>\n<ul sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementQuery.yml\" sourcestartlinenumber=\"3\">\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementQuery.yml\" sourcestartlinenumber=\"3\">GetSchema: return the Arrow schema of the query.\nFields on this schema may contain the following metadata:\n<ul sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementQuery.yml\" sourcestartlinenumber=\"5\">\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementQuery.yml\" sourcestartlinenumber=\"5\">ARROW:FLIGHT:SQL:CATALOG_NAME      - Table's catalog name</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementQuery.yml\" sourcestartlinenumber=\"6\">ARROW:FLIGHT:SQL:DB_SCHEMA_NAME    - Database schema name</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementQuery.yml\" sourcestartlinenumber=\"7\">ARROW:FLIGHT:SQL:TABLE_NAME        - Table name</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementQuery.yml\" sourcestartlinenumber=\"8\">ARROW:FLIGHT:SQL:TYPE_NAME         - The data source-specific name for the data type of the column.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementQuery.yml\" sourcestartlinenumber=\"9\">ARROW:FLIGHT:SQL:PRECISION         - Column precision/size</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementQuery.yml\" sourcestartlinenumber=\"10\">ARROW:FLIGHT:SQL:SCALE             - Column scale/decimal digits if applicable</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementQuery.yml\" sourcestartlinenumber=\"11\">ARROW:FLIGHT:SQL:IS_AUTO_INCREMENT - &quot;1&quot; indicates if the column is auto incremented, &quot;0&quot; otherwise.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementQuery.yml\" sourcestartlinenumber=\"12\">ARROW:FLIGHT:SQL:IS_CASE_SENSITIVE - &quot;1&quot; indicates if the column is case-sensitive, &quot;0&quot; otherwise.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementQuery.yml\" sourcestartlinenumber=\"13\">ARROW:FLIGHT:SQL:IS_READ_ONLY      - &quot;1&quot; indicates if the column is read only, &quot;0&quot; otherwise.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementQuery.yml\" sourcestartlinenumber=\"14\">ARROW:FLIGHT:SQL:IS_SEARCHABLE     - &quot;1&quot; indicates if the column is searchable via WHERE clause, &quot;0&quot; otherwise.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementQuery.yml\" sourcestartlinenumber=\"15\">ARROW:FLIGHT:SQL:REMARKS           - A comment describing the column. This field has been added after all others, clients should be prepared to find it missing.</li>\n</ul>\n</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementQuery.yml\" sourcestartlinenumber=\"16\">GetFlightInfo: execute the query.</li>\n</ul>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.CommandStatementSubstraitPlan.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.CommandStatementSubstraitPlan.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.CommandStatementSubstraitPlan",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementSubstraitPlan.yml\" sourcestartlinenumber=\"1\">Represents a Substrait plan. Used in the command member of FlightDescriptor\nfor the following RPC calls:</p>\n<ul sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementSubstraitPlan.yml\" sourcestartlinenumber=\"3\">\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementSubstraitPlan.yml\" sourcestartlinenumber=\"3\">GetSchema: return the Arrow schema of the query.\nFields on this schema may contain the following metadata:\n<ul sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementSubstraitPlan.yml\" sourcestartlinenumber=\"5\">\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementSubstraitPlan.yml\" sourcestartlinenumber=\"5\">ARROW:FLIGHT:SQL:CATALOG_NAME      - Table's catalog name</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementSubstraitPlan.yml\" sourcestartlinenumber=\"6\">ARROW:FLIGHT:SQL:DB_SCHEMA_NAME    - Database schema name</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementSubstraitPlan.yml\" sourcestartlinenumber=\"7\">ARROW:FLIGHT:SQL:TABLE_NAME        - Table name</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementSubstraitPlan.yml\" sourcestartlinenumber=\"8\">ARROW:FLIGHT:SQL:TYPE_NAME         - The data source-specific name for the data type of the column.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementSubstraitPlan.yml\" sourcestartlinenumber=\"9\">ARROW:FLIGHT:SQL:PRECISION         - Column precision/size</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementSubstraitPlan.yml\" sourcestartlinenumber=\"10\">ARROW:FLIGHT:SQL:SCALE             - Column scale/decimal digits if applicable</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementSubstraitPlan.yml\" sourcestartlinenumber=\"11\">ARROW:FLIGHT:SQL:IS_AUTO_INCREMENT - &quot;1&quot; indicates if the column is auto incremented, &quot;0&quot; otherwise.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementSubstraitPlan.yml\" sourcestartlinenumber=\"12\">ARROW:FLIGHT:SQL:IS_CASE_SENSITIVE - &quot;1&quot; indicates if the column is case-sensitive, &quot;0&quot; otherwise.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementSubstraitPlan.yml\" sourcestartlinenumber=\"13\">ARROW:FLIGHT:SQL:IS_READ_ONLY      - &quot;1&quot; indicates if the column is read only, &quot;0&quot; otherwise.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementSubstraitPlan.yml\" sourcestartlinenumber=\"14\">ARROW:FLIGHT:SQL:IS_SEARCHABLE     - &quot;1&quot; indicates if the column is searchable via WHERE clause, &quot;0&quot; otherwise.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementSubstraitPlan.yml\" sourcestartlinenumber=\"15\">ARROW:FLIGHT:SQL:REMARKS           - A comment describing the column. This field has been added after all others, clients should be prepared to find it missing.</li>\n</ul>\n</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementSubstraitPlan.yml\" sourcestartlinenumber=\"16\">GetFlightInfo: execute the query.</li>\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementSubstraitPlan.yml\" sourcestartlinenumber=\"17\">DoPut: execute the query.</li>\n</ul>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.CommandStatementUpdate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.CommandStatementUpdate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.CommandStatementUpdate",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.CommandStatementUpdate.yml\" sourcestartlinenumber=\"1\">Represents a SQL update query. Used in the command member of FlightDescriptor\nfor the RPC call DoPut to cause the server to execute the included SQL update.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.DoPutPreparedStatementResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.DoPutPreparedStatementResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.DoPutPreparedStatementResult",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.DoPutPreparedStatementResult.yml\" sourcestartlinenumber=\"1\">An <em sourcefile=\"api/Arrow.Flight.Protocol.Sql.DoPutPreparedStatementResult.yml\" sourcestartlinenumber=\"1\">optional</em> response returned when <code sourcefile=\"api/Arrow.Flight.Protocol.Sql.DoPutPreparedStatementResult.yml\" sourcestartlinenumber=\"1\">DoPut</code> is called with <code sourcefile=\"api/Arrow.Flight.Protocol.Sql.DoPutPreparedStatementResult.yml\" sourcestartlinenumber=\"1\">CommandPreparedStatementQuery</code>.</p>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.DoPutPreparedStatementResult.yml\" sourcestartlinenumber=\"3\"><em sourcefile=\"api/Arrow.Flight.Protocol.Sql.DoPutPreparedStatementResult.yml\" sourcestartlinenumber=\"3\">Note on legacy behavior</em>: previous versions of the protocol did not return any result for\nthis command, and that behavior should still be supported by clients. In that case, the client\ncan continue as though the fields in this message were not provided or set to sensible default values.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.DoPutUpdateResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.DoPutUpdateResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.DoPutUpdateResult",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.DoPutUpdateResult.yml\" sourcestartlinenumber=\"1\">Returned from the RPC call DoPut when a CommandStatementUpdate,\nCommandPreparedStatementUpdate, or CommandStatementIngest was\nin the request, containing results from the update.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.FlightSqlExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.FlightSqlExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.FlightSqlExtensions",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.FlightSqlExtensions.yml\" sourcestartlinenumber=\"1\">Holder for extension identifiers generated from the top level of FlightSql.proto</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.FlightSqlReflection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.FlightSqlReflection.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.FlightSqlReflection",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.FlightSqlReflection.yml\" sourcestartlinenumber=\"1\">Holder for reflection information generated from FlightSql.proto</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.Nullable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.Nullable.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.Nullable",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.Searchable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.Searchable.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.Searchable",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.SqlInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.SqlInfo.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.SqlInfo",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.SqlInfo.yml\" sourcestartlinenumber=\"1\">Options for CommandGetSqlInfo.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.SqlNullOrdering.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.SqlNullOrdering.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.SqlNullOrdering",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.SqlOuterJoinsSupportLevel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.SqlOuterJoinsSupportLevel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.SqlOuterJoinsSupportLevel",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.SqlSupportedCaseSensitivity.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.SqlSupportedCaseSensitivity.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.SqlSupportedCaseSensitivity",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.SqlSupportedElementActions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.SqlSupportedElementActions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.SqlSupportedElementActions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.SqlSupportedGroupBy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.SqlSupportedGroupBy.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.SqlSupportedGroupBy",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.SqlSupportedPositionedCommands.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.SqlSupportedPositionedCommands.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.SqlSupportedPositionedCommands",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.SqlSupportedResultSetConcurrency.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.SqlSupportedResultSetConcurrency.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.SqlSupportedResultSetConcurrency",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.SqlSupportedResultSetType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.SqlSupportedResultSetType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.SqlSupportedResultSetType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.SqlSupportedSubqueries.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.SqlSupportedSubqueries.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.SqlSupportedSubqueries",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.SqlSupportedTransaction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.SqlSupportedTransaction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.SqlSupportedTransaction",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.SqlSupportedTransaction.yml\" sourcestartlinenumber=\"1\">The level of support for Flight SQL transaction RPCs.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.SqlSupportedTransactions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.SqlSupportedTransactions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.SqlSupportedTransactions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.SqlSupportedUnions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.SqlSupportedUnions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.SqlSupportedUnions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.SqlSupportsConvert.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.SqlSupportsConvert.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.SqlSupportsConvert",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.SqlTransactionIsolationLevel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.SqlTransactionIsolationLevel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.SqlTransactionIsolationLevel",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.SubstraitPlan.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.SubstraitPlan.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.SubstraitPlan",
+      "Summary": "<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.SubstraitPlan.yml\" sourcestartlinenumber=\"1\">An embedded message describing a Substrait plan to execute.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.SupportedAnsi92SqlGrammarLevel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.SupportedAnsi92SqlGrammarLevel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.SupportedAnsi92SqlGrammarLevel",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.SupportedSqlGrammar.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.SupportedSqlGrammar.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.SupportedSqlGrammar",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.TicketStatementQuery.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.TicketStatementQuery.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.TicketStatementQuery",
+      "Summary": "<ul sourcefile=\"api/Arrow.Flight.Protocol.Sql.TicketStatementQuery.yml\" sourcestartlinenumber=\"1\">\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.TicketStatementQuery.yml\" sourcestartlinenumber=\"1\"></li>\n</ul>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.TicketStatementQuery.yml\" sourcestartlinenumber=\"2\">Represents a ticket resulting from GetFlightInfo with a CommandStatementQuery.\nThis should be used only once and treated as an opaque value, that is, clients should not attempt to parse this.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.UpdateDeleteRules.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.UpdateDeleteRules.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.UpdateDeleteRules",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.XdbcDataType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.XdbcDataType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.XdbcDataType",
+      "Summary": "<ul sourcefile=\"api/Arrow.Flight.Protocol.Sql.XdbcDataType.yml\" sourcestartlinenumber=\"1\">\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.XdbcDataType.yml\" sourcestartlinenumber=\"1\"></li>\n</ul>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.XdbcDataType.yml\" sourcestartlinenumber=\"2\">The JDBC/ODBC-defined type of any object.\nAll the values here are the same as in the JDBC and ODBC specs.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.XdbcDatetimeSubcode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.XdbcDatetimeSubcode.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql.XdbcDatetimeSubcode",
+      "Summary": "<ul sourcefile=\"api/Arrow.Flight.Protocol.Sql.XdbcDatetimeSubcode.yml\" sourcestartlinenumber=\"1\">\n<li sourcefile=\"api/Arrow.Flight.Protocol.Sql.XdbcDatetimeSubcode.yml\" sourcestartlinenumber=\"1\"></li>\n</ul>\n<p sourcefile=\"api/Arrow.Flight.Protocol.Sql.XdbcDatetimeSubcode.yml\" sourcestartlinenumber=\"2\">Detailed subtype information for XDBC_TYPE_DATETIME and XDBC_TYPE_INTERVAL.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Arrow.Flight.Protocol.Sql.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Arrow.Flight.Protocol.Sql.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Arrow.Flight.Protocol.Sql",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.AspNetCore.Builder.FlightIEndpointRouteBuilderExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.AspNetCore.Builder.FlightIEndpointRouteBuilderExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Microsoft.AspNetCore.Builder.FlightIEndpointRouteBuilderExtensions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.AspNetCore.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.AspNetCore.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Microsoft.AspNetCore.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.Extensions.DependencyInjection.FlightIGrpcServerBuilderExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.Extensions.DependencyInjection.FlightIGrpcServerBuilderExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Microsoft.Extensions.DependencyInjection.FlightIGrpcServerBuilderExtensions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.Extensions.DependencyInjection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.Extensions.DependencyInjection.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Microsoft.Extensions.DependencyInjection",
+      "Summary": null
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".json": {
+          "relative_path": "api/toc.json"
+        },
+        ".html": {
+          "relative_path": "api/toc.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/favicon.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/favicon.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/logo.svg",
+      "output": {
+        "resource": {
+          "relative_path": "images/logo.svg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".json": {
+          "relative_path": "toc.json"
+        },
+        ".html": {
+          "relative_path": "toc.html"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
