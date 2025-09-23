@@ -55,7 +55,7 @@ namespace Apache.Arrow.Memory
             public void Release(IntPtr ptr, int offset, int length)
             {
                 Marshal.FreeHGlobal(ptr);
-                GC.RemoveMemoryPressure(length);
+                GC.RemoveMemoryPressure(length + DefaultAlignment); // See https://github.com/apache/arrow-dotnet/issues/50
             }
         }
     }
