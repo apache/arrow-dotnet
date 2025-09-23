@@ -67,7 +67,7 @@ namespace Apache.Arrow.Flight.Internal
             ReadSchemaAsync(CancellationToken.None).AsTask().Wait();
         }
 
-        public override async ValueTask ReadSchemaAsync(CancellationToken cancellationToken)
+        public override async ValueTask<Schema> ReadSchemaAsync(CancellationToken cancellationToken)
         {
             while (!HasReadSchema)
             {
@@ -107,6 +107,7 @@ namespace Apache.Arrow.Flight.Internal
                         throw new Exception($"Expected schema as the first message, but got: {message.HeaderType.ToString()}");
                 }
             }
+            return _schema;
         }
 
         public override async ValueTask<RecordBatch> ReadNextRecordBatchAsync(CancellationToken cancellationToken)

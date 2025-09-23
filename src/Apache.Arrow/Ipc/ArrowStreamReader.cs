@@ -102,11 +102,11 @@ namespace Apache.Arrow.Ipc
 
         public async ValueTask<Schema> GetSchema(CancellationToken cancellationToken = default)
         {
-            if (!_implementation.HasReadSchema)
+            if (_implementation.HasReadSchema)
             {
-                await _implementation.ReadSchemaAsync(cancellationToken);
+                return _implementation.Schema;
             }
-            return _implementation.Schema;
+            return await _implementation.ReadSchemaAsync(cancellationToken);
         }
 
         public ValueTask<RecordBatch> ReadNextRecordBatchAsync(CancellationToken cancellationToken = default)
