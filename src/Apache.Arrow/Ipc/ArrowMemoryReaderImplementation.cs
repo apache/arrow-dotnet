@@ -33,11 +33,11 @@ namespace Apache.Arrow.Ipc
             _buffer = buffer;
         }
 
-        public override ValueTask ReadSchemaAsync(CancellationToken cancellationToken)
+        public override ValueTask<Schema> ReadSchemaAsync(CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ReadSchema();
-            return default;
+            return new ValueTask<Schema>(_schema);
         }
 
         public override ValueTask<RecordBatch> ReadNextRecordBatchAsync(CancellationToken cancellationToken)

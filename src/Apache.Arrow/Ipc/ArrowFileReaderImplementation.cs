@@ -52,11 +52,11 @@ namespace Apache.Arrow.Ipc
             return _footer.RecordBatchCount;
         }
 
-        public override async ValueTask ReadSchemaAsync(CancellationToken cancellationToken = default)
+        public override async ValueTask<Schema> ReadSchemaAsync(CancellationToken cancellationToken = default)
         {
             if (HasReadSchema)
             {
-                return;
+                return _schema;
             }
 
             await ValidateFileAsync(cancellationToken).ConfigureAwait(false);
@@ -82,6 +82,8 @@ namespace Apache.Arrow.Ipc
                 EnsureFullRead(buffer, bytesRead);
 
                 ReadSchema(buffer);
+
+                return _schema;
             }
         }
 

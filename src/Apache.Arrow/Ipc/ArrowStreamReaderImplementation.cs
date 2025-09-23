@@ -151,11 +151,11 @@ namespace Apache.Arrow.Ipc
             return new ReadResult(messageLength, result);
         }
 
-        public override async ValueTask ReadSchemaAsync(CancellationToken cancellationToken = default)
+        public override async ValueTask<Schema> ReadSchemaAsync(CancellationToken cancellationToken = default)
         {
             if (HasReadSchema)
             {
-                return;
+                return _schema;
             }
 
             // Figure out length of schema
@@ -163,7 +163,7 @@ namespace Apache.Arrow.Ipc
                 .ConfigureAwait(false);
             if (schemaMessageLength == 0)
             {
-                return;
+                return null;
             }
 
             using (ArrayPool<byte>.Shared.RentReturn(schemaMessageLength, out Memory<byte> buff))
@@ -174,6 +174,7 @@ namespace Apache.Arrow.Ipc
 
                 Google.FlatBuffers.ByteBuffer schemabb = CreateByteBuffer(buff);
                 _schema = MessageSerializer.GetSchema(ReadMessage<Flatbuf.Schema>(schemabb), ref _dictionaryMemo);
+                return _schema;
             }
         }
 

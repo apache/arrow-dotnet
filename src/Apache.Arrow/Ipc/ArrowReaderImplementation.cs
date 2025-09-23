@@ -69,7 +69,7 @@ namespace Apache.Arrow.Ipc
         {
         }
 
-        public abstract ValueTask ReadSchemaAsync(CancellationToken cancellationToken);
+        public abstract ValueTask<Schema> ReadSchemaAsync(CancellationToken cancellationToken);
         public abstract void ReadSchema();
 
         public abstract ValueTask<RecordBatch> ReadNextRecordBatchAsync(CancellationToken cancellationToken);
