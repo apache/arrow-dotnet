@@ -14,6 +14,7 @@
 // limitations under the License.
 
 using System;
+using System.Buffers;
 using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -221,7 +222,7 @@ namespace Apache.Arrow.Ipc
 
             // Write footer length
 
-            using (Buffers.RentReturn(4, out Memory<byte> buffer))
+            using (ArrayPool<byte>.Shared.RentReturn(4, out Memory<byte> buffer))
             {
                 int footerLength;
                 checked
@@ -292,7 +293,7 @@ namespace Apache.Arrow.Ipc
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (Buffers.RentReturn(4, out Memory<byte> buffer))
+            using (ArrayPool<byte>.Shared.RentReturn(4, out Memory<byte> buffer))
             {
                 int footerLength;
                 checked
