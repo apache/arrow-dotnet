@@ -11948,19 +11948,6 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.Ipc.ArrowStreamWriter.BaseStream
   nameWithType: ArrowStreamWriter.BaseStream
-- uid: Apache.Arrow.Ipc.ArrowStreamWriter.Buffers
-  name: Buffers
-  href: api/Apache.Arrow.Ipc.ArrowStreamWriter.html#Apache_Arrow_Ipc_ArrowStreamWriter_Buffers
-  commentId: P:Apache.Arrow.Ipc.ArrowStreamWriter.Buffers
-  fullName: Apache.Arrow.Ipc.ArrowStreamWriter.Buffers
-  nameWithType: ArrowStreamWriter.Buffers
-- uid: Apache.Arrow.Ipc.ArrowStreamWriter.Buffers*
-  name: Buffers
-  href: api/Apache.Arrow.Ipc.ArrowStreamWriter.html#Apache_Arrow_Ipc_ArrowStreamWriter_Buffers_
-  commentId: Overload:Apache.Arrow.Ipc.ArrowStreamWriter.Buffers
-  isSpec: "True"
-  fullName: Apache.Arrow.Ipc.ArrowStreamWriter.Buffers
-  nameWithType: ArrowStreamWriter.Buffers
 - uid: Apache.Arrow.Ipc.ArrowStreamWriter.CalculatePadding(System.Int64,System.Int32)
   name: CalculatePadding(long, int)
   href: api/Apache.Arrow.Ipc.ArrowStreamWriter.html#Apache_Arrow_Ipc_ArrowStreamWriter_CalculatePadding_System_Int64_System_Int32_
