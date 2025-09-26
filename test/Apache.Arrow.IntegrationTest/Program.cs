@@ -14,13 +14,10 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
 using System.CommandLine;
-using System.CommandLine.Invocation;
+using System.CommandLine.Parsing;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using Apache.Arrow.Types;
 
 namespace Apache.Arrow.IntegrationTest
 {
@@ -28,27 +25,39 @@ namespace Apache.Arrow.IntegrationTest
     {
         public static async Task<int> Main(string[] args)
         {
-            var integrationTestCommand = new RootCommand
+            var modeOption = new Option<string>("--mode")
             {
-                new Option<string>(
-                    "--mode",
-                    description: "Which command to run"),
-                new Option<FileInfo>(
-                    new[] { "--json-file", "-j" },
-                    "The JSON file to interact with"),
-                new Option<FileInfo>(
-                    new[] { "--arrow-file", "-a" },
-                    "The arrow file to interact with")
+                Description = "Which command to run",
+            };
+            var jsonFileOption = new Option<FileInfo>("--json-file", "-j")
+            {
+                Description = "The JSON file to interact with",
+            };
+            var arrowFileOption = new Option<FileInfo>("--arrow-file", "-a")
+            {
+                Description = "The arrow file to interact with",
             };
 
-            integrationTestCommand.Description = "Integration test app for Apache.Arrow .NET Library.";
-
-            integrationTestCommand.Handler = CommandHandler.Create<string, FileInfo, FileInfo>(async (mode, j, a) =>
+            var integrationTestCommand = new RootCommand("Integration test app for Apache.Arrow .NET Library.")
             {
-                var integrationCommand = new IntegrationCommand(mode, j, a);
-                await integrationCommand.Execute();
-            });
-            return await integrationTestCommand.InvokeAsync(args);
+                modeOption, jsonFileOption, arrowFileOption
+            };
+            
+            ParseResult parseResult = integrationTestCommand.Parse(args);
+            if (parseResult.Errors.Count == 0)
+            {
+                var integrationCommand = new IntegrationCommand(
+                    parseResult.GetValue(modeOption),
+                    parseResult.GetValue(jsonFileOption),
+                    parseResult.GetValue(arrowFileOption));
+                return await integrationCommand.Execute();
+            }
+
+            foreach (ParseError parseError in parseResult.Errors)
+            {
+                Console.Error.WriteLine(parseError.Message);
+            }
+            return 1;
         }
     }
 }
