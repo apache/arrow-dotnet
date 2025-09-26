@@ -42,7 +42,7 @@ namespace Apache.Arrow.IntegrationTest
             {
                 modeOption, jsonFileOption, arrowFileOption
             };
-            
+
             ParseResult parseResult = integrationTestCommand.Parse(args);
             if (parseResult.Errors.Count == 0)
             {

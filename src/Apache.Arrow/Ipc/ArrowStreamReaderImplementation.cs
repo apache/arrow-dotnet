@@ -240,7 +240,7 @@ namespace Apache.Arrow.Ipc
 
                     messageLength = BitUtility.ReadInt32(lengthBuffer);
                 }
-            };
+            }
 
             return messageLength;
         }

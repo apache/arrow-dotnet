@@ -160,7 +160,7 @@ namespace Apache.Arrow
             for (int index = 0; index < Length; index++)
             {
                 yield return GetString(index);
-            };
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<string>)this).GetEnumerator();
