@@ -253,7 +253,7 @@ namespace Apache.Arrow.C
                 if (numFields == 0)
                 {
                     throw new NotSupportedException("Exporting nested data types with zero children.");
-                };
+                }
 
                 var pointerList = (CArrowSchema**)Marshal.AllocHGlobal(numFields * IntPtr.Size);
 

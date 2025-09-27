@@ -13,7 +13,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.CommandLine;
+using System.CommandLine.Parsing;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -23,18 +25,18 @@ public static class Program
 {
     public static async Task<int> Main(string[] args)
     {
-        var portOption = new Option<int>(
-            new[] { "--port", "-p" },
-            description: "Port the Flight server is listening on");
-        var scenarioOption = new Option<string>(
-            new[] { "--scenario", "-s" },
-            "The name of the scenario to run");
-        var pathOption = new Option<FileInfo>(
-            new[] { "--path", "-j" },
-            "Path to a JSON file of test data");
-
-        var rootCommand = new RootCommand(
-            "Integration test application for Apache.Arrow .NET Flight.");
+        var portOption = new Option<int>("--port", "-p")
+        {
+            Description = "Port the Flight server is listening on",
+        };
+        var scenarioOption = new Option<string>("--scenario", "-s")
+        {
+            Description = "The name of the scenario to run",
+        };
+        var pathOption = new Option<FileInfo>("--path", "-j")
+        {
+            Description = "Path to a JSON file of test data",
+        };
 
         var clientCommand = new Command("client", "Run the Flight client")
         {
@@ -42,26 +44,42 @@ public static class Program
             scenarioOption,
             pathOption,
         };
-        rootCommand.AddCommand(clientCommand);
-
-        clientCommand.SetHandler(async (port, scenario, jsonFile) =>
+        clientCommand.SetAction(async (parseResult, cancellationToken) =>
         {
-            var command = new FlightClientCommand(port, scenario, jsonFile);
+            var command = new FlightClientCommand(
+                parseResult.GetValue(portOption),
+                parseResult.GetValue(scenarioOption),
+                parseResult.GetValue(pathOption));
             await command.Execute().ConfigureAwait(false);
-        }, portOption, scenarioOption, pathOption);
+        });
 
         var serverCommand = new Command("server", "Run the Flight server")
         {
             scenarioOption,
         };
-        rootCommand.AddCommand(serverCommand);
-
-        serverCommand.SetHandler(async scenario =>
+        serverCommand.SetAction(async (parseResult, cancellationToken) =>
         {
-            var command = new FlightServerCommand(scenario);
+            var command = new FlightServerCommand(
+                parseResult.GetValue(scenarioOption));
             await command.Execute().ConfigureAwait(false);
-        }, scenarioOption);
+        });
 
-        return await rootCommand.InvokeAsync(args).ConfigureAwait(false);
+        var rootCommand = new RootCommand("Integration test application for Apache.Arrow .NET Flight.")
+        {
+            clientCommand,
+            serverCommand,
+        };
+
+        ParseResult parseResult = rootCommand.Parse(args);
+        if (parseResult.Errors.Count == 0)
+        {
+            return await parseResult.InvokeAsync();
+        }
+
+        foreach (ParseError parseError in parseResult.Errors)
+        {
+            Console.Error.WriteLine(parseError.Message);
+        }
+        return 1;
     }
 }

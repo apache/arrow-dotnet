@@ -156,7 +156,7 @@ namespace Apache.Arrow
             for (int index = 0; index < Length; index++)
             {
                 yield return GetTimestamp(index);
-            };
+            }
         }
 
         int ICollection<DateTimeOffset?>.Count => Length;
