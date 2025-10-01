@@ -184,6 +184,7 @@ namespace Apache.Arrow.C
 
             cArray->n_buffers = 1;
             cArray->buffers = (byte**)sharedOwner.Allocate(IntPtr.Size);
+            cArray->buffers[0] = null;
 
             cArray->n_children = batch.ColumnCount;
             cArray->children = null;
