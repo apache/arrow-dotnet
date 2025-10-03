@@ -13,53 +13,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Apache.Arrow.Flatbuf;
-using Apache.Arrow.Flight.Internal;
-using Apache.Arrow.Ipc;
+using Apache.Arrow.Flight;
 using Google.Protobuf;
 
-namespace Apache.Arrow.Flight.Internal
+namespace Apache.Arrow.Flight
 {
-    /// <summary>
-    /// This class handles writing schemas
-    /// </summary>
-    internal class SchemaWriter : ArrowStreamWriter
+    internal static class SchemaWriter
     {
-        internal SchemaWriter(Stream baseStream, Schema schema) : base(baseStream, schema)
+        public static ByteString ToByteString(Schema schema)
         {
-        }
-
-        public void WriteSchema(Schema schema, CancellationToken cancellationToken)
-        {
-            var offset = base.SerializeSchema(schema);
-            WriteMessage(MessageHeader.Schema, offset, 0);
-        }
-
-        public static ByteString SerializeSchema(Schema schema, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            using (var memoryStream = new MemoryStream())
-            {
-                var writer = new SchemaWriter(memoryStream, schema);
-                writer.WriteSchema(schema, cancellationToken);
-
-                memoryStream.Position = 0;
-                return ByteString.FromStream(memoryStream);
-            }
+            return schema == null ?
+                ByteString.Empty :
+                UnsafeByteOperations.UnsafeWrap(ArrowSerializationHelpers.SerializeSchema(schema));
         }
     }
 }
 
 public static class SchemaExtension
 {
-    // Translate an Apache.Arrow.Schema to FlatBuffer Schema to ByteString
+    // This should never have been a public class without a namespace
+    // TODO: Mark as obsolete once sufficient time has passed
     public static ByteString ToByteString(this Apache.Arrow.Schema schema)
     {
-        return SchemaWriter.SerializeSchema(schema);
+        return SchemaWriter.ToByteString(schema);
     }
 }

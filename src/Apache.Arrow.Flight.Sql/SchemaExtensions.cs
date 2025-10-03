@@ -14,8 +14,6 @@
 // limitations under the License.
 
 using System;
-using System.IO;
-using Apache.Arrow.Ipc;
 
 namespace Apache.Arrow.Flight.Sql;
 
@@ -32,8 +30,7 @@ public static class SchemaExtensions
         {
             throw new ArgumentException("Invalid serialized schema", nameof(serializedSchema));
         }
-        using var reader = new ArrowStreamReader(serializedSchema);
-        return reader.Schema;
+        return ArrowSerializationHelpers.DeserializeSchema(serializedSchema);
     }
 
     /// <summary>
@@ -41,10 +38,6 @@ public static class SchemaExtensions
     /// </summary>
     public static byte[] SerializeSchema(Schema schema)
     {
-        using var memoryStream = new MemoryStream();
-        using var writer = new ArrowStreamWriter(memoryStream, schema);
-        writer.WriteStart();
-        writer.WriteEnd();
-        return memoryStream.ToArray();
+        return ArrowSerializationHelpers.SerializeSchema(schema);
     }
 }

@@ -70,7 +70,7 @@ namespace Apache.Arrow.Flight.Server.Internal
 
             return new SchemaResult()
             {
-                Schema = SchemaWriter.SerializeSchema(schema)
+                Schema = schema.ToByteString(),
             };
         }
 
