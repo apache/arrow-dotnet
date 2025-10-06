@@ -180,6 +180,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.ArrowSerializationHelpers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.ArrowSerializationHelpers.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.ArrowSerializationHelpers",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.ArrowSerializationHelpers.yml\" sourcestartlinenumber=\"1\">Helpers for serializing partial Arrow structures to and from buffers.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Apache.Arrow.ArrowTypeExtensions.yml",
       "output": {
         ".html": {

@@ -2,11 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Class SchemaExtensions | Apache Arrow .NET </title>
+      <title>Class ArrowSerializationHelpers | Apache Arrow .NET </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Class SchemaExtensions | Apache Arrow .NET ">
+      <meta name="title" content="Class ArrowSerializationHelpers | Apache Arrow .NET ">
       
-      
+      <meta name="description" content="Helpers for serializing partial Arrow structures to and from buffers.">
       <link rel="icon" href="../images/favicon.png">
       <link rel="stylesheet" href="../public/docfx.min.css">
       <link rel="stylesheet" href="../public/main.css">
@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="../">
       
       
-      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Apache_Arrow_Flight_Sql_SchemaExtensions.md&amp;value=---%0Auid%3A%20Apache.Arrow.Flight.Sql.SchemaExtensions%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Apache_Arrow_ArrowSerializationHelpers.md&amp;value=---%0Auid%3A%20Apache.Arrow.ArrowSerializationHelpers%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -84,24 +84,25 @@
           <nav id="breadcrumb"></nav>
         </div>
 
-        <article data-uid="Apache.Arrow.Flight.Sql.SchemaExtensions">
+        <article data-uid="Apache.Arrow.ArrowSerializationHelpers">
 
 
 
-  <h1 id="Apache_Arrow_Flight_Sql_SchemaExtensions" data-uid="Apache.Arrow.Flight.Sql.SchemaExtensions" class="text-break">
-Class SchemaExtensions  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/SchemaExtensions.cs/#L20"><i class="bi bi-code-slash"></i></a>
+  <h1 id="Apache_Arrow_ArrowSerializationHelpers" data-uid="Apache.Arrow.ArrowSerializationHelpers" class="text-break">
+Class ArrowSerializationHelpers  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ArrowSerializationHelpers.cs/#L26"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
-    <dl><dt>Namespace</dt><dd><a class="xref" href="Apache.html">Apache</a>.<a class="xref" href="Apache.Arrow.html">Arrow</a>.<a class="xref" href="Apache.Arrow.Flight.html">Flight</a>.<a class="xref" href="Apache.Arrow.Flight.Sql.html">Sql</a></dd></dl>
-  <dl><dt>Assembly</dt><dd>Apache.Arrow.Flight.Sql.dll</dd></dl>
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Apache.html">Apache</a>.<a class="xref" href="Apache.Arrow.html">Arrow</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Apache.Arrow.dll</dd></dl>
   </div>
 
-  <div class="markdown summary"></div>
+  <div class="markdown summary"><p>Helpers for serializing partial Arrow structures to and from buffers.</p>
+</div>
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static class SchemaExtensions</code></pre>
+    <pre><code class="lang-csharp hljs">public static class ArrowSerializationHelpers</code></pre>
   </div>
 
 
@@ -111,7 +112,7 @@ Class SchemaExtensions  <a class="header-action link-secondary" title="View sour
     <dt>Inheritance</dt>
     <dd>
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
-      <div><span class="xref">SchemaExtensions</span></div>
+      <div><span class="xref">ArrowSerializationHelpers</span></div>
     </dd>
   </dl>
 
@@ -152,15 +153,52 @@ Class SchemaExtensions  <a class="header-action link-secondary" title="View sour
 </h2>
 
 
-  <a id="Apache_Arrow_Flight_Sql_SchemaExtensions_DeserializeSchema_" data-uid="Apache.Arrow.Flight.Sql.SchemaExtensions.DeserializeSchema*"></a>
+  <a id="Apache_Arrow_ArrowSerializationHelpers_DeserializeRecordBatch_" data-uid="Apache.Arrow.ArrowSerializationHelpers.DeserializeRecordBatch*"></a>
 
-  <h3 id="Apache_Arrow_Flight_Sql_SchemaExtensions_DeserializeSchema_System_ReadOnlyMemory_System_Byte__" data-uid="Apache.Arrow.Flight.Sql.SchemaExtensions.DeserializeSchema(System.ReadOnlyMemory{System.Byte})">
-  DeserializeSchema(ReadOnlyMemory&lt;byte&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/SchemaExtensions.cs/#L27"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Apache_Arrow_ArrowSerializationHelpers_DeserializeRecordBatch_Apache_Arrow_Schema_System_ReadOnlyMemory_System_Byte__" data-uid="Apache.Arrow.ArrowSerializationHelpers.DeserializeRecordBatch(Apache.Arrow.Schema,System.ReadOnlyMemory{System.Byte})">
+  DeserializeRecordBatch(Schema, ReadOnlyMemory&lt;byte&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ArrowSerializationHelpers.cs/#L34"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Deserializes a schema from a byte array.</p>
-</div>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static RecordBatch DeserializeRecordBatch(Schema schema, ReadOnlyMemory&lt;byte&gt; serializedRecordBatch)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>schema</code> <a class="xref" href="Apache.Arrow.Schema.html">Schema</a></dt>
+    <dd></dd>
+    <dt><code>serializedRecordBatch</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlymemory-1">ReadOnlyMemory</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.RecordBatch.html">RecordBatch</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_ArrowSerializationHelpers_DeserializeSchema_" data-uid="Apache.Arrow.ArrowSerializationHelpers.DeserializeSchema*"></a>
+
+  <h3 id="Apache_Arrow_ArrowSerializationHelpers_DeserializeSchema_System_ReadOnlyMemory_System_Byte__" data-uid="Apache.Arrow.ArrowSerializationHelpers.DeserializeSchema(System.ReadOnlyMemory{System.Byte})">
+  DeserializeSchema(ReadOnlyMemory&lt;byte&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ArrowSerializationHelpers.cs/#L28"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -170,15 +208,13 @@ Class SchemaExtensions  <a class="header-action link-secondary" title="View sour
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
     <dt><code>serializedSchema</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlymemory-1">ReadOnlyMemory</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
-    <dd><p>The byte array representing the serialized schema.</p>
-</dd>
+    <dd></dd>
   </dl>
 
   <h4 class="section">Returns</h4>
   <dl class="parameters">
     <dt><a class="xref" href="Apache.Arrow.Schema.html">Schema</a></dt>
-    <dd><p>The deserialized Schema object.</p>
-</dd>
+    <dd></dd>
   </dl>
 
 
@@ -191,15 +227,50 @@ Class SchemaExtensions  <a class="header-action link-secondary" title="View sour
 
 
 
-  <a id="Apache_Arrow_Flight_Sql_SchemaExtensions_SerializeSchema_" data-uid="Apache.Arrow.Flight.Sql.SchemaExtensions.SerializeSchema*"></a>
+  <a id="Apache_Arrow_ArrowSerializationHelpers_SerializeRecordBatch_" data-uid="Apache.Arrow.ArrowSerializationHelpers.SerializeRecordBatch*"></a>
 
-  <h3 id="Apache_Arrow_Flight_Sql_SchemaExtensions_SerializeSchema_Apache_Arrow_Schema_" data-uid="Apache.Arrow.Flight.Sql.SchemaExtensions.SerializeSchema(Apache.Arrow.Schema)">
-  SerializeSchema(Schema)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/SchemaExtensions.cs/#L39"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Apache_Arrow_ArrowSerializationHelpers_SerializeRecordBatch_Apache_Arrow_RecordBatch_" data-uid="Apache.Arrow.ArrowSerializationHelpers.SerializeRecordBatch(Apache.Arrow.RecordBatch)">
+  SerializeRecordBatch(RecordBatch)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ArrowSerializationHelpers.cs/#L50"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Serializes the provided schema to a byte array.</p>
-</div>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static byte[] SerializeRecordBatch(RecordBatch recordBatch)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>recordBatch</code> <a class="xref" href="Apache.Arrow.RecordBatch.html">RecordBatch</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_ArrowSerializationHelpers_SerializeSchema_" data-uid="Apache.Arrow.ArrowSerializationHelpers.SerializeSchema*"></a>
+
+  <h3 id="Apache_Arrow_ArrowSerializationHelpers_SerializeSchema_Apache_Arrow_Schema_" data-uid="Apache.Arrow.ArrowSerializationHelpers.SerializeSchema(Apache.Arrow.Schema)">
+  SerializeSchema(Schema)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ArrowSerializationHelpers.cs/#L40"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -232,7 +303,7 @@ Class SchemaExtensions  <a class="header-action link-secondary" title="View sour
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Flight.Sql/SchemaExtensions.cs/#L20" class="edit-link">Edit this page</a>
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ArrowSerializationHelpers.cs/#L26" class="edit-link">Edit this page</a>
         </div>
 
 

@@ -1483,6 +1483,70 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.ArrowBuffer.Span
   nameWithType: ArrowBuffer.Span
+- uid: Apache.Arrow.ArrowSerializationHelpers
+  name: ArrowSerializationHelpers
+  href: api/Apache.Arrow.ArrowSerializationHelpers.html
+  commentId: T:Apache.Arrow.ArrowSerializationHelpers
+  fullName: Apache.Arrow.ArrowSerializationHelpers
+  nameWithType: ArrowSerializationHelpers
+- uid: Apache.Arrow.ArrowSerializationHelpers.DeserializeRecordBatch(Apache.Arrow.Schema,System.ReadOnlyMemory{System.Byte})
+  name: DeserializeRecordBatch(Schema, ReadOnlyMemory<byte>)
+  href: api/Apache.Arrow.ArrowSerializationHelpers.html#Apache_Arrow_ArrowSerializationHelpers_DeserializeRecordBatch_Apache_Arrow_Schema_System_ReadOnlyMemory_System_Byte__
+  commentId: M:Apache.Arrow.ArrowSerializationHelpers.DeserializeRecordBatch(Apache.Arrow.Schema,System.ReadOnlyMemory{System.Byte})
+  name.vb: DeserializeRecordBatch(Schema, ReadOnlyMemory(Of Byte))
+  fullName: Apache.Arrow.ArrowSerializationHelpers.DeserializeRecordBatch(Apache.Arrow.Schema, System.ReadOnlyMemory<byte>)
+  fullName.vb: Apache.Arrow.ArrowSerializationHelpers.DeserializeRecordBatch(Apache.Arrow.Schema, System.ReadOnlyMemory(Of Byte))
+  nameWithType: ArrowSerializationHelpers.DeserializeRecordBatch(Schema, ReadOnlyMemory<byte>)
+  nameWithType.vb: ArrowSerializationHelpers.DeserializeRecordBatch(Schema, ReadOnlyMemory(Of Byte))
+- uid: Apache.Arrow.ArrowSerializationHelpers.DeserializeRecordBatch*
+  name: DeserializeRecordBatch
+  href: api/Apache.Arrow.ArrowSerializationHelpers.html#Apache_Arrow_ArrowSerializationHelpers_DeserializeRecordBatch_
+  commentId: Overload:Apache.Arrow.ArrowSerializationHelpers.DeserializeRecordBatch
+  isSpec: "True"
+  fullName: Apache.Arrow.ArrowSerializationHelpers.DeserializeRecordBatch
+  nameWithType: ArrowSerializationHelpers.DeserializeRecordBatch
+- uid: Apache.Arrow.ArrowSerializationHelpers.DeserializeSchema(System.ReadOnlyMemory{System.Byte})
+  name: DeserializeSchema(ReadOnlyMemory<byte>)
+  href: api/Apache.Arrow.ArrowSerializationHelpers.html#Apache_Arrow_ArrowSerializationHelpers_DeserializeSchema_System_ReadOnlyMemory_System_Byte__
+  commentId: M:Apache.Arrow.ArrowSerializationHelpers.DeserializeSchema(System.ReadOnlyMemory{System.Byte})
+  name.vb: DeserializeSchema(ReadOnlyMemory(Of Byte))
+  fullName: Apache.Arrow.ArrowSerializationHelpers.DeserializeSchema(System.ReadOnlyMemory<byte>)
+  fullName.vb: Apache.Arrow.ArrowSerializationHelpers.DeserializeSchema(System.ReadOnlyMemory(Of Byte))
+  nameWithType: ArrowSerializationHelpers.DeserializeSchema(ReadOnlyMemory<byte>)
+  nameWithType.vb: ArrowSerializationHelpers.DeserializeSchema(ReadOnlyMemory(Of Byte))
+- uid: Apache.Arrow.ArrowSerializationHelpers.DeserializeSchema*
+  name: DeserializeSchema
+  href: api/Apache.Arrow.ArrowSerializationHelpers.html#Apache_Arrow_ArrowSerializationHelpers_DeserializeSchema_
+  commentId: Overload:Apache.Arrow.ArrowSerializationHelpers.DeserializeSchema
+  isSpec: "True"
+  fullName: Apache.Arrow.ArrowSerializationHelpers.DeserializeSchema
+  nameWithType: ArrowSerializationHelpers.DeserializeSchema
+- uid: Apache.Arrow.ArrowSerializationHelpers.SerializeRecordBatch(Apache.Arrow.RecordBatch)
+  name: SerializeRecordBatch(RecordBatch)
+  href: api/Apache.Arrow.ArrowSerializationHelpers.html#Apache_Arrow_ArrowSerializationHelpers_SerializeRecordBatch_Apache_Arrow_RecordBatch_
+  commentId: M:Apache.Arrow.ArrowSerializationHelpers.SerializeRecordBatch(Apache.Arrow.RecordBatch)
+  fullName: Apache.Arrow.ArrowSerializationHelpers.SerializeRecordBatch(Apache.Arrow.RecordBatch)
+  nameWithType: ArrowSerializationHelpers.SerializeRecordBatch(RecordBatch)
+- uid: Apache.Arrow.ArrowSerializationHelpers.SerializeRecordBatch*
+  name: SerializeRecordBatch
+  href: api/Apache.Arrow.ArrowSerializationHelpers.html#Apache_Arrow_ArrowSerializationHelpers_SerializeRecordBatch_
+  commentId: Overload:Apache.Arrow.ArrowSerializationHelpers.SerializeRecordBatch
+  isSpec: "True"
+  fullName: Apache.Arrow.ArrowSerializationHelpers.SerializeRecordBatch
+  nameWithType: ArrowSerializationHelpers.SerializeRecordBatch
+- uid: Apache.Arrow.ArrowSerializationHelpers.SerializeSchema(Apache.Arrow.Schema)
+  name: SerializeSchema(Schema)
+  href: api/Apache.Arrow.ArrowSerializationHelpers.html#Apache_Arrow_ArrowSerializationHelpers_SerializeSchema_Apache_Arrow_Schema_
+  commentId: M:Apache.Arrow.ArrowSerializationHelpers.SerializeSchema(Apache.Arrow.Schema)
+  fullName: Apache.Arrow.ArrowSerializationHelpers.SerializeSchema(Apache.Arrow.Schema)
+  nameWithType: ArrowSerializationHelpers.SerializeSchema(Schema)
+- uid: Apache.Arrow.ArrowSerializationHelpers.SerializeSchema*
+  name: SerializeSchema
+  href: api/Apache.Arrow.ArrowSerializationHelpers.html#Apache_Arrow_ArrowSerializationHelpers_SerializeSchema_
+  commentId: Overload:Apache.Arrow.ArrowSerializationHelpers.SerializeSchema
+  isSpec: "True"
+  fullName: Apache.Arrow.ArrowSerializationHelpers.SerializeSchema
+  nameWithType: ArrowSerializationHelpers.SerializeSchema
 - uid: Apache.Arrow.ArrowTypeExtensions
   name: ArrowTypeExtensions
   href: api/Apache.Arrow.ArrowTypeExtensions.html
