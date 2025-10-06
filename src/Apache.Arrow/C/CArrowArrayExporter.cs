@@ -26,6 +26,11 @@ namespace Apache.Arrow.C
 {
     public static class CArrowArrayExporter
     {
+        /// <summary>
+        /// Experimental feature to enable exporting managed memory to CArrowArray. Use with caution.
+        /// </summary>
+        public static bool EnableManagedMemoryExport = false;
+
 #if NET5_0_OR_GREATER
         private static unsafe delegate* unmanaged<CArrowArray*, void> ReleaseArrayPtr => &ReleaseArray;
 #else
