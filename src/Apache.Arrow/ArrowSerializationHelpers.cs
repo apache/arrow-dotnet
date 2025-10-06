@@ -58,7 +58,7 @@ namespace Apache.Arrow
         }
 
         /// <summary>
-        /// This class handles writing schemas
+        /// Helper useful when writing just individual parts of the Arrow IPC format.
         /// </summary>
         internal class SchemaWriter : ArrowStreamWriter
         {
