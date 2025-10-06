@@ -13,6 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using Apache.Arrow.Flight;
 using Google.Protobuf;
 
@@ -20,7 +21,7 @@ namespace Apache.Arrow.Flight
 {
     internal static class SchemaWriter
     {
-        public static ByteString ToByteString(Schema schema)
+        public static ByteString ToByteString(this Schema schema)
         {
             return schema == null ?
                 ByteString.Empty :
@@ -32,7 +33,7 @@ namespace Apache.Arrow.Flight
 public static class SchemaExtension
 {
     // This should never have been a public class without a namespace
-    // TODO: Mark as obsolete once sufficient time has passed
+    [Obsolete("Use ArrowSerializationHelpers.SerializeSchema instead")]
     public static ByteString ToByteString(this Apache.Arrow.Schema schema)
     {
         return SchemaWriter.ToByteString(schema);

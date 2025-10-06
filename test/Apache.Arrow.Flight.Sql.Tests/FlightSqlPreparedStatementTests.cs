@@ -164,8 +164,8 @@ namespace Apache.Arrow.Flight.Sql.Tests
             var actionResult = new ActionCreatePreparedStatementResult
             {
                 PreparedStatementHandle = ByteString.CopyFrom(preparedStatementHandle, Encoding.UTF8),
-                DatasetSchema = _schema.ToByteString(),
-                ParameterSchema = _schema.ToByteString()
+                DatasetSchema = UnsafeByteOperations.UnsafeWrap(ArrowSerializationHelpers.SerializeSchema(_schema)),
+                ParameterSchema = UnsafeByteOperations.UnsafeWrap(ArrowSerializationHelpers.SerializeSchema(_schema)),
             };
             var flightData = new FlightData(_flightDescriptor, ByteString.CopyFrom(actionResult.ToByteArray()));
             var results = GetAsyncEnumerable(new List<FlightData> { flightData });
