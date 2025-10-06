@@ -33,6 +33,16 @@ namespace Apache.Arrow.Ipc
             _buffer = buffer;
         }
 
+        public ArrowMemoryReaderImplementation(
+            Schema schema,
+            ReadOnlyMemory<byte> buffer,
+            ICompressionCodecFactory compressionCodecFactory
+        ) : base(null, compressionCodecFactory)
+        {
+            _schema = schema;
+            _buffer = buffer;
+        }
+
         public override ValueTask<Schema> ReadSchemaAsync(CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();

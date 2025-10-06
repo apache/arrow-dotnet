@@ -72,11 +72,9 @@ namespace Apache.Arrow.Flight
 
         internal Protocol.FlightInfo ToProtocol()
         {
-            var serializedSchema = Schema != null ? SchemaWriter.SerializeSchema(Schema) : ByteString.Empty;
-
             var response = new Protocol.FlightInfo()
             {
-                Schema = serializedSchema,
+                Schema = Schema.ToByteString(),
                 FlightDescriptor = Descriptor.ToProtocol(),
                 TotalBytes = TotalBytes,
                 TotalRecords = TotalRecords,
