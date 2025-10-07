@@ -3331,6 +3331,12 @@ references:
   commentId: T:Apache.Arrow.C.CArrowArrayExporter
   fullName: Apache.Arrow.C.CArrowArrayExporter
   nameWithType: CArrowArrayExporter
+- uid: Apache.Arrow.C.CArrowArrayExporter.EnableManagedMemoryExport
+  name: EnableManagedMemoryExport
+  href: api/Apache.Arrow.C.CArrowArrayExporter.html#Apache_Arrow_C_CArrowArrayExporter_EnableManagedMemoryExport
+  commentId: F:Apache.Arrow.C.CArrowArrayExporter.EnableManagedMemoryExport
+  fullName: Apache.Arrow.C.CArrowArrayExporter.EnableManagedMemoryExport
+  nameWithType: CArrowArrayExporter.EnableManagedMemoryExport
 - uid: Apache.Arrow.C.CArrowArrayExporter.ExportArray(Apache.Arrow.IArrowArray,Apache.Arrow.C.CArrowArray*)
   name: ExportArray(IArrowArray, CArrowArray*)
   href: api/Apache.Arrow.C.CArrowArrayExporter.html#Apache_Arrow_C_CArrowArrayExporter_ExportArray_Apache_Arrow_IArrowArray_Apache_Arrow_C_CArrowArray__
