@@ -16,6 +16,7 @@
 using System;
 using System.Buffers;
 using System.Runtime.CompilerServices;
+using Apache.Arrow.C;
 using Apache.Arrow.Memory;
 
 namespace Apache.Arrow
@@ -86,6 +87,13 @@ namespace Apache.Arrow
             {
                 newOwner.Acquire(ptr, offset, length);
                 ptr += offset;
+                return true;
+            }
+
+            if (_memoryOwner == null && CArrowArrayExporter.EnableManagedMemoryExport)
+            {
+                var handle = _memory.Pin();
+                ptr = newOwner.Reference(handle);
                 return true;
             }
 
