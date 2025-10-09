@@ -39,7 +39,7 @@ repos:
         name: Format
         language: system
         entry: |
-          dotnet format --exclude src/Apache.Arrow/Flatbuf/FlatBuffers/
+          dotnet format Apache.Arrow.sln --exclude src/Apache.Arrow/Flatbuf/FlatBuffers/
         always_run: true
         pass_filenames: false
   - repo: https://github.com/koalaman/shellcheck-precommit
