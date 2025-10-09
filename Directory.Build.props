@@ -28,7 +28,7 @@
     <Product>Apache Arrow library</Product>
     <Copyright>Copyright 2016-2024 The Apache Software Foundation</Copyright>
     <Company>The Apache Software Foundation</Company>
-    <Version>22.0.1</Version>
+    <VersionPrefix>22.0.1</VersionPrefix>
   </PropertyGroup>
 
   <PropertyGroup>

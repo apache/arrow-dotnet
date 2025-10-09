@@ -20,7 +20,8 @@
 set -eux
 
 source_dir=${1}
+version_suffix="${2:-}"
 
 pushd "${source_dir}"
-dotnet pack -c Release
+dotnet pack -c Release --version-suffix "${version_suffix}"
 popd

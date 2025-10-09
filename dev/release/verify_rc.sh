@@ -159,11 +159,12 @@ test_binary_distribution() {
 
   local package
   local package_type
+  local nuget_dir
 
   # Create NuGet local directory source
   mkdir nuget
   dotnet new nugetconfig
-  local nuget_dir="$(pwd)/nuget"
+  nuget_dir="$(pwd)/nuget"
   if [ -n "${MSYSTEM:-}" ]; then
     dotnet nuget add source -n local "$(cygpath --absolute --windows "${nuget_dir}")"
   else
