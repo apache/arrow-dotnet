@@ -147,7 +147,7 @@ reference_package() {
   # the package instead of the local project.
   while [ -n "${1-}" ]; do
     dotnet remove "test/${1}" reference "src/${package}/${package}.csproj"
-    dotnet add "test/${1}" package "${package}" -v "${VERSION}"
+    dotnet add "test/${1}" package "${package}" --version "${VERSION}" --no-restore
     shift
   done
 }
@@ -180,7 +180,7 @@ test_binary_distribution() {
   popd
 
   # Update test projects to reference NuGet packages for the release candidate
-  reference_package "Apache.Arrow" "Apache.Arrow.Tests" "Apache.Arrow.Compression.Tests" "Apache.Arrow.Flight.Sql.Tests"
+  reference_package "Apache.Arrow" "Apache.Arrow.Tests" "Apache.Arrow.Compression.Tests"
   reference_package "Apache.Arrow.Compression" "Apache.Arrow.Compression.Tests"
   reference_package "Apache.Arrow.Flight.Sql" "Apache.Arrow.Flight.Sql.Tests" "Apache.Arrow.Flight.TestWeb"
   reference_package "Apache.Arrow.Flight.AspNetCore" "Apache.Arrow.Flight.TestWeb"
