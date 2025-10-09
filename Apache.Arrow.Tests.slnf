@@ -1,0 +1,12 @@
+{
+  "solution": {
+    "path": "Apache.Arrow.sln",
+    "projects": [
+      "test/Apache.Arrow.Compression.Tests/Apache.Arrow.Compression.Tests.csproj",
+      "test/Apache.Arrow.Flight.Sql.Tests/Apache.Arrow.Flight.Sql.Tests.csproj",
+      "test/Apache.Arrow.Flight.Tests/Apache.Arrow.Flight.Tests.csproj",
+      "test/Apache.Arrow.Flight.TestWeb/Apache.Arrow.Flight.TestWeb.csproj",
+      "test/Apache.Arrow.Tests/Apache.Arrow.Tests.csproj"
+    ]
+  }
+}
