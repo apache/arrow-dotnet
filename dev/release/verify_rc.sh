@@ -185,8 +185,8 @@ test_binary_distribution() {
   reference_package "Apache.Arrow.Flight.Sql" "Apache.Arrow.Flight.Sql.Tests" "Apache.Arrow.Flight.TestWeb"
   reference_package "Apache.Arrow.Flight.AspNetCore" "Apache.Arrow.Flight.TestWeb"
 
-  # Remove src directory to ensure we are only testing against built packages
-  rm -r src
+  # Move src directory to ensure we are only testing against built packages
+  mv src src.backup
 
   "${TOP_SOURCE_DIR}/ci/scripts/test.sh" "$(pwd)"
 }
