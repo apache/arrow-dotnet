@@ -145,7 +145,7 @@ reference_package() {
 
   # Subsequent arguments are test projects that need to reference
   # the package instead of the local project.
-  while [ -n "${1-}" ]; do
+  while [ $# -gt 0 ]; do
     dotnet remove "test/${1}" reference "src/${package}/${package}.csproj"
     dotnet add "test/${1}" package "${package}" --version "${VERSION}" --no-restore
     shift
