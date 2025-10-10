@@ -138,6 +138,20 @@ test_source_distribution() {
   "${TOP_SOURCE_DIR}/ci/scripts/test.sh" "$(pwd)"
 }
 
+reference_package() {
+  # First argument is the package name
+  local package=${1}
+  shift
+
+  # Subsequent arguments are test projects that need to reference
+  # the package instead of the local project.
+  while [ $# -gt 0 ]; do
+    dotnet remove "test/${1}" reference "src/${package}/${package}.csproj"
+    dotnet add "test/${1}" package "${package}" --version "${VERSION}" --no-restore
+    shift
+  done
+}
+
 test_binary_distribution() {
   if [ "${VERIFY_BINARY}" -le 0 ]; then
     return 0
@@ -145,12 +159,36 @@ test_binary_distribution() {
 
   local package
   local package_type
-  for package in $(cd src && echo *); do
+  local nuget_dir
+
+  # Create NuGet local directory source
+  mkdir nuget
+  dotnet new nugetconfig
+  nuget_dir="$(pwd)/nuget"
+  if [ -n "${MSYSTEM:-}" ]; then
+    dotnet nuget add source -n local "$(cygpath --absolute --windows "${nuget_dir}")"
+  else
+    dotnet nuget add source -n local "${nuget_dir}"
+  fi
+
+  pushd nuget
+  for package in $(cd ../src && echo *); do
     for package_type in nupkg snupkg; do
       fetch_artifact "${package}.${VERSION}.${package_type}"
     done
-    # TODO: Can we run tests against .nuget package?
   done
+  popd
+
+  # Update test projects to reference NuGet packages for the release candidate
+  reference_package "Apache.Arrow" "Apache.Arrow.Tests" "Apache.Arrow.Compression.Tests"
+  reference_package "Apache.Arrow.Compression" "Apache.Arrow.Compression.Tests"
+  reference_package "Apache.Arrow.Flight.Sql" "Apache.Arrow.Flight.Sql.Tests" "Apache.Arrow.Flight.TestWeb"
+  reference_package "Apache.Arrow.Flight.AspNetCore" "Apache.Arrow.Flight.TestWeb"
+
+  # Move src directory to ensure we are only testing against built packages
+  mv src src.backup
+
+  "${TOP_SOURCE_DIR}/ci/scripts/test.sh" "$(pwd)"
 }
 
 github_actions_group_end

@@ -40,6 +40,7 @@ jobs:
     timeout-minutes: 5
     outputs:
       version: ${{ steps.detect.outputs.version }}
+      version_suffix: ${{ steps.detect.outputs.version_suffix }}
       rc: ${{ steps.detect.outputs.rc }}
     steps:
       - name: Checkout
@@ -49,15 +50,19 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          version=$(grep -E -o '<Version>(.*)</Version>' \
+          version=$(grep -E -o '<VersionPrefix>(.*)</VersionPrefix>' \
                       Directory.Build.props |
-                      sed -E -e 's,</?Version>,,g')
+                      sed -E -e 's,</?VersionPrefix>,,g')
           if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
             rc=${GITHUB_REF_NAME#*-rc}
+            version_suffix=""
           else
             rc=$(date +%Y%m%d)
+            version_suffix="${rc}"
+            version="${version}-${version_suffix}"
           fi
           echo "version=${version}" >> ${GITHUB_OUTPUT}
+          echo "version_suffix=${version_suffix}" >> ${GITHUB_OUTPUT}
           echo "rc=${rc}" >> ${GITHUB_OUTPUT}
 
   source:
@@ -66,7 +71,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     env:
-      RC: ${{ needs.target.outputs.rc }}
       VERSION: ${{ needs.target.outputs.version }}
     steps:
       - name: Checkout
@@ -95,8 +99,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      RC: ${{ needs.target.outputs.rc }}
-      VERSION: ${{ needs.target.outputs.version }}
+      VERSION_SUFFIX: ${{ needs.target.outputs.version_suffix }}
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -104,7 +107,7 @@ jobs:
           fetch-depth: 0
       - name: Build
         run: |
-          ci/scripts/pack.sh "$(pwd)"
+          ci/scripts/pack.sh "$(pwd)" "${VERSION_SUFFIX}"
       - name: Prepare artifacts
         run: |
           shopt -s globstar
@@ -175,7 +178,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     env:
-      RC: ${{ needs.target.outputs.rc }}
       VERSION: ${{ needs.target.outputs.version }}
     permissions:
       contents: write

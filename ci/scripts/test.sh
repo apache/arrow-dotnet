@@ -42,5 +42,5 @@ fi
 export PYTHONNET_PYDLL
 
 pushd "${source_dir}"
-dotnet test
+dotnet test Apache.Arrow.Tests.slnf
 popd
