@@ -63,7 +63,7 @@ jobs:
         dotnet-version:
           - 8.0.x
         runs-on:
-          - macos-13
+          - macos-latest
           - ubuntu-latest
           - windows-latest
     steps:
