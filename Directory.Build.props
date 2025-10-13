@@ -26,9 +26,9 @@
   <!-- AssemblyInfo properties -->
   <PropertyGroup>
     <Product>Apache Arrow library</Product>
-    <Copyright>Copyright 2016-2024 The Apache Software Foundation</Copyright>
+    <Copyright>Copyright 2016-2025 The Apache Software Foundation</Copyright>
     <Company>The Apache Software Foundation</Company>
-    <VersionPrefix>22.0.1</VersionPrefix>
+    <VersionPrefix>22.1.0</VersionPrefix>
   </PropertyGroup>
 
   <PropertyGroup>
