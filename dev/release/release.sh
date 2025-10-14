@@ -46,8 +46,8 @@ fi
 
 cd "${SOURCE_TOP_DIR}"
 
-version=$(grep -E -o '<Version>(.*)</Version>' Directory.Build.props |
-  sed -E -e 's,</?Version>,,g')
+version=$(grep -E -o '<VersionPrefix>(.*)</VersionPrefix>' Directory.Build.props |
+  sed -E -e 's,</?VersionPrefix>,,g')
 
 git_origin_url="$(git remote get-url origin)"
 repository="${git_origin_url#*github.com?}"
