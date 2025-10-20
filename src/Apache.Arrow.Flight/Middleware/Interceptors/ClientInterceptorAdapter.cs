@@ -77,12 +77,12 @@ public sealed class ClientInterceptorAdapter : Interceptor
             {
                 throw task.Exception!;
             }
-            
+
             if (task.IsCanceled)
             {
                 throw new TaskCanceledException(task);
             }
-            
+
             var headers = task.Result;
             var ch = new CallHeaders(headers);
             foreach (var m in middlewares)
@@ -142,7 +142,7 @@ public sealed class ClientInterceptorAdapter : Interceptor
 
         var hasMiddlewares = nonNullMiddlewares.Count > 0;
         var completionNotified = false;
-        
+
         try
         {
             // Always await headers to surface faults; only materialize CallHeaders if needed.
@@ -170,7 +170,7 @@ public sealed class ClientInterceptorAdapter : Interceptor
         {
             dispose?.Invoke();
         }
-        
+
         void NotifyCompletionOnce()
         {
             if (completionNotified || !hasMiddlewares) return;

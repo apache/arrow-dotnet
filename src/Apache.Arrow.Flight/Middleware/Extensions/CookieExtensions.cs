@@ -86,7 +86,7 @@ public static class CookieExtensions
         cookies.Add(cookie);
         return cookies;
     }
-    
+
     public static bool IsExpired(this Cookie cookie, string rawHeader)
     {
         if (string.IsNullOrWhiteSpace(cookie?.Value))
@@ -95,7 +95,7 @@ public static class CookieExtensions
         // If raw header has Max-Age=0, consider it deleted
         if (rawHeader?.IndexOf("Max-Age=0", StringComparison.OrdinalIgnoreCase) >= 0)
             return true;
-        
+
         if (cookie.Expires != DateTime.MinValue && cookie.Expires <= DateTime.UtcNow)
             return true;
 

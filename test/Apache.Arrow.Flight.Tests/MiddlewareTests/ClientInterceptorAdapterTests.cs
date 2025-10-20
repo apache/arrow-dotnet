@@ -51,7 +51,7 @@ public class ClientInterceptorAdapterTests
         // Act
         var info = await _client.GetInfo(descriptor);
         var middleware = _middlewareFactory.Instance;
-        
+
         // Assert
         Assert.NotNull(info);
         Assert.True(middleware.BeforeHeadersCalled, "BeforeHeaders not called");
@@ -74,22 +74,22 @@ public class ClientInterceptorAdapterTests
         {
             // Expected: Flight not found, but middleware should have run
         }
-        
+
         // Assert Middleware captured the headers and cookies correctly
         var middleware = _middlewareFactory.Instance;
-        
+
         Assert.True(middleware.BeforeHeadersCalled, "OnBeforeSendingHeaders not called");
         Assert.True(middleware.HeadersReceivedCalled, "OnHeadersReceived not called");
         Assert.True(middleware.CallCompletedCalled, "OnCallCompleted not called");
-        
+
         // Validate Cookies captured correctly
         Assert.True(middleware.CapturedHeaders.ContainsKey("cookie"));
         var cookies = ParseCookies(middleware.CapturedHeaders["cookie"]);
-        
+
         Assert.Equal("abc123", cookies["sessionId"]);
         Assert.Equal("xyz789", cookies["token"]);
     }
-    
+
     private static IDictionary<string, string> ParseCookies(string cookieHeader)
     {
         return cookieHeader.Split(';')
@@ -97,5 +97,3 @@ public class ClientInterceptorAdapterTests
             .ToDictionary(parts => parts[0].Trim(), parts => parts[1].Trim());
     }
 }
-    
- 

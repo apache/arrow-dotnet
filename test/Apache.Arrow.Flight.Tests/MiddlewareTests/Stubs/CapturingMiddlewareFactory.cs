@@ -24,5 +24,5 @@ public class CapturingMiddlewareFactory : IFlightClientMiddlewareFactory
 {
     public CapturingMiddleware Instance { get; } = new();
 
-    public IFlightClientMiddleware OnCallStarted(CallInfo callInfo)=> Instance;
+    public IFlightClientMiddleware OnCallStarted(CallInfo callInfo) => Instance;
 }

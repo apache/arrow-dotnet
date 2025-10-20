@@ -20,9 +20,9 @@ using Grpc.Core;
 namespace Apache.Arrow.Flight.Tests.MiddlewareTests.Stubs;
 
 public class CapturingMiddleware : IFlightClientMiddleware
-{ 
+{
     public Dictionary<string, string> CapturedHeaders { get; } = new();
-    
+
     public bool BeforeHeadersCalled { get; private set; }
     public bool HeadersReceivedCalled { get; private set; }
     public bool CallCompletedCalled { get; private set; }
@@ -43,7 +43,7 @@ public class CapturingMiddleware : IFlightClientMiddleware
     {
         CallCompletedCalled = true;
     }
-    
+
     private void CaptureHeaders(ICallHeaders headers)
     {
         foreach (var key in headers.Keys)

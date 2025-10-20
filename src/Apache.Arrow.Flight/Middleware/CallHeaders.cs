@@ -47,19 +47,19 @@ public class CallHeaders : ICallHeaders, IEnumerable<KeyValuePair<string, string
     {
         get
         {
-            var entry = _metadata.FirstOrDefault(h =>  KeyEquals(h.Key, key));
+            var entry = _metadata.FirstOrDefault(h => KeyEquals(h.Key, key));
             return entry?.Value;
         }
         set
         {
-            var entry = _metadata.FirstOrDefault(h =>  KeyEquals(h.Key, key));
+            var entry = _metadata.FirstOrDefault(h => KeyEquals(h.Key, key));
             if (entry != null) _metadata.Remove(entry);
             _metadata.Add(key, value);
         }
     }
 
     public string Get(string key) => this[key];
-  
+
     public byte[] GetBytes(string key) =>
         _metadata.FirstOrDefault(h => KeyEquals(h.Key, key))?.ValueBytes;
 
@@ -74,7 +74,7 @@ public class CallHeaders : ICallHeaders, IEnumerable<KeyValuePair<string, string
     public void Insert(string key, byte[] value) => _metadata.Add(key, value);
 
     public ISet<string> Keys => new HashSet<string>(_metadata.Select(h => h.Key));
-    
+
     private static bool KeyEquals(string a, string b) =>
         string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
 }

@@ -37,7 +37,7 @@ public class CookieExtensionsTests
         Assert.Equal("abc123", cookies[0].Value);
         Assert.False(cookies[0].Expired);
     }
-    
+
     [Fact]
     public void ParseHeaderShouldParseCookieWithExpires()
     {
@@ -67,7 +67,7 @@ public class CookieExtensionsTests
         // Assert
         Assert.Empty(cookies);
     }
-    
+
     [Fact]
     public void ParseHeaderShouldReturnEmptyWhenEmptyString()
     {
@@ -80,7 +80,7 @@ public class CookieExtensionsTests
         // Assert
         Assert.Empty(cookies);
     }
-    
+
     [Fact]
     public void ParseHeaderShouldReturnEmptyWhenNullString()
     {
