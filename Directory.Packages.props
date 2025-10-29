@@ -18,6 +18,7 @@
 <Project>
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <ArrowVersion Condition="'$(ArrowVersion)' == ''">0.0.0</ArrowVersion>
   </PropertyGroup>
 
   <ItemGroup>
