@@ -35,6 +35,8 @@ namespace Apache.Arrow.Tests
         {
             public bool Initialized { get; }
 
+            public bool VersionMismatch { get; }
+
             public PythonNet()
             {
                 bool pythonSet = Environment.GetEnvironmentVariable("PYTHONNET_PYDLL") != null;
@@ -44,7 +46,17 @@ namespace Apache.Arrow.Tests
                     return;
                 }
 
-                PythonEngine.Initialize();
+                try
+                {
+                    PythonEngine.Initialize();
+                }
+                catch (NotSupportedException e) when (e.Message.Contains("Python ABI ") && e.Message.Contains("not supported"))
+                {
+                    // An unsupported version of Python is being used
+                    Initialized = false;
+                    VersionMismatch = true;
+                    return;
+                }
 
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) &&
                     PythonEngine.PythonPath.IndexOf("dlls", StringComparison.OrdinalIgnoreCase) < 0)
@@ -66,6 +78,8 @@ namespace Apache.Arrow.Tests
         {
             if (!pythonNet.Initialized)
             {
+                Skip.If(pythonNet.VersionMismatch, "VM has incompatible version of Python installed; skipping C Data Interface tests.");
+
                 bool inCIJob = Environment.GetEnvironmentVariable("GITHUB_ACTIONS") == "true";
                 bool inVerificationJob = Environment.GetEnvironmentVariable("TEST_CSHARP") == "1";
 
