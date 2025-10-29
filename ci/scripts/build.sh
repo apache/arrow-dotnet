@@ -20,7 +20,8 @@
 set -eux
 
 source_dir=${1}
+VERSION=${2:-0.0.0}
 
 pushd "${source_dir}"
-dotnet build
+dotnet build -p:Version="${VERSION}"
 popd

@@ -134,7 +134,7 @@ test_source_distribution() {
     return 0
   fi
 
-  "${TOP_SOURCE_DIR}/ci/scripts/build.sh" "$(pwd)"
+  "${TOP_SOURCE_DIR}/ci/scripts/build.sh" "$(pwd)" "$(VERSION)"
   "${TOP_SOURCE_DIR}/ci/scripts/test.sh" "$(pwd)"
 }
 
