@@ -12,15 +12,15 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' or '$(TargetFramework)' == 'net462'">
-    <PackageReference Include="System.Buffers" Version="4.6.0" />
-    <PackageReference Include="System.Memory" Version="4.6.0" />
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.0" />
-    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.0" />
-    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Include="System.Buffers" />
+    <PackageReference Include="System.Memory" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" />
+    <PackageReference Include="System.Threading.Tasks.Extensions" />
+    <PackageReference Include="System.ValueTuple" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>

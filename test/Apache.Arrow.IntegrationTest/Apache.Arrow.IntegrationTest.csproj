@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.CommandLine" Version="2.0.0-rc.2.25502.107" />
-    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    <PackageReference Include="System.CommandLine" />
+    <PackageReference Include="System.Text.Json" />
     <ProjectReference Include="..\..\src\Apache.Arrow.Compression\Apache.Arrow.Compression.csproj" />
     <ProjectReference Include="..\..\src\Apache.Arrow\Apache.Arrow.csproj" />
     <ProjectReference Include="..\Apache.Arrow.Tests\Apache.Arrow.Tests.csproj" />
