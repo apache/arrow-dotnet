@@ -134,7 +134,7 @@ test_source_distribution() {
     return 0
   fi
 
-  "${TOP_SOURCE_DIR}/ci/scripts/build.sh" "$(pwd)" "$(VERSION)"
+  "${TOP_SOURCE_DIR}/ci/scripts/build.sh" "$(pwd)"
   "${TOP_SOURCE_DIR}/ci/scripts/test.sh" "$(pwd)"
 }
 
@@ -147,7 +147,7 @@ reference_package() {
   # the package instead of the local project.
   while [ $# -gt 0 ]; do
     dotnet remove "test/${1}" reference "src/${package}/${package}.csproj"
-    dotnet add "test/${1}" package "${package}" --version "${VERSION}" --no-restore
+    dotnet add "test/${1}" package "${package}" --version "${VERSION}"
     shift
   done
 }
