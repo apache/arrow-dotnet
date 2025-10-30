@@ -18,14 +18,9 @@
 <Project>
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <ArrowVersion Condition="'$(ArrowVersion)' == ''">0.0.0</ArrowVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageVersion Include="Apache.Arrow" Version="[$(ArrowVersion)]" />
-    <PackageVersion Include="Apache.Arrow.Compression" Version="[$(ArrowVersion)]" />
-    <PackageVersion Include="Apache.Arrow.Flight.Sql" Version="[$(ArrowVersion)]" />
-    <PackageVersion Include="Apache.Arrow.Flight.AspNetCore" Version="[$(ArrowVersion)]" />
     <PackageVersion Include="BenchmarkDotNet" Version="0.15.4" />
     <PackageVersion Include="BenchmarkDotNet.Diagnostics.Windows" Version="0.15.4" />
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
