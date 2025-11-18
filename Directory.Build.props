@@ -43,7 +43,7 @@
   <PropertyGroup>
     <Authors>The Apache Software Foundation</Authors>
     <PackageIcon>logo_asf.png</PackageIcon>
-    <PackageLicenseExpression>APACHE-2.0</PackageLicenseExpression>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://arrow.apache.org/</PackageProjectUrl>
     <PackageTags>apache arrow</PackageTags>
     <RepositoryType>git</RepositoryType>
