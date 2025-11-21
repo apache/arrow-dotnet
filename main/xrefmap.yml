@@ -8620,6 +8620,757 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.Flight.FlightTicket.Ticket
   nameWithType: FlightTicket.Ticket
+- uid: Apache.Arrow.Flight.Middleware
+  name: Apache.Arrow.Flight.Middleware
+  href: api/Apache.Arrow.Flight.Middleware.html
+  commentId: N:Apache.Arrow.Flight.Middleware
+  fullName: Apache.Arrow.Flight.Middleware
+  nameWithType: Apache.Arrow.Flight.Middleware
+- uid: Apache.Arrow.Flight.Middleware.CallHeaders
+  name: CallHeaders
+  href: api/Apache.Arrow.Flight.Middleware.CallHeaders.html
+  commentId: T:Apache.Arrow.Flight.Middleware.CallHeaders
+  fullName: Apache.Arrow.Flight.Middleware.CallHeaders
+  nameWithType: CallHeaders
+- uid: Apache.Arrow.Flight.Middleware.CallHeaders.#ctor(Grpc.Core.Metadata)
+  name: CallHeaders(Metadata)
+  href: api/Apache.Arrow.Flight.Middleware.CallHeaders.html#Apache_Arrow_Flight_Middleware_CallHeaders__ctor_Grpc_Core_Metadata_
+  commentId: M:Apache.Arrow.Flight.Middleware.CallHeaders.#ctor(Grpc.Core.Metadata)
+  name.vb: New(Metadata)
+  fullName: Apache.Arrow.Flight.Middleware.CallHeaders.CallHeaders(Grpc.Core.Metadata)
+  fullName.vb: Apache.Arrow.Flight.Middleware.CallHeaders.New(Grpc.Core.Metadata)
+  nameWithType: CallHeaders.CallHeaders(Metadata)
+  nameWithType.vb: CallHeaders.New(Metadata)
+- uid: Apache.Arrow.Flight.Middleware.CallHeaders.#ctor*
+  name: CallHeaders
+  href: api/Apache.Arrow.Flight.Middleware.CallHeaders.html#Apache_Arrow_Flight_Middleware_CallHeaders__ctor_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.CallHeaders.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Apache.Arrow.Flight.Middleware.CallHeaders.CallHeaders
+  fullName.vb: Apache.Arrow.Flight.Middleware.CallHeaders.New
+  nameWithType: CallHeaders.CallHeaders
+  nameWithType.vb: CallHeaders.New
+- uid: Apache.Arrow.Flight.Middleware.CallHeaders.Add(System.String,System.String)
+  name: Add(string, string)
+  href: api/Apache.Arrow.Flight.Middleware.CallHeaders.html#Apache_Arrow_Flight_Middleware_CallHeaders_Add_System_String_System_String_
+  commentId: M:Apache.Arrow.Flight.Middleware.CallHeaders.Add(System.String,System.String)
+  name.vb: Add(String, String)
+  fullName: Apache.Arrow.Flight.Middleware.CallHeaders.Add(string, string)
+  fullName.vb: Apache.Arrow.Flight.Middleware.CallHeaders.Add(String, String)
+  nameWithType: CallHeaders.Add(string, string)
+  nameWithType.vb: CallHeaders.Add(String, String)
+- uid: Apache.Arrow.Flight.Middleware.CallHeaders.Add*
+  name: Add
+  href: api/Apache.Arrow.Flight.Middleware.CallHeaders.html#Apache_Arrow_Flight_Middleware_CallHeaders_Add_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.CallHeaders.Add
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.CallHeaders.Add
+  nameWithType: CallHeaders.Add
+- uid: Apache.Arrow.Flight.Middleware.CallHeaders.ContainsKey(System.String)
+  name: ContainsKey(string)
+  href: api/Apache.Arrow.Flight.Middleware.CallHeaders.html#Apache_Arrow_Flight_Middleware_CallHeaders_ContainsKey_System_String_
+  commentId: M:Apache.Arrow.Flight.Middleware.CallHeaders.ContainsKey(System.String)
+  name.vb: ContainsKey(String)
+  fullName: Apache.Arrow.Flight.Middleware.CallHeaders.ContainsKey(string)
+  fullName.vb: Apache.Arrow.Flight.Middleware.CallHeaders.ContainsKey(String)
+  nameWithType: CallHeaders.ContainsKey(string)
+  nameWithType.vb: CallHeaders.ContainsKey(String)
+- uid: Apache.Arrow.Flight.Middleware.CallHeaders.ContainsKey*
+  name: ContainsKey
+  href: api/Apache.Arrow.Flight.Middleware.CallHeaders.html#Apache_Arrow_Flight_Middleware_CallHeaders_ContainsKey_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.CallHeaders.ContainsKey
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.CallHeaders.ContainsKey
+  nameWithType: CallHeaders.ContainsKey
+- uid: Apache.Arrow.Flight.Middleware.CallHeaders.Get(System.String)
+  name: Get(string)
+  href: api/Apache.Arrow.Flight.Middleware.CallHeaders.html#Apache_Arrow_Flight_Middleware_CallHeaders_Get_System_String_
+  commentId: M:Apache.Arrow.Flight.Middleware.CallHeaders.Get(System.String)
+  name.vb: Get(String)
+  fullName: Apache.Arrow.Flight.Middleware.CallHeaders.Get(string)
+  fullName.vb: Apache.Arrow.Flight.Middleware.CallHeaders.Get(String)
+  nameWithType: CallHeaders.Get(string)
+  nameWithType.vb: CallHeaders.Get(String)
+- uid: Apache.Arrow.Flight.Middleware.CallHeaders.Get*
+  name: Get
+  href: api/Apache.Arrow.Flight.Middleware.CallHeaders.html#Apache_Arrow_Flight_Middleware_CallHeaders_Get_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.CallHeaders.Get
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.CallHeaders.Get
+  nameWithType: CallHeaders.Get
+- uid: Apache.Arrow.Flight.Middleware.CallHeaders.GetAll(System.String)
+  name: GetAll(string)
+  href: api/Apache.Arrow.Flight.Middleware.CallHeaders.html#Apache_Arrow_Flight_Middleware_CallHeaders_GetAll_System_String_
+  commentId: M:Apache.Arrow.Flight.Middleware.CallHeaders.GetAll(System.String)
+  name.vb: GetAll(String)
+  fullName: Apache.Arrow.Flight.Middleware.CallHeaders.GetAll(string)
+  fullName.vb: Apache.Arrow.Flight.Middleware.CallHeaders.GetAll(String)
+  nameWithType: CallHeaders.GetAll(string)
+  nameWithType.vb: CallHeaders.GetAll(String)
+- uid: Apache.Arrow.Flight.Middleware.CallHeaders.GetAll*
+  name: GetAll
+  href: api/Apache.Arrow.Flight.Middleware.CallHeaders.html#Apache_Arrow_Flight_Middleware_CallHeaders_GetAll_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.CallHeaders.GetAll
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.CallHeaders.GetAll
+  nameWithType: CallHeaders.GetAll
+- uid: Apache.Arrow.Flight.Middleware.CallHeaders.GetAllBytes(System.String)
+  name: GetAllBytes(string)
+  href: api/Apache.Arrow.Flight.Middleware.CallHeaders.html#Apache_Arrow_Flight_Middleware_CallHeaders_GetAllBytes_System_String_
+  commentId: M:Apache.Arrow.Flight.Middleware.CallHeaders.GetAllBytes(System.String)
+  name.vb: GetAllBytes(String)
+  fullName: Apache.Arrow.Flight.Middleware.CallHeaders.GetAllBytes(string)
+  fullName.vb: Apache.Arrow.Flight.Middleware.CallHeaders.GetAllBytes(String)
+  nameWithType: CallHeaders.GetAllBytes(string)
+  nameWithType.vb: CallHeaders.GetAllBytes(String)
+- uid: Apache.Arrow.Flight.Middleware.CallHeaders.GetAllBytes*
+  name: GetAllBytes
+  href: api/Apache.Arrow.Flight.Middleware.CallHeaders.html#Apache_Arrow_Flight_Middleware_CallHeaders_GetAllBytes_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.CallHeaders.GetAllBytes
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.CallHeaders.GetAllBytes
+  nameWithType: CallHeaders.GetAllBytes
+- uid: Apache.Arrow.Flight.Middleware.CallHeaders.GetBytes(System.String)
+  name: GetBytes(string)
+  href: api/Apache.Arrow.Flight.Middleware.CallHeaders.html#Apache_Arrow_Flight_Middleware_CallHeaders_GetBytes_System_String_
+  commentId: M:Apache.Arrow.Flight.Middleware.CallHeaders.GetBytes(System.String)
+  name.vb: GetBytes(String)
+  fullName: Apache.Arrow.Flight.Middleware.CallHeaders.GetBytes(string)
+  fullName.vb: Apache.Arrow.Flight.Middleware.CallHeaders.GetBytes(String)
+  nameWithType: CallHeaders.GetBytes(string)
+  nameWithType.vb: CallHeaders.GetBytes(String)
+- uid: Apache.Arrow.Flight.Middleware.CallHeaders.GetBytes*
+  name: GetBytes
+  href: api/Apache.Arrow.Flight.Middleware.CallHeaders.html#Apache_Arrow_Flight_Middleware_CallHeaders_GetBytes_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.CallHeaders.GetBytes
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.CallHeaders.GetBytes
+  nameWithType: CallHeaders.GetBytes
+- uid: Apache.Arrow.Flight.Middleware.CallHeaders.GetEnumerator
+  name: GetEnumerator()
+  href: api/Apache.Arrow.Flight.Middleware.CallHeaders.html#Apache_Arrow_Flight_Middleware_CallHeaders_GetEnumerator
+  commentId: M:Apache.Arrow.Flight.Middleware.CallHeaders.GetEnumerator
+  fullName: Apache.Arrow.Flight.Middleware.CallHeaders.GetEnumerator()
+  nameWithType: CallHeaders.GetEnumerator()
+- uid: Apache.Arrow.Flight.Middleware.CallHeaders.GetEnumerator*
+  name: GetEnumerator
+  href: api/Apache.Arrow.Flight.Middleware.CallHeaders.html#Apache_Arrow_Flight_Middleware_CallHeaders_GetEnumerator_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.CallHeaders.GetEnumerator
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.CallHeaders.GetEnumerator
+  nameWithType: CallHeaders.GetEnumerator
+- uid: Apache.Arrow.Flight.Middleware.CallHeaders.Insert(System.String,System.Byte[])
+  name: Insert(string, byte[])
+  href: api/Apache.Arrow.Flight.Middleware.CallHeaders.html#Apache_Arrow_Flight_Middleware_CallHeaders_Insert_System_String_System_Byte___
+  commentId: M:Apache.Arrow.Flight.Middleware.CallHeaders.Insert(System.String,System.Byte[])
+  name.vb: Insert(String, Byte())
+  fullName: Apache.Arrow.Flight.Middleware.CallHeaders.Insert(string, byte[])
+  fullName.vb: Apache.Arrow.Flight.Middleware.CallHeaders.Insert(String, Byte())
+  nameWithType: CallHeaders.Insert(string, byte[])
+  nameWithType.vb: CallHeaders.Insert(String, Byte())
+- uid: Apache.Arrow.Flight.Middleware.CallHeaders.Insert(System.String,System.String)
+  name: Insert(string, string)
+  href: api/Apache.Arrow.Flight.Middleware.CallHeaders.html#Apache_Arrow_Flight_Middleware_CallHeaders_Insert_System_String_System_String_
+  commentId: M:Apache.Arrow.Flight.Middleware.CallHeaders.Insert(System.String,System.String)
+  name.vb: Insert(String, String)
+  fullName: Apache.Arrow.Flight.Middleware.CallHeaders.Insert(string, string)
+  fullName.vb: Apache.Arrow.Flight.Middleware.CallHeaders.Insert(String, String)
+  nameWithType: CallHeaders.Insert(string, string)
+  nameWithType.vb: CallHeaders.Insert(String, String)
+- uid: Apache.Arrow.Flight.Middleware.CallHeaders.Insert*
+  name: Insert
+  href: api/Apache.Arrow.Flight.Middleware.CallHeaders.html#Apache_Arrow_Flight_Middleware_CallHeaders_Insert_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.CallHeaders.Insert
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.CallHeaders.Insert
+  nameWithType: CallHeaders.Insert
+- uid: Apache.Arrow.Flight.Middleware.CallHeaders.Item(System.String)
+  name: this[string]
+  href: api/Apache.Arrow.Flight.Middleware.CallHeaders.html#Apache_Arrow_Flight_Middleware_CallHeaders_Item_System_String_
+  commentId: P:Apache.Arrow.Flight.Middleware.CallHeaders.Item(System.String)
+  name.vb: this[](String)
+  fullName: Apache.Arrow.Flight.Middleware.CallHeaders.this[string]
+  fullName.vb: Apache.Arrow.Flight.Middleware.CallHeaders.this[](String)
+  nameWithType: CallHeaders.this[string]
+  nameWithType.vb: CallHeaders.this[](String)
+- uid: Apache.Arrow.Flight.Middleware.CallHeaders.Item*
+  name: this
+  href: api/Apache.Arrow.Flight.Middleware.CallHeaders.html#Apache_Arrow_Flight_Middleware_CallHeaders_Item_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.CallHeaders.Item
+  isSpec: "True"
+  name.vb: this[]
+  fullName: Apache.Arrow.Flight.Middleware.CallHeaders.this
+  fullName.vb: Apache.Arrow.Flight.Middleware.CallHeaders.this[]
+  nameWithType: CallHeaders.this
+  nameWithType.vb: CallHeaders.this[]
+- uid: Apache.Arrow.Flight.Middleware.CallHeaders.Keys
+  name: Keys
+  href: api/Apache.Arrow.Flight.Middleware.CallHeaders.html#Apache_Arrow_Flight_Middleware_CallHeaders_Keys
+  commentId: P:Apache.Arrow.Flight.Middleware.CallHeaders.Keys
+  fullName: Apache.Arrow.Flight.Middleware.CallHeaders.Keys
+  nameWithType: CallHeaders.Keys
+- uid: Apache.Arrow.Flight.Middleware.CallHeaders.Keys*
+  name: Keys
+  href: api/Apache.Arrow.Flight.Middleware.CallHeaders.html#Apache_Arrow_Flight_Middleware_CallHeaders_Keys_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.CallHeaders.Keys
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.CallHeaders.Keys
+  nameWithType: CallHeaders.Keys
+- uid: Apache.Arrow.Flight.Middleware.CallInfo
+  name: CallInfo
+  href: api/Apache.Arrow.Flight.Middleware.CallInfo.html
+  commentId: T:Apache.Arrow.Flight.Middleware.CallInfo
+  fullName: Apache.Arrow.Flight.Middleware.CallInfo
+  nameWithType: CallInfo
+- uid: Apache.Arrow.Flight.Middleware.CallInfo.#ctor(System.String,Grpc.Core.MethodType)
+  name: CallInfo(string, MethodType)
+  href: api/Apache.Arrow.Flight.Middleware.CallInfo.html#Apache_Arrow_Flight_Middleware_CallInfo__ctor_System_String_Grpc_Core_MethodType_
+  commentId: M:Apache.Arrow.Flight.Middleware.CallInfo.#ctor(System.String,Grpc.Core.MethodType)
+  name.vb: New(String, MethodType)
+  fullName: Apache.Arrow.Flight.Middleware.CallInfo.CallInfo(string, Grpc.Core.MethodType)
+  fullName.vb: Apache.Arrow.Flight.Middleware.CallInfo.New(String, Grpc.Core.MethodType)
+  nameWithType: CallInfo.CallInfo(string, MethodType)
+  nameWithType.vb: CallInfo.New(String, MethodType)
+- uid: Apache.Arrow.Flight.Middleware.CallInfo.#ctor*
+  name: CallInfo
+  href: api/Apache.Arrow.Flight.Middleware.CallInfo.html#Apache_Arrow_Flight_Middleware_CallInfo__ctor_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.CallInfo.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Apache.Arrow.Flight.Middleware.CallInfo.CallInfo
+  fullName.vb: Apache.Arrow.Flight.Middleware.CallInfo.New
+  nameWithType: CallInfo.CallInfo
+  nameWithType.vb: CallInfo.New
+- uid: Apache.Arrow.Flight.Middleware.CallInfo.Method
+  name: Method
+  href: api/Apache.Arrow.Flight.Middleware.CallInfo.html#Apache_Arrow_Flight_Middleware_CallInfo_Method
+  commentId: P:Apache.Arrow.Flight.Middleware.CallInfo.Method
+  fullName: Apache.Arrow.Flight.Middleware.CallInfo.Method
+  nameWithType: CallInfo.Method
+- uid: Apache.Arrow.Flight.Middleware.CallInfo.Method*
+  name: Method
+  href: api/Apache.Arrow.Flight.Middleware.CallInfo.html#Apache_Arrow_Flight_Middleware_CallInfo_Method_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.CallInfo.Method
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.CallInfo.Method
+  nameWithType: CallInfo.Method
+- uid: Apache.Arrow.Flight.Middleware.CallInfo.MethodType
+  name: MethodType
+  href: api/Apache.Arrow.Flight.Middleware.CallInfo.html#Apache_Arrow_Flight_Middleware_CallInfo_MethodType
+  commentId: P:Apache.Arrow.Flight.Middleware.CallInfo.MethodType
+  fullName: Apache.Arrow.Flight.Middleware.CallInfo.MethodType
+  nameWithType: CallInfo.MethodType
+- uid: Apache.Arrow.Flight.Middleware.CallInfo.MethodType*
+  name: MethodType
+  href: api/Apache.Arrow.Flight.Middleware.CallInfo.html#Apache_Arrow_Flight_Middleware_CallInfo_MethodType_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.CallInfo.MethodType
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.CallInfo.MethodType
+  nameWithType: CallInfo.MethodType
+- uid: Apache.Arrow.Flight.Middleware.CallInfo.ToString
+  name: ToString()
+  href: api/Apache.Arrow.Flight.Middleware.CallInfo.html#Apache_Arrow_Flight_Middleware_CallInfo_ToString
+  commentId: M:Apache.Arrow.Flight.Middleware.CallInfo.ToString
+  fullName: Apache.Arrow.Flight.Middleware.CallInfo.ToString()
+  nameWithType: CallInfo.ToString()
+- uid: Apache.Arrow.Flight.Middleware.CallInfo.ToString*
+  name: ToString
+  href: api/Apache.Arrow.Flight.Middleware.CallInfo.html#Apache_Arrow_Flight_Middleware_CallInfo_ToString_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.CallInfo.ToString
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.CallInfo.ToString
+  nameWithType: CallInfo.ToString
+- uid: Apache.Arrow.Flight.Middleware.ClientCookieMiddleware
+  name: ClientCookieMiddleware
+  href: api/Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.html
+  commentId: T:Apache.Arrow.Flight.Middleware.ClientCookieMiddleware
+  fullName: Apache.Arrow.Flight.Middleware.ClientCookieMiddleware
+  nameWithType: ClientCookieMiddleware
+- uid: Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.#ctor(Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory,Microsoft.Extensions.Logging.ILogger{Apache.Arrow.Flight.Middleware.ClientCookieMiddleware})
+  name: ClientCookieMiddleware(ClientCookieMiddlewareFactory, ILogger<ClientCookieMiddleware>)
+  href: api/Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.html#Apache_Arrow_Flight_Middleware_ClientCookieMiddleware__ctor_Apache_Arrow_Flight_Middleware_ClientCookieMiddlewareFactory_Microsoft_Extensions_Logging_ILogger_Apache_Arrow_Flight_Middleware_ClientCookieMiddleware__
+  commentId: M:Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.#ctor(Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory,Microsoft.Extensions.Logging.ILogger{Apache.Arrow.Flight.Middleware.ClientCookieMiddleware})
+  name.vb: New(ClientCookieMiddlewareFactory, ILogger(Of ClientCookieMiddleware))
+  fullName: Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.ClientCookieMiddleware(Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory, Microsoft.Extensions.Logging.ILogger<Apache.Arrow.Flight.Middleware.ClientCookieMiddleware>)
+  fullName.vb: Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.New(Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory, Microsoft.Extensions.Logging.ILogger(Of Apache.Arrow.Flight.Middleware.ClientCookieMiddleware))
+  nameWithType: ClientCookieMiddleware.ClientCookieMiddleware(ClientCookieMiddlewareFactory, ILogger<ClientCookieMiddleware>)
+  nameWithType.vb: ClientCookieMiddleware.New(ClientCookieMiddlewareFactory, ILogger(Of ClientCookieMiddleware))
+- uid: Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.#ctor*
+  name: ClientCookieMiddleware
+  href: api/Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.html#Apache_Arrow_Flight_Middleware_ClientCookieMiddleware__ctor_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.ClientCookieMiddleware
+  fullName.vb: Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.New
+  nameWithType: ClientCookieMiddleware.ClientCookieMiddleware
+  nameWithType.vb: ClientCookieMiddleware.New
+- uid: Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.OnBeforeSendingHeaders(Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders)
+  name: OnBeforeSendingHeaders(ICallHeaders)
+  href: api/Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.html#Apache_Arrow_Flight_Middleware_ClientCookieMiddleware_OnBeforeSendingHeaders_Apache_Arrow_Flight_Middleware_Interfaces_ICallHeaders_
+  commentId: M:Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.OnBeforeSendingHeaders(Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders)
+  fullName: Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.OnBeforeSendingHeaders(Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders)
+  nameWithType: ClientCookieMiddleware.OnBeforeSendingHeaders(ICallHeaders)
+- uid: Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.OnBeforeSendingHeaders*
+  name: OnBeforeSendingHeaders
+  href: api/Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.html#Apache_Arrow_Flight_Middleware_ClientCookieMiddleware_OnBeforeSendingHeaders_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.OnBeforeSendingHeaders
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.OnBeforeSendingHeaders
+  nameWithType: ClientCookieMiddleware.OnBeforeSendingHeaders
+- uid: Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.OnCallCompleted(Grpc.Core.Status,Grpc.Core.Metadata)
+  name: OnCallCompleted(Status, Metadata)
+  href: api/Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.html#Apache_Arrow_Flight_Middleware_ClientCookieMiddleware_OnCallCompleted_Grpc_Core_Status_Grpc_Core_Metadata_
+  commentId: M:Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.OnCallCompleted(Grpc.Core.Status,Grpc.Core.Metadata)
+  fullName: Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.OnCallCompleted(Grpc.Core.Status, Grpc.Core.Metadata)
+  nameWithType: ClientCookieMiddleware.OnCallCompleted(Status, Metadata)
+- uid: Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.OnCallCompleted*
+  name: OnCallCompleted
+  href: api/Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.html#Apache_Arrow_Flight_Middleware_ClientCookieMiddleware_OnCallCompleted_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.OnCallCompleted
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.OnCallCompleted
+  nameWithType: ClientCookieMiddleware.OnCallCompleted
+- uid: Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.OnHeadersReceived(Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders)
+  name: OnHeadersReceived(ICallHeaders)
+  href: api/Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.html#Apache_Arrow_Flight_Middleware_ClientCookieMiddleware_OnHeadersReceived_Apache_Arrow_Flight_Middleware_Interfaces_ICallHeaders_
+  commentId: M:Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.OnHeadersReceived(Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders)
+  fullName: Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.OnHeadersReceived(Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders)
+  nameWithType: ClientCookieMiddleware.OnHeadersReceived(ICallHeaders)
+- uid: Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.OnHeadersReceived*
+  name: OnHeadersReceived
+  href: api/Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.html#Apache_Arrow_Flight_Middleware_ClientCookieMiddleware_OnHeadersReceived_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.OnHeadersReceived
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.OnHeadersReceived
+  nameWithType: ClientCookieMiddleware.OnHeadersReceived
+- uid: Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory
+  name: ClientCookieMiddlewareFactory
+  href: api/Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory.html
+  commentId: T:Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory
+  fullName: Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory
+  nameWithType: ClientCookieMiddlewareFactory
+- uid: Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)
+  name: ClientCookieMiddlewareFactory(ILoggerFactory)
+  href: api/Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory.html#Apache_Arrow_Flight_Middleware_ClientCookieMiddlewareFactory__ctor_Microsoft_Extensions_Logging_ILoggerFactory_
+  commentId: M:Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)
+  name.vb: New(ILoggerFactory)
+  fullName: Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory.ClientCookieMiddlewareFactory(Microsoft.Extensions.Logging.ILoggerFactory)
+  fullName.vb: Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory.New(Microsoft.Extensions.Logging.ILoggerFactory)
+  nameWithType: ClientCookieMiddlewareFactory.ClientCookieMiddlewareFactory(ILoggerFactory)
+  nameWithType.vb: ClientCookieMiddlewareFactory.New(ILoggerFactory)
+- uid: Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory.#ctor*
+  name: ClientCookieMiddlewareFactory
+  href: api/Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory.html#Apache_Arrow_Flight_Middleware_ClientCookieMiddlewareFactory__ctor_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory.ClientCookieMiddlewareFactory
+  fullName.vb: Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory.New
+  nameWithType: ClientCookieMiddlewareFactory.ClientCookieMiddlewareFactory
+  nameWithType.vb: ClientCookieMiddlewareFactory.New
+- uid: Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory.Cookies
+  name: Cookies
+  href: api/Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory.html#Apache_Arrow_Flight_Middleware_ClientCookieMiddlewareFactory_Cookies
+  commentId: F:Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory.Cookies
+  fullName: Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory.Cookies
+  nameWithType: ClientCookieMiddlewareFactory.Cookies
+- uid: Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory.OnCallStarted(Apache.Arrow.Flight.Middleware.CallInfo)
+  name: OnCallStarted(CallInfo)
+  href: api/Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory.html#Apache_Arrow_Flight_Middleware_ClientCookieMiddlewareFactory_OnCallStarted_Apache_Arrow_Flight_Middleware_CallInfo_
+  commentId: M:Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory.OnCallStarted(Apache.Arrow.Flight.Middleware.CallInfo)
+  fullName: Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory.OnCallStarted(Apache.Arrow.Flight.Middleware.CallInfo)
+  nameWithType: ClientCookieMiddlewareFactory.OnCallStarted(CallInfo)
+- uid: Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory.OnCallStarted*
+  name: OnCallStarted
+  href: api/Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory.html#Apache_Arrow_Flight_Middleware_ClientCookieMiddlewareFactory_OnCallStarted_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory.OnCallStarted
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory.OnCallStarted
+  nameWithType: ClientCookieMiddlewareFactory.OnCallStarted
+- uid: Apache.Arrow.Flight.Middleware.Extensions
+  name: Apache.Arrow.Flight.Middleware.Extensions
+  href: api/Apache.Arrow.Flight.Middleware.Extensions.html
+  commentId: N:Apache.Arrow.Flight.Middleware.Extensions
+  fullName: Apache.Arrow.Flight.Middleware.Extensions
+  nameWithType: Apache.Arrow.Flight.Middleware.Extensions
+- uid: Apache.Arrow.Flight.Middleware.Extensions.CookieExtensions
+  name: CookieExtensions
+  href: api/Apache.Arrow.Flight.Middleware.Extensions.CookieExtensions.html
+  commentId: T:Apache.Arrow.Flight.Middleware.Extensions.CookieExtensions
+  fullName: Apache.Arrow.Flight.Middleware.Extensions.CookieExtensions
+  nameWithType: CookieExtensions
+- uid: Apache.Arrow.Flight.Middleware.Extensions.CookieExtensions.IsExpired(System.Net.Cookie,System.String)
+  name: IsExpired(Cookie, string)
+  href: api/Apache.Arrow.Flight.Middleware.Extensions.CookieExtensions.html#Apache_Arrow_Flight_Middleware_Extensions_CookieExtensions_IsExpired_System_Net_Cookie_System_String_
+  commentId: M:Apache.Arrow.Flight.Middleware.Extensions.CookieExtensions.IsExpired(System.Net.Cookie,System.String)
+  name.vb: IsExpired(Cookie, String)
+  fullName: Apache.Arrow.Flight.Middleware.Extensions.CookieExtensions.IsExpired(System.Net.Cookie, string)
+  fullName.vb: Apache.Arrow.Flight.Middleware.Extensions.CookieExtensions.IsExpired(System.Net.Cookie, String)
+  nameWithType: CookieExtensions.IsExpired(Cookie, string)
+  nameWithType.vb: CookieExtensions.IsExpired(Cookie, String)
+- uid: Apache.Arrow.Flight.Middleware.Extensions.CookieExtensions.IsExpired*
+  name: IsExpired
+  href: api/Apache.Arrow.Flight.Middleware.Extensions.CookieExtensions.html#Apache_Arrow_Flight_Middleware_Extensions_CookieExtensions_IsExpired_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.Extensions.CookieExtensions.IsExpired
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.Extensions.CookieExtensions.IsExpired
+  nameWithType: CookieExtensions.IsExpired
+- uid: Apache.Arrow.Flight.Middleware.Extensions.CookieExtensions.ParseHeader(System.String)
+  name: ParseHeader(string)
+  href: api/Apache.Arrow.Flight.Middleware.Extensions.CookieExtensions.html#Apache_Arrow_Flight_Middleware_Extensions_CookieExtensions_ParseHeader_System_String_
+  commentId: M:Apache.Arrow.Flight.Middleware.Extensions.CookieExtensions.ParseHeader(System.String)
+  name.vb: ParseHeader(String)
+  fullName: Apache.Arrow.Flight.Middleware.Extensions.CookieExtensions.ParseHeader(string)
+  fullName.vb: Apache.Arrow.Flight.Middleware.Extensions.CookieExtensions.ParseHeader(String)
+  nameWithType: CookieExtensions.ParseHeader(string)
+  nameWithType.vb: CookieExtensions.ParseHeader(String)
+- uid: Apache.Arrow.Flight.Middleware.Extensions.CookieExtensions.ParseHeader*
+  name: ParseHeader
+  href: api/Apache.Arrow.Flight.Middleware.Extensions.CookieExtensions.html#Apache_Arrow_Flight_Middleware_Extensions_CookieExtensions_ParseHeader_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.Extensions.CookieExtensions.ParseHeader
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.Extensions.CookieExtensions.ParseHeader
+  nameWithType: CookieExtensions.ParseHeader
+- uid: Apache.Arrow.Flight.Middleware.Interceptors
+  name: Apache.Arrow.Flight.Middleware.Interceptors
+  href: api/Apache.Arrow.Flight.Middleware.Interceptors.html
+  commentId: N:Apache.Arrow.Flight.Middleware.Interceptors
+  fullName: Apache.Arrow.Flight.Middleware.Interceptors
+  nameWithType: Apache.Arrow.Flight.Middleware.Interceptors
+- uid: Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter
+  name: ClientInterceptorAdapter
+  href: api/Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.html
+  commentId: T:Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter
+  fullName: Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter
+  nameWithType: ClientInterceptorAdapter
+- uid: Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.#ctor(System.Collections.Generic.IEnumerable{Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddlewareFactory})
+  name: ClientInterceptorAdapter(IEnumerable<IFlightClientMiddlewareFactory>)
+  href: api/Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.html#Apache_Arrow_Flight_Middleware_Interceptors_ClientInterceptorAdapter__ctor_System_Collections_Generic_IEnumerable_Apache_Arrow_Flight_Middleware_Interfaces_IFlightClientMiddlewareFactory__
+  commentId: M:Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.#ctor(System.Collections.Generic.IEnumerable{Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddlewareFactory})
+  name.vb: New(IEnumerable(Of IFlightClientMiddlewareFactory))
+  fullName: Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.ClientInterceptorAdapter(System.Collections.Generic.IEnumerable<Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddlewareFactory>)
+  fullName.vb: Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.New(System.Collections.Generic.IEnumerable(Of Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddlewareFactory))
+  nameWithType: ClientInterceptorAdapter.ClientInterceptorAdapter(IEnumerable<IFlightClientMiddlewareFactory>)
+  nameWithType.vb: ClientInterceptorAdapter.New(IEnumerable(Of IFlightClientMiddlewareFactory))
+- uid: Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.#ctor*
+  name: ClientInterceptorAdapter
+  href: api/Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.html#Apache_Arrow_Flight_Middleware_Interceptors_ClientInterceptorAdapter__ctor_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.ClientInterceptorAdapter
+  fullName.vb: Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.New
+  nameWithType: ClientInterceptorAdapter.ClientInterceptorAdapter
+  nameWithType.vb: ClientInterceptorAdapter.New
+- uid: Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.AsyncServerStreamingCall*
+  name: AsyncServerStreamingCall
+  href: api/Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.html#Apache_Arrow_Flight_Middleware_Interceptors_ClientInterceptorAdapter_AsyncServerStreamingCall_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.AsyncServerStreamingCall
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.AsyncServerStreamingCall
+  nameWithType: ClientInterceptorAdapter.AsyncServerStreamingCall
+- uid: Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.AsyncServerStreamingCall``2(``0,Grpc.Core.Interceptors.ClientInterceptorContext{``0,``1},Grpc.Core.Interceptors.Interceptor.AsyncServerStreamingCallContinuation{``0,``1})
+  name: AsyncServerStreamingCall<TRequest, TResponse>(TRequest, ClientInterceptorContext<TRequest, TResponse>, AsyncServerStreamingCallContinuation<TRequest, TResponse>)
+  href: api/Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.html#Apache_Arrow_Flight_Middleware_Interceptors_ClientInterceptorAdapter_AsyncServerStreamingCall__2___0_Grpc_Core_Interceptors_ClientInterceptorContext___0___1__Grpc_Core_Interceptors_Interceptor_AsyncServerStreamingCallContinuation___0___1__
+  commentId: M:Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.AsyncServerStreamingCall``2(``0,Grpc.Core.Interceptors.ClientInterceptorContext{``0,``1},Grpc.Core.Interceptors.Interceptor.AsyncServerStreamingCallContinuation{``0,``1})
+  name.vb: AsyncServerStreamingCall(Of TRequest, TResponse)(TRequest, ClientInterceptorContext(Of TRequest, TResponse), AsyncServerStreamingCallContinuation(Of TRequest, TResponse))
+  fullName: Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.AsyncServerStreamingCall<TRequest, TResponse>(TRequest, Grpc.Core.Interceptors.ClientInterceptorContext<TRequest, TResponse>, Grpc.Core.Interceptors.Interceptor.AsyncServerStreamingCallContinuation<TRequest, TResponse>)
+  fullName.vb: Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.AsyncServerStreamingCall(Of TRequest, TResponse)(TRequest, Grpc.Core.Interceptors.ClientInterceptorContext(Of TRequest, TResponse), Grpc.Core.Interceptors.Interceptor.AsyncServerStreamingCallContinuation(Of TRequest, TResponse))
+  nameWithType: ClientInterceptorAdapter.AsyncServerStreamingCall<TRequest, TResponse>(TRequest, ClientInterceptorContext<TRequest, TResponse>, Interceptor.AsyncServerStreamingCallContinuation<TRequest, TResponse>)
+  nameWithType.vb: ClientInterceptorAdapter.AsyncServerStreamingCall(Of TRequest, TResponse)(TRequest, ClientInterceptorContext(Of TRequest, TResponse), Interceptor.AsyncServerStreamingCallContinuation(Of TRequest, TResponse))
+- uid: Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.AsyncUnaryCall*
+  name: AsyncUnaryCall
+  href: api/Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.html#Apache_Arrow_Flight_Middleware_Interceptors_ClientInterceptorAdapter_AsyncUnaryCall_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.AsyncUnaryCall
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.AsyncUnaryCall
+  nameWithType: ClientInterceptorAdapter.AsyncUnaryCall
+- uid: Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.AsyncUnaryCall``2(``0,Grpc.Core.Interceptors.ClientInterceptorContext{``0,``1},Grpc.Core.Interceptors.Interceptor.AsyncUnaryCallContinuation{``0,``1})
+  name: AsyncUnaryCall<TRequest, TResponse>(TRequest, ClientInterceptorContext<TRequest, TResponse>, AsyncUnaryCallContinuation<TRequest, TResponse>)
+  href: api/Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.html#Apache_Arrow_Flight_Middleware_Interceptors_ClientInterceptorAdapter_AsyncUnaryCall__2___0_Grpc_Core_Interceptors_ClientInterceptorContext___0___1__Grpc_Core_Interceptors_Interceptor_AsyncUnaryCallContinuation___0___1__
+  commentId: M:Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.AsyncUnaryCall``2(``0,Grpc.Core.Interceptors.ClientInterceptorContext{``0,``1},Grpc.Core.Interceptors.Interceptor.AsyncUnaryCallContinuation{``0,``1})
+  name.vb: AsyncUnaryCall(Of TRequest, TResponse)(TRequest, ClientInterceptorContext(Of TRequest, TResponse), AsyncUnaryCallContinuation(Of TRequest, TResponse))
+  fullName: Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.AsyncUnaryCall<TRequest, TResponse>(TRequest, Grpc.Core.Interceptors.ClientInterceptorContext<TRequest, TResponse>, Grpc.Core.Interceptors.Interceptor.AsyncUnaryCallContinuation<TRequest, TResponse>)
+  fullName.vb: Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.AsyncUnaryCall(Of TRequest, TResponse)(TRequest, Grpc.Core.Interceptors.ClientInterceptorContext(Of TRequest, TResponse), Grpc.Core.Interceptors.Interceptor.AsyncUnaryCallContinuation(Of TRequest, TResponse))
+  nameWithType: ClientInterceptorAdapter.AsyncUnaryCall<TRequest, TResponse>(TRequest, ClientInterceptorContext<TRequest, TResponse>, Interceptor.AsyncUnaryCallContinuation<TRequest, TResponse>)
+  nameWithType.vb: ClientInterceptorAdapter.AsyncUnaryCall(Of TRequest, TResponse)(TRequest, ClientInterceptorContext(Of TRequest, TResponse), Interceptor.AsyncUnaryCallContinuation(Of TRequest, TResponse))
+- uid: Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream`1
+  name: MiddlewareResponseStream<T>
+  href: api/Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream-1.html
+  commentId: T:Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream`1
+  name.vb: MiddlewareResponseStream(Of T)
+  fullName: Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream<T>
+  fullName.vb: Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream(Of T)
+  nameWithType: MiddlewareResponseStream<T>
+  nameWithType.vb: MiddlewareResponseStream(Of T)
+- uid: Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream`1.#ctor(Grpc.Core.IAsyncStreamReader{`0},Grpc.Core.AsyncServerStreamingCall{`0},System.Collections.Generic.List{Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware})
+  name: MiddlewareResponseStream(IAsyncStreamReader<T>, AsyncServerStreamingCall<T>, List<IFlightClientMiddleware>)
+  href: api/Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream-1.html#Apache_Arrow_Flight_Middleware_Interceptors_MiddlewareResponseStream_1__ctor_Grpc_Core_IAsyncStreamReader__0__Grpc_Core_AsyncServerStreamingCall__0__System_Collections_Generic_List_Apache_Arrow_Flight_Middleware_Interfaces_IFlightClientMiddleware__
+  commentId: M:Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream`1.#ctor(Grpc.Core.IAsyncStreamReader{`0},Grpc.Core.AsyncServerStreamingCall{`0},System.Collections.Generic.List{Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware})
+  name.vb: New(IAsyncStreamReader(Of T), AsyncServerStreamingCall(Of T), List(Of IFlightClientMiddleware))
+  fullName: Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream<T>.MiddlewareResponseStream(Grpc.Core.IAsyncStreamReader<T>, Grpc.Core.AsyncServerStreamingCall<T>, System.Collections.Generic.List<Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware>)
+  fullName.vb: Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream(Of T).New(Grpc.Core.IAsyncStreamReader(Of T), Grpc.Core.AsyncServerStreamingCall(Of T), System.Collections.Generic.List(Of Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware))
+  nameWithType: MiddlewareResponseStream<T>.MiddlewareResponseStream(IAsyncStreamReader<T>, AsyncServerStreamingCall<T>, List<IFlightClientMiddleware>)
+  nameWithType.vb: MiddlewareResponseStream(Of T).New(IAsyncStreamReader(Of T), AsyncServerStreamingCall(Of T), List(Of IFlightClientMiddleware))
+- uid: Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream`1.#ctor*
+  name: MiddlewareResponseStream
+  href: api/Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream-1.html#Apache_Arrow_Flight_Middleware_Interceptors_MiddlewareResponseStream_1__ctor_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream`1.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream<T>.MiddlewareResponseStream
+  fullName.vb: Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream(Of T).New
+  nameWithType: MiddlewareResponseStream<T>.MiddlewareResponseStream
+  nameWithType.vb: MiddlewareResponseStream(Of T).New
+- uid: Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream`1.Current
+  name: Current
+  href: api/Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream-1.html#Apache_Arrow_Flight_Middleware_Interceptors_MiddlewareResponseStream_1_Current
+  commentId: P:Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream`1.Current
+  fullName: Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream<T>.Current
+  fullName.vb: Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream(Of T).Current
+  nameWithType: MiddlewareResponseStream<T>.Current
+  nameWithType.vb: MiddlewareResponseStream(Of T).Current
+- uid: Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream`1.Current*
+  name: Current
+  href: api/Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream-1.html#Apache_Arrow_Flight_Middleware_Interceptors_MiddlewareResponseStream_1_Current_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream`1.Current
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream<T>.Current
+  fullName.vb: Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream(Of T).Current
+  nameWithType: MiddlewareResponseStream<T>.Current
+  nameWithType.vb: MiddlewareResponseStream(Of T).Current
+- uid: Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream`1.MoveNext(System.Threading.CancellationToken)
+  name: MoveNext(CancellationToken)
+  href: api/Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream-1.html#Apache_Arrow_Flight_Middleware_Interceptors_MiddlewareResponseStream_1_MoveNext_System_Threading_CancellationToken_
+  commentId: M:Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream`1.MoveNext(System.Threading.CancellationToken)
+  fullName: Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream<T>.MoveNext(System.Threading.CancellationToken)
+  fullName.vb: Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream(Of T).MoveNext(System.Threading.CancellationToken)
+  nameWithType: MiddlewareResponseStream<T>.MoveNext(CancellationToken)
+  nameWithType.vb: MiddlewareResponseStream(Of T).MoveNext(CancellationToken)
+- uid: Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream`1.MoveNext*
+  name: MoveNext
+  href: api/Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream-1.html#Apache_Arrow_Flight_Middleware_Interceptors_MiddlewareResponseStream_1_MoveNext_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream`1.MoveNext
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream<T>.MoveNext
+  fullName.vb: Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream(Of T).MoveNext
+  nameWithType: MiddlewareResponseStream<T>.MoveNext
+  nameWithType.vb: MiddlewareResponseStream(Of T).MoveNext
+- uid: Apache.Arrow.Flight.Middleware.Interfaces
+  name: Apache.Arrow.Flight.Middleware.Interfaces
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.html
+  commentId: N:Apache.Arrow.Flight.Middleware.Interfaces
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces
+  nameWithType: Apache.Arrow.Flight.Middleware.Interfaces
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders
+  name: ICallHeaders
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.html
+  commentId: T:Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders
+  nameWithType: ICallHeaders
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.ContainsKey(System.String)
+  name: ContainsKey(string)
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.html#Apache_Arrow_Flight_Middleware_Interfaces_ICallHeaders_ContainsKey_System_String_
+  commentId: M:Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.ContainsKey(System.String)
+  name.vb: ContainsKey(String)
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.ContainsKey(string)
+  fullName.vb: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.ContainsKey(String)
+  nameWithType: ICallHeaders.ContainsKey(string)
+  nameWithType.vb: ICallHeaders.ContainsKey(String)
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.ContainsKey*
+  name: ContainsKey
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.html#Apache_Arrow_Flight_Middleware_Interfaces_ICallHeaders_ContainsKey_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.ContainsKey
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.ContainsKey
+  nameWithType: ICallHeaders.ContainsKey
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Get(System.String)
+  name: Get(string)
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.html#Apache_Arrow_Flight_Middleware_Interfaces_ICallHeaders_Get_System_String_
+  commentId: M:Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Get(System.String)
+  name.vb: Get(String)
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Get(string)
+  fullName.vb: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Get(String)
+  nameWithType: ICallHeaders.Get(string)
+  nameWithType.vb: ICallHeaders.Get(String)
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Get*
+  name: Get
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.html#Apache_Arrow_Flight_Middleware_Interfaces_ICallHeaders_Get_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Get
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Get
+  nameWithType: ICallHeaders.Get
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.GetAll(System.String)
+  name: GetAll(string)
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.html#Apache_Arrow_Flight_Middleware_Interfaces_ICallHeaders_GetAll_System_String_
+  commentId: M:Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.GetAll(System.String)
+  name.vb: GetAll(String)
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.GetAll(string)
+  fullName.vb: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.GetAll(String)
+  nameWithType: ICallHeaders.GetAll(string)
+  nameWithType.vb: ICallHeaders.GetAll(String)
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.GetAll*
+  name: GetAll
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.html#Apache_Arrow_Flight_Middleware_Interfaces_ICallHeaders_GetAll_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.GetAll
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.GetAll
+  nameWithType: ICallHeaders.GetAll
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.GetAllBytes(System.String)
+  name: GetAllBytes(string)
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.html#Apache_Arrow_Flight_Middleware_Interfaces_ICallHeaders_GetAllBytes_System_String_
+  commentId: M:Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.GetAllBytes(System.String)
+  name.vb: GetAllBytes(String)
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.GetAllBytes(string)
+  fullName.vb: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.GetAllBytes(String)
+  nameWithType: ICallHeaders.GetAllBytes(string)
+  nameWithType.vb: ICallHeaders.GetAllBytes(String)
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.GetAllBytes*
+  name: GetAllBytes
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.html#Apache_Arrow_Flight_Middleware_Interfaces_ICallHeaders_GetAllBytes_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.GetAllBytes
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.GetAllBytes
+  nameWithType: ICallHeaders.GetAllBytes
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.GetBytes(System.String)
+  name: GetBytes(string)
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.html#Apache_Arrow_Flight_Middleware_Interfaces_ICallHeaders_GetBytes_System_String_
+  commentId: M:Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.GetBytes(System.String)
+  name.vb: GetBytes(String)
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.GetBytes(string)
+  fullName.vb: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.GetBytes(String)
+  nameWithType: ICallHeaders.GetBytes(string)
+  nameWithType.vb: ICallHeaders.GetBytes(String)
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.GetBytes*
+  name: GetBytes
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.html#Apache_Arrow_Flight_Middleware_Interfaces_ICallHeaders_GetBytes_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.GetBytes
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.GetBytes
+  nameWithType: ICallHeaders.GetBytes
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Insert(System.String,System.Byte[])
+  name: Insert(string, byte[])
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.html#Apache_Arrow_Flight_Middleware_Interfaces_ICallHeaders_Insert_System_String_System_Byte___
+  commentId: M:Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Insert(System.String,System.Byte[])
+  name.vb: Insert(String, Byte())
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Insert(string, byte[])
+  fullName.vb: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Insert(String, Byte())
+  nameWithType: ICallHeaders.Insert(string, byte[])
+  nameWithType.vb: ICallHeaders.Insert(String, Byte())
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Insert(System.String,System.String)
+  name: Insert(string, string)
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.html#Apache_Arrow_Flight_Middleware_Interfaces_ICallHeaders_Insert_System_String_System_String_
+  commentId: M:Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Insert(System.String,System.String)
+  name.vb: Insert(String, String)
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Insert(string, string)
+  fullName.vb: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Insert(String, String)
+  nameWithType: ICallHeaders.Insert(string, string)
+  nameWithType.vb: ICallHeaders.Insert(String, String)
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Insert*
+  name: Insert
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.html#Apache_Arrow_Flight_Middleware_Interfaces_ICallHeaders_Insert_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Insert
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Insert
+  nameWithType: ICallHeaders.Insert
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Item(System.String)
+  name: this[string]
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.html#Apache_Arrow_Flight_Middleware_Interfaces_ICallHeaders_Item_System_String_
+  commentId: P:Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Item(System.String)
+  name.vb: this[](String)
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.this[string]
+  fullName.vb: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.this[](String)
+  nameWithType: ICallHeaders.this[string]
+  nameWithType.vb: ICallHeaders.this[](String)
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Item*
+  name: this
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.html#Apache_Arrow_Flight_Middleware_Interfaces_ICallHeaders_Item_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Item
+  isSpec: "True"
+  name.vb: this[]
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.this
+  fullName.vb: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.this[]
+  nameWithType: ICallHeaders.this
+  nameWithType.vb: ICallHeaders.this[]
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Keys
+  name: Keys
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.html#Apache_Arrow_Flight_Middleware_Interfaces_ICallHeaders_Keys
+  commentId: P:Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Keys
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Keys
+  nameWithType: ICallHeaders.Keys
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Keys*
+  name: Keys
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.html#Apache_Arrow_Flight_Middleware_Interfaces_ICallHeaders_Keys_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Keys
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.Keys
+  nameWithType: ICallHeaders.Keys
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware
+  name: IFlightClientMiddleware
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.html
+  commentId: T:Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware
+  nameWithType: IFlightClientMiddleware
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.OnBeforeSendingHeaders(Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders)
+  name: OnBeforeSendingHeaders(ICallHeaders)
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.html#Apache_Arrow_Flight_Middleware_Interfaces_IFlightClientMiddleware_OnBeforeSendingHeaders_Apache_Arrow_Flight_Middleware_Interfaces_ICallHeaders_
+  commentId: M:Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.OnBeforeSendingHeaders(Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders)
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.OnBeforeSendingHeaders(Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders)
+  nameWithType: IFlightClientMiddleware.OnBeforeSendingHeaders(ICallHeaders)
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.OnBeforeSendingHeaders*
+  name: OnBeforeSendingHeaders
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.html#Apache_Arrow_Flight_Middleware_Interfaces_IFlightClientMiddleware_OnBeforeSendingHeaders_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.OnBeforeSendingHeaders
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.OnBeforeSendingHeaders
+  nameWithType: IFlightClientMiddleware.OnBeforeSendingHeaders
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.OnCallCompleted(Grpc.Core.Status,Grpc.Core.Metadata)
+  name: OnCallCompleted(Status, Metadata)
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.html#Apache_Arrow_Flight_Middleware_Interfaces_IFlightClientMiddleware_OnCallCompleted_Grpc_Core_Status_Grpc_Core_Metadata_
+  commentId: M:Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.OnCallCompleted(Grpc.Core.Status,Grpc.Core.Metadata)
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.OnCallCompleted(Grpc.Core.Status, Grpc.Core.Metadata)
+  nameWithType: IFlightClientMiddleware.OnCallCompleted(Status, Metadata)
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.OnCallCompleted*
+  name: OnCallCompleted
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.html#Apache_Arrow_Flight_Middleware_Interfaces_IFlightClientMiddleware_OnCallCompleted_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.OnCallCompleted
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.OnCallCompleted
+  nameWithType: IFlightClientMiddleware.OnCallCompleted
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.OnHeadersReceived(Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders)
+  name: OnHeadersReceived(ICallHeaders)
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.html#Apache_Arrow_Flight_Middleware_Interfaces_IFlightClientMiddleware_OnHeadersReceived_Apache_Arrow_Flight_Middleware_Interfaces_ICallHeaders_
+  commentId: M:Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.OnHeadersReceived(Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders)
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.OnHeadersReceived(Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders)
+  nameWithType: IFlightClientMiddleware.OnHeadersReceived(ICallHeaders)
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.OnHeadersReceived*
+  name: OnHeadersReceived
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.html#Apache_Arrow_Flight_Middleware_Interfaces_IFlightClientMiddleware_OnHeadersReceived_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.OnHeadersReceived
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.OnHeadersReceived
+  nameWithType: IFlightClientMiddleware.OnHeadersReceived
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddlewareFactory
+  name: IFlightClientMiddlewareFactory
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddlewareFactory.html
+  commentId: T:Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddlewareFactory
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddlewareFactory
+  nameWithType: IFlightClientMiddlewareFactory
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddlewareFactory.OnCallStarted(Apache.Arrow.Flight.Middleware.CallInfo)
+  name: OnCallStarted(CallInfo)
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddlewareFactory.html#Apache_Arrow_Flight_Middleware_Interfaces_IFlightClientMiddlewareFactory_OnCallStarted_Apache_Arrow_Flight_Middleware_CallInfo_
+  commentId: M:Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddlewareFactory.OnCallStarted(Apache.Arrow.Flight.Middleware.CallInfo)
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddlewareFactory.OnCallStarted(Apache.Arrow.Flight.Middleware.CallInfo)
+  nameWithType: IFlightClientMiddlewareFactory.OnCallStarted(CallInfo)
+- uid: Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddlewareFactory.OnCallStarted*
+  name: OnCallStarted
+  href: api/Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddlewareFactory.html#Apache_Arrow_Flight_Middleware_Interfaces_IFlightClientMiddlewareFactory_OnCallStarted_
+  commentId: Overload:Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddlewareFactory.OnCallStarted
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddlewareFactory.OnCallStarted
+  nameWithType: IFlightClientMiddlewareFactory.OnCallStarted
 - uid: Apache.Arrow.Flight.Server
   name: Apache.Arrow.Flight.Server
   href: api/Apache.Arrow.Flight.Server.html

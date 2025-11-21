@@ -1272,6 +1272,202 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Middleware.CallHeaders.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Middleware.CallHeaders.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Middleware.CallHeaders",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Middleware.CallInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Middleware.CallInfo.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Middleware.CallInfo",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Middleware.ClientCookieMiddleware.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Middleware.ClientCookieMiddleware",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Middleware.ClientCookieMiddlewareFactory",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Middleware.Extensions.CookieExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Middleware.Extensions.CookieExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Middleware.Extensions.CookieExtensions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Middleware.Extensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Middleware.Extensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Middleware.Extensions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Middleware.Interceptors.ClientInterceptorAdapter",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Middleware.Interceptors.MiddlewareResponseStream<T>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Middleware.Interceptors.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Middleware.Interceptors.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Middleware.Interceptors",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Middleware.Interfaces.ICallHeaders",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddleware",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddlewareFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddlewareFactory.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Middleware.Interfaces.IFlightClientMiddlewareFactory",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Middleware.Interfaces.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Middleware.Interfaces.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Middleware.Interfaces",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Flight.Middleware.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Flight.Middleware.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Flight.Middleware",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Apache.Arrow.Flight.Server.FlightServer.yml",
       "output": {
         ".html": {
