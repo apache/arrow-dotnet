@@ -31,7 +31,7 @@ for currently available features.
 
 - Arrow specification 1.0.0. (Support for reading 0.11+.)
 - C# 11
-- .NET Standard 2.0, .NET 6.0, .NET 8.0 and .NET Framework 4.6.2
+- .NET Standard 2.0, .NET 8.0+ and .NET Framework 4.6.2
 - Asynchronous I/O
 - Uses modern .NET runtime features such as **Span&lt;T&gt;**, **Memory&lt;T&gt;**, **MemoryManager&lt;T&gt;**, and **System.Buffers** primitives for memory allocation, memory storage, and fast serialization.
 - Uses **Acyclic Visitor Pattern** for array types and arrays to facilitate serialization, record batch traversal, and format growth.
