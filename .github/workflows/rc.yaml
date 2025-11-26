@@ -139,6 +139,7 @@ jobs:
       matrix:
         dotnet-version:
           - 8.0.x
+          - 10.0.x
         runs-on:
           - macos-latest
           - ubuntu-latest
