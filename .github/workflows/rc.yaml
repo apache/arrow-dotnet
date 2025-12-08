@@ -44,7 +44,7 @@ jobs:
       rc: ${{ steps.detect.outputs.rc }}
     steps:
       - name: Checkout
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - name: Detect
         id: detect
         env:
@@ -74,7 +74,7 @@ jobs:
       VERSION: ${{ needs.target.outputs.version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - name: Archive
         run: |
           id="apache-arrow-dotnet-${VERSION}"
@@ -102,7 +102,7 @@ jobs:
       VERSION_SUFFIX: ${{ needs.target.outputs.version_suffix }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.0
+        uses: actions/checkout@v6.0.1
         with:
           fetch-depth: 0
       - name: Build
@@ -148,7 +148,7 @@ jobs:
       VERSION: ${{ needs.target.outputs.version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - name: Setup .NET
         uses: actions/setup-dotnet@2016bd2012dba4e32de620c46fe006a3ac9f0602 # v5.0.1
         with:
@@ -183,7 +183,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - name: Build documentation
         shell: bash
         run: ci/scripts/docs.sh $(pwd)
