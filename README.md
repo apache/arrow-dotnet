@@ -48,23 +48,24 @@ for currently available features.
 
 # Usage
 
-	using System.Diagnostics;
-	using System.IO;
-	using System.Threading.Tasks;
-	using Apache.Arrow;
-	using Apache.Arrow.Ipc;
+```csharp
+using System.Diagnostics;
+using System.IO;
+using System.Threading.Tasks;
+using Apache.Arrow;
+using Apache.Arrow.Ipc;
 
-    public static async Task<RecordBatch> ReadArrowAsync(string filename)
+public static async Task<RecordBatch> ReadArrowAsync(string filename)
+{
+    using (var stream = File.OpenRead(filename))
+    using (var reader = new ArrowFileReader(stream))
     {
-        using (var stream = File.OpenRead(filename))
-        using (var reader = new ArrowFileReader(stream))
-        {
-            var recordBatch = await reader.ReadNextRecordBatchAsync();
-            Debug.WriteLine("Read record batch with {0} column(s)", recordBatch.ColumnCount);
-            return recordBatch;
-        }
+        var recordBatch = await reader.ReadNextRecordBatchAsync();
+        Debug.WriteLine("Read record batch with {0} column(s)", recordBatch.ColumnCount);
+        return recordBatch;
     }
-
+}
+```
 
 # Status
 
@@ -191,8 +192,8 @@ This project follows the coding style specified in [Coding Style](https://github
 
 # Updating FlatBuffers code
 
-See https://google.github.io/flatbuffers/flatbuffers_guide_use_java_c-sharp.html for how to get the `flatc` executable.
+See https://flatbuffers.dev/languages/c_sharp/ for how to get the `flatc` executable.
 
-Run `flatc --csharp` on each `.fbs` file in the [format](../format) folder. And replace the checked in `.cs` files under [FlatBuf](src/Apache.Arrow/Flatbuf) with the generated files.
+Run `flatc --csharp` on each `.fbs` file in the [format](./format) folder. And replace the checked in `.cs` files under [FlatBuf](src/Apache.Arrow/Flatbuf) with the generated files.
 
 Update the non-generated [FlatBuffers](src/Apache.Arrow/Flatbuf/FlatBuffers) `.cs` files with the files from the [google/flatbuffers repo](https://github.com/google/flatbuffers/tree/master/net/FlatBuffers).
