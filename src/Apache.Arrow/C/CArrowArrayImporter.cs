@@ -470,7 +470,7 @@ namespace Apache.Arrow.C
                 int length = checked((int)cArray->offset + (int)cArray->length);
                 int valuesLength;
                 if (bitWidth >= 8)
-                    valuesLength = checked(length * bitWidth / 8);
+                    valuesLength = checked((int)((ulong)length * (ulong)bitWidth / 8ul));
                 else
                     valuesLength = checked((int)BitUtility.RoundUpToMultipleOf8(length) / 8);
 
