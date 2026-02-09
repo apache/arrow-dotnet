@@ -102,5 +102,23 @@ namespace Apache.Arrow.Compression.Tests
             }
         }
     }
-}
 
+#if !NET8_0_OR_GREATER
+
+    static class StreamExtensions
+    {
+        public static void ReadExactly(this System.IO.Stream stream, byte[] buffer)
+        {
+            int length = 0;
+
+            do
+            {
+                int read = stream.Read(buffer, length, buffer.Length - length);
+                if (read == 0) { throw new System.IO.EndOfStreamException(); }
+                length += read;
+            } while (length < buffer.Length);
+        }
+    }
+
+#endif
+}
