@@ -269,6 +269,9 @@ namespace Apache.Arrow.Ipc
             {
                 case ArrowTypeId.Null:
                     return new ArrayData(field.DataType, fieldLength, fieldNullCount, 0, System.Array.Empty<ArrowBuffer>());
+                case ArrowTypeId.RunEndEncoded:
+                    buffers = 0;
+                    break;
                 case ArrowTypeId.Union:
                     if (version < MetadataVersion.V5)
                     {
