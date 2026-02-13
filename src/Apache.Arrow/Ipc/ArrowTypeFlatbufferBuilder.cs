@@ -81,7 +81,8 @@ namespace Apache.Arrow.Ipc
             IArrowTypeVisitor<DictionaryType>,
             IArrowTypeVisitor<FixedSizeBinaryType>,
             IArrowTypeVisitor<MapType>,
-            IArrowTypeVisitor<NullType>
+            IArrowTypeVisitor<NullType>,
+            IArrowTypeVisitor<RunEndEncodedType>
         {
             private FlatBufferBuilder Builder { get; }
 
@@ -341,6 +342,14 @@ namespace Apache.Arrow.Ipc
                 Result = FieldType.Build(
                     Flatbuf.Type.Null,
                     Flatbuf.Null.EndNull(Builder));
+            }
+
+            public void Visit(RunEndEncodedType type)
+            {
+                Flatbuf.RunEndEncoded.StartRunEndEncoded(Builder);
+                Result = FieldType.Build(
+                    Flatbuf.Type.RunEndEncoded,
+                    Flatbuf.RunEndEncoded.EndRunEndEncoded(Builder));
             }
 
             public void Visit(IArrowType type)

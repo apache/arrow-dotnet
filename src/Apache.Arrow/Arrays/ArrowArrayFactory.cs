@@ -107,6 +107,8 @@ namespace Apache.Arrow
                     return new FixedSizeListArray(data);
                 case ArrowTypeId.Interval:
                     return IntervalArray.Create(data);
+                case ArrowTypeId.RunEndEncoded:
+                    return new RunEndEncodedArray(data);
                 default:
                     throw new NotSupportedException($"An ArrowArray cannot be built for type {data.DataType.TypeId}.");
             }
