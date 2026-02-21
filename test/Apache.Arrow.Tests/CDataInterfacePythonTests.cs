@@ -20,6 +20,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Apache.Arrow.Arrays;
 using Apache.Arrow.C;
 using Apache.Arrow.Ipc;
 using Apache.Arrow.Scalars;
@@ -1089,6 +1090,121 @@ namespace Apache.Arrow.Tests
                     CArrowSchema.Free(cSchema);
                 }
             }
+        }
+
+        [SkippableFact]
+        public unsafe void ExportGuidArray()
+        {
+            // Export a C# GuidArray via the C Data Interface and verify
+            // that Python/pyarrow sees it as an arrow.uuid extension array
+            // with the correct UUID values.
+
+            var guid1 = Guid.Parse("01234567-89ab-cdef-0123-456789abcdef");
+            var guid2 = Guid.Parse("fedcba98-7654-3210-fedc-ba9876543210");
+            var guids = new Guid?[] { guid1, null, guid2 };
+
+            var guidType = new GuidType();
+            var validityBuilder = new ArrowBuffer.BitmapBuilder();
+            var valueBuilder = new ArrowBuffer.Builder<byte>();
+            foreach (var value in guids)
+            {
+                if (value.HasValue)
+                {
+                    validityBuilder.Append(true);
+                    valueBuilder.Append(GuidArray.GuidToBytes(value.Value));
+                }
+                else
+                {
+                    validityBuilder.Append(false);
+                    valueBuilder.Append(new byte[16]);
+                }
+            }
+            var buffers = new[] { validityBuilder.Build(), valueBuilder.Build() };
+            var arrayData = new ArrayData(guidType, guids.Length, 1, 0, buffers);
+            var guidArray = ArrowArrayFactory.BuildArray(arrayData);
+
+            var field = new Field("uuids", guidType, true);
+            var schema = new Schema(new[] { field }, null);
+            var batch = new RecordBatch(schema, new[] { guidArray }, guids.Length);
+
+            CArrowArray* cArray = CArrowArray.Create();
+            CArrowArrayExporter.ExportRecordBatch(batch, cArray);
+
+            CArrowSchema* cSchema = CArrowSchema.Create();
+            CArrowSchemaExporter.ExportSchema(batch.Schema, cSchema);
+
+            long arrayPtr = ((IntPtr)cArray).ToInt64();
+            long schemaPtr = ((IntPtr)cSchema).ToInt64();
+
+            using (Py.GIL())
+            {
+                dynamic pa = Py.Import("pyarrow");
+                dynamic uuid_mod = Py.Import("uuid");
+
+                dynamic pyBatch = pa.RecordBatch._import_from_c(arrayPtr, schemaPtr);
+                dynamic pyArray = pyBatch.column(0);
+
+                // Build the expected UUID array in Python
+                dynamic expectedArray = pa.array(
+                    new PyList(new PyObject[]
+                    {
+                        (PyObject)uuid_mod.UUID("01234567-89ab-cdef-0123-456789abcdef"),
+                        PyObject.None,
+                        (PyObject)uuid_mod.UUID("fedcba98-7654-3210-fedc-ba9876543210"),
+                    }),
+                    type: pa.uuid());
+
+                Assert.True((bool)pyArray.equals(expectedArray));
+            }
+
+            CArrowArray.Free(cArray);
+            CArrowSchema.Free(cSchema);
+        }
+
+        [SkippableFact]
+        public unsafe void ImportGuidArray()
+        {
+            // Create a UUID array in Python, export it via the C Data Interface,
+            // and verify that C# resolves it as a GuidArray with correct values.
+
+            CArrowArray* cArray = CArrowArray.Create();
+            CArrowSchema* cSchema = CArrowSchema.Create();
+
+            using (Py.GIL())
+            {
+                dynamic pa = Py.Import("pyarrow");
+                dynamic uuid_mod = Py.Import("uuid");
+
+                dynamic pyArray = pa.array(
+                    new PyList(new PyObject[]
+                    {
+                        (PyObject)uuid_mod.UUID("01234567-89ab-cdef-0123-456789abcdef"),
+                        PyObject.None,
+                        (PyObject)uuid_mod.UUID("fedcba98-7654-3210-fedc-ba9876543210"),
+                    }),
+                    type: pa.uuid());
+
+                long arrayPtr = ((IntPtr)cArray).ToInt64();
+                long schemaPtr = ((IntPtr)cSchema).ToInt64();
+                pyArray._export_to_c(arrayPtr, schemaPtr);
+            }
+
+            var registry = new ExtensionTypeRegistry();
+            registry.Register(new GuidExtensionDefinition());
+
+            Field field = CArrowSchemaImporter.ImportField(cSchema, registry);
+            Assert.IsType<GuidType>(field.DataType);
+
+            IArrowArray importedArray = CArrowArrayImporter.ImportArray(cArray, field.DataType);
+            Assert.IsType<GuidArray>(importedArray);
+
+            var guidArray = (GuidArray)importedArray;
+            Assert.Equal(3, guidArray.Length);
+            Assert.Equal(Guid.Parse("01234567-89ab-cdef-0123-456789abcdef"), guidArray.GetGuid(0));
+            Assert.Null(guidArray.GetGuid(1));
+            Assert.Equal(Guid.Parse("fedcba98-7654-3210-fedc-ba9876543210"), guidArray.GetGuid(2));
+
+            CArrowArray.Free(cArray);
         }
 
         private static PyObject List(params int?[] values)

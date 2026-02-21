@@ -71,6 +71,16 @@ namespace Apache.Arrow.Ipc
             _implementation = new ArrowStreamReaderImplementation(stream, allocator, compressionCodecFactory, leaveOpen);
         }
 
+        public ArrowStreamReader(ArrowContext context, Stream stream, bool leaveOpen = false)
+        {
+            if (stream == null)
+                throw new ArgumentNullException(nameof(stream));
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
+            _implementation = new ArrowStreamReaderImplementation(stream, context.Allocator, context.CompressionCodecFactory, leaveOpen, context.ExtensionRegistry);
+        }
+
         public ArrowStreamReader(ReadOnlyMemory<byte> buffer)
         {
             _implementation = new ArrowMemoryReaderImplementation(buffer, compressionCodecFactory: null);
@@ -79,6 +89,14 @@ namespace Apache.Arrow.Ipc
         public ArrowStreamReader(ReadOnlyMemory<byte> buffer, ICompressionCodecFactory compressionCodecFactory)
         {
             _implementation = new ArrowMemoryReaderImplementation(buffer, compressionCodecFactory);
+        }
+
+        public ArrowStreamReader(ArrowContext context, ReadOnlyMemory<byte> buffer)
+        {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
+            _implementation = new ArrowMemoryReaderImplementation(buffer, context.CompressionCodecFactory, context.ExtensionRegistry);
         }
 
         private protected ArrowStreamReader(ArrowReaderImplementation implementation)

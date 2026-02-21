@@ -77,6 +77,16 @@ namespace Apache.Arrow.C
         }
 
         /// <summary>
+        /// Import C pointer as a <see cref="Field"/>, resolving extension types
+        /// from the given registry.
+        /// </summary>
+        public static unsafe Field ImportField(CArrowSchema* ptr, ExtensionTypeRegistry extensionRegistry)
+        {
+            using var importedField = new ImportedArrowSchema(ptr);
+            return importedField.GetAsField(extensionRegistry);
+        }
+
+        /// <summary>
         /// Import C pointer as a <see cref="Schema"/>.
         /// </summary>
         /// <remarks>
@@ -99,6 +109,16 @@ namespace Apache.Arrow.C
         {
             using var importedSchema = new ImportedArrowSchema(ptr);
             return importedSchema.GetAsSchema();
+        }
+
+        /// <summary>
+        /// Import C pointer as a <see cref="Schema"/>, resolving extension types
+        /// from the given registry.
+        /// </summary>
+        public static unsafe Schema ImportSchema(CArrowSchema* ptr, ExtensionTypeRegistry extensionRegistry)
+        {
+            using var importedSchema = new ImportedArrowSchema(ptr);
+            return importedSchema.GetAsSchema(extensionRegistry);
         }
 
         private sealed unsafe class ImportedArrowSchema : IDisposable
@@ -332,19 +352,60 @@ namespace Apache.Arrow.C
 
             public Field GetAsField()
             {
+                return GetAsField(null);
+            }
+
+            public Field GetAsField(ExtensionTypeRegistry extensionRegistry)
+            {
                 string name = StringUtil.PtrToStringUtf8(_cSchema->name);
                 string fieldName = string.IsNullOrEmpty(name) ? "" : name;
 
                 bool nullable = _cSchema->GetFlag(CArrowSchema.ArrowFlagNullable);
 
-                return new Field(fieldName, GetAsType(), nullable, GetMetadata(_cSchema->metadata));
+                IArrowType type = GetAsType();
+                IReadOnlyDictionary<string, string> metadata = GetMetadata(_cSchema->metadata);
+
+                // Resolve extension type from metadata
+                if (metadata != null &&
+                    extensionRegistry != null &&
+                    metadata.TryGetValue("ARROW:extension:name", out string extName) &&
+                    extensionRegistry.TryGetDefinition(extName, out ExtensionDefinition extDef))
+                {
+                    metadata.TryGetValue("ARROW:extension:metadata", out string extMeta);
+                    if (extDef.TryCreateType(type, extMeta, out ExtensionType extType))
+                    {
+                        type = extType;
+                    }
+                }
+
+                return new Field(fieldName, type, nullable, metadata);
             }
 
             public Schema GetAsSchema()
             {
+                return GetAsSchema(null);
+            }
+
+            public Schema GetAsSchema(ExtensionTypeRegistry extensionRegistry)
+            {
                 ArrowType fullType = GetAsType();
                 if (fullType is StructType structType)
                 {
+                    // Re-resolve fields with extension registry
+                    if (extensionRegistry != null)
+                    {
+                        var fields = new List<Field>();
+                        for (int i = 0; i < _cSchema->n_children; i++)
+                        {
+                            if (_cSchema->GetChild(i) == null)
+                            {
+                                throw new InvalidDataException("Expected struct type child to be non-null.");
+                            }
+                            var childSchema = new ImportedArrowSchema(_cSchema->GetChild(i), isRoot: false);
+                            fields.Add(childSchema.GetAsField(extensionRegistry));
+                        }
+                        return new Schema(fields, GetMetadata(_cSchema->metadata));
+                    }
                     return new Schema(structType.Fields, GetMetadata(_cSchema->metadata));
                 }
                 else

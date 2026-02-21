@@ -58,6 +58,7 @@ namespace Apache.Arrow.Types
         LargeString,
         Decimal32,
         Decimal64,
+        Extension,
     }
 
     public interface IArrowType

@@ -101,6 +101,7 @@ namespace Apache.Arrow
                 case ArrowTypeId.Union:
                 case ArrowTypeId.Dictionary:
                 case ArrowTypeId.FixedSizedBinary:
+                case ArrowTypeId.Extension:
                 default:
                     throw new NotSupportedException($"An ArrowArrayBuilder cannot be built for type {dataType.TypeId}.");
             }

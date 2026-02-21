@@ -152,7 +152,8 @@ namespace Apache.Arrow.C
                 ArrayData[] children = null;
                 ArrowBuffer[] buffers = null;
                 ArrayData dictionary = null;
-                switch (type.TypeId)
+                IArrowType storageType = Types.ArrowTypeExtensions.GetStorageType(type);
+                switch (storageType.TypeId)
                 {
                     case ArrowTypeId.String:
                     case ArrowTypeId.Binary:
@@ -167,27 +168,27 @@ namespace Apache.Arrow.C
                         buffers = ImportLargeByteArrayBuffers(cArray);
                         break;
                     case ArrowTypeId.List:
-                        children = ProcessListChildren(cArray, ((ListType)type).ValueDataType);
+                        children = ProcessListChildren(cArray, ((ListType)storageType).ValueDataType);
                         buffers = ImportListBuffers(cArray);
                         break;
                     case ArrowTypeId.ListView:
-                        children = ProcessListChildren(cArray, ((ListViewType)type).ValueDataType);
+                        children = ProcessListChildren(cArray, ((ListViewType)storageType).ValueDataType);
                         buffers = ImportListViewBuffers(cArray);
                         break;
                     case ArrowTypeId.LargeList:
-                        children = ProcessListChildren(cArray, ((LargeListType)type).ValueDataType);
+                        children = ProcessListChildren(cArray, ((LargeListType)storageType).ValueDataType);
                         buffers = ImportLargeListBuffers(cArray);
                         break;
                     case ArrowTypeId.FixedSizeList:
-                        children = ProcessListChildren(cArray, ((FixedSizeListType)type).ValueDataType);
+                        children = ProcessListChildren(cArray, ((FixedSizeListType)storageType).ValueDataType);
                         buffers = ImportFixedSizeListBuffers(cArray);
                         break;
                     case ArrowTypeId.Struct:
-                        children = ProcessStructChildren(cArray, ((StructType)type).Fields);
+                        children = ProcessStructChildren(cArray, ((StructType)storageType).Fields);
                         buffers = new ArrowBuffer[] { ImportValidityBuffer(cArray) };
                         break;
                     case ArrowTypeId.Union:
-                        UnionType unionType = (UnionType)type;
+                        UnionType unionType = (UnionType)storageType;
                         children = ProcessStructChildren(cArray, unionType.Fields);
                         buffers = unionType.Mode switch
                         {
@@ -197,7 +198,7 @@ namespace Apache.Arrow.C
                         }; ;
                         break;
                     case ArrowTypeId.Map:
-                        MapType mapType = (MapType)type;
+                        MapType mapType = (MapType)storageType;
                         children = ProcessListChildren(cArray, mapType.Fields[0].DataType);
                         buffers = ImportListBuffers(cArray);
                         break;
@@ -205,11 +206,11 @@ namespace Apache.Arrow.C
                         buffers = System.Array.Empty<ArrowBuffer>();
                         break;
                     case ArrowTypeId.Dictionary:
-                        DictionaryType dictionaryType = (DictionaryType)type;
+                        DictionaryType dictionaryType = (DictionaryType)storageType;
                         dictionary = GetAsArrayData(cArray->dictionary, dictionaryType.ValueType);
                         goto default; // Fall through to get the validity and index data
                     default:
-                        if (type is FixedWidthType fixedWidthType)
+                        if (storageType is FixedWidthType fixedWidthType)
                         {
                             buffers = ImportFixedWidthBuffers(cArray, fixedWidthType.BitWidth);
                         }

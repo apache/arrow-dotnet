@@ -62,12 +62,14 @@ namespace Apache.Arrow.C
             schema->format = StringUtil.ToCStringUtf8(GetFormat(datatype));
             schema->name = null;
             schema->metadata = null;
-            schema->flags = GetFlags(datatype);
 
-            schema->children = ConstructChildren(datatype, out var numChildren);
+            IArrowType physicalType = datatype is ExtensionType ext ? ext.StorageType : datatype;
+            schema->flags = GetFlags(physicalType);
+
+            schema->children = ConstructChildren(physicalType, out var numChildren);
             schema->n_children = numChildren;
 
-            schema->dictionary = ConstructDictionary(datatype);
+            schema->dictionary = ConstructDictionary(physicalType);
 
             schema->release = ReleaseSchemaPtr;
 
@@ -91,8 +93,29 @@ namespace Apache.Arrow.C
         {
             ExportType(field.DataType, schema);
             schema->name = StringUtil.ToCStringUtf8(field.Name);
-            schema->metadata = ConstructMetadata(field.Metadata);
-            schema->flags = GetFlags(field.DataType, field.IsNullable);
+
+            // Inject extension metadata if the field type is an ExtensionType
+            IReadOnlyDictionary<string, string> metadata = field.Metadata;
+            ExtensionType extType = field.DataType as ExtensionType;
+            if (extType == null && field.DataType is DictionaryType dt && dt.ValueType is ExtensionType dext)
+                extType = dext;
+
+            if (extType != null)
+            {
+                var merged = metadata != null
+                    ? new Dictionary<string, string>((IDictionary<string, string>)metadata)
+                    : new Dictionary<string, string>();
+                if (!merged.ContainsKey("ARROW:extension:name"))
+                    merged["ARROW:extension:name"] = extType.Name;
+                if (!merged.ContainsKey("ARROW:extension:metadata"))
+                    merged["ARROW:extension:metadata"] = extType.ExtensionMetadata ?? "";
+                metadata = merged;
+            }
+
+            schema->metadata = ConstructMetadata(metadata);
+
+            IArrowType physicalType = field.DataType is ExtensionType ext ? ext.StorageType : field.DataType;
+            schema->flags = GetFlags(physicalType, field.IsNullable);
         }
 
         /// <summary>
@@ -145,6 +168,8 @@ namespace Apache.Arrow.C
         {
             switch (datatype)
             {
+                case ExtensionType extensionType:
+                    return GetFormat(extensionType.StorageType);
                 case NullType _: return "n";
                 case BooleanType _: return "b";
                 // Integers

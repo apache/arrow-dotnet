@@ -55,11 +55,16 @@ namespace Apache.Arrow.Ipc
 
         internal static Schema GetSchema(Flatbuf.Schema schema, ref DictionaryMemo dictionaryMemo)
         {
+            return GetSchema(schema, ref dictionaryMemo, ExtensionTypeRegistry.Default);
+        }
+
+        internal static Schema GetSchema(Flatbuf.Schema schema, ref DictionaryMemo dictionaryMemo, ExtensionTypeRegistry extensionRegistry)
+        {
             List<Field> fields = new List<Field>();
             for (int i = 0; i < schema.FieldsLength; i++)
             {
                 Flatbuf.Field field = schema.Fields(i).GetValueOrDefault();
-                fields.Add(FieldFromFlatbuffer(field, ref dictionaryMemo));
+                fields.Add(FieldFromFlatbuffer(field, ref dictionaryMemo, extensionRegistry));
             }
 
             Dictionary<string, string> metadata = schema.CustomMetadataLength > 0 ? new Dictionary<string, string>() : null;
@@ -73,17 +78,38 @@ namespace Apache.Arrow.Ipc
             return new Schema(fields, metadata, copyCollections: false);
         }
 
-        private static Field FieldFromFlatbuffer(Flatbuf.Field flatbufField, ref DictionaryMemo dictionaryMemo)
+        private static Field FieldFromFlatbuffer(Flatbuf.Field flatbufField, ref DictionaryMemo dictionaryMemo, ExtensionTypeRegistry extensionRegistry)
         {
             Field[] childFields = flatbufField.ChildrenLength > 0 ? new Field[flatbufField.ChildrenLength] : null;
             for (int i = 0; i < flatbufField.ChildrenLength; i++)
             {
                 Flatbuf.Field? childFlatbufField = flatbufField.Children(i);
-                childFields[i] = FieldFromFlatbuffer(childFlatbufField.Value, ref dictionaryMemo);
+                childFields[i] = FieldFromFlatbuffer(childFlatbufField.Value, ref dictionaryMemo, extensionRegistry);
             }
 
             Flatbuf.DictionaryEncoding? dictionaryEncoding = flatbufField.Dictionary;
             IArrowType type = GetFieldArrowType(flatbufField, childFields);
+
+            // Build metadata first (needed for extension type resolution)
+            Dictionary<string, string> metadata = flatbufField.CustomMetadataLength > 0 ? new Dictionary<string, string>() : null;
+            for (int i = 0; i < flatbufField.CustomMetadataLength; i++)
+            {
+                Flatbuf.KeyValue keyValue = flatbufField.CustomMetadata(i).GetValueOrDefault();
+                metadata[keyValue.Key] = keyValue.Value;
+            }
+
+            // Resolve extension type from metadata (before dictionary wrapping)
+            if (metadata != null &&
+                metadata.TryGetValue("ARROW:extension:name", out string extName) &&
+                extensionRegistry != null &&
+                extensionRegistry.TryGetDefinition(extName, out ExtensionDefinition extDef))
+            {
+                metadata.TryGetValue("ARROW:extension:metadata", out string extMeta);
+                if (extDef.TryCreateType(type, extMeta, out ExtensionType extType))
+                {
+                    type = extType;
+                }
+            }
 
             if (dictionaryEncoding.HasValue)
             {
@@ -93,14 +119,6 @@ namespace Apache.Arrow.Ipc
                     GetNumberType(Int32Type.Default.BitWidth, Int32Type.Default.IsSigned);
 
                 type = new DictionaryType(indexType, type, dictionaryEncoding.Value.IsOrdered);
-            }
-
-            Dictionary<string, string> metadata = flatbufField.CustomMetadataLength > 0 ? new Dictionary<string, string>() : null;
-            for (int i = 0; i < flatbufField.CustomMetadataLength; i++)
-            {
-                Flatbuf.KeyValue keyValue = flatbufField.CustomMetadata(i).GetValueOrDefault();
-
-                metadata[keyValue.Key] = keyValue.Value;
             }
 
             var arrowField = new Field(flatbufField.Name, type, flatbufField.Nullable, metadata, copyCollections: false);

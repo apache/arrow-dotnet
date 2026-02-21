@@ -48,15 +48,21 @@ namespace Apache.Arrow.Ipc
         private protected DictionaryMemo DictionaryMemo => _dictionaryMemo ??= new DictionaryMemo();
         private protected readonly MemoryAllocator _allocator;
         private readonly ICompressionCodecFactory _compressionCodecFactory;
+        private protected readonly ExtensionTypeRegistry _extensionRegistry;
         private protected Schema _schema;
 
         private protected ArrowReaderImplementation() : this(null, null)
         { }
 
         private protected ArrowReaderImplementation(MemoryAllocator allocator, ICompressionCodecFactory compressionCodecFactory)
+            : this(allocator, compressionCodecFactory, null)
+        { }
+
+        private protected ArrowReaderImplementation(MemoryAllocator allocator, ICompressionCodecFactory compressionCodecFactory, ExtensionTypeRegistry extensionRegistry)
         {
             _allocator = allocator ?? MemoryAllocator.Default.Value;
             _compressionCodecFactory = compressionCodecFactory;
+            _extensionRegistry = extensionRegistry ?? ExtensionTypeRegistry.Default;
         }
 
         public void Dispose()
@@ -265,7 +271,8 @@ namespace Apache.Arrow.Ipc
             }
 
             int buffers;
-            switch (field.DataType.TypeId)
+            IArrowType storageType = Types.ArrowTypeExtensions.GetStorageType(field.DataType);
+            switch (storageType.TypeId)
             {
                 case ArrowTypeId.Null:
                     return new ArrayData(field.DataType, fieldLength, fieldNullCount, 0, System.Array.Empty<ArrowBuffer>());
@@ -283,7 +290,7 @@ namespace Apache.Arrow.Ipc
                         }
                         recordBatchEnumerator.MoveNextBuffer();
                     }
-                    buffers = ((UnionType)field.DataType).Mode == Types.UnionMode.Dense ? 2 : 1;
+                    buffers = ((UnionType)storageType).Mode == Types.UnionMode.Dense ? 2 : 1;
                     break;
                 case ArrowTypeId.Struct:
                 case ArrowTypeId.FixedSizeList:
@@ -316,7 +323,7 @@ namespace Apache.Arrow.Ipc
             ArrayData[] children = GetChildren(version, ref recordBatchEnumerator, field, bodyData, bufferCreator);
 
             IArrowArray dictionary = null;
-            if (field.DataType.TypeId == ArrowTypeId.Dictionary)
+            if (storageType.TypeId == ArrowTypeId.Dictionary)
             {
                 long id = DictionaryMemo.GetId(field);
                 dictionary = DictionaryMemo.GetDictionary(id);
@@ -332,7 +339,8 @@ namespace Apache.Arrow.Ipc
             ByteBuffer bodyData,
             IBufferCreator bufferCreator)
         {
-            if (!(field.DataType is NestedType type)) return null;
+            IArrowType dataType = Types.ArrowTypeExtensions.GetStorageType(field.DataType);
+            if (!(dataType is NestedType type)) return null;
 
             int childrenCount = type.Fields.Count;
             var children = new ArrayData[childrenCount];

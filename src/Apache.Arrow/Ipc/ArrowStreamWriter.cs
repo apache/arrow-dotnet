@@ -1091,9 +1091,11 @@ namespace Apache.Arrow.Ipc
 
         private VectorOffset GetChildrenFieldOffset(Field field)
         {
-            IArrowType targetDataType = field.DataType is DictionaryType dictionaryType ?
-                dictionaryType.ValueType :
-                field.DataType;
+            IArrowType targetDataType = field.DataType;
+            if (targetDataType is ExtensionType extType)
+                targetDataType = extType.StorageType;
+            if (targetDataType is DictionaryType dictionaryType)
+                targetDataType = dictionaryType.ValueType;
 
             if (!(targetDataType is NestedType type))
             {
@@ -1123,24 +1125,45 @@ namespace Apache.Arrow.Ipc
 
         private VectorOffset GetFieldMetadataOffset(Field field)
         {
-            if (!field.HasMetadata)
+            IReadOnlyDictionary<string, string> metadata = field.Metadata;
+
+            // Inject extension type metadata if the field type is/wraps an ExtensionType
+            ExtensionType extType = field.DataType as ExtensionType;
+            if (extType == null && field.DataType is DictionaryType dt && dt.ValueType is ExtensionType dext)
+                extType = dext;
+
+            if (extType != null)
+            {
+                // Merge extension metadata with existing field metadata
+                var merged = metadata != null
+                    ? new Dictionary<string, string>((IDictionary<string, string>)metadata)
+                    : new Dictionary<string, string>();
+                if (!merged.ContainsKey("ARROW:extension:name"))
+                    merged["ARROW:extension:name"] = extType.Name;
+                if (!merged.ContainsKey("ARROW:extension:metadata"))
+                    merged["ARROW:extension:metadata"] = extType.ExtensionMetadata ?? "";
+                metadata = merged;
+            }
+
+            if (metadata == null || metadata.Count == 0)
             {
                 return default;
             }
 
-            Offset<Flatbuf.KeyValue>[] metadataOffsets = GetMetadataOffsets(field.Metadata);
+            Offset<Flatbuf.KeyValue>[] metadataOffsets = GetMetadataOffsets(metadata);
             return Flatbuf.Field.CreateCustomMetadataVector(Builder, metadataOffsets);
         }
 
         private Offset<Flatbuf.DictionaryEncoding> GetDictionaryOffset(Field field)
         {
-            if (field.DataType.TypeId != ArrowTypeId.Dictionary)
+            IArrowType dataType = field.DataType is ExtensionType ext ? ext.StorageType : field.DataType;
+            if (dataType.TypeId != ArrowTypeId.Dictionary)
             {
                 return default;
             }
 
             long id = DictionaryMemo.GetOrAssignId(field);
-            var dicType = field.DataType as DictionaryType;
+            var dicType = dataType as DictionaryType;
             var indexType = dicType.IndexType as NumberType;
 
             Offset<Flatbuf.Int> indexOffset = Flatbuf.Int.CreateInt(Builder, indexType.BitWidth, indexType.IsSigned);
@@ -1368,7 +1391,8 @@ namespace Apache.Arrow.Ipc
 
         private static void CollectDictionary(Field field, ArrayData arrayData, ref DictionaryMemo dictionaryMemo)
         {
-            if (field.DataType is DictionaryType dictionaryType)
+            IArrowType fieldType = field.DataType is ExtensionType ext ? ext.StorageType : field.DataType;
+            if (fieldType is DictionaryType dictionaryType)
             {
                 if (arrayData.Dictionary == null)
                 {
@@ -1399,7 +1423,8 @@ namespace Apache.Arrow.Ipc
                 return;
             }
 
-            if (arrayData.DataType is NestedType nestedType)
+            IArrowType walkType = arrayData.DataType is ExtensionType ext ? ext.StorageType : arrayData.DataType;
+            if (walkType is NestedType nestedType)
             {
                 for (int i = 0; i < nestedType.Fields.Count; i++)
                 {

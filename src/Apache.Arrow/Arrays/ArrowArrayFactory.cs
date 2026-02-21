@@ -107,6 +107,11 @@ namespace Apache.Arrow
                     return new FixedSizeListArray(data);
                 case ArrowTypeId.Interval:
                     return IntervalArray.Create(data);
+                case ArrowTypeId.Extension:
+                    var extType = (ExtensionType)data.DataType;
+                    var storageData = new ArrayData(extType.StorageType, data.Length, data.NullCount, data.Offset, data.Buffers, data.Children, data.Dictionary);
+                    IArrowArray storageArray = BuildArray(storageData);
+                    return extType.CreateArray(storageArray);
                 default:
                     throw new NotSupportedException($"An ArrowArray cannot be built for type {data.DataType.TypeId}.");
             }

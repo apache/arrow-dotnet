@@ -130,7 +130,8 @@ namespace Apache.Arrow.C
             {
                 long* lengths = null;
                 int bufferCount = array.Buffers.Length;
-                if (array.DataType.TypeId == ArrowTypeId.BinaryView || array.DataType.TypeId == ArrowTypeId.StringView)
+                var storageTypeId = Types.ArrowTypeExtensions.GetStorageType(array.DataType).TypeId;
+                if (storageTypeId == ArrowTypeId.BinaryView || storageTypeId == ArrowTypeId.StringView)
                 {
                     lengths = (long*)sharedOwner.Allocate(8 * bufferCount); // overallocation to avoid edge case
                     bufferCount++;

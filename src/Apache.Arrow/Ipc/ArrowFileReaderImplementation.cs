@@ -38,7 +38,12 @@ namespace Apache.Arrow.Ipc
         private bool HasReadDictionaries => HasReadSchema && DictionaryMemo.LoadedDictionaryCount >= _footer.DictionaryCount;
 
         public ArrowFileReaderImplementation(Stream stream, MemoryAllocator allocator, ICompressionCodecFactory compressionCodecFactory, bool leaveOpen)
-            : base(stream, allocator, compressionCodecFactory, leaveOpen)
+            : this(stream, allocator, compressionCodecFactory, leaveOpen, null)
+        {
+        }
+
+        public ArrowFileReaderImplementation(Stream stream, MemoryAllocator allocator, ICompressionCodecFactory compressionCodecFactory, bool leaveOpen, ExtensionTypeRegistry extensionRegistry)
+            : base(stream, allocator, compressionCodecFactory, leaveOpen, extensionRegistry)
         {
         }
 
@@ -139,7 +144,7 @@ namespace Apache.Arrow.Ipc
         private void ReadSchema(Memory<byte> buffer)
         {
             // Deserialize the footer from the footer flatbuffer
-            _footer = new ArrowFooter(Flatbuf.Footer.GetRootAsFooter(CreateByteBuffer(buffer)), ref _dictionaryMemo);
+            _footer = new ArrowFooter(Flatbuf.Footer.GetRootAsFooter(CreateByteBuffer(buffer)), ref _dictionaryMemo, _extensionRegistry);
 
             _schema = _footer.Schema;
         }
