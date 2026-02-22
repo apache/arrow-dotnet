@@ -1103,27 +1103,21 @@ namespace Apache.Arrow.Tests
             var guid2 = Guid.Parse("fedcba98-7654-3210-fedc-ba9876543210");
             var guids = new Guid?[] { guid1, null, guid2 };
 
-            var guidType = new GuidType();
-            var validityBuilder = new ArrowBuffer.BitmapBuilder();
-            var valueBuilder = new ArrowBuffer.Builder<byte>();
+            var builder = new GuidArray.Builder();
             foreach (var value in guids)
             {
                 if (value.HasValue)
                 {
-                    validityBuilder.Append(true);
-                    valueBuilder.Append(GuidArray.GuidToBytes(value.Value));
+                    builder.Append(value.Value);
                 }
                 else
                 {
-                    validityBuilder.Append(false);
-                    valueBuilder.Append(new byte[16]);
+                    builder.AppendNull();
                 }
             }
-            var buffers = new[] { validityBuilder.Build(), valueBuilder.Build() };
-            var arrayData = new ArrayData(guidType, guids.Length, 1, 0, buffers);
-            var guidArray = ArrowArrayFactory.BuildArray(arrayData);
+            var guidArray = builder.Build();
 
-            var field = new Field("uuids", guidType, true);
+            var field = new Field("uuids", GuidType.Default, true);
             var schema = new Schema(new[] { field }, null);
             var batch = new RecordBatch(schema, new[] { guidArray }, guids.Length);
 

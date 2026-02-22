@@ -28,36 +28,22 @@ namespace Apache.Arrow.Tests
     {
         private static RecordBatch BuildGuidRecordBatch(Guid?[] values)
         {
-            var guidType = new GuidType();
-
-            // Build the underlying FixedSizeBinaryArray
-            var validityBuilder = new ArrowBuffer.BitmapBuilder();
-            var valueBuilder = new ArrowBuffer.Builder<byte>();
+            var builder = new GuidArray.Builder();
 
             foreach (var value in values)
             {
                 if (value.HasValue)
                 {
-                    validityBuilder.Append(true);
-                    valueBuilder.Append(GuidArray.GuidToBytes(value.Value));
+                    builder.Append(value.Value);
                 }
                 else
                 {
-                    validityBuilder.Append(false);
-                    valueBuilder.Append(new byte[16]);
+                    builder.AppendNull();
                 }
             }
+            var guidArray = builder.Build();
 
-            int nullCount = values.Count(v => !v.HasValue);
-            var buffers = new[]
-            {
-                nullCount > 0 ? validityBuilder.Build() : ArrowBuffer.Empty,
-                valueBuilder.Build()
-            };
-            var arrayData = new ArrayData(guidType, values.Length, nullCount, 0, buffers);
-            var guidArray = ArrowArrayFactory.BuildArray(arrayData);
-
-            var field = new Field("guids", guidType, true,
+            var field = new Field("guids", GuidType.Default, true,
                 new Dictionary<string, string>
                 {
                     ["ARROW:extension:name"] = "arrow.uuid",

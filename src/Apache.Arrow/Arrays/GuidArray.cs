@@ -31,7 +31,7 @@ namespace Apache.Arrow
 
         public override bool TryCreateType(IArrowType storageType, string metadata, out ExtensionType type)
         {
-            if (storageType is FixedSizeBinaryType fsbType && fsbType.ByteWidth == 16)
+            if (storageType is FixedSizeBinaryType fsbType && fsbType.ByteWidth == GuidType.ByteWidth)
             {
                 type = new GuidType(fsbType);
                 return true;
@@ -46,10 +46,14 @@ namespace Apache.Arrow
     /// </summary>
     public class GuidType : ExtensionType
     {
+        public static GuidType Default = new GuidType();
+
+        internal const int ByteWidth = 16;
+
         public override string Name => "arrow.uuid";
         public override string ExtensionMetadata => "";
 
-        public GuidType() : base(new FixedSizeBinaryType(16)) { }
+        public GuidType() : base(new FixedSizeBinaryType(ByteWidth)) { }
 
         internal GuidType(FixedSizeBinaryType storageType) : base(storageType) { }
 
@@ -64,29 +68,115 @@ namespace Apache.Arrow
     /// </summary>
     public class GuidArray : ExtensionArray, IReadOnlyList<Guid?>
     {
+        // TODO: construct builder
+
         public FixedSizeBinaryArray StorageArray => (FixedSizeBinaryArray)Storage;
 
         public GuidArray(GuidType guidType, IArrowArray storage) : base(guidType, storage) { }
 
-        public GuidArray(IArrowArray storage) : base(new GuidType(), storage) { }
+        public GuidArray(IArrowArray storage) : base(GuidType.Default, storage) { }
+
+        public class Builder : FixedSizeBinaryArray.BuilderBase<GuidArray, Builder>
+        {
+            public Builder() : base(GuidType.Default.StorageType, GuidType.ByteWidth)
+            {
+            }
+
+            protected override GuidArray Build(ArrayData data)
+            {
+                return new GuidArray(GuidType.Default, new FixedSizeBinaryArray(data));
+            }
+
+            public Builder Append(Guid value)
+            {
+                Span<byte> bytes = stackalloc byte[GuidType.ByteWidth];
+                GuidToRFC4122(value, bytes);
+                return Append(bytes);
+            }
+
+            public Builder AppendRange(IEnumerable<Guid> values)
+            {
+                if (values == null)
+                {
+                    throw new ArgumentNullException(nameof(values));
+                }
+
+                foreach (Guid guid in values)
+                {
+                    Append(guid);
+                }
+
+                return Instance;
+            }
+
+            public Builder Set(int index, Guid value)
+            {
+                Span<byte> bytes = stackalloc byte[GuidType.ByteWidth];
+                GuidToRFC4122(value, bytes);
+
+                return Set(index, bytes);
+            }
+        }
 
         /// <summary>
-        /// Converts a <see cref="Guid"/> to the RFC 4122 big-endian byte layout
+        /// Converts between <see cref="Guid"/> and the RFC 4122 big-endian byte layout
         /// required by the arrow.uuid canonical extension type specification.
         /// </summary>
         public static byte[] GuidToBytes(Guid guid)
         {
-            byte[] bytes = guid.ToByteArray();
-            // .NET Guid.ToByteArray() uses mixed-endian: the first three fields
-            // (Data1, Data2, Data3) are little-endian, while the last 8 bytes are
-            // individual bytes. RFC 4122 stores all fields in big-endian order.
-            // Reverse the byte order of the first three fields.
-            byte t;
-            t = bytes[0]; bytes[0] = bytes[3]; bytes[3] = t;
-            t = bytes[1]; bytes[1] = bytes[2]; bytes[2] = t;
-            t = bytes[4]; bytes[4] = bytes[5]; bytes[5] = t;
-            t = bytes[6]; bytes[6] = bytes[7]; bytes[7] = t;
+            byte[] bytes = new byte[GuidType.ByteWidth];
+            GuidToRFC4122(guid, bytes);
             return bytes;
+        }
+
+        /// <summary>
+        /// Converts between <see cref="Guid"/> and the RFC 4122 big-endian byte layout
+        /// required by the arrow.uuid canonical extension type specification.
+        /// </summary>
+        public static unsafe void GuidToRFC4122(Guid guid, Span<byte> bytes)
+        {
+            if (bytes.Length != GuidType.ByteWidth)
+                throw new ArgumentException("Byte span must be exactly 16 bytes long.", nameof(bytes));
+
+            byte* guidPtr = (byte*)&guid;
+            fixed (byte* bytePtr = bytes)
+            {
+                bytePtr[0] = guidPtr[3];
+                bytePtr[1] = guidPtr[2];
+                bytePtr[2] = guidPtr[1];
+                bytePtr[3] = guidPtr[0];
+                bytePtr[4] = guidPtr[5];
+                bytePtr[5] = guidPtr[4];
+                bytePtr[6] = guidPtr[7];
+                bytePtr[7] = guidPtr[6];
+                ((long*)bytePtr)[1] = ((long*)guidPtr)[1];
+            }
+        }
+
+        /// <summary>
+        /// Converts between <see cref="Guid"/> and the RFC 4122 big-endian byte layout
+        /// required by the arrow.uuid canonical extension type specification.
+        /// </summary>
+        public static unsafe Guid RFC4122ToGuid(ReadOnlySpan<byte> bytes)
+        {
+            if (bytes.Length != GuidType.ByteWidth)
+                throw new ArgumentException("Byte span must be exactly 16 bytes long.", nameof(bytes));
+
+            Guid result = new Guid();
+            byte* guidPtr = (byte*)&result;
+            fixed (byte* bytePtr = bytes)
+            {
+                guidPtr[0] = bytePtr[3];
+                guidPtr[1] = bytePtr[2];
+                guidPtr[2] = bytePtr[1];
+                guidPtr[3] = bytePtr[0];
+                guidPtr[4] = bytePtr[5];
+                guidPtr[5] = bytePtr[4];
+                guidPtr[6] = bytePtr[7];
+                guidPtr[7] = bytePtr[6];
+                ((long*)guidPtr)[1] = ((long*)bytePtr)[1];
+                return result;
+            }
         }
 
         public Guid? GetGuid(int index)
@@ -98,25 +188,7 @@ namespace Apache.Arrow
                 return null;
 
             ReadOnlySpan<byte> bytes = StorageArray.GetBytes(index);
-            return GuidFromRfc4122(bytes);
-        }
-
-        private static Guid GuidFromRfc4122(ReadOnlySpan<byte> rfc4122)
-        {
-            // Reverse the RFC 4122 big-endian layout back to the mixed-endian
-            // layout expected by the .NET Guid constructor.
-            byte[] native = new byte[16];
-            native[0] = rfc4122[3];
-            native[1] = rfc4122[2];
-            native[2] = rfc4122[1];
-            native[3] = rfc4122[0];
-            native[4] = rfc4122[5];
-            native[5] = rfc4122[4];
-            native[6] = rfc4122[7];
-            native[7] = rfc4122[6];
-            for (int i = 8; i < 16; i++)
-                native[i] = rfc4122[i];
-            return new Guid(native);
+            return RFC4122ToGuid(bytes);
         }
 
         public int Count => Length;
