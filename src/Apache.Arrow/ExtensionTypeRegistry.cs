@@ -57,6 +57,25 @@ namespace Apache.Arrow
         }
 
         /// <summary>
+        /// Temporarily register an extension definition. Overwrites any existing definition with the same name.
+        /// Restores the original definition when the returned <see cref="IDisposable"/> is disposed.
+        /// </summary>
+        public IDisposable RegisterTemporary(ExtensionDefinition definition)
+        {
+            if (definition == null) throw new ArgumentNullException(nameof(definition));
+            lock (_definitions)
+            {
+                if (!_definitions.TryGetValue(definition.ExtensionName, out ExtensionDefinition previousDefinition))
+                {
+                    previousDefinition = null;
+                }
+                IDisposable scope = new Registration(this, definition.ExtensionName, previousDefinition);
+                _definitions[definition.ExtensionName] = definition;
+                return scope;
+            }
+        }
+
+        /// <summary>
         /// Unregisters an extension definition
         /// </summary>
         public void Unregister(ExtensionDefinition definition)
@@ -87,6 +106,38 @@ namespace Apache.Arrow
             lock (_definitions)
             {
                 return new ExtensionTypeRegistry(_definitions);
+            }
+        }
+
+        sealed class Registration : IDisposable
+        {
+            private readonly ExtensionTypeRegistry _registry;
+            private readonly string _extensionName;
+            private readonly ExtensionDefinition _previousDefinition;
+
+            public Registration(
+                ExtensionTypeRegistry registry,
+                string extensionName,
+                ExtensionDefinition previousDefinition)
+            {
+                _previousDefinition = previousDefinition;
+                _extensionName = extensionName;
+                _registry = registry;
+            }
+
+            public void Dispose()
+            {
+                lock (_registry._definitions)
+                {
+                    if (_previousDefinition == null)
+                    {
+                        _registry._definitions.Remove(_extensionName);
+                    }
+                    else
+                    {
+                        _registry._definitions[_previousDefinition.ExtensionName] = _previousDefinition;
+                    }
+                }
             }
         }
     }

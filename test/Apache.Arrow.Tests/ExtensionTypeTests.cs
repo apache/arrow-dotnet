@@ -16,10 +16,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Apache.Arrow.Arrays;
 using Apache.Arrow.Ipc;
 using Apache.Arrow.Types;
+using Microsoft.Win32;
 using Xunit;
 
 namespace Apache.Arrow.Tests
@@ -43,12 +43,7 @@ namespace Apache.Arrow.Tests
             }
             var guidArray = builder.Build();
 
-            var field = new Field("guids", GuidType.Default, true,
-                new Dictionary<string, string>
-                {
-                    ["ARROW:extension:name"] = "arrow.uuid",
-                    ["ARROW:extension:metadata"] = ""
-                });
+            var field = new Field("guids", GuidType.Default, true);
             var schema = new Schema(new[] { field }, null);
 
             return new RecordBatch(schema, new[] { guidArray }, values.Length);
@@ -256,16 +251,23 @@ namespace Apache.Arrow.Tests
         [Fact]
         public void ExtensionTypeRegistryClone()
         {
-            var registry = new ExtensionTypeRegistry();
-            registry.Register(GuidExtensionDefinition.Instance);
-
-            var clone = registry.Clone();
+            var clone = ExtensionTypeRegistry.Default.Clone();
+            clone.Register(GuidExtensionDefinition.Instance);
 
             Assert.True(clone.TryGetDefinition("arrow.uuid", out _));
 
-            // Mutating clone should not affect original
-            var newRegistry = new ExtensionTypeRegistry();
-            Assert.False(newRegistry.TryGetDefinition("arrow.uuid", out _));
+            // Mutating the clone should not have affected the default
+            Assert.False(ExtensionTypeRegistry.Default.TryGetDefinition("arrow.uuid", out _));
+        }
+
+        [Fact]
+        public void ExtensionTypeRegistryScoped()
+        {
+            using (ExtensionTypeRegistry.Default.RegisterTemporary(GuidExtensionDefinition.Instance))
+            {
+                Assert.True(ExtensionTypeRegistry.Default.TryGetDefinition("arrow.uuid", out _));
+            }
+            Assert.False(ExtensionTypeRegistry.Default.TryGetDefinition("arrow.uuid", out _));
         }
 
         [Fact]
@@ -294,12 +296,7 @@ namespace Apache.Arrow.Tests
             registry.Register(GuidExtensionDefinition.Instance);
 
             var guidType = new GuidType();
-            var field = new Field("uuid_field", guidType, true,
-                new Dictionary<string, string>
-                {
-                    ["ARROW:extension:name"] = "arrow.uuid",
-                    ["ARROW:extension:metadata"] = ""
-                });
+            var field = new Field("uuid_field", guidType, true);
             var schema = new Schema(new[] { field }, null);
 
             // Export

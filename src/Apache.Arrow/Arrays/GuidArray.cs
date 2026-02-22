@@ -72,8 +72,6 @@ namespace Apache.Arrow
     /// </summary>
     public class GuidArray : ExtensionArray, IReadOnlyList<Guid?>
     {
-        // TODO: construct builder
-
         public FixedSizeBinaryArray StorageArray => (FixedSizeBinaryArray)Storage;
 
         public GuidArray(GuidType guidType, IArrowArray storage) : base(guidType, storage) { }
