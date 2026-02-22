@@ -50,7 +50,22 @@ namespace Apache.Arrow
         public void Register(ExtensionDefinition definition)
         {
             if (definition == null) throw new ArgumentNullException(nameof(definition));
-            _definitions[definition.ExtensionName] = definition;
+            lock (_definitions)
+            {
+                _definitions[definition.ExtensionName] = definition;
+            }
+        }
+
+        /// <summary>
+        /// Unregisters an extension definition
+        /// </summary>
+        public void Unregister(ExtensionDefinition definition)
+        {
+            if (definition == null) throw new ArgumentNullException(nameof(definition));
+            lock (_definitions)
+            {
+                _definitions.Remove(definition.ExtensionName);
+            }
         }
 
         /// <summary>
@@ -58,7 +73,10 @@ namespace Apache.Arrow
         /// </summary>
         public bool TryGetDefinition(string extensionName, out ExtensionDefinition definition)
         {
-            return _definitions.TryGetValue(extensionName, out definition);
+            lock (_definitions)
+            {
+                return _definitions.TryGetValue(extensionName, out definition);
+            }
         }
 
         /// <summary>
@@ -66,7 +84,10 @@ namespace Apache.Arrow
         /// </summary>
         public ExtensionTypeRegistry Clone()
         {
-            return new ExtensionTypeRegistry(_definitions);
+            lock (_definitions)
+            {
+                return new ExtensionTypeRegistry(_definitions);
+            }
         }
     }
 }

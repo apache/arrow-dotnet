@@ -1142,9 +1142,9 @@ namespace Apache.Arrow.Tests
                 dynamic expectedArray = pa.array(
                     new PyList(new PyObject[]
                     {
-                        (PyObject)uuid_mod.UUID("01234567-89ab-cdef-0123-456789abcdef"),
+                        (PyObject)uuid_mod.UUID("01234567-89ab-cdef-0123-456789abcdef").bytes,
                         PyObject.None,
-                        (PyObject)uuid_mod.UUID("fedcba98-7654-3210-fedc-ba9876543210"),
+                        (PyObject)uuid_mod.UUID("fedcba98-7654-3210-fedc-ba9876543210").bytes,
                     }),
                     type: pa.uuid());
 
@@ -1172,9 +1172,9 @@ namespace Apache.Arrow.Tests
                 dynamic pyArray = pa.array(
                     new PyList(new PyObject[]
                     {
-                        (PyObject)uuid_mod.UUID("01234567-89ab-cdef-0123-456789abcdef"),
+                        (PyObject)uuid_mod.UUID("01234567-89ab-cdef-0123-456789abcdef").bytes,
                         PyObject.None,
-                        (PyObject)uuid_mod.UUID("fedcba98-7654-3210-fedc-ba9876543210"),
+                        (PyObject)uuid_mod.UUID("fedcba98-7654-3210-fedc-ba9876543210").bytes,
                     }),
                     type: pa.uuid());
 
@@ -1184,7 +1184,7 @@ namespace Apache.Arrow.Tests
             }
 
             var registry = new ExtensionTypeRegistry();
-            registry.Register(new GuidExtensionDefinition());
+            registry.Register(GuidExtensionDefinition.Instance);
 
             Field field = CArrowSchemaImporter.ImportField(cSchema, registry);
             Assert.IsType<GuidType>(field.DataType);

@@ -112,7 +112,7 @@ namespace Apache.Arrow.Tests
         public void IpcStreamRoundTrip()
         {
             var registry = new ExtensionTypeRegistry();
-            registry.Register(new GuidExtensionDefinition());
+            registry.Register(GuidExtensionDefinition.Instance);
             var context = new ArrowContext(extensionRegistry: registry);
 
             var guids = new Guid?[]
@@ -209,7 +209,7 @@ namespace Apache.Arrow.Tests
         {
             // Two contexts with different registries should resolve differently
             var registry1 = new ExtensionTypeRegistry();
-            registry1.Register(new GuidExtensionDefinition());
+            registry1.Register(GuidExtensionDefinition.Instance);
             var context1 = new ArrowContext(extensionRegistry: registry1);
 
             var registry2 = new ExtensionTypeRegistry();
@@ -240,7 +240,7 @@ namespace Apache.Arrow.Tests
         [Fact]
         public void ExtensionDefinitionRejectsWrongStorageType()
         {
-            var def = new GuidExtensionDefinition();
+            var def = GuidExtensionDefinition.Instance;
 
             // Should fail for wrong byte width
             Assert.False(def.TryCreateType(new FixedSizeBinaryType(8), "", out _));
@@ -257,7 +257,7 @@ namespace Apache.Arrow.Tests
         public void ExtensionTypeRegistryClone()
         {
             var registry = new ExtensionTypeRegistry();
-            registry.Register(new GuidExtensionDefinition());
+            registry.Register(GuidExtensionDefinition.Instance);
 
             var clone = registry.Clone();
 
@@ -291,7 +291,7 @@ namespace Apache.Arrow.Tests
         public unsafe void CDataSchemaRoundTrip()
         {
             var registry = new ExtensionTypeRegistry();
-            registry.Register(new GuidExtensionDefinition());
+            registry.Register(GuidExtensionDefinition.Instance);
 
             var guidType = new GuidType();
             var field = new Field("uuid_field", guidType, true,

@@ -27,7 +27,11 @@ namespace Apache.Arrow
     /// </summary>
     public class GuidExtensionDefinition : ExtensionDefinition
     {
+        public static GuidExtensionDefinition Instance = new GuidExtensionDefinition();
+
         public override string ExtensionName => "arrow.uuid";
+
+        private GuidExtensionDefinition() { }
 
         public override bool TryCreateType(IArrowType storageType, string metadata, out ExtensionType type)
         {

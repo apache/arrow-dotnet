@@ -37,6 +37,14 @@ namespace Apache.Arrow
         /// <param name="type">The created extension type, if successful.</param>
         /// <returns>True if the type was created successfully; false otherwise.</returns>
         public abstract bool TryCreateType(IArrowType storageType, string metadata, out ExtensionType type);
+
+        /// <summary>
+        /// Adds this extension type to the default registry
+        /// </summary>
+        public void AddToDefaultRegistry()
+        {
+            ExtensionTypeRegistry.Default.Register(this);
+        }
     }
 
     /// <summary>
