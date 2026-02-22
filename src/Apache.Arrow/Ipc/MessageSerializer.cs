@@ -240,6 +240,12 @@ namespace Apache.Arrow.Ipc
                     }
                     Flatbuf.Map meta = field.Type<Flatbuf.Map>().Value;
                     return new Types.MapType(childFields[0], meta.KeysSorted);
+                case Flatbuf.Type.RunEndEncoded:
+                    if (childFields == null || childFields.Length != 2)
+                    {
+                        throw new InvalidDataException($"Run-end encoded type must have exactly two children (run_ends and values).");
+                    }
+                    return new Types.RunEndEncodedType(childFields[0], childFields[1]);
                 default:
                     throw new InvalidDataException($"Arrow primitive '{field.TypeType}' is unsupported.");
             }
