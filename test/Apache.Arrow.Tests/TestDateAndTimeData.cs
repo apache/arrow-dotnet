@@ -59,6 +59,15 @@ namespace Apache.Arrow.Tests
             from kind in _exampleKinds
             select DateTime.SpecifyKind(date, kind);
 
+#if NET6_0_OR_GREATER
+        /// <summary>
+        /// Gets a collection of example dates (i.e. with a zero time component) as DateOnly values.
+        /// </summary>
+        public static IEnumerable<DateOnly> ExampleDateOnlyDates =>
+            from date in _exampleDates
+            select DateOnly.FromDateTime(date);
+#endif
+
         /// <summary>
         /// Gets a collection of example times
         /// </summary>

@@ -35,7 +35,7 @@ namespace Apache.Arrow.Tests
 
 #if NET6_0_OR_GREATER
         public static IEnumerable<object[]> GetDateOnlyData() =>
-            TestDateAndTimeData.ExampleDates.Select(d => new object[] { DateOnly.FromDateTime(d) });
+            TestDateAndTimeData.ExampleDateOnlyDates.Select(d => new object[] { d });
 #endif
 
         public class AppendNull
