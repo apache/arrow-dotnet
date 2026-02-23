@@ -131,6 +131,12 @@ up an <a class="xref" href="Apache.Arrow.ArrowBuffer.html">ArrowBuffer</a> of co
 </dd>
     </dl>
     <dl class="jumplist">
+      <dt><a class="xref" href="Apache.Arrow.ArrowContext.html">ArrowContext</a></dt>
+      <dd><p>Carries configuration through Arrow operations: memory allocator,
+compression codec factory, and extension type registry.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
       <dt><a class="xref" href="Apache.Arrow.ArrowSerializationHelpers.html">ArrowSerializationHelpers</a></dt>
       <dd><p>Helpers for serializing partial Arrow structures to and from buffers.</p>
 </dd>
@@ -286,6 +292,31 @@ that needs to delegate most of its functionality to an inner array builder.</p>
       <dd></dd>
     </dl>
     <dl class="jumplist">
+      <dt><a class="xref" href="Apache.Arrow.ExtensionArray.html">ExtensionArray</a></dt>
+      <dd><p>Base class for extension array wrappers. Delegates physical array operations
+to the underlying storage array.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Apache.Arrow.ExtensionDefinition.html">ExtensionDefinition</a></dt>
+      <dd><p>Defines a factory for a particular extension type. Register instances with
+<a class="xref" href="Apache.Arrow.ExtensionTypeRegistry.html">ExtensionTypeRegistry</a> to enable automatic resolution during deserialization.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Apache.Arrow.ExtensionType.html">ExtensionType</a></dt>
+      <dd><p>Base class for user-defined extension types. Extension types are logical types
+layered on top of a built-in Arrow storage type, identified by a name string.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Apache.Arrow.ExtensionTypeRegistry.html">ExtensionTypeRegistry</a></dt>
+      <dd><p>A registry mapping extension type names to their <a class="xref" href="Apache.Arrow.ExtensionDefinition.html">ExtensionDefinition</a> factories.
+The <a class="xref" href="Apache.Arrow.ExtensionTypeRegistry.html#Apache_Arrow_ExtensionTypeRegistry_Default">Default</a> registry starts empty; users must register extension definitions
+to enable automatic resolution during deserialization.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
       <dt><a class="xref" href="Apache.Arrow.Field.html">Field</a></dt>
       <dd></dd>
     </dl>
@@ -308,6 +339,26 @@ that needs to delegate most of its functionality to an inner array builder.</p>
     <dl class="jumplist">
       <dt><a class="xref" href="Apache.Arrow.FloatArray.Builder.html">FloatArray.Builder</a></dt>
       <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Apache.Arrow.GuidArray.html">GuidArray</a></dt>
+      <dd><p>Extension array for UUID/GUID values, backed by a FixedSizeBinaryArray.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Apache.Arrow.GuidArray.Builder.html">GuidArray.Builder</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Apache.Arrow.GuidExtensionDefinition.html">GuidExtensionDefinition</a></dt>
+      <dd><p>Extension definition for the &quot;arrow.uuid&quot; extension type,
+backed by FixedSizeBinary(16).</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Apache.Arrow.GuidType.html">GuidType</a></dt>
+      <dd><p>Extension type representing UUIDs/GUIDs, stored as FixedSizeBinary(16).</p>
+</dd>
     </dl>
     <dl class="jumplist">
       <dt><a class="xref" href="Apache.Arrow.Int16Array.html">Int16Array</a></dt>

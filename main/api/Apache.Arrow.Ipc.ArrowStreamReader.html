@@ -169,6 +169,74 @@ Class ArrowStreamReader  <a class="header-action link-secondary" title="View sou
 
   <a id="Apache_Arrow_Ipc_ArrowStreamReader__ctor_" data-uid="Apache.Arrow.Ipc.ArrowStreamReader.#ctor*"></a>
 
+  <h3 id="Apache_Arrow_Ipc_ArrowStreamReader__ctor_Apache_Arrow_ArrowContext_System_IO_Stream_System_Boolean_" data-uid="Apache.Arrow.Ipc.ArrowStreamReader.#ctor(Apache.Arrow.ArrowContext,System.IO.Stream,System.Boolean)">
+  ArrowStreamReader(ArrowContext, Stream, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamReader.cs/#L74"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ArrowStreamReader(ArrowContext context, Stream stream, bool leaveOpen = false)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>context</code> <a class="xref" href="Apache.Arrow.ArrowContext.html">ArrowContext</a></dt>
+    <dd></dd>
+    <dt><code>stream</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.stream">Stream</a></dt>
+    <dd></dd>
+    <dt><code>leaveOpen</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Ipc_ArrowStreamReader__ctor_" data-uid="Apache.Arrow.Ipc.ArrowStreamReader.#ctor*"></a>
+
+  <h3 id="Apache_Arrow_Ipc_ArrowStreamReader__ctor_Apache_Arrow_ArrowContext_System_ReadOnlyMemory_System_Byte__" data-uid="Apache.Arrow.Ipc.ArrowStreamReader.#ctor(Apache.Arrow.ArrowContext,System.ReadOnlyMemory{System.Byte})">
+  ArrowStreamReader(ArrowContext, ReadOnlyMemory&lt;byte&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamReader.cs/#L94"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ArrowStreamReader(ArrowContext context, ReadOnlyMemory&lt;byte&gt; buffer)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>context</code> <a class="xref" href="Apache.Arrow.ArrowContext.html">ArrowContext</a></dt>
+    <dd></dd>
+    <dt><code>buffer</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlymemory-1">ReadOnlyMemory</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Ipc_ArrowStreamReader__ctor_" data-uid="Apache.Arrow.Ipc.ArrowStreamReader.#ctor*"></a>
+
   <h3 id="Apache_Arrow_Ipc_ArrowStreamReader__ctor_System_IO_Stream_" data-uid="Apache.Arrow.Ipc.ArrowStreamReader.#ctor(System.IO.Stream)">
   ArrowStreamReader(Stream)
   <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamReader.cs/#L36"><i class="bi bi-code-slash"></i></a>
@@ -408,7 +476,7 @@ Class ArrowStreamReader  <a class="header-action link-secondary" title="View sou
 
   <h3 id="Apache_Arrow_Ipc_ArrowStreamReader__ctor_System_ReadOnlyMemory_System_Byte__" data-uid="Apache.Arrow.Ipc.ArrowStreamReader.#ctor(System.ReadOnlyMemory{System.Byte})">
   ArrowStreamReader(ReadOnlyMemory&lt;byte&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamReader.cs/#L74"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamReader.cs/#L84"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -439,7 +507,7 @@ Class ArrowStreamReader  <a class="header-action link-secondary" title="View sou
 
   <h3 id="Apache_Arrow_Ipc_ArrowStreamReader__ctor_System_ReadOnlyMemory_System_Byte__Apache_Arrow_Ipc_ICompressionCodecFactory_" data-uid="Apache.Arrow.Ipc.ArrowStreamReader.#ctor(System.ReadOnlyMemory{System.Byte},Apache.Arrow.Ipc.ICompressionCodecFactory)">
   ArrowStreamReader(ReadOnlyMemory&lt;byte&gt;, ICompressionCodecFactory)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamReader.cs/#L79"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamReader.cs/#L89"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -512,7 +580,7 @@ Class ArrowStreamReader  <a class="header-action link-secondary" title="View sou
 
   <h3 id="Apache_Arrow_Ipc_ArrowStreamReader_Dispose" data-uid="Apache.Arrow.Ipc.ArrowStreamReader.Dispose">
   Dispose()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamReader.cs/#L89"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamReader.cs/#L107"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -538,7 +606,7 @@ Class ArrowStreamReader  <a class="header-action link-secondary" title="View sou
 
   <h3 id="Apache_Arrow_Ipc_ArrowStreamReader_Dispose_System_Boolean_" data-uid="Apache.Arrow.Ipc.ArrowStreamReader.Dispose(System.Boolean)">
   Dispose(bool)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamReader.cs/#L95"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamReader.cs/#L113"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -569,7 +637,7 @@ Class ArrowStreamReader  <a class="header-action link-secondary" title="View sou
 
   <h3 id="Apache_Arrow_Ipc_ArrowStreamReader_GetSchema_System_Threading_CancellationToken_" data-uid="Apache.Arrow.Ipc.ArrowStreamReader.GetSchema(System.Threading.CancellationToken)">
   GetSchema(CancellationToken)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamReader.cs/#L103"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamReader.cs/#L121"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -605,7 +673,7 @@ Class ArrowStreamReader  <a class="header-action link-secondary" title="View sou
 
   <h3 id="Apache_Arrow_Ipc_ArrowStreamReader_ReadNextRecordBatch" data-uid="Apache.Arrow.Ipc.ArrowStreamReader.ReadNextRecordBatch">
   ReadNextRecordBatch()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamReader.cs/#L117"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamReader.cs/#L135"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -636,7 +704,7 @@ Class ArrowStreamReader  <a class="header-action link-secondary" title="View sou
 
   <h3 id="Apache_Arrow_Ipc_ArrowStreamReader_ReadNextRecordBatchAsync_System_Threading_CancellationToken_" data-uid="Apache.Arrow.Ipc.ArrowStreamReader.ReadNextRecordBatchAsync(System.Threading.CancellationToken)">
   ReadNextRecordBatchAsync(CancellationToken)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamReader.cs/#L112"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Ipc/ArrowStreamReader.cs/#L130"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>

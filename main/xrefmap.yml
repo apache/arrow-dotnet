@@ -1483,6 +1483,70 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.ArrowBuffer.Span
   nameWithType: ArrowBuffer.Span
+- uid: Apache.Arrow.ArrowContext
+  name: ArrowContext
+  href: api/Apache.Arrow.ArrowContext.html
+  commentId: T:Apache.Arrow.ArrowContext
+  fullName: Apache.Arrow.ArrowContext
+  nameWithType: ArrowContext
+- uid: Apache.Arrow.ArrowContext.#ctor(Apache.Arrow.Memory.MemoryAllocator,Apache.Arrow.Ipc.ICompressionCodecFactory,Apache.Arrow.ExtensionTypeRegistry)
+  name: ArrowContext(MemoryAllocator, ICompressionCodecFactory, ExtensionTypeRegistry)
+  href: api/Apache.Arrow.ArrowContext.html#Apache_Arrow_ArrowContext__ctor_Apache_Arrow_Memory_MemoryAllocator_Apache_Arrow_Ipc_ICompressionCodecFactory_Apache_Arrow_ExtensionTypeRegistry_
+  commentId: M:Apache.Arrow.ArrowContext.#ctor(Apache.Arrow.Memory.MemoryAllocator,Apache.Arrow.Ipc.ICompressionCodecFactory,Apache.Arrow.ExtensionTypeRegistry)
+  name.vb: New(MemoryAllocator, ICompressionCodecFactory, ExtensionTypeRegistry)
+  fullName: Apache.Arrow.ArrowContext.ArrowContext(Apache.Arrow.Memory.MemoryAllocator, Apache.Arrow.Ipc.ICompressionCodecFactory, Apache.Arrow.ExtensionTypeRegistry)
+  fullName.vb: Apache.Arrow.ArrowContext.New(Apache.Arrow.Memory.MemoryAllocator, Apache.Arrow.Ipc.ICompressionCodecFactory, Apache.Arrow.ExtensionTypeRegistry)
+  nameWithType: ArrowContext.ArrowContext(MemoryAllocator, ICompressionCodecFactory, ExtensionTypeRegistry)
+  nameWithType.vb: ArrowContext.New(MemoryAllocator, ICompressionCodecFactory, ExtensionTypeRegistry)
+- uid: Apache.Arrow.ArrowContext.#ctor*
+  name: ArrowContext
+  href: api/Apache.Arrow.ArrowContext.html#Apache_Arrow_ArrowContext__ctor_
+  commentId: Overload:Apache.Arrow.ArrowContext.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Apache.Arrow.ArrowContext.ArrowContext
+  fullName.vb: Apache.Arrow.ArrowContext.New
+  nameWithType: ArrowContext.ArrowContext
+  nameWithType.vb: ArrowContext.New
+- uid: Apache.Arrow.ArrowContext.Allocator
+  name: Allocator
+  href: api/Apache.Arrow.ArrowContext.html#Apache_Arrow_ArrowContext_Allocator
+  commentId: P:Apache.Arrow.ArrowContext.Allocator
+  fullName: Apache.Arrow.ArrowContext.Allocator
+  nameWithType: ArrowContext.Allocator
+- uid: Apache.Arrow.ArrowContext.Allocator*
+  name: Allocator
+  href: api/Apache.Arrow.ArrowContext.html#Apache_Arrow_ArrowContext_Allocator_
+  commentId: Overload:Apache.Arrow.ArrowContext.Allocator
+  isSpec: "True"
+  fullName: Apache.Arrow.ArrowContext.Allocator
+  nameWithType: ArrowContext.Allocator
+- uid: Apache.Arrow.ArrowContext.CompressionCodecFactory
+  name: CompressionCodecFactory
+  href: api/Apache.Arrow.ArrowContext.html#Apache_Arrow_ArrowContext_CompressionCodecFactory
+  commentId: P:Apache.Arrow.ArrowContext.CompressionCodecFactory
+  fullName: Apache.Arrow.ArrowContext.CompressionCodecFactory
+  nameWithType: ArrowContext.CompressionCodecFactory
+- uid: Apache.Arrow.ArrowContext.CompressionCodecFactory*
+  name: CompressionCodecFactory
+  href: api/Apache.Arrow.ArrowContext.html#Apache_Arrow_ArrowContext_CompressionCodecFactory_
+  commentId: Overload:Apache.Arrow.ArrowContext.CompressionCodecFactory
+  isSpec: "True"
+  fullName: Apache.Arrow.ArrowContext.CompressionCodecFactory
+  nameWithType: ArrowContext.CompressionCodecFactory
+- uid: Apache.Arrow.ArrowContext.ExtensionRegistry
+  name: ExtensionRegistry
+  href: api/Apache.Arrow.ArrowContext.html#Apache_Arrow_ArrowContext_ExtensionRegistry
+  commentId: P:Apache.Arrow.ArrowContext.ExtensionRegistry
+  fullName: Apache.Arrow.ArrowContext.ExtensionRegistry
+  nameWithType: ArrowContext.ExtensionRegistry
+- uid: Apache.Arrow.ArrowContext.ExtensionRegistry*
+  name: ExtensionRegistry
+  href: api/Apache.Arrow.ArrowContext.html#Apache_Arrow_ArrowContext_ExtensionRegistry_
+  commentId: Overload:Apache.Arrow.ArrowContext.ExtensionRegistry
+  isSpec: "True"
+  fullName: Apache.Arrow.ArrowContext.ExtensionRegistry
+  nameWithType: ArrowContext.ExtensionRegistry
 - uid: Apache.Arrow.ArrowSerializationHelpers
   name: ArrowSerializationHelpers
   href: api/Apache.Arrow.ArrowSerializationHelpers.html
@@ -3642,6 +3706,12 @@ references:
   commentId: M:Apache.Arrow.C.CArrowSchemaImporter.ImportField(Apache.Arrow.C.CArrowSchema*)
   fullName: Apache.Arrow.C.CArrowSchemaImporter.ImportField(Apache.Arrow.C.CArrowSchema*)
   nameWithType: CArrowSchemaImporter.ImportField(CArrowSchema*)
+- uid: Apache.Arrow.C.CArrowSchemaImporter.ImportField(Apache.Arrow.C.CArrowSchema*,Apache.Arrow.ExtensionTypeRegistry)
+  name: ImportField(CArrowSchema*, ExtensionTypeRegistry)
+  href: api/Apache.Arrow.C.CArrowSchemaImporter.html#Apache_Arrow_C_CArrowSchemaImporter_ImportField_Apache_Arrow_C_CArrowSchema__Apache_Arrow_ExtensionTypeRegistry_
+  commentId: M:Apache.Arrow.C.CArrowSchemaImporter.ImportField(Apache.Arrow.C.CArrowSchema*,Apache.Arrow.ExtensionTypeRegistry)
+  fullName: Apache.Arrow.C.CArrowSchemaImporter.ImportField(Apache.Arrow.C.CArrowSchema*, Apache.Arrow.ExtensionTypeRegistry)
+  nameWithType: CArrowSchemaImporter.ImportField(CArrowSchema*, ExtensionTypeRegistry)
 - uid: Apache.Arrow.C.CArrowSchemaImporter.ImportField*
   name: ImportField
   href: api/Apache.Arrow.C.CArrowSchemaImporter.html#Apache_Arrow_C_CArrowSchemaImporter_ImportField_
@@ -3655,6 +3725,12 @@ references:
   commentId: M:Apache.Arrow.C.CArrowSchemaImporter.ImportSchema(Apache.Arrow.C.CArrowSchema*)
   fullName: Apache.Arrow.C.CArrowSchemaImporter.ImportSchema(Apache.Arrow.C.CArrowSchema*)
   nameWithType: CArrowSchemaImporter.ImportSchema(CArrowSchema*)
+- uid: Apache.Arrow.C.CArrowSchemaImporter.ImportSchema(Apache.Arrow.C.CArrowSchema*,Apache.Arrow.ExtensionTypeRegistry)
+  name: ImportSchema(CArrowSchema*, ExtensionTypeRegistry)
+  href: api/Apache.Arrow.C.CArrowSchemaImporter.html#Apache_Arrow_C_CArrowSchemaImporter_ImportSchema_Apache_Arrow_C_CArrowSchema__Apache_Arrow_ExtensionTypeRegistry_
+  commentId: M:Apache.Arrow.C.CArrowSchemaImporter.ImportSchema(Apache.Arrow.C.CArrowSchema*,Apache.Arrow.ExtensionTypeRegistry)
+  fullName: Apache.Arrow.C.CArrowSchemaImporter.ImportSchema(Apache.Arrow.C.CArrowSchema*, Apache.Arrow.ExtensionTypeRegistry)
+  nameWithType: CArrowSchemaImporter.ImportSchema(CArrowSchema*, ExtensionTypeRegistry)
 - uid: Apache.Arrow.C.CArrowSchemaImporter.ImportSchema*
   name: ImportSchema
   href: api/Apache.Arrow.C.CArrowSchemaImporter.html#Apache_Arrow_C_CArrowSchemaImporter_ImportSchema_
@@ -6142,6 +6218,455 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.DurationArray.GetTimeSpan
   nameWithType: DurationArray.GetTimeSpan
+- uid: Apache.Arrow.ExtensionArray
+  name: ExtensionArray
+  href: api/Apache.Arrow.ExtensionArray.html
+  commentId: T:Apache.Arrow.ExtensionArray
+  fullName: Apache.Arrow.ExtensionArray
+  nameWithType: ExtensionArray
+- uid: Apache.Arrow.ExtensionArray.#ctor(Apache.Arrow.ExtensionType,Apache.Arrow.IArrowArray)
+  name: ExtensionArray(ExtensionType, IArrowArray)
+  href: api/Apache.Arrow.ExtensionArray.html#Apache_Arrow_ExtensionArray__ctor_Apache_Arrow_ExtensionType_Apache_Arrow_IArrowArray_
+  commentId: M:Apache.Arrow.ExtensionArray.#ctor(Apache.Arrow.ExtensionType,Apache.Arrow.IArrowArray)
+  name.vb: New(ExtensionType, IArrowArray)
+  fullName: Apache.Arrow.ExtensionArray.ExtensionArray(Apache.Arrow.ExtensionType, Apache.Arrow.IArrowArray)
+  fullName.vb: Apache.Arrow.ExtensionArray.New(Apache.Arrow.ExtensionType, Apache.Arrow.IArrowArray)
+  nameWithType: ExtensionArray.ExtensionArray(ExtensionType, IArrowArray)
+  nameWithType.vb: ExtensionArray.New(ExtensionType, IArrowArray)
+- uid: Apache.Arrow.ExtensionArray.#ctor(Apache.Arrow.IArrowArray)
+  name: ExtensionArray(IArrowArray)
+  href: api/Apache.Arrow.ExtensionArray.html#Apache_Arrow_ExtensionArray__ctor_Apache_Arrow_IArrowArray_
+  commentId: M:Apache.Arrow.ExtensionArray.#ctor(Apache.Arrow.IArrowArray)
+  name.vb: New(IArrowArray)
+  fullName: Apache.Arrow.ExtensionArray.ExtensionArray(Apache.Arrow.IArrowArray)
+  fullName.vb: Apache.Arrow.ExtensionArray.New(Apache.Arrow.IArrowArray)
+  nameWithType: ExtensionArray.ExtensionArray(IArrowArray)
+  nameWithType.vb: ExtensionArray.New(IArrowArray)
+- uid: Apache.Arrow.ExtensionArray.#ctor*
+  name: ExtensionArray
+  href: api/Apache.Arrow.ExtensionArray.html#Apache_Arrow_ExtensionArray__ctor_
+  commentId: Overload:Apache.Arrow.ExtensionArray.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Apache.Arrow.ExtensionArray.ExtensionArray
+  fullName.vb: Apache.Arrow.ExtensionArray.New
+  nameWithType: ExtensionArray.ExtensionArray
+  nameWithType.vb: ExtensionArray.New
+- uid: Apache.Arrow.ExtensionArray.Accept(Apache.Arrow.IArrowArrayVisitor)
+  name: Accept(IArrowArrayVisitor)
+  href: api/Apache.Arrow.ExtensionArray.html#Apache_Arrow_ExtensionArray_Accept_Apache_Arrow_IArrowArrayVisitor_
+  commentId: M:Apache.Arrow.ExtensionArray.Accept(Apache.Arrow.IArrowArrayVisitor)
+  fullName: Apache.Arrow.ExtensionArray.Accept(Apache.Arrow.IArrowArrayVisitor)
+  nameWithType: ExtensionArray.Accept(IArrowArrayVisitor)
+- uid: Apache.Arrow.ExtensionArray.Accept*
+  name: Accept
+  href: api/Apache.Arrow.ExtensionArray.html#Apache_Arrow_ExtensionArray_Accept_
+  commentId: Overload:Apache.Arrow.ExtensionArray.Accept
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionArray.Accept
+  nameWithType: ExtensionArray.Accept
+- uid: Apache.Arrow.ExtensionArray.Data
+  name: Data
+  href: api/Apache.Arrow.ExtensionArray.html#Apache_Arrow_ExtensionArray_Data
+  commentId: P:Apache.Arrow.ExtensionArray.Data
+  fullName: Apache.Arrow.ExtensionArray.Data
+  nameWithType: ExtensionArray.Data
+- uid: Apache.Arrow.ExtensionArray.Data*
+  name: Data
+  href: api/Apache.Arrow.ExtensionArray.html#Apache_Arrow_ExtensionArray_Data_
+  commentId: Overload:Apache.Arrow.ExtensionArray.Data
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionArray.Data
+  nameWithType: ExtensionArray.Data
+- uid: Apache.Arrow.ExtensionArray.Dispose
+  name: Dispose()
+  href: api/Apache.Arrow.ExtensionArray.html#Apache_Arrow_ExtensionArray_Dispose
+  commentId: M:Apache.Arrow.ExtensionArray.Dispose
+  fullName: Apache.Arrow.ExtensionArray.Dispose()
+  nameWithType: ExtensionArray.Dispose()
+- uid: Apache.Arrow.ExtensionArray.Dispose(System.Boolean)
+  name: Dispose(bool)
+  href: api/Apache.Arrow.ExtensionArray.html#Apache_Arrow_ExtensionArray_Dispose_System_Boolean_
+  commentId: M:Apache.Arrow.ExtensionArray.Dispose(System.Boolean)
+  name.vb: Dispose(Boolean)
+  fullName: Apache.Arrow.ExtensionArray.Dispose(bool)
+  fullName.vb: Apache.Arrow.ExtensionArray.Dispose(Boolean)
+  nameWithType: ExtensionArray.Dispose(bool)
+  nameWithType.vb: ExtensionArray.Dispose(Boolean)
+- uid: Apache.Arrow.ExtensionArray.Dispose*
+  name: Dispose
+  href: api/Apache.Arrow.ExtensionArray.html#Apache_Arrow_ExtensionArray_Dispose_
+  commentId: Overload:Apache.Arrow.ExtensionArray.Dispose
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionArray.Dispose
+  nameWithType: ExtensionArray.Dispose
+- uid: Apache.Arrow.ExtensionArray.ExtensionType
+  name: ExtensionType
+  href: api/Apache.Arrow.ExtensionArray.html#Apache_Arrow_ExtensionArray_ExtensionType
+  commentId: P:Apache.Arrow.ExtensionArray.ExtensionType
+  fullName: Apache.Arrow.ExtensionArray.ExtensionType
+  nameWithType: ExtensionArray.ExtensionType
+- uid: Apache.Arrow.ExtensionArray.ExtensionType*
+  name: ExtensionType
+  href: api/Apache.Arrow.ExtensionArray.html#Apache_Arrow_ExtensionArray_ExtensionType_
+  commentId: Overload:Apache.Arrow.ExtensionArray.ExtensionType
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionArray.ExtensionType
+  nameWithType: ExtensionArray.ExtensionType
+- uid: Apache.Arrow.ExtensionArray.IsNull(System.Int32)
+  name: IsNull(int)
+  href: api/Apache.Arrow.ExtensionArray.html#Apache_Arrow_ExtensionArray_IsNull_System_Int32_
+  commentId: M:Apache.Arrow.ExtensionArray.IsNull(System.Int32)
+  name.vb: IsNull(Integer)
+  fullName: Apache.Arrow.ExtensionArray.IsNull(int)
+  fullName.vb: Apache.Arrow.ExtensionArray.IsNull(Integer)
+  nameWithType: ExtensionArray.IsNull(int)
+  nameWithType.vb: ExtensionArray.IsNull(Integer)
+- uid: Apache.Arrow.ExtensionArray.IsNull*
+  name: IsNull
+  href: api/Apache.Arrow.ExtensionArray.html#Apache_Arrow_ExtensionArray_IsNull_
+  commentId: Overload:Apache.Arrow.ExtensionArray.IsNull
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionArray.IsNull
+  nameWithType: ExtensionArray.IsNull
+- uid: Apache.Arrow.ExtensionArray.IsValid(System.Int32)
+  name: IsValid(int)
+  href: api/Apache.Arrow.ExtensionArray.html#Apache_Arrow_ExtensionArray_IsValid_System_Int32_
+  commentId: M:Apache.Arrow.ExtensionArray.IsValid(System.Int32)
+  name.vb: IsValid(Integer)
+  fullName: Apache.Arrow.ExtensionArray.IsValid(int)
+  fullName.vb: Apache.Arrow.ExtensionArray.IsValid(Integer)
+  nameWithType: ExtensionArray.IsValid(int)
+  nameWithType.vb: ExtensionArray.IsValid(Integer)
+- uid: Apache.Arrow.ExtensionArray.IsValid*
+  name: IsValid
+  href: api/Apache.Arrow.ExtensionArray.html#Apache_Arrow_ExtensionArray_IsValid_
+  commentId: Overload:Apache.Arrow.ExtensionArray.IsValid
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionArray.IsValid
+  nameWithType: ExtensionArray.IsValid
+- uid: Apache.Arrow.ExtensionArray.Length
+  name: Length
+  href: api/Apache.Arrow.ExtensionArray.html#Apache_Arrow_ExtensionArray_Length
+  commentId: P:Apache.Arrow.ExtensionArray.Length
+  fullName: Apache.Arrow.ExtensionArray.Length
+  nameWithType: ExtensionArray.Length
+- uid: Apache.Arrow.ExtensionArray.Length*
+  name: Length
+  href: api/Apache.Arrow.ExtensionArray.html#Apache_Arrow_ExtensionArray_Length_
+  commentId: Overload:Apache.Arrow.ExtensionArray.Length
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionArray.Length
+  nameWithType: ExtensionArray.Length
+- uid: Apache.Arrow.ExtensionArray.NullCount
+  name: NullCount
+  href: api/Apache.Arrow.ExtensionArray.html#Apache_Arrow_ExtensionArray_NullCount
+  commentId: P:Apache.Arrow.ExtensionArray.NullCount
+  fullName: Apache.Arrow.ExtensionArray.NullCount
+  nameWithType: ExtensionArray.NullCount
+- uid: Apache.Arrow.ExtensionArray.NullCount*
+  name: NullCount
+  href: api/Apache.Arrow.ExtensionArray.html#Apache_Arrow_ExtensionArray_NullCount_
+  commentId: Overload:Apache.Arrow.ExtensionArray.NullCount
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionArray.NullCount
+  nameWithType: ExtensionArray.NullCount
+- uid: Apache.Arrow.ExtensionArray.Offset
+  name: Offset
+  href: api/Apache.Arrow.ExtensionArray.html#Apache_Arrow_ExtensionArray_Offset
+  commentId: P:Apache.Arrow.ExtensionArray.Offset
+  fullName: Apache.Arrow.ExtensionArray.Offset
+  nameWithType: ExtensionArray.Offset
+- uid: Apache.Arrow.ExtensionArray.Offset*
+  name: Offset
+  href: api/Apache.Arrow.ExtensionArray.html#Apache_Arrow_ExtensionArray_Offset_
+  commentId: Overload:Apache.Arrow.ExtensionArray.Offset
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionArray.Offset
+  nameWithType: ExtensionArray.Offset
+- uid: Apache.Arrow.ExtensionArray.Storage
+  name: Storage
+  href: api/Apache.Arrow.ExtensionArray.html#Apache_Arrow_ExtensionArray_Storage
+  commentId: P:Apache.Arrow.ExtensionArray.Storage
+  fullName: Apache.Arrow.ExtensionArray.Storage
+  nameWithType: ExtensionArray.Storage
+- uid: Apache.Arrow.ExtensionArray.Storage*
+  name: Storage
+  href: api/Apache.Arrow.ExtensionArray.html#Apache_Arrow_ExtensionArray_Storage_
+  commentId: Overload:Apache.Arrow.ExtensionArray.Storage
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionArray.Storage
+  nameWithType: ExtensionArray.Storage
+- uid: Apache.Arrow.ExtensionDefinition
+  name: ExtensionDefinition
+  href: api/Apache.Arrow.ExtensionDefinition.html
+  commentId: T:Apache.Arrow.ExtensionDefinition
+  fullName: Apache.Arrow.ExtensionDefinition
+  nameWithType: ExtensionDefinition
+- uid: Apache.Arrow.ExtensionDefinition.AddToDefaultRegistry
+  name: AddToDefaultRegistry()
+  href: api/Apache.Arrow.ExtensionDefinition.html#Apache_Arrow_ExtensionDefinition_AddToDefaultRegistry
+  commentId: M:Apache.Arrow.ExtensionDefinition.AddToDefaultRegistry
+  fullName: Apache.Arrow.ExtensionDefinition.AddToDefaultRegistry()
+  nameWithType: ExtensionDefinition.AddToDefaultRegistry()
+- uid: Apache.Arrow.ExtensionDefinition.AddToDefaultRegistry*
+  name: AddToDefaultRegistry
+  href: api/Apache.Arrow.ExtensionDefinition.html#Apache_Arrow_ExtensionDefinition_AddToDefaultRegistry_
+  commentId: Overload:Apache.Arrow.ExtensionDefinition.AddToDefaultRegistry
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionDefinition.AddToDefaultRegistry
+  nameWithType: ExtensionDefinition.AddToDefaultRegistry
+- uid: Apache.Arrow.ExtensionDefinition.ExtensionName
+  name: ExtensionName
+  href: api/Apache.Arrow.ExtensionDefinition.html#Apache_Arrow_ExtensionDefinition_ExtensionName
+  commentId: P:Apache.Arrow.ExtensionDefinition.ExtensionName
+  fullName: Apache.Arrow.ExtensionDefinition.ExtensionName
+  nameWithType: ExtensionDefinition.ExtensionName
+- uid: Apache.Arrow.ExtensionDefinition.ExtensionName*
+  name: ExtensionName
+  href: api/Apache.Arrow.ExtensionDefinition.html#Apache_Arrow_ExtensionDefinition_ExtensionName_
+  commentId: Overload:Apache.Arrow.ExtensionDefinition.ExtensionName
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionDefinition.ExtensionName
+  nameWithType: ExtensionDefinition.ExtensionName
+- uid: Apache.Arrow.ExtensionDefinition.TryCreateType(Apache.Arrow.Types.IArrowType,System.String,Apache.Arrow.ExtensionType@)
+  name: TryCreateType(IArrowType, string, out ExtensionType)
+  href: api/Apache.Arrow.ExtensionDefinition.html#Apache_Arrow_ExtensionDefinition_TryCreateType_Apache_Arrow_Types_IArrowType_System_String_Apache_Arrow_ExtensionType__
+  commentId: M:Apache.Arrow.ExtensionDefinition.TryCreateType(Apache.Arrow.Types.IArrowType,System.String,Apache.Arrow.ExtensionType@)
+  name.vb: TryCreateType(IArrowType, String, ExtensionType)
+  fullName: Apache.Arrow.ExtensionDefinition.TryCreateType(Apache.Arrow.Types.IArrowType, string, out Apache.Arrow.ExtensionType)
+  fullName.vb: Apache.Arrow.ExtensionDefinition.TryCreateType(Apache.Arrow.Types.IArrowType, String, Apache.Arrow.ExtensionType)
+  nameWithType: ExtensionDefinition.TryCreateType(IArrowType, string, out ExtensionType)
+  nameWithType.vb: ExtensionDefinition.TryCreateType(IArrowType, String, ExtensionType)
+- uid: Apache.Arrow.ExtensionDefinition.TryCreateType*
+  name: TryCreateType
+  href: api/Apache.Arrow.ExtensionDefinition.html#Apache_Arrow_ExtensionDefinition_TryCreateType_
+  commentId: Overload:Apache.Arrow.ExtensionDefinition.TryCreateType
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionDefinition.TryCreateType
+  nameWithType: ExtensionDefinition.TryCreateType
+- uid: Apache.Arrow.ExtensionType
+  name: ExtensionType
+  href: api/Apache.Arrow.ExtensionType.html
+  commentId: T:Apache.Arrow.ExtensionType
+  fullName: Apache.Arrow.ExtensionType
+  nameWithType: ExtensionType
+- uid: Apache.Arrow.ExtensionType.#ctor(Apache.Arrow.Types.IArrowType)
+  name: ExtensionType(IArrowType)
+  href: api/Apache.Arrow.ExtensionType.html#Apache_Arrow_ExtensionType__ctor_Apache_Arrow_Types_IArrowType_
+  commentId: M:Apache.Arrow.ExtensionType.#ctor(Apache.Arrow.Types.IArrowType)
+  name.vb: New(IArrowType)
+  fullName: Apache.Arrow.ExtensionType.ExtensionType(Apache.Arrow.Types.IArrowType)
+  fullName.vb: Apache.Arrow.ExtensionType.New(Apache.Arrow.Types.IArrowType)
+  nameWithType: ExtensionType.ExtensionType(IArrowType)
+  nameWithType.vb: ExtensionType.New(IArrowType)
+- uid: Apache.Arrow.ExtensionType.#ctor*
+  name: ExtensionType
+  href: api/Apache.Arrow.ExtensionType.html#Apache_Arrow_ExtensionType__ctor_
+  commentId: Overload:Apache.Arrow.ExtensionType.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Apache.Arrow.ExtensionType.ExtensionType
+  fullName.vb: Apache.Arrow.ExtensionType.New
+  nameWithType: ExtensionType.ExtensionType
+  nameWithType.vb: ExtensionType.New
+- uid: Apache.Arrow.ExtensionType.Accept(Apache.Arrow.Types.IArrowTypeVisitor)
+  name: Accept(IArrowTypeVisitor)
+  href: api/Apache.Arrow.ExtensionType.html#Apache_Arrow_ExtensionType_Accept_Apache_Arrow_Types_IArrowTypeVisitor_
+  commentId: M:Apache.Arrow.ExtensionType.Accept(Apache.Arrow.Types.IArrowTypeVisitor)
+  fullName: Apache.Arrow.ExtensionType.Accept(Apache.Arrow.Types.IArrowTypeVisitor)
+  nameWithType: ExtensionType.Accept(IArrowTypeVisitor)
+- uid: Apache.Arrow.ExtensionType.Accept*
+  name: Accept
+  href: api/Apache.Arrow.ExtensionType.html#Apache_Arrow_ExtensionType_Accept_
+  commentId: Overload:Apache.Arrow.ExtensionType.Accept
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionType.Accept
+  nameWithType: ExtensionType.Accept
+- uid: Apache.Arrow.ExtensionType.CreateArray(Apache.Arrow.IArrowArray)
+  name: CreateArray(IArrowArray)
+  href: api/Apache.Arrow.ExtensionType.html#Apache_Arrow_ExtensionType_CreateArray_Apache_Arrow_IArrowArray_
+  commentId: M:Apache.Arrow.ExtensionType.CreateArray(Apache.Arrow.IArrowArray)
+  fullName: Apache.Arrow.ExtensionType.CreateArray(Apache.Arrow.IArrowArray)
+  nameWithType: ExtensionType.CreateArray(IArrowArray)
+- uid: Apache.Arrow.ExtensionType.CreateArray*
+  name: CreateArray
+  href: api/Apache.Arrow.ExtensionType.html#Apache_Arrow_ExtensionType_CreateArray_
+  commentId: Overload:Apache.Arrow.ExtensionType.CreateArray
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionType.CreateArray
+  nameWithType: ExtensionType.CreateArray
+- uid: Apache.Arrow.ExtensionType.ExtensionMetadata
+  name: ExtensionMetadata
+  href: api/Apache.Arrow.ExtensionType.html#Apache_Arrow_ExtensionType_ExtensionMetadata
+  commentId: P:Apache.Arrow.ExtensionType.ExtensionMetadata
+  fullName: Apache.Arrow.ExtensionType.ExtensionMetadata
+  nameWithType: ExtensionType.ExtensionMetadata
+- uid: Apache.Arrow.ExtensionType.ExtensionMetadata*
+  name: ExtensionMetadata
+  href: api/Apache.Arrow.ExtensionType.html#Apache_Arrow_ExtensionType_ExtensionMetadata_
+  commentId: Overload:Apache.Arrow.ExtensionType.ExtensionMetadata
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionType.ExtensionMetadata
+  nameWithType: ExtensionType.ExtensionMetadata
+- uid: Apache.Arrow.ExtensionType.IsFixedWidth
+  name: IsFixedWidth
+  href: api/Apache.Arrow.ExtensionType.html#Apache_Arrow_ExtensionType_IsFixedWidth
+  commentId: P:Apache.Arrow.ExtensionType.IsFixedWidth
+  fullName: Apache.Arrow.ExtensionType.IsFixedWidth
+  nameWithType: ExtensionType.IsFixedWidth
+- uid: Apache.Arrow.ExtensionType.IsFixedWidth*
+  name: IsFixedWidth
+  href: api/Apache.Arrow.ExtensionType.html#Apache_Arrow_ExtensionType_IsFixedWidth_
+  commentId: Overload:Apache.Arrow.ExtensionType.IsFixedWidth
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionType.IsFixedWidth
+  nameWithType: ExtensionType.IsFixedWidth
+- uid: Apache.Arrow.ExtensionType.Name
+  name: Name
+  href: api/Apache.Arrow.ExtensionType.html#Apache_Arrow_ExtensionType_Name
+  commentId: P:Apache.Arrow.ExtensionType.Name
+  fullName: Apache.Arrow.ExtensionType.Name
+  nameWithType: ExtensionType.Name
+- uid: Apache.Arrow.ExtensionType.Name*
+  name: Name
+  href: api/Apache.Arrow.ExtensionType.html#Apache_Arrow_ExtensionType_Name_
+  commentId: Overload:Apache.Arrow.ExtensionType.Name
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionType.Name
+  nameWithType: ExtensionType.Name
+- uid: Apache.Arrow.ExtensionType.StorageType
+  name: StorageType
+  href: api/Apache.Arrow.ExtensionType.html#Apache_Arrow_ExtensionType_StorageType
+  commentId: P:Apache.Arrow.ExtensionType.StorageType
+  fullName: Apache.Arrow.ExtensionType.StorageType
+  nameWithType: ExtensionType.StorageType
+- uid: Apache.Arrow.ExtensionType.StorageType*
+  name: StorageType
+  href: api/Apache.Arrow.ExtensionType.html#Apache_Arrow_ExtensionType_StorageType_
+  commentId: Overload:Apache.Arrow.ExtensionType.StorageType
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionType.StorageType
+  nameWithType: ExtensionType.StorageType
+- uid: Apache.Arrow.ExtensionType.TypeId
+  name: TypeId
+  href: api/Apache.Arrow.ExtensionType.html#Apache_Arrow_ExtensionType_TypeId
+  commentId: P:Apache.Arrow.ExtensionType.TypeId
+  fullName: Apache.Arrow.ExtensionType.TypeId
+  nameWithType: ExtensionType.TypeId
+- uid: Apache.Arrow.ExtensionType.TypeId*
+  name: TypeId
+  href: api/Apache.Arrow.ExtensionType.html#Apache_Arrow_ExtensionType_TypeId_
+  commentId: Overload:Apache.Arrow.ExtensionType.TypeId
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionType.TypeId
+  nameWithType: ExtensionType.TypeId
+- uid: Apache.Arrow.ExtensionTypeRegistry
+  name: ExtensionTypeRegistry
+  href: api/Apache.Arrow.ExtensionTypeRegistry.html
+  commentId: T:Apache.Arrow.ExtensionTypeRegistry
+  fullName: Apache.Arrow.ExtensionTypeRegistry
+  nameWithType: ExtensionTypeRegistry
+- uid: Apache.Arrow.ExtensionTypeRegistry.#ctor
+  name: ExtensionTypeRegistry()
+  href: api/Apache.Arrow.ExtensionTypeRegistry.html#Apache_Arrow_ExtensionTypeRegistry__ctor
+  commentId: M:Apache.Arrow.ExtensionTypeRegistry.#ctor
+  name.vb: New()
+  fullName: Apache.Arrow.ExtensionTypeRegistry.ExtensionTypeRegistry()
+  fullName.vb: Apache.Arrow.ExtensionTypeRegistry.New()
+  nameWithType: ExtensionTypeRegistry.ExtensionTypeRegistry()
+  nameWithType.vb: ExtensionTypeRegistry.New()
+- uid: Apache.Arrow.ExtensionTypeRegistry.#ctor*
+  name: ExtensionTypeRegistry
+  href: api/Apache.Arrow.ExtensionTypeRegistry.html#Apache_Arrow_ExtensionTypeRegistry__ctor_
+  commentId: Overload:Apache.Arrow.ExtensionTypeRegistry.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Apache.Arrow.ExtensionTypeRegistry.ExtensionTypeRegistry
+  fullName.vb: Apache.Arrow.ExtensionTypeRegistry.New
+  nameWithType: ExtensionTypeRegistry.ExtensionTypeRegistry
+  nameWithType.vb: ExtensionTypeRegistry.New
+- uid: Apache.Arrow.ExtensionTypeRegistry.Clone
+  name: Clone()
+  href: api/Apache.Arrow.ExtensionTypeRegistry.html#Apache_Arrow_ExtensionTypeRegistry_Clone
+  commentId: M:Apache.Arrow.ExtensionTypeRegistry.Clone
+  fullName: Apache.Arrow.ExtensionTypeRegistry.Clone()
+  nameWithType: ExtensionTypeRegistry.Clone()
+- uid: Apache.Arrow.ExtensionTypeRegistry.Clone*
+  name: Clone
+  href: api/Apache.Arrow.ExtensionTypeRegistry.html#Apache_Arrow_ExtensionTypeRegistry_Clone_
+  commentId: Overload:Apache.Arrow.ExtensionTypeRegistry.Clone
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionTypeRegistry.Clone
+  nameWithType: ExtensionTypeRegistry.Clone
+- uid: Apache.Arrow.ExtensionTypeRegistry.Default
+  name: Default
+  href: api/Apache.Arrow.ExtensionTypeRegistry.html#Apache_Arrow_ExtensionTypeRegistry_Default
+  commentId: P:Apache.Arrow.ExtensionTypeRegistry.Default
+  fullName: Apache.Arrow.ExtensionTypeRegistry.Default
+  nameWithType: ExtensionTypeRegistry.Default
+- uid: Apache.Arrow.ExtensionTypeRegistry.Default*
+  name: Default
+  href: api/Apache.Arrow.ExtensionTypeRegistry.html#Apache_Arrow_ExtensionTypeRegistry_Default_
+  commentId: Overload:Apache.Arrow.ExtensionTypeRegistry.Default
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionTypeRegistry.Default
+  nameWithType: ExtensionTypeRegistry.Default
+- uid: Apache.Arrow.ExtensionTypeRegistry.Register(Apache.Arrow.ExtensionDefinition)
+  name: Register(ExtensionDefinition)
+  href: api/Apache.Arrow.ExtensionTypeRegistry.html#Apache_Arrow_ExtensionTypeRegistry_Register_Apache_Arrow_ExtensionDefinition_
+  commentId: M:Apache.Arrow.ExtensionTypeRegistry.Register(Apache.Arrow.ExtensionDefinition)
+  fullName: Apache.Arrow.ExtensionTypeRegistry.Register(Apache.Arrow.ExtensionDefinition)
+  nameWithType: ExtensionTypeRegistry.Register(ExtensionDefinition)
+- uid: Apache.Arrow.ExtensionTypeRegistry.Register*
+  name: Register
+  href: api/Apache.Arrow.ExtensionTypeRegistry.html#Apache_Arrow_ExtensionTypeRegistry_Register_
+  commentId: Overload:Apache.Arrow.ExtensionTypeRegistry.Register
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionTypeRegistry.Register
+  nameWithType: ExtensionTypeRegistry.Register
+- uid: Apache.Arrow.ExtensionTypeRegistry.RegisterTemporary(Apache.Arrow.ExtensionDefinition)
+  name: RegisterTemporary(ExtensionDefinition)
+  href: api/Apache.Arrow.ExtensionTypeRegistry.html#Apache_Arrow_ExtensionTypeRegistry_RegisterTemporary_Apache_Arrow_ExtensionDefinition_
+  commentId: M:Apache.Arrow.ExtensionTypeRegistry.RegisterTemporary(Apache.Arrow.ExtensionDefinition)
+  fullName: Apache.Arrow.ExtensionTypeRegistry.RegisterTemporary(Apache.Arrow.ExtensionDefinition)
+  nameWithType: ExtensionTypeRegistry.RegisterTemporary(ExtensionDefinition)
+- uid: Apache.Arrow.ExtensionTypeRegistry.RegisterTemporary*
+  name: RegisterTemporary
+  href: api/Apache.Arrow.ExtensionTypeRegistry.html#Apache_Arrow_ExtensionTypeRegistry_RegisterTemporary_
+  commentId: Overload:Apache.Arrow.ExtensionTypeRegistry.RegisterTemporary
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionTypeRegistry.RegisterTemporary
+  nameWithType: ExtensionTypeRegistry.RegisterTemporary
+- uid: Apache.Arrow.ExtensionTypeRegistry.TryGetDefinition(System.String,Apache.Arrow.ExtensionDefinition@)
+  name: TryGetDefinition(string, out ExtensionDefinition)
+  href: api/Apache.Arrow.ExtensionTypeRegistry.html#Apache_Arrow_ExtensionTypeRegistry_TryGetDefinition_System_String_Apache_Arrow_ExtensionDefinition__
+  commentId: M:Apache.Arrow.ExtensionTypeRegistry.TryGetDefinition(System.String,Apache.Arrow.ExtensionDefinition@)
+  name.vb: TryGetDefinition(String, ExtensionDefinition)
+  fullName: Apache.Arrow.ExtensionTypeRegistry.TryGetDefinition(string, out Apache.Arrow.ExtensionDefinition)
+  fullName.vb: Apache.Arrow.ExtensionTypeRegistry.TryGetDefinition(String, Apache.Arrow.ExtensionDefinition)
+  nameWithType: ExtensionTypeRegistry.TryGetDefinition(string, out ExtensionDefinition)
+  nameWithType.vb: ExtensionTypeRegistry.TryGetDefinition(String, ExtensionDefinition)
+- uid: Apache.Arrow.ExtensionTypeRegistry.TryGetDefinition*
+  name: TryGetDefinition
+  href: api/Apache.Arrow.ExtensionTypeRegistry.html#Apache_Arrow_ExtensionTypeRegistry_TryGetDefinition_
+  commentId: Overload:Apache.Arrow.ExtensionTypeRegistry.TryGetDefinition
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionTypeRegistry.TryGetDefinition
+  nameWithType: ExtensionTypeRegistry.TryGetDefinition
+- uid: Apache.Arrow.ExtensionTypeRegistry.Unregister(Apache.Arrow.ExtensionDefinition)
+  name: Unregister(ExtensionDefinition)
+  href: api/Apache.Arrow.ExtensionTypeRegistry.html#Apache_Arrow_ExtensionTypeRegistry_Unregister_Apache_Arrow_ExtensionDefinition_
+  commentId: M:Apache.Arrow.ExtensionTypeRegistry.Unregister(Apache.Arrow.ExtensionDefinition)
+  fullName: Apache.Arrow.ExtensionTypeRegistry.Unregister(Apache.Arrow.ExtensionDefinition)
+  nameWithType: ExtensionTypeRegistry.Unregister(ExtensionDefinition)
+- uid: Apache.Arrow.ExtensionTypeRegistry.Unregister*
+  name: Unregister
+  href: api/Apache.Arrow.ExtensionTypeRegistry.html#Apache_Arrow_ExtensionTypeRegistry_Unregister_
+  commentId: Overload:Apache.Arrow.ExtensionTypeRegistry.Unregister
+  isSpec: "True"
+  fullName: Apache.Arrow.ExtensionTypeRegistry.Unregister
+  nameWithType: ExtensionTypeRegistry.Unregister
 - uid: Apache.Arrow.Field
   name: Field
   href: api/Apache.Arrow.Field.html
@@ -11556,6 +12081,353 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.FloatArray.Builder.Build
   nameWithType: FloatArray.Builder.Build
+- uid: Apache.Arrow.GuidArray
+  name: GuidArray
+  href: api/Apache.Arrow.GuidArray.html
+  commentId: T:Apache.Arrow.GuidArray
+  fullName: Apache.Arrow.GuidArray
+  nameWithType: GuidArray
+- uid: Apache.Arrow.GuidArray.#ctor(Apache.Arrow.GuidType,Apache.Arrow.IArrowArray)
+  name: GuidArray(GuidType, IArrowArray)
+  href: api/Apache.Arrow.GuidArray.html#Apache_Arrow_GuidArray__ctor_Apache_Arrow_GuidType_Apache_Arrow_IArrowArray_
+  commentId: M:Apache.Arrow.GuidArray.#ctor(Apache.Arrow.GuidType,Apache.Arrow.IArrowArray)
+  name.vb: New(GuidType, IArrowArray)
+  fullName: Apache.Arrow.GuidArray.GuidArray(Apache.Arrow.GuidType, Apache.Arrow.IArrowArray)
+  fullName.vb: Apache.Arrow.GuidArray.New(Apache.Arrow.GuidType, Apache.Arrow.IArrowArray)
+  nameWithType: GuidArray.GuidArray(GuidType, IArrowArray)
+  nameWithType.vb: GuidArray.New(GuidType, IArrowArray)
+- uid: Apache.Arrow.GuidArray.#ctor(Apache.Arrow.IArrowArray)
+  name: GuidArray(IArrowArray)
+  href: api/Apache.Arrow.GuidArray.html#Apache_Arrow_GuidArray__ctor_Apache_Arrow_IArrowArray_
+  commentId: M:Apache.Arrow.GuidArray.#ctor(Apache.Arrow.IArrowArray)
+  name.vb: New(IArrowArray)
+  fullName: Apache.Arrow.GuidArray.GuidArray(Apache.Arrow.IArrowArray)
+  fullName.vb: Apache.Arrow.GuidArray.New(Apache.Arrow.IArrowArray)
+  nameWithType: GuidArray.GuidArray(IArrowArray)
+  nameWithType.vb: GuidArray.New(IArrowArray)
+- uid: Apache.Arrow.GuidArray.#ctor*
+  name: GuidArray
+  href: api/Apache.Arrow.GuidArray.html#Apache_Arrow_GuidArray__ctor_
+  commentId: Overload:Apache.Arrow.GuidArray.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Apache.Arrow.GuidArray.GuidArray
+  fullName.vb: Apache.Arrow.GuidArray.New
+  nameWithType: GuidArray.GuidArray
+  nameWithType.vb: GuidArray.New
+- uid: Apache.Arrow.GuidArray.Builder
+  name: GuidArray.Builder
+  href: api/Apache.Arrow.GuidArray.Builder.html
+  commentId: T:Apache.Arrow.GuidArray.Builder
+  fullName: Apache.Arrow.GuidArray.Builder
+  nameWithType: GuidArray.Builder
+- uid: Apache.Arrow.GuidArray.Builder.#ctor
+  name: Builder()
+  href: api/Apache.Arrow.GuidArray.Builder.html#Apache_Arrow_GuidArray_Builder__ctor
+  commentId: M:Apache.Arrow.GuidArray.Builder.#ctor
+  name.vb: New()
+  fullName: Apache.Arrow.GuidArray.Builder.Builder()
+  fullName.vb: Apache.Arrow.GuidArray.Builder.New()
+  nameWithType: GuidArray.Builder.Builder()
+  nameWithType.vb: GuidArray.Builder.New()
+- uid: Apache.Arrow.GuidArray.Builder.#ctor*
+  name: Builder
+  href: api/Apache.Arrow.GuidArray.Builder.html#Apache_Arrow_GuidArray_Builder__ctor_
+  commentId: Overload:Apache.Arrow.GuidArray.Builder.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Apache.Arrow.GuidArray.Builder.Builder
+  fullName.vb: Apache.Arrow.GuidArray.Builder.New
+  nameWithType: GuidArray.Builder.Builder
+  nameWithType.vb: GuidArray.Builder.New
+- uid: Apache.Arrow.GuidArray.Builder.Append(System.Guid)
+  name: Append(Guid)
+  href: api/Apache.Arrow.GuidArray.Builder.html#Apache_Arrow_GuidArray_Builder_Append_System_Guid_
+  commentId: M:Apache.Arrow.GuidArray.Builder.Append(System.Guid)
+  fullName: Apache.Arrow.GuidArray.Builder.Append(System.Guid)
+  nameWithType: GuidArray.Builder.Append(Guid)
+- uid: Apache.Arrow.GuidArray.Builder.Append*
+  name: Append
+  href: api/Apache.Arrow.GuidArray.Builder.html#Apache_Arrow_GuidArray_Builder_Append_
+  commentId: Overload:Apache.Arrow.GuidArray.Builder.Append
+  isSpec: "True"
+  fullName: Apache.Arrow.GuidArray.Builder.Append
+  nameWithType: GuidArray.Builder.Append
+- uid: Apache.Arrow.GuidArray.Builder.AppendRange(System.Collections.Generic.IEnumerable{System.Guid})
+  name: AppendRange(IEnumerable<Guid>)
+  href: api/Apache.Arrow.GuidArray.Builder.html#Apache_Arrow_GuidArray_Builder_AppendRange_System_Collections_Generic_IEnumerable_System_Guid__
+  commentId: M:Apache.Arrow.GuidArray.Builder.AppendRange(System.Collections.Generic.IEnumerable{System.Guid})
+  name.vb: AppendRange(IEnumerable(Of Guid))
+  fullName: Apache.Arrow.GuidArray.Builder.AppendRange(System.Collections.Generic.IEnumerable<System.Guid>)
+  fullName.vb: Apache.Arrow.GuidArray.Builder.AppendRange(System.Collections.Generic.IEnumerable(Of System.Guid))
+  nameWithType: GuidArray.Builder.AppendRange(IEnumerable<Guid>)
+  nameWithType.vb: GuidArray.Builder.AppendRange(IEnumerable(Of Guid))
+- uid: Apache.Arrow.GuidArray.Builder.AppendRange*
+  name: AppendRange
+  href: api/Apache.Arrow.GuidArray.Builder.html#Apache_Arrow_GuidArray_Builder_AppendRange_
+  commentId: Overload:Apache.Arrow.GuidArray.Builder.AppendRange
+  isSpec: "True"
+  fullName: Apache.Arrow.GuidArray.Builder.AppendRange
+  nameWithType: GuidArray.Builder.AppendRange
+- uid: Apache.Arrow.GuidArray.Builder.Build(Apache.Arrow.ArrayData)
+  name: Build(ArrayData)
+  href: api/Apache.Arrow.GuidArray.Builder.html#Apache_Arrow_GuidArray_Builder_Build_Apache_Arrow_ArrayData_
+  commentId: M:Apache.Arrow.GuidArray.Builder.Build(Apache.Arrow.ArrayData)
+  fullName: Apache.Arrow.GuidArray.Builder.Build(Apache.Arrow.ArrayData)
+  nameWithType: GuidArray.Builder.Build(ArrayData)
+- uid: Apache.Arrow.GuidArray.Builder.Build*
+  name: Build
+  href: api/Apache.Arrow.GuidArray.Builder.html#Apache_Arrow_GuidArray_Builder_Build_
+  commentId: Overload:Apache.Arrow.GuidArray.Builder.Build
+  isSpec: "True"
+  fullName: Apache.Arrow.GuidArray.Builder.Build
+  nameWithType: GuidArray.Builder.Build
+- uid: Apache.Arrow.GuidArray.Builder.Set(System.Int32,System.Guid)
+  name: Set(int, Guid)
+  href: api/Apache.Arrow.GuidArray.Builder.html#Apache_Arrow_GuidArray_Builder_Set_System_Int32_System_Guid_
+  commentId: M:Apache.Arrow.GuidArray.Builder.Set(System.Int32,System.Guid)
+  name.vb: Set(Integer, Guid)
+  fullName: Apache.Arrow.GuidArray.Builder.Set(int, System.Guid)
+  fullName.vb: Apache.Arrow.GuidArray.Builder.Set(Integer, System.Guid)
+  nameWithType: GuidArray.Builder.Set(int, Guid)
+  nameWithType.vb: GuidArray.Builder.Set(Integer, Guid)
+- uid: Apache.Arrow.GuidArray.Builder.Set*
+  name: Set
+  href: api/Apache.Arrow.GuidArray.Builder.html#Apache_Arrow_GuidArray_Builder_Set_
+  commentId: Overload:Apache.Arrow.GuidArray.Builder.Set
+  isSpec: "True"
+  fullName: Apache.Arrow.GuidArray.Builder.Set
+  nameWithType: GuidArray.Builder.Set
+- uid: Apache.Arrow.GuidArray.Count
+  name: Count
+  href: api/Apache.Arrow.GuidArray.html#Apache_Arrow_GuidArray_Count
+  commentId: P:Apache.Arrow.GuidArray.Count
+  fullName: Apache.Arrow.GuidArray.Count
+  nameWithType: GuidArray.Count
+- uid: Apache.Arrow.GuidArray.Count*
+  name: Count
+  href: api/Apache.Arrow.GuidArray.html#Apache_Arrow_GuidArray_Count_
+  commentId: Overload:Apache.Arrow.GuidArray.Count
+  isSpec: "True"
+  fullName: Apache.Arrow.GuidArray.Count
+  nameWithType: GuidArray.Count
+- uid: Apache.Arrow.GuidArray.GetEnumerator
+  name: GetEnumerator()
+  href: api/Apache.Arrow.GuidArray.html#Apache_Arrow_GuidArray_GetEnumerator
+  commentId: M:Apache.Arrow.GuidArray.GetEnumerator
+  fullName: Apache.Arrow.GuidArray.GetEnumerator()
+  nameWithType: GuidArray.GetEnumerator()
+- uid: Apache.Arrow.GuidArray.GetEnumerator*
+  name: GetEnumerator
+  href: api/Apache.Arrow.GuidArray.html#Apache_Arrow_GuidArray_GetEnumerator_
+  commentId: Overload:Apache.Arrow.GuidArray.GetEnumerator
+  isSpec: "True"
+  fullName: Apache.Arrow.GuidArray.GetEnumerator
+  nameWithType: GuidArray.GetEnumerator
+- uid: Apache.Arrow.GuidArray.GetGuid(System.Int32)
+  name: GetGuid(int)
+  href: api/Apache.Arrow.GuidArray.html#Apache_Arrow_GuidArray_GetGuid_System_Int32_
+  commentId: M:Apache.Arrow.GuidArray.GetGuid(System.Int32)
+  name.vb: GetGuid(Integer)
+  fullName: Apache.Arrow.GuidArray.GetGuid(int)
+  fullName.vb: Apache.Arrow.GuidArray.GetGuid(Integer)
+  nameWithType: GuidArray.GetGuid(int)
+  nameWithType.vb: GuidArray.GetGuid(Integer)
+- uid: Apache.Arrow.GuidArray.GetGuid*
+  name: GetGuid
+  href: api/Apache.Arrow.GuidArray.html#Apache_Arrow_GuidArray_GetGuid_
+  commentId: Overload:Apache.Arrow.GuidArray.GetGuid
+  isSpec: "True"
+  fullName: Apache.Arrow.GuidArray.GetGuid
+  nameWithType: GuidArray.GetGuid
+- uid: Apache.Arrow.GuidArray.GuidToBytes(System.Guid)
+  name: GuidToBytes(Guid)
+  href: api/Apache.Arrow.GuidArray.html#Apache_Arrow_GuidArray_GuidToBytes_System_Guid_
+  commentId: M:Apache.Arrow.GuidArray.GuidToBytes(System.Guid)
+  fullName: Apache.Arrow.GuidArray.GuidToBytes(System.Guid)
+  nameWithType: GuidArray.GuidToBytes(Guid)
+- uid: Apache.Arrow.GuidArray.GuidToBytes*
+  name: GuidToBytes
+  href: api/Apache.Arrow.GuidArray.html#Apache_Arrow_GuidArray_GuidToBytes_
+  commentId: Overload:Apache.Arrow.GuidArray.GuidToBytes
+  isSpec: "True"
+  fullName: Apache.Arrow.GuidArray.GuidToBytes
+  nameWithType: GuidArray.GuidToBytes
+- uid: Apache.Arrow.GuidArray.GuidToRFC4122(System.Guid,System.Span{System.Byte})
+  name: GuidToRFC4122(Guid, Span<byte>)
+  href: api/Apache.Arrow.GuidArray.html#Apache_Arrow_GuidArray_GuidToRFC4122_System_Guid_System_Span_System_Byte__
+  commentId: M:Apache.Arrow.GuidArray.GuidToRFC4122(System.Guid,System.Span{System.Byte})
+  name.vb: GuidToRFC4122(Guid, Span(Of Byte))
+  fullName: Apache.Arrow.GuidArray.GuidToRFC4122(System.Guid, System.Span<byte>)
+  fullName.vb: Apache.Arrow.GuidArray.GuidToRFC4122(System.Guid, System.Span(Of Byte))
+  nameWithType: GuidArray.GuidToRFC4122(Guid, Span<byte>)
+  nameWithType.vb: GuidArray.GuidToRFC4122(Guid, Span(Of Byte))
+- uid: Apache.Arrow.GuidArray.GuidToRFC4122*
+  name: GuidToRFC4122
+  href: api/Apache.Arrow.GuidArray.html#Apache_Arrow_GuidArray_GuidToRFC4122_
+  commentId: Overload:Apache.Arrow.GuidArray.GuidToRFC4122
+  isSpec: "True"
+  fullName: Apache.Arrow.GuidArray.GuidToRFC4122
+  nameWithType: GuidArray.GuidToRFC4122
+- uid: Apache.Arrow.GuidArray.Item(System.Int32)
+  name: this[int]
+  href: api/Apache.Arrow.GuidArray.html#Apache_Arrow_GuidArray_Item_System_Int32_
+  commentId: P:Apache.Arrow.GuidArray.Item(System.Int32)
+  name.vb: this[](Integer)
+  fullName: Apache.Arrow.GuidArray.this[int]
+  fullName.vb: Apache.Arrow.GuidArray.this[](Integer)
+  nameWithType: GuidArray.this[int]
+  nameWithType.vb: GuidArray.this[](Integer)
+- uid: Apache.Arrow.GuidArray.Item*
+  name: this
+  href: api/Apache.Arrow.GuidArray.html#Apache_Arrow_GuidArray_Item_
+  commentId: Overload:Apache.Arrow.GuidArray.Item
+  isSpec: "True"
+  name.vb: this[]
+  fullName: Apache.Arrow.GuidArray.this
+  fullName.vb: Apache.Arrow.GuidArray.this[]
+  nameWithType: GuidArray.this
+  nameWithType.vb: GuidArray.this[]
+- uid: Apache.Arrow.GuidArray.RFC4122ToGuid(System.ReadOnlySpan{System.Byte})
+  name: RFC4122ToGuid(ReadOnlySpan<byte>)
+  href: api/Apache.Arrow.GuidArray.html#Apache_Arrow_GuidArray_RFC4122ToGuid_System_ReadOnlySpan_System_Byte__
+  commentId: M:Apache.Arrow.GuidArray.RFC4122ToGuid(System.ReadOnlySpan{System.Byte})
+  name.vb: RFC4122ToGuid(ReadOnlySpan(Of Byte))
+  fullName: Apache.Arrow.GuidArray.RFC4122ToGuid(System.ReadOnlySpan<byte>)
+  fullName.vb: Apache.Arrow.GuidArray.RFC4122ToGuid(System.ReadOnlySpan(Of Byte))
+  nameWithType: GuidArray.RFC4122ToGuid(ReadOnlySpan<byte>)
+  nameWithType.vb: GuidArray.RFC4122ToGuid(ReadOnlySpan(Of Byte))
+- uid: Apache.Arrow.GuidArray.RFC4122ToGuid*
+  name: RFC4122ToGuid
+  href: api/Apache.Arrow.GuidArray.html#Apache_Arrow_GuidArray_RFC4122ToGuid_
+  commentId: Overload:Apache.Arrow.GuidArray.RFC4122ToGuid
+  isSpec: "True"
+  fullName: Apache.Arrow.GuidArray.RFC4122ToGuid
+  nameWithType: GuidArray.RFC4122ToGuid
+- uid: Apache.Arrow.GuidArray.StorageArray
+  name: StorageArray
+  href: api/Apache.Arrow.GuidArray.html#Apache_Arrow_GuidArray_StorageArray
+  commentId: P:Apache.Arrow.GuidArray.StorageArray
+  fullName: Apache.Arrow.GuidArray.StorageArray
+  nameWithType: GuidArray.StorageArray
+- uid: Apache.Arrow.GuidArray.StorageArray*
+  name: StorageArray
+  href: api/Apache.Arrow.GuidArray.html#Apache_Arrow_GuidArray_StorageArray_
+  commentId: Overload:Apache.Arrow.GuidArray.StorageArray
+  isSpec: "True"
+  fullName: Apache.Arrow.GuidArray.StorageArray
+  nameWithType: GuidArray.StorageArray
+- uid: Apache.Arrow.GuidExtensionDefinition
+  name: GuidExtensionDefinition
+  href: api/Apache.Arrow.GuidExtensionDefinition.html
+  commentId: T:Apache.Arrow.GuidExtensionDefinition
+  fullName: Apache.Arrow.GuidExtensionDefinition
+  nameWithType: GuidExtensionDefinition
+- uid: Apache.Arrow.GuidExtensionDefinition.ExtensionName
+  name: ExtensionName
+  href: api/Apache.Arrow.GuidExtensionDefinition.html#Apache_Arrow_GuidExtensionDefinition_ExtensionName
+  commentId: P:Apache.Arrow.GuidExtensionDefinition.ExtensionName
+  fullName: Apache.Arrow.GuidExtensionDefinition.ExtensionName
+  nameWithType: GuidExtensionDefinition.ExtensionName
+- uid: Apache.Arrow.GuidExtensionDefinition.ExtensionName*
+  name: ExtensionName
+  href: api/Apache.Arrow.GuidExtensionDefinition.html#Apache_Arrow_GuidExtensionDefinition_ExtensionName_
+  commentId: Overload:Apache.Arrow.GuidExtensionDefinition.ExtensionName
+  isSpec: "True"
+  fullName: Apache.Arrow.GuidExtensionDefinition.ExtensionName
+  nameWithType: GuidExtensionDefinition.ExtensionName
+- uid: Apache.Arrow.GuidExtensionDefinition.Instance
+  name: Instance
+  href: api/Apache.Arrow.GuidExtensionDefinition.html#Apache_Arrow_GuidExtensionDefinition_Instance
+  commentId: F:Apache.Arrow.GuidExtensionDefinition.Instance
+  fullName: Apache.Arrow.GuidExtensionDefinition.Instance
+  nameWithType: GuidExtensionDefinition.Instance
+- uid: Apache.Arrow.GuidExtensionDefinition.TryCreateType(Apache.Arrow.Types.IArrowType,System.String,Apache.Arrow.ExtensionType@)
+  name: TryCreateType(IArrowType, string, out ExtensionType)
+  href: api/Apache.Arrow.GuidExtensionDefinition.html#Apache_Arrow_GuidExtensionDefinition_TryCreateType_Apache_Arrow_Types_IArrowType_System_String_Apache_Arrow_ExtensionType__
+  commentId: M:Apache.Arrow.GuidExtensionDefinition.TryCreateType(Apache.Arrow.Types.IArrowType,System.String,Apache.Arrow.ExtensionType@)
+  name.vb: TryCreateType(IArrowType, String, ExtensionType)
+  fullName: Apache.Arrow.GuidExtensionDefinition.TryCreateType(Apache.Arrow.Types.IArrowType, string, out Apache.Arrow.ExtensionType)
+  fullName.vb: Apache.Arrow.GuidExtensionDefinition.TryCreateType(Apache.Arrow.Types.IArrowType, String, Apache.Arrow.ExtensionType)
+  nameWithType: GuidExtensionDefinition.TryCreateType(IArrowType, string, out ExtensionType)
+  nameWithType.vb: GuidExtensionDefinition.TryCreateType(IArrowType, String, ExtensionType)
+- uid: Apache.Arrow.GuidExtensionDefinition.TryCreateType*
+  name: TryCreateType
+  href: api/Apache.Arrow.GuidExtensionDefinition.html#Apache_Arrow_GuidExtensionDefinition_TryCreateType_
+  commentId: Overload:Apache.Arrow.GuidExtensionDefinition.TryCreateType
+  isSpec: "True"
+  fullName: Apache.Arrow.GuidExtensionDefinition.TryCreateType
+  nameWithType: GuidExtensionDefinition.TryCreateType
+- uid: Apache.Arrow.GuidType
+  name: GuidType
+  href: api/Apache.Arrow.GuidType.html
+  commentId: T:Apache.Arrow.GuidType
+  fullName: Apache.Arrow.GuidType
+  nameWithType: GuidType
+- uid: Apache.Arrow.GuidType.#ctor
+  name: GuidType()
+  href: api/Apache.Arrow.GuidType.html#Apache_Arrow_GuidType__ctor
+  commentId: M:Apache.Arrow.GuidType.#ctor
+  name.vb: New()
+  fullName: Apache.Arrow.GuidType.GuidType()
+  fullName.vb: Apache.Arrow.GuidType.New()
+  nameWithType: GuidType.GuidType()
+  nameWithType.vb: GuidType.New()
+- uid: Apache.Arrow.GuidType.#ctor*
+  name: GuidType
+  href: api/Apache.Arrow.GuidType.html#Apache_Arrow_GuidType__ctor_
+  commentId: Overload:Apache.Arrow.GuidType.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Apache.Arrow.GuidType.GuidType
+  fullName.vb: Apache.Arrow.GuidType.New
+  nameWithType: GuidType.GuidType
+  nameWithType.vb: GuidType.New
+- uid: Apache.Arrow.GuidType.CreateArray(Apache.Arrow.IArrowArray)
+  name: CreateArray(IArrowArray)
+  href: api/Apache.Arrow.GuidType.html#Apache_Arrow_GuidType_CreateArray_Apache_Arrow_IArrowArray_
+  commentId: M:Apache.Arrow.GuidType.CreateArray(Apache.Arrow.IArrowArray)
+  fullName: Apache.Arrow.GuidType.CreateArray(Apache.Arrow.IArrowArray)
+  nameWithType: GuidType.CreateArray(IArrowArray)
+- uid: Apache.Arrow.GuidType.CreateArray*
+  name: CreateArray
+  href: api/Apache.Arrow.GuidType.html#Apache_Arrow_GuidType_CreateArray_
+  commentId: Overload:Apache.Arrow.GuidType.CreateArray
+  isSpec: "True"
+  fullName: Apache.Arrow.GuidType.CreateArray
+  nameWithType: GuidType.CreateArray
+- uid: Apache.Arrow.GuidType.Default
+  name: Default
+  href: api/Apache.Arrow.GuidType.html#Apache_Arrow_GuidType_Default
+  commentId: F:Apache.Arrow.GuidType.Default
+  fullName: Apache.Arrow.GuidType.Default
+  nameWithType: GuidType.Default
+- uid: Apache.Arrow.GuidType.ExtensionMetadata
+  name: ExtensionMetadata
+  href: api/Apache.Arrow.GuidType.html#Apache_Arrow_GuidType_ExtensionMetadata
+  commentId: P:Apache.Arrow.GuidType.ExtensionMetadata
+  fullName: Apache.Arrow.GuidType.ExtensionMetadata
+  nameWithType: GuidType.ExtensionMetadata
+- uid: Apache.Arrow.GuidType.ExtensionMetadata*
+  name: ExtensionMetadata
+  href: api/Apache.Arrow.GuidType.html#Apache_Arrow_GuidType_ExtensionMetadata_
+  commentId: Overload:Apache.Arrow.GuidType.ExtensionMetadata
+  isSpec: "True"
+  fullName: Apache.Arrow.GuidType.ExtensionMetadata
+  nameWithType: GuidType.ExtensionMetadata
+- uid: Apache.Arrow.GuidType.Name
+  name: Name
+  href: api/Apache.Arrow.GuidType.html#Apache_Arrow_GuidType_Name
+  commentId: P:Apache.Arrow.GuidType.Name
+  fullName: Apache.Arrow.GuidType.Name
+  nameWithType: GuidType.Name
+- uid: Apache.Arrow.GuidType.Name*
+  name: Name
+  href: api/Apache.Arrow.GuidType.html#Apache_Arrow_GuidType_Name_
+  commentId: Overload:Apache.Arrow.GuidType.Name
+  isSpec: "True"
+  fullName: Apache.Arrow.GuidType.Name
+  nameWithType: GuidType.Name
 - uid: Apache.Arrow.IArrowArray
   name: IArrowArray
   href: api/Apache.Arrow.IArrowArray.html
@@ -12324,6 +13196,15 @@ references:
   commentId: T:Apache.Arrow.Ipc.ArrowFileReader
   fullName: Apache.Arrow.Ipc.ArrowFileReader
   nameWithType: ArrowFileReader
+- uid: Apache.Arrow.Ipc.ArrowFileReader.#ctor(Apache.Arrow.ArrowContext,System.IO.Stream,System.Boolean)
+  name: ArrowFileReader(ArrowContext, Stream, bool)
+  href: api/Apache.Arrow.Ipc.ArrowFileReader.html#Apache_Arrow_Ipc_ArrowFileReader__ctor_Apache_Arrow_ArrowContext_System_IO_Stream_System_Boolean_
+  commentId: M:Apache.Arrow.Ipc.ArrowFileReader.#ctor(Apache.Arrow.ArrowContext,System.IO.Stream,System.Boolean)
+  name.vb: New(ArrowContext, Stream, Boolean)
+  fullName: Apache.Arrow.Ipc.ArrowFileReader.ArrowFileReader(Apache.Arrow.ArrowContext, System.IO.Stream, bool)
+  fullName.vb: Apache.Arrow.Ipc.ArrowFileReader.New(Apache.Arrow.ArrowContext, System.IO.Stream, Boolean)
+  nameWithType: ArrowFileReader.ArrowFileReader(ArrowContext, Stream, bool)
+  nameWithType.vb: ArrowFileReader.New(ArrowContext, Stream, Boolean)
 - uid: Apache.Arrow.Ipc.ArrowFileReader.#ctor(System.IO.Stream)
   name: ArrowFileReader(Stream)
   href: api/Apache.Arrow.Ipc.ArrowFileReader.html#Apache_Arrow_Ipc_ArrowFileReader__ctor_System_IO_Stream_
@@ -12539,6 +13420,24 @@ references:
   commentId: T:Apache.Arrow.Ipc.ArrowStreamReader
   fullName: Apache.Arrow.Ipc.ArrowStreamReader
   nameWithType: ArrowStreamReader
+- uid: Apache.Arrow.Ipc.ArrowStreamReader.#ctor(Apache.Arrow.ArrowContext,System.IO.Stream,System.Boolean)
+  name: ArrowStreamReader(ArrowContext, Stream, bool)
+  href: api/Apache.Arrow.Ipc.ArrowStreamReader.html#Apache_Arrow_Ipc_ArrowStreamReader__ctor_Apache_Arrow_ArrowContext_System_IO_Stream_System_Boolean_
+  commentId: M:Apache.Arrow.Ipc.ArrowStreamReader.#ctor(Apache.Arrow.ArrowContext,System.IO.Stream,System.Boolean)
+  name.vb: New(ArrowContext, Stream, Boolean)
+  fullName: Apache.Arrow.Ipc.ArrowStreamReader.ArrowStreamReader(Apache.Arrow.ArrowContext, System.IO.Stream, bool)
+  fullName.vb: Apache.Arrow.Ipc.ArrowStreamReader.New(Apache.Arrow.ArrowContext, System.IO.Stream, Boolean)
+  nameWithType: ArrowStreamReader.ArrowStreamReader(ArrowContext, Stream, bool)
+  nameWithType.vb: ArrowStreamReader.New(ArrowContext, Stream, Boolean)
+- uid: Apache.Arrow.Ipc.ArrowStreamReader.#ctor(Apache.Arrow.ArrowContext,System.ReadOnlyMemory{System.Byte})
+  name: ArrowStreamReader(ArrowContext, ReadOnlyMemory<byte>)
+  href: api/Apache.Arrow.Ipc.ArrowStreamReader.html#Apache_Arrow_Ipc_ArrowStreamReader__ctor_Apache_Arrow_ArrowContext_System_ReadOnlyMemory_System_Byte__
+  commentId: M:Apache.Arrow.Ipc.ArrowStreamReader.#ctor(Apache.Arrow.ArrowContext,System.ReadOnlyMemory{System.Byte})
+  name.vb: New(ArrowContext, ReadOnlyMemory(Of Byte))
+  fullName: Apache.Arrow.Ipc.ArrowStreamReader.ArrowStreamReader(Apache.Arrow.ArrowContext, System.ReadOnlyMemory<byte>)
+  fullName.vb: Apache.Arrow.Ipc.ArrowStreamReader.New(Apache.Arrow.ArrowContext, System.ReadOnlyMemory(Of Byte))
+  nameWithType: ArrowStreamReader.ArrowStreamReader(ArrowContext, ReadOnlyMemory<byte>)
+  nameWithType.vb: ArrowStreamReader.New(ArrowContext, ReadOnlyMemory(Of Byte))
 - uid: Apache.Arrow.Ipc.ArrowStreamReader.#ctor(System.IO.Stream)
   name: ArrowStreamReader(Stream)
   href: api/Apache.Arrow.Ipc.ArrowStreamReader.html#Apache_Arrow_Ipc_ArrowStreamReader__ctor_System_IO_Stream_
@@ -18599,6 +19498,12 @@ references:
   commentId: F:Apache.Arrow.Types.ArrowTypeId.Duration
   fullName: Apache.Arrow.Types.ArrowTypeId.Duration
   nameWithType: ArrowTypeId.Duration
+- uid: Apache.Arrow.Types.ArrowTypeId.Extension
+  name: Extension
+  href: api/Apache.Arrow.Types.ArrowTypeId.html#Apache_Arrow_Types_ArrowTypeId_Extension
+  commentId: F:Apache.Arrow.Types.ArrowTypeId.Extension
+  fullName: Apache.Arrow.Types.ArrowTypeId.Extension
+  nameWithType: ArrowTypeId.Extension
 - uid: Apache.Arrow.Types.ArrowTypeId.FixedSizeList
   name: FixedSizeList
   href: api/Apache.Arrow.Types.ArrowTypeId.html#Apache_Arrow_Types_ArrowTypeId_FixedSizeList

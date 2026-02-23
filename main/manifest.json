@@ -180,6 +180,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.ArrowContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.ArrowContext.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.ArrowContext",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.ArrowContext.yml\" sourcestartlinenumber=\"1\">Carries configuration through Arrow operations: memory allocator,\ncompression codec factory, and extension type registry.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Apache.Arrow.ArrowSerializationHelpers.yml",
       "output": {
         ".html": {
@@ -835,6 +849,62 @@
       "IsMRef": true,
       "Title": "Apache.Arrow.DurationArray",
       "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.ExtensionArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.ExtensionArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.ExtensionArray",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.ExtensionArray.yml\" sourcestartlinenumber=\"1\">Base class for extension array wrappers. Delegates physical array operations\nto the underlying storage array.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.ExtensionDefinition.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.ExtensionDefinition.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.ExtensionDefinition",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.ExtensionDefinition.yml\" sourcestartlinenumber=\"1\">Defines a factory for a particular extension type. Register instances with\n<xref href=\"Apache.Arrow.ExtensionTypeRegistry\" data-throw-if-not-resolved=\"false\"></xref> to enable automatic resolution during deserialization.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.ExtensionType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.ExtensionType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.ExtensionType",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.ExtensionType.yml\" sourcestartlinenumber=\"1\">Base class for user-defined extension types. Extension types are logical types\nlayered on top of a built-in Arrow storage type, identified by a name string.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.ExtensionTypeRegistry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.ExtensionTypeRegistry.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.ExtensionTypeRegistry",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.ExtensionTypeRegistry.yml\" sourcestartlinenumber=\"1\">A registry mapping extension type names to their <xref href=\"Apache.Arrow.ExtensionDefinition\" data-throw-if-not-resolved=\"false\"></xref> factories.\nThe <xref href=\"Apache.Arrow.ExtensionTypeRegistry.Default\" data-throw-if-not-resolved=\"false\"></xref> registry starts empty; users must register extension definitions\nto enable automatic resolution during deserialization.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -1745,6 +1815,62 @@
       "IsMRef": true,
       "Title": "Apache.Arrow.FloatArray",
       "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.GuidArray.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.GuidArray.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.GuidArray.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.GuidArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.GuidArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.GuidArray",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.GuidArray.yml\" sourcestartlinenumber=\"1\">Extension array for UUID/GUID values, backed by a FixedSizeBinaryArray.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.GuidExtensionDefinition.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.GuidExtensionDefinition.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.GuidExtensionDefinition",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.GuidExtensionDefinition.yml\" sourcestartlinenumber=\"1\">Extension definition for the &quot;arrow.uuid&quot; extension type,\nbacked by FixedSizeBinary(16).</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.GuidType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.GuidType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.GuidType",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.GuidType.yml\" sourcestartlinenumber=\"1\">Extension type representing UUIDs/GUIDs, stored as FixedSizeBinary(16).</p>\n"
     },
     {
       "type": "ManagedReference",

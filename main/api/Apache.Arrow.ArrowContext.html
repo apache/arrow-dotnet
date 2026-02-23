@@ -2,11 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Class ArrowArrayFactory | Apache Arrow .NET </title>
+      <title>Class ArrowContext | Apache Arrow .NET </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Class ArrowArrayFactory | Apache Arrow .NET ">
+      <meta name="title" content="Class ArrowContext | Apache Arrow .NET ">
       
-      
+      <meta name="description" content="Carries configuration through Arrow operations: memory allocator, compression codec factory, and extension type registry.">
       <link rel="icon" href="../images/favicon.png">
       <link rel="stylesheet" href="../public/docfx.min.css">
       <link rel="stylesheet" href="../public/main.css">
@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="../">
       
       
-      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Apache_Arrow_ArrowArrayFactory.md&amp;value=---%0Auid%3A%20Apache.Arrow.ArrowArrayFactory%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Apache_Arrow_ArrowContext.md&amp;value=---%0Auid%3A%20Apache.Arrow.ArrowContext%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -84,12 +84,12 @@
           <nav id="breadcrumb"></nav>
         </div>
 
-        <article data-uid="Apache.Arrow.ArrowArrayFactory">
+        <article data-uid="Apache.Arrow.ArrowContext">
 
 
 
-  <h1 id="Apache_Arrow_ArrowArrayFactory" data-uid="Apache.Arrow.ArrowArrayFactory" class="text-break">
-Class ArrowArrayFactory  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/ArrowArrayFactory.cs/#L22"><i class="bi bi-code-slash"></i></a>
+  <h1 id="Apache_Arrow_ArrowContext" data-uid="Apache.Arrow.ArrowContext" class="text-break">
+Class ArrowContext  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ArrowContext.cs/#L25"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -97,11 +97,13 @@ Class ArrowArrayFactory  <a class="header-action link-secondary" title="View sou
   <dl><dt>Assembly</dt><dd>Apache.Arrow.dll</dd></dl>
   </div>
 
-  <div class="markdown summary"></div>
+  <div class="markdown summary"><p>Carries configuration through Arrow operations: memory allocator,
+compression codec factory, and extension type registry.</p>
+</div>
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static class ArrowArrayFactory</code></pre>
+    <pre><code class="lang-csharp hljs">public class ArrowContext</code></pre>
   </div>
 
 
@@ -111,7 +113,7 @@ Class ArrowArrayFactory  <a class="header-action link-secondary" title="View sou
     <dt>Inheritance</dt>
     <dd>
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
-      <div><span class="xref">ArrowArrayFactory</span></div>
+      <div><span class="xref">ArrowContext</span></div>
     </dd>
   </dl>
 
@@ -148,35 +150,34 @@ Class ArrowArrayFactory  <a class="header-action link-secondary" title="View sou
 
 
 
-  <h2 class="section" id="methods">Methods
+  <h2 class="section" id="constructors">Constructors
 </h2>
 
 
-  <a id="Apache_Arrow_ArrowArrayFactory_BuildArray_" data-uid="Apache.Arrow.ArrowArrayFactory.BuildArray*"></a>
+  <a id="Apache_Arrow_ArrowContext__ctor_" data-uid="Apache.Arrow.ArrowContext.#ctor*"></a>
 
-  <h3 id="Apache_Arrow_ArrowArrayFactory_BuildArray_Apache_Arrow_ArrayData_" data-uid="Apache.Arrow.ArrowArrayFactory.BuildArray(Apache.Arrow.ArrayData)">
-  BuildArray(ArrayData)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/ArrowArrayFactory.cs/#L24"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Apache_Arrow_ArrowContext__ctor_Apache_Arrow_Memory_MemoryAllocator_Apache_Arrow_Ipc_ICompressionCodecFactory_Apache_Arrow_ExtensionTypeRegistry_" data-uid="Apache.Arrow.ArrowContext.#ctor(Apache.Arrow.Memory.MemoryAllocator,Apache.Arrow.Ipc.ICompressionCodecFactory,Apache.Arrow.ExtensionTypeRegistry)">
+  ArrowContext(MemoryAllocator, ICompressionCodecFactory, ExtensionTypeRegistry)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ArrowContext.cs/#L31"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static IArrowArray BuildArray(ArrayData data)</code></pre>
+    <pre><code class="lang-csharp hljs">public ArrowContext(MemoryAllocator allocator = null, ICompressionCodecFactory compressionCodecFactory = null, ExtensionTypeRegistry extensionRegistry = null)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
-    <dt><code>data</code> <a class="xref" href="Apache.Arrow.ArrayData.html">ArrayData</a></dt>
+    <dt><code>allocator</code> <a class="xref" href="Apache.Arrow.Memory.MemoryAllocator.html">MemoryAllocator</a></dt>
+    <dd></dd>
+    <dt><code>compressionCodecFactory</code> <a class="xref" href="Apache.Arrow.Ipc.ICompressionCodecFactory.html">ICompressionCodecFactory</a></dt>
+    <dd></dd>
+    <dt><code>extensionRegistry</code> <a class="xref" href="Apache.Arrow.ExtensionTypeRegistry.html">ExtensionTypeRegistry</a></dt>
     <dd></dd>
   </dl>
 
-  <h4 class="section">Returns</h4>
-  <dl class="parameters">
-    <dt><a class="xref" href="Apache.Arrow.IArrowArray.html">IArrowArray</a></dt>
-    <dd></dd>
-  </dl>
 
 
 
@@ -188,38 +189,95 @@ Class ArrowArrayFactory  <a class="header-action link-secondary" title="View sou
 
 
 
-  <a id="Apache_Arrow_ArrowArrayFactory_Slice_" data-uid="Apache.Arrow.ArrowArrayFactory.Slice*"></a>
+  <h2 class="section" id="properties">Properties
+</h2>
 
-  <h3 id="Apache_Arrow_ArrowArrayFactory_Slice_Apache_Arrow_IArrowArray_System_Int32_System_Int32_" data-uid="Apache.Arrow.ArrowArrayFactory.Slice(Apache.Arrow.IArrowArray,System.Int32,System.Int32)">
-  Slice(IArrowArray, int, int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/ArrowArrayFactory.cs/#L120"><i class="bi bi-code-slash"></i></a>
+
+  <a id="Apache_Arrow_ArrowContext_Allocator_" data-uid="Apache.Arrow.ArrowContext.Allocator*"></a>
+
+  <h3 id="Apache_Arrow_ArrowContext_Allocator" data-uid="Apache.Arrow.ArrowContext.Allocator">
+  Allocator
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ArrowContext.cs/#L27"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static IArrowArray Slice(IArrowArray array, int offset, int length)</code></pre>
+    <pre><code class="lang-csharp hljs">public MemoryAllocator Allocator { get; }</code></pre>
   </div>
 
-  <h4 class="section">Parameters</h4>
-  <dl class="parameters">
-    <dt><code>array</code> <a class="xref" href="Apache.Arrow.IArrowArray.html">IArrowArray</a></dt>
-    <dd></dd>
-    <dt><code>offset</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
-    <dd></dd>
-    <dt><code>length</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
-    <dd></dd>
-  </dl>
 
-  <h4 class="section">Returns</h4>
+
+
+
+  <h4 class="section">Property Value</h4>
   <dl class="parameters">
-    <dt><a class="xref" href="Apache.Arrow.IArrowArray.html">IArrowArray</a></dt>
+    <dt><a class="xref" href="Apache.Arrow.Memory.MemoryAllocator.html">MemoryAllocator</a></dt>
     <dd></dd>
   </dl>
 
 
 
+
+
+
+
+
+  <a id="Apache_Arrow_ArrowContext_CompressionCodecFactory_" data-uid="Apache.Arrow.ArrowContext.CompressionCodecFactory*"></a>
+
+  <h3 id="Apache_Arrow_ArrowContext_CompressionCodecFactory" data-uid="Apache.Arrow.ArrowContext.CompressionCodecFactory">
+  CompressionCodecFactory
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ArrowContext.cs/#L28"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ICompressionCodecFactory CompressionCodecFactory { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Ipc.ICompressionCodecFactory.html">ICompressionCodecFactory</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_ArrowContext_ExtensionRegistry_" data-uid="Apache.Arrow.ArrowContext.ExtensionRegistry*"></a>
+
+  <h3 id="Apache_Arrow_ArrowContext_ExtensionRegistry" data-uid="Apache.Arrow.ArrowContext.ExtensionRegistry">
+  ExtensionRegistry
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ArrowContext.cs/#L29"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ExtensionTypeRegistry ExtensionRegistry { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.ExtensionTypeRegistry.html">ExtensionTypeRegistry</a></dt>
+    <dd></dd>
+  </dl>
 
 
 
@@ -232,7 +290,7 @@ Class ArrowArrayFactory  <a class="header-action link-secondary" title="View sou
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/ArrowArrayFactory.cs/#L22" class="edit-link">Edit this page</a>
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ArrowContext.cs/#L25" class="edit-link">Edit this page</a>
         </div>
 
 
