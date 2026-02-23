@@ -19,7 +19,6 @@ using System.IO;
 using Apache.Arrow.Arrays;
 using Apache.Arrow.Ipc;
 using Apache.Arrow.Types;
-using Microsoft.Win32;
 using Xunit;
 
 namespace Apache.Arrow.Tests
