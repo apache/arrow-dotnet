@@ -79,16 +79,16 @@ namespace Apache.Arrow.Tests
         {
             if (!pythonNet.Initialized)
             {
-                Skip.If(pythonNet.VersionMismatch, "VM has incompatible version of Python installed; skipping C Data Interface tests.");
+                var errorReason = pythonNet.VersionMismatch ? "Python version is incompatible with PythonNet" : "PYTHONNET_PYDLL not set";
 
                 bool inCIJob = Environment.GetEnvironmentVariable("GITHUB_ACTIONS") == "true";
                 bool inVerificationJob = Environment.GetEnvironmentVariable("TEST_CSHARP") == "1";
 
                 // Skip these tests if this is not in CI or is a verification job and PythonNet couldn't be initialized
-                Skip.If(inVerificationJob || !inCIJob, "PYTHONNET_PYDLL not set; skipping C Data Interface tests.");
+                Skip.If(inVerificationJob || !inCIJob, $"{errorReason}; skipping C Data Interface tests.");
 
                 // Otherwise throw
-                throw new Exception("PYTHONNET_PYDLL not set; cannot run C Data Interface tests.");
+                throw new Exception($"{errorReason}; cannot run C Data Interface tests.");
             }
         }
 
