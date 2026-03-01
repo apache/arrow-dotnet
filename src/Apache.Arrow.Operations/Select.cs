@@ -34,10 +34,10 @@ public static class Select
     /// <param name="mask">The mask defining which values to keep or exclude</param>
     /// <param name="allocator">The memory allocator to build the new array from</param>
     /// <returns></returns>
-    /// <exception cref="InvalidOperationException">If the mask and the array are not of equal size</exception>
+    /// <exception cref="ArgumentException">If the mask and the array are not of equal size</exception>
     public static Array Filter(Array array, BooleanArray mask, MemoryAllocator? allocator = null)
     {
-        if (array.Length != mask.Length) throw new InvalidOperationException("Array and mask must have the same length");
+        if (array.Length != mask.Length) throw new ArgumentException("Array and mask must have the same length");
         List<(int, int)> spans = new();
         int? start = null;
         for (int i = 0; i < mask.Length; i++)
@@ -98,7 +98,6 @@ public static class Select
     /// <param name="indices">The indices to select</param>
     /// <param name="allocator">The memory allocator to build the new array from</param>
     /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
     public static Array Take(Array array, IList<int> indices, MemoryAllocator? allocator = null)
     {
         if (indices.Count == 0)
@@ -180,7 +179,7 @@ public static class Select
     /// <returns></returns>
     public static RecordBatch Filter(RecordBatch batch, BooleanArray mask, MemoryAllocator? allocator = null)
     {
-        if (batch.Length != mask.Length) throw new InvalidOperationException("Array and mask must have the same length");
+        if (batch.Length != mask.Length) throw new ArgumentException("Array and mask must have the same length");
         List<(int, int)> spans = new();
         int? start = null;
         for (int i = 0; i < mask.Length; i++)
