@@ -23,24 +23,6 @@ namespace Apache.Arrow.Operations;
 
 
 /// <summary>
-/// Specifies how null values should be handled in aggregate computations.
-/// </summary>
-public enum NullHandling
-{
-    /// <summary>
-    /// Skip null values when computing the result.
-    /// Returns null only if the array is empty or all values are null.
-    /// </summary>
-    Skip,
-
-    /// <summary>
-    /// Propagate null: if any value in the array is null, return null.
-    /// </summary>
-    Propagate
-}
-
-
-/// <summary>
 /// Copy primitive arraays between types to explicitly known numerical types. When the type already
 /// matches, no copy is performed.
 /// </summary>

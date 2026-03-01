@@ -257,6 +257,22 @@ public static class BitVectorOps
     }
 }
 
+/// <summary>
+/// Specifies how null values should be handled in comparison operations.
+/// </summary>
+public enum ComparisonNullHandling
+{
+    /// <summary>
+    /// If both values are null, they are equal. This is the default behavior in C#
+    /// </summary>
+    Equality,
+
+    /// <summary>
+    /// Propagate null: if any value in the comparison is null, return null, as in SQL.
+    /// </summary>
+    Propagate,
+}
+
 public static class Comparison
 {
     /// <summary>
@@ -355,6 +371,7 @@ public static class Comparison
     /// <param name="lhs"></param>
     /// <param name="rhs"></param>
     /// <param name="allocator"></param>
+    /// <param name="nullHandling"></param>
     /// <returns></returns>
     public static BooleanArray Equal<T>(PrimitiveArray<T> lhs, T? rhs, MemoryAllocator? allocator = null) where T : struct, INumber<T>
     {
@@ -379,18 +396,41 @@ public static class Comparison
     /// <param name="lhs"></param>
     /// <param name="rhs"></param>
     /// <param name="allocator"></param>
+    /// <param name="nullHandling"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public static BooleanArray Equal<T>(PrimitiveArray<T> lhs, PrimitiveArray<T> rhs, MemoryAllocator? allocator = null) where T : struct, INumber<T>
+    public static BooleanArray Equal<T>(PrimitiveArray<T> lhs, PrimitiveArray<T> rhs, MemoryAllocator? allocator = null, ComparisonNullHandling nullHandling = ComparisonNullHandling.Equality) where T : struct, INumber<T>
     {
         if (lhs.Length != rhs.Length) throw new ArgumentException("Arrays must have the same length");
         var cmp = new BooleanArray.Builder(lhs.Length);
-        for (int i = 0; i < lhs.Length; i++)
+        switch (nullHandling)
         {
-            var a = lhs.GetValue(i);
-            var b = rhs.GetValue(i);
-            var flag = a == b;
-            cmp.Append(flag);
+            case ComparisonNullHandling.Equality:
+                {
+                    for (int i = 0; i < lhs.Length; i++)
+                    {
+                        var a = lhs.GetValue(i);
+                        var b = rhs.GetValue(i);
+                        var flag = a == b;
+                        cmp.Append(flag);
+                    }
+                    break;
+                }
+            case ComparisonNullHandling.Propagate:
+                {
+                    for (int i = 0; i < lhs.Length; i++)
+                    {
+                        var a = lhs.GetValue(i);
+                        var b = rhs.GetValue(i);
+                        if (a == null || b == null)
+                            cmp.AppendNull();
+                        else
+                            cmp.Append(a == b);
+                    }
+                    break;
+                }
+            default:
+                throw new NotImplementedException($"{nullHandling}");
         }
         return cmp.Build(allocator);
     }
@@ -401,12 +441,16 @@ public static class Comparison
     /// <param name="lhs"></param>
     /// <param name="rhs"></param>
     /// <param name="allocator"></param>
+    /// <param name="nullHandling"></param>
     /// <returns></returns>
-    public static BooleanArray Equal(StringArray lhs, string? rhs, MemoryAllocator? allocator = null)
+    public static BooleanArray Equal(StringArray lhs, string? rhs, MemoryAllocator? allocator = null, ComparisonNullHandling nullHandling = ComparisonNullHandling.Equality)
     {
         if (rhs == null)
         {
-            return new BooleanArray(lhs.NullBitmapBuffer.Clone(), ArrowBuffer.Empty, lhs.Length, 0, 0);
+            if (nullHandling == ComparisonNullHandling.Equality)
+                return new BooleanArray(lhs.NullBitmapBuffer.Clone(), ArrowBuffer.Empty, lhs.Length, 0, 0);
+            else if (nullHandling == ComparisonNullHandling.Propagate)
+                return new BooleanArray(lhs.NullBitmapBuffer.Clone(), lhs.NullBitmapBuffer.Clone(), lhs.Length, lhs.NullCount, 0);
         }
         var cmp = new BooleanArray.Builder(lhs.Length);
         for (int i = 0; i < lhs.Length; i++)
@@ -424,18 +468,41 @@ public static class Comparison
     /// <param name="lhs"></param>
     /// <param name="rhs"></param>
     /// <param name="allocator"></param>
+    /// <param name="nullHandling"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public static BooleanArray Equal(StringArray lhs, StringArray rhs, MemoryAllocator? allocator = null)
+    public static BooleanArray Equal(StringArray lhs, StringArray rhs, MemoryAllocator? allocator = null, ComparisonNullHandling nullHandling = ComparisonNullHandling.Equality)
     {
         if (lhs.Length != rhs.Length) throw new ArgumentException("Arrays must have the same length");
         var cmp = new BooleanArray.Builder(lhs.Length);
-        for (int i = 0; i < lhs.Length; i++)
+        switch (nullHandling)
         {
-            var a = lhs.GetString(i);
-            var b = rhs.GetString(i);
-            var flag = a == b;
-            cmp.Append(flag);
+            case ComparisonNullHandling.Equality:
+                {
+                    for (int i = 0; i < lhs.Length; i++)
+                    {
+                        var a = lhs.GetString(i);
+                        var b = rhs.GetString(i);
+                        var flag = a == b;
+                        cmp.Append(flag);
+                    }
+                    break;
+                }
+            case ComparisonNullHandling.Propagate:
+                {
+                    for (int i = 0; i < lhs.Length; i++)
+                    {
+                        var a = lhs.GetString(i);
+                        var b = rhs.GetString(i);
+                        if (a == null || b == null)
+                            cmp.AppendNull();
+                        else
+                            cmp.Append(a == b);
+                    }
+                    break;
+                }
+            default:
+                throw new NotImplementedException($"{nullHandling}");
         }
         return cmp.Build(allocator);
     }
@@ -446,12 +513,16 @@ public static class Comparison
     /// <param name="lhs"></param>
     /// <param name="rhs"></param>
     /// <param name="allocator"></param>
+    /// <param name="nullHandling"></param>
     /// <returns></returns>
-    public static BooleanArray Equal(LargeStringArray lhs, string? rhs, MemoryAllocator? allocator = null)
+    public static BooleanArray Equal(LargeStringArray lhs, string? rhs, MemoryAllocator? allocator = null, ComparisonNullHandling nullHandling = ComparisonNullHandling.Equality)
     {
         if (rhs == null)
         {
-            return new BooleanArray(lhs.NullBitmapBuffer.Clone(), ArrowBuffer.Empty, lhs.Length, 0, 0);
+            if (nullHandling == ComparisonNullHandling.Equality)
+                return new BooleanArray(lhs.NullBitmapBuffer.Clone(), ArrowBuffer.Empty, lhs.Length, 0, 0);
+            else if (nullHandling == ComparisonNullHandling.Propagate)
+                return new BooleanArray(lhs.NullBitmapBuffer.Clone(), lhs.NullBitmapBuffer.Clone(), lhs.Length, lhs.NullCount, 0);
         }
         var cmp = new BooleanArray.Builder(lhs.Length);
         for (int i = 0; i < lhs.Length; i++)
@@ -469,18 +540,41 @@ public static class Comparison
     /// <param name="lhs"></param>
     /// <param name="rhs"></param>
     /// <param name="allocator"></param>
+    /// <param name="nullHandling"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public static BooleanArray Equal(LargeStringArray lhs, LargeStringArray rhs, MemoryAllocator? allocator = null)
+    public static BooleanArray Equal(LargeStringArray lhs, LargeStringArray rhs, MemoryAllocator? allocator = null, ComparisonNullHandling nullHandling = ComparisonNullHandling.Equality)
     {
         if (lhs.Length != rhs.Length) throw new ArgumentException("Arrays must have the same length");
         var cmp = new BooleanArray.Builder(lhs.Length);
-        for (int i = 0; i < lhs.Length; i++)
+        switch (nullHandling)
         {
-            var a = lhs.GetString(i);
-            var b = rhs.GetString(i);
-            var flag = a == b;
-            cmp.Append(flag);
+            case ComparisonNullHandling.Equality:
+                {
+                    for (int i = 0; i < lhs.Length; i++)
+                    {
+                        var a = lhs.GetString(i);
+                        var b = rhs.GetString(i);
+                        var flag = a == b;
+                        cmp.Append(flag);
+                    }
+                    break;
+                }
+            case ComparisonNullHandling.Propagate:
+                {
+                    for (int i = 0; i < lhs.Length; i++)
+                    {
+                        var a = lhs.GetString(i);
+                        var b = rhs.GetString(i);
+                        if (a == null || b == null)
+                            cmp.AppendNull();
+                        else
+                            cmp.Append(a == b);
+                    }
+                    break;
+                }
+            default:
+                throw new NotImplementedException($"{nullHandling}");
         }
         return cmp.Build(allocator);
     }

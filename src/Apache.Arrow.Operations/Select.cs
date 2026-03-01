@@ -22,6 +22,7 @@ using Apache.Arrow.Types;
 
 namespace Apache.Arrow.Operations;
 
+
 public static class Select
 {
     /// <summary>
@@ -285,6 +286,25 @@ public static class Select
 }
 
 
+
+/// <summary>
+/// Specifies how null values should be handled in aggregate computations.
+/// </summary>
+public enum AggregateNullHandling
+{
+    /// <summary>
+    /// Skip null values when computing the result.
+    /// Returns null only if the array is empty or all values are null.
+    /// </summary>
+    Skip,
+
+    /// <summary>
+    /// Propagate null: if any value in the array is null, return null.
+    /// </summary>
+    Propagate
+}
+
+
 public static class Aggregate
 {
 
@@ -296,7 +316,7 @@ public static class Aggregate
     /// <param name="nullHandling">How to handle null values.</param>
     /// <returns>The minimum value, or null if the array is empty, all values are null,
     /// or nullHandling is Propagate and any null exists.</returns>
-    public static T? Min<T>(PrimitiveArray<T> array, NullHandling nullHandling = NullHandling.Skip)
+    public static T? Min<T>(PrimitiveArray<T> array, AggregateNullHandling nullHandling = AggregateNullHandling.Skip)
         where T : struct, INumber<T>
     {
         if (array.Length == 0)
@@ -308,7 +328,7 @@ public static class Aggregate
             var value = array.GetValue(i);
             if (value == null)
             {
-                if (nullHandling == NullHandling.Propagate)
+                if (nullHandling == AggregateNullHandling.Propagate)
                     return null;
                 continue;
             }
@@ -326,7 +346,7 @@ public static class Aggregate
     /// <param name="nullHandling">How to handle null values.</param>
     /// <returns>The minimum value, or null if the array is empty, all values are null,
     /// or nullHandling is Propagate and any null exists.</returns>
-    public static double? Min(IArrowArray array, NullHandling nullHandling = NullHandling.Skip)
+    public static double? Min(IArrowArray array, AggregateNullHandling nullHandling = AggregateNullHandling.Skip)
     {
         switch (array.Data.DataType.TypeId)
         {
@@ -363,7 +383,7 @@ public static class Aggregate
     /// <param name="nullHandling">How to handle null values.</param>
     /// <returns>The maximum value, or null if the array is empty, all values are null,
     /// or nullHandling is Propagate and any null exists.</returns>
-    public static T? Max<T>(PrimitiveArray<T> array, NullHandling nullHandling = NullHandling.Skip)
+    public static T? Max<T>(PrimitiveArray<T> array, AggregateNullHandling nullHandling = AggregateNullHandling.Skip)
         where T : struct, INumber<T>
     {
         if (array.Length == 0)
@@ -375,7 +395,7 @@ public static class Aggregate
             var value = array.GetValue(i);
             if (value == null)
             {
-                if (nullHandling == NullHandling.Propagate)
+                if (nullHandling == AggregateNullHandling.Propagate)
                     return null;
                 continue;
             }
@@ -393,7 +413,7 @@ public static class Aggregate
     /// <param name="nullHandling">How to handle null values.</param>
     /// <returns>The maximum value, or null if the array is empty, all values are null,
     /// or nullHandling is Propagate and any null exists.</returns>
-    public static double? Max(IArrowArray array, NullHandling nullHandling = NullHandling.Skip)
+    public static double? Max(IArrowArray array, AggregateNullHandling nullHandling = AggregateNullHandling.Skip)
     {
         switch (array.Data.DataType.TypeId)
         {
@@ -430,7 +450,7 @@ public static class Aggregate
     /// <param name="nullHandling">How to handle null values.</param>
     /// <returns>The index of the minimum value, or null if the array is empty, all values are null,
     /// or nullHandling is Propagate and any null exists.</returns>
-    public static int? ArgMin<T>(PrimitiveArray<T> array, NullHandling nullHandling = NullHandling.Skip)
+    public static int? ArgMin<T>(PrimitiveArray<T> array, AggregateNullHandling nullHandling = AggregateNullHandling.Skip)
         where T : struct, INumber<T>
     {
         if (array.Length == 0)
@@ -443,7 +463,7 @@ public static class Aggregate
             var value = array.GetValue(i);
             if (value == null)
             {
-                if (nullHandling == NullHandling.Propagate)
+                if (nullHandling == AggregateNullHandling.Propagate)
                     return null;
                 continue;
             }
@@ -464,7 +484,7 @@ public static class Aggregate
     /// <param name="nullHandling">How to handle null values.</param>
     /// <returns>The index of the minimum value, or null if the array is empty, all values are null,
     /// or nullHandling is Propagate and any null exists.</returns>
-    public static int? ArgMin(IArrowArray array, NullHandling nullHandling = NullHandling.Skip)
+    public static int? ArgMin(IArrowArray array, AggregateNullHandling nullHandling = AggregateNullHandling.Skip)
     {
         switch (array.Data.DataType.TypeId)
         {
@@ -501,7 +521,7 @@ public static class Aggregate
     /// <param name="nullHandling">How to handle null values.</param>
     /// <returns>The index of the maximum value, or null if the array is empty, all values are null,
     /// or nullHandling is Propagate and any null exists.</returns>
-    public static int? ArgMax<T>(PrimitiveArray<T> array, NullHandling nullHandling = NullHandling.Skip)
+    public static int? ArgMax<T>(PrimitiveArray<T> array, AggregateNullHandling nullHandling = AggregateNullHandling.Skip)
         where T : struct, INumber<T>
     {
         if (array.Length == 0)
@@ -514,7 +534,7 @@ public static class Aggregate
             var value = array.GetValue(i);
             if (value == null)
             {
-                if (nullHandling == NullHandling.Propagate)
+                if (nullHandling == AggregateNullHandling.Propagate)
                     return null;
                 continue;
             }
@@ -535,7 +555,7 @@ public static class Aggregate
     /// <param name="nullHandling">How to handle null values.</param>
     /// <returns>The index of the maximum value, or null if the array is empty, all values are null,
     /// or nullHandling is Propagate and any null exists.</returns>
-    public static int? ArgMax(IArrowArray array, NullHandling nullHandling = NullHandling.Skip)
+    public static int? ArgMax(IArrowArray array, AggregateNullHandling nullHandling = AggregateNullHandling.Skip)
     {
         switch (array.Data.DataType.TypeId)
         {
@@ -572,7 +592,7 @@ public static class Aggregate
     /// <param name="nullHandling">How to handle null values.</param>
     /// <returns>The sum of values, or null if the array is empty, all values are null,
     /// or nullHandling is Propagate and any null exists.</returns>
-    public static T? Sum<T>(PrimitiveArray<T> array, NullHandling nullHandling = NullHandling.Skip)
+    public static T? Sum<T>(PrimitiveArray<T> array, AggregateNullHandling nullHandling = AggregateNullHandling.Skip)
         where T : struct, INumber<T>
     {
         if (array.Length == 0)
@@ -585,7 +605,7 @@ public static class Aggregate
             var value = array.GetValue(i);
             if (value == null)
             {
-                if (nullHandling == NullHandling.Propagate)
+                if (nullHandling == AggregateNullHandling.Propagate)
                     return null;
                 continue;
             }
@@ -603,7 +623,7 @@ public static class Aggregate
     /// <param name="nullHandling">How to handle null values.</param>
     /// <returns>The sum of values, or null if the array is empty, all values are null,
     /// or nullHandling is Propagate and any null exists.</returns>
-    public static double? Sum(IArrowArray array, NullHandling nullHandling = NullHandling.Skip)
+    public static double? Sum(IArrowArray array, AggregateNullHandling nullHandling = AggregateNullHandling.Skip)
     {
         switch (array.Data.DataType.TypeId)
         {
@@ -640,7 +660,7 @@ public static class Aggregate
     /// <param name="nullHandling">How to handle null values.</param>
     /// <returns>The mean as a double, or null if the array is empty, all values are null,
     /// or nullHandling is Propagate and any null exists.</returns>
-    public static double? Mean<T>(PrimitiveArray<T> array, NullHandling nullHandling = NullHandling.Skip)
+    public static double? Mean<T>(PrimitiveArray<T> array, AggregateNullHandling nullHandling = AggregateNullHandling.Skip)
         where T : struct, INumber<T>
     {
         if (array.Length == 0)
@@ -653,7 +673,7 @@ public static class Aggregate
             var value = array.GetValue(i);
             if (value == null)
             {
-                if (nullHandling == NullHandling.Propagate)
+                if (nullHandling == AggregateNullHandling.Propagate)
                     return null;
                 continue;
             }
@@ -671,7 +691,7 @@ public static class Aggregate
     /// <param name="nullHandling">How to handle null values.</param>
     /// <returns>The mean as a double, or null if the array is empty, all values are null,
     /// or nullHandling is Propagate and any null exists.</returns>
-    public static double? Mean(IArrowArray array, NullHandling nullHandling = NullHandling.Skip)
+    public static double? Mean(IArrowArray array, AggregateNullHandling nullHandling = AggregateNullHandling.Skip)
     {
         switch (array.Data.DataType.TypeId)
         {

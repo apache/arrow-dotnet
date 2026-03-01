@@ -37,7 +37,7 @@ public static class Format
         List<string> indenting = Enumerable.Repeat(indenter, indent).ToList();
         string indentString = string.Concat(indenting);
 
-        stream.WriteLine($"{indentString}[");
+        stream.WriteLine($"{indentString}[  {array.Length} elements");
         var pad = indentString + indenter;
         switch (array.Data.DataType.TypeId)
         {
@@ -46,7 +46,7 @@ public static class Format
                     var valArray = (FloatArray)array;
                     foreach (var v in valArray)
                     {
-                        stream.WriteLine($"{pad}{v}");
+                        stream.WriteLine($"{pad}{(v == null ? "null" : v)}");
                     }
                     break;
                 }
@@ -55,7 +55,7 @@ public static class Format
                     var valArray = (DoubleArray)array;
                     foreach (var v in valArray)
                     {
-                        stream.WriteLine($"{pad}{v}");
+                        stream.WriteLine($"{pad}{(v == null ? "null" : v)}");
                     }
                     break;
                 }
@@ -64,7 +64,7 @@ public static class Format
                     var valArray = (Int32Array)array;
                     foreach (var v in valArray)
                     {
-                        stream.WriteLine($"{pad}{v}");
+                        stream.WriteLine($"{pad}{(v == null ? "null" : v)}");
                     }
                     break;
                 }
@@ -73,7 +73,7 @@ public static class Format
                     var valArray = (Int64Array)array;
                     foreach (var v in valArray)
                     {
-                        stream.WriteLine($"{pad}{v}");
+                        stream.WriteLine($"{pad}{(v == null ? "null" : v)}");
                     }
                     break;
                 }
@@ -82,7 +82,7 @@ public static class Format
                     var valArray = (Int16Array)array;
                     foreach (var v in valArray)
                     {
-                        stream.WriteLine($"{pad}{v}");
+                        stream.WriteLine($"{pad}{(v == null ? "null" : v)}");
                     }
                     break;
                 }
@@ -91,7 +91,7 @@ public static class Format
                     var valArray = (Int8Array)array;
                     foreach (var v in valArray)
                     {
-                        stream.WriteLine($"{pad}{v}");
+                        stream.WriteLine($"{pad}{(v == null ? "null" : v)}");
                     }
                     break;
                 }
@@ -100,7 +100,7 @@ public static class Format
                     var valArray = (UInt8Array)array;
                     foreach (var v in valArray)
                     {
-                        stream.WriteLine($"{pad}{v}");
+                        stream.WriteLine($"{pad}{(v == null ? "null" : v)}");
                     }
                     break;
                 }
@@ -109,7 +109,7 @@ public static class Format
                     var valArray = (UInt16Array)array;
                     foreach (var v in valArray)
                     {
-                        stream.WriteLine($"{pad}{v}");
+                        stream.WriteLine($"{pad}{(v == null ? "null" : v)}");
                     }
                     break;
                 }
@@ -118,7 +118,7 @@ public static class Format
                     var valArray = (UInt32Array)array;
                     foreach (var v in valArray)
                     {
-                        stream.WriteLine($"{pad}{v}");
+                        stream.WriteLine($"{pad}{(v == null ? "null" : v)}");
                     }
                     break;
                 }
@@ -127,7 +127,7 @@ public static class Format
                     var valArray = (UInt64Array)array;
                     foreach (var v in valArray)
                     {
-                        stream.WriteLine($"{pad}{v}");
+                        stream.WriteLine($"{pad}{(v == null ? "null" : v)}");
                     }
                     break;
                 }
@@ -137,7 +137,7 @@ public static class Format
 
                     foreach (var v in valArray)
                     {
-                        stream.WriteLine($"{pad}{v}");
+                        stream.WriteLine($"{pad}{(v == null ? "null" : v)}");
                     }
                     break;
                 }
@@ -146,7 +146,7 @@ public static class Format
                     var valArray = (HalfFloatArray)array;
                     foreach (var v in valArray)
                     {
-                        stream.WriteLine($"{pad}{v}");
+                        stream.WriteLine($"{pad}{(v == null ? "null" : v)}");
                     }
                     break;
                 }
@@ -157,7 +157,7 @@ public static class Format
                     {
                         if (valArray.IsNull(i))
                         {
-                            stream.WriteLine($"{pad}{null}");
+                            stream.WriteLine($"{pad}null");
                         }
                         else
                         {
@@ -174,7 +174,7 @@ public static class Format
                     {
                         if (valArray.IsNull(i))
                         {
-                            stream.WriteLine($"{pad}{null}");
+                            stream.WriteLine($"{pad}null");
                         }
                         else
                         {
@@ -222,7 +222,7 @@ public static class Format
     }
 
     /// <summary>
-    /// Pretty print `array` to `STDOUT` via `Console.WriteLine`. Prefer `PrettyPrintFormat` to control where the
+    /// Pretty print `array` via `Console.WriteLine`. Prefer `PrettyPrintFormat` to control where the
     /// writing happens.
     /// </summary>
     /// <param name="array"></param>
