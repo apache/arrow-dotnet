@@ -16,10 +16,11 @@
 
 using System;
 using System.Numerics;
+using System.Runtime.Intrinsics;
+
 using Apache.Arrow.Memory;
 using Apache.Arrow.Types;
 
-using System.Runtime.Intrinsics;
 
 namespace Apache.Arrow.Operations;
 
@@ -69,7 +70,7 @@ public static class BitVectorOps
             else break;
         }
 
-        for(var i = offset; i < size; i++)
+        for (var i = offset; i < size; i++)
         {
             store[i] = (byte)~buffer.Span[i];
         }

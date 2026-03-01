@@ -61,7 +61,8 @@ public class ArrowOperationsTests
 }
 
 
-public class ArrowBooleanOperationsTests {
+public class ArrowBooleanOperationsTests
+{
     [Fact]
     public void TestInvert()
     {

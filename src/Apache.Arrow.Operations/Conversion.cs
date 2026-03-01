@@ -179,7 +179,7 @@ public static partial class Conversion
         return builder.Build(allocator);
     }
 
-    public static BooleanArray CastBool<T>(PrimitiveArray<T> array, MemoryAllocator? allocator = null) where T: struct, INumber<T>
+    public static BooleanArray CastBool<T>(PrimitiveArray<T> array, MemoryAllocator? allocator = null) where T : struct, INumber<T>
     {
         var builder = new BooleanArray.Builder();
         builder.Reserve(array.Length);

@@ -14,10 +14,10 @@
 // limitations under the License.
 
 using System;
-using Apache.Arrow.Memory;
-using Apache.Arrow.Types;
 using System.Collections;
 using System.Collections.Generic;
+using Apache.Arrow.Memory;
+using Apache.Arrow.Types;
 
 namespace Apache.Arrow
 {
