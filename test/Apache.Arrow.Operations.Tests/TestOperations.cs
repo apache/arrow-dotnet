@@ -14,7 +14,7 @@
 // limitations under the License.
 
 using System;
-using Apache.Arrow.Ipc;
+using System.Linq;
 using Xunit;
 
 
@@ -57,5 +57,91 @@ public class ArrowOperationsTests
         var mask = Comparison.Equal(vals, 52L);
         var items = (Int64Array)Select.Filter(vals, mask);
         Assert.Equal(52, items.GetValue(0));
+    }
+}
+
+
+public class ArrowBooleanOperationsTests {
+    [Fact]
+    public void TestInvert()
+    {
+        var vals = Enumerable.Repeat(true, 5000);
+        var builder = new BooleanArray.Builder(5000);
+        builder.AppendRange(vals);
+        var array = builder.Build();
+        Assert.True(array.All(v => v ?? false));
+
+        var inverted = BitVectorOps.OnesComplement(array.ValueBuffer);
+        var invertedArray = new BooleanArray(inverted, array.NullBitmapBuffer.Clone(), array.Length, array.NullCount, 0);
+        Assert.Equal(array.Length, invertedArray.Length);
+        Assert.False(invertedArray.All(v => v ?? false));
+    }
+
+    [Fact]
+    public void TesAnd()
+    {
+        var vals = Enumerable.Repeat(true, 5000);
+        var builder = new BooleanArray.Builder(5000);
+        builder.AppendRange(vals);
+        var array = builder.Build();
+        Assert.True(array.All(v => v ?? false));
+
+        var result = Comparison.And(array, array);
+        Assert.True(result.All(v => v ?? false));
+
+        vals = Enumerable.Repeat(false, 5000);
+        builder = new BooleanArray.Builder(5000);
+        builder.AppendRange(vals);
+        var inverted = builder.Build();
+
+        result = Comparison.And(array, inverted);
+        Assert.Equal(result.Length, inverted.Length);
+        Assert.False(result.All(v => v ?? false));
+    }
+
+    [Fact]
+    public void TestOr()
+    {
+        var vals = Enumerable.Repeat(true, 5000);
+        var builder = new BooleanArray.Builder(5000);
+        builder.AppendRange(vals);
+        var array = builder.Build();
+        Assert.True(array.All(v => v ?? false));
+
+        var result = Comparison.Or(array, array);
+        Assert.True(result.All(v => v ?? false));
+
+        vals = Enumerable.Repeat(false, 5000);
+        builder = new BooleanArray.Builder(5000);
+        builder.AppendRange(vals);
+        var inverted = builder.Build();
+
+        result = Comparison.Or(array, inverted);
+        Assert.Equal(result.Length, inverted.Length);
+        Assert.True(result.All(v => v ?? false));
+    }
+
+    [Fact]
+    public void TestXor()
+    {
+        var vals = Enumerable.Repeat(true, 2500);
+        var builder = new BooleanArray.Builder(5000);
+        builder.AppendRange(vals);
+        vals = Enumerable.Repeat(false, 2500);
+        builder.AppendRange(vals);
+        var array = builder.Build();
+
+        Assert.Equal(2500, array.Count(s => s ?? false));
+
+        builder = new BooleanArray.Builder(5000);
+        vals = Enumerable.Repeat(true, 2500);
+        builder.AppendRange(vals);
+        vals = Enumerable.Repeat(true, 2500);
+        builder.AppendRange(vals);
+        var array2 = builder.Build();
+
+        var result = Comparison.Xor(array, array2);
+        Assert.Equal(2500, result.Count(s => s ?? false));
+        Assert.Equal(0, ((BooleanArray)result.Slice(0, 2500)).Count(s => s ?? false));
     }
 }
