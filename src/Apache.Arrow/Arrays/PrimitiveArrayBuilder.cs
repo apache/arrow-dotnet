@@ -116,6 +116,12 @@ namespace Apache.Arrow
             ValidityBuffer = new ArrowBuffer.BitmapBuilder();
         }
 
+        public PrimitiveArrayBuilder(int capacity)
+        {
+            ValueBuffer = new ArrowBuffer.Builder<T>(capacity);
+            ValidityBuffer = new ArrowBuffer.BitmapBuilder(capacity);
+        }
+
         public TBuilder Resize(int length)
         {
             ValueBuffer.Resize(length);
