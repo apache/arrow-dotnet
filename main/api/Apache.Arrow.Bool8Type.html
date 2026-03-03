@@ -2,11 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Class ExtensionType | Apache Arrow .NET </title>
+      <title>Class Bool8Type | Apache Arrow .NET </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Class ExtensionType | Apache Arrow .NET ">
+      <meta name="title" content="Class Bool8Type | Apache Arrow .NET ">
       
-      <meta name="description" content="Base class for user-defined extension types. Extension types are logical types layered on top of a built-in Arrow storage type, identified by a name string.">
+      <meta name="description" content="Extension type representing 1-byte boolean values">
       <link rel="icon" href="../images/favicon.png">
       <link rel="stylesheet" href="../public/docfx.min.css">
       <link rel="stylesheet" href="../public/main.css">
@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="../">
       
       
-      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Apache_Arrow_ExtensionType.md&amp;value=---%0Auid%3A%20Apache.Arrow.ExtensionType%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Apache_Arrow_Bool8Type.md&amp;value=---%0Auid%3A%20Apache.Arrow.Bool8Type%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -84,12 +84,12 @@
           <nav id="breadcrumb"></nav>
         </div>
 
-        <article data-uid="Apache.Arrow.ExtensionType">
+        <article data-uid="Apache.Arrow.Bool8Type">
 
 
 
-  <h1 id="Apache_Arrow_ExtensionType" data-uid="Apache.Arrow.ExtensionType" class="text-break">
-Class ExtensionType  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ExtensionType.cs/#L54"><i class="bi bi-code-slash"></i></a>
+  <h1 id="Apache_Arrow_Bool8Type" data-uid="Apache.Arrow.Bool8Type" class="text-break">
+Class Bool8Type  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Bool8Array.cs/#L51"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -97,13 +97,12 @@ Class ExtensionType  <a class="header-action link-secondary" title="View source"
   <dl><dt>Assembly</dt><dd>Apache.Arrow.dll</dd></dl>
   </div>
 
-  <div class="markdown summary"><p>Base class for user-defined extension types. Extension types are logical types
-layered on top of a built-in Arrow storage type, identified by a name string.</p>
+  <div class="markdown summary"><p>Extension type representing 1-byte boolean values</p>
 </div>
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class ExtensionType : IArrowType</code></pre>
+    <pre><code class="lang-csharp hljs">public class Bool8Type : ExtensionType, IArrowType</code></pre>
   </div>
 
 
@@ -113,7 +112,8 @@ layered on top of a built-in Arrow storage type, identified by a name string.</p
     <dt>Inheritance</dt>
     <dd>
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
-      <div><span class="xref">ExtensionType</span></div>
+      <div><a class="xref" href="Apache.Arrow.ExtensionType.html">ExtensionType</a></div>
+      <div><span class="xref">Bool8Type</span></div>
     </dd>
   </dl>
 
@@ -124,17 +124,22 @@ layered on top of a built-in Arrow storage type, identified by a name string.</p
     </dd>
   </dl>
 
-  <dl class="typelist derived">
-    <dt>Derived</dt>
-    <dd>
-      <div><a class="xref" href="Apache.Arrow.Bool8Type.html">Bool8Type</a></div>
-      <div><a class="xref" href="Apache.Arrow.GuidType.html">GuidType</a></div>
-    </dd>
-  </dl>
 
   <dl class="typelist inheritedMembers">
     <dt>Inherited Members</dt>
     <dd>
+    <div>
+      <a class="xref" href="Apache.Arrow.ExtensionType.html#Apache_Arrow_ExtensionType_TypeId">ExtensionType.TypeId</a>
+    </div>
+    <div>
+      <a class="xref" href="Apache.Arrow.ExtensionType.html#Apache_Arrow_ExtensionType_StorageType">ExtensionType.StorageType</a>
+    </div>
+    <div>
+      <a class="xref" href="Apache.Arrow.ExtensionType.html#Apache_Arrow_ExtensionType_IsFixedWidth">ExtensionType.IsFixedWidth</a>
+    </div>
+    <div>
+      <a class="xref" href="Apache.Arrow.ExtensionType.html#Apache_Arrow_ExtensionType_Accept_Apache_Arrow_Types_IArrowTypeVisitor_">ExtensionType.Accept(IArrowTypeVisitor)</a>
+    </div>
     <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
     </div>
@@ -177,28 +182,57 @@ layered on top of a built-in Arrow storage type, identified by a name string.</p
 </h2>
 
 
-  <a id="Apache_Arrow_ExtensionType__ctor_" data-uid="Apache.Arrow.ExtensionType.#ctor*"></a>
+  <a id="Apache_Arrow_Bool8Type__ctor_" data-uid="Apache.Arrow.Bool8Type.#ctor*"></a>
 
-  <h3 id="Apache_Arrow_ExtensionType__ctor_Apache_Arrow_Types_IArrowType_" data-uid="Apache.Arrow.ExtensionType.#ctor(Apache.Arrow.Types.IArrowType)">
-  ExtensionType(IArrowType)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ExtensionType.cs/#L75"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Apache_Arrow_Bool8Type__ctor" data-uid="Apache.Arrow.Bool8Type.#ctor">
+  Bool8Type()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Bool8Array.cs/#L58"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected ExtensionType(IArrowType storageType)</code></pre>
+    <pre><code class="lang-csharp hljs">public Bool8Type()</code></pre>
   </div>
 
-  <h4 class="section">Parameters</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="fields">Fields
+</h2>
+
+
+
+  <h3 id="Apache_Arrow_Bool8Type_Default" data-uid="Apache.Arrow.Bool8Type.Default">
+  Default
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Bool8Array.cs/#L53"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Bool8Type Default</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
   <dl class="parameters">
-    <dt><code>storageType</code> <a class="xref" href="Apache.Arrow.Types.IArrowType.html">IArrowType</a></dt>
+    <dt><a class="xref" href="Apache.Arrow.Bool8Type.html">Bool8Type</a></dt>
     <dd></dd>
   </dl>
-
-
-
 
 
 
@@ -212,11 +246,11 @@ layered on top of a built-in Arrow storage type, identified by a name string.</p
 </h2>
 
 
-  <a id="Apache_Arrow_ExtensionType_ExtensionMetadata_" data-uid="Apache.Arrow.ExtensionType.ExtensionMetadata*"></a>
+  <a id="Apache_Arrow_Bool8Type_ExtensionMetadata_" data-uid="Apache.Arrow.Bool8Type.ExtensionMetadata*"></a>
 
-  <h3 id="Apache_Arrow_ExtensionType_ExtensionMetadata" data-uid="Apache.Arrow.ExtensionType.ExtensionMetadata">
+  <h3 id="Apache_Arrow_Bool8Type_ExtensionMetadata" data-uid="Apache.Arrow.Bool8Type.ExtensionMetadata">
   ExtensionMetadata
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ExtensionType.cs/#L66"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Bool8Array.cs/#L56"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Serialized extension metadata. May be null or empty.</p>
@@ -224,7 +258,7 @@ layered on top of a built-in Arrow storage type, identified by a name string.</p
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract string ExtensionMetadata { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public override string ExtensionMetadata { get; }</code></pre>
   </div>
 
 
@@ -244,42 +278,11 @@ layered on top of a built-in Arrow storage type, identified by a name string.</p
 
 
 
-  <a id="Apache_Arrow_ExtensionType_IsFixedWidth_" data-uid="Apache.Arrow.ExtensionType.IsFixedWidth*"></a>
+  <a id="Apache_Arrow_Bool8Type_Name_" data-uid="Apache.Arrow.Bool8Type.Name*"></a>
 
-  <h3 id="Apache_Arrow_ExtensionType_IsFixedWidth" data-uid="Apache.Arrow.ExtensionType.IsFixedWidth">
-  IsFixedWidth
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ExtensionType.cs/#L73"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool IsFixedWidth { get; }</code></pre>
-  </div>
-
-
-
-
-
-  <h4 class="section">Property Value</h4>
-  <dl class="parameters">
-    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
-    <dd></dd>
-  </dl>
-
-
-
-
-
-
-
-
-  <a id="Apache_Arrow_ExtensionType_Name_" data-uid="Apache.Arrow.ExtensionType.Name*"></a>
-
-  <h3 id="Apache_Arrow_ExtensionType_Name" data-uid="Apache.Arrow.ExtensionType.Name">
+  <h3 id="Apache_Arrow_Bool8Type_Name" data-uid="Apache.Arrow.Bool8Type.Name">
   Name
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ExtensionType.cs/#L61"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Bool8Array.cs/#L55"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The canonical extension type name (e.g. &quot;arrow.uuid&quot;).</p>
@@ -287,7 +290,7 @@ layered on top of a built-in Arrow storage type, identified by a name string.</p
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract string Name { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public override string Name { get; }</code></pre>
   </div>
 
 
@@ -297,69 +300,6 @@ layered on top of a built-in Arrow storage type, identified by a name string.</p
   <h4 class="section">Property Value</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
-    <dd></dd>
-  </dl>
-
-
-
-
-
-
-
-
-  <a id="Apache_Arrow_ExtensionType_StorageType_" data-uid="Apache.Arrow.ExtensionType.StorageType*"></a>
-
-  <h3 id="Apache_Arrow_ExtensionType_StorageType" data-uid="Apache.Arrow.ExtensionType.StorageType">
-  StorageType
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ExtensionType.cs/#L71"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>The underlying Arrow storage type.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IArrowType StorageType { get; }</code></pre>
-  </div>
-
-
-
-
-
-  <h4 class="section">Property Value</h4>
-  <dl class="parameters">
-    <dt><a class="xref" href="Apache.Arrow.Types.IArrowType.html">IArrowType</a></dt>
-    <dd></dd>
-  </dl>
-
-
-
-
-
-
-
-
-  <a id="Apache_Arrow_ExtensionType_TypeId_" data-uid="Apache.Arrow.ExtensionType.TypeId*"></a>
-
-  <h3 id="Apache_Arrow_ExtensionType_TypeId" data-uid="Apache.Arrow.ExtensionType.TypeId">
-  TypeId
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ExtensionType.cs/#L56"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ArrowTypeId TypeId { get; }</code></pre>
-  </div>
-
-
-
-
-
-  <h4 class="section">Property Value</h4>
-  <dl class="parameters">
-    <dt><a class="xref" href="Apache.Arrow.Types.ArrowTypeId.html">ArrowTypeId</a></dt>
     <dd></dd>
   </dl>
 
@@ -374,42 +314,11 @@ layered on top of a built-in Arrow storage type, identified by a name string.</p
 </h2>
 
 
-  <a id="Apache_Arrow_ExtensionType_Accept_" data-uid="Apache.Arrow.ExtensionType.Accept*"></a>
+  <a id="Apache_Arrow_Bool8Type_CreateArray_" data-uid="Apache.Arrow.Bool8Type.CreateArray*"></a>
 
-  <h3 id="Apache_Arrow_ExtensionType_Accept_Apache_Arrow_Types_IArrowTypeVisitor_" data-uid="Apache.Arrow.ExtensionType.Accept(Apache.Arrow.Types.IArrowTypeVisitor)">
-  Accept(IArrowTypeVisitor)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ExtensionType.cs/#L80"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void Accept(IArrowTypeVisitor visitor)</code></pre>
-  </div>
-
-  <h4 class="section">Parameters</h4>
-  <dl class="parameters">
-    <dt><code>visitor</code> <a class="xref" href="Apache.Arrow.Types.IArrowTypeVisitor.html">IArrowTypeVisitor</a></dt>
-    <dd></dd>
-  </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-  <a id="Apache_Arrow_ExtensionType_CreateArray_" data-uid="Apache.Arrow.ExtensionType.CreateArray*"></a>
-
-  <h3 id="Apache_Arrow_ExtensionType_CreateArray_Apache_Arrow_IArrowArray_" data-uid="Apache.Arrow.ExtensionType.CreateArray(Apache.Arrow.IArrowArray)">
+  <h3 id="Apache_Arrow_Bool8Type_CreateArray_Apache_Arrow_IArrowArray_" data-uid="Apache.Arrow.Bool8Type.CreateArray(Apache.Arrow.IArrowArray)">
   CreateArray(IArrowArray)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ExtensionType.cs/#L88"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Bool8Array.cs/#L62"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Create the appropriate <a class="xref" href="Apache.Arrow.ExtensionArray.html">ExtensionArray</a> wrapper for a storage array.</p>
@@ -417,7 +326,7 @@ layered on top of a built-in Arrow storage type, identified by a name string.</p
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract ExtensionArray CreateArray(IArrowArray storageArray)</code></pre>
+    <pre><code class="lang-csharp hljs">public override ExtensionArray CreateArray(IArrowArray storageArray)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
@@ -446,7 +355,7 @@ layered on top of a built-in Arrow storage type, identified by a name string.</p
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ExtensionType.cs/#L54" class="edit-link">Edit this page</a>
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Bool8Array.cs/#L51" class="edit-link">Edit this page</a>
         </div>
 
 

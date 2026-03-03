@@ -2930,6 +2930,313 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.BitUtility.ToggleBit
   nameWithType: BitUtility.ToggleBit
+- uid: Apache.Arrow.Bool8Array
+  name: Bool8Array
+  href: api/Apache.Arrow.Bool8Array.html
+  commentId: T:Apache.Arrow.Bool8Array
+  fullName: Apache.Arrow.Bool8Array
+  nameWithType: Bool8Array
+- uid: Apache.Arrow.Bool8Array.#ctor(Apache.Arrow.Bool8Type,Apache.Arrow.IArrowArray)
+  name: Bool8Array(Bool8Type, IArrowArray)
+  href: api/Apache.Arrow.Bool8Array.html#Apache_Arrow_Bool8Array__ctor_Apache_Arrow_Bool8Type_Apache_Arrow_IArrowArray_
+  commentId: M:Apache.Arrow.Bool8Array.#ctor(Apache.Arrow.Bool8Type,Apache.Arrow.IArrowArray)
+  name.vb: New(Bool8Type, IArrowArray)
+  fullName: Apache.Arrow.Bool8Array.Bool8Array(Apache.Arrow.Bool8Type, Apache.Arrow.IArrowArray)
+  fullName.vb: Apache.Arrow.Bool8Array.New(Apache.Arrow.Bool8Type, Apache.Arrow.IArrowArray)
+  nameWithType: Bool8Array.Bool8Array(Bool8Type, IArrowArray)
+  nameWithType.vb: Bool8Array.New(Bool8Type, IArrowArray)
+- uid: Apache.Arrow.Bool8Array.#ctor(Apache.Arrow.IArrowArray)
+  name: Bool8Array(IArrowArray)
+  href: api/Apache.Arrow.Bool8Array.html#Apache_Arrow_Bool8Array__ctor_Apache_Arrow_IArrowArray_
+  commentId: M:Apache.Arrow.Bool8Array.#ctor(Apache.Arrow.IArrowArray)
+  name.vb: New(IArrowArray)
+  fullName: Apache.Arrow.Bool8Array.Bool8Array(Apache.Arrow.IArrowArray)
+  fullName.vb: Apache.Arrow.Bool8Array.New(Apache.Arrow.IArrowArray)
+  nameWithType: Bool8Array.Bool8Array(IArrowArray)
+  nameWithType.vb: Bool8Array.New(IArrowArray)
+- uid: Apache.Arrow.Bool8Array.#ctor*
+  name: Bool8Array
+  href: api/Apache.Arrow.Bool8Array.html#Apache_Arrow_Bool8Array__ctor_
+  commentId: Overload:Apache.Arrow.Bool8Array.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Apache.Arrow.Bool8Array.Bool8Array
+  fullName.vb: Apache.Arrow.Bool8Array.New
+  nameWithType: Bool8Array.Bool8Array
+  nameWithType.vb: Bool8Array.New
+- uid: Apache.Arrow.Bool8Array.Builder
+  name: Bool8Array.Builder
+  href: api/Apache.Arrow.Bool8Array.Builder.html
+  commentId: T:Apache.Arrow.Bool8Array.Builder
+  fullName: Apache.Arrow.Bool8Array.Builder
+  nameWithType: Bool8Array.Builder
+- uid: Apache.Arrow.Bool8Array.Builder.Append(System.Boolean)
+  name: Append(bool)
+  href: api/Apache.Arrow.Bool8Array.Builder.html#Apache_Arrow_Bool8Array_Builder_Append_System_Boolean_
+  commentId: M:Apache.Arrow.Bool8Array.Builder.Append(System.Boolean)
+  name.vb: Append(Boolean)
+  fullName: Apache.Arrow.Bool8Array.Builder.Append(bool)
+  fullName.vb: Apache.Arrow.Bool8Array.Builder.Append(Boolean)
+  nameWithType: Bool8Array.Builder.Append(bool)
+  nameWithType.vb: Bool8Array.Builder.Append(Boolean)
+- uid: Apache.Arrow.Bool8Array.Builder.Append(System.Nullable{System.Boolean})
+  name: Append(bool?)
+  href: api/Apache.Arrow.Bool8Array.Builder.html#Apache_Arrow_Bool8Array_Builder_Append_System_Nullable_System_Boolean__
+  commentId: M:Apache.Arrow.Bool8Array.Builder.Append(System.Nullable{System.Boolean})
+  name.vb: Append(Boolean?)
+  fullName: Apache.Arrow.Bool8Array.Builder.Append(bool?)
+  fullName.vb: Apache.Arrow.Bool8Array.Builder.Append(Boolean?)
+  nameWithType: Bool8Array.Builder.Append(bool?)
+  nameWithType.vb: Bool8Array.Builder.Append(Boolean?)
+- uid: Apache.Arrow.Bool8Array.Builder.Append*
+  name: Append
+  href: api/Apache.Arrow.Bool8Array.Builder.html#Apache_Arrow_Bool8Array_Builder_Append_
+  commentId: Overload:Apache.Arrow.Bool8Array.Builder.Append
+  isSpec: "True"
+  fullName: Apache.Arrow.Bool8Array.Builder.Append
+  nameWithType: Bool8Array.Builder.Append
+- uid: Apache.Arrow.Bool8Array.Builder.AppendRange(System.Collections.Generic.IEnumerable{System.Boolean})
+  name: AppendRange(IEnumerable<bool>)
+  href: api/Apache.Arrow.Bool8Array.Builder.html#Apache_Arrow_Bool8Array_Builder_AppendRange_System_Collections_Generic_IEnumerable_System_Boolean__
+  commentId: M:Apache.Arrow.Bool8Array.Builder.AppendRange(System.Collections.Generic.IEnumerable{System.Boolean})
+  name.vb: AppendRange(IEnumerable(Of Boolean))
+  fullName: Apache.Arrow.Bool8Array.Builder.AppendRange(System.Collections.Generic.IEnumerable<bool>)
+  fullName.vb: Apache.Arrow.Bool8Array.Builder.AppendRange(System.Collections.Generic.IEnumerable(Of Boolean))
+  nameWithType: Bool8Array.Builder.AppendRange(IEnumerable<bool>)
+  nameWithType.vb: Bool8Array.Builder.AppendRange(IEnumerable(Of Boolean))
+- uid: Apache.Arrow.Bool8Array.Builder.AppendRange(System.Collections.Generic.IEnumerable{System.Nullable{System.Boolean}})
+  name: AppendRange(IEnumerable<bool?>)
+  href: api/Apache.Arrow.Bool8Array.Builder.html#Apache_Arrow_Bool8Array_Builder_AppendRange_System_Collections_Generic_IEnumerable_System_Nullable_System_Boolean___
+  commentId: M:Apache.Arrow.Bool8Array.Builder.AppendRange(System.Collections.Generic.IEnumerable{System.Nullable{System.Boolean}})
+  name.vb: AppendRange(IEnumerable(Of Boolean?))
+  fullName: Apache.Arrow.Bool8Array.Builder.AppendRange(System.Collections.Generic.IEnumerable<bool?>)
+  fullName.vb: Apache.Arrow.Bool8Array.Builder.AppendRange(System.Collections.Generic.IEnumerable(Of Boolean?))
+  nameWithType: Bool8Array.Builder.AppendRange(IEnumerable<bool?>)
+  nameWithType.vb: Bool8Array.Builder.AppendRange(IEnumerable(Of Boolean?))
+- uid: Apache.Arrow.Bool8Array.Builder.AppendRange*
+  name: AppendRange
+  href: api/Apache.Arrow.Bool8Array.Builder.html#Apache_Arrow_Bool8Array_Builder_AppendRange_
+  commentId: Overload:Apache.Arrow.Bool8Array.Builder.AppendRange
+  isSpec: "True"
+  fullName: Apache.Arrow.Bool8Array.Builder.AppendRange
+  nameWithType: Bool8Array.Builder.AppendRange
+- uid: Apache.Arrow.Bool8Array.Builder.Build(Apache.Arrow.ArrowBuffer,Apache.Arrow.ArrowBuffer,System.Int32,System.Int32,System.Int32)
+  name: Build(ArrowBuffer, ArrowBuffer, int, int, int)
+  href: api/Apache.Arrow.Bool8Array.Builder.html#Apache_Arrow_Bool8Array_Builder_Build_Apache_Arrow_ArrowBuffer_Apache_Arrow_ArrowBuffer_System_Int32_System_Int32_System_Int32_
+  commentId: M:Apache.Arrow.Bool8Array.Builder.Build(Apache.Arrow.ArrowBuffer,Apache.Arrow.ArrowBuffer,System.Int32,System.Int32,System.Int32)
+  name.vb: Build(ArrowBuffer, ArrowBuffer, Integer, Integer, Integer)
+  fullName: Apache.Arrow.Bool8Array.Builder.Build(Apache.Arrow.ArrowBuffer, Apache.Arrow.ArrowBuffer, int, int, int)
+  fullName.vb: Apache.Arrow.Bool8Array.Builder.Build(Apache.Arrow.ArrowBuffer, Apache.Arrow.ArrowBuffer, Integer, Integer, Integer)
+  nameWithType: Bool8Array.Builder.Build(ArrowBuffer, ArrowBuffer, int, int, int)
+  nameWithType.vb: Bool8Array.Builder.Build(ArrowBuffer, ArrowBuffer, Integer, Integer, Integer)
+- uid: Apache.Arrow.Bool8Array.Builder.Build*
+  name: Build
+  href: api/Apache.Arrow.Bool8Array.Builder.html#Apache_Arrow_Bool8Array_Builder_Build_
+  commentId: Overload:Apache.Arrow.Bool8Array.Builder.Build
+  isSpec: "True"
+  fullName: Apache.Arrow.Bool8Array.Builder.Build
+  nameWithType: Bool8Array.Builder.Build
+- uid: Apache.Arrow.Bool8Array.Builder.Set(System.Int32,System.Boolean)
+  name: Set(int, bool)
+  href: api/Apache.Arrow.Bool8Array.Builder.html#Apache_Arrow_Bool8Array_Builder_Set_System_Int32_System_Boolean_
+  commentId: M:Apache.Arrow.Bool8Array.Builder.Set(System.Int32,System.Boolean)
+  name.vb: Set(Integer, Boolean)
+  fullName: Apache.Arrow.Bool8Array.Builder.Set(int, bool)
+  fullName.vb: Apache.Arrow.Bool8Array.Builder.Set(Integer, Boolean)
+  nameWithType: Bool8Array.Builder.Set(int, bool)
+  nameWithType.vb: Bool8Array.Builder.Set(Integer, Boolean)
+- uid: Apache.Arrow.Bool8Array.Builder.Set*
+  name: Set
+  href: api/Apache.Arrow.Bool8Array.Builder.html#Apache_Arrow_Bool8Array_Builder_Set_
+  commentId: Overload:Apache.Arrow.Bool8Array.Builder.Set
+  isSpec: "True"
+  fullName: Apache.Arrow.Bool8Array.Builder.Set
+  nameWithType: Bool8Array.Builder.Set
+- uid: Apache.Arrow.Bool8Array.Count
+  name: Count
+  href: api/Apache.Arrow.Bool8Array.html#Apache_Arrow_Bool8Array_Count
+  commentId: P:Apache.Arrow.Bool8Array.Count
+  fullName: Apache.Arrow.Bool8Array.Count
+  nameWithType: Bool8Array.Count
+- uid: Apache.Arrow.Bool8Array.Count*
+  name: Count
+  href: api/Apache.Arrow.Bool8Array.html#Apache_Arrow_Bool8Array_Count_
+  commentId: Overload:Apache.Arrow.Bool8Array.Count
+  isSpec: "True"
+  fullName: Apache.Arrow.Bool8Array.Count
+  nameWithType: Bool8Array.Count
+- uid: Apache.Arrow.Bool8Array.GetEnumerator
+  name: GetEnumerator()
+  href: api/Apache.Arrow.Bool8Array.html#Apache_Arrow_Bool8Array_GetEnumerator
+  commentId: M:Apache.Arrow.Bool8Array.GetEnumerator
+  fullName: Apache.Arrow.Bool8Array.GetEnumerator()
+  nameWithType: Bool8Array.GetEnumerator()
+- uid: Apache.Arrow.Bool8Array.GetEnumerator*
+  name: GetEnumerator
+  href: api/Apache.Arrow.Bool8Array.html#Apache_Arrow_Bool8Array_GetEnumerator_
+  commentId: Overload:Apache.Arrow.Bool8Array.GetEnumerator
+  isSpec: "True"
+  fullName: Apache.Arrow.Bool8Array.GetEnumerator
+  nameWithType: Bool8Array.GetEnumerator
+- uid: Apache.Arrow.Bool8Array.GetValue(System.Int32)
+  name: GetValue(int)
+  href: api/Apache.Arrow.Bool8Array.html#Apache_Arrow_Bool8Array_GetValue_System_Int32_
+  commentId: M:Apache.Arrow.Bool8Array.GetValue(System.Int32)
+  name.vb: GetValue(Integer)
+  fullName: Apache.Arrow.Bool8Array.GetValue(int)
+  fullName.vb: Apache.Arrow.Bool8Array.GetValue(Integer)
+  nameWithType: Bool8Array.GetValue(int)
+  nameWithType.vb: Bool8Array.GetValue(Integer)
+- uid: Apache.Arrow.Bool8Array.GetValue*
+  name: GetValue
+  href: api/Apache.Arrow.Bool8Array.html#Apache_Arrow_Bool8Array_GetValue_
+  commentId: Overload:Apache.Arrow.Bool8Array.GetValue
+  isSpec: "True"
+  fullName: Apache.Arrow.Bool8Array.GetValue
+  nameWithType: Bool8Array.GetValue
+- uid: Apache.Arrow.Bool8Array.Item(System.Int32)
+  name: this[int]
+  href: api/Apache.Arrow.Bool8Array.html#Apache_Arrow_Bool8Array_Item_System_Int32_
+  commentId: P:Apache.Arrow.Bool8Array.Item(System.Int32)
+  name.vb: this[](Integer)
+  fullName: Apache.Arrow.Bool8Array.this[int]
+  fullName.vb: Apache.Arrow.Bool8Array.this[](Integer)
+  nameWithType: Bool8Array.this[int]
+  nameWithType.vb: Bool8Array.this[](Integer)
+- uid: Apache.Arrow.Bool8Array.Item*
+  name: this
+  href: api/Apache.Arrow.Bool8Array.html#Apache_Arrow_Bool8Array_Item_
+  commentId: Overload:Apache.Arrow.Bool8Array.Item
+  isSpec: "True"
+  name.vb: this[]
+  fullName: Apache.Arrow.Bool8Array.this
+  fullName.vb: Apache.Arrow.Bool8Array.this[]
+  nameWithType: Bool8Array.this
+  nameWithType.vb: Bool8Array.this[]
+- uid: Apache.Arrow.Bool8Array.StorageArray
+  name: StorageArray
+  href: api/Apache.Arrow.Bool8Array.html#Apache_Arrow_Bool8Array_StorageArray
+  commentId: P:Apache.Arrow.Bool8Array.StorageArray
+  fullName: Apache.Arrow.Bool8Array.StorageArray
+  nameWithType: Bool8Array.StorageArray
+- uid: Apache.Arrow.Bool8Array.StorageArray*
+  name: StorageArray
+  href: api/Apache.Arrow.Bool8Array.html#Apache_Arrow_Bool8Array_StorageArray_
+  commentId: Overload:Apache.Arrow.Bool8Array.StorageArray
+  isSpec: "True"
+  fullName: Apache.Arrow.Bool8Array.StorageArray
+  nameWithType: Bool8Array.StorageArray
+- uid: Apache.Arrow.Bool8ExtensionDefinition
+  name: Bool8ExtensionDefinition
+  href: api/Apache.Arrow.Bool8ExtensionDefinition.html
+  commentId: T:Apache.Arrow.Bool8ExtensionDefinition
+  fullName: Apache.Arrow.Bool8ExtensionDefinition
+  nameWithType: Bool8ExtensionDefinition
+- uid: Apache.Arrow.Bool8ExtensionDefinition.ExtensionName
+  name: ExtensionName
+  href: api/Apache.Arrow.Bool8ExtensionDefinition.html#Apache_Arrow_Bool8ExtensionDefinition_ExtensionName
+  commentId: P:Apache.Arrow.Bool8ExtensionDefinition.ExtensionName
+  fullName: Apache.Arrow.Bool8ExtensionDefinition.ExtensionName
+  nameWithType: Bool8ExtensionDefinition.ExtensionName
+- uid: Apache.Arrow.Bool8ExtensionDefinition.ExtensionName*
+  name: ExtensionName
+  href: api/Apache.Arrow.Bool8ExtensionDefinition.html#Apache_Arrow_Bool8ExtensionDefinition_ExtensionName_
+  commentId: Overload:Apache.Arrow.Bool8ExtensionDefinition.ExtensionName
+  isSpec: "True"
+  fullName: Apache.Arrow.Bool8ExtensionDefinition.ExtensionName
+  nameWithType: Bool8ExtensionDefinition.ExtensionName
+- uid: Apache.Arrow.Bool8ExtensionDefinition.Instance
+  name: Instance
+  href: api/Apache.Arrow.Bool8ExtensionDefinition.html#Apache_Arrow_Bool8ExtensionDefinition_Instance
+  commentId: F:Apache.Arrow.Bool8ExtensionDefinition.Instance
+  fullName: Apache.Arrow.Bool8ExtensionDefinition.Instance
+  nameWithType: Bool8ExtensionDefinition.Instance
+- uid: Apache.Arrow.Bool8ExtensionDefinition.TryCreateType(Apache.Arrow.Types.IArrowType,System.String,Apache.Arrow.ExtensionType@)
+  name: TryCreateType(IArrowType, string, out ExtensionType)
+  href: api/Apache.Arrow.Bool8ExtensionDefinition.html#Apache_Arrow_Bool8ExtensionDefinition_TryCreateType_Apache_Arrow_Types_IArrowType_System_String_Apache_Arrow_ExtensionType__
+  commentId: M:Apache.Arrow.Bool8ExtensionDefinition.TryCreateType(Apache.Arrow.Types.IArrowType,System.String,Apache.Arrow.ExtensionType@)
+  name.vb: TryCreateType(IArrowType, String, ExtensionType)
+  fullName: Apache.Arrow.Bool8ExtensionDefinition.TryCreateType(Apache.Arrow.Types.IArrowType, string, out Apache.Arrow.ExtensionType)
+  fullName.vb: Apache.Arrow.Bool8ExtensionDefinition.TryCreateType(Apache.Arrow.Types.IArrowType, String, Apache.Arrow.ExtensionType)
+  nameWithType: Bool8ExtensionDefinition.TryCreateType(IArrowType, string, out ExtensionType)
+  nameWithType.vb: Bool8ExtensionDefinition.TryCreateType(IArrowType, String, ExtensionType)
+- uid: Apache.Arrow.Bool8ExtensionDefinition.TryCreateType*
+  name: TryCreateType
+  href: api/Apache.Arrow.Bool8ExtensionDefinition.html#Apache_Arrow_Bool8ExtensionDefinition_TryCreateType_
+  commentId: Overload:Apache.Arrow.Bool8ExtensionDefinition.TryCreateType
+  isSpec: "True"
+  fullName: Apache.Arrow.Bool8ExtensionDefinition.TryCreateType
+  nameWithType: Bool8ExtensionDefinition.TryCreateType
+- uid: Apache.Arrow.Bool8Type
+  name: Bool8Type
+  href: api/Apache.Arrow.Bool8Type.html
+  commentId: T:Apache.Arrow.Bool8Type
+  fullName: Apache.Arrow.Bool8Type
+  nameWithType: Bool8Type
+- uid: Apache.Arrow.Bool8Type.#ctor
+  name: Bool8Type()
+  href: api/Apache.Arrow.Bool8Type.html#Apache_Arrow_Bool8Type__ctor
+  commentId: M:Apache.Arrow.Bool8Type.#ctor
+  name.vb: New()
+  fullName: Apache.Arrow.Bool8Type.Bool8Type()
+  fullName.vb: Apache.Arrow.Bool8Type.New()
+  nameWithType: Bool8Type.Bool8Type()
+  nameWithType.vb: Bool8Type.New()
+- uid: Apache.Arrow.Bool8Type.#ctor*
+  name: Bool8Type
+  href: api/Apache.Arrow.Bool8Type.html#Apache_Arrow_Bool8Type__ctor_
+  commentId: Overload:Apache.Arrow.Bool8Type.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Apache.Arrow.Bool8Type.Bool8Type
+  fullName.vb: Apache.Arrow.Bool8Type.New
+  nameWithType: Bool8Type.Bool8Type
+  nameWithType.vb: Bool8Type.New
+- uid: Apache.Arrow.Bool8Type.CreateArray(Apache.Arrow.IArrowArray)
+  name: CreateArray(IArrowArray)
+  href: api/Apache.Arrow.Bool8Type.html#Apache_Arrow_Bool8Type_CreateArray_Apache_Arrow_IArrowArray_
+  commentId: M:Apache.Arrow.Bool8Type.CreateArray(Apache.Arrow.IArrowArray)
+  fullName: Apache.Arrow.Bool8Type.CreateArray(Apache.Arrow.IArrowArray)
+  nameWithType: Bool8Type.CreateArray(IArrowArray)
+- uid: Apache.Arrow.Bool8Type.CreateArray*
+  name: CreateArray
+  href: api/Apache.Arrow.Bool8Type.html#Apache_Arrow_Bool8Type_CreateArray_
+  commentId: Overload:Apache.Arrow.Bool8Type.CreateArray
+  isSpec: "True"
+  fullName: Apache.Arrow.Bool8Type.CreateArray
+  nameWithType: Bool8Type.CreateArray
+- uid: Apache.Arrow.Bool8Type.Default
+  name: Default
+  href: api/Apache.Arrow.Bool8Type.html#Apache_Arrow_Bool8Type_Default
+  commentId: F:Apache.Arrow.Bool8Type.Default
+  fullName: Apache.Arrow.Bool8Type.Default
+  nameWithType: Bool8Type.Default
+- uid: Apache.Arrow.Bool8Type.ExtensionMetadata
+  name: ExtensionMetadata
+  href: api/Apache.Arrow.Bool8Type.html#Apache_Arrow_Bool8Type_ExtensionMetadata
+  commentId: P:Apache.Arrow.Bool8Type.ExtensionMetadata
+  fullName: Apache.Arrow.Bool8Type.ExtensionMetadata
+  nameWithType: Bool8Type.ExtensionMetadata
+- uid: Apache.Arrow.Bool8Type.ExtensionMetadata*
+  name: ExtensionMetadata
+  href: api/Apache.Arrow.Bool8Type.html#Apache_Arrow_Bool8Type_ExtensionMetadata_
+  commentId: Overload:Apache.Arrow.Bool8Type.ExtensionMetadata
+  isSpec: "True"
+  fullName: Apache.Arrow.Bool8Type.ExtensionMetadata
+  nameWithType: Bool8Type.ExtensionMetadata
+- uid: Apache.Arrow.Bool8Type.Name
+  name: Name
+  href: api/Apache.Arrow.Bool8Type.html#Apache_Arrow_Bool8Type_Name
+  commentId: P:Apache.Arrow.Bool8Type.Name
+  fullName: Apache.Arrow.Bool8Type.Name
+  nameWithType: Bool8Type.Name
+- uid: Apache.Arrow.Bool8Type.Name*
+  name: Name
+  href: api/Apache.Arrow.Bool8Type.html#Apache_Arrow_Bool8Type_Name_
+  commentId: Overload:Apache.Arrow.Bool8Type.Name
+  isSpec: "True"
+  fullName: Apache.Arrow.Bool8Type.Name
+  nameWithType: Bool8Type.Name
 - uid: Apache.Arrow.BooleanArray
   name: BooleanArray
   href: api/Apache.Arrow.BooleanArray.html

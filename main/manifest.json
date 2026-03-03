@@ -320,6 +320,62 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Bool8Array.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Bool8Array.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Bool8Array.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Bool8Array.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Bool8Array.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Bool8Array",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Bool8Array.yml\" sourcestartlinenumber=\"1\">Extension array for 1-byte boolean values, backed by an Int8Array.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Bool8ExtensionDefinition.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Bool8ExtensionDefinition.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Bool8ExtensionDefinition",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Bool8ExtensionDefinition.yml\" sourcestartlinenumber=\"1\">Extension definition for the &quot;arrow.bool8&quot; extension type,\nbacked by the Int8 storage type.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Bool8Type.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Bool8Type.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Bool8Type",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Bool8Type.yml\" sourcestartlinenumber=\"1\">Extension type representing 1-byte boolean values</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Apache.Arrow.BooleanArray.Builder.yml",
       "output": {
         ".html": {
