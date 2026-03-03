@@ -1201,6 +1201,112 @@ namespace Apache.Arrow.Tests
             CArrowArray.Free(cArray);
         }
 
+        [SkippableFact]
+        public unsafe void ExportBool8Array()
+        {
+            // Export a C# Bool8Array via the C Data Interface and verify
+            // that Python/pyarrow sees it as an arrow.bool8 extension array
+            // with the correct values.
+
+            var builder = new Bool8Array.Builder();
+            builder.Append(true);
+            builder.Append(false);
+            builder.Append(null);
+            builder.Append(false);
+            builder.Append(true);
+            var bool8Array = builder.Build();
+
+            var field = new Field("bools", Bool8Type.Default, true);
+            var schema = new Schema(new[] { field }, null);
+            var batch = new RecordBatch(schema, new[] { bool8Array }, bool8Array.Length);
+
+            CArrowArray* cArray = CArrowArray.Create();
+            CArrowArrayExporter.ExportRecordBatch(batch, cArray);
+
+            CArrowSchema* cSchema = CArrowSchema.Create();
+            CArrowSchemaExporter.ExportSchema(batch.Schema, cSchema);
+
+            try
+            {
+                long arrayPtr = ((IntPtr)cArray).ToInt64();
+                long schemaPtr = ((IntPtr)cSchema).ToInt64();
+
+                using (Py.GIL())
+                {
+                    dynamic pa = Py.Import("pyarrow");
+
+                    dynamic pyBatch = pa.RecordBatch._import_from_c(arrayPtr, schemaPtr);
+                    dynamic pyArray = pyBatch.column(0);
+
+                    // Build the expected bool8 array in Python
+                    dynamic expectedArray = pa.array(
+                        new PyList(new PyObject[]
+                        {
+                        PyObject.FromManagedObject(true),
+                        PyObject.FromManagedObject(false),
+                        PyObject.None,
+                        PyObject.FromManagedObject(false),
+                        PyObject.FromManagedObject(true),
+                        }),
+                        type: pa.bool8());
+
+                    Assert.True((bool)pyArray.equals(expectedArray));
+                }
+            }
+            finally
+            {
+                CArrowArray.Free(cArray);
+                CArrowSchema.Free(cSchema);
+            }
+        }
+
+        [SkippableFact]
+        public unsafe void ImportBool8Array()
+        {
+            // Create a bool8 array in Python, export it via the C Data Interface,
+            // and verify that C# resolves it as a Bool8Array with correct values.
+
+            CArrowArray* cArray = CArrowArray.Create();
+            CArrowSchema* cSchema = CArrowSchema.Create();
+
+            using (Py.GIL())
+            {
+                dynamic pa = Py.Import("pyarrow");
+
+                dynamic pyArray = pa.array(
+                    new PyList(new PyObject[]
+                    {
+                        PyObject.None,
+                        PyObject.FromManagedObject(false),
+                        PyObject.FromManagedObject(true),
+                        PyObject.FromManagedObject(true),
+                    }),
+                    type: pa.bool8());
+
+                long arrayPtr = ((IntPtr)cArray).ToInt64();
+                long schemaPtr = ((IntPtr)cSchema).ToInt64();
+                pyArray._export_to_c(arrayPtr, schemaPtr);
+            }
+
+            var registry = new ExtensionTypeRegistry();
+            registry.Register(Bool8ExtensionDefinition.Instance);
+
+            Field field = CArrowSchemaImporter.ImportField(cSchema, registry);
+            Assert.IsType<Bool8Type>(field.DataType);
+
+            IArrowArray importedArray = CArrowArrayImporter.ImportArray(cArray, field.DataType);
+            Assert.IsType<Bool8Array>(importedArray);
+
+            var bool8Array = (Bool8Array)importedArray;
+            Assert.Equal(4, bool8Array.Length);
+            Assert.Null(bool8Array.GetValue(0));
+            Assert.Equal(false, bool8Array.GetValue(1));
+            Assert.Equal(true, bool8Array.GetValue(2));
+            Assert.Equal(true, bool8Array.GetValue(3));
+
+            CArrowArray.Free(cArray);
+        }
+
         private static PyObject List(params int?[] values)
         {
             return new PyList(values.Select(i => i == null ? PyObject.None : new PyInt(i.Value)).ToArray());
