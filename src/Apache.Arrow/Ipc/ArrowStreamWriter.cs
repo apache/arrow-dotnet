@@ -807,6 +807,11 @@ namespace Apache.Arrow.Ipc
 
         private protected void WriteRecordBatchInternal(RecordBatch recordBatch)
         {
+            WriteRecordBatchInternal(recordBatch, customMetadata: null);
+        }
+
+        private protected void WriteRecordBatchInternal(RecordBatch recordBatch, IReadOnlyDictionary<string, string> customMetadata)
+        {
             // TODO: Truncate buffers with extraneous padding / unused capacity
 
             if (!HasWrittenSchema)
@@ -829,6 +834,14 @@ namespace Apache.Arrow.Ipc
 
             VectorOffset buffersVectorOffset = Builder.EndVector();
 
+            // Build custom metadata for the Message if provided
+            VectorOffset customMetadataVectorOffset = default;
+            if (customMetadata != null && customMetadata.Count > 0)
+            {
+                Offset<Flatbuf.KeyValue>[] metadataOffsets = GetMetadataOffsets(customMetadata);
+                customMetadataVectorOffset = Flatbuf.Message.CreateCustomMetadataVector(Builder, metadataOffsets);
+            }
+
             // Serialize record batch
 
             StartingWritingRecordBatch();
@@ -840,14 +853,21 @@ namespace Apache.Arrow.Ipc
                 variadicCountsOffset);
 
             long metadataLength = WriteMessage(Flatbuf.MessageHeader.RecordBatch,
-                recordBatchOffset, recordBatchBuilder.TotalLength);
+                recordBatchOffset, recordBatchBuilder.TotalLength, customMetadataVectorOffset);
 
             long bufferLength = WriteBufferData(recordBatchBuilder.Buffers);
 
             FinishedWritingRecordBatch(bufferLength, metadataLength);
         }
 
+        private protected Task WriteRecordBatchInternalAsync(RecordBatch recordBatch,
+            CancellationToken cancellationToken = default)
+        {
+            return WriteRecordBatchInternalAsync(recordBatch, customMetadata: null, cancellationToken);
+        }
+
         private protected async Task WriteRecordBatchInternalAsync(RecordBatch recordBatch,
+            IReadOnlyDictionary<string, string> customMetadata,
             CancellationToken cancellationToken = default)
         {
             if (!HasWrittenSchema)
@@ -870,6 +890,14 @@ namespace Apache.Arrow.Ipc
 
             VectorOffset buffersVectorOffset = Builder.EndVector();
 
+            // Build custom metadata for the Message if provided
+            VectorOffset customMetadataVectorOffset = default;
+            if (customMetadata != null && customMetadata.Count > 0)
+            {
+                Offset<Flatbuf.KeyValue>[] metadataOffsets = GetMetadataOffsets(customMetadata);
+                customMetadataVectorOffset = Flatbuf.Message.CreateCustomMetadataVector(Builder, metadataOffsets);
+            }
+
             // Serialize record batch
 
             StartingWritingRecordBatch();
@@ -882,6 +910,7 @@ namespace Apache.Arrow.Ipc
 
             long metadataLength = await WriteMessageAsync(Flatbuf.MessageHeader.RecordBatch,
                 recordBatchOffset, recordBatchBuilder.TotalLength,
+                customMetadataVectorOffset,
                 cancellationToken).ConfigureAwait(false);
 
             long bufferLength = await WriteBufferDataAsync(recordBatchBuilder.Buffers, cancellationToken).ConfigureAwait(false);
@@ -1132,9 +1161,19 @@ namespace Apache.Arrow.Ipc
             WriteRecordBatchInternal(recordBatch);
         }
 
+        public virtual void WriteRecordBatch(RecordBatch recordBatch, IReadOnlyDictionary<string, string> customMetadata)
+        {
+            WriteRecordBatchInternal(recordBatch, customMetadata);
+        }
+
         public virtual Task WriteRecordBatchAsync(RecordBatch recordBatch, CancellationToken cancellationToken = default)
         {
             return WriteRecordBatchInternalAsync(recordBatch, cancellationToken);
+        }
+
+        public virtual Task WriteRecordBatchAsync(RecordBatch recordBatch, IReadOnlyDictionary<string, string> customMetadata, CancellationToken cancellationToken = default)
+        {
+            return WriteRecordBatchInternalAsync(recordBatch, customMetadata, cancellationToken);
         }
 
         public void WriteStart()
@@ -1347,12 +1386,13 @@ namespace Apache.Arrow.Ipc
         /// The number of bytes written to the stream.
         /// </returns>
         private protected long WriteMessage<T>(
-            Flatbuf.MessageHeader headerType, Offset<T> headerOffset, int bodyLength)
+            Flatbuf.MessageHeader headerType, Offset<T> headerOffset, int bodyLength,
+            VectorOffset customMetadataOffset = default)
             where T : struct
         {
             Offset<Flatbuf.Message> messageOffset = Flatbuf.Message.CreateMessage(
                 Builder, CurrentMetadataVersion, headerType, headerOffset.Value,
-                bodyLength);
+                bodyLength, customMetadataOffset);
 
             Builder.Finish(messageOffset.Value);
 
@@ -1376,14 +1416,23 @@ namespace Apache.Arrow.Ipc
         /// <returns>
         /// The number of bytes written to the stream.
         /// </returns>
+        private protected virtual ValueTask<long> WriteMessageAsync<T>(
+            Flatbuf.MessageHeader headerType, Offset<T> headerOffset, int bodyLength,
+            CancellationToken cancellationToken)
+            where T : struct
+        {
+            return WriteMessageAsync(headerType, headerOffset, bodyLength, default, cancellationToken);
+        }
+
         private protected virtual async ValueTask<long> WriteMessageAsync<T>(
             Flatbuf.MessageHeader headerType, Offset<T> headerOffset, int bodyLength,
+            VectorOffset customMetadataOffset,
             CancellationToken cancellationToken)
             where T : struct
         {
             Offset<Flatbuf.Message> messageOffset = Flatbuf.Message.CreateMessage(
                 Builder, CurrentMetadataVersion, headerType, headerOffset.Value,
-                bodyLength);
+                bodyLength, customMetadataOffset);
 
             Builder.Finish(messageOffset.Value);
 
