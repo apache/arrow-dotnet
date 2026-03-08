@@ -14,6 +14,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -136,5 +137,12 @@ namespace Apache.Arrow.Ipc
         {
             return _implementation.ReadNextRecordBatch();
         }
+
+        /// <summary>
+        /// Custom metadata from the most recently read RecordBatch Message.
+        /// Updated after each call to ReadNextRecordBatch/ReadNextRecordBatchAsync.
+        /// Returns null if the last batch had no custom metadata.
+        /// </summary>
+        public IReadOnlyDictionary<string, string> LastBatchCustomMetadata => _implementation.LastBatchCustomMetadata;
     }
 }
