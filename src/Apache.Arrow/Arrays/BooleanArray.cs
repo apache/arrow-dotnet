@@ -38,6 +38,12 @@ namespace Apache.Arrow
                 ValidityBuffer = new ArrowBuffer.BitmapBuilder();
             }
 
+            public Builder(int capacity)
+            {
+                ValueBuffer = new ArrowBuffer.BitmapBuilder(capacity);
+                ValidityBuffer = new ArrowBuffer.BitmapBuilder(capacity);
+            }
+
             public Builder Append(bool value)
             {
                 return NullableAppend(value);
