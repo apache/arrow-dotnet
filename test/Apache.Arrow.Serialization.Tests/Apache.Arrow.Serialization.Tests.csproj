@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <ArrowSerializerEmitSchemaJson>true</ArrowSerializerEmitSchemaJson>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Apache.Arrow.Serialization\Apache.Arrow.Serialization.csproj" />
+    <ProjectReference Include="..\..\src\Apache.Arrow.Serialization.Generator\Apache.Arrow.Serialization.Generator.csproj"
+                      OutputItemType="Analyzer" />
+  </ItemGroup>
+
+</Project>
