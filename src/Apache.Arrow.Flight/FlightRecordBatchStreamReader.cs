@@ -40,9 +40,9 @@ namespace Apache.Arrow.Flight
 
         private readonly RecordBatchReaderImplementation _arrowReaderImplementation;
 
-        private protected FlightRecordBatchStreamReader(IAsyncStreamReader<Protocol.FlightData> flightDataStream)
+        private protected FlightRecordBatchStreamReader(IAsyncStreamReader<Protocol.FlightData> flightDataStream, ICompressionCodecFactory compressionCodecFactory = null)
         {
-            _arrowReaderImplementation = new RecordBatchReaderImplementation(flightDataStream);
+            _arrowReaderImplementation = new RecordBatchReaderImplementation(flightDataStream, compressionCodecFactory);
         }
 
         public ValueTask<Schema> Schema => _arrowReaderImplementation.GetSchemaAsync();
