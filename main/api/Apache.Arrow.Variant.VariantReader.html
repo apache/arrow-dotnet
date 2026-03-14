@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Struct VariantReader | Apache Arrow .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Struct VariantReader | Apache Arrow .NET ">
+      
+      <meta name="description" content="Zero-copy reader for a single variant value. Provides type inspection and typed accessors for primitives, short strings, objects, and arrays.">
+      <link rel="icon" href="../images/favicon.png">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Apache_Arrow_Variant_VariantReader.md&amp;value=---%0Auid%3A%20Apache.Arrow.Variant.VariantReader%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.svg" alt="Apache Arrow .NET">
+            Apache Arrow .NET
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Apache.Arrow.Variant.VariantReader">
+
+
+
+  <h1 id="Apache_Arrow_Variant_VariantReader" data-uid="Apache.Arrow.Variant.VariantReader" class="text-break">
+Struct VariantReader  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L29"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Apache.html">Apache</a>.<a class="xref" href="Apache.Arrow.html">Arrow</a>.<a class="xref" href="Apache.Arrow.Variant.html">Variant</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Apache.Arrow.Variant.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Zero-copy reader for a single variant value. Provides type inspection
+and typed accessors for primitives, short strings, objects, and arrays.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ref struct VariantReader</code></pre>
+  </div>
+
+
+
+
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetype.equals">ValueType.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode">ValueType.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetype.tostring">ValueType.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Apache_Arrow_Variant_VariantReader__ctor_" data-uid="Apache.Arrow.Variant.VariantReader.#ctor*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader__ctor_System_ReadOnlySpan_System_Byte__System_ReadOnlySpan_System_Byte__" data-uid="Apache.Arrow.Variant.VariantReader.#ctor(System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte})">
+  VariantReader(ReadOnlySpan&lt;byte&gt;, ReadOnlySpan&lt;byte&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L39"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a reader over a variant value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public VariantReader(ReadOnlySpan&lt;byte&gt; metadata, ReadOnlySpan&lt;byte&gt; value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>metadata</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd><p>The variant metadata buffer (shared across all values in a column).</p>
+</dd>
+    <dt><code>value</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd><p>The variant value buffer for this specific value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_BasicType_" data-uid="Apache.Arrow.Variant.VariantReader.BasicType*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_BasicType" data-uid="Apache.Arrow.Variant.VariantReader.BasicType">
+  BasicType
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L59"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the basic type of this value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public VariantBasicType BasicType { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Variant.VariantBasicType.html">VariantBasicType</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_Header_" data-uid="Apache.Arrow.Variant.VariantReader.Header*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_Header" data-uid="Apache.Arrow.Variant.VariantReader.Header">
+  Header
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L56"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the header byte of this value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public byte Header { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_IsArray_" data-uid="Apache.Arrow.Variant.VariantReader.IsArray*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_IsArray" data-uid="Apache.Arrow.Variant.VariantReader.IsArray">
+  IsArray
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L89"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns true if this value is an array.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsArray { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_IsBoolean_" data-uid="Apache.Arrow.Variant.VariantReader.IsBoolean*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_IsBoolean" data-uid="Apache.Arrow.Variant.VariantReader.IsBoolean">
+  IsBoolean
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L73"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns true if this value is a boolean (true or false).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsBoolean { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_IsNull_" data-uid="Apache.Arrow.Variant.VariantReader.IsNull*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_IsNull" data-uid="Apache.Arrow.Variant.VariantReader.IsNull">
+  IsNull
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L68"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns true if this value is null.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsNull { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_IsNumeric_" data-uid="Apache.Arrow.Variant.VariantReader.IsNumeric*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_IsNumeric" data-uid="Apache.Arrow.Variant.VariantReader.IsNumeric">
+  IsNumeric
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L94"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns true if this value is a numeric type (any integer, float, double, or decimal).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsNumeric { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_IsObject_" data-uid="Apache.Arrow.Variant.VariantReader.IsObject*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_IsObject" data-uid="Apache.Arrow.Variant.VariantReader.IsObject">
+  IsObject
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L86"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns true if this value is an object.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsObject { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_IsString_" data-uid="Apache.Arrow.Variant.VariantReader.IsString*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_IsString" data-uid="Apache.Arrow.Variant.VariantReader.IsString">
+  IsString
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L81"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns true if this value is a string (either short string or long string primitive).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsString { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_Metadata_" data-uid="Apache.Arrow.Variant.VariantReader.Metadata*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_Metadata" data-uid="Apache.Arrow.Variant.VariantReader.Metadata">
+  Metadata
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L46"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the full metadata span.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ReadOnlySpan&lt;byte&gt; Metadata { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_PrimitiveType_" data-uid="Apache.Arrow.Variant.VariantReader.PrimitiveType*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_PrimitiveType" data-uid="Apache.Arrow.Variant.VariantReader.PrimitiveType">
+  PrimitiveType
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L64"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the primitive type when <a class="xref" href="Apache.Arrow.Variant.VariantReader.html#Apache_Arrow_Variant_VariantReader_BasicType">BasicType</a> is <a class="xref" href="Apache.Arrow.Variant.VariantBasicType.html#Apache_Arrow_Variant_VariantBasicType_Primitive">Primitive</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public VariantPrimitiveType? PrimitiveType { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Variant.VariantPrimitiveType.html">VariantPrimitiveType</a>?</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_Value_" data-uid="Apache.Arrow.Variant.VariantReader.Value*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_Value" data-uid="Apache.Arrow.Variant.VariantReader.Value">
+  Value
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L49"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the full value span.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ReadOnlySpan&lt;byte&gt; Value { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetBinary_" data-uid="Apache.Arrow.Variant.VariantReader.GetBinary*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetBinary" data-uid="Apache.Arrow.Variant.VariantReader.GetBinary">
+  GetBinary()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L444"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the binary value as a byte span.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ReadOnlySpan&lt;byte&gt; GetBinary()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetBoolean_" data-uid="Apache.Arrow.Variant.VariantReader.GetBoolean*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetBoolean" data-uid="Apache.Arrow.Variant.VariantReader.GetBoolean">
+  GetBoolean()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L132"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the boolean value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool GetBoolean()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetDate_" data-uid="Apache.Arrow.Variant.VariantReader.GetDate*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetDate" data-uid="Apache.Arrow.Variant.VariantReader.GetDate">
+  GetDate()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L384"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the date as a <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetime">DateTime</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DateTime GetDate()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetime">DateTime</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetDateDays_" data-uid="Apache.Arrow.Variant.VariantReader.GetDateDays*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetDateDays" data-uid="Apache.Arrow.Variant.VariantReader.GetDateDays">
+  GetDateDays()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L377"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the date as days since Unix epoch (1970-01-01).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int GetDateDays()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetDecimal16_" data-uid="Apache.Arrow.Variant.VariantReader.GetDecimal16*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetDecimal16" data-uid="Apache.Arrow.Variant.VariantReader.GetDecimal16">
+  GetDecimal16()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L248"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Attempts to get a Decimal16 value as a <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.decimal">decimal</a>.
+This may throw <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.overflowexception">OverflowException</a> if the value exceeds 96 bits.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public decimal GetDecimal16()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.decimal">decimal</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetDecimal16Raw_" data-uid="Apache.Arrow.Variant.VariantReader.GetDecimal16Raw*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetDecimal16Raw_System_Byte__" data-uid="Apache.Arrow.Variant.VariantReader.GetDecimal16Raw(System.Byte@)">
+  GetDecimal16Raw(out byte)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L237"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the raw scale and 16-byte unscaled value for a Decimal16.
+The 16-byte integer may exceed <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.decimal">decimal</a> range.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ReadOnlySpan&lt;byte&gt; GetDecimal16Raw(out byte scale)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>scale</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a></dt>
+    <dd><p>The scale (number of decimal digits after the point).</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd><p>The 16-byte unscaled value in little-endian byte order.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetDecimal4_" data-uid="Apache.Arrow.Variant.VariantReader.GetDecimal4*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetDecimal4" data-uid="Apache.Arrow.Variant.VariantReader.GetDecimal4">
+  GetDecimal4()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L212"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets a Decimal4 value (1-byte scale + 4-byte unscaled integer).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public decimal GetDecimal4()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.decimal">decimal</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetDecimal8_" data-uid="Apache.Arrow.Variant.VariantReader.GetDecimal8*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetDecimal8" data-uid="Apache.Arrow.Variant.VariantReader.GetDecimal8">
+  GetDecimal8()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L223"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets a Decimal8 value (1-byte scale + 8-byte unscaled integer).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public decimal GetDecimal8()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.decimal">decimal</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetDouble_" data-uid="Apache.Arrow.Variant.VariantReader.GetDouble*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetDouble" data-uid="Apache.Arrow.Variant.VariantReader.GetDouble">
+  GetDouble()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L195"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets a double value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double GetDouble()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetFloat_" data-uid="Apache.Arrow.Variant.VariantReader.GetFloat*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetFloat" data-uid="Apache.Arrow.Variant.VariantReader.GetFloat">
+  GetFloat()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L183"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets a float (Float) value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float GetFloat()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetInt16_" data-uid="Apache.Arrow.Variant.VariantReader.GetInt16*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetInt16" data-uid="Apache.Arrow.Variant.VariantReader.GetInt16">
+  GetInt16()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L158"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets an Int16 value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public short GetInt16()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int16">short</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetInt32_" data-uid="Apache.Arrow.Variant.VariantReader.GetInt32*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetInt32" data-uid="Apache.Arrow.Variant.VariantReader.GetInt32">
+  GetInt32()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L165"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets an Int32 value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int GetInt32()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetInt64_" data-uid="Apache.Arrow.Variant.VariantReader.GetInt64*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetInt64" data-uid="Apache.Arrow.Variant.VariantReader.GetInt64">
+  GetInt64()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L172"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets an Int64 value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long GetInt64()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetInt8_" data-uid="Apache.Arrow.Variant.VariantReader.GetInt8*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetInt8" data-uid="Apache.Arrow.Variant.VariantReader.GetInt8">
+  GetInt8()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L151"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets an Int8 value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sbyte GetInt8()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.sbyte">sbyte</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetSqlDecimal_" data-uid="Apache.Arrow.Variant.VariantReader.GetSqlDecimal*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetSqlDecimal" data-uid="Apache.Arrow.Variant.VariantReader.GetSqlDecimal">
+  GetSqlDecimal()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L289"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets a decimal value as a <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.sqltypes.sqldecimal">SqlDecimal</a>.
+Works for Decimal4, Decimal8, and Decimal16 types.
+Unlike <a class="xref" href="Apache.Arrow.Variant.VariantReader.html#Apache_Arrow_Variant_VariantReader_GetDecimal16">GetDecimal16()</a>, this method does not throw
+<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.overflowexception">OverflowException</a> for values exceeding 96 bits.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SqlDecimal GetSqlDecimal()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.sqltypes.sqldecimal">SqlDecimal</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetString_" data-uid="Apache.Arrow.Variant.VariantReader.GetString*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetString" data-uid="Apache.Arrow.Variant.VariantReader.GetString">
+  GetString()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L481"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the string value decoded from UTF-8.
+Works for both short strings and long string primitives (type 16).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string GetString()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetStringBytes_" data-uid="Apache.Arrow.Variant.VariantReader.GetStringBytes*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetStringBytes" data-uid="Apache.Arrow.Variant.VariantReader.GetStringBytes">
+  GetStringBytes()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L459"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the raw UTF-8 bytes of the string value.
+Works for both short strings and long string primitives (type 16).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ReadOnlySpan&lt;byte&gt; GetStringBytes()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetTimeNtzMicros_" data-uid="Apache.Arrow.Variant.VariantReader.GetTimeNtzMicros*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetTimeNtzMicros" data-uid="Apache.Arrow.Variant.VariantReader.GetTimeNtzMicros">
+  GetTimeNtzMicros()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L419"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets a TimeNTZ value as microseconds since midnight.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long GetTimeNtzMicros()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetTimestamp_" data-uid="Apache.Arrow.Variant.VariantReader.GetTimestamp*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetTimestamp" data-uid="Apache.Arrow.Variant.VariantReader.GetTimestamp">
+  GetTimestamp()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L398"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets a Timestamp as a <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetimeoffset">DateTimeOffset</a> (UTC).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DateTimeOffset GetTimestamp()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetimeoffset">DateTimeOffset</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetTimestampMicros_" data-uid="Apache.Arrow.Variant.VariantReader.GetTimestampMicros*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetTimestampMicros" data-uid="Apache.Arrow.Variant.VariantReader.GetTimestampMicros">
+  GetTimestampMicros()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L391"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets a Timestamp value as microseconds since Unix epoch (UTC).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long GetTimestampMicros()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetTimestampNtz_" data-uid="Apache.Arrow.Variant.VariantReader.GetTimestampNtz*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetTimestampNtz" data-uid="Apache.Arrow.Variant.VariantReader.GetTimestampNtz">
+  GetTimestampNtz()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L412"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets a TimestampNTZ as a <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetime">DateTime</a> (Unspecified kind).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DateTime GetTimestampNtz()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetime">DateTime</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetTimestampNtzMicros_" data-uid="Apache.Arrow.Variant.VariantReader.GetTimestampNtzMicros*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetTimestampNtzMicros" data-uid="Apache.Arrow.Variant.VariantReader.GetTimestampNtzMicros">
+  GetTimestampNtzMicros()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L405"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets a TimestampNTZ value as microseconds since epoch (no timezone).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long GetTimestampNtzMicros()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetTimestampNtzNanos_" data-uid="Apache.Arrow.Variant.VariantReader.GetTimestampNtzNanos*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetTimestampNtzNanos" data-uid="Apache.Arrow.Variant.VariantReader.GetTimestampNtzNanos">
+  GetTimestampNtzNanos()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L433"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets a TimestampNtzNanos value as nanoseconds since epoch (no timezone).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long GetTimestampNtzNanos()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetTimestampTzNanos_" data-uid="Apache.Arrow.Variant.VariantReader.GetTimestampTzNanos*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetTimestampTzNanos" data-uid="Apache.Arrow.Variant.VariantReader.GetTimestampTzNanos">
+  GetTimestampTzNanos()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L426"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets a TimestampTzNanos value as nanoseconds since Unix epoch (UTC).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long GetTimestampTzNanos()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetUuid_" data-uid="Apache.Arrow.Variant.VariantReader.GetUuid*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetUuid" data-uid="Apache.Arrow.Variant.VariantReader.GetUuid">
+  GetUuid()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L499"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the UUID value. The variant encoding stores UUIDs as 16 bytes
+in big-endian (RFC 4122) byte order.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Guid GetUuid()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.guid">Guid</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_GetUuidBytes_" data-uid="Apache.Arrow.Variant.VariantReader.GetUuidBytes*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_GetUuidBytes" data-uid="Apache.Arrow.Variant.VariantReader.GetUuidBytes">
+  GetUuidBytes()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L533"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the raw 16 UUID bytes in big-endian (RFC 4122) order.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ReadOnlySpan&lt;byte&gt; GetUuidBytes()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_ToVariantValue_" data-uid="Apache.Arrow.Variant.VariantReader.ToVariantValue*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_ToVariantValue" data-uid="Apache.Arrow.Variant.VariantReader.ToVariantValue">
+  ToVariantValue()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L580"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Materializes this variant value into a <a class="xref" href="Apache.Arrow.Variant.VariantValue.html">VariantValue</a> object.
+Recursively materializes objects and arrays.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public VariantValue ToVariantValue()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Variant.VariantValue.html">VariantValue</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Variant_VariantReader_TryGetDecimal16_" data-uid="Apache.Arrow.Variant.VariantReader.TryGetDecimal16*"></a>
+
+  <h3 id="Apache_Arrow_Variant_VariantReader_TryGetDecimal16_System_Decimal__" data-uid="Apache.Arrow.Variant.VariantReader.TryGetDecimal16(System.Decimal@)">
+  TryGetDecimal16(out decimal)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L309"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Attempts to get a Decimal16 value as a <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.decimal">decimal</a>.
+Returns false if the value exceeds 96 bits instead of throwing.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool TryGetDecimal16(out decimal value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.decimal">decimal</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantReader.cs/#L29" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2018 The Apache Software Foundation
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
