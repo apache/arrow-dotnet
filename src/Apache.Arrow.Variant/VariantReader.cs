@@ -61,7 +61,8 @@ namespace Apache.Arrow.Variant
         /// <summary>
         /// Gets the primitive type when <see cref="BasicType"/> is <see cref="VariantBasicType.Primitive"/>.
         /// </summary>
-        public VariantPrimitiveType PrimitiveType => VariantEncodingHelper.GetPrimitiveType(Header);
+        public VariantPrimitiveType? PrimitiveType =>
+            BasicType == VariantBasicType.Primitive ? VariantEncodingHelper.GetPrimitiveType(Header) : null;
 
         /// <summary>Returns true if this value is null.</summary>
         public bool IsNull =>
@@ -560,7 +561,7 @@ namespace Apache.Arrow.Variant
         private void EnsurePrimitiveType(VariantPrimitiveType expected)
         {
             EnsurePrimitive();
-            VariantPrimitiveType actual = PrimitiveType;
+            VariantPrimitiveType actual = PrimitiveType.Value;
             if (actual != expected)
             {
                 throw new InvalidOperationException(

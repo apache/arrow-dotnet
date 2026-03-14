@@ -57,7 +57,7 @@ namespace Apache.Arrow.Variant.Json
                     VariantReader reader = new VariantReader(metadata, value);
                     WriteReader(writer, reader);
                 }
-                return Encoding.UTF8.GetString(ms.GetBuffer(), 0, (int)ms.Position);
+                return Encoding.UTF8.GetString(ms.GetBuffer(), 0, checked((int)ms.Position));
             }
 #endif
         }
@@ -85,7 +85,7 @@ namespace Apache.Arrow.Variant.Json
                 {
                     VariantJsonConverter.WriteValue(writer, value);
                 }
-                return Encoding.UTF8.GetString(ms.GetBuffer(), 0, (int)ms.Position);
+                return Encoding.UTF8.GetString(ms.GetBuffer(), 0, checked((int)ms.Position));
             }
 #endif
         }
