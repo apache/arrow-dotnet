@@ -31,7 +31,8 @@ namespace Apache.Arrow.Flight.Internal
         private FlightDescriptor _flightDescriptor;
         private readonly List<ByteString> _applicationMetadatas;
 
-        public RecordBatchReaderImplementation(IAsyncStreamReader<Protocol.FlightData> streamReader)
+        public RecordBatchReaderImplementation(IAsyncStreamReader<Protocol.FlightData> streamReader, ICompressionCodecFactory compressionCodecFactory = null)
+            : base(allocator: null, compressionCodecFactory)
         {
             _flightDataStream = streamReader;
             _applicationMetadatas = new List<ByteString>();

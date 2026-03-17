@@ -15,17 +15,18 @@
 
 using System.Threading.Tasks;
 using Apache.Arrow.Flight.Internal;
+using Apache.Arrow.Ipc;
 using Grpc.Core;
 
 namespace Apache.Arrow.Flight.Server
 {
     public class FlightServerRecordBatchStreamReader : FlightRecordBatchStreamReader
     {
-        public FlightServerRecordBatchStreamReader(IAsyncStreamReader<FlightData> flightDataStream) : base(new StreamReader<FlightData, Protocol.FlightData>(flightDataStream, data => data.ToProtocol()))
+        public FlightServerRecordBatchStreamReader(IAsyncStreamReader<FlightData> flightDataStream, ICompressionCodecFactory compressionCodecFactory = null) : base(new StreamReader<FlightData, Protocol.FlightData>(flightDataStream, data => data.ToProtocol()), compressionCodecFactory)
         {
         }
 
-        internal FlightServerRecordBatchStreamReader(IAsyncStreamReader<Protocol.FlightData> flightDataStream) : base(flightDataStream)
+        internal FlightServerRecordBatchStreamReader(IAsyncStreamReader<Protocol.FlightData> flightDataStream, ICompressionCodecFactory compressionCodecFactory = null) : base(flightDataStream, compressionCodecFactory)
         {
         }
 

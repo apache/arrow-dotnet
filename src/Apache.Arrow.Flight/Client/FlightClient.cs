@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using Apache.Arrow.Flight.Internal;
 using Apache.Arrow.Flight.Protocol;
 using Apache.Arrow.Flight.Server.Internal;
+using Apache.Arrow.Ipc;
 using Grpc.Core;
 
 namespace Apache.Arrow.Flight.Client
@@ -27,15 +28,28 @@ namespace Apache.Arrow.Flight.Client
         internal static readonly Empty EmptyInstance = new Empty();
 
         private readonly FlightService.FlightServiceClient _client;
+        private readonly ICompressionCodecFactory _compressionCodecFactory;
 
         public FlightClient(ChannelBase grpcChannel)
+            : this(grpcChannel, null)
+        {
+        }
+
+        public FlightClient(ChannelBase grpcChannel, ICompressionCodecFactory compressionCodecFactory)
         {
             _client = new FlightService.FlightServiceClient(grpcChannel);
+            _compressionCodecFactory = compressionCodecFactory;
         }
 
         public FlightClient(CallInvoker callInvoker)
+            : this(callInvoker, null)
+        {
+        }
+
+        public FlightClient(CallInvoker callInvoker, ICompressionCodecFactory compressionCodecFactory)
         {
             _client = new FlightService.FlightServiceClient(callInvoker);
+            _compressionCodecFactory = compressionCodecFactory;
         }
 
         public AsyncServerStreamingCall<FlightInfo> ListFlights(FlightCriteria criteria = null, Metadata headers = null)
@@ -77,7 +91,7 @@ namespace Apache.Arrow.Flight.Client
         public FlightRecordBatchStreamingCall GetStream(FlightTicket ticket, Metadata headers, System.DateTime? deadline, CancellationToken cancellationToken = default)
         {
             var stream = _client.DoGet(ticket.ToProtocol(), headers, deadline, cancellationToken);
-            var responseStream = new FlightClientRecordBatchStreamReader(stream.ResponseStream);
+            var responseStream = new FlightClientRecordBatchStreamReader(stream.ResponseStream, _compressionCodecFactory);
             return new FlightRecordBatchStreamingCall(responseStream, stream.ResponseHeadersAsync, stream.GetStatus, stream.GetTrailers, stream.Dispose);
         }
 
@@ -207,7 +221,7 @@ namespace Apache.Arrow.Flight.Client
         {
             var channel = _client.DoExchange(headers, deadline, cancellationToken);
             var requestStream = new FlightClientRecordBatchStreamWriter(channel.RequestStream, flightDescriptor);
-            var responseStream = new FlightClientRecordBatchStreamReader(channel.ResponseStream);
+            var responseStream = new FlightClientRecordBatchStreamReader(channel.ResponseStream, _compressionCodecFactory);
             var call = new FlightRecordBatchExchangeCall(
                 requestStream,
                 responseStream,
