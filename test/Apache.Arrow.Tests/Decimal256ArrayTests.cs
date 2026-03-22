@@ -477,6 +477,82 @@ namespace Apache.Arrow.Tests
             }
         }
 
+        public class HighPrecisionGetValue
+        {
+            [Fact]
+            public void GetValueWithHighPrecisionAndScale()
+            {
+                // Exact scenario from https://github.com/apache/arrow-dotnet/issues/247
+                var array = new Decimal256Array.Builder(new Decimal256Type(76, 38))
+                    .Append(2422.85527600000m)
+                    .Build();
+
+                Assert.Equal(2422.85527600000m, array.GetValue(0));
+            }
+
+            [Fact]
+            public void GetValueWithHighScaleFractionalOnly()
+            {
+                var array = new Decimal256Array.Builder(new Decimal256Type(76, 38))
+                    .Append(0.12345678901234567890m)
+                    .Build();
+
+                Assert.Equal(0.12345678901234567890m, array.GetValue(0));
+            }
+
+            [Fact]
+            public void GetValueWithHighScaleNegative()
+            {
+                var array = new Decimal256Array.Builder(new Decimal256Type(76, 38))
+                    .Append(-2422.85527600000m)
+                    .Build();
+
+                Assert.Equal(-2422.85527600000m, array.GetValue(0));
+            }
+
+            [Fact]
+            public void GetValueWithHighScaleZero()
+            {
+                var array = new Decimal256Array.Builder(new Decimal256Type(76, 38))
+                    .Append(0m)
+                    .Build();
+
+                Assert.Equal(0m, array.GetValue(0));
+            }
+
+            [Fact]
+            public void GetValueWithHighScaleWholeNumber()
+            {
+                var array = new Decimal256Array.Builder(new Decimal256Type(76, 38))
+                    .Append(12345m)
+                    .Build();
+
+                Assert.Equal(12345m, array.GetValue(0));
+            }
+
+            [Fact]
+            public void TryGetValueReturnsTrue()
+            {
+                var array = new Decimal256Array.Builder(new Decimal256Type(76, 38))
+                    .Append(2422.85527600000m)
+                    .Build();
+
+                Assert.True(array.TryGetValue(0, out decimal? value));
+                Assert.Equal(2422.85527600000m, value);
+            }
+
+            [Fact]
+            public void TryGetValueNullReturnsTrue()
+            {
+                var array = new Decimal256Array.Builder(new Decimal256Type(76, 38))
+                    .AppendNull()
+                    .Build();
+
+                Assert.True(array.TryGetValue(0, out decimal? value));
+                Assert.Null(value);
+            }
+        }
+
         [Fact]
         public void SliceDecimal256Array()
         {

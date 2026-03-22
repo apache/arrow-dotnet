@@ -14,6 +14,9 @@
 // limitations under the License.
 
 using System;
+#if NET7_0_OR_GREATER
+using System.Buffers.Binary;
+#endif
 using System.Data.SqlTypes;
 using System.Numerics;
 
@@ -35,10 +38,117 @@ namespace Apache.Arrow
 
         private static int PowersOfTenLength => s_powersOfTen.Length - 1;
 
+#if NET7_0_OR_GREATER
+        // decimal mantissa is 96 bits unsigned
+        private static readonly UInt128 s_maxDecimalMantissa = new UInt128(0x0000_0000_FFFF_FFFF, 0xFFFF_FFFF_FFFF_FFFF);
+
+        private static readonly UInt128[] s_uint128PowersOfTen = ComputeUInt128Powers();
+
+        private static UInt128[] ComputeUInt128Powers()
+        {
+            var powers = new UInt128[39]; // 10^0 through 10^38
+            powers[0] = 1;
+            for (int i = 1; i < powers.Length; i++)
+                powers[i] = powers[i - 1] * 10;
+            return powers;
+        }
+#endif
+
         internal static decimal GetDecimal(in ArrowBuffer valueBuffer, int index, int scale, int byteWidth)
         {
             int startIndex = index * byteWidth;
             ReadOnlySpan<byte> value = valueBuffer.Span.Slice(startIndex, byteWidth);
+
+#if NET7_0_OR_GREATER
+            if (byteWidth == 16)
+            {
+                Int128 int128Value = BinaryPrimitives.ReadInt128LittleEndian(value);
+                return GetDecimalViaInt128(int128Value, scale);
+            }
+
+            if (byteWidth == 32)
+            {
+                // Check if the value fits in 128 bits (upper 128 bits are sign extension)
+                Int128 lower = BinaryPrimitives.ReadInt128LittleEndian(value);
+                Int128 upper = BinaryPrimitives.ReadInt128LittleEndian(value.Slice(16));
+                Int128 signExtension = lower < 0 ? Int128.NegativeOne : Int128.Zero;
+                if (upper == signExtension)
+                {
+                    return GetDecimalViaInt128(lower, scale);
+                }
+            }
+#endif
+
+            return GetDecimalViaBigInteger(value, scale);
+        }
+
+#if NET7_0_OR_GREATER
+        private static decimal GetDecimalViaInt128(Int128 integerValue, int scale)
+        {
+            bool negative = integerValue < 0;
+            UInt128 abs = negative ? (UInt128)(-integerValue) : (UInt128)integerValue;
+
+            // Fast path: value fits directly in decimal (96-bit mantissa, scale <= 28)
+            if (abs <= s_maxDecimalMantissa && scale <= 28)
+            {
+                return UInt128ToDecimal(abs, negative, (byte)scale);
+            }
+
+            if (scale == 0)
+            {
+                throw new OverflowException($"Value: {integerValue} is too large to be represented as a decimal");
+            }
+
+            // Split into integer and fractional parts
+            if (scale <= 38)
+            {
+                UInt128 scaleBy = s_uint128PowersOfTen[scale];
+                (UInt128 intPart, UInt128 fracPart) = UInt128.DivRem(abs, scaleBy);
+
+                if (intPart > s_maxDecimalMantissa)
+                {
+                    throw new OverflowException($"Value is too large to be represented as a decimal");
+                }
+
+                decimal intDecimal = UInt128ToDecimal(intPart, negative, 0);
+
+                // Reduce fractional part to fit decimal constraints
+                int fracScale = scale;
+                while (fracPart > s_maxDecimalMantissa || fracScale > 28)
+                {
+                    fracPart /= 10;
+                    fracScale--;
+                }
+
+                decimal fracDecimal = UInt128ToDecimal(fracPart, false, (byte)fracScale);
+                return negative ? intDecimal - fracDecimal : intDecimal + fracDecimal;
+            }
+            else
+            {
+                // scale > 38: abs < 2^127 < 10^39, so the integer part is 0 or very small.
+                // Reduce mantissa and scale together until they fit decimal constraints.
+                UInt128 mantissa = abs;
+                int decScale = scale;
+                while (mantissa > s_maxDecimalMantissa || decScale > 28)
+                {
+                    mantissa /= 10;
+                    decScale--;
+                }
+
+                return UInt128ToDecimal(mantissa, negative, (byte)decScale);
+            }
+        }
+
+        private static decimal UInt128ToDecimal(UInt128 value, bool negative, byte scale)
+        {
+            ulong lo64 = (ulong)(value & ulong.MaxValue);
+            uint hi32 = (uint)(value >> 64);
+            return new decimal((int)lo64, (int)(lo64 >> 32), (int)hi32, negative, scale);
+        }
+#endif
+
+        private static decimal GetDecimalViaBigInteger(ReadOnlySpan<byte> value, int scale)
+        {
             BigInteger integerValue;
 
 #if NETCOREAPP
@@ -61,12 +171,7 @@ namespace Apache.Arrow
                 {
                     throw new OverflowException($"Value: {integerPart} of {integerValue} is too small be represented as a decimal");
                 }
-                else if (fractionalPart > _maxDecimal || fractionalPart < _minDecimal)
-                {
-                    throw new OverflowException($"Value: {fractionalPart} of {integerValue} is too precise be represented as a decimal");
-                }
-
-                return (decimal)integerPart + DivideByScale(fractionalPart, scale);
+                return (decimal)integerPart + FractionToDecimal(fractionalPart, scale);
             }
             else
             {
@@ -203,6 +308,21 @@ namespace Apache.Arrow
 
                 return new SqlDecimal((byte)precision, (byte)scale, false, (int)(data1 & 0xffffffff), (int)(data1 >> 32), (int)(data2 & 0xffffffff), (int)(data2 >> 32));
             }
+        }
+
+        private static decimal FractionToDecimal(BigInteger fractionalPart, int scale)
+        {
+            // The fractional BigInteger may have more digits than decimal can represent (~28-29).
+            // Reduce it by dividing out powers of 10, losing the least-significant digits,
+            // then divide the remainder by the reduced scale.
+            int digitsRemoved = 0;
+            while (fractionalPart > _maxDecimal || fractionalPart < _minDecimal)
+            {
+                fractionalPart /= 10;
+                digitsRemoved++;
+            }
+
+            return DivideByScale(fractionalPart, scale - digitsRemoved);
         }
 
         private static decimal DivideByScale(BigInteger integerValue, int scale)

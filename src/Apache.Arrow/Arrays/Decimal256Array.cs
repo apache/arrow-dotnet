@@ -156,6 +156,20 @@ namespace Apache.Arrow
             return DecimalUtility.GetDecimal(ValueBuffer, Offset + index, Scale, ByteWidth);
         }
 
+        public bool TryGetValue(int index, out decimal? value)
+        {
+            try
+            {
+                value = GetValue(index);
+                return true;
+            }
+            catch (OverflowException)
+            {
+                value = null;
+                return false;
+            }
+        }
+
         public IList<decimal?> ToList(bool includeNulls = false)
         {
             var list = new List<decimal?>(Length);

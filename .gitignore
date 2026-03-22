@@ -282,3 +282,5 @@ artifacts/
 
 # add .sln files back because they are ignored by the root .gitignore file
 !*.sln
+
+BenchmarkDotNet.Artifacts/

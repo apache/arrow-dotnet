@@ -50,7 +50,7 @@ namespace Apache.Arrow.Tests
 
             [Theory]
             [InlineData(4.56, 38, 9, false)]
-            [InlineData(7.89, 76, 38, true)]
+            [InlineData(7.89, 76, 38, false)]
             public void Decimal256HasExpectedResultOrThrows(decimal d, int precision, int scale, bool shouldThrow)
             {
                 var builder = new Decimal256Array.Builder(new Decimal256Type(precision, scale));

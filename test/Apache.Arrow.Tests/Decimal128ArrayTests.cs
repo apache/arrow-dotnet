@@ -459,6 +459,62 @@ namespace Apache.Arrow.Tests
             }
         }
 
+        public class HighPrecisionGetValue
+        {
+            [Fact]
+            public void GetValueWithHighScale()
+            {
+                // Decimal128 supports up to precision 38, scale 38
+                var array = new Decimal128Array.Builder(new Decimal128Type(38, 20))
+                    .Append(2422.85527600000m)
+                    .Build();
+
+                Assert.Equal(2422.85527600000m, array.GetValue(0));
+            }
+
+            [Fact]
+            public void GetValueWithMaxScaleFractionalOnly()
+            {
+                var array = new Decimal128Array.Builder(new Decimal128Type(38, 30))
+                    .Append(0.12345678m)
+                    .Build();
+
+                Assert.Equal(0.12345678m, array.GetValue(0));
+            }
+
+            [Fact]
+            public void GetValueWithHighScaleNegative()
+            {
+                var array = new Decimal128Array.Builder(new Decimal128Type(38, 20))
+                    .Append(-2422.85527600000m)
+                    .Build();
+
+                Assert.Equal(-2422.85527600000m, array.GetValue(0));
+            }
+
+            [Fact]
+            public void TryGetValueReturnsTrue()
+            {
+                var array = new Decimal128Array.Builder(new Decimal128Type(38, 20))
+                    .Append(2422.85527600000m)
+                    .Build();
+
+                Assert.True(array.TryGetValue(0, out decimal? value));
+                Assert.Equal(2422.85527600000m, value);
+            }
+
+            [Fact]
+            public void TryGetValueNullReturnsTrue()
+            {
+                var array = new Decimal128Array.Builder(new Decimal128Type(38, 20))
+                    .AppendNull()
+                    .Build();
+
+                Assert.True(array.TryGetValue(0, out decimal? value));
+                Assert.Null(value);
+            }
+        }
+
         [Fact]
         public void SliceDecimal128Array()
         {
