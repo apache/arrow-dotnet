@@ -29,7 +29,7 @@ namespace Apache.Arrow.C
         /// <summary>
         /// Formerly-experimental feature to enable exporting managed memory to CArrowArray. Now obsolete.
         /// </summary>
-        [Obsolete]
+        [Obsolete("EnableManagedMemoryExport is obsolete and ignored; managed memory export is now always enabled and this field will be removed in a future release.")]
         public static bool EnableManagedMemoryExport;
 
 #if NET5_0_OR_GREATER
