@@ -142,7 +142,11 @@ namespace Apache.Arrow
             }
             if (remaining < 0)
             {
-                throw new ObjectDisposedException(nameof(ArrayData), "ArrayData has already been disposed.");
+                // Dispose is idempotent — multiple dispose calls are safe.
+                // This can occur when e.g. ListArray disposes its Values (a child)
+                // and then the parent ArrayData also disposes the same child.
+                Interlocked.Increment(ref _referenceCount); // restore to 0
+                return;
             }
 
             if (_parent != null)
