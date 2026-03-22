@@ -22,7 +22,7 @@ namespace Apache.Arrow
     /// <summary>
     /// A data structure to manage a list of primitive Array arrays logically as one large array
     /// </summary>
-    public class ChunkedArray
+    public class ChunkedArray : IDisposable
     {
         private IList<IArrowArray> Arrays { get; }
         public IArrowType DataType { get; }
@@ -64,12 +64,12 @@ namespace Apache.Arrow
         {
             if (offset >= Length)
             {
-                throw new ArgumentException($"Index {offset} cannot be greater than the Column's Length {Length}");
+                throw new ArgumentException($"Offset {offset} cannot be greater than Length {Length} for ChunkedArray.Slice");
             }
 
             int curArrayIndex = 0;
             int numArrays = Arrays.Count;
-            while (curArrayIndex < numArrays && offset > Arrays[curArrayIndex].Length)
+            while (curArrayIndex < numArrays && offset >= Arrays[curArrayIndex].Length)
             {
                 offset -= Arrays[curArrayIndex].Length;
                 curArrayIndex++;
@@ -101,12 +101,12 @@ namespace Apache.Arrow
         {
             if (offset >= Length)
             {
-                throw new ArgumentException($"Index {offset} cannot be greater than the Column's Length {Length}");
+                throw new ArgumentException($"Offset {offset} cannot be greater than Length {Length} for ChunkedArray.SliceShared");
             }
 
             int curArrayIndex = 0;
             int numArrays = Arrays.Count;
-            while (curArrayIndex < numArrays && offset > Arrays[curArrayIndex].Length)
+            while (curArrayIndex < numArrays && offset >= Arrays[curArrayIndex].Length)
             {
                 offset -= Arrays[curArrayIndex].Length;
                 curArrayIndex++;
@@ -127,6 +127,14 @@ namespace Apache.Arrow
         public ChunkedArray SliceShared(long offset)
         {
             return SliceShared(offset, Length - offset);
+        }
+
+        public void Dispose()
+        {
+            foreach (IArrowArray array in Arrays)
+            {
+                array.Dispose();
+            }
         }
 
         public override string ToString() => $"{nameof(ChunkedArray)}: Length={Length}, DataType={DataType.Name}";

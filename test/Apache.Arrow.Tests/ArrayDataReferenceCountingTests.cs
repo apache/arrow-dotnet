@@ -404,8 +404,7 @@ namespace Apache.Arrow.Tests
             var arr0 = (Int32Array)sliced.ArrowArray(0);
             Assert.Equal(1, arr0.GetValue(0));
 
-            for (int i = 0; i < sliced.ArrayCount; i++)
-                sliced.ArrowArray(i).Dispose();
+            sliced.Dispose();
         }
 
         [Fact]
@@ -422,8 +421,7 @@ namespace Apache.Arrow.Tests
             Assert.Equal(2, arr.GetValue(0));
             Assert.Equal(4, arr.GetValue(2));
 
-            for (int i = 0; i < sliced.ArrayCount; i++)
-                sliced.ArrowArray(i).Dispose();
+            sliced.Dispose();
         }
 
         // ---------------------------------------------------------------
@@ -445,8 +443,7 @@ namespace Apache.Arrow.Tests
             Assert.Equal(1, arr.GetValue(0));
             Assert.Equal(3, arr.GetValue(2));
 
-            for (int i = 0; i < sliced.Data.ArrayCount; i++)
-                sliced.Data.ArrowArray(i).Dispose();
+            sliced.Dispose();
         }
 
         [Fact]
@@ -464,8 +461,7 @@ namespace Apache.Arrow.Tests
             Assert.Equal(30, arr.GetValue(0));
             Assert.Equal(40, arr.GetValue(1));
 
-            for (int i = 0; i < sliced.Data.ArrayCount; i++)
-                sliced.Data.ArrowArray(i).Dispose();
+            sliced.Dispose();
         }
 
         // ---------------------------------------------------------------
@@ -719,8 +715,7 @@ namespace Apache.Arrow.Tests
             chunk2.Dispose();
             Assert.True(allocator.Rented > 0);
 
-            for (int i = 0; i < sliced.ArrayCount; i++)
-                sliced.ArrowArray(i).Dispose();
+            sliced.Dispose();
             Assert.Equal(0, allocator.Rented);
         }
 
@@ -736,8 +731,7 @@ namespace Apache.Arrow.Tests
             array.Dispose();
             Assert.True(allocator.Rented > 0);
 
-            for (int i = 0; i < sliced.Data.ArrayCount; i++)
-                sliced.Data.ArrowArray(i).Dispose();
+            sliced.Dispose();
             Assert.Equal(0, allocator.Rented);
         }
     }

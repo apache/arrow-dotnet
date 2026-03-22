@@ -22,7 +22,7 @@ namespace Apache.Arrow
     /// <summary>
     /// A Column data structure that logically represents a column in a dataset
     /// </summary>
-    public class Column
+    public class Column : IDisposable
     {
         public Field Field { get; }
         public ChunkedArray Data { get; }
@@ -64,8 +64,8 @@ namespace Apache.Arrow
 
         /// <summary>
         /// Slice this column with shared ownership. The returned slice keeps the
-        /// underlying buffers alive via reference counting. The caller must dispose
-        /// the returned column when done.
+        /// underlying buffers alive via reference counting. The caller must
+        /// dispose the returned column when done.
         /// </summary>
         public Column SliceShared(int offset, int length)
         {
@@ -75,6 +75,11 @@ namespace Apache.Arrow
         public Column SliceShared(int offset)
         {
             return new Column(Field, Data.SliceShared(offset));
+        }
+
+        public void Dispose()
+        {
+            Data.Dispose();
         }
 
         private bool ValidateArrayDataTypes()
