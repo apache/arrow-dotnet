@@ -304,6 +304,171 @@ namespace Apache.Arrow.Tests
         }
 
         // ---------------------------------------------------------------
+        // Array.SliceShared tests
+        // ---------------------------------------------------------------
+
+        [Fact]
+        public void Array_SliceShared_KeepsParentAlive()
+        {
+            var array = BuildInt32Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+            var sliced = (Int32Array)array.SliceShared(2, 5);
+
+            array.Dispose();
+
+            Assert.Equal(5, sliced.Length);
+            Assert.Equal(2, sliced.GetValue(0));
+            Assert.Equal(6, sliced.GetValue(4));
+
+            sliced.Dispose();
+        }
+
+        [Fact]
+        public void Array_SliceShared_DisposeSliceFirst()
+        {
+            var array = BuildInt32Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+            var sliced = array.SliceShared(3, 4);
+
+            sliced.Dispose();
+
+            Assert.Equal(10, array.Length);
+            Assert.Equal(0, array.GetValue(0));
+
+            array.Dispose();
+        }
+
+        // ---------------------------------------------------------------
+        // RecordBatch.SliceShared tests
+        // ---------------------------------------------------------------
+
+        [Fact]
+        public void RecordBatch_SliceShared_KeepsParentAlive()
+        {
+            var col1 = BuildInt32Array(0, 1, 2, 3, 4);
+            var col2 = BuildInt32Array(10, 11, 12, 13, 14);
+            var schema = new Schema.Builder()
+                .Field(new Field("a", Int32Type.Default, false))
+                .Field(new Field("b", Int32Type.Default, false))
+                .Build();
+
+            var batch = new RecordBatch(schema, new IArrowArray[] { col1, col2 }, 5);
+            var sliced = batch.SliceShared(1, 3);
+
+            batch.Dispose();
+
+            Assert.Equal(3, sliced.Length);
+            var a = (Int32Array)sliced.Column(0);
+            var b = (Int32Array)sliced.Column(1);
+            Assert.Equal(1, a.GetValue(0));
+            Assert.Equal(3, a.GetValue(2));
+            Assert.Equal(11, b.GetValue(0));
+            Assert.Equal(13, b.GetValue(2));
+
+            sliced.Dispose();
+        }
+
+        [Fact]
+        public void RecordBatch_SliceShared_DisposeSliceFirst()
+        {
+            var col1 = BuildInt32Array(0, 1, 2, 3, 4);
+            var schema = new Schema.Builder()
+                .Field(new Field("a", Int32Type.Default, false))
+                .Build();
+
+            var batch = new RecordBatch(schema, new IArrowArray[] { col1 }, 5);
+            var sliced = batch.SliceShared(1, 2);
+
+            sliced.Dispose();
+
+            Assert.Equal(5, batch.Length);
+            Assert.Equal(0, ((Int32Array)batch.Column(0)).GetValue(0));
+
+            batch.Dispose();
+        }
+
+        // ---------------------------------------------------------------
+        // ChunkedArray.SliceShared tests
+        // ---------------------------------------------------------------
+
+        [Fact]
+        public void ChunkedArray_SliceShared_KeepsParentAlive()
+        {
+            var chunk1 = BuildInt32Array(0, 1, 2);
+            var chunk2 = BuildInt32Array(3, 4, 5);
+            var chunked = new ChunkedArray(new IArrowArray[] { chunk1, chunk2 });
+            var sliced = chunked.SliceShared(1, 4);
+
+            chunk1.Dispose();
+            chunk2.Dispose();
+
+            Assert.Equal(4, sliced.Length);
+            var arr0 = (Int32Array)sliced.ArrowArray(0);
+            Assert.Equal(1, arr0.GetValue(0));
+
+            for (int i = 0; i < sliced.ArrayCount; i++)
+                sliced.ArrowArray(i).Dispose();
+        }
+
+        [Fact]
+        public void ChunkedArray_SliceShared_SingleArgOverload()
+        {
+            var chunk1 = BuildInt32Array(0, 1, 2, 3, 4);
+            var chunked = new ChunkedArray(new IArrowArray[] { chunk1 });
+            var sliced = chunked.SliceShared(2);
+
+            chunk1.Dispose();
+
+            Assert.Equal(3, sliced.Length);
+            var arr = (Int32Array)sliced.ArrowArray(0);
+            Assert.Equal(2, arr.GetValue(0));
+            Assert.Equal(4, arr.GetValue(2));
+
+            for (int i = 0; i < sliced.ArrayCount; i++)
+                sliced.ArrowArray(i).Dispose();
+        }
+
+        // ---------------------------------------------------------------
+        // Column.SliceShared tests
+        // ---------------------------------------------------------------
+
+        [Fact]
+        public void Column_SliceShared_KeepsParentAlive()
+        {
+            var array = BuildInt32Array(0, 1, 2, 3, 4);
+            var field = new Field("x", Int32Type.Default, false);
+            var column = new Column(field, new IArrowArray[] { array });
+            var sliced = column.SliceShared(1, 3);
+
+            array.Dispose();
+
+            Assert.Equal(3, sliced.Length);
+            var arr = (Int32Array)sliced.Data.ArrowArray(0);
+            Assert.Equal(1, arr.GetValue(0));
+            Assert.Equal(3, arr.GetValue(2));
+
+            for (int i = 0; i < sliced.Data.ArrayCount; i++)
+                sliced.Data.ArrowArray(i).Dispose();
+        }
+
+        [Fact]
+        public void Column_SliceShared_SingleArgOverload()
+        {
+            var array = BuildInt32Array(10, 20, 30, 40);
+            var field = new Field("x", Int32Type.Default, false);
+            var column = new Column(field, new IArrowArray[] { array });
+            var sliced = column.SliceShared(2);
+
+            array.Dispose();
+
+            Assert.Equal(2, sliced.Length);
+            var arr = (Int32Array)sliced.Data.ArrowArray(0);
+            Assert.Equal(30, arr.GetValue(0));
+            Assert.Equal(40, arr.GetValue(1));
+
+            for (int i = 0; i < sliced.Data.ArrayCount; i++)
+                sliced.Data.ArrowArray(i).Dispose();
+        }
+
+        // ---------------------------------------------------------------
         // Tracking-allocator tests: verify no leaks and no double-frees.
         // TestMemoryAllocator tracks outstanding allocations via Rented,
         // and throws ObjectDisposedException on double-free.
@@ -505,6 +670,75 @@ namespace Apache.Arrow.Tests
 
             Assert.Equal(0, allocator.Rented);
             CArrowArray.Free(cArray);
+        }
+        [Fact]
+        public void Tracked_Array_SliceShared_FreesWhenSliceDisposed()
+        {
+            var allocator = new TestMemoryAllocator();
+            var array = BuildInt32Array(allocator, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+            var sliced = array.SliceShared(2, 5);
+
+            array.Dispose();
+            Assert.True(allocator.Rented > 0);
+
+            sliced.Dispose();
+            Assert.Equal(0, allocator.Rented);
+        }
+
+        [Fact]
+        public void Tracked_RecordBatch_SliceShared_FreesWhenSliceDisposed()
+        {
+            var allocator = new TestMemoryAllocator();
+            var col1 = BuildInt32Array(allocator, 0, 1, 2, 3, 4);
+            var col2 = BuildInt32Array(allocator, 10, 11, 12, 13, 14);
+            var schema = new Schema.Builder()
+                .Field(new Field("a", Int32Type.Default, false))
+                .Field(new Field("b", Int32Type.Default, false))
+                .Build();
+
+            var batch = new RecordBatch(schema, new IArrowArray[] { col1, col2 }, 5);
+            var sliced = batch.SliceShared(1, 3);
+
+            batch.Dispose();
+            Assert.True(allocator.Rented > 0);
+
+            sliced.Dispose();
+            Assert.Equal(0, allocator.Rented);
+        }
+
+        [Fact]
+        public void Tracked_ChunkedArray_SliceShared_FreesWhenSliceDisposed()
+        {
+            var allocator = new TestMemoryAllocator();
+            var chunk1 = BuildInt32Array(allocator, 0, 1, 2);
+            var chunk2 = BuildInt32Array(allocator, 3, 4, 5);
+            var chunked = new ChunkedArray(new IArrowArray[] { chunk1, chunk2 });
+            var sliced = chunked.SliceShared(1, 4);
+
+            chunk1.Dispose();
+            chunk2.Dispose();
+            Assert.True(allocator.Rented > 0);
+
+            for (int i = 0; i < sliced.ArrayCount; i++)
+                sliced.ArrowArray(i).Dispose();
+            Assert.Equal(0, allocator.Rented);
+        }
+
+        [Fact]
+        public void Tracked_Column_SliceShared_FreesWhenSliceDisposed()
+        {
+            var allocator = new TestMemoryAllocator();
+            var array = BuildInt32Array(allocator, 0, 1, 2, 3, 4);
+            var field = new Field("x", Int32Type.Default, false);
+            var column = new Column(field, new IArrowArray[] { array });
+            var sliced = column.SliceShared(1, 3);
+
+            array.Dispose();
+            Assert.True(allocator.Rented > 0);
+
+            for (int i = 0; i < sliced.Data.ArrayCount; i++)
+                sliced.Data.ArrowArray(i).Dispose();
+            Assert.Equal(0, allocator.Rented);
         }
     }
 }

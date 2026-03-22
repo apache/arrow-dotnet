@@ -135,9 +135,14 @@ namespace Apache.Arrow
 
         public void Dispose()
         {
-            if (Interlocked.Decrement(ref _referenceCount) != 0)
+            int remaining = Interlocked.Decrement(ref _referenceCount);
+            if (remaining > 0)
             {
                 return;
+            }
+            if (remaining < 0)
+            {
+                throw new ObjectDisposedException(nameof(ArrayData), "ArrayData has already been disposed.");
             }
 
             if (_parent != null)
@@ -182,24 +187,7 @@ namespace Apache.Arrow
 
             length = Math.Min(Length - offset, length);
             offset += Offset;
-
-            int nullCount;
-            if (NullCount == 0)
-            {
-                nullCount = 0;
-            }
-            else if (NullCount == Length)
-            {
-                nullCount = length;
-            }
-            else if (offset == Offset && length == Length)
-            {
-                nullCount = NullCount;
-            }
-            else
-            {
-                nullCount = RecalculateNullCount;
-            }
+            int nullCount = ComputeSliceNullCount(offset, length);
 
             return new ArrayData(DataType, length, nullCount, offset, Buffers, Children, Dictionary);
         }
@@ -218,28 +206,28 @@ namespace Apache.Arrow
 
             length = Math.Min(Length - offset, length);
             offset += Offset;
-
-            int nullCount;
-            if (NullCount == 0)
-            {
-                nullCount = 0;
-            }
-            else if (NullCount == Length)
-            {
-                nullCount = length;
-            }
-            else if (offset == Offset && length == Length)
-            {
-                nullCount = NullCount;
-            }
-            else
-            {
-                nullCount = RecalculateNullCount;
-            }
+            int nullCount = ComputeSliceNullCount(offset, length);
 
             var root = _parent ?? this;
             root.Acquire();
             return new ArrayData(root, DataType, length, nullCount, offset, Buffers, Children, Dictionary);
+        }
+
+        private int ComputeSliceNullCount(int sliceOffset, int sliceLength)
+        {
+            if (NullCount == 0)
+            {
+                return 0;
+            }
+            if (NullCount == Length)
+            {
+                return sliceLength;
+            }
+            if (sliceOffset == Offset && sliceLength == Length)
+            {
+                return NullCount;
+            }
+            return RecalculateNullCount;
         }
 
         public ArrayData Clone(MemoryAllocator allocator = default)

@@ -73,21 +73,18 @@ namespace Apache.Arrow
             _memoryOwner?.Dispose();
         }
 
-        internal bool TryExport(ExportedAllocationOwner newOwner, out IntPtr ptr)
+        internal IntPtr Export(ExportedAllocationOwner newOwner)
         {
             if (IsEmpty)
             {
-                // _memoryOwner could be anything (for example null or a NullMemoryOwner), but it doesn't matter here
-                ptr = IntPtr.Zero;
-                return true;
+                return IntPtr.Zero;
             }
 
             // Pin the memory and let the ExportedAllocationOwner track the handle.
             // The caller is responsible for keeping the underlying ArrayData alive
             // (via AddReference) so the memory owner is not disposed while pinned.
             var handle = Memory.Pin();
-            ptr = newOwner.Reference(handle);
-            return true;
+            return newOwner.Reference(handle);
         }
     }
 }

@@ -111,6 +111,22 @@ namespace Apache.Arrow
             return new RecordBatch(Schema, _arrays.Select(a => ArrowArrayFactory.Slice(a, offset, length)), length);
         }
 
+        /// <summary>
+        /// Slice this record batch with shared ownership. The returned slice keeps the
+        /// underlying buffers alive via reference counting. The caller must dispose
+        /// the returned record batch when done.
+        /// </summary>
+        public RecordBatch SliceShared(int offset, int length)
+        {
+            if (offset > Length)
+            {
+                throw new ArgumentException($"Offset {offset} cannot be greater than Length {Length} for RecordBatch.SliceShared");
+            }
+
+            length = Math.Min(Length - offset, length);
+            return new RecordBatch(Schema, _arrays.Select(a => ArrowArrayFactory.SliceShared(a, offset, length)), length);
+        }
+
         public void Accept(IArrowArrayVisitor visitor)
         {
             switch (visitor)

@@ -92,6 +92,43 @@ namespace Apache.Arrow
             return Slice(offset, Length - offset);
         }
 
+        /// <summary>
+        /// Slice this chunked array with shared ownership. The returned slice keeps the
+        /// underlying buffers alive via reference counting. The caller must dispose
+        /// the returned chunked array when done.
+        /// </summary>
+        public ChunkedArray SliceShared(long offset, long length)
+        {
+            if (offset >= Length)
+            {
+                throw new ArgumentException($"Index {offset} cannot be greater than the Column's Length {Length}");
+            }
+
+            int curArrayIndex = 0;
+            int numArrays = Arrays.Count;
+            while (curArrayIndex < numArrays && offset > Arrays[curArrayIndex].Length)
+            {
+                offset -= Arrays[curArrayIndex].Length;
+                curArrayIndex++;
+            }
+
+            IList<IArrowArray> newArrays = new List<IArrowArray>();
+            while (curArrayIndex < numArrays && length > 0)
+            {
+                newArrays.Add(ArrowArrayFactory.SliceShared(Arrays[curArrayIndex], (int)offset,
+                              length > Arrays[curArrayIndex].Length ? Arrays[curArrayIndex].Length : (int)length));
+                length -= Arrays[curArrayIndex].Length - offset;
+                offset = 0;
+                curArrayIndex++;
+            }
+            return new ChunkedArray(newArrays);
+        }
+
+        public ChunkedArray SliceShared(long offset)
+        {
+            return SliceShared(offset, Length - offset);
+        }
+
         public override string ToString() => $"{nameof(ChunkedArray)}: Length={Length}, DataType={DataType.Name}";
 
         private static IArrowArray[] Cast(IList<Array> arrays)

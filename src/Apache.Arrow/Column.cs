@@ -62,6 +62,21 @@ namespace Apache.Arrow
             return new Column(Field, Data.Slice(offset));
         }
 
+        /// <summary>
+        /// Slice this column with shared ownership. The returned slice keeps the
+        /// underlying buffers alive via reference counting. The caller must dispose
+        /// the returned column when done.
+        /// </summary>
+        public Column SliceShared(int offset, int length)
+        {
+            return new Column(Field, Data.SliceShared(offset, length));
+        }
+
+        public Column SliceShared(int offset)
+        {
+            return new Column(Field, Data.SliceShared(offset));
+        }
+
         private bool ValidateArrayDataTypes()
         {
             var dataTypeComparer = new ArrayDataTypeComparer(Field.DataType);

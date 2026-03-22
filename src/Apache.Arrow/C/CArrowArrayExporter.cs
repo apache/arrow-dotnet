@@ -143,11 +143,7 @@ namespace Apache.Arrow.C
                 for (int i = 0; i < array.Buffers.Length; i++)
                 {
                     ArrowBuffer buffer = array.Buffers[i];
-                    IntPtr ptr;
-                    if (!buffer.TryExport(sharedOwner, out ptr))
-                    {
-                        throw new NotSupportedException($"An ArrowArray of type {array.DataType.TypeId} could not be exported: failed on buffer #{i}");
-                    }
+                    IntPtr ptr = buffer.Export(sharedOwner);
                     cArray->buffers[i] = (byte*)ptr;
                     if (lengths != null && i >= 2)
                     {
