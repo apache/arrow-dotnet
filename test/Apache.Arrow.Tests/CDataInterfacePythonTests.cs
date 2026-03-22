@@ -740,58 +740,55 @@ namespace Apache.Arrow.Tests
         [SkippableFact]
         public unsafe void ExportManagedMemoryArray()
         {
-            using (new EnableManagedExport())
+            var expectedValues = Enumerable.Range(0, 100).Select(i => i % 10 == 3 ? null : (long?)i).ToArray();
+            var gcRefs = new List<WeakReference>();
+
+            void TestExport()
             {
-                var expectedValues = Enumerable.Range(0, 100).Select(i => i % 10 == 3 ? null : (long?)i).ToArray();
-                var gcRefs = new List<WeakReference>();
+                var array = CreateManagedMemoryArray(expectedValues, gcRefs);
 
-                void TestExport()
+                dynamic pyArray;
+                using (Py.GIL())
                 {
-                    var array = CreateManagedMemoryArray(expectedValues, gcRefs);
-
-                    dynamic pyArray;
-                    using (Py.GIL())
-                    {
-                        dynamic pa = Py.Import("pyarrow");
-                        pyArray = pa.array(expectedValues);
-                    }
-
-                    CArrowArray* cArray = CArrowArray.Create();
-                    CArrowArrayExporter.ExportArray(array, cArray);
-
-                    CArrowSchema* cSchema = CArrowSchema.Create();
-                    CArrowSchemaExporter.ExportType(array.Data.DataType, cSchema);
-
-                    GcCollect();
-                    foreach (var weakRef in gcRefs)
-                    {
-                        Assert.True(weakRef.IsAlive);
-                    }
-
-                    long arrayPtr = ((IntPtr)cArray).ToInt64();
-                    long schemaPtr = ((IntPtr)cSchema).ToInt64();
-
-                    using (Py.GIL())
-                    {
-                        dynamic pa = Py.Import("pyarrow");
-                        dynamic exportedPyArray = pa.Array._import_from_c(arrayPtr, schemaPtr);
-                        Assert.True(exportedPyArray == pyArray);
-
-                        // Required for the Python object to be garbage collected:
-                        exportedPyArray.Dispose();
-                    }
-
-                    CArrowArray.Free(cArray);
-                    CArrowSchema.Free(cSchema);
+                    dynamic pa = Py.Import("pyarrow");
+                    pyArray = pa.array(expectedValues);
                 }
 
-                TestExport();
+                CArrowArray* cArray = CArrowArray.Create();
+                CArrowArrayExporter.ExportArray(array, cArray);
+
+                CArrowSchema* cSchema = CArrowSchema.Create();
+                CArrowSchemaExporter.ExportType(array.Data.DataType, cSchema);
 
                 GcCollect();
                 foreach (var weakRef in gcRefs)
                 {
-                    Assert.False(weakRef.IsAlive);
+                    Assert.True(weakRef.IsAlive);
                 }
+
+                long arrayPtr = ((IntPtr)cArray).ToInt64();
+                long schemaPtr = ((IntPtr)cSchema).ToInt64();
+
+                using (Py.GIL())
+                {
+                    dynamic pa = Py.Import("pyarrow");
+                    dynamic exportedPyArray = pa.Array._import_from_c(arrayPtr, schemaPtr);
+                    Assert.True(exportedPyArray == pyArray);
+
+                    // Required for the Python object to be garbage collected:
+                    exportedPyArray.Dispose();
+                }
+
+                CArrowArray.Free(cArray);
+                CArrowSchema.Free(cSchema);
+            }
+
+            TestExport();
+
+            GcCollect();
+            foreach (var weakRef in gcRefs)
+            {
+                Assert.False(weakRef.IsAlive);
             }
         }
 
@@ -1009,7 +1006,6 @@ namespace Apache.Arrow.Tests
             var originalBatch = GetTestRecordBatch();
             dynamic pyBatch = GetPythonRecordBatch();
 
-            using (new EnableManagedExport())
             using (var stream = new MemoryStream())
             {
                 var writer = new ArrowStreamWriter(stream, originalBatch.Schema);
@@ -1061,7 +1057,6 @@ namespace Apache.Arrow.Tests
 
             var originalBatch = GetTestRecordBatch();
 
-            using (new EnableManagedExport())
             using (var stream = new MemoryStream())
             {
                 var writer = new ArrowStreamWriter(stream, originalBatch.Schema);
@@ -1389,22 +1384,6 @@ namespace Apache.Arrow.Tests
             public void Dispose()
             {
                 _index = -1;
-            }
-        }
-
-        sealed class EnableManagedExport : IDisposable
-        {
-            readonly bool _previousValue;
-
-            public EnableManagedExport()
-            {
-                _previousValue = CArrowArrayExporter.EnableManagedMemoryExport;
-                CArrowArrayExporter.EnableManagedMemoryExport = true;
-            }
-
-            public void Dispose()
-            {
-                CArrowArrayExporter.EnableManagedMemoryExport = _previousValue;
             }
         }
     }

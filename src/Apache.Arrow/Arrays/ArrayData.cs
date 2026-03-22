@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Apache.Arrow.Memory;
 using Apache.Arrow.Types;
 
@@ -24,6 +25,9 @@ namespace Apache.Arrow
     public sealed class ArrayData : IDisposable
     {
         private const int RecalculateNullCount = -1;
+
+        private int _referenceCount = 1;
+        private readonly ArrayData _parent; // non-null for slices; the parent owns the buffers
 
         public readonly IArrowType DataType;
         public readonly int Length;
@@ -97,8 +101,52 @@ namespace Apache.Arrow
             Dictionary = dictionary;
         }
 
+        private ArrayData(
+            ArrayData parent,
+            IArrowType dataType,
+            int length, int nullCount, int offset,
+            ArrowBuffer[] buffers, ArrayData[] children, ArrayData dictionary)
+        {
+            _parent = parent;
+            DataType = dataType ?? NullType.Default;
+            Length = length;
+            NullCount = nullCount;
+            Offset = offset;
+            Buffers = buffers;
+            Children = children;
+            Dictionary = dictionary;
+        }
+
+        /// <summary>
+        /// Increment the reference count, allowing this ArrayData to be shared
+        /// across multiple owners. Each call to Acquire must be balanced by a
+        /// call to <see cref="Dispose"/>.
+        /// </summary>
+        /// <returns>This instance.</returns>
+        public ArrayData Acquire()
+        {
+            if (Interlocked.Increment(ref _referenceCount) <= 1)
+            {
+                Interlocked.Decrement(ref _referenceCount);
+                throw new ObjectDisposedException(nameof(ArrayData));
+            }
+            return this;
+        }
+
         public void Dispose()
         {
+            if (Interlocked.Decrement(ref _referenceCount) != 0)
+            {
+                return;
+            }
+
+            if (_parent != null)
+            {
+                // This is a slice — the parent owns the buffers, children, and dictionary.
+                _parent.Dispose();
+                return;
+            }
+
             if (Buffers != null)
             {
                 foreach (ArrowBuffer buffer in Buffers)
@@ -118,6 +166,13 @@ namespace Apache.Arrow
             Dictionary?.Dispose();
         }
 
+        /// <summary>
+        /// Slice this ArrayData without ownership tracking. The returned slice shares
+        /// the underlying buffers but does not keep them alive — the caller must ensure
+        /// the original ArrayData outlives the slice.
+        /// Consider using <see cref="SliceShared"/> instead, which uses reference counting
+        /// to keep the underlying buffers alive for the lifetime of the slice.
+        /// </summary>
         public ArrayData Slice(int offset, int length)
         {
             if (offset > Length)
@@ -147,6 +202,44 @@ namespace Apache.Arrow
             }
 
             return new ArrayData(DataType, length, nullCount, offset, Buffers, Children, Dictionary);
+        }
+
+        /// <summary>
+        /// Slice this ArrayData with shared ownership. The returned slice keeps the
+        /// underlying buffers alive via reference counting. The caller must dispose the
+        /// returned ArrayData when done.
+        /// </summary>
+        public ArrayData SliceShared(int offset, int length)
+        {
+            if (offset > Length)
+            {
+                throw new ArgumentException($"Offset {offset} cannot be greater than Length {Length} for Array.SliceShared");
+            }
+
+            length = Math.Min(Length - offset, length);
+            offset += Offset;
+
+            int nullCount;
+            if (NullCount == 0)
+            {
+                nullCount = 0;
+            }
+            else if (NullCount == Length)
+            {
+                nullCount = length;
+            }
+            else if (offset == Offset && length == Length)
+            {
+                nullCount = NullCount;
+            }
+            else
+            {
+                nullCount = RecalculateNullCount;
+            }
+
+            var root = _parent ?? this;
+            root.Acquire();
+            return new ArrayData(root, DataType, length, nullCount, offset, Buffers, Children, Dictionary);
         }
 
         public ArrayData Clone(MemoryAllocator allocator = default)

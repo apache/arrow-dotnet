@@ -25,6 +25,7 @@ namespace Apache.Arrow.Memory
     {
         private readonly List<IntPtr> _pointers = new List<IntPtr>();
         private readonly List<MemoryHandle> _handles = new List<MemoryHandle>();
+        private readonly List<ArrayData> _arrayDataRefs = new List<ArrayData>();
         private long _allocationSize;
         private long _referenceCount;
         private bool _disposed;
@@ -51,6 +52,15 @@ namespace Apache.Arrow.Memory
         {
             _handles.Add(handle);
             return new IntPtr(handle.Pointer);
+        }
+
+        /// <summary>
+        /// Hold a reference to an ArrayData, keeping it alive until this owner is disposed.
+        /// </summary>
+        public void AddReference(ArrayData data)
+        {
+            data.Acquire();
+            _arrayDataRefs.Add(data);
         }
 
         public void IncRef()
@@ -86,6 +96,11 @@ namespace Apache.Arrow.Memory
             {
                 _handles[i].Dispose();
                 _handles[i] = default;
+            }
+
+            for (int i = 0; i < _arrayDataRefs.Count; i++)
+            {
+                _arrayDataRefs[i].Dispose();
             }
 
             GC.RemoveMemoryPressure(_allocationSize);

@@ -16,7 +16,6 @@
 using System;
 using System.Buffers;
 using System.Runtime.CompilerServices;
-using Apache.Arrow.C;
 using Apache.Arrow.Memory;
 
 namespace Apache.Arrow
@@ -83,22 +82,12 @@ namespace Apache.Arrow
                 return true;
             }
 
-            if (_memoryOwner is IOwnableAllocation ownable && ownable.TryAcquire(out ptr, out int offset, out int length))
-            {
-                newOwner.Acquire(ptr, offset, length);
-                ptr += offset;
-                return true;
-            }
-
-            if (_memoryOwner == null && CArrowArrayExporter.EnableManagedMemoryExport)
-            {
-                var handle = _memory.Pin();
-                ptr = newOwner.Reference(handle);
-                return true;
-            }
-
-            ptr = IntPtr.Zero;
-            return false;
+            // Pin the memory and let the ExportedAllocationOwner track the handle.
+            // The caller is responsible for keeping the underlying ArrayData alive
+            // (via AddReference) so the memory owner is not disposed while pinned.
+            var handle = Memory.Pin();
+            ptr = newOwner.Reference(handle);
+            return true;
         }
     }
 }

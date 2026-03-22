@@ -58,7 +58,9 @@ namespace Apache.Arrow.Tests
             public void Dispose()
             {
                 if (_disposed)
-                    return;
+                {
+                    throw new ObjectDisposedException(nameof(TestMemoryOwner), "Double-free detected");
+                }
                 _disposed = true;
                 Interlocked.Decrement(ref _allocator._rented);
                 _inner?.Dispose();

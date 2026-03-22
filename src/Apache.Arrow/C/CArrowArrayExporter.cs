@@ -27,9 +27,10 @@ namespace Apache.Arrow.C
     public static class CArrowArrayExporter
     {
         /// <summary>
-        /// Experimental feature to enable exporting managed memory to CArrowArray. Use with caution.
+        /// Formerly-experimental feature to enable exporting managed memory to CArrowArray. Now obsolete.
         /// </summary>
-        public static bool EnableManagedMemoryExport = false;
+        [Obsolete]
+        public static bool EnableManagedMemoryExport;
 
 #if NET5_0_OR_GREATER
         private static unsafe delegate* unmanaged<CArrowArray*, void> ReleaseArrayPtr => &ReleaseArray;
@@ -39,9 +40,8 @@ namespace Apache.Arrow.C
         private static IntPtr ReleaseArrayPtr => s_releaseArray.Pointer;
 #endif
         /// <summary>
-        /// Export an <see cref="IArrowArray"/> to a <see cref="CArrowArray"/>. Whether or not the
-        /// export succeeds, the original array becomes invalid. Clone an array to continue using it
-        /// after a copy has been exported.
+        /// Export an <see cref="IArrowArray"/> to a <see cref="CArrowArray"/>. The original array
+        /// remains valid after export because the exported data is kept alive via reference counting.
         /// </summary>
         /// <param name="array">The array to export</param>
         /// <param name="cArray">An allocated but uninitialized CArrowArray pointer.</param>
@@ -76,9 +76,8 @@ namespace Apache.Arrow.C
         }
 
         /// <summary>
-        /// Export a <see cref="RecordBatch"/> to a <see cref="CArrowArray"/>. Whether or not the
-        /// export succeeds, the original record batch becomes invalid. Clone the batch to continue using it
-        /// after a copy has been exported.
+        /// Export a <see cref="RecordBatch"/> to a <see cref="CArrowArray"/>. The original record batch
+        /// remains valid after export because the exported data is kept alive via reference counting.
         /// </summary>
         /// <param name="batch">The record batch to export</param>
         /// <param name="cArray">An allocated but uninitialized CArrowArray pointer.</param>
@@ -118,6 +117,8 @@ namespace Apache.Arrow.C
 
         private unsafe static void ConvertArray(ExportedAllocationOwner sharedOwner, ArrayData array, CArrowArray* cArray)
         {
+            sharedOwner.AddReference(array);
+
             cArray->length = array.Length;
             cArray->offset = array.Offset;
             cArray->null_count = array.NullCount; // The C Data interface allows the null count to be -1
@@ -194,10 +195,6 @@ namespace Apache.Arrow.C
 
             cArray->n_children = batch.ColumnCount;
             cArray->children = null;
-            // XXX sharing the same ExportedAllocationOwner for all columns
-            // and child arrays makes memory tracking inflexible.
-            // If the consumer keeps only a single record batch column,
-            // the entire record batch memory is nevertheless kept alive.
             if (cArray->n_children > 0)
             {
                 cArray->children = (CArrowArray**)sharedOwner.Allocate(IntPtr.Size * batch.ColumnCount);
