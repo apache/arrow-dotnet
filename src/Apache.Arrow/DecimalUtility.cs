@@ -56,6 +56,15 @@ namespace Apache.Arrow
 
         internal static decimal GetDecimal(in ArrowBuffer valueBuffer, int index, int scale, int byteWidth)
         {
+            if (!TryGetDecimal(valueBuffer, index, scale, byteWidth, out decimal result))
+            {
+                throw new OverflowException("Value is too large or too small to be represented as a decimal");
+            }
+            return result;
+        }
+
+        internal static bool TryGetDecimal(in ArrowBuffer valueBuffer, int index, int scale, int byteWidth, out decimal result)
+        {
             int startIndex = index * byteWidth;
             ReadOnlySpan<byte> value = valueBuffer.Span.Slice(startIndex, byteWidth);
 
@@ -63,7 +72,7 @@ namespace Apache.Arrow
             if (byteWidth == 16)
             {
                 Int128 int128Value = BinaryPrimitives.ReadInt128LittleEndian(value);
-                return GetDecimalViaInt128(int128Value, scale);
+                return TryGetDecimalViaInt128(int128Value, scale, out result);
             }
 
             if (byteWidth == 32)
@@ -74,16 +83,16 @@ namespace Apache.Arrow
                 Int128 signExtension = lower < 0 ? Int128.NegativeOne : Int128.Zero;
                 if (upper == signExtension)
                 {
-                    return GetDecimalViaInt128(lower, scale);
+                    return TryGetDecimalViaInt128(lower, scale, out result);
                 }
             }
 #endif
 
-            return GetDecimalViaBigInteger(value, scale);
+            return TryGetDecimalViaBigInteger(value, scale, out result);
         }
 
 #if NET7_0_OR_GREATER
-        private static decimal GetDecimalViaInt128(Int128 integerValue, int scale)
+        private static bool TryGetDecimalViaInt128(Int128 integerValue, int scale, out decimal result)
         {
             bool negative = integerValue < 0;
             UInt128 abs = negative ? (UInt128)(-integerValue) : (UInt128)integerValue;
@@ -91,12 +100,14 @@ namespace Apache.Arrow
             // Fast path: value fits directly in decimal (96-bit mantissa, scale <= 28)
             if (abs <= s_maxDecimalMantissa && scale <= 28)
             {
-                return UInt128ToDecimal(abs, negative, (byte)scale);
+                result = UInt128ToDecimal(abs, negative, (byte)scale);
+                return true;
             }
 
             if (scale == 0)
             {
-                throw new OverflowException($"Value: {integerValue} is too large to be represented as a decimal");
+                result = default;
+                return false;
             }
 
             // Split into integer and fractional parts
@@ -107,7 +118,8 @@ namespace Apache.Arrow
 
                 if (intPart > s_maxDecimalMantissa)
                 {
-                    throw new OverflowException($"Value is too large to be represented as a decimal");
+                    result = default;
+                    return false;
                 }
 
                 decimal intDecimal = UInt128ToDecimal(intPart, negative, 0);
@@ -121,7 +133,8 @@ namespace Apache.Arrow
                 }
 
                 decimal fracDecimal = UInt128ToDecimal(fracPart, false, (byte)fracScale);
-                return negative ? intDecimal - fracDecimal : intDecimal + fracDecimal;
+                result = negative ? intDecimal - fracDecimal : intDecimal + fracDecimal;
+                return true;
             }
             else
             {
@@ -135,7 +148,8 @@ namespace Apache.Arrow
                     decScale--;
                 }
 
-                return UInt128ToDecimal(mantissa, negative, (byte)decScale);
+                result = UInt128ToDecimal(mantissa, negative, (byte)decScale);
+                return true;
             }
         }
 
@@ -147,7 +161,7 @@ namespace Apache.Arrow
         }
 #endif
 
-        private static decimal GetDecimalViaBigInteger(ReadOnlySpan<byte> value, int scale)
+        private static bool TryGetDecimalViaBigInteger(ReadOnlySpan<byte> value, int scale, out decimal result)
         {
             BigInteger integerValue;
 
@@ -162,20 +176,19 @@ namespace Apache.Arrow
                 BigInteger scaleBy = BigInteger.Pow(10, scale);
                 BigInteger integerPart = BigInteger.DivRem(integerValue, scaleBy, out BigInteger fractionalPart);
 
-                // decimal overflow, not much we can do here - C# needs a BigDecimal
-                if (integerPart > _maxDecimal)
+                if (integerPart > _maxDecimal || integerPart < _minDecimal)
                 {
-                    throw new OverflowException($"Value: {integerPart} of {integerValue} is too big be represented as a decimal");
+                    result = default;
+                    return false;
                 }
-                else if (integerPart < _minDecimal)
-                {
-                    throw new OverflowException($"Value: {integerPart} of {integerValue} is too small be represented as a decimal");
-                }
-                return (decimal)integerPart + FractionToDecimal(fractionalPart, scale);
+
+                result = (decimal)integerPart + FractionToDecimal(fractionalPart, scale);
+                return true;
             }
             else
             {
-                return DivideByScale(integerValue, scale);
+                result = DivideByScale(integerValue, scale);
+                return true;
             }
         }
 

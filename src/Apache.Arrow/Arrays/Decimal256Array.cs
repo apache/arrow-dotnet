@@ -158,16 +158,20 @@ namespace Apache.Arrow
 
         public bool TryGetValue(int index, out decimal? value)
         {
-            try
-            {
-                value = GetValue(index);
-                return true;
-            }
-            catch (OverflowException)
+            if (IsNull(index))
             {
                 value = null;
-                return false;
+                return true;
             }
+
+            if (DecimalUtility.TryGetDecimal(ValueBuffer, Offset + index, Scale, ByteWidth, out decimal result))
+            {
+                value = result;
+                return true;
+            }
+
+            value = null;
+            return false;
         }
 
         public IList<decimal?> ToList(bool includeNulls = false)
