@@ -542,6 +542,27 @@ namespace Apache.Arrow.Tests
             }
 
             [Fact]
+            public void TryGetValueReturnsFalse()
+            {
+                var array = new Decimal256Array.Builder(new Decimal256Type(38, 4))
+                    .Append(SqlDecimal.Parse("100000000000000000000000000000000"))
+                    .Build();
+
+                Assert.False(array.TryGetValue(0, out decimal? value));
+            }
+
+            [Fact]
+            public void TryGetValueCanRound()
+            {
+                var array = new Decimal256Array.Builder(new Decimal256Type(38, 8))
+                    .Append(SqlDecimal.Parse("10000000000000000000000000000.99"))
+                    .Build();
+
+                Assert.True(array.TryGetValue(0, out decimal? value));
+                Assert.Equal(10000000000000000000000000001m, value);
+            }
+
+            [Fact]
             public void TryGetValueNullReturnsTrue()
             {
                 var array = new Decimal256Array.Builder(new Decimal256Type(76, 38))

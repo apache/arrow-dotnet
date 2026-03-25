@@ -146,6 +146,11 @@ namespace Apache.Arrow
         public int Precision => ((Decimal256Type)Data.DataType).Precision;
         public int ByteWidth => ((Decimal256Type)Data.DataType).ByteWidth;
 
+        /// <summary>
+        /// Gets the decimal value at the index of the array. May throw an exception if the value can't be
+        /// expressed as a <see cref="System.Decimal "/>. See <see cref="TryGetValue(int, out decimal?)" /> for
+        /// details.
+        /// </summary>
         public decimal? GetValue(int index)
         {
             if (IsNull(index))
@@ -156,6 +161,16 @@ namespace Apache.Arrow
             return DecimalUtility.GetDecimal(ValueBuffer, Offset + index, Scale, ByteWidth);
         }
 
+        /// <summary>
+        /// Gets the decimal value at the index of the array. Returns false if the value can't be
+        /// expressed as a <see cref="System.Decimal "/>. <see cref="System.Decimal "/> is a 128-bit
+        /// floating point value with a 5 bit base-10 exponent and a 96-bit base-10 mantissa. Decimal256
+        /// is a fixed point 256 bit value where up to 256 bits can be used for the mantissa, and both
+        /// the number of bits and the exponent are determined by the array's type (which is out-of-band).
+        /// This means that a <see cref="Decimal256Type"/> whose precision minus scale is greater than 28
+        /// might produce an overflow when stored as a .NET decimal. It may also cause rounding for
+        /// precisions greater than 28. These will silently succeed.
+        /// </summary>
         public bool TryGetValue(int index, out decimal? value)
         {
             if (IsNull(index))
