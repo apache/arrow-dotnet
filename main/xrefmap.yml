@@ -5207,6 +5207,22 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.Decimal128Array.ToList
   nameWithType: Decimal128Array.ToList
+- uid: Apache.Arrow.Decimal128Array.TryGetValue(System.Int32,System.Nullable{System.Decimal}@)
+  name: TryGetValue(int, out decimal?)
+  href: api/Apache.Arrow.Decimal128Array.html#Apache_Arrow_Decimal128Array_TryGetValue_System_Int32_System_Nullable_System_Decimal___
+  commentId: M:Apache.Arrow.Decimal128Array.TryGetValue(System.Int32,System.Nullable{System.Decimal}@)
+  name.vb: TryGetValue(Integer, Decimal?)
+  fullName: Apache.Arrow.Decimal128Array.TryGetValue(int, out decimal?)
+  fullName.vb: Apache.Arrow.Decimal128Array.TryGetValue(Integer, Decimal?)
+  nameWithType: Decimal128Array.TryGetValue(int, out decimal?)
+  nameWithType.vb: Decimal128Array.TryGetValue(Integer, Decimal?)
+- uid: Apache.Arrow.Decimal128Array.TryGetValue*
+  name: TryGetValue
+  href: api/Apache.Arrow.Decimal128Array.html#Apache_Arrow_Decimal128Array_TryGetValue_
+  commentId: Overload:Apache.Arrow.Decimal128Array.TryGetValue
+  isSpec: "True"
+  fullName: Apache.Arrow.Decimal128Array.TryGetValue
+  nameWithType: Decimal128Array.TryGetValue
 - uid: Apache.Arrow.Decimal256Array
   name: Decimal256Array
   href: api/Apache.Arrow.Decimal256Array.html
@@ -5480,6 +5496,22 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.Decimal256Array.TryGetSqlDecimal
   nameWithType: Decimal256Array.TryGetSqlDecimal
+- uid: Apache.Arrow.Decimal256Array.TryGetValue(System.Int32,System.Nullable{System.Decimal}@)
+  name: TryGetValue(int, out decimal?)
+  href: api/Apache.Arrow.Decimal256Array.html#Apache_Arrow_Decimal256Array_TryGetValue_System_Int32_System_Nullable_System_Decimal___
+  commentId: M:Apache.Arrow.Decimal256Array.TryGetValue(System.Int32,System.Nullable{System.Decimal}@)
+  name.vb: TryGetValue(Integer, Decimal?)
+  fullName: Apache.Arrow.Decimal256Array.TryGetValue(int, out decimal?)
+  fullName.vb: Apache.Arrow.Decimal256Array.TryGetValue(Integer, Decimal?)
+  nameWithType: Decimal256Array.TryGetValue(int, out decimal?)
+  nameWithType.vb: Decimal256Array.TryGetValue(Integer, Decimal?)
+- uid: Apache.Arrow.Decimal256Array.TryGetValue*
+  name: TryGetValue
+  href: api/Apache.Arrow.Decimal256Array.html#Apache_Arrow_Decimal256Array_TryGetValue_
+  commentId: Overload:Apache.Arrow.Decimal256Array.TryGetValue
+  isSpec: "True"
+  fullName: Apache.Arrow.Decimal256Array.TryGetValue
+  nameWithType: Decimal256Array.TryGetValue
 - uid: Apache.Arrow.Decimal32Array
   name: Decimal32Array
   href: api/Apache.Arrow.Decimal32Array.html

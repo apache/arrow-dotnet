@@ -374,7 +374,7 @@ Class Decimal256Array  <a class="header-action link-secondary" title="View sourc
 
   <h3 id="Apache_Arrow_Decimal256Array_GetString_System_Int32_" data-uid="Apache.Arrow.Decimal256Array.GetString(System.Int32)">
   GetString(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Decimal256Array.cs/#L183"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Decimal256Array.cs/#L216"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -410,10 +410,13 @@ Class Decimal256Array  <a class="header-action link-secondary" title="View sourc
 
   <h3 id="Apache_Arrow_Decimal256Array_GetValue_System_Int32_" data-uid="Apache.Arrow.Decimal256Array.GetValue(System.Int32)">
   GetValue(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Decimal256Array.cs/#L149"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Decimal256Array.cs/#L154"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets the decimal value at the index of the array. May throw an exception if the value can't be
+expressed as a <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.decimal">decimal</a>. See <a class="xref" href="Apache.Arrow.Decimal256Array.html#Apache_Arrow_Decimal256Array_TryGetValue_System_Int32_System_Nullable_System_Decimal___">TryGetValue(int, out decimal?)</a> for
+details.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -446,7 +449,7 @@ Class Decimal256Array  <a class="header-action link-secondary" title="View sourc
 
   <h3 id="Apache_Arrow_Decimal256Array_ToList_System_Boolean_" data-uid="Apache.Arrow.Decimal256Array.ToList(System.Boolean)">
   ToList(bool)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Decimal256Array.cs/#L159"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Decimal256Array.cs/#L192"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -482,7 +485,7 @@ Class Decimal256Array  <a class="header-action link-secondary" title="View sourc
 
   <h3 id="Apache_Arrow_Decimal256Array_TryGetSqlDecimal_System_Int32_System_Nullable_System_Data_SqlTypes_SqlDecimal___" data-uid="Apache.Arrow.Decimal256Array.TryGetSqlDecimal(System.Int32,System.Nullable{System.Data.SqlTypes.SqlDecimal}@)">
   TryGetSqlDecimal(int, out SqlDecimal?)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Decimal256Array.cs/#L192"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Decimal256Array.cs/#L225"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -497,6 +500,52 @@ Class Decimal256Array  <a class="header-action link-secondary" title="View sourc
     <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
     <dd></dd>
     <dt><code>value</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.sqltypes.sqldecimal">SqlDecimal</a>?</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Decimal256Array_TryGetValue_" data-uid="Apache.Arrow.Decimal256Array.TryGetValue*"></a>
+
+  <h3 id="Apache_Arrow_Decimal256Array_TryGetValue_System_Int32_System_Nullable_System_Decimal___" data-uid="Apache.Arrow.Decimal256Array.TryGetValue(System.Int32,System.Nullable{System.Decimal}@)">
+  TryGetValue(int, out decimal?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Decimal256Array.cs/#L174"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the decimal value at the index of the array. Returns false if the value can't be
+expressed as a <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.decimal">decimal</a>. <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.decimal">decimal</a> is a 128-bit
+floating point value with a 5 bit base-10 exponent and a 96-bit base-10 mantissa. Decimal256
+is a fixed point 256 bit value where up to 256 bits can be used for the mantissa, and both
+the number of bits and the exponent are determined by the array's type (which is out-of-band).
+This means that a <a class="xref" href="Apache.Arrow.Types.Decimal256Type.html">Decimal256Type</a> whose precision minus scale is greater than 28
+might produce an overflow when stored as a .NET decimal. It may also cause rounding for
+precisions greater than 28. These will silently succeed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool TryGetValue(int index, out decimal? value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>value</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.decimal">decimal</a>?</dt>
     <dd></dd>
   </dl>
 
