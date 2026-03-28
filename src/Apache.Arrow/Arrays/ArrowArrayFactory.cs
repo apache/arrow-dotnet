@@ -122,5 +122,11 @@ namespace Apache.Arrow
             ArrayData newData = array.Data.Slice(offset, length);
             return BuildArray(newData);
         }
+
+        public static IArrowArray SliceShared(IArrowArray array, int offset, int length)
+        {
+            ArrayData newData = array.Data.SliceShared(offset, length);
+            return BuildArray(newData);
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿// Licensed to the Apache Software Foundation (ASF) under one or more
+// Licensed to the Apache Software Foundation (ASF) under one or more
 // contributor license agreements. See the NOTICE file distributed with
 // this work for additional information regarding copyright ownership.
 // The ASF licenses this file to You under the Apache License, Version 2.0
@@ -14,11 +14,30 @@
 // limitations under the License.
 
 using System;
+using System.Buffers;
 
 namespace Apache.Arrow.Memory
 {
-    internal interface IOwnableAllocation
+    internal sealed class SharedMemoryHandle : IMemoryOwner<byte>
     {
-        bool TryAcquire(out IntPtr ptr, out int offset, out int length);
+        private SharedMemoryOwner _owner;
+
+        public SharedMemoryHandle(SharedMemoryOwner owner)
+        {
+            _owner = owner ?? throw new ArgumentNullException(nameof(owner));
+        }
+
+        public Memory<byte> Memory => _owner.Memory;
+
+        public SharedMemoryHandle Retain()
+        {
+            return _owner.Retain();
+        }
+
+        public void Dispose()
+        {
+            _owner?.Release();
+            _owner = null;
+        }
     }
 }

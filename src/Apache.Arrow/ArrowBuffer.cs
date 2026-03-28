@@ -16,36 +16,37 @@
 using System;
 using System.Buffers;
 using System.Runtime.CompilerServices;
-using Apache.Arrow.C;
 using Apache.Arrow.Memory;
 
 namespace Apache.Arrow
 {
     public readonly partial struct ArrowBuffer : IEquatable<ArrowBuffer>, IDisposable
     {
-        private readonly IMemoryOwner<byte> _memoryOwner;
+        private readonly SharedMemoryHandle _handle;
         private readonly ReadOnlyMemory<byte> _memory;
 
         public static ArrowBuffer Empty => new ArrowBuffer(Memory<byte>.Empty);
 
         public ArrowBuffer(ReadOnlyMemory<byte> data)
         {
-            _memoryOwner = null;
+            _handle = null;
             _memory = data;
         }
 
         internal ArrowBuffer(IMemoryOwner<byte> memoryOwner)
         {
-            // When wrapping an IMemoryOwner, don't cache the Memory<byte>
-            // since the owner may be disposed, and the cached Memory would
-            // be invalid.
+            _handle = new SharedMemoryHandle(new SharedMemoryOwner(memoryOwner));
+            _memory = Memory<byte>.Empty;
+        }
 
-            _memoryOwner = memoryOwner;
+        private ArrowBuffer(SharedMemoryHandle handle)
+        {
+            _handle = handle;
             _memory = Memory<byte>.Empty;
         }
 
         public ReadOnlyMemory<byte> Memory =>
-            _memoryOwner != null ? _memoryOwner.Memory : _memory;
+            _handle != null ? _handle.Memory : _memory;
 
         public bool IsEmpty => Memory.IsEmpty;
 
@@ -55,6 +56,20 @@ namespace Apache.Arrow
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => Memory.Span;
+        }
+
+        /// <summary>
+        /// Adds another reference to the memory used by this buffer. Allows a single buffer
+        /// to be shared by multiple arrays.
+        /// </summary>
+        public ArrowBuffer Retain()
+        {
+            if (_handle != null)
+            {
+                return new ArrowBuffer(_handle.Retain());
+            }
+
+            return new ArrowBuffer(_memory);
         }
 
         public ArrowBuffer Clone(MemoryAllocator allocator = default)
@@ -71,34 +86,26 @@ namespace Apache.Arrow
 
         public void Dispose()
         {
-            _memoryOwner?.Dispose();
+            _handle?.Dispose();
         }
 
         internal bool TryExport(ExportedAllocationOwner newOwner, out IntPtr ptr)
         {
             if (IsEmpty)
             {
-                // _memoryOwner could be anything (for example null or a NullMemoryOwner), but it doesn't matter here
                 ptr = IntPtr.Zero;
                 return true;
             }
 
-            if (_memoryOwner is IOwnableAllocation ownable && ownable.TryAcquire(out ptr, out int offset, out int length))
+            if (_handle != null)
             {
-                newOwner.Acquire(ptr, offset, length);
-                ptr += offset;
+                ptr = newOwner.Acquire(_handle.Retain());
                 return true;
             }
 
-            if (_memoryOwner == null && CArrowArrayExporter.EnableManagedMemoryExport)
-            {
-                var handle = _memory.Pin();
-                ptr = newOwner.Reference(handle);
-                return true;
-            }
-
-            ptr = IntPtr.Zero;
-            return false;
+            var pinHandle = _memory.Pin();
+            ptr = newOwner.Reference(pinHandle);
+            return true;
         }
     }
 }

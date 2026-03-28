@@ -112,6 +112,36 @@ namespace Apache.Arrow.Tests
         }
 
         [Fact]
+        public unsafe void ExportArrayPreservesSource()
+        {
+            Int32Array array = new Int32Array.Builder()
+                .AppendRange(new[] { 10, 20, 30, 40, 50 })
+                .Build();
+
+            CArrowArray* cArray = CArrowArray.Create();
+            CArrowArrayExporter.ExportArray(array, cArray);
+
+            // Source array should still be valid after export
+            Assert.Equal(5, array.Length);
+            Assert.Equal(10, array.GetValue(0));
+            Assert.Equal(50, array.GetValue(4));
+
+            // Import and verify the exported copy is also valid
+            using (var imported = (Int32Array)CArrowArrayImporter.ImportArray(cArray, array.Data.DataType))
+            {
+                Assert.Equal(5, imported.Length);
+                Assert.Equal(10, imported.GetValue(0));
+                Assert.Equal(50, imported.GetValue(4));
+            }
+
+            // Source should still be valid after the imported copy is disposed
+            Assert.Equal(30, array.GetValue(2));
+
+            CArrowArray.Free(cArray);
+            array.Dispose();
+        }
+
+        [Fact]
         public unsafe void ExportRecordBatch_LargerThan2GB_Succeeds()
         {
             RecordBatch GetTestRecordBatch()
