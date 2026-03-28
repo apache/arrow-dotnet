@@ -27,15 +27,18 @@ namespace Apache.Arrow.Flight.Client
         internal static readonly Empty EmptyInstance = new Empty();
 
         private readonly FlightService.FlightServiceClient _client;
+        private readonly ArrowContext _context;
 
-        public FlightClient(ChannelBase grpcChannel)
+        public FlightClient(ChannelBase grpcChannel, ArrowContext context = null)
         {
             _client = new FlightService.FlightServiceClient(grpcChannel);
+            _context = context;
         }
 
-        public FlightClient(CallInvoker callInvoker)
+        public FlightClient(CallInvoker callInvoker, ArrowContext context = null)
         {
             _client = new FlightService.FlightServiceClient(callInvoker);
+            _context = context;
         }
 
         public AsyncServerStreamingCall<FlightInfo> ListFlights(FlightCriteria criteria = null, Metadata headers = null)
@@ -77,7 +80,7 @@ namespace Apache.Arrow.Flight.Client
         public FlightRecordBatchStreamingCall GetStream(FlightTicket ticket, Metadata headers, System.DateTime? deadline, CancellationToken cancellationToken = default)
         {
             var stream = _client.DoGet(ticket.ToProtocol(), headers, deadline, cancellationToken);
-            var responseStream = new FlightClientRecordBatchStreamReader(stream.ResponseStream);
+            var responseStream = new FlightClientRecordBatchStreamReader(stream.ResponseStream, _context);
             return new FlightRecordBatchStreamingCall(responseStream, stream.ResponseHeadersAsync, stream.GetStatus, stream.GetTrailers, stream.Dispose);
         }
 
