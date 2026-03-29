@@ -81,7 +81,7 @@ namespace Apache.Arrow
         /// </summary>
         public Column SliceShared(int offset)
         {
-            return new Column(Field, Data.SliceShared(offset));
+            return new Column(Field, Data.SliceShared(offset), disposeArrayData: true);
         }
 
         public void Dispose()

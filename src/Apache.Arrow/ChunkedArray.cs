@@ -111,7 +111,7 @@ namespace Apache.Arrow
         {
             if (offset >= Length)
             {
-                throw new ArgumentException($"Index {offset} cannot be greater than the Column's Length {Length}");
+                throw new ArgumentException($"Offset {offset} cannot be greater than Length {Length} for ChunkedArray.SliceShared");
             }
 
             int curArrayIndex = 0;

@@ -157,6 +157,23 @@ namespace Apache.Arrow
         }
 
         /// <summary>
+        /// Retain this ArrayData with shared ownership. The returned ArrayData keeps the
+        /// underlying buffers alive via reference counting, and recursively retains any
+        /// children and dictionary. The caller must dispose the returned ArrayData when done.
+        /// </summary>
+        public ArrayData Retain()
+        {
+            return new ArrayData(
+                DataType,
+                Length,
+                NullCount,
+                Offset,
+                RetainBuffers(Buffers),
+                RetainChildren(Children),
+                Dictionary?.Retain());
+        }
+
+        /// <summary>
         /// Slice this ArrayData with shared ownership. The returned slice keeps the
         /// underlying buffers alive via reference counting. The caller must dispose the
         /// returned ArrayData when done.
@@ -189,17 +206,44 @@ namespace Apache.Arrow
                 nullCount = RecalculateNullCount;
             }
 
-            ArrowBuffer[] retainedBuffers = null;
-            if (Buffers != null)
+            return new ArrayData(
+                DataType,
+                length,
+                nullCount,
+                offset,
+                RetainBuffers(Buffers),
+                RetainChildren(Children),
+                Dictionary?.Retain());
+        }
+
+        private static ArrowBuffer[] RetainBuffers(ArrowBuffer[] buffers)
+        {
+            if (buffers == null)
             {
-                retainedBuffers = new ArrowBuffer[Buffers.Length];
-                for (int i = 0; i < Buffers.Length; i++)
-                {
-                    retainedBuffers[i] = Buffers[i].Retain();
-                }
+                return null;
             }
 
-            return new ArrayData(DataType, length, nullCount, offset, retainedBuffers, Children, Dictionary);
+            var retained = new ArrowBuffer[buffers.Length];
+            for (int i = 0; i < buffers.Length; i++)
+            {
+                retained[i] = buffers[i].Retain();
+            }
+            return retained;
+        }
+
+        private static ArrayData[] RetainChildren(ArrayData[] children)
+        {
+            if (children == null)
+            {
+                return null;
+            }
+
+            var retained = new ArrayData[children.Length];
+            for (int i = 0; i < children.Length; i++)
+            {
+                retained[i] = children[i]?.Retain();
+            }
+            return retained;
         }
 
         public ArrayData Clone(MemoryAllocator allocator = default)

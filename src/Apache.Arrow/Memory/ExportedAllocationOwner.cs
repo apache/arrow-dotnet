@@ -24,7 +24,8 @@ namespace Apache.Arrow.Memory
     internal sealed class ExportedAllocationOwner : IDisposable
     {
         private readonly List<IntPtr> _pointers = new List<IntPtr>();
-        private readonly List<IDisposable> _disposables = new List<IDisposable>();
+        private readonly List<MemoryHandle> _handles = new List<MemoryHandle>();
+        private readonly List<SharedMemoryHandle> _sharedHandles = new List<SharedMemoryHandle>();
         private long _allocationSize;
         private long _referenceCount;
         private bool _disposed;
@@ -49,7 +50,7 @@ namespace Apache.Arrow.Memory
 
         public unsafe IntPtr Reference(MemoryHandle handle)
         {
-            _disposables.Add(handle);
+            _handles.Add(handle);
             return new IntPtr(handle.Pointer);
         }
 
@@ -57,7 +58,7 @@ namespace Apache.Arrow.Memory
         {
             MemoryHandle handle = sharedHandle.Memory.Pin();
             IntPtr pointer = Reference(handle);
-            _disposables.Add(sharedHandle);
+            _sharedHandles.Add(sharedHandle);
             return pointer;
         }
 
@@ -90,10 +91,16 @@ namespace Apache.Arrow.Memory
                 }
             }
 
-            for (int i = 0; i < _disposables.Count; i++)
+            for (int i = 0; i < _handles.Count; i++)
             {
-                _disposables[i]?.Dispose();
-                _disposables[i] = default;
+                _handles[i].Dispose();
+                _handles[i] = default;
+            }
+
+            for (int i = 0; i < _sharedHandles.Count; i++)
+            {
+                _sharedHandles[i]?.Dispose();
+                _sharedHandles[i] = default;
             }
 
             GC.RemoveMemoryPressure(_allocationSize);

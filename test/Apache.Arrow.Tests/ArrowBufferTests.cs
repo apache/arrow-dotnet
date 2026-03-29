@@ -14,9 +14,7 @@
 // limitations under the License.
 
 using System;
-using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
 using Apache.Arrow.Tests.Fixtures;
 using Xunit;
 
@@ -349,6 +347,84 @@ namespace Apache.Arrow.Tests
                 Assert.Equal(3, column.GetValue(2));
 
                 sliced.Dispose();
+            }
+
+            [Fact]
+            public void NestedListSliceSharedSurvivesOriginalDispose()
+            {
+                var listBuilder = new ListArray.Builder(Apache.Arrow.Types.Int32Type.Default);
+                var valueBuilder = (Int32Array.Builder)listBuilder.ValueBuilder;
+
+                // List 0: [10, 20]
+                listBuilder.Append();
+                valueBuilder.Append(10);
+                valueBuilder.Append(20);
+                // List 1: [30]
+                listBuilder.Append();
+                valueBuilder.Append(30);
+                // List 2: [40, 50, 60]
+                listBuilder.Append();
+                valueBuilder.Append(40);
+                valueBuilder.Append(50);
+                valueBuilder.Append(60);
+                // List 3: [70]
+                listBuilder.Append();
+                valueBuilder.Append(70);
+
+                ListArray original = listBuilder.Build();
+                ArrayData sliced = original.Data.SliceShared(1, 2);
+
+                original.Dispose();
+
+                // Sliced data (lists 1 and 2) should still be usable, including child data
+                var slicedArray = new ListArray(sliced);
+                Assert.Equal(2, slicedArray.Length);
+
+                var list1 = (Int32Array)slicedArray.GetSlicedValues(0);
+                Assert.Equal(1, list1.Length);
+                Assert.Equal(30, list1.GetValue(0));
+
+                var list2 = (Int32Array)slicedArray.GetSlicedValues(1);
+                Assert.Equal(3, list2.Length);
+                Assert.Equal(40, list2.GetValue(0));
+                Assert.Equal(60, list2.GetValue(2));
+
+                sliced.Dispose();
+            }
+
+            [Fact]
+            public void DictionaryArrayRetainSurvivesOriginalDispose()
+            {
+                var dictionaryBuilder = new StringArray.Builder();
+                var indicesBuilder = new Int32Array.Builder();
+
+                dictionaryBuilder.Append("alpha");
+                dictionaryBuilder.Append("beta");
+                dictionaryBuilder.Append("gamma");
+                var dictionary = dictionaryBuilder.Build();
+
+                indicesBuilder.Append(0);
+                indicesBuilder.Append(2);
+                indicesBuilder.Append(1);
+                indicesBuilder.Append(0);
+                var indices = indicesBuilder.Build();
+
+                var dictType = new Apache.Arrow.Types.DictionaryType(Apache.Arrow.Types.Int32Type.Default, Apache.Arrow.Types.StringType.Default, false);
+                var originalData = new ArrayData(dictType, indices.Length, 0, 0, indices.Data.Buffers, null, dictionary.Data);
+                var original = new DictionaryArray(originalData);
+
+                ArrayData retained = original.Data.Retain();
+
+                original.Dispose();
+
+                // The retained copy should still have a valid dictionary
+                var retainedArray = new DictionaryArray(retained);
+                Assert.Equal(4, retainedArray.Length);
+                var retainedDict = (StringArray)retainedArray.Dictionary;
+                Assert.Equal("alpha", retainedDict.GetString(0));
+                Assert.Equal("gamma", retainedDict.GetString(2));
+
+                retained.Dispose();
             }
         }
     }
