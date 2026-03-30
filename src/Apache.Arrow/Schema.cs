@@ -31,6 +31,7 @@ namespace Apache.Arrow
         private readonly List<Field> _fieldsList;
 
         public ILookup<string, Field> FieldsLookup { get; }
+        private readonly ILookup<string, int> _fieldsIndexLookup;
 
         public IReadOnlyDictionary<string, string> Metadata { get; }
 
@@ -43,17 +44,11 @@ namespace Apache.Arrow
         public Schema(
             IEnumerable<Field> fields,
             IEnumerable<KeyValuePair<string, string>> metadata)
+            : this(
+                fields?.ToList() ?? throw new ArgumentNullException(nameof(fields)),
+                metadata?.ToDictionary(kv => kv.Key, kv => kv.Value),
+                false)
         {
-            if (fields is null)
-            {
-                throw new ArgumentNullException(nameof(fields));
-            }
-
-            _fieldsList = fields.ToList();
-            FieldsLookup = _fieldsList.ToLookup(f => f.Name);
-            _fieldsDictionary = FieldsLookup.ToDictionary(g => g.Key, g => g.First());
-
-            Metadata = metadata?.ToDictionary(kv => kv.Key, kv => kv.Value);
         }
 
         internal Schema(List<Field> fieldsList, IReadOnlyDictionary<string, string> metadata, bool copyCollections)
@@ -64,6 +59,9 @@ namespace Apache.Arrow
             _fieldsList = fieldsList;
             FieldsLookup = _fieldsList.ToLookup(f => f.Name);
             _fieldsDictionary = FieldsLookup.ToDictionary(g => g.Key, g => g.First());
+            _fieldsIndexLookup = _fieldsList
+                .Select((field, index) => (field.Name, index))
+                .ToLookup(item => item.Name, item => item.index, StringComparer.CurrentCulture);
 
             Metadata = metadata;
         }
@@ -80,7 +78,10 @@ namespace Apache.Arrow
 
         public int GetFieldIndex(string name, IEqualityComparer<string> comparer = default)
         {
-            comparer ??= StringComparer.CurrentCulture;
+            if (comparer == null || ReferenceEquals(comparer, StringComparer.CurrentCulture))
+            {
+                return _fieldsIndexLookup[name].DefaultIfEmpty(-1).First();
+            }
 
             for (int i = 0; i < _fieldsList.Count; i++)
             {
