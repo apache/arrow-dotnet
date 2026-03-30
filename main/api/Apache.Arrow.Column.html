@@ -102,7 +102,7 @@ Class Column  <a class="header-action link-secondary" title="View source" href="
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class Column</code></pre>
+    <pre><code class="lang-csharp hljs">public class Column : IDisposable</code></pre>
   </div>
 
 
@@ -116,6 +116,12 @@ Class Column  <a class="header-action link-secondary" title="View source" href="
     </dd>
   </dl>
 
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+    </dd>
+  </dl>
 
 
   <dl class="typelist inheritedMembers">
@@ -157,7 +163,7 @@ Class Column  <a class="header-action link-secondary" title="View source" href="
 
   <h3 id="Apache_Arrow_Column__ctor_Apache_Arrow_Field_System_Collections_Generic_IList_Apache_Arrow_Array__" data-uid="Apache.Arrow.Column.#ctor(Apache.Arrow.Field,System.Collections.Generic.IList{Apache.Arrow.Array})">
   Column(Field, IList&lt;Array&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Column.cs/#L30"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Column.cs/#L31"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -190,7 +196,7 @@ Class Column  <a class="header-action link-secondary" title="View source" href="
 
   <h3 id="Apache_Arrow_Column__ctor_Apache_Arrow_Field_System_Collections_Generic_IList_Apache_Arrow_IArrowArray__" data-uid="Apache.Arrow.Column.#ctor(Apache.Arrow.Field,System.Collections.Generic.IList{Apache.Arrow.IArrowArray})">
   Column(Field, IList&lt;IArrowArray&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Column.cs/#L35"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Column.cs/#L36"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -289,7 +295,7 @@ Class Column  <a class="header-action link-secondary" title="View source" href="
 
   <h3 id="Apache_Arrow_Column_Length" data-uid="Apache.Arrow.Column.Length">
   Length
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Column.cs/#L50"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Column.cs/#L52"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -320,7 +326,7 @@ Class Column  <a class="header-action link-secondary" title="View source" href="
 
   <h3 id="Apache_Arrow_Column_Name" data-uid="Apache.Arrow.Column.Name">
   Name
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Column.cs/#L52"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Column.cs/#L54"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -351,7 +357,7 @@ Class Column  <a class="header-action link-secondary" title="View source" href="
 
   <h3 id="Apache_Arrow_Column_NullCount" data-uid="Apache.Arrow.Column.NullCount">
   NullCount
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Column.cs/#L51"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Column.cs/#L53"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -382,7 +388,7 @@ Class Column  <a class="header-action link-secondary" title="View source" href="
 
   <h3 id="Apache_Arrow_Column_Type" data-uid="Apache.Arrow.Column.Type">
   Type
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Column.cs/#L53"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Column.cs/#L55"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -413,11 +419,37 @@ Class Column  <a class="header-action link-secondary" title="View source" href="
 </h2>
 
 
+  <a id="Apache_Arrow_Column_Dispose_" data-uid="Apache.Arrow.Column.Dispose*"></a>
+
+  <h3 id="Apache_Arrow_Column_Dispose" data-uid="Apache.Arrow.Column.Dispose">
+  Dispose()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Column.cs/#L87"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
   <a id="Apache_Arrow_Column_Slice_" data-uid="Apache.Arrow.Column.Slice*"></a>
 
   <h3 id="Apache_Arrow_Column_Slice_System_Int32_" data-uid="Apache.Arrow.Column.Slice(System.Int32)">
   Slice(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Column.cs/#L60"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Column.cs/#L62"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -453,7 +485,7 @@ Class Column  <a class="header-action link-secondary" title="View source" href="
 
   <h3 id="Apache_Arrow_Column_Slice_System_Int32_System_Int32_" data-uid="Apache.Arrow.Column.Slice(System.Int32,System.Int32)">
   Slice(int, int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Column.cs/#L55"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Column.cs/#L57"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -461,6 +493,86 @@ Class Column  <a class="header-action link-secondary" title="View source" href="
 
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Column Slice(int offset, int length)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>offset</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>length</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Column.html">Column</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Column_SliceShared_" data-uid="Apache.Arrow.Column.SliceShared*"></a>
+
+  <h3 id="Apache_Arrow_Column_SliceShared_System_Int32_" data-uid="Apache.Arrow.Column.SliceShared(System.Int32)">
+  SliceShared(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Column.cs/#L82"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Slice this column with shared ownership. The returned slice keeps the
+underlying buffers alive via reference counting. The caller must
+dispose the returned column when done.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Column SliceShared(int offset)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>offset</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Column.html">Column</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Column_SliceShared_" data-uid="Apache.Arrow.Column.SliceShared*"></a>
+
+  <h3 id="Apache_Arrow_Column_SliceShared_System_Int32_System_Int32_" data-uid="Apache.Arrow.Column.SliceShared(System.Int32,System.Int32)">
+  SliceShared(int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Column.cs/#L72"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Slice this column with shared ownership. The returned slice keeps the
+underlying buffers alive via reference counting. The caller must
+dispose the returned column when done.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Column SliceShared(int offset, int length)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>

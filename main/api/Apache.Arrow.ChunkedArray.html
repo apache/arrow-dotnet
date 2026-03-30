@@ -102,7 +102,7 @@ Class ChunkedArray  <a class="header-action link-secondary" title="View source" 
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class ChunkedArray</code></pre>
+    <pre><code class="lang-csharp hljs">public class ChunkedArray : IDisposable</code></pre>
   </div>
 
 
@@ -116,6 +116,12 @@ Class ChunkedArray  <a class="header-action link-secondary" title="View source" 
     </dd>
   </dl>
 
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+    </dd>
+  </dl>
 
 
   <dl class="typelist inheritedMembers">
@@ -154,7 +160,7 @@ Class ChunkedArray  <a class="header-action link-secondary" title="View source" 
 
   <h3 id="Apache_Arrow_ChunkedArray__ctor_Apache_Arrow_Array_" data-uid="Apache.Arrow.ChunkedArray.#ctor(Apache.Arrow.Array)">
   ChunkedArray(Array)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ChunkedArray.cs/#L61"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ChunkedArray.cs/#L52"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -185,7 +191,7 @@ Class ChunkedArray  <a class="header-action link-secondary" title="View source" 
 
   <h3 id="Apache_Arrow_ChunkedArray__ctor_System_Collections_Generic_IList_Apache_Arrow_Array__" data-uid="Apache.Arrow.ChunkedArray.#ctor(System.Collections.Generic.IList{Apache.Arrow.Array})">
   ChunkedArray(IList&lt;Array&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ChunkedArray.cs/#L41"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ChunkedArray.cs/#L42"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -216,7 +222,7 @@ Class ChunkedArray  <a class="header-action link-secondary" title="View source" 
 
   <h3 id="Apache_Arrow_ChunkedArray__ctor_System_Collections_Generic_IList_Apache_Arrow_IArrowArray__" data-uid="Apache.Arrow.ChunkedArray.#ctor(System.Collections.Generic.IList{Apache.Arrow.IArrowArray})">
   ChunkedArray(IList&lt;IArrowArray&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ChunkedArray.cs/#L46"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ChunkedArray.cs/#L47"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -251,7 +257,7 @@ Class ChunkedArray  <a class="header-action link-secondary" title="View source" 
 
   <h3 id="Apache_Arrow_ChunkedArray_ArrayCount" data-uid="Apache.Arrow.ChunkedArray.ArrayCount">
   ArrayCount
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ChunkedArray.cs/#L32"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ChunkedArray.cs/#L33"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -379,7 +385,7 @@ Class ChunkedArray  <a class="header-action link-secondary" title="View source" 
 
   <h3 id="Apache_Arrow_ChunkedArray_Array_System_Int32_" data-uid="Apache.Arrow.ChunkedArray.Array(System.Int32)">
   Array(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ChunkedArray.cs/#L37"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ChunkedArray.cs/#L38"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -415,7 +421,7 @@ Class ChunkedArray  <a class="header-action link-secondary" title="View source" 
 
   <h3 id="Apache_Arrow_ChunkedArray_ArrowArray_System_Int32_" data-uid="Apache.Arrow.ChunkedArray.ArrowArray(System.Int32)">
   ArrowArray(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ChunkedArray.cs/#L39"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ChunkedArray.cs/#L40"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -447,11 +453,37 @@ Class ChunkedArray  <a class="header-action link-secondary" title="View source" 
 
 
 
+  <a id="Apache_Arrow_ChunkedArray_Dispose_" data-uid="Apache.Arrow.ChunkedArray.Dispose*"></a>
+
+  <h3 id="Apache_Arrow_ChunkedArray_Dispose" data-uid="Apache.Arrow.ChunkedArray.Dispose">
+  Dispose()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ChunkedArray.cs/#L142"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
   <a id="Apache_Arrow_ChunkedArray_Slice_" data-uid="Apache.Arrow.ChunkedArray.Slice*"></a>
 
   <h3 id="Apache_Arrow_ChunkedArray_Slice_System_Int64_" data-uid="Apache.Arrow.ChunkedArray.Slice(System.Int64)">
   Slice(long)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ChunkedArray.cs/#L90"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ChunkedArray.cs/#L100"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -487,7 +519,7 @@ Class ChunkedArray  <a class="header-action link-secondary" title="View source" 
 
   <h3 id="Apache_Arrow_ChunkedArray_Slice_System_Int64_System_Int64_" data-uid="Apache.Arrow.ChunkedArray.Slice(System.Int64,System.Int64)">
   Slice(long, long)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ChunkedArray.cs/#L63"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ChunkedArray.cs/#L73"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -521,11 +553,88 @@ Class ChunkedArray  <a class="header-action link-secondary" title="View source" 
 
 
 
+  <a id="Apache_Arrow_ChunkedArray_SliceShared_" data-uid="Apache.Arrow.ChunkedArray.SliceShared*"></a>
+
+  <h3 id="Apache_Arrow_ChunkedArray_SliceShared_System_Int64_" data-uid="Apache.Arrow.ChunkedArray.SliceShared(System.Int64)">
+  SliceShared(long)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ChunkedArray.cs/#L137"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ChunkedArray SliceShared(long offset)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>offset</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.ChunkedArray.html">ChunkedArray</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_ChunkedArray_SliceShared_" data-uid="Apache.Arrow.ChunkedArray.SliceShared*"></a>
+
+  <h3 id="Apache_Arrow_ChunkedArray_SliceShared_System_Int64_System_Int64_" data-uid="Apache.Arrow.ChunkedArray.SliceShared(System.Int64,System.Int64)">
+  SliceShared(long, long)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ChunkedArray.cs/#L110"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Slice this chunked array with shared ownership. The returned slice keeps the
+underlying buffers alive via reference counting. The caller must dispose
+the returned chunked array when done.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ChunkedArray SliceShared(long offset, long length)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>offset</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd></dd>
+    <dt><code>length</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.ChunkedArray.html">ChunkedArray</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="Apache_Arrow_ChunkedArray_ToString_" data-uid="Apache.Arrow.ChunkedArray.ToString*"></a>
 
   <h3 id="Apache_Arrow_ChunkedArray_ToString" data-uid="Apache.Arrow.ChunkedArray.ToString">
   ToString()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ChunkedArray.cs/#L95"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ChunkedArray.cs/#L154"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>

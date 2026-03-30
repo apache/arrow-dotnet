@@ -405,7 +405,7 @@ Class Array  <a class="header-action link-secondary" title="View source" href="h
 
   <h3 id="Apache_Arrow_Array_Dispose" data-uid="Apache.Arrow.Array.Dispose">
   Dispose()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Array.cs/#L68"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Array.cs/#L82"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -431,7 +431,7 @@ Class Array  <a class="header-action link-secondary" title="View source" href="h
 
   <h3 id="Apache_Arrow_Array_Dispose_System_Boolean_" data-uid="Apache.Arrow.Array.Dispose(System.Boolean)">
   Dispose(bool)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Array.cs/#L74"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Array.cs/#L88"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -534,14 +534,57 @@ Class Array  <a class="header-action link-secondary" title="View source" href="h
 
   <h3 id="Apache_Arrow_Array_Slice_System_Int32_System_Int32_" data-uid="Apache.Arrow.Array.Slice(System.Int32,System.Int32)">
   Slice(int, int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Array.cs/#L63"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Array.cs/#L67"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Slice this array without changing ownership. The returned slice may
+become invalid if the original array is disposed.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Array Slice(int offset, int length)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>offset</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>length</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Array.html">Array</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Array_SliceShared_" data-uid="Apache.Arrow.Array.SliceShared*"></a>
+
+  <h3 id="Apache_Arrow_Array_SliceShared_System_Int32_System_Int32_" data-uid="Apache.Arrow.Array.SliceShared(System.Int32,System.Int32)">
+  SliceShared(int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Array.cs/#L77"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Slice this array with shared ownership. The returned slice keeps the
+underlying buffers alive via reference counting. The caller must dispose
+the returned array when done.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Array SliceShared(int offset, int length)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>

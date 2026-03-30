@@ -180,6 +180,22 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.Array.Slice
   nameWithType: Array.Slice
+- uid: Apache.Arrow.Array.SliceShared(System.Int32,System.Int32)
+  name: SliceShared(int, int)
+  href: api/Apache.Arrow.Array.html#Apache_Arrow_Array_SliceShared_System_Int32_System_Int32_
+  commentId: M:Apache.Arrow.Array.SliceShared(System.Int32,System.Int32)
+  name.vb: SliceShared(Integer, Integer)
+  fullName: Apache.Arrow.Array.SliceShared(int, int)
+  fullName.vb: Apache.Arrow.Array.SliceShared(Integer, Integer)
+  nameWithType: Array.SliceShared(int, int)
+  nameWithType.vb: Array.SliceShared(Integer, Integer)
+- uid: Apache.Arrow.Array.SliceShared*
+  name: SliceShared
+  href: api/Apache.Arrow.Array.html#Apache_Arrow_Array_SliceShared_
+  commentId: Overload:Apache.Arrow.Array.SliceShared
+  isSpec: "True"
+  fullName: Apache.Arrow.Array.SliceShared
+  nameWithType: Array.SliceShared
 - uid: Apache.Arrow.ArrayData
   name: ArrayData
   href: api/Apache.Arrow.ArrayData.html
@@ -313,6 +329,19 @@ references:
   commentId: F:Apache.Arrow.ArrayData.Offset
   fullName: Apache.Arrow.ArrayData.Offset
   nameWithType: ArrayData.Offset
+- uid: Apache.Arrow.ArrayData.Retain
+  name: Retain()
+  href: api/Apache.Arrow.ArrayData.html#Apache_Arrow_ArrayData_Retain
+  commentId: M:Apache.Arrow.ArrayData.Retain
+  fullName: Apache.Arrow.ArrayData.Retain()
+  nameWithType: ArrayData.Retain()
+- uid: Apache.Arrow.ArrayData.Retain*
+  name: Retain
+  href: api/Apache.Arrow.ArrayData.html#Apache_Arrow_ArrayData_Retain_
+  commentId: Overload:Apache.Arrow.ArrayData.Retain
+  isSpec: "True"
+  fullName: Apache.Arrow.ArrayData.Retain
+  nameWithType: ArrayData.Retain
 - uid: Apache.Arrow.ArrayData.Slice(System.Int32,System.Int32)
   name: Slice(int, int)
   href: api/Apache.Arrow.ArrayData.html#Apache_Arrow_ArrayData_Slice_System_Int32_System_Int32_
@@ -329,6 +358,22 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.ArrayData.Slice
   nameWithType: ArrayData.Slice
+- uid: Apache.Arrow.ArrayData.SliceShared(System.Int32,System.Int32)
+  name: SliceShared(int, int)
+  href: api/Apache.Arrow.ArrayData.html#Apache_Arrow_ArrayData_SliceShared_System_Int32_System_Int32_
+  commentId: M:Apache.Arrow.ArrayData.SliceShared(System.Int32,System.Int32)
+  name.vb: SliceShared(Integer, Integer)
+  fullName: Apache.Arrow.ArrayData.SliceShared(int, int)
+  fullName.vb: Apache.Arrow.ArrayData.SliceShared(Integer, Integer)
+  nameWithType: ArrayData.SliceShared(int, int)
+  nameWithType.vb: ArrayData.SliceShared(Integer, Integer)
+- uid: Apache.Arrow.ArrayData.SliceShared*
+  name: SliceShared
+  href: api/Apache.Arrow.ArrayData.html#Apache_Arrow_ArrayData_SliceShared_
+  commentId: Overload:Apache.Arrow.ArrayData.SliceShared
+  isSpec: "True"
+  fullName: Apache.Arrow.ArrayData.SliceShared
+  nameWithType: ArrayData.SliceShared
 - uid: Apache.Arrow.ArrayDataConcatenator
   name: ArrayDataConcatenator
   href: api/Apache.Arrow.ArrayDataConcatenator.html
@@ -849,6 +894,22 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.ArrowArrayFactory.Slice
   nameWithType: ArrowArrayFactory.Slice
+- uid: Apache.Arrow.ArrowArrayFactory.SliceShared(Apache.Arrow.IArrowArray,System.Int32,System.Int32)
+  name: SliceShared(IArrowArray, int, int)
+  href: api/Apache.Arrow.ArrowArrayFactory.html#Apache_Arrow_ArrowArrayFactory_SliceShared_Apache_Arrow_IArrowArray_System_Int32_System_Int32_
+  commentId: M:Apache.Arrow.ArrowArrayFactory.SliceShared(Apache.Arrow.IArrowArray,System.Int32,System.Int32)
+  name.vb: SliceShared(IArrowArray, Integer, Integer)
+  fullName: Apache.Arrow.ArrowArrayFactory.SliceShared(Apache.Arrow.IArrowArray, int, int)
+  fullName.vb: Apache.Arrow.ArrowArrayFactory.SliceShared(Apache.Arrow.IArrowArray, Integer, Integer)
+  nameWithType: ArrowArrayFactory.SliceShared(IArrowArray, int, int)
+  nameWithType.vb: ArrowArrayFactory.SliceShared(IArrowArray, Integer, Integer)
+- uid: Apache.Arrow.ArrowArrayFactory.SliceShared*
+  name: SliceShared
+  href: api/Apache.Arrow.ArrowArrayFactory.html#Apache_Arrow_ArrowArrayFactory_SliceShared_
+  commentId: Overload:Apache.Arrow.ArrowArrayFactory.SliceShared
+  isSpec: "True"
+  fullName: Apache.Arrow.ArrowArrayFactory.SliceShared
+  nameWithType: ArrowArrayFactory.SliceShared
 - uid: Apache.Arrow.ArrowArrayVisitor
   name: ArrowArrayVisitor
   href: api/Apache.Arrow.ArrowArrayVisitor.html
@@ -1470,6 +1531,19 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.ArrowBuffer.Memory
   nameWithType: ArrowBuffer.Memory
+- uid: Apache.Arrow.ArrowBuffer.Retain
+  name: Retain()
+  href: api/Apache.Arrow.ArrowBuffer.html#Apache_Arrow_ArrowBuffer_Retain
+  commentId: M:Apache.Arrow.ArrowBuffer.Retain
+  fullName: Apache.Arrow.ArrowBuffer.Retain()
+  nameWithType: ArrowBuffer.Retain()
+- uid: Apache.Arrow.ArrowBuffer.Retain*
+  name: Retain
+  href: api/Apache.Arrow.ArrowBuffer.html#Apache_Arrow_ArrowBuffer_Retain_
+  commentId: Overload:Apache.Arrow.ArrowBuffer.Retain
+  isSpec: "True"
+  fullName: Apache.Arrow.ArrowBuffer.Retain
+  nameWithType: ArrowBuffer.Retain
 - uid: Apache.Arrow.ArrowBuffer.Span
   name: Span
   href: api/Apache.Arrow.ArrowBuffer.html#Apache_Arrow_ArrowBuffer_Span
@@ -4159,6 +4233,19 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.ChunkedArray.DataType
   nameWithType: ChunkedArray.DataType
+- uid: Apache.Arrow.ChunkedArray.Dispose
+  name: Dispose()
+  href: api/Apache.Arrow.ChunkedArray.html#Apache_Arrow_ChunkedArray_Dispose
+  commentId: M:Apache.Arrow.ChunkedArray.Dispose
+  fullName: Apache.Arrow.ChunkedArray.Dispose()
+  nameWithType: ChunkedArray.Dispose()
+- uid: Apache.Arrow.ChunkedArray.Dispose*
+  name: Dispose
+  href: api/Apache.Arrow.ChunkedArray.html#Apache_Arrow_ChunkedArray_Dispose_
+  commentId: Overload:Apache.Arrow.ChunkedArray.Dispose
+  isSpec: "True"
+  fullName: Apache.Arrow.ChunkedArray.Dispose
+  nameWithType: ChunkedArray.Dispose
 - uid: Apache.Arrow.ChunkedArray.Length
   name: Length
   href: api/Apache.Arrow.ChunkedArray.html#Apache_Arrow_ChunkedArray_Length
@@ -4210,6 +4297,31 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.ChunkedArray.Slice
   nameWithType: ChunkedArray.Slice
+- uid: Apache.Arrow.ChunkedArray.SliceShared(System.Int64)
+  name: SliceShared(long)
+  href: api/Apache.Arrow.ChunkedArray.html#Apache_Arrow_ChunkedArray_SliceShared_System_Int64_
+  commentId: M:Apache.Arrow.ChunkedArray.SliceShared(System.Int64)
+  name.vb: SliceShared(Long)
+  fullName: Apache.Arrow.ChunkedArray.SliceShared(long)
+  fullName.vb: Apache.Arrow.ChunkedArray.SliceShared(Long)
+  nameWithType: ChunkedArray.SliceShared(long)
+  nameWithType.vb: ChunkedArray.SliceShared(Long)
+- uid: Apache.Arrow.ChunkedArray.SliceShared(System.Int64,System.Int64)
+  name: SliceShared(long, long)
+  href: api/Apache.Arrow.ChunkedArray.html#Apache_Arrow_ChunkedArray_SliceShared_System_Int64_System_Int64_
+  commentId: M:Apache.Arrow.ChunkedArray.SliceShared(System.Int64,System.Int64)
+  name.vb: SliceShared(Long, Long)
+  fullName: Apache.Arrow.ChunkedArray.SliceShared(long, long)
+  fullName.vb: Apache.Arrow.ChunkedArray.SliceShared(Long, Long)
+  nameWithType: ChunkedArray.SliceShared(long, long)
+  nameWithType.vb: ChunkedArray.SliceShared(Long, Long)
+- uid: Apache.Arrow.ChunkedArray.SliceShared*
+  name: SliceShared
+  href: api/Apache.Arrow.ChunkedArray.html#Apache_Arrow_ChunkedArray_SliceShared_
+  commentId: Overload:Apache.Arrow.ChunkedArray.SliceShared
+  isSpec: "True"
+  fullName: Apache.Arrow.ChunkedArray.SliceShared
+  nameWithType: ChunkedArray.SliceShared
 - uid: Apache.Arrow.ChunkedArray.ToString
   name: ToString()
   href: api/Apache.Arrow.ChunkedArray.html#Apache_Arrow_ChunkedArray_ToString
@@ -4270,6 +4382,19 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.Column.Data
   nameWithType: Column.Data
+- uid: Apache.Arrow.Column.Dispose
+  name: Dispose()
+  href: api/Apache.Arrow.Column.html#Apache_Arrow_Column_Dispose
+  commentId: M:Apache.Arrow.Column.Dispose
+  fullName: Apache.Arrow.Column.Dispose()
+  nameWithType: Column.Dispose()
+- uid: Apache.Arrow.Column.Dispose*
+  name: Dispose
+  href: api/Apache.Arrow.Column.html#Apache_Arrow_Column_Dispose_
+  commentId: Overload:Apache.Arrow.Column.Dispose
+  isSpec: "True"
+  fullName: Apache.Arrow.Column.Dispose
+  nameWithType: Column.Dispose
 - uid: Apache.Arrow.Column.Field
   name: Field
   href: api/Apache.Arrow.Column.html#Apache_Arrow_Column_Field
@@ -4347,6 +4472,31 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.Column.Slice
   nameWithType: Column.Slice
+- uid: Apache.Arrow.Column.SliceShared(System.Int32)
+  name: SliceShared(int)
+  href: api/Apache.Arrow.Column.html#Apache_Arrow_Column_SliceShared_System_Int32_
+  commentId: M:Apache.Arrow.Column.SliceShared(System.Int32)
+  name.vb: SliceShared(Integer)
+  fullName: Apache.Arrow.Column.SliceShared(int)
+  fullName.vb: Apache.Arrow.Column.SliceShared(Integer)
+  nameWithType: Column.SliceShared(int)
+  nameWithType.vb: Column.SliceShared(Integer)
+- uid: Apache.Arrow.Column.SliceShared(System.Int32,System.Int32)
+  name: SliceShared(int, int)
+  href: api/Apache.Arrow.Column.html#Apache_Arrow_Column_SliceShared_System_Int32_System_Int32_
+  commentId: M:Apache.Arrow.Column.SliceShared(System.Int32,System.Int32)
+  name.vb: SliceShared(Integer, Integer)
+  fullName: Apache.Arrow.Column.SliceShared(int, int)
+  fullName.vb: Apache.Arrow.Column.SliceShared(Integer, Integer)
+  nameWithType: Column.SliceShared(int, int)
+  nameWithType.vb: Column.SliceShared(Integer, Integer)
+- uid: Apache.Arrow.Column.SliceShared*
+  name: SliceShared
+  href: api/Apache.Arrow.Column.html#Apache_Arrow_Column_SliceShared_
+  commentId: Overload:Apache.Arrow.Column.SliceShared
+  isSpec: "True"
+  fullName: Apache.Arrow.Column.SliceShared
+  nameWithType: Column.SliceShared
 - uid: Apache.Arrow.Column.Type
   name: Type
   href: api/Apache.Arrow.Column.html#Apache_Arrow_Column_Type
@@ -17578,6 +17728,22 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.RecordBatch.Slice
   nameWithType: RecordBatch.Slice
+- uid: Apache.Arrow.RecordBatch.SliceShared(System.Int32,System.Int32)
+  name: SliceShared(int, int)
+  href: api/Apache.Arrow.RecordBatch.html#Apache_Arrow_RecordBatch_SliceShared_System_Int32_System_Int32_
+  commentId: M:Apache.Arrow.RecordBatch.SliceShared(System.Int32,System.Int32)
+  name.vb: SliceShared(Integer, Integer)
+  fullName: Apache.Arrow.RecordBatch.SliceShared(int, int)
+  fullName.vb: Apache.Arrow.RecordBatch.SliceShared(Integer, Integer)
+  nameWithType: RecordBatch.SliceShared(int, int)
+  nameWithType.vb: RecordBatch.SliceShared(Integer, Integer)
+- uid: Apache.Arrow.RecordBatch.SliceShared*
+  name: SliceShared
+  href: api/Apache.Arrow.RecordBatch.html#Apache_Arrow_RecordBatch_SliceShared_
+  commentId: Overload:Apache.Arrow.RecordBatch.SliceShared
+  isSpec: "True"
+  fullName: Apache.Arrow.RecordBatch.SliceShared
+  nameWithType: RecordBatch.SliceShared
 - uid: Apache.Arrow.RecordBatch.ToString
   name: ToString()
   href: api/Apache.Arrow.RecordBatch.html#Apache_Arrow_RecordBatch_ToString
