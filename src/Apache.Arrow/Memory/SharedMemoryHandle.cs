@@ -36,13 +36,19 @@ namespace Apache.Arrow.Memory
 
         public void Dispose()
         {
-            _owner?.Release();
-            _owner = null;
+            Release();
+            GC.SuppressFinalize(this);
         }
 
         ~SharedMemoryHandle()
         {
-            Dispose();
+            Release();
+        }
+
+        private void Release()
+        {
+            _owner?.Release();
+            _owner = null;
         }
     }
 }
