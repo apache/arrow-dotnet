@@ -118,6 +118,13 @@ namespace Apache.Arrow
             Dictionary?.Dispose();
         }
 
+        /// <summary>
+        /// Slice this ArrayData without ownership tracking. The returned slice shares
+        /// the underlying buffers but does not keep them alive — the caller must ensure
+        /// the original ArrayData outlives the slice.
+        /// Consider using <see cref="SliceShared"/> instead, which uses reference counting
+        /// to keep the underlying buffers alive for the lifetime of the slice.
+        /// </summary>
         public ArrayData Slice(int offset, int length)
         {
             if (offset > Length)
@@ -147,6 +154,96 @@ namespace Apache.Arrow
             }
 
             return new ArrayData(DataType, length, nullCount, offset, Buffers, Children, Dictionary);
+        }
+
+        /// <summary>
+        /// Retain this ArrayData with shared ownership. The returned ArrayData keeps the
+        /// underlying buffers alive via reference counting, and recursively retains any
+        /// children and dictionary. The caller must dispose the returned ArrayData when done.
+        /// </summary>
+        public ArrayData Retain()
+        {
+            return new ArrayData(
+                DataType,
+                Length,
+                NullCount,
+                Offset,
+                RetainBuffers(Buffers),
+                RetainChildren(Children),
+                Dictionary?.Retain());
+        }
+
+        /// <summary>
+        /// Slice this ArrayData with shared ownership. The returned slice keeps the
+        /// underlying buffers alive via reference counting. The caller must dispose the
+        /// returned ArrayData when done.
+        /// </summary>
+        public ArrayData SliceShared(int offset, int length)
+        {
+            if (offset > Length)
+            {
+                throw new ArgumentException($"Offset {offset} cannot be greater than Length {Length} for Array.SliceShared");
+            }
+
+            length = Math.Min(Length - offset, length);
+            offset += Offset;
+
+            int nullCount;
+            if (NullCount == 0)
+            {
+                nullCount = 0;
+            }
+            else if (NullCount == Length)
+            {
+                nullCount = length;
+            }
+            else if (offset == Offset && length == Length)
+            {
+                nullCount = NullCount;
+            }
+            else
+            {
+                nullCount = RecalculateNullCount;
+            }
+
+            return new ArrayData(
+                DataType,
+                length,
+                nullCount,
+                offset,
+                RetainBuffers(Buffers),
+                RetainChildren(Children),
+                Dictionary?.Retain());
+        }
+
+        private static ArrowBuffer[] RetainBuffers(ArrowBuffer[] buffers)
+        {
+            if (buffers == null)
+            {
+                return null;
+            }
+
+            var retained = new ArrowBuffer[buffers.Length];
+            for (int i = 0; i < buffers.Length; i++)
+            {
+                retained[i] = buffers[i].Retain();
+            }
+            return retained;
+        }
+
+        private static ArrayData[] RetainChildren(ArrayData[] children)
+        {
+            if (children == null)
+            {
+                return null;
+            }
+
+            var retained = new ArrayData[children.Length];
+            for (int i = 0; i < children.Length; i++)
+            {
+                retained[i] = children[i]?.Retain();
+            }
+            return retained;
         }
 
         public ArrayData Clone(MemoryAllocator allocator = default)

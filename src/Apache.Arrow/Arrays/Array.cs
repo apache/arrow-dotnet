@@ -60,9 +60,23 @@ namespace Apache.Arrow
             }
         }
 
+        /// <summary>
+        /// Slice this array without changing ownership. The returned slice may
+        /// become invalid if the original array is disposed.
+        /// </summary>
         public Array Slice(int offset, int length)
         {
             return ArrowArrayFactory.Slice(this, offset, length) as Array;
+        }
+
+        /// <summary>
+        /// Slice this array with shared ownership. The returned slice keeps the
+        /// underlying buffers alive via reference counting. The caller must dispose
+        /// the returned array when done.
+        /// </summary>
+        public Array SliceShared(int offset, int length)
+        {
+            return ArrowArrayFactory.SliceShared(this, offset, length) as Array;
         }
 
         public void Dispose()

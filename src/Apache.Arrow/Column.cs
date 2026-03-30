@@ -22,22 +22,23 @@ namespace Apache.Arrow
     /// <summary>
     /// A Column data structure that logically represents a column in a dataset
     /// </summary>
-    public class Column
+    public class Column : IDisposable
     {
         public Field Field { get; }
         public ChunkedArray Data { get; }
+        private bool DisposeArrayData { get; set; }
 
         public Column(Field field, IList<Array> arrays)
-            : this(field, new ChunkedArray(arrays), doValidation: true)
+            : this(field, new ChunkedArray(arrays), doValidation: true, disposeArrayData: false)
         {
         }
 
         public Column(Field field, IList<IArrowArray> arrays)
-            : this(field, new ChunkedArray(arrays), doValidation: true)
+            : this(field, new ChunkedArray(arrays), doValidation: true, disposeArrayData: false)
         {
         }
 
-        private Column(Field field, ChunkedArray data, bool doValidation = false)
+        private Column(Field field, ChunkedArray data, bool doValidation = false, bool disposeArrayData = false)
         {
             Data = data;
             Field = field;
@@ -45,6 +46,7 @@ namespace Apache.Arrow
             {
                 throw new ArgumentException($"{Field.DataType} must match {Data.DataType}");
             }
+            DisposeArrayData = disposeArrayData;
         }
 
         public long Length => Data.Length;
@@ -60,6 +62,35 @@ namespace Apache.Arrow
         public Column Slice(int offset)
         {
             return new Column(Field, Data.Slice(offset));
+        }
+
+        /// <summary>
+        /// Slice this column with shared ownership. The returned slice keeps the
+        /// underlying buffers alive via reference counting. The caller must
+        /// dispose the returned column when done.
+        /// </summary>
+        public Column SliceShared(int offset, int length)
+        {
+            return new Column(Field, Data.SliceShared(offset, length), disposeArrayData: true);
+        }
+
+        /// <summary>
+        /// Slice this column with shared ownership. The returned slice keeps the
+        /// underlying buffers alive via reference counting. The caller must
+        /// dispose the returned column when done.
+        /// </summary>
+        public Column SliceShared(int offset)
+        {
+            return new Column(Field, Data.SliceShared(offset), disposeArrayData: true);
+        }
+
+        public void Dispose()
+        {
+            if (DisposeArrayData)
+            {
+                DisposeArrayData = false;
+                Data?.Dispose();
+            }
         }
 
         private bool ValidateArrayDataTypes()

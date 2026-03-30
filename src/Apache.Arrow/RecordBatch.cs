@@ -111,6 +111,17 @@ namespace Apache.Arrow
             return new RecordBatch(Schema, _arrays.Select(a => ArrowArrayFactory.Slice(a, offset, length)), length);
         }
 
+        public RecordBatch SliceShared(int offset, int length)
+        {
+            if (offset > Length)
+            {
+                throw new ArgumentException($"Offset {offset} cannot be greater than Length {Length} for RecordBatch.SliceShared");
+            }
+
+            length = Math.Min(Length - offset, length);
+            return new RecordBatch(Schema, _arrays.Select(a => ArrowArrayFactory.SliceShared(a, offset, length)), length);
+        }
+
         public void Accept(IArrowArrayVisitor visitor)
         {
             switch (visitor)

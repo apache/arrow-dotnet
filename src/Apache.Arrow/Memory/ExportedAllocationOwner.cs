@@ -25,6 +25,7 @@ namespace Apache.Arrow.Memory
     {
         private readonly List<IntPtr> _pointers = new List<IntPtr>();
         private readonly List<MemoryHandle> _handles = new List<MemoryHandle>();
+        private readonly List<SharedMemoryHandle> _sharedHandles = new List<SharedMemoryHandle>();
         private long _allocationSize;
         private long _referenceCount;
         private bool _disposed;
@@ -51,6 +52,14 @@ namespace Apache.Arrow.Memory
         {
             _handles.Add(handle);
             return new IntPtr(handle.Pointer);
+        }
+
+        public unsafe IntPtr Acquire(SharedMemoryHandle sharedHandle)
+        {
+            MemoryHandle handle = sharedHandle.Memory.Pin();
+            IntPtr pointer = Reference(handle);
+            _sharedHandles.Add(sharedHandle);
+            return pointer;
         }
 
         public void IncRef()
@@ -86,6 +95,12 @@ namespace Apache.Arrow.Memory
             {
                 _handles[i].Dispose();
                 _handles[i] = default;
+            }
+
+            for (int i = 0; i < _sharedHandles.Count; i++)
+            {
+                _sharedHandles[i]?.Dispose();
+                _sharedHandles[i] = default;
             }
 
             GC.RemoveMemoryPressure(_allocationSize);

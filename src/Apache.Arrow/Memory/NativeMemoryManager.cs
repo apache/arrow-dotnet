@@ -20,7 +20,7 @@ using System.Threading;
 
 namespace Apache.Arrow.Memory
 {
-    public class NativeMemoryManager : MemoryManager<byte>, IOwnableAllocation
+    public class NativeMemoryManager : MemoryManager<byte>
     {
         private IntPtr _ptr;
         private int _pinCount;
@@ -89,27 +89,6 @@ namespace Apache.Arrow.Memory
 
                 _owner.Release(ptr, _offset, _length);
             }
-        }
-
-        bool IOwnableAllocation.TryAcquire(out IntPtr ptr, out int offset, out int length)
-        {
-            // TODO: implement refcounted buffers?
-
-            if (object.ReferenceEquals(_owner, NativeMemoryAllocator.ExclusiveOwner))
-            {
-                ptr = Interlocked.Exchange(ref _ptr, IntPtr.Zero);
-                if (ptr != IntPtr.Zero)
-                {
-                    offset = _offset;
-                    length = _length;
-                    return true;
-                }
-            }
-
-            ptr = IntPtr.Zero;
-            offset = 0;
-            length = 0;
-            return false;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
