@@ -231,6 +231,7 @@ namespace Apache.Arrow.C
                 case ListType _: return "+l";
                 case ListViewType _: return "+vl";
                 case LargeListType _: return "+L";
+                case LargeListViewType _: return "+vL";
                 case FixedSizeListType fixedListType:
                     return $"+w:{fixedListType.ListSize}";
                 case StructType _: return "+s";

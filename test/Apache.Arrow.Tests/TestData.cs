@@ -51,6 +51,7 @@ namespace Apache.Arrow.Tests
                 AddField(CreateField(new ListType(Int64Type.Default), i));
                 AddField(CreateField(new ListViewType(Int64Type.Default), i));
                 AddField(CreateField(new LargeListType(Int64Type.Default), i));
+                AddField(CreateField(new LargeListViewType(Int64Type.Default), i));
                 AddField(CreateField(BooleanType.Default, i));
                 AddField(CreateField(UInt8Type.Default, i));
                 AddField(CreateField(Int8Type.Default, i));
@@ -154,6 +155,7 @@ namespace Apache.Arrow.Tests
             IArrowTypeVisitor<ListType>,
             IArrowTypeVisitor<ListViewType>,
             IArrowTypeVisitor<LargeListType>,
+            IArrowTypeVisitor<LargeListViewType>,
             IArrowTypeVisitor<FixedSizeListType>,
             IArrowTypeVisitor<StructType>,
             IArrowTypeVisitor<UnionType>,
@@ -486,6 +488,38 @@ namespace Apache.Arrow.Tests
                 Array = new LargeListArray(
                     new LargeListType(new Int64Type()), Length,
                     offsetBuffer.Build(), valueBuilder.Build(), validity,
+                    validityBuffer.UnsetBitCount);
+            }
+
+            public void Visit(LargeListViewType type)
+            {
+                var valueBuilder = new Int64Array.Builder().Reserve(Length * 3 / 2);
+                var offsetBuffer = new ArrowBuffer.Builder<long>();
+                var sizesBuffer = new ArrowBuffer.Builder<long>();
+                var validityBuffer = new ArrowBuffer.BitmapBuilder();
+
+                for (var i = 0; i < Length; i++)
+                {
+                    if (i % 10 == 2)
+                    {
+                        offsetBuffer.Append(valueBuilder.Length);
+                        sizesBuffer.Append(0);
+                        validityBuffer.Append(false);
+                    }
+                    else
+                    {
+                        var listLength = i % 4;
+                        offsetBuffer.Append(valueBuilder.Length);
+                        sizesBuffer.Append(listLength);
+                        valueBuilder.AppendRange(Enumerable.Range(i, listLength).Select(x => (long)x));
+                        validityBuffer.Append(true);
+                    }
+                }
+
+                var validity = validityBuffer.UnsetBitCount > 0 ? validityBuffer.Build() : ArrowBuffer.Empty;
+                Array = new LargeListViewArray(
+                    new LargeListViewType(new Int64Type()), Length,
+                    offsetBuffer.Build(), sizesBuffer.Build(), valueBuilder.Build(), validity,
                     validityBuffer.UnsetBitCount);
             }
 

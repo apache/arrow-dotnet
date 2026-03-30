@@ -179,6 +179,10 @@ namespace Apache.Arrow.C
                         children = ProcessListChildren(cArray, ((LargeListType)storageType).ValueDataType);
                         buffers = ImportLargeListBuffers(cArray);
                         break;
+                    case ArrowTypeId.LargeListView:
+                        children = ProcessListChildren(cArray, ((LargeListViewType)storageType).ValueDataType);
+                        buffers = ImportLargeListViewBuffers(cArray);
+                        break;
                     case ArrowTypeId.FixedSizeList:
                         children = ProcessListChildren(cArray, ((FixedSizeListType)storageType).ValueDataType);
                         buffers = ImportFixedSizeListBuffers(cArray);
@@ -389,6 +393,32 @@ namespace Apache.Arrow.C
                 buffers[0] = ImportValidityBuffer(cArray);
                 buffers[1] = ImportCArrayBuffer(cArray, 1, offsetsLength);
                 buffers[2] = ImportCArrayBuffer(cArray, 2, offsetsLength);
+
+                return buffers;
+            }
+
+            private ArrowBuffer[] ImportLargeListViewBuffers(CArrowArray* cArray)
+            {
+                if (cArray->n_buffers != 3)
+                {
+                    throw new InvalidOperationException("Large list view arrays are expected to have exactly three buffers");
+                }
+
+                const int maxLength = int.MaxValue / 8;
+                if (cArray->length > maxLength)
+                {
+                    throw new OverflowException(
+                        $"Cannot import large list view array. Array length {cArray->length} " +
+                        $"is greater than the maximum supported large list view array length ({maxLength})");
+                }
+
+                int length = checked((int)cArray->offset + (int)cArray->length);
+                int bufferLength = length * 8;
+
+                ArrowBuffer[] buffers = new ArrowBuffer[3];
+                buffers[0] = ImportValidityBuffer(cArray);
+                buffers[1] = ImportCArrayBuffer(cArray, 1, bufferLength);
+                buffers[2] = ImportCArrayBuffer(cArray, 2, bufferLength);
 
                 return buffers;
             }

@@ -58,6 +58,7 @@ namespace Apache.Arrow.Ipc
             IArrowArrayVisitor<ListArray>,
             IArrowArrayVisitor<ListViewArray>,
             IArrowArrayVisitor<LargeListArray>,
+            IArrowArrayVisitor<LargeListViewArray>,
             IArrowArrayVisitor<FixedSizeListArray>,
             IArrowArrayVisitor<StringArray>,
             IArrowArrayVisitor<StringViewArray>,
@@ -223,6 +224,23 @@ namespace Apache.Arrow.Ipc
                 if (valuesOffset > 0 || valuesLength < values.Length)
                 {
                     values = ArrowArrayFactory.Slice(values, valuesOffset, valuesLength);
+                }
+
+                VisitArray(values);
+            }
+
+            public void Visit(LargeListViewArray array)
+            {
+                var (valueOffsetsBuffer, minOffset, maxEnd) = GetZeroBasedLargeListViewOffsets(array);
+
+                _buffers.Add(CreateBitmapBuffer(array.NullBitmapBuffer, array.Offset, array.Length, false));
+                _buffers.Add(CreateBuffer(valueOffsetsBuffer, true));
+                _buffers.Add(CreateSlicedBuffer<long>(array.SizesBuffer, array.Offset, array.Length, false));
+
+                IArrowArray values = array.Values;
+                if (minOffset != 0 || values.Length != maxEnd)
+                {
+                    values = ArrowArrayFactory.Slice(values, checked((int)minOffset), checked((int)(maxEnd - minOffset)));
                 }
 
                 VisitArray(values);
@@ -459,6 +477,57 @@ namespace Apache.Arrow.Ipc
                 // Compute shifted offsets
                 var newOffsetsBuffer = _allocator.Allocate(requiredBytes);
                 var newOffsets = newOffsetsBuffer.Memory.Span.CastTo<int>();
+                for (int i = 0; i < array.Length; ++i)
+                {
+                    newOffsets[i] = offsets[i] - minOffset;
+                }
+
+                return (new ArrowBuffer(newOffsetsBuffer), minOffset, maxEnd);
+            }
+
+            private (ArrowBuffer Buffer, long minOffset, long maxEnd) GetZeroBasedLargeListViewOffsets(LargeListViewArray array)
+            {
+                if (array.Length == 0)
+                {
+                    return (ArrowBuffer.Empty, 0, 0);
+                }
+
+                var offsets = array.ValueOffsets;
+                var sizes = array.Sizes;
+
+                long minOffset = offsets[0];
+                long maxEnd = offsets[array.Length - 1] + sizes[array.Length - 1];
+
+                if (minOffset != 0 || maxEnd != array.Values.Length)
+                {
+                    for (int i = 0; i < array.Length; ++i)
+                    {
+                        minOffset = Math.Min(minOffset, offsets[i]);
+                        maxEnd = Math.Max(maxEnd, offsets[i] + sizes[i]);
+                    }
+                }
+
+                var requiredBytes = CalculatePaddedBufferLength(sizeof(long) * array.Length);
+
+                if (minOffset == 0)
+                {
+                    ArrowBuffer buffer;
+                    if (array.Offset != 0 || array.ValueOffsetsBuffer.Length > requiredBytes)
+                    {
+                        var byteOffset = sizeof(long) * array.Offset;
+                        var sliceLength = Math.Min(requiredBytes, array.ValueOffsetsBuffer.Length - byteOffset);
+                        buffer = new ArrowBuffer(array.ValueOffsetsBuffer.Memory.Slice(byteOffset, sliceLength));
+                    }
+                    else
+                    {
+                        buffer = new ArrowBuffer(array.ValueOffsetsBuffer.Memory);
+                    }
+
+                    return (buffer, minOffset, maxEnd);
+                }
+
+                var newOffsetsBuffer = _allocator.Allocate(requiredBytes);
+                var newOffsets = newOffsetsBuffer.Memory.Span.CastTo<long>();
                 for (int i = 0; i < array.Length; ++i)
                 {
                     newOffsets[i] = offsets[i] - minOffset;

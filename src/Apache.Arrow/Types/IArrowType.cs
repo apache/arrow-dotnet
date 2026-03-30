@@ -59,6 +59,7 @@ namespace Apache.Arrow.Types
         Decimal32,
         Decimal64,
         Extension,
+        LargeListView,
     }
 
     public interface IArrowType

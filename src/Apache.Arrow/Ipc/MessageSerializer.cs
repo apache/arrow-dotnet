@@ -237,6 +237,12 @@ namespace Apache.Arrow.Ipc
                         throw new InvalidDataException($"Large list type must have exactly one child.");
                     }
                     return new Types.LargeListType(childFields[0]);
+                case Flatbuf.Type.LargeListView:
+                    if (childFields == null || childFields.Length != 1)
+                    {
+                        throw new InvalidDataException($"Large list view type must have exactly one child.");
+                    }
+                    return new Types.LargeListViewType(childFields[0]);
                 case Flatbuf.Type.FixedSizeList:
                     if (childFields == null || childFields.Length != 1)
                     {

@@ -71,6 +71,8 @@ namespace Apache.Arrow
                     return new ListViewArray(data);
                 case ArrowTypeId.LargeList:
                     return new LargeListArray(data);
+                case ArrowTypeId.LargeListView:
+                    return new LargeListViewArray(data);
                 case ArrowTypeId.Map:
                     return new MapArray(data);
                 case ArrowTypeId.Struct:
