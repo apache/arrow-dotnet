@@ -39,5 +39,10 @@ namespace Apache.Arrow.Memory
             _owner?.Release();
             _owner = null;
         }
+
+        ~SharedMemoryHandle()
+        {
+            Dispose();
+        }
     }
 }

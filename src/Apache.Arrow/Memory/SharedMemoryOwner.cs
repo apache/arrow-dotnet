@@ -58,10 +58,5 @@ namespace Apache.Arrow.Memory
                 _inner.Dispose();
             }
         }
-
-        public T GetInner<T>() where T : class
-        {
-            return _inner as T;
-        }
     }
 }
