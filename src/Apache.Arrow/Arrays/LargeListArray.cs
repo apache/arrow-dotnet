@@ -14,12 +14,96 @@
 // limitations under the License.
 
 using System;
+using Apache.Arrow.Memory;
 using Apache.Arrow.Types;
 
 namespace Apache.Arrow
 {
     public class LargeListArray : Array
     {
+        public class Builder : IArrowArrayBuilder<LargeListArray, Builder>
+        {
+            public IArrowArrayBuilder<IArrowArray, IArrowArrayBuilder<IArrowArray>> ValueBuilder { get; }
+
+            public int Length => ValueOffsetsBufferBuilder.Length;
+
+            private ArrowBuffer.Builder<long> ValueOffsetsBufferBuilder { get; }
+
+            private ArrowBuffer.BitmapBuilder ValidityBufferBuilder { get; }
+
+            public int NullCount { get; protected set; }
+
+            private IArrowType DataType { get; }
+
+            public Builder(IArrowType valueDataType) : this(new LargeListType(valueDataType))
+            {
+            }
+
+            public Builder(Field valueField) : this(new LargeListType(valueField))
+            {
+            }
+
+            internal Builder(LargeListType dataType)
+            {
+                ValueBuilder = ArrowArrayBuilderFactory.Build(dataType.ValueDataType);
+                ValueOffsetsBufferBuilder = new ArrowBuffer.Builder<long>();
+                ValidityBufferBuilder = new ArrowBuffer.BitmapBuilder();
+                DataType = dataType;
+            }
+
+            public Builder Append()
+            {
+                ValueOffsetsBufferBuilder.Append(ValueBuilder.Length);
+                ValidityBufferBuilder.Append(true);
+
+                return this;
+            }
+
+            public Builder AppendNull()
+            {
+                ValueOffsetsBufferBuilder.Append(ValueBuilder.Length);
+                ValidityBufferBuilder.Append(false);
+                NullCount++;
+
+                return this;
+            }
+
+            public LargeListArray Build(MemoryAllocator allocator = default)
+            {
+                ValueOffsetsBufferBuilder.Append(ValueBuilder.Length);
+
+                ArrowBuffer validityBuffer = NullCount > 0
+                                        ? ValidityBufferBuilder.Build(allocator)
+                                        : ArrowBuffer.Empty;
+
+                return new LargeListArray(DataType, Length - 1,
+                    ValueOffsetsBufferBuilder.Build(allocator), ValueBuilder.Build(allocator),
+                    validityBuffer, NullCount, 0);
+            }
+
+            public Builder Reserve(int capacity)
+            {
+                ValueOffsetsBufferBuilder.Reserve(capacity + 1);
+                ValidityBufferBuilder.Reserve(capacity);
+                return this;
+            }
+
+            public Builder Resize(int length)
+            {
+                ValueOffsetsBufferBuilder.Resize(length + 1);
+                ValidityBufferBuilder.Resize(length);
+                return this;
+            }
+
+            public Builder Clear()
+            {
+                ValueOffsetsBufferBuilder.Clear();
+                ValueBuilder.Clear();
+                ValidityBufferBuilder.Clear();
+                return this;
+            }
+        }
+
         public IArrowArray Values { get; }
 
         public ArrowBuffer ValueOffsetsBuffer => Data.Buffers[1];
