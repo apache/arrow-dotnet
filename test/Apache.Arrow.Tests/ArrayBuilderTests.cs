@@ -349,7 +349,36 @@ namespace Apache.Arrow.Tests
             valueBuilder.Append(10);
             var clearedList = builder.Build();
 
+            Assert.Equal(1, clearedList.Length);
             Assert.Equal(0, clearedList.NullCount);
+            var slice = (Int64Array)clearedList.GetSlicedValues(0);
+            Assert.Equal(1, slice.Length);
+            Assert.Equal(10, slice.GetValue(0));
+        }
+
+        [Fact]
+        public void ListViewArrayBuilderClearWithoutBuildResetsCorrectly()
+        {
+            var builder = new ListViewArray.Builder(Int64Type.Default);
+            var valueBuilder = (Int64Array.Builder)builder.ValueBuilder;
+
+            builder.Append();
+            valueBuilder.Append(1);
+            valueBuilder.Append(2);
+
+            // Clear without calling Build first
+            builder.Clear();
+
+            builder.Append();
+            valueBuilder.Append(10);
+
+            var array = builder.Build();
+
+            Assert.Equal(1, array.Length);
+            Assert.Equal(0, array.NullCount);
+            var slice = (Int64Array)array.GetSlicedValues(0);
+            Assert.Equal(1, slice.Length);
+            Assert.Equal(10, slice.GetValue(0));
         }
 
         [Fact]

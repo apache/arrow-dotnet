@@ -133,6 +133,7 @@ namespace Apache.Arrow
                 ValueBuilder.Clear();
                 ValidityBufferBuilder.Clear();
                 NullCount = 0;
+                Start = -1;
                 return this;
             }
         }

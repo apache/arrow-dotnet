@@ -102,6 +102,31 @@ namespace Apache.Arrow.Tests
         }
 
         [Fact]
+        public void ClearWithoutBuildResetsBuilder()
+        {
+            var builder = new LargeListViewArray.Builder(Int32Type.Default);
+            var valueBuilder = (Int32Array.Builder)builder.ValueBuilder;
+
+            builder.Append();
+            valueBuilder.Append(1);
+            valueBuilder.Append(2);
+
+            // Clear without calling Build first
+            builder.Clear();
+
+            builder.Append();
+            valueBuilder.Append(99);
+
+            var array = builder.Build();
+
+            Assert.Equal(1, array.Length);
+            Assert.Equal(0, array.NullCount);
+            var slice = (Int32Array)array.GetSlicedValues(0);
+            Assert.Equal(1, slice.Length);
+            Assert.Equal(99, slice.GetValue(0));
+        }
+
+        [Fact]
         public void NestedStringListBuildsCorrectly()
         {
             var builder = new LargeListViewArray.Builder(StringType.Default);
