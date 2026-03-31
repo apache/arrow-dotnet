@@ -118,6 +118,17 @@ namespace Apache.Arrow.Tests
             }
 
             [Fact]
+            public void GetFieldIndexWithComparerReturnsMinusOneWhenFieldDoesNotExist()
+            {
+                var schema = new Schema.Builder()
+                    .Field(f => f.Name("f0").DataType(Int32Type.Default))
+                    .Build();
+
+                Assert.Equal(-1, schema.GetFieldIndex("F0", StringComparer.Ordinal));
+                Assert.Equal(-1, schema.GetFieldIndex("f1", StringComparer.OrdinalIgnoreCase));
+            }
+
+            [Fact]
             public void GetFieldByName()
             {
                 Field f0 = new Field.Builder().Name("f0").DataType(Int32Type.Default).Build();
