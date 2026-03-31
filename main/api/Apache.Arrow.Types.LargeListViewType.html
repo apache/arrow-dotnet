@@ -2,9 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Class NestedType | Apache Arrow .NET </title>
+      <title>Class LargeListViewType | Apache Arrow .NET </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Class NestedType | Apache Arrow .NET ">
+      <meta name="title" content="Class LargeListViewType | Apache Arrow .NET ">
       
       
       <link rel="icon" href="../images/favicon.png">
@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="../">
       
       
-      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Apache_Arrow_Types_NestedType.md&amp;value=---%0Auid%3A%20Apache.Arrow.Types.NestedType%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Apache_Arrow_Types_LargeListViewType.md&amp;value=---%0Auid%3A%20Apache.Arrow.Types.LargeListViewType%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -84,12 +84,12 @@
           <nav id="breadcrumb"></nav>
         </div>
 
-        <article data-uid="Apache.Arrow.Types.NestedType">
+        <article data-uid="Apache.Arrow.Types.LargeListViewType">
 
 
 
-  <h1 id="Apache_Arrow_Types_NestedType" data-uid="Apache.Arrow.Types.NestedType" class="text-break">
-Class NestedType  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Types/NestedType.cs/#L21"><i class="bi bi-code-slash"></i></a>
+  <h1 id="Apache_Arrow_Types_LargeListViewType" data-uid="Apache.Arrow.Types.LargeListViewType" class="text-break">
+Class LargeListViewType  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Types/LargeListViewType.cs/#L18"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -101,7 +101,7 @@ Class NestedType  <a class="header-action link-secondary" title="View source" hr
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class NestedType : ArrowType, IArrowType</code></pre>
+    <pre><code class="lang-csharp hljs">public sealed class LargeListViewType : NestedType, IArrowType</code></pre>
   </div>
 
 
@@ -112,7 +112,8 @@ Class NestedType  <a class="header-action link-secondary" title="View source" hr
     <dd>
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
       <div><a class="xref" href="Apache.Arrow.Types.ArrowType.html">ArrowType</a></div>
-      <div><span class="xref">NestedType</span></div>
+      <div><a class="xref" href="Apache.Arrow.Types.NestedType.html">NestedType</a></div>
+      <div><span class="xref">LargeListViewType</span></div>
     </dd>
   </dl>
 
@@ -123,34 +124,18 @@ Class NestedType  <a class="header-action link-secondary" title="View source" hr
     </dd>
   </dl>
 
-  <dl class="typelist derived">
-    <dt>Derived</dt>
-    <dd>
-      <div><a class="xref" href="Apache.Arrow.Types.FixedSizeListType.html">FixedSizeListType</a></div>
-      <div><a class="xref" href="Apache.Arrow.Types.LargeListType.html">LargeListType</a></div>
-      <div><a class="xref" href="Apache.Arrow.Types.LargeListViewType.html">LargeListViewType</a></div>
-      <div><a class="xref" href="Apache.Arrow.Types.ListType.html">ListType</a></div>
-      <div><a class="xref" href="Apache.Arrow.Types.ListViewType.html">ListViewType</a></div>
-      <div><a class="xref" href="Apache.Arrow.Types.MapType.html">MapType</a></div>
-      <div><a class="xref" href="Apache.Arrow.Types.StructType.html">StructType</a></div>
-      <div><a class="xref" href="Apache.Arrow.Types.UnionType.html">UnionType</a></div>
-    </dd>
-  </dl>
 
   <dl class="typelist inheritedMembers">
     <dt>Inherited Members</dt>
     <dd>
     <div>
-      <a class="xref" href="Apache.Arrow.Types.ArrowType.html#Apache_Arrow_Types_ArrowType_TypeId">ArrowType.TypeId</a>
+      <a class="xref" href="Apache.Arrow.Types.NestedType.html#Apache_Arrow_Types_NestedType_Children">NestedType.Children</a>
     </div>
     <div>
-      <a class="xref" href="Apache.Arrow.Types.ArrowType.html#Apache_Arrow_Types_ArrowType_Name">ArrowType.Name</a>
+      <a class="xref" href="Apache.Arrow.Types.NestedType.html#Apache_Arrow_Types_NestedType_Fields">NestedType.Fields</a>
     </div>
     <div>
       <a class="xref" href="Apache.Arrow.Types.ArrowType.html#Apache_Arrow_Types_ArrowType_IsFixedWidth">ArrowType.IsFixedWidth</a>
-    </div>
-    <div>
-      <a class="xref" href="Apache.Arrow.Types.ArrowType.html#Apache_Arrow_Types_ArrowType_Accept_Apache_Arrow_Types_IArrowTypeVisitor_">ArrowType.Accept(IArrowTypeVisitor)</a>
     </div>
     <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
@@ -163,9 +148,6 @@ Class NestedType  <a class="header-action link-secondary" title="View source" hr
     </div>
     <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
     </div>
     <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
@@ -194,23 +176,23 @@ Class NestedType  <a class="header-action link-secondary" title="View source" hr
 </h2>
 
 
-  <a id="Apache_Arrow_Types_NestedType__ctor_" data-uid="Apache.Arrow.Types.NestedType.#ctor*"></a>
+  <a id="Apache_Arrow_Types_LargeListViewType__ctor_" data-uid="Apache.Arrow.Types.LargeListViewType.#ctor*"></a>
 
-  <h3 id="Apache_Arrow_Types_NestedType__ctor_Apache_Arrow_Field_" data-uid="Apache.Arrow.Types.NestedType.#ctor(Apache.Arrow.Field)">
-  NestedType(Field)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Types/NestedType.cs/#L37"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Apache_Arrow_Types_LargeListViewType__ctor_Apache_Arrow_Field_" data-uid="Apache.Arrow.Types.LargeListViewType.#ctor(Apache.Arrow.Field)">
+  LargeListViewType(Field)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Types/LargeListViewType.cs/#L28"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected NestedType(Field field)</code></pre>
+    <pre><code class="lang-csharp hljs">public LargeListViewType(Field valueField)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
-    <dt><code>field</code> <a class="xref" href="Apache.Arrow.Field.html">Field</a></dt>
+    <dt><code>valueField</code> <a class="xref" href="Apache.Arrow.Field.html">Field</a></dt>
     <dd></dd>
   </dl>
 
@@ -225,23 +207,23 @@ Class NestedType  <a class="header-action link-secondary" title="View source" hr
 
 
 
-  <a id="Apache_Arrow_Types_NestedType__ctor_" data-uid="Apache.Arrow.Types.NestedType.#ctor*"></a>
+  <a id="Apache_Arrow_Types_LargeListViewType__ctor_" data-uid="Apache.Arrow.Types.LargeListViewType.#ctor*"></a>
 
-  <h3 id="Apache_Arrow_Types_NestedType__ctor_System_Collections_Generic_IReadOnlyList_Apache_Arrow_Field__" data-uid="Apache.Arrow.Types.NestedType.#ctor(System.Collections.Generic.IReadOnlyList{Apache.Arrow.Field})">
-  NestedType(IReadOnlyList&lt;Field&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Types/NestedType.cs/#L28"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Apache_Arrow_Types_LargeListViewType__ctor_Apache_Arrow_Types_IArrowType_" data-uid="Apache.Arrow.Types.LargeListViewType.#ctor(Apache.Arrow.Types.IArrowType)">
+  LargeListViewType(IArrowType)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Types/LargeListViewType.cs/#L31"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected NestedType(IReadOnlyList&lt;Field&gt; fields)</code></pre>
+    <pre><code class="lang-csharp hljs">public LargeListViewType(IArrowType valueDataType)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
-    <dt><code>fields</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="Apache.Arrow.Field.html">Field</a>&gt;</dt>
+    <dt><code>valueDataType</code> <a class="xref" href="Apache.Arrow.Types.IArrowType.html">IArrowType</a></dt>
     <dd></dd>
   </dl>
 
@@ -260,19 +242,18 @@ Class NestedType  <a class="header-action link-secondary" title="View source" hr
 </h2>
 
 
-  <a id="Apache_Arrow_Types_NestedType_Children_" data-uid="Apache.Arrow.Types.NestedType.Children*"></a>
+  <a id="Apache_Arrow_Types_LargeListViewType_Name_" data-uid="Apache.Arrow.Types.LargeListViewType.Name*"></a>
 
-  <h3 id="Apache_Arrow_Types_NestedType_Children" data-uid="Apache.Arrow.Types.NestedType.Children">
-  Children
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Types/NestedType.cs/#L23"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Apache_Arrow_Types_LargeListViewType_Name" data-uid="Apache.Arrow.Types.LargeListViewType.Name">
+  Name
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Types/LargeListViewType.cs/#L22"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Use `Fields` instead&quot;)]
-public IReadOnlyList&lt;Field&gt; Children { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public override string Name { get; }</code></pre>
   </div>
 
 
@@ -281,7 +262,7 @@ public IReadOnlyList&lt;Field&gt; Children { get; }</code></pre>
 
   <h4 class="section">Property Value</h4>
   <dl class="parameters">
-    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="Apache.Arrow.Field.html">Field</a>&gt;</dt>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
     <dd></dd>
   </dl>
 
@@ -292,18 +273,18 @@ public IReadOnlyList&lt;Field&gt; Children { get; }</code></pre>
 
 
 
-  <a id="Apache_Arrow_Types_NestedType_Fields_" data-uid="Apache.Arrow.Types.NestedType.Fields*"></a>
+  <a id="Apache_Arrow_Types_LargeListViewType_TypeId_" data-uid="Apache.Arrow.Types.LargeListViewType.TypeId*"></a>
 
-  <h3 id="Apache_Arrow_Types_NestedType_Fields" data-uid="Apache.Arrow.Types.NestedType.Fields">
-  Fields
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Types/NestedType.cs/#L26"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Apache_Arrow_Types_LargeListViewType_TypeId" data-uid="Apache.Arrow.Types.LargeListViewType.TypeId">
+  TypeId
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Types/LargeListViewType.cs/#L20"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IReadOnlyList&lt;Field&gt; Fields { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public override ArrowTypeId TypeId { get; }</code></pre>
   </div>
 
 
@@ -312,9 +293,106 @@ public IReadOnlyList&lt;Field&gt; Children { get; }</code></pre>
 
   <h4 class="section">Property Value</h4>
   <dl class="parameters">
-    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="Apache.Arrow.Field.html">Field</a>&gt;</dt>
+    <dt><a class="xref" href="Apache.Arrow.Types.ArrowTypeId.html">ArrowTypeId</a></dt>
     <dd></dd>
   </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Types_LargeListViewType_ValueDataType_" data-uid="Apache.Arrow.Types.LargeListViewType.ValueDataType*"></a>
+
+  <h3 id="Apache_Arrow_Types_LargeListViewType_ValueDataType" data-uid="Apache.Arrow.Types.LargeListViewType.ValueDataType">
+  ValueDataType
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Types/LargeListViewType.cs/#L26"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IArrowType ValueDataType { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Types.IArrowType.html">IArrowType</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Types_LargeListViewType_ValueField_" data-uid="Apache.Arrow.Types.LargeListViewType.ValueField*"></a>
+
+  <h3 id="Apache_Arrow_Types_LargeListViewType_ValueField" data-uid="Apache.Arrow.Types.LargeListViewType.ValueField">
+  ValueField
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Types/LargeListViewType.cs/#L24"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Field ValueField { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Field.html">Field</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Apache_Arrow_Types_LargeListViewType_Accept_" data-uid="Apache.Arrow.Types.LargeListViewType.Accept*"></a>
+
+  <h3 id="Apache_Arrow_Types_LargeListViewType_Accept_Apache_Arrow_Types_IArrowTypeVisitor_" data-uid="Apache.Arrow.Types.LargeListViewType.Accept(Apache.Arrow.Types.IArrowTypeVisitor)">
+  Accept(IArrowTypeVisitor)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Types/LargeListViewType.cs/#L34"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Accept(IArrowTypeVisitor visitor)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>visitor</code> <a class="xref" href="Apache.Arrow.Types.IArrowTypeVisitor.html">IArrowTypeVisitor</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
 
 
 
@@ -327,7 +405,7 @@ public IReadOnlyList&lt;Field&gt; Children { get; }</code></pre>
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Types/NestedType.cs/#L21" class="edit-link">Edit this page</a>
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Types/LargeListViewType.cs/#L18" class="edit-link">Edit this page</a>
         </div>
 
 

@@ -2406,6 +2406,34 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.LargeListViewArray.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.LargeListViewArray.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.LargeListViewArray.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.LargeListViewArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.LargeListViewArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.LargeListViewArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Apache.Arrow.LargeStringArray.Builder.yml",
       "output": {
         ".html": {
@@ -3550,6 +3578,20 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Apache.Arrow.Types.LargeListType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.LargeListViewType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.LargeListViewType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.LargeListViewType",
       "Summary": null
     },
     {
