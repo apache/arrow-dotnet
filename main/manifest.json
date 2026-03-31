@@ -2336,6 +2336,34 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.LargeBinaryArray.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.LargeBinaryArray.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.LargeBinaryArray.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Apache.Arrow.LargeBinaryArray.yml",
       "output": {
         ".html": {
@@ -2350,6 +2378,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.LargeListArray.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.LargeListArray.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.LargeListArray.Builder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Apache.Arrow.LargeListArray.yml",
       "output": {
         ".html": {
@@ -2360,6 +2402,20 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Apache.Arrow.LargeListArray",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.LargeStringArray.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.LargeStringArray.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.LargeStringArray.Builder",
       "Summary": null
     },
     {

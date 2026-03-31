@@ -14567,6 +14567,411 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.LargeBinaryArray.Accept
   nameWithType: LargeBinaryArray.Accept
+- uid: Apache.Arrow.LargeBinaryArray.Builder
+  name: LargeBinaryArray.Builder
+  href: api/Apache.Arrow.LargeBinaryArray.Builder.html
+  commentId: T:Apache.Arrow.LargeBinaryArray.Builder
+  fullName: Apache.Arrow.LargeBinaryArray.Builder
+  nameWithType: LargeBinaryArray.Builder
+- uid: Apache.Arrow.LargeBinaryArray.Builder.#ctor
+  name: Builder()
+  href: api/Apache.Arrow.LargeBinaryArray.Builder.html#Apache_Arrow_LargeBinaryArray_Builder__ctor
+  commentId: M:Apache.Arrow.LargeBinaryArray.Builder.#ctor
+  name.vb: New()
+  fullName: Apache.Arrow.LargeBinaryArray.Builder.Builder()
+  fullName.vb: Apache.Arrow.LargeBinaryArray.Builder.New()
+  nameWithType: LargeBinaryArray.Builder.Builder()
+  nameWithType.vb: LargeBinaryArray.Builder.New()
+- uid: Apache.Arrow.LargeBinaryArray.Builder.#ctor(Apache.Arrow.Types.IArrowType)
+  name: Builder(IArrowType)
+  href: api/Apache.Arrow.LargeBinaryArray.Builder.html#Apache_Arrow_LargeBinaryArray_Builder__ctor_Apache_Arrow_Types_IArrowType_
+  commentId: M:Apache.Arrow.LargeBinaryArray.Builder.#ctor(Apache.Arrow.Types.IArrowType)
+  name.vb: New(IArrowType)
+  fullName: Apache.Arrow.LargeBinaryArray.Builder.Builder(Apache.Arrow.Types.IArrowType)
+  fullName.vb: Apache.Arrow.LargeBinaryArray.Builder.New(Apache.Arrow.Types.IArrowType)
+  nameWithType: LargeBinaryArray.Builder.Builder(IArrowType)
+  nameWithType.vb: LargeBinaryArray.Builder.New(IArrowType)
+- uid: Apache.Arrow.LargeBinaryArray.Builder.#ctor*
+  name: Builder
+  href: api/Apache.Arrow.LargeBinaryArray.Builder.html#Apache_Arrow_LargeBinaryArray_Builder__ctor_
+  commentId: Overload:Apache.Arrow.LargeBinaryArray.Builder.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Apache.Arrow.LargeBinaryArray.Builder.Builder
+  fullName.vb: Apache.Arrow.LargeBinaryArray.Builder.New
+  nameWithType: LargeBinaryArray.Builder.Builder
+  nameWithType.vb: LargeBinaryArray.Builder.New
+- uid: Apache.Arrow.LargeBinaryArray.Builder.Build(Apache.Arrow.ArrayData)
+  name: Build(ArrayData)
+  href: api/Apache.Arrow.LargeBinaryArray.Builder.html#Apache_Arrow_LargeBinaryArray_Builder_Build_Apache_Arrow_ArrayData_
+  commentId: M:Apache.Arrow.LargeBinaryArray.Builder.Build(Apache.Arrow.ArrayData)
+  fullName: Apache.Arrow.LargeBinaryArray.Builder.Build(Apache.Arrow.ArrayData)
+  nameWithType: LargeBinaryArray.Builder.Build(ArrayData)
+- uid: Apache.Arrow.LargeBinaryArray.Builder.Build*
+  name: Build
+  href: api/Apache.Arrow.LargeBinaryArray.Builder.html#Apache_Arrow_LargeBinaryArray_Builder_Build_
+  commentId: Overload:Apache.Arrow.LargeBinaryArray.Builder.Build
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeBinaryArray.Builder.Build
+  nameWithType: LargeBinaryArray.Builder.Build
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2
+  name: LargeBinaryArray.BuilderBase<TArray, TBuilder>
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html
+  commentId: T:Apache.Arrow.LargeBinaryArray.BuilderBase`2
+  name.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder)
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder)
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder)
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.#ctor(Apache.Arrow.Types.IArrowType)
+  name: BuilderBase(IArrowType)
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2__ctor_Apache_Arrow_Types_IArrowType_
+  commentId: M:Apache.Arrow.LargeBinaryArray.BuilderBase`2.#ctor(Apache.Arrow.Types.IArrowType)
+  name.vb: New(IArrowType)
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.BuilderBase(Apache.Arrow.Types.IArrowType)
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).New(Apache.Arrow.Types.IArrowType)
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.BuilderBase(IArrowType)
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).New(IArrowType)
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.#ctor*
+  name: BuilderBase
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2__ctor_
+  commentId: Overload:Apache.Arrow.LargeBinaryArray.BuilderBase`2.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.BuilderBase
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).New
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.BuilderBase
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).New
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.Append(System.Byte)
+  name: Append(byte)
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_Append_System_Byte_
+  commentId: M:Apache.Arrow.LargeBinaryArray.BuilderBase`2.Append(System.Byte)
+  name.vb: Append(Byte)
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.Append(byte)
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Append(Byte)
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.Append(byte)
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Append(Byte)
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.Append(System.Collections.Generic.IEnumerable{System.Byte})
+  name: Append(IEnumerable<byte>)
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_Append_System_Collections_Generic_IEnumerable_System_Byte__
+  commentId: M:Apache.Arrow.LargeBinaryArray.BuilderBase`2.Append(System.Collections.Generic.IEnumerable{System.Byte})
+  name.vb: Append(IEnumerable(Of Byte))
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.Append(System.Collections.Generic.IEnumerable<byte>)
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Append(System.Collections.Generic.IEnumerable(Of Byte))
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.Append(IEnumerable<byte>)
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Append(IEnumerable(Of Byte))
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.Append(System.ReadOnlySpan{System.Byte})
+  name: Append(ReadOnlySpan<byte>)
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_Append_System_ReadOnlySpan_System_Byte__
+  commentId: M:Apache.Arrow.LargeBinaryArray.BuilderBase`2.Append(System.ReadOnlySpan{System.Byte})
+  name.vb: Append(ReadOnlySpan(Of Byte))
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.Append(System.ReadOnlySpan<byte>)
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Append(System.ReadOnlySpan(Of Byte))
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.Append(ReadOnlySpan<byte>)
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Append(ReadOnlySpan(Of Byte))
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.Append*
+  name: Append
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_Append_
+  commentId: Overload:Apache.Arrow.LargeBinaryArray.BuilderBase`2.Append
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.Append
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Append
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.Append
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Append
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.AppendNull
+  name: AppendNull()
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_AppendNull
+  commentId: M:Apache.Arrow.LargeBinaryArray.BuilderBase`2.AppendNull
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.AppendNull()
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).AppendNull()
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.AppendNull()
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).AppendNull()
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.AppendNull*
+  name: AppendNull
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_AppendNull_
+  commentId: Overload:Apache.Arrow.LargeBinaryArray.BuilderBase`2.AppendNull
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.AppendNull
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).AppendNull
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.AppendNull
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).AppendNull
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.AppendRange(System.Collections.Generic.IEnumerable{System.Byte[]})
+  name: AppendRange(IEnumerable<byte[]>)
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_AppendRange_System_Collections_Generic_IEnumerable_System_Byte____
+  commentId: M:Apache.Arrow.LargeBinaryArray.BuilderBase`2.AppendRange(System.Collections.Generic.IEnumerable{System.Byte[]})
+  name.vb: AppendRange(IEnumerable(Of Byte()))
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.AppendRange(System.Collections.Generic.IEnumerable<byte[]>)
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).AppendRange(System.Collections.Generic.IEnumerable(Of Byte()))
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.AppendRange(IEnumerable<byte[]>)
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).AppendRange(IEnumerable(Of Byte()))
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.AppendRange(System.Collections.Generic.IEnumerable{System.Byte})
+  name: AppendRange(IEnumerable<byte>)
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_AppendRange_System_Collections_Generic_IEnumerable_System_Byte__
+  commentId: M:Apache.Arrow.LargeBinaryArray.BuilderBase`2.AppendRange(System.Collections.Generic.IEnumerable{System.Byte})
+  name.vb: AppendRange(IEnumerable(Of Byte))
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.AppendRange(System.Collections.Generic.IEnumerable<byte>)
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).AppendRange(System.Collections.Generic.IEnumerable(Of Byte))
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.AppendRange(IEnumerable<byte>)
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).AppendRange(IEnumerable(Of Byte))
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.AppendRange*
+  name: AppendRange
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_AppendRange_
+  commentId: Overload:Apache.Arrow.LargeBinaryArray.BuilderBase`2.AppendRange
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.AppendRange
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).AppendRange
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.AppendRange
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).AppendRange
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.Build(Apache.Arrow.ArrayData)
+  name: Build(ArrayData)
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_Build_Apache_Arrow_ArrayData_
+  commentId: M:Apache.Arrow.LargeBinaryArray.BuilderBase`2.Build(Apache.Arrow.ArrayData)
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.Build(Apache.Arrow.ArrayData)
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Build(Apache.Arrow.ArrayData)
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.Build(ArrayData)
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Build(ArrayData)
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.Build(Apache.Arrow.Memory.MemoryAllocator)
+  name: Build(MemoryAllocator)
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_Build_Apache_Arrow_Memory_MemoryAllocator_
+  commentId: M:Apache.Arrow.LargeBinaryArray.BuilderBase`2.Build(Apache.Arrow.Memory.MemoryAllocator)
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.Build(Apache.Arrow.Memory.MemoryAllocator)
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Build(Apache.Arrow.Memory.MemoryAllocator)
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.Build(MemoryAllocator)
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Build(MemoryAllocator)
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.Build*
+  name: Build
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_Build_
+  commentId: Overload:Apache.Arrow.LargeBinaryArray.BuilderBase`2.Build
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.Build
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Build
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.Build
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Build
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.Clear
+  name: Clear()
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_Clear
+  commentId: M:Apache.Arrow.LargeBinaryArray.BuilderBase`2.Clear
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.Clear()
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Clear()
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.Clear()
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Clear()
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.Clear*
+  name: Clear
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_Clear_
+  commentId: Overload:Apache.Arrow.LargeBinaryArray.BuilderBase`2.Clear
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.Clear
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Clear
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.Clear
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Clear
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.DataType
+  name: DataType
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_DataType
+  commentId: P:Apache.Arrow.LargeBinaryArray.BuilderBase`2.DataType
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.DataType
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).DataType
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.DataType
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).DataType
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.DataType*
+  name: DataType
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_DataType_
+  commentId: Overload:Apache.Arrow.LargeBinaryArray.BuilderBase`2.DataType
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.DataType
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).DataType
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.DataType
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).DataType
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.Instance
+  name: Instance
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_Instance
+  commentId: P:Apache.Arrow.LargeBinaryArray.BuilderBase`2.Instance
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.Instance
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Instance
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.Instance
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Instance
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.Instance*
+  name: Instance
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_Instance_
+  commentId: Overload:Apache.Arrow.LargeBinaryArray.BuilderBase`2.Instance
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.Instance
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Instance
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.Instance
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Instance
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.Length
+  name: Length
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_Length
+  commentId: P:Apache.Arrow.LargeBinaryArray.BuilderBase`2.Length
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.Length
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Length
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.Length
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Length
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.Length*
+  name: Length
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_Length_
+  commentId: Overload:Apache.Arrow.LargeBinaryArray.BuilderBase`2.Length
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.Length
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Length
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.Length
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Length
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.NullCount
+  name: NullCount
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_NullCount
+  commentId: P:Apache.Arrow.LargeBinaryArray.BuilderBase`2.NullCount
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.NullCount
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).NullCount
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.NullCount
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).NullCount
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.NullCount*
+  name: NullCount
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_NullCount_
+  commentId: Overload:Apache.Arrow.LargeBinaryArray.BuilderBase`2.NullCount
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.NullCount
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).NullCount
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.NullCount
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).NullCount
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.Offset
+  name: Offset
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_Offset
+  commentId: P:Apache.Arrow.LargeBinaryArray.BuilderBase`2.Offset
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.Offset
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Offset
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.Offset
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Offset
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.Offset*
+  name: Offset
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_Offset_
+  commentId: Overload:Apache.Arrow.LargeBinaryArray.BuilderBase`2.Offset
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.Offset
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Offset
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.Offset
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Offset
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.Reserve(System.Int32)
+  name: Reserve(int)
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_Reserve_System_Int32_
+  commentId: M:Apache.Arrow.LargeBinaryArray.BuilderBase`2.Reserve(System.Int32)
+  name.vb: Reserve(Integer)
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.Reserve(int)
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Reserve(Integer)
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.Reserve(int)
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Reserve(Integer)
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.Reserve*
+  name: Reserve
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_Reserve_
+  commentId: Overload:Apache.Arrow.LargeBinaryArray.BuilderBase`2.Reserve
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.Reserve
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Reserve
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.Reserve
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Reserve
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.Resize(System.Int32)
+  name: Resize(int)
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_Resize_System_Int32_
+  commentId: M:Apache.Arrow.LargeBinaryArray.BuilderBase`2.Resize(System.Int32)
+  name.vb: Resize(Integer)
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.Resize(int)
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Resize(Integer)
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.Resize(int)
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Resize(Integer)
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.Resize*
+  name: Resize
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_Resize_
+  commentId: Overload:Apache.Arrow.LargeBinaryArray.BuilderBase`2.Resize
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.Resize
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Resize
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.Resize
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Resize
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.Set(System.Int32,System.Byte)
+  name: Set(int, byte)
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_Set_System_Int32_System_Byte_
+  commentId: M:Apache.Arrow.LargeBinaryArray.BuilderBase`2.Set(System.Int32,System.Byte)
+  name.vb: Set(Integer, Byte)
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.Set(int, byte)
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Set(Integer, Byte)
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.Set(int, byte)
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Set(Integer, Byte)
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.Set*
+  name: Set
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_Set_
+  commentId: Overload:Apache.Arrow.LargeBinaryArray.BuilderBase`2.Set
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.Set
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Set
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.Set
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Set
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.Swap(System.Int32,System.Int32)
+  name: Swap(int, int)
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_Swap_System_Int32_System_Int32_
+  commentId: M:Apache.Arrow.LargeBinaryArray.BuilderBase`2.Swap(System.Int32,System.Int32)
+  name.vb: Swap(Integer, Integer)
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.Swap(int, int)
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Swap(Integer, Integer)
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.Swap(int, int)
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Swap(Integer, Integer)
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.Swap*
+  name: Swap
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_Swap_
+  commentId: Overload:Apache.Arrow.LargeBinaryArray.BuilderBase`2.Swap
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.Swap
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Swap
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.Swap
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).Swap
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.ValidityBuffer
+  name: ValidityBuffer
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_ValidityBuffer
+  commentId: P:Apache.Arrow.LargeBinaryArray.BuilderBase`2.ValidityBuffer
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.ValidityBuffer
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).ValidityBuffer
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.ValidityBuffer
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).ValidityBuffer
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.ValidityBuffer*
+  name: ValidityBuffer
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_ValidityBuffer_
+  commentId: Overload:Apache.Arrow.LargeBinaryArray.BuilderBase`2.ValidityBuffer
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.ValidityBuffer
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).ValidityBuffer
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.ValidityBuffer
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).ValidityBuffer
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.ValueBuffer
+  name: ValueBuffer
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_ValueBuffer
+  commentId: P:Apache.Arrow.LargeBinaryArray.BuilderBase`2.ValueBuffer
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.ValueBuffer
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).ValueBuffer
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.ValueBuffer
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).ValueBuffer
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.ValueBuffer*
+  name: ValueBuffer
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_ValueBuffer_
+  commentId: Overload:Apache.Arrow.LargeBinaryArray.BuilderBase`2.ValueBuffer
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.ValueBuffer
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).ValueBuffer
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.ValueBuffer
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).ValueBuffer
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.ValueOffsets
+  name: ValueOffsets
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_ValueOffsets
+  commentId: P:Apache.Arrow.LargeBinaryArray.BuilderBase`2.ValueOffsets
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.ValueOffsets
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).ValueOffsets
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.ValueOffsets
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).ValueOffsets
+- uid: Apache.Arrow.LargeBinaryArray.BuilderBase`2.ValueOffsets*
+  name: ValueOffsets
+  href: api/Apache.Arrow.LargeBinaryArray.BuilderBase-2.html#Apache_Arrow_LargeBinaryArray_BuilderBase_2_ValueOffsets_
+  commentId: Overload:Apache.Arrow.LargeBinaryArray.BuilderBase`2.ValueOffsets
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeBinaryArray.BuilderBase<TArray, TBuilder>.ValueOffsets
+  fullName.vb: Apache.Arrow.LargeBinaryArray.BuilderBase(Of TArray, TBuilder).ValueOffsets
+  nameWithType: LargeBinaryArray.BuilderBase<TArray, TBuilder>.ValueOffsets
+  nameWithType.vb: LargeBinaryArray.BuilderBase(Of TArray, TBuilder).ValueOffsets
 - uid: Apache.Arrow.LargeBinaryArray.GetBytes(System.Int32)
   name: GetBytes(int)
   href: api/Apache.Arrow.LargeBinaryArray.html#Apache_Arrow_LargeBinaryArray_GetBytes_System_Int32_
@@ -14694,6 +15099,163 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.LargeListArray.Accept
   nameWithType: LargeListArray.Accept
+- uid: Apache.Arrow.LargeListArray.Builder
+  name: LargeListArray.Builder
+  href: api/Apache.Arrow.LargeListArray.Builder.html
+  commentId: T:Apache.Arrow.LargeListArray.Builder
+  fullName: Apache.Arrow.LargeListArray.Builder
+  nameWithType: LargeListArray.Builder
+- uid: Apache.Arrow.LargeListArray.Builder.#ctor(Apache.Arrow.Field)
+  name: Builder(Field)
+  href: api/Apache.Arrow.LargeListArray.Builder.html#Apache_Arrow_LargeListArray_Builder__ctor_Apache_Arrow_Field_
+  commentId: M:Apache.Arrow.LargeListArray.Builder.#ctor(Apache.Arrow.Field)
+  name.vb: New(Field)
+  fullName: Apache.Arrow.LargeListArray.Builder.Builder(Apache.Arrow.Field)
+  fullName.vb: Apache.Arrow.LargeListArray.Builder.New(Apache.Arrow.Field)
+  nameWithType: LargeListArray.Builder.Builder(Field)
+  nameWithType.vb: LargeListArray.Builder.New(Field)
+- uid: Apache.Arrow.LargeListArray.Builder.#ctor(Apache.Arrow.Types.IArrowType)
+  name: Builder(IArrowType)
+  href: api/Apache.Arrow.LargeListArray.Builder.html#Apache_Arrow_LargeListArray_Builder__ctor_Apache_Arrow_Types_IArrowType_
+  commentId: M:Apache.Arrow.LargeListArray.Builder.#ctor(Apache.Arrow.Types.IArrowType)
+  name.vb: New(IArrowType)
+  fullName: Apache.Arrow.LargeListArray.Builder.Builder(Apache.Arrow.Types.IArrowType)
+  fullName.vb: Apache.Arrow.LargeListArray.Builder.New(Apache.Arrow.Types.IArrowType)
+  nameWithType: LargeListArray.Builder.Builder(IArrowType)
+  nameWithType.vb: LargeListArray.Builder.New(IArrowType)
+- uid: Apache.Arrow.LargeListArray.Builder.#ctor*
+  name: Builder
+  href: api/Apache.Arrow.LargeListArray.Builder.html#Apache_Arrow_LargeListArray_Builder__ctor_
+  commentId: Overload:Apache.Arrow.LargeListArray.Builder.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Apache.Arrow.LargeListArray.Builder.Builder
+  fullName.vb: Apache.Arrow.LargeListArray.Builder.New
+  nameWithType: LargeListArray.Builder.Builder
+  nameWithType.vb: LargeListArray.Builder.New
+- uid: Apache.Arrow.LargeListArray.Builder.Append
+  name: Append()
+  href: api/Apache.Arrow.LargeListArray.Builder.html#Apache_Arrow_LargeListArray_Builder_Append
+  commentId: M:Apache.Arrow.LargeListArray.Builder.Append
+  fullName: Apache.Arrow.LargeListArray.Builder.Append()
+  nameWithType: LargeListArray.Builder.Append()
+- uid: Apache.Arrow.LargeListArray.Builder.Append*
+  name: Append
+  href: api/Apache.Arrow.LargeListArray.Builder.html#Apache_Arrow_LargeListArray_Builder_Append_
+  commentId: Overload:Apache.Arrow.LargeListArray.Builder.Append
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeListArray.Builder.Append
+  nameWithType: LargeListArray.Builder.Append
+- uid: Apache.Arrow.LargeListArray.Builder.AppendNull
+  name: AppendNull()
+  href: api/Apache.Arrow.LargeListArray.Builder.html#Apache_Arrow_LargeListArray_Builder_AppendNull
+  commentId: M:Apache.Arrow.LargeListArray.Builder.AppendNull
+  fullName: Apache.Arrow.LargeListArray.Builder.AppendNull()
+  nameWithType: LargeListArray.Builder.AppendNull()
+- uid: Apache.Arrow.LargeListArray.Builder.AppendNull*
+  name: AppendNull
+  href: api/Apache.Arrow.LargeListArray.Builder.html#Apache_Arrow_LargeListArray_Builder_AppendNull_
+  commentId: Overload:Apache.Arrow.LargeListArray.Builder.AppendNull
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeListArray.Builder.AppendNull
+  nameWithType: LargeListArray.Builder.AppendNull
+- uid: Apache.Arrow.LargeListArray.Builder.Build(Apache.Arrow.Memory.MemoryAllocator)
+  name: Build(MemoryAllocator)
+  href: api/Apache.Arrow.LargeListArray.Builder.html#Apache_Arrow_LargeListArray_Builder_Build_Apache_Arrow_Memory_MemoryAllocator_
+  commentId: M:Apache.Arrow.LargeListArray.Builder.Build(Apache.Arrow.Memory.MemoryAllocator)
+  fullName: Apache.Arrow.LargeListArray.Builder.Build(Apache.Arrow.Memory.MemoryAllocator)
+  nameWithType: LargeListArray.Builder.Build(MemoryAllocator)
+- uid: Apache.Arrow.LargeListArray.Builder.Build*
+  name: Build
+  href: api/Apache.Arrow.LargeListArray.Builder.html#Apache_Arrow_LargeListArray_Builder_Build_
+  commentId: Overload:Apache.Arrow.LargeListArray.Builder.Build
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeListArray.Builder.Build
+  nameWithType: LargeListArray.Builder.Build
+- uid: Apache.Arrow.LargeListArray.Builder.Clear
+  name: Clear()
+  href: api/Apache.Arrow.LargeListArray.Builder.html#Apache_Arrow_LargeListArray_Builder_Clear
+  commentId: M:Apache.Arrow.LargeListArray.Builder.Clear
+  fullName: Apache.Arrow.LargeListArray.Builder.Clear()
+  nameWithType: LargeListArray.Builder.Clear()
+- uid: Apache.Arrow.LargeListArray.Builder.Clear*
+  name: Clear
+  href: api/Apache.Arrow.LargeListArray.Builder.html#Apache_Arrow_LargeListArray_Builder_Clear_
+  commentId: Overload:Apache.Arrow.LargeListArray.Builder.Clear
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeListArray.Builder.Clear
+  nameWithType: LargeListArray.Builder.Clear
+- uid: Apache.Arrow.LargeListArray.Builder.Length
+  name: Length
+  href: api/Apache.Arrow.LargeListArray.Builder.html#Apache_Arrow_LargeListArray_Builder_Length
+  commentId: P:Apache.Arrow.LargeListArray.Builder.Length
+  fullName: Apache.Arrow.LargeListArray.Builder.Length
+  nameWithType: LargeListArray.Builder.Length
+- uid: Apache.Arrow.LargeListArray.Builder.Length*
+  name: Length
+  href: api/Apache.Arrow.LargeListArray.Builder.html#Apache_Arrow_LargeListArray_Builder_Length_
+  commentId: Overload:Apache.Arrow.LargeListArray.Builder.Length
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeListArray.Builder.Length
+  nameWithType: LargeListArray.Builder.Length
+- uid: Apache.Arrow.LargeListArray.Builder.NullCount
+  name: NullCount
+  href: api/Apache.Arrow.LargeListArray.Builder.html#Apache_Arrow_LargeListArray_Builder_NullCount
+  commentId: P:Apache.Arrow.LargeListArray.Builder.NullCount
+  fullName: Apache.Arrow.LargeListArray.Builder.NullCount
+  nameWithType: LargeListArray.Builder.NullCount
+- uid: Apache.Arrow.LargeListArray.Builder.NullCount*
+  name: NullCount
+  href: api/Apache.Arrow.LargeListArray.Builder.html#Apache_Arrow_LargeListArray_Builder_NullCount_
+  commentId: Overload:Apache.Arrow.LargeListArray.Builder.NullCount
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeListArray.Builder.NullCount
+  nameWithType: LargeListArray.Builder.NullCount
+- uid: Apache.Arrow.LargeListArray.Builder.Reserve(System.Int32)
+  name: Reserve(int)
+  href: api/Apache.Arrow.LargeListArray.Builder.html#Apache_Arrow_LargeListArray_Builder_Reserve_System_Int32_
+  commentId: M:Apache.Arrow.LargeListArray.Builder.Reserve(System.Int32)
+  name.vb: Reserve(Integer)
+  fullName: Apache.Arrow.LargeListArray.Builder.Reserve(int)
+  fullName.vb: Apache.Arrow.LargeListArray.Builder.Reserve(Integer)
+  nameWithType: LargeListArray.Builder.Reserve(int)
+  nameWithType.vb: LargeListArray.Builder.Reserve(Integer)
+- uid: Apache.Arrow.LargeListArray.Builder.Reserve*
+  name: Reserve
+  href: api/Apache.Arrow.LargeListArray.Builder.html#Apache_Arrow_LargeListArray_Builder_Reserve_
+  commentId: Overload:Apache.Arrow.LargeListArray.Builder.Reserve
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeListArray.Builder.Reserve
+  nameWithType: LargeListArray.Builder.Reserve
+- uid: Apache.Arrow.LargeListArray.Builder.Resize(System.Int32)
+  name: Resize(int)
+  href: api/Apache.Arrow.LargeListArray.Builder.html#Apache_Arrow_LargeListArray_Builder_Resize_System_Int32_
+  commentId: M:Apache.Arrow.LargeListArray.Builder.Resize(System.Int32)
+  name.vb: Resize(Integer)
+  fullName: Apache.Arrow.LargeListArray.Builder.Resize(int)
+  fullName.vb: Apache.Arrow.LargeListArray.Builder.Resize(Integer)
+  nameWithType: LargeListArray.Builder.Resize(int)
+  nameWithType.vb: LargeListArray.Builder.Resize(Integer)
+- uid: Apache.Arrow.LargeListArray.Builder.Resize*
+  name: Resize
+  href: api/Apache.Arrow.LargeListArray.Builder.html#Apache_Arrow_LargeListArray_Builder_Resize_
+  commentId: Overload:Apache.Arrow.LargeListArray.Builder.Resize
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeListArray.Builder.Resize
+  nameWithType: LargeListArray.Builder.Resize
+- uid: Apache.Arrow.LargeListArray.Builder.ValueBuilder
+  name: ValueBuilder
+  href: api/Apache.Arrow.LargeListArray.Builder.html#Apache_Arrow_LargeListArray_Builder_ValueBuilder
+  commentId: P:Apache.Arrow.LargeListArray.Builder.ValueBuilder
+  fullName: Apache.Arrow.LargeListArray.Builder.ValueBuilder
+  nameWithType: LargeListArray.Builder.ValueBuilder
+- uid: Apache.Arrow.LargeListArray.Builder.ValueBuilder*
+  name: ValueBuilder
+  href: api/Apache.Arrow.LargeListArray.Builder.html#Apache_Arrow_LargeListArray_Builder_ValueBuilder_
+  commentId: Overload:Apache.Arrow.LargeListArray.Builder.ValueBuilder
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeListArray.Builder.ValueBuilder
+  nameWithType: LargeListArray.Builder.ValueBuilder
 - uid: Apache.Arrow.LargeListArray.Dispose(System.Boolean)
   name: Dispose(bool)
   href: api/Apache.Arrow.LargeListArray.html#Apache_Arrow_LargeListArray_Dispose_System_Boolean_
@@ -14828,6 +15390,76 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.LargeStringArray.Accept
   nameWithType: LargeStringArray.Accept
+- uid: Apache.Arrow.LargeStringArray.Builder
+  name: LargeStringArray.Builder
+  href: api/Apache.Arrow.LargeStringArray.Builder.html
+  commentId: T:Apache.Arrow.LargeStringArray.Builder
+  fullName: Apache.Arrow.LargeStringArray.Builder
+  nameWithType: LargeStringArray.Builder
+- uid: Apache.Arrow.LargeStringArray.Builder.#ctor
+  name: Builder()
+  href: api/Apache.Arrow.LargeStringArray.Builder.html#Apache_Arrow_LargeStringArray_Builder__ctor
+  commentId: M:Apache.Arrow.LargeStringArray.Builder.#ctor
+  name.vb: New()
+  fullName: Apache.Arrow.LargeStringArray.Builder.Builder()
+  fullName.vb: Apache.Arrow.LargeStringArray.Builder.New()
+  nameWithType: LargeStringArray.Builder.Builder()
+  nameWithType.vb: LargeStringArray.Builder.New()
+- uid: Apache.Arrow.LargeStringArray.Builder.#ctor*
+  name: Builder
+  href: api/Apache.Arrow.LargeStringArray.Builder.html#Apache_Arrow_LargeStringArray_Builder__ctor_
+  commentId: Overload:Apache.Arrow.LargeStringArray.Builder.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Apache.Arrow.LargeStringArray.Builder.Builder
+  fullName.vb: Apache.Arrow.LargeStringArray.Builder.New
+  nameWithType: LargeStringArray.Builder.Builder
+  nameWithType.vb: LargeStringArray.Builder.New
+- uid: Apache.Arrow.LargeStringArray.Builder.Append(System.String,System.Text.Encoding)
+  name: Append(string, Encoding)
+  href: api/Apache.Arrow.LargeStringArray.Builder.html#Apache_Arrow_LargeStringArray_Builder_Append_System_String_System_Text_Encoding_
+  commentId: M:Apache.Arrow.LargeStringArray.Builder.Append(System.String,System.Text.Encoding)
+  name.vb: Append(String, Encoding)
+  fullName: Apache.Arrow.LargeStringArray.Builder.Append(string, System.Text.Encoding)
+  fullName.vb: Apache.Arrow.LargeStringArray.Builder.Append(String, System.Text.Encoding)
+  nameWithType: LargeStringArray.Builder.Append(string, Encoding)
+  nameWithType.vb: LargeStringArray.Builder.Append(String, Encoding)
+- uid: Apache.Arrow.LargeStringArray.Builder.Append*
+  name: Append
+  href: api/Apache.Arrow.LargeStringArray.Builder.html#Apache_Arrow_LargeStringArray_Builder_Append_
+  commentId: Overload:Apache.Arrow.LargeStringArray.Builder.Append
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeStringArray.Builder.Append
+  nameWithType: LargeStringArray.Builder.Append
+- uid: Apache.Arrow.LargeStringArray.Builder.AppendRange(System.Collections.Generic.IEnumerable{System.String},System.Text.Encoding)
+  name: AppendRange(IEnumerable<string>, Encoding)
+  href: api/Apache.Arrow.LargeStringArray.Builder.html#Apache_Arrow_LargeStringArray_Builder_AppendRange_System_Collections_Generic_IEnumerable_System_String__System_Text_Encoding_
+  commentId: M:Apache.Arrow.LargeStringArray.Builder.AppendRange(System.Collections.Generic.IEnumerable{System.String},System.Text.Encoding)
+  name.vb: AppendRange(IEnumerable(Of String), Encoding)
+  fullName: Apache.Arrow.LargeStringArray.Builder.AppendRange(System.Collections.Generic.IEnumerable<string>, System.Text.Encoding)
+  fullName.vb: Apache.Arrow.LargeStringArray.Builder.AppendRange(System.Collections.Generic.IEnumerable(Of String), System.Text.Encoding)
+  nameWithType: LargeStringArray.Builder.AppendRange(IEnumerable<string>, Encoding)
+  nameWithType.vb: LargeStringArray.Builder.AppendRange(IEnumerable(Of String), Encoding)
+- uid: Apache.Arrow.LargeStringArray.Builder.AppendRange*
+  name: AppendRange
+  href: api/Apache.Arrow.LargeStringArray.Builder.html#Apache_Arrow_LargeStringArray_Builder_AppendRange_
+  commentId: Overload:Apache.Arrow.LargeStringArray.Builder.AppendRange
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeStringArray.Builder.AppendRange
+  nameWithType: LargeStringArray.Builder.AppendRange
+- uid: Apache.Arrow.LargeStringArray.Builder.Build(Apache.Arrow.ArrayData)
+  name: Build(ArrayData)
+  href: api/Apache.Arrow.LargeStringArray.Builder.html#Apache_Arrow_LargeStringArray_Builder_Build_Apache_Arrow_ArrayData_
+  commentId: M:Apache.Arrow.LargeStringArray.Builder.Build(Apache.Arrow.ArrayData)
+  fullName: Apache.Arrow.LargeStringArray.Builder.Build(Apache.Arrow.ArrayData)
+  nameWithType: LargeStringArray.Builder.Build(ArrayData)
+- uid: Apache.Arrow.LargeStringArray.Builder.Build*
+  name: Build
+  href: api/Apache.Arrow.LargeStringArray.Builder.html#Apache_Arrow_LargeStringArray_Builder_Build_
+  commentId: Overload:Apache.Arrow.LargeStringArray.Builder.Build
+  isSpec: "True"
+  fullName: Apache.Arrow.LargeStringArray.Builder.Build
+  nameWithType: LargeStringArray.Builder.Build
 - uid: Apache.Arrow.LargeStringArray.DefaultEncoding
   name: DefaultEncoding
   href: api/Apache.Arrow.LargeStringArray.html#Apache_Arrow_LargeStringArray_DefaultEncoding
