@@ -413,7 +413,7 @@ namespace Apache.Arrow.C
                 }
 
                 int length = checked((int)cArray->offset + (int)cArray->length);
-                int bufferLength = length * 8;
+                int bufferLength = checked(length * 8);
 
                 ArrowBuffer[] buffers = new ArrowBuffer[3];
                 buffers[0] = ImportValidityBuffer(cArray);
