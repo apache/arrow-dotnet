@@ -100,6 +100,7 @@ namespace Apache.Arrow
                 ValueOffsetsBufferBuilder.Clear();
                 ValueBuilder.Clear();
                 ValidityBufferBuilder.Clear();
+                NullCount = 0;
                 return this;
             }
         }

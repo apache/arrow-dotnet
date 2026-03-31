@@ -85,6 +85,7 @@ namespace Apache.Arrow.Tests
 
             builder.Append();
             valueBuilder.Append(1);
+            builder.AppendNull();
 
             builder.Clear();
 
@@ -94,6 +95,7 @@ namespace Apache.Arrow.Tests
             var array = builder.Build();
 
             Assert.Equal(1, array.Length);
+            Assert.Equal(0, array.NullCount);
             var slice = (Int32Array)array.GetSlicedValues(0);
             Assert.Equal(1, slice.Length);
             Assert.Equal(99, slice.GetValue(0));

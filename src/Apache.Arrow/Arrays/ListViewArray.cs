@@ -132,9 +132,9 @@ namespace Apache.Arrow
                 SizesBufferBuilder.Clear();
                 ValueBuilder.Clear();
                 ValidityBufferBuilder.Clear();
+                NullCount = 0;
                 return this;
             }
-
         }
 
         public IArrowArray Values { get; }
