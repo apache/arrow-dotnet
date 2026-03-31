@@ -89,6 +89,7 @@ namespace Apache.Arrow.Tests
                     new LargeListType(Int64Type.Default),
                     new ListType(Int64Type.Default),
                     new ListViewType(Int64Type.Default),
+                    new LargeListViewType(Int64Type.Default),
                     new StructType(new List<Field>{
                         new Field.Builder().Name("Strings").DataType(StringType.Default).Nullable(true).Build(),
                         new Field.Builder().Name("Ints").DataType(Int32Type.Default).Nullable(true).Build()
@@ -160,6 +161,7 @@ namespace Apache.Arrow.Tests
             IArrowTypeVisitor<LargeBinaryType>,
             IArrowTypeVisitor<LargeStringType>,
             IArrowTypeVisitor<LargeListType>,
+            IArrowTypeVisitor<LargeListViewType>,
             IArrowTypeVisitor<MapType>
         {
             private readonly List<List<int?>> _baseData;
@@ -520,6 +522,17 @@ namespace Apache.Arrow.Tests
 
             public void Visit(LargeListType type) =>
                 GenerateTestData<LargeListArray, LargeListArray.Builder>(type, (builder, x) =>
+                {
+                    builder.Append();
+                    ((Int64Array.Builder)builder.ValueBuilder).Append(x);
+                }, initAction: (builder, length) =>
+                {
+                    builder.Reserve(length);
+                    builder.ValueBuilder.Reserve(length);
+                });
+
+            public void Visit(LargeListViewType type) =>
+                GenerateTestData<LargeListViewArray, LargeListViewArray.Builder>(type, (builder, x) =>
                 {
                     builder.Append();
                     ((Int64Array.Builder)builder.ValueBuilder).Append(x);

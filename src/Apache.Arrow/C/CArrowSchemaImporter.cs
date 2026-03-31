@@ -185,7 +185,7 @@ namespace Apache.Arrow.C
                 }
 
                 // Special handling for nested types
-                if (format == "+l" || format == "+vl" || format == "+L")
+                if (format == "+l" || format == "+vl" || format == "+L" || format == "+vL")
                 {
                     if (_cSchema->n_children != 1)
                     {
@@ -200,11 +200,12 @@ namespace Apache.Arrow.C
 
                     Field childField = childSchema.GetAsField();
 
-                    return format[1] switch
+                    return format switch
                     {
-                        'l' => new ListType(childField),
-                        'v' => new ListViewType(childField),
-                        'L' => new LargeListType(childField),
+                        "+l" => new ListType(childField),
+                        "+vl" => new ListViewType(childField),
+                        "+L" => new LargeListType(childField),
+                        "+vL" => new LargeListViewType(childField),
                         _ => throw new InvalidDataException($"Invalid format for list: '{format}'"),
                     };
                 }

@@ -1,4 +1,4 @@
-﻿// Licensed to the Apache Software Foundation (ASF) under one or more
+// Licensed to the Apache Software Foundation (ASF) under one or more
 // contributor license agreements. See the NOTICE file distributed with
 // this work for additional information regarding copyright ownership.
 // The ASF licenses this file to You under the Apache License, Version 2.0
@@ -19,17 +19,17 @@ using Apache.Arrow.Types;
 
 namespace Apache.Arrow
 {
-    public class ListViewArray : Array
+    public class LargeListViewArray : Array
     {
-        public class Builder : IArrowArrayBuilder<ListViewArray, Builder>
+        public class Builder : IArrowArrayBuilder<LargeListViewArray, Builder>
         {
             public IArrowArrayBuilder<IArrowArray, IArrowArrayBuilder<IArrowArray>> ValueBuilder { get; }
 
             public int Length => ValueOffsetsBufferBuilder.Length;
 
-            private ArrowBuffer.Builder<int> ValueOffsetsBufferBuilder { get; }
+            private ArrowBuffer.Builder<long> ValueOffsetsBufferBuilder { get; }
 
-            private ArrowBuffer.Builder<int> SizesBufferBuilder { get; }
+            private ArrowBuffer.Builder<long> SizesBufferBuilder { get; }
 
             private ArrowBuffer.BitmapBuilder ValidityBufferBuilder { get; }
 
@@ -39,19 +39,19 @@ namespace Apache.Arrow
 
             private int Start { get; set; }
 
-            public Builder(IArrowType valueDataType) : this(new ListViewType(valueDataType))
+            public Builder(IArrowType valueDataType) : this(new LargeListViewType(valueDataType))
             {
             }
 
-            public Builder(Field valueField) : this(new ListViewType(valueField))
+            public Builder(Field valueField) : this(new LargeListViewType(valueField))
             {
             }
 
-            internal Builder(ListViewType dataType)
+            internal Builder(LargeListViewType dataType)
             {
                 ValueBuilder = ArrowArrayBuilderFactory.Build(dataType.ValueDataType);
-                ValueOffsetsBufferBuilder = new ArrowBuffer.Builder<int>();
-                SizesBufferBuilder = new ArrowBuffer.Builder<int>();
+                ValueOffsetsBufferBuilder = new ArrowBuffer.Builder<long>();
+                SizesBufferBuilder = new ArrowBuffer.Builder<long>();
                 ValidityBufferBuilder = new ArrowBuffer.BitmapBuilder();
                 DataType = dataType;
                 Start = -1;
@@ -61,8 +61,7 @@ namespace Apache.Arrow
             /// Start a new variable-length list slot
             ///
             /// This function should be called before beginning to append elements to the
-            /// value builder. TODO: Consider adding builder APIs to support construction
-            /// of overlapping lists.
+            /// value builder.
             /// </summary>
             public Builder Append()
             {
@@ -96,7 +95,7 @@ namespace Apache.Arrow
                 Start = ValueBuilder.Length;
             }
 
-            public ListViewArray Build(MemoryAllocator allocator = default)
+            public LargeListViewArray Build(MemoryAllocator allocator = default)
             {
                 AppendPrevious();
 
@@ -104,7 +103,7 @@ namespace Apache.Arrow
                                         ? ValidityBufferBuilder.Build(allocator)
                                         : ArrowBuffer.Empty;
 
-                return new ListViewArray(DataType, Length,
+                return new LargeListViewArray(DataType, Length,
                     ValueOffsetsBufferBuilder.Build(allocator), SizesBufferBuilder.Build(allocator),
                     ValueBuilder.Build(allocator),
                     validityBuffer, NullCount, 0);
@@ -142,13 +141,13 @@ namespace Apache.Arrow
 
         public ArrowBuffer ValueOffsetsBuffer => Data.Buffers[1];
 
-        public ReadOnlySpan<int> ValueOffsets => ValueOffsetsBuffer.Span.CastTo<int>().Slice(Offset, Length);
+        public ReadOnlySpan<long> ValueOffsets => ValueOffsetsBuffer.Span.CastTo<long>().Slice(Offset, Length);
 
         public ArrowBuffer SizesBuffer => Data.Buffers[2];
 
-        public ReadOnlySpan<int> Sizes => SizesBuffer.Span.CastTo<int>().Slice(Offset, Length);
+        public ReadOnlySpan<long> Sizes => SizesBuffer.Span.CastTo<long>().Slice(Offset, Length);
 
-        public ListViewArray(IArrowType dataType, int length,
+        public LargeListViewArray(IArrowType dataType, int length,
             ArrowBuffer valueOffsetsBuffer, ArrowBuffer sizesBuffer, IArrowArray values,
             ArrowBuffer nullBitmapBuffer, int nullCount = 0, int offset = 0)
             : this(new ArrayData(dataType, length, nullCount, offset,
@@ -157,15 +156,15 @@ namespace Apache.Arrow
         {
         }
 
-        public ListViewArray(ArrayData data)
+        public LargeListViewArray(ArrayData data)
             : this(data, ArrowArrayFactory.BuildArray(data.Children[0]))
         {
         }
 
-        private ListViewArray(ArrayData data, IArrowArray values) : base(data)
+        private LargeListViewArray(ArrayData data, IArrowArray values) : base(data)
         {
             data.EnsureBufferCount(3);
-            data.EnsureDataType(ArrowTypeId.ListView);
+            data.EnsureDataType(ArrowTypeId.LargeListView);
             Values = values;
         }
 
@@ -183,7 +182,7 @@ namespace Apache.Arrow
                 return 0;
             }
 
-            return Sizes[index];
+            return checked((int)Sizes[index]);
         }
 
         public IArrowArray GetSlicedValues(int index)
@@ -203,7 +202,7 @@ namespace Apache.Arrow
                 return default;
             }
 
-            return array.Slice(ValueOffsets[index], GetValueLength(index));
+            return array.Slice(checked((int)ValueOffsets[index]), GetValueLength(index));
         }
 
         protected override void Dispose(bool disposing)
