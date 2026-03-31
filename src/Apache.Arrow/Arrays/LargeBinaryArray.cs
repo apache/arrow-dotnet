@@ -17,12 +17,182 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Apache.Arrow.Memory;
 using Apache.Arrow.Types;
 
 namespace Apache.Arrow;
 
 public class LargeBinaryArray : Array, IReadOnlyList<byte[]>, ICollection<byte[]>
 {
+    public class Builder : BuilderBase<LargeBinaryArray, Builder>
+    {
+        public Builder() : base(LargeBinaryType.Default) { }
+        public Builder(IArrowType dataType) : base(dataType) { }
+
+        protected override LargeBinaryArray Build(ArrayData data)
+        {
+            return new LargeBinaryArray(data);
+        }
+    }
+
+    public abstract class BuilderBase<TArray, TBuilder> : IArrowArrayBuilder<byte, TArray, TBuilder>
+        where TArray : IArrowArray
+        where TBuilder : class, IArrowArrayBuilder<byte, TArray, TBuilder>
+    {
+        protected IArrowType DataType { get; }
+        protected TBuilder Instance => this as TBuilder;
+        protected ArrowBuffer.Builder<long> ValueOffsets { get; }
+        protected ArrowBuffer.Builder<byte> ValueBuffer { get; }
+        protected ArrowBuffer.BitmapBuilder ValidityBuffer { get; }
+        protected long Offset { get; set; }
+        protected int NullCount => this.ValidityBuffer.UnsetBitCount;
+
+        protected BuilderBase(IArrowType dataType)
+        {
+            DataType = dataType;
+            ValueOffsets = new ArrowBuffer.Builder<long>();
+            ValueBuffer = new ArrowBuffer.Builder<byte>();
+            ValidityBuffer = new ArrowBuffer.BitmapBuilder();
+            ValueOffsets.Append(this.Offset);
+        }
+
+        protected abstract TArray Build(ArrayData data);
+
+        public int Length => ValueOffsets.Length - 1;
+
+        public TArray Build(MemoryAllocator allocator = default)
+        {
+            var bufs = new[]
+            {
+                NullCount > 0 ? ValidityBuffer.Build(allocator) : ArrowBuffer.Empty,
+                ValueOffsets.Build(allocator),
+                ValueBuffer.Build(allocator),
+            };
+            var data = new ArrayData(
+                DataType,
+                length: Length,
+                NullCount,
+                offset: 0,
+                bufs);
+
+            return Build(data);
+        }
+
+        public TBuilder AppendNull()
+        {
+            ValidityBuffer.Append(false);
+            ValueOffsets.Append(Offset);
+            return Instance;
+        }
+
+        public TBuilder Append(byte value)
+        {
+            ValueBuffer.Append(value);
+            ValidityBuffer.Append(true);
+            Offset++;
+            ValueOffsets.Append(Offset);
+            return Instance;
+        }
+
+        public TBuilder Append(ReadOnlySpan<byte> span)
+        {
+            ValueBuffer.Append(span);
+            ValidityBuffer.Append(true);
+            Offset += span.Length;
+            ValueOffsets.Append(Offset);
+            return Instance;
+        }
+
+        public TBuilder Append(IEnumerable<byte> value)
+        {
+            if (value == null)
+            {
+                return AppendNull();
+            }
+
+            long priorLength = ValueBuffer.Length;
+            ValueBuffer.AppendRange(value);
+            long valueLength = ValueBuffer.Length - priorLength;
+            Offset += valueLength;
+            ValidityBuffer.Append(true);
+            ValueOffsets.Append(Offset);
+            return Instance;
+        }
+
+        public TBuilder AppendRange(IEnumerable<byte> values)
+        {
+            if (values == null)
+            {
+                throw new ArgumentNullException(nameof(values));
+            }
+
+            foreach (byte b in values)
+            {
+                Append(b);
+            }
+
+            return Instance;
+        }
+
+        public TBuilder AppendRange(IEnumerable<byte[]> values)
+        {
+            if (values == null)
+            {
+                throw new ArgumentNullException(nameof(values));
+            }
+
+            foreach (byte[] arr in values)
+            {
+                if (arr == null)
+                {
+                    AppendNull();
+                }
+                else
+                {
+                    Append((ReadOnlySpan<byte>)arr);
+                }
+            }
+
+            return Instance;
+        }
+
+        public TBuilder Reserve(int capacity)
+        {
+            ValueOffsets.Reserve(capacity + 1);
+            ValueBuffer.Reserve(capacity);
+            ValidityBuffer.Reserve(capacity);
+            return Instance;
+        }
+
+        public TBuilder Resize(int length)
+        {
+            ValueOffsets.Resize(length + 1);
+            ValueBuffer.Resize(length);
+            ValidityBuffer.Resize(length);
+            return Instance;
+        }
+
+        public TBuilder Swap(int i, int j)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TBuilder Set(int index, byte value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TBuilder Clear()
+        {
+            ValueOffsets.Clear();
+            ValueBuffer.Clear();
+            ValidityBuffer.Clear();
+            Offset = 0;
+            ValueOffsets.Append(Offset);
+            return Instance;
+        }
+    }
+
     public LargeBinaryArray(ArrayData data)
         : base(data)
     {

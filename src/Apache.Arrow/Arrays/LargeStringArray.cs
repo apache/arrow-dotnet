@@ -26,6 +26,37 @@ public class LargeStringArray : LargeBinaryArray, IReadOnlyList<string>, ICollec
 {
     public static readonly Encoding DefaultEncoding = StringArray.DefaultEncoding;
 
+    public new class Builder : BuilderBase<LargeStringArray, Builder>
+    {
+        public Builder() : base(LargeStringType.Default) { }
+
+        protected override LargeStringArray Build(ArrayData data)
+        {
+            return new LargeStringArray(data);
+        }
+
+        public Builder Append(string value, Encoding encoding = null)
+        {
+            if (value == null)
+            {
+                return AppendNull();
+            }
+            encoding = encoding ?? DefaultEncoding;
+            byte[] span = encoding.GetBytes(value);
+            return Append(span.AsSpan());
+        }
+
+        public Builder AppendRange(IEnumerable<string> values, Encoding encoding = null)
+        {
+            foreach (string value in values)
+            {
+                Append(value, encoding);
+            }
+
+            return this;
+        }
+    }
+
     public LargeStringArray(ArrayData data)
         : base(ArrowTypeId.LargeString, data) { }
 
