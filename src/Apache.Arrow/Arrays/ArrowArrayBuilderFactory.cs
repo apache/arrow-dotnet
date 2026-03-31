@@ -101,6 +101,8 @@ namespace Apache.Arrow
                     return new LargeStringArray.Builder();
                 case ArrowTypeId.LargeList:
                     return new LargeListArray.Builder(dataType as LargeListType);
+                case ArrowTypeId.LargeListView:
+                    return new LargeListViewArray.Builder(dataType as LargeListViewType);
                 case ArrowTypeId.Map:
                     return new MapArray.Builder(dataType as MapType);
                 case ArrowTypeId.Struct:
