@@ -14,9 +14,11 @@
 // limitations under the License.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Apache.Arrow.C
 {
+    [Experimental("ArrowDeviceDataApi")]
     public static class CArrowDeviceArrayExporter
     {
         /// <summary>

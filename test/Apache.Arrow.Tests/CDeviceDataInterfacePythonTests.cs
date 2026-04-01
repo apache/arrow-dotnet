@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Apache.Arrow.C;
 using Apache.Arrow.Types;
 using Python.Runtime;
@@ -23,6 +24,7 @@ using Xunit;
 namespace Apache.Arrow.Tests
 {
     [Collection("PythonNet")]
+    [Experimental("ArrowDeviceDataApi")]
     public class CDeviceDataInterfacePythonTest
     {
         public CDeviceDataInterfacePythonTest(PythonNetFixture pythonNet)
@@ -135,17 +137,20 @@ namespace Apache.Arrow.Tests
             Assert.True(cDeviceArray->sync_event == null);
 
             ArrowType type = CArrowSchemaImporter.ImportType(cSchema);
-            IArrowArray importedArray = CArrowDeviceArrayImporter.ImportArray(cDeviceArray, type);
-            StringArray importedStrings = (StringArray)importedArray;
+            using (IArrowArray importedArray = CArrowDeviceArrayImporter.ImportArray(cDeviceArray, type))
+            {
+                StringArray importedStrings = (StringArray)importedArray;
 
-            Assert.Equal(5, importedStrings.Length);
-            Assert.Equal("hello", importedStrings.GetString(0));
-            Assert.Equal("world", importedStrings.GetString(1));
-            Assert.Null(importedStrings.GetString(2));
-            Assert.Equal("foo", importedStrings.GetString(3));
-            Assert.Equal("bar", importedStrings.GetString(4));
+                Assert.Equal(5, importedStrings.Length);
+                Assert.Equal("hello", importedStrings.GetString(0));
+                Assert.Equal("world", importedStrings.GetString(1));
+                Assert.Null(importedStrings.GetString(2));
+                Assert.Equal("foo", importedStrings.GetString(3));
+                Assert.Equal("bar", importedStrings.GetString(4));
+            }
 
             CArrowDeviceArray.Free(cDeviceArray);
+            CArrowSchema.Free(cSchema);
         }
 
         [SkippableFact]
@@ -226,6 +231,7 @@ namespace Apache.Arrow.Tests
 
             imported.Dispose();
             CArrowDeviceArray.Free(cDeviceArray);
+            CArrowSchema.Free(cSchema);
         }
 
         [SkippableFact]

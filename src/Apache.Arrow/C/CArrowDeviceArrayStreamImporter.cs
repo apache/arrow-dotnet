@@ -14,6 +14,7 @@
 // limitations under the License.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ using Apache.Arrow.Ipc;
 
 namespace Apache.Arrow.C
 {
+    [Experimental("ArrowDeviceDataApi")]
     public static class CArrowDeviceArrayStreamImporter
     {
         /// <summary>
@@ -56,15 +58,22 @@ namespace Apache.Arrow.C
 
             internal static string GetLastError(CArrowDeviceArrayStream* stream, int errno)
             {
+                byte* error = null;
+
+                if (stream->get_last_error != default)
+                {
 #if NET5_0_OR_GREATER
-                byte* error = stream->get_last_error(stream);
+                    error = stream->get_last_error(stream);
 #else
-                byte* error = Marshal.GetDelegateForFunctionPointer<CArrowDeviceArrayStreamExporter.GetLastErrorDeviceArrayStream>(stream->get_last_error)(stream);
+                    error = Marshal.GetDelegateForFunctionPointer<CArrowDeviceArrayStreamExporter.GetLastErrorDeviceArrayStream>(stream->get_last_error)(stream);
 #endif
+                }
+
                 if (error == null)
                 {
                     return $"Device array stream operation failed with no message. Error code: {errno}";
                 }
+
                 return StringUtil.PtrToStringUtf8(error);
             }
 
@@ -77,6 +86,10 @@ namespace Apache.Arrow.C
                 if (cDeviceArrayStream->release == default)
                 {
                     throw new ArgumentException("Tried to import a device array stream that has already been released.", nameof(cDeviceArrayStream));
+                }
+                if (cDeviceArrayStream->get_schema == default || cDeviceArrayStream->get_next == default)
+                {
+                    throw new ArgumentException("Tried to import a device array stream with a null function pointer.", nameof(cDeviceArrayStream));
                 }
 
                 CArrowSchema cSchema = new CArrowSchema();

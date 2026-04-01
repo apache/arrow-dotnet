@@ -14,11 +14,13 @@
 // limitations under the License.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using Apache.Arrow.Ipc;
 
 namespace Apache.Arrow.C
 {
+    [Experimental("ArrowDeviceDataApi")]
     public static class CArrowDeviceArrayStreamExporter
     {
 #if NET5_0_OR_GREATER

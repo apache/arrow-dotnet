@@ -52,4 +52,7 @@
     <!-- Code targeting .NET 5+ should use [UnmanagedCallersOnly]. -->
     <Compile Remove="C\NativeDelegate.cs" />
   </ItemGroup>
+  <ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible($(TargetFramework), 'net8.0'))">
+    <Compile Remove="Extensions\ExperimentalAttribute.Polyfill.cs" />
+  </ItemGroup>
 </Project>

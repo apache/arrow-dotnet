@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Apache.Arrow.C;
@@ -24,6 +25,7 @@ using Xunit;
 
 namespace Apache.Arrow.Tests
 {
+    [Experimental("ArrowDeviceDataApi")]
     public class CDeviceDataInterfaceTests
     {
         private IArrowArray GetTestArray()

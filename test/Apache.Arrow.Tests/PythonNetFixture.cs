@@ -56,8 +56,11 @@ namespace Apache.Arrow.Tests
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) &&
                 PythonEngine.PythonPath.IndexOf("dlls", StringComparison.OrdinalIgnoreCase) < 0)
             {
-                dynamic sys = Py.Import("sys");
-                sys.path.append(Path.Combine(Path.GetDirectoryName(Environment.GetEnvironmentVariable("PYTHONNET_PYDLL")), "DLLs"));
+                using (Py.GIL())
+                {
+                    dynamic sys = Py.Import("sys");
+                    sys.path.append(Path.Combine(Path.GetDirectoryName(Environment.GetEnvironmentVariable("PYTHONNET_PYDLL")), "DLLs"));
+                }
             }
 
             Initialized = true;

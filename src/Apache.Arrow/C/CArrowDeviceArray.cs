@@ -14,6 +14,7 @@
 // limitations under the License.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 namespace Apache.Arrow.C
@@ -28,6 +29,7 @@ namespace Apache.Arrow.C
     /// described in https://arrow.apache.org/docs/format/CDeviceDataInterface.html.
     /// </remarks>
     [StructLayout(LayoutKind.Sequential)]
+    [Experimental("ArrowDeviceDataApi")]
     public unsafe struct CArrowDeviceArray
     {
         public CArrowArray array;
