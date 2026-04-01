@@ -16,7 +16,7 @@
 namespace Apache.Arrow.Memory
 {
     /// <summary>
-    /// Allows control over the way native allocations interact with the GC.
+    /// Allows tracking native memory allocations.
     /// </summary>
     public interface INativeAllocationTracker
     {
