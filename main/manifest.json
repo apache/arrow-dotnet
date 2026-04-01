@@ -2546,6 +2546,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Memory.INativeAllocationTracker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Memory.INativeAllocationTracker.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Memory.INativeAllocationTracker",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Memory.INativeAllocationTracker.yml\" sourcestartlinenumber=\"1\">Allows tracking native memory allocations.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Apache.Arrow.Memory.MemoryAllocator.Stats.yml",
       "output": {
         ".html": {
@@ -2570,6 +2584,34 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Apache.Arrow.Memory.MemoryAllocator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Memory.MemoryPressureAllocationTracker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Memory.MemoryPressureAllocationTracker.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Memory.MemoryPressureAllocationTracker",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Memory.MemoryPressureAllocationTracker.yml\" sourcestartlinenumber=\"1\">Allows control over the way native allocations interact with the GC.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Memory.NativeBuffer-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Memory.NativeBuffer-2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Memory.NativeBuffer<TItem, TTracker>",
       "Summary": null
     },
     {
@@ -2599,6 +2641,20 @@
       "IsMRef": true,
       "Title": "Apache.Arrow.Memory.NativeMemoryManager",
       "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Memory.NoOpAllocationTracker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Memory.NoOpAllocationTracker.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Memory.NoOpAllocationTracker",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Memory.NoOpAllocationTracker.yml\" sourcestartlinenumber=\"1\">Avoid informing the GC about native allocations. Consider using for micro-benchmarks where\nthe impact of GC.AddMemoryPressure and GC.RemoveMemoryPressure can skew timing results.</p>\n"
     },
     {
       "type": "ManagedReference",

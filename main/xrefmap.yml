@@ -16721,6 +16721,28 @@ references:
   commentId: N:Apache.Arrow.Memory
   fullName: Apache.Arrow.Memory
   nameWithType: Apache.Arrow.Memory
+- uid: Apache.Arrow.Memory.INativeAllocationTracker
+  name: INativeAllocationTracker
+  href: api/Apache.Arrow.Memory.INativeAllocationTracker.html
+  commentId: T:Apache.Arrow.Memory.INativeAllocationTracker
+  fullName: Apache.Arrow.Memory.INativeAllocationTracker
+  nameWithType: INativeAllocationTracker
+- uid: Apache.Arrow.Memory.INativeAllocationTracker.Track(System.Int32,System.Int64)
+  name: Track(int, long)
+  href: api/Apache.Arrow.Memory.INativeAllocationTracker.html#Apache_Arrow_Memory_INativeAllocationTracker_Track_System_Int32_System_Int64_
+  commentId: M:Apache.Arrow.Memory.INativeAllocationTracker.Track(System.Int32,System.Int64)
+  name.vb: Track(Integer, Long)
+  fullName: Apache.Arrow.Memory.INativeAllocationTracker.Track(int, long)
+  fullName.vb: Apache.Arrow.Memory.INativeAllocationTracker.Track(Integer, Long)
+  nameWithType: INativeAllocationTracker.Track(int, long)
+  nameWithType.vb: INativeAllocationTracker.Track(Integer, Long)
+- uid: Apache.Arrow.Memory.INativeAllocationTracker.Track*
+  name: Track
+  href: api/Apache.Arrow.Memory.INativeAllocationTracker.html#Apache_Arrow_Memory_INativeAllocationTracker_Track_
+  commentId: Overload:Apache.Arrow.Memory.INativeAllocationTracker.Track
+  isSpec: "True"
+  fullName: Apache.Arrow.Memory.INativeAllocationTracker.Track
+  nameWithType: INativeAllocationTracker.Track
 - uid: Apache.Arrow.Memory.MemoryAllocator
   name: MemoryAllocator
   href: api/Apache.Arrow.Memory.MemoryAllocator.html
@@ -16855,6 +16877,159 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.Memory.MemoryAllocator.Stats.BytesAllocated
   nameWithType: MemoryAllocator.Stats.BytesAllocated
+- uid: Apache.Arrow.Memory.MemoryPressureAllocationTracker
+  name: MemoryPressureAllocationTracker
+  href: api/Apache.Arrow.Memory.MemoryPressureAllocationTracker.html
+  commentId: T:Apache.Arrow.Memory.MemoryPressureAllocationTracker
+  fullName: Apache.Arrow.Memory.MemoryPressureAllocationTracker
+  nameWithType: MemoryPressureAllocationTracker
+- uid: Apache.Arrow.Memory.MemoryPressureAllocationTracker.Track(System.Int32,System.Int64)
+  name: Track(int, long)
+  href: api/Apache.Arrow.Memory.MemoryPressureAllocationTracker.html#Apache_Arrow_Memory_MemoryPressureAllocationTracker_Track_System_Int32_System_Int64_
+  commentId: M:Apache.Arrow.Memory.MemoryPressureAllocationTracker.Track(System.Int32,System.Int64)
+  name.vb: Track(Integer, Long)
+  fullName: Apache.Arrow.Memory.MemoryPressureAllocationTracker.Track(int, long)
+  fullName.vb: Apache.Arrow.Memory.MemoryPressureAllocationTracker.Track(Integer, Long)
+  nameWithType: MemoryPressureAllocationTracker.Track(int, long)
+  nameWithType.vb: MemoryPressureAllocationTracker.Track(Integer, Long)
+- uid: Apache.Arrow.Memory.MemoryPressureAllocationTracker.Track*
+  name: Track
+  href: api/Apache.Arrow.Memory.MemoryPressureAllocationTracker.html#Apache_Arrow_Memory_MemoryPressureAllocationTracker_Track_
+  commentId: Overload:Apache.Arrow.Memory.MemoryPressureAllocationTracker.Track
+  isSpec: "True"
+  fullName: Apache.Arrow.Memory.MemoryPressureAllocationTracker.Track
+  nameWithType: MemoryPressureAllocationTracker.Track
+- uid: Apache.Arrow.Memory.NativeBuffer`2
+  name: NativeBuffer<TItem, TTracker>
+  href: api/Apache.Arrow.Memory.NativeBuffer-2.html
+  commentId: T:Apache.Arrow.Memory.NativeBuffer`2
+  name.vb: NativeBuffer(Of TItem, TTracker)
+  fullName: Apache.Arrow.Memory.NativeBuffer<TItem, TTracker>
+  fullName.vb: Apache.Arrow.Memory.NativeBuffer(Of TItem, TTracker)
+  nameWithType: NativeBuffer<TItem, TTracker>
+  nameWithType.vb: NativeBuffer(Of TItem, TTracker)
+- uid: Apache.Arrow.Memory.NativeBuffer`2.#ctor(System.Int32,System.Boolean,`1)
+  name: NativeBuffer(int, bool, TTracker)
+  href: api/Apache.Arrow.Memory.NativeBuffer-2.html#Apache_Arrow_Memory_NativeBuffer_2__ctor_System_Int32_System_Boolean__1_
+  commentId: M:Apache.Arrow.Memory.NativeBuffer`2.#ctor(System.Int32,System.Boolean,`1)
+  name.vb: New(Integer, Boolean, TTracker)
+  fullName: Apache.Arrow.Memory.NativeBuffer<TItem, TTracker>.NativeBuffer(int, bool, TTracker)
+  fullName.vb: Apache.Arrow.Memory.NativeBuffer(Of TItem, TTracker).New(Integer, Boolean, TTracker)
+  nameWithType: NativeBuffer<TItem, TTracker>.NativeBuffer(int, bool, TTracker)
+  nameWithType.vb: NativeBuffer(Of TItem, TTracker).New(Integer, Boolean, TTracker)
+- uid: Apache.Arrow.Memory.NativeBuffer`2.#ctor*
+  name: NativeBuffer
+  href: api/Apache.Arrow.Memory.NativeBuffer-2.html#Apache_Arrow_Memory_NativeBuffer_2__ctor_
+  commentId: Overload:Apache.Arrow.Memory.NativeBuffer`2.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Apache.Arrow.Memory.NativeBuffer<TItem, TTracker>.NativeBuffer
+  fullName.vb: Apache.Arrow.Memory.NativeBuffer(Of TItem, TTracker).New
+  nameWithType: NativeBuffer<TItem, TTracker>.NativeBuffer
+  nameWithType.vb: NativeBuffer(Of TItem, TTracker).New
+- uid: Apache.Arrow.Memory.NativeBuffer`2.Build
+  name: Build()
+  href: api/Apache.Arrow.Memory.NativeBuffer-2.html#Apache_Arrow_Memory_NativeBuffer_2_Build
+  commentId: M:Apache.Arrow.Memory.NativeBuffer`2.Build
+  fullName: Apache.Arrow.Memory.NativeBuffer<TItem, TTracker>.Build()
+  fullName.vb: Apache.Arrow.Memory.NativeBuffer(Of TItem, TTracker).Build()
+  nameWithType: NativeBuffer<TItem, TTracker>.Build()
+  nameWithType.vb: NativeBuffer(Of TItem, TTracker).Build()
+- uid: Apache.Arrow.Memory.NativeBuffer`2.Build*
+  name: Build
+  href: api/Apache.Arrow.Memory.NativeBuffer-2.html#Apache_Arrow_Memory_NativeBuffer_2_Build_
+  commentId: Overload:Apache.Arrow.Memory.NativeBuffer`2.Build
+  isSpec: "True"
+  fullName: Apache.Arrow.Memory.NativeBuffer<TItem, TTracker>.Build
+  fullName.vb: Apache.Arrow.Memory.NativeBuffer(Of TItem, TTracker).Build
+  nameWithType: NativeBuffer<TItem, TTracker>.Build
+  nameWithType.vb: NativeBuffer(Of TItem, TTracker).Build
+- uid: Apache.Arrow.Memory.NativeBuffer`2.ByteSpan
+  name: ByteSpan
+  href: api/Apache.Arrow.Memory.NativeBuffer-2.html#Apache_Arrow_Memory_NativeBuffer_2_ByteSpan
+  commentId: P:Apache.Arrow.Memory.NativeBuffer`2.ByteSpan
+  fullName: Apache.Arrow.Memory.NativeBuffer<TItem, TTracker>.ByteSpan
+  fullName.vb: Apache.Arrow.Memory.NativeBuffer(Of TItem, TTracker).ByteSpan
+  nameWithType: NativeBuffer<TItem, TTracker>.ByteSpan
+  nameWithType.vb: NativeBuffer(Of TItem, TTracker).ByteSpan
+- uid: Apache.Arrow.Memory.NativeBuffer`2.ByteSpan*
+  name: ByteSpan
+  href: api/Apache.Arrow.Memory.NativeBuffer-2.html#Apache_Arrow_Memory_NativeBuffer_2_ByteSpan_
+  commentId: Overload:Apache.Arrow.Memory.NativeBuffer`2.ByteSpan
+  isSpec: "True"
+  fullName: Apache.Arrow.Memory.NativeBuffer<TItem, TTracker>.ByteSpan
+  fullName.vb: Apache.Arrow.Memory.NativeBuffer(Of TItem, TTracker).ByteSpan
+  nameWithType: NativeBuffer<TItem, TTracker>.ByteSpan
+  nameWithType.vb: NativeBuffer(Of TItem, TTracker).ByteSpan
+- uid: Apache.Arrow.Memory.NativeBuffer`2.Dispose
+  name: Dispose()
+  href: api/Apache.Arrow.Memory.NativeBuffer-2.html#Apache_Arrow_Memory_NativeBuffer_2_Dispose
+  commentId: M:Apache.Arrow.Memory.NativeBuffer`2.Dispose
+  fullName: Apache.Arrow.Memory.NativeBuffer<TItem, TTracker>.Dispose()
+  fullName.vb: Apache.Arrow.Memory.NativeBuffer(Of TItem, TTracker).Dispose()
+  nameWithType: NativeBuffer<TItem, TTracker>.Dispose()
+  nameWithType.vb: NativeBuffer(Of TItem, TTracker).Dispose()
+- uid: Apache.Arrow.Memory.NativeBuffer`2.Dispose*
+  name: Dispose
+  href: api/Apache.Arrow.Memory.NativeBuffer-2.html#Apache_Arrow_Memory_NativeBuffer_2_Dispose_
+  commentId: Overload:Apache.Arrow.Memory.NativeBuffer`2.Dispose
+  isSpec: "True"
+  fullName: Apache.Arrow.Memory.NativeBuffer<TItem, TTracker>.Dispose
+  fullName.vb: Apache.Arrow.Memory.NativeBuffer(Of TItem, TTracker).Dispose
+  nameWithType: NativeBuffer<TItem, TTracker>.Dispose
+  nameWithType.vb: NativeBuffer(Of TItem, TTracker).Dispose
+- uid: Apache.Arrow.Memory.NativeBuffer`2.Grow(System.Int32,System.Boolean)
+  name: Grow(int, bool)
+  href: api/Apache.Arrow.Memory.NativeBuffer-2.html#Apache_Arrow_Memory_NativeBuffer_2_Grow_System_Int32_System_Boolean_
+  commentId: M:Apache.Arrow.Memory.NativeBuffer`2.Grow(System.Int32,System.Boolean)
+  name.vb: Grow(Integer, Boolean)
+  fullName: Apache.Arrow.Memory.NativeBuffer<TItem, TTracker>.Grow(int, bool)
+  fullName.vb: Apache.Arrow.Memory.NativeBuffer(Of TItem, TTracker).Grow(Integer, Boolean)
+  nameWithType: NativeBuffer<TItem, TTracker>.Grow(int, bool)
+  nameWithType.vb: NativeBuffer(Of TItem, TTracker).Grow(Integer, Boolean)
+- uid: Apache.Arrow.Memory.NativeBuffer`2.Grow*
+  name: Grow
+  href: api/Apache.Arrow.Memory.NativeBuffer-2.html#Apache_Arrow_Memory_NativeBuffer_2_Grow_
+  commentId: Overload:Apache.Arrow.Memory.NativeBuffer`2.Grow
+  isSpec: "True"
+  fullName: Apache.Arrow.Memory.NativeBuffer<TItem, TTracker>.Grow
+  fullName.vb: Apache.Arrow.Memory.NativeBuffer(Of TItem, TTracker).Grow
+  nameWithType: NativeBuffer<TItem, TTracker>.Grow
+  nameWithType.vb: NativeBuffer(Of TItem, TTracker).Grow
+- uid: Apache.Arrow.Memory.NativeBuffer`2.Length
+  name: Length
+  href: api/Apache.Arrow.Memory.NativeBuffer-2.html#Apache_Arrow_Memory_NativeBuffer_2_Length
+  commentId: P:Apache.Arrow.Memory.NativeBuffer`2.Length
+  fullName: Apache.Arrow.Memory.NativeBuffer<TItem, TTracker>.Length
+  fullName.vb: Apache.Arrow.Memory.NativeBuffer(Of TItem, TTracker).Length
+  nameWithType: NativeBuffer<TItem, TTracker>.Length
+  nameWithType.vb: NativeBuffer(Of TItem, TTracker).Length
+- uid: Apache.Arrow.Memory.NativeBuffer`2.Length*
+  name: Length
+  href: api/Apache.Arrow.Memory.NativeBuffer-2.html#Apache_Arrow_Memory_NativeBuffer_2_Length_
+  commentId: Overload:Apache.Arrow.Memory.NativeBuffer`2.Length
+  isSpec: "True"
+  fullName: Apache.Arrow.Memory.NativeBuffer<TItem, TTracker>.Length
+  fullName.vb: Apache.Arrow.Memory.NativeBuffer(Of TItem, TTracker).Length
+  nameWithType: NativeBuffer<TItem, TTracker>.Length
+  nameWithType.vb: NativeBuffer(Of TItem, TTracker).Length
+- uid: Apache.Arrow.Memory.NativeBuffer`2.Span
+  name: Span
+  href: api/Apache.Arrow.Memory.NativeBuffer-2.html#Apache_Arrow_Memory_NativeBuffer_2_Span
+  commentId: P:Apache.Arrow.Memory.NativeBuffer`2.Span
+  fullName: Apache.Arrow.Memory.NativeBuffer<TItem, TTracker>.Span
+  fullName.vb: Apache.Arrow.Memory.NativeBuffer(Of TItem, TTracker).Span
+  nameWithType: NativeBuffer<TItem, TTracker>.Span
+  nameWithType.vb: NativeBuffer(Of TItem, TTracker).Span
+- uid: Apache.Arrow.Memory.NativeBuffer`2.Span*
+  name: Span
+  href: api/Apache.Arrow.Memory.NativeBuffer-2.html#Apache_Arrow_Memory_NativeBuffer_2_Span_
+  commentId: Overload:Apache.Arrow.Memory.NativeBuffer`2.Span
+  isSpec: "True"
+  fullName: Apache.Arrow.Memory.NativeBuffer<TItem, TTracker>.Span
+  fullName.vb: Apache.Arrow.Memory.NativeBuffer(Of TItem, TTracker).Span
+  nameWithType: NativeBuffer<TItem, TTracker>.Span
+  nameWithType.vb: NativeBuffer(Of TItem, TTracker).Span
 - uid: Apache.Arrow.Memory.NativeMemoryAllocator
   name: NativeMemoryAllocator
   href: api/Apache.Arrow.Memory.NativeMemoryAllocator.html
@@ -16995,6 +17170,28 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.Memory.NativeMemoryManager.Unpin
   nameWithType: NativeMemoryManager.Unpin
+- uid: Apache.Arrow.Memory.NoOpAllocationTracker
+  name: NoOpAllocationTracker
+  href: api/Apache.Arrow.Memory.NoOpAllocationTracker.html
+  commentId: T:Apache.Arrow.Memory.NoOpAllocationTracker
+  fullName: Apache.Arrow.Memory.NoOpAllocationTracker
+  nameWithType: NoOpAllocationTracker
+- uid: Apache.Arrow.Memory.NoOpAllocationTracker.Track(System.Int32,System.Int64)
+  name: Track(int, long)
+  href: api/Apache.Arrow.Memory.NoOpAllocationTracker.html#Apache_Arrow_Memory_NoOpAllocationTracker_Track_System_Int32_System_Int64_
+  commentId: M:Apache.Arrow.Memory.NoOpAllocationTracker.Track(System.Int32,System.Int64)
+  name.vb: Track(Integer, Long)
+  fullName: Apache.Arrow.Memory.NoOpAllocationTracker.Track(int, long)
+  fullName.vb: Apache.Arrow.Memory.NoOpAllocationTracker.Track(Integer, Long)
+  nameWithType: NoOpAllocationTracker.Track(int, long)
+  nameWithType.vb: NoOpAllocationTracker.Track(Integer, Long)
+- uid: Apache.Arrow.Memory.NoOpAllocationTracker.Track*
+  name: Track
+  href: api/Apache.Arrow.Memory.NoOpAllocationTracker.html#Apache_Arrow_Memory_NoOpAllocationTracker_Track_
+  commentId: Overload:Apache.Arrow.Memory.NoOpAllocationTracker.Track
+  isSpec: "True"
+  fullName: Apache.Arrow.Memory.NoOpAllocationTracker.Track
+  nameWithType: NoOpAllocationTracker.Track
 - uid: Apache.Arrow.MonthDayNanosecondIntervalArray
   name: MonthDayNanosecondIntervalArray
   href: api/Apache.Arrow.MonthDayNanosecondIntervalArray.html
