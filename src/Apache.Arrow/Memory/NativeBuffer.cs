@@ -22,7 +22,7 @@ using System.Threading;
 namespace Apache.Arrow.Memory
 {
     public sealed class NativeBuffer<TItem, TTracker> : IDisposable
-        where TItem : struct
+        where TItem : unmanaged
         where TTracker : struct, INativeAllocationTracker
     {
         private const int Alignment = MemoryAllocator.DefaultAlignment;
@@ -39,6 +39,11 @@ namespace Apache.Arrow.Memory
         /// <param name="tracker">Allows native allocation sizes to be tracked and affect the GC.</param>
         public NativeBuffer(int elementCount, bool zeroFill = true, TTracker tracker = default)
         {
+            if (elementCount < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(elementCount));
+            }
+
             int elementSize = Unsafe.SizeOf<TItem>();
             _byteLength = checked(elementCount * elementSize);
             Length = elementCount;
@@ -79,6 +84,9 @@ namespace Apache.Arrow.Memory
         /// </summary>
         public void Grow(int newElementCount, bool zeroFill = true)
         {
+            if (_owner == null)
+                throw new ObjectDisposedException(nameof(NativeBuffer<TItem, TTracker>));
+
             if (newElementCount <= Length)
                 return;
 
@@ -172,6 +180,11 @@ namespace Apache.Arrow.Memory
                 {
                     if (_pointer != null)
                     {
+                        if (disposing && _pinCount > 0)
+                        {
+                            throw new InvalidOperationException("cannot free native memory while it is pinned");
+                        }
+
 #if NET6_0_OR_GREATER
                         NativeMemory.AlignedFree(_pointer);
 #else
@@ -192,11 +205,14 @@ namespace Apache.Arrow.Memory
             {
                 if (Volatile.Read(ref _pinCount) > 0)
                     throw new InvalidOperationException(
-                        "Cannot reallocate a NativeMemoryManager that is currently pinned.");
+                        "Cannot reallocate a native buffer that is currently pinned.");
 
                 int oldLength = _length;
 #if NET6_0_OR_GREATER
-                _pointer = NativeMemory.AlignedRealloc(_pointer, (nuint)newLength, Alignment);
+                void* newPtr = NativeMemory.AlignedRealloc(_pointer, (nuint)newLength, Alignment);
+                if (newPtr == null)
+                    throw new OutOfMemoryException($"NativeMemory.AlignedRealloc({newLength}, {Alignment}) returned null.");
+                _pointer = newPtr;
 #else
                 _pointer = AlignedNative.AlignedRealloc(_pointer, newLength, Alignment, oldLength, ref _offset);
 #endif

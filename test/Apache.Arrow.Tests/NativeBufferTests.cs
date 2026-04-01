@@ -91,7 +91,7 @@ namespace Apache.Arrow.Tests
             buf.Span[0] = 1;
             buf.Span[1] = 2;
 
-            ArrowBuffer arrow = buf.Build();
+            using ArrowBuffer arrow = buf.Build();
 
             Assert.True(arrow.Length > 0);
             var span = arrow.Span.CastTo<int>();
@@ -103,7 +103,7 @@ namespace Apache.Arrow.Tests
         public void BuildMakesBufferUnusable()
         {
             var buf = new NativeBuffer<int, NoOpAllocationTracker>(4);
-            buf.Build();
+            using ArrowBuffer arrow = buf.Build();
 
             Assert.Throws<ObjectDisposedException>(() => buf.Grow(10));
         }
@@ -166,7 +166,8 @@ namespace Apache.Arrow.Tests
 #if !NET6_0_OR_GREATER
         /// <summary>
         /// Helper that forces <c>AlignedNative.s_hasCrt</c> to the given value via reflection,
-        /// runs <paramref name="action"/>, then restores the original value.
+        /// runs <paramref name="action"/>, then restores the original value. This is only used
+        /// on net462 and net472, where we know it will work.
         /// </summary>
         private static void WithForcedFallback(Action action)
         {
@@ -232,7 +233,7 @@ namespace Apache.Arrow.Tests
                 buf.Span[0] = 1;
                 buf.Span[1] = 2;
 
-                ArrowBuffer arrow = buf.Build();
+                using ArrowBuffer arrow = buf.Build();
 
                 var span = arrow.Span.CastTo<int>();
                 Assert.Equal(1, span[0]);
