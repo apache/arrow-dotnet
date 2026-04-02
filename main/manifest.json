@@ -404,6 +404,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.C.ArrowDeviceType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.C.ArrowDeviceType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.C.ArrowDeviceType",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.C.ArrowDeviceType.yml\" sourcestartlinenumber=\"1\">Device type constants for the Arrow C Device Data Interface.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Apache.Arrow.C.CArrowArray.yml",
       "output": {
         ".html": {
@@ -484,6 +498,90 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Apache.Arrow.C.CArrowArrayStreamImporter",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.C.CArrowDeviceArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.C.CArrowDeviceArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.C.CArrowDeviceArray",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.C.CArrowDeviceArray.yml\" sourcestartlinenumber=\"1\">An Arrow C Device Data Interface ArrowDeviceArray, which represents an exported array\nalong with the device on which the array data resides.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.C.CArrowDeviceArrayExporter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.C.CArrowDeviceArrayExporter.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.C.CArrowDeviceArrayExporter",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.C.CArrowDeviceArrayImporter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.C.CArrowDeviceArrayImporter.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.C.CArrowDeviceArrayImporter",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.C.CArrowDeviceArrayStream.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.C.CArrowDeviceArrayStream.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.C.CArrowDeviceArrayStream",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.C.CArrowDeviceArrayStream.yml\" sourcestartlinenumber=\"1\">An Arrow C Device Data Interface ArrowDeviceArrayStream, which represents a stream\nof record batches with device information.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.C.CArrowDeviceArrayStreamExporter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.C.CArrowDeviceArrayStreamExporter.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.C.CArrowDeviceArrayStreamExporter",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.C.CArrowDeviceArrayStreamImporter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.C.CArrowDeviceArrayStreamImporter.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.C.CArrowDeviceArrayStreamImporter",
       "Summary": null
     },
     {
@@ -5342,6 +5440,34 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Microsoft.Extensions.DependencyInjection",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/System.Diagnostics.CodeAnalysis.ExperimentalAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/System.Diagnostics.CodeAnalysis.ExperimentalAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "System.Diagnostics.CodeAnalysis.ExperimentalAttribute",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/System.Diagnostics.CodeAnalysis.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/System.Diagnostics.CodeAnalysis.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "System.Diagnostics.CodeAnalysis",
       "Summary": null
     },
     {
