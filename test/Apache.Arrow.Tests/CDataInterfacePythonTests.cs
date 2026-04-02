@@ -30,66 +30,12 @@ using Xunit;
 
 namespace Apache.Arrow.Tests
 {
-    public class CDataSchemaPythonTest : IClassFixture<CDataSchemaPythonTest.PythonNet>
+    [Collection("PythonNet")]
+    public class CDataSchemaPythonTest
     {
-        public class PythonNet : IDisposable
+        public CDataSchemaPythonTest(PythonNetFixture pythonNet)
         {
-            public bool Initialized { get; }
-
-            public bool VersionMismatch { get; }
-
-            public PythonNet()
-            {
-                bool pythonSet = Environment.GetEnvironmentVariable("PYTHONNET_PYDLL") != null;
-                if (!pythonSet)
-                {
-                    Initialized = false;
-                    return;
-                }
-
-                try
-                {
-                    PythonEngine.Initialize();
-                }
-                catch (NotSupportedException e) when (e.Message.Contains("Python ABI ") && e.Message.Contains("not supported"))
-                {
-                    // An unsupported version of Python is being used
-                    Initialized = false;
-                    VersionMismatch = true;
-                    return;
-                }
-
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) &&
-                    PythonEngine.PythonPath.IndexOf("dlls", StringComparison.OrdinalIgnoreCase) < 0)
-                {
-                    dynamic sys = Py.Import("sys");
-                    sys.path.append(Path.Combine(Path.GetDirectoryName(Environment.GetEnvironmentVariable("PYTHONNET_PYDLL")), "DLLs"));
-                }
-
-                Initialized = true;
-            }
-
-            public void Dispose()
-            {
-                PythonEngine.Shutdown();
-            }
-        }
-
-        public CDataSchemaPythonTest(PythonNet pythonNet)
-        {
-            if (!pythonNet.Initialized)
-            {
-                var errorReason = pythonNet.VersionMismatch ? "Python version is incompatible with PythonNet" : "PYTHONNET_PYDLL not set";
-
-                bool inCIJob = Environment.GetEnvironmentVariable("GITHUB_ACTIONS") == "true";
-                bool inVerificationJob = Environment.GetEnvironmentVariable("TEST_CSHARP") == "1";
-
-                // Skip these tests if this is not in CI or is a verification job and PythonNet couldn't be initialized
-                Skip.If(inVerificationJob || !inCIJob, $"{errorReason}; skipping C Data Interface tests.");
-
-                // Otherwise throw
-                throw new Exception($"{errorReason}; cannot run C Data Interface tests.");
-            }
+            pythonNet.EnsureInitialized();
         }
 
         private static Schema GetTestSchema()
