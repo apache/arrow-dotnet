@@ -75,7 +75,8 @@ namespace Apache.Arrow.Ipc
             IArrowArrayVisitor<Decimal256Array>,
             IArrowArrayVisitor<DictionaryArray>,
             IArrowArrayVisitor<RunEndEncodedArray>,
-            IArrowArrayVisitor<NullArray>
+            IArrowArrayVisitor<NullArray>,
+            IDisposable
         {
             public readonly struct FieldNode
             {
@@ -111,7 +112,7 @@ namespace Apache.Arrow.Ipc
             private readonly MemoryStream _fallbackCompressionStream;
             // Holds visitor-owned arrays (e.g., normalized REE slices) whose buffers are
             // referenced by entries in _buffers. They must outlive WriteBufferData and be
-            // disposed afterwards via DisposeDeferredArrays.
+            // disposed afterwards.
             private List<IDisposable> _deferredDisposals;
             public IReadOnlyList<FieldNode> FieldNodes => _fieldNodes;
             public IReadOnlyList<Buffer> Buffers => _buffers;
@@ -130,7 +131,7 @@ namespace Apache.Arrow.Ipc
                 TotalLength = 0;
             }
 
-            public void DisposeDeferredArrays()
+            public void Dispose()
             {
                 if (_deferredDisposals == null)
                 {
@@ -824,6 +825,8 @@ namespace Apache.Arrow.Ipc
             (ArrowRecordBatchFlatBufferBuilder recordBatchBuilder, VectorOffset fieldNodesVectorOffset, VectorOffset variadicCountsOffset) =
                 PrepareWritingRecordBatch(recordBatch);
 
+            using var builder = recordBatchBuilder;
+
             VectorOffset buffersVectorOffset = Builder.EndVector();
 
             // Serialize record batch
@@ -840,7 +843,6 @@ namespace Apache.Arrow.Ipc
                 recordBatchOffset, recordBatchBuilder.TotalLength);
 
             long bufferLength = WriteBufferData(recordBatchBuilder.Buffers);
-            recordBatchBuilder.DisposeDeferredArrays();
 
             FinishedWritingRecordBatch(bufferLength, metadataLength);
         }
@@ -864,6 +866,8 @@ namespace Apache.Arrow.Ipc
             (ArrowRecordBatchFlatBufferBuilder recordBatchBuilder, VectorOffset fieldNodesVectorOffset, VectorOffset variadicCountsOffset) =
                 PrepareWritingRecordBatch(recordBatch);
 
+            using var builder = recordBatchBuilder;
+
             VectorOffset buffersVectorOffset = Builder.EndVector();
 
             // Serialize record batch
@@ -881,7 +885,6 @@ namespace Apache.Arrow.Ipc
                 cancellationToken).ConfigureAwait(false);
 
             long bufferLength = await WriteBufferDataAsync(recordBatchBuilder.Buffers, cancellationToken).ConfigureAwait(false);
-            recordBatchBuilder.DisposeDeferredArrays();
 
             FinishedWritingRecordBatch(bufferLength, metadataLength);
         }
@@ -1027,11 +1030,12 @@ namespace Apache.Arrow.Ipc
             (ArrowRecordBatchFlatBufferBuilder recordBatchBuilder, Offset<Flatbuf.DictionaryBatch> dictionaryBatchOffset) =
                 CreateDictionaryBatchOffset(id, valueType, dictionary);
 
+            using var builder = recordBatchBuilder;
+
             long metadataLength = WriteMessage(Flatbuf.MessageHeader.DictionaryBatch,
                 dictionaryBatchOffset, recordBatchBuilder.TotalLength);
 
             long bufferLength = WriteBufferData(recordBatchBuilder.Buffers);
-            recordBatchBuilder.DisposeDeferredArrays();
 
             FinishedWritingDictionary(bufferLength, metadataLength);
         }
@@ -1052,11 +1056,12 @@ namespace Apache.Arrow.Ipc
             (ArrowRecordBatchFlatBufferBuilder recordBatchBuilder, Offset<Flatbuf.DictionaryBatch> dictionaryBatchOffset) =
                 CreateDictionaryBatchOffset(id, valueType, dictionary);
 
+            using var builder = recordBatchBuilder;
+
             long metadataLength = await WriteMessageAsync(Flatbuf.MessageHeader.DictionaryBatch,
                 dictionaryBatchOffset, recordBatchBuilder.TotalLength, cancellationToken).ConfigureAwait(false);
 
             long bufferLength = await WriteBufferDataAsync(recordBatchBuilder.Buffers, cancellationToken).ConfigureAwait(false);
-            recordBatchBuilder.DisposeDeferredArrays();
 
             FinishedWritingDictionary(bufferLength, metadataLength);
         }
