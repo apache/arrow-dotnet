@@ -55,6 +55,10 @@ namespace Apache.Arrow
             IArrowTypeVisitor<FixedSizeListType>,
             IArrowTypeVisitor<StructType>,
             IArrowTypeVisitor<UnionType>,
+            IArrowTypeVisitor<LargeBinaryType>,
+            IArrowTypeVisitor<LargeStringType>,
+            IArrowTypeVisitor<LargeListType>,
+            IArrowTypeVisitor<LargeListViewType>,
             IArrowTypeVisitor<MapType>
         {
             public ArrayData Result { get; private set; }
@@ -100,6 +104,62 @@ namespace Apache.Arrow
             public void Visit(StringType type) => ConcatenateVariableBinaryArrayData(type);
 
             public void Visit(StringViewType type) => ConcatenateBinaryViewArrayData(type);
+
+            public void Visit(LargeBinaryType type) => ConcatenateLargeVariableBinaryArrayData(type);
+
+            public void Visit(LargeStringType type) => ConcatenateLargeVariableBinaryArrayData(type);
+
+            public void Visit(LargeListType type) => ConcatenateLargeLists(type);
+
+            public void Visit(LargeListViewType type)
+            {
+                CheckData(type, 3);
+                ArrowBuffer validityBuffer = ConcatenateValidityBuffer();
+                ArrowBuffer sizesBuffer = ConcatenateFixedWidthTypeValueBuffer(2, Int64Type.Default);
+
+                var children = new List<ArrayData>(_arrayDataList.Count);
+                var offsetsBuilder = new ArrowBuffer.Builder<long>(_totalLength);
+                long baseOffset = 0;
+
+                foreach (ArrayData arrayData in _arrayDataList)
+                {
+                    if (arrayData.Length == 0)
+                    {
+                        continue;
+                    }
+
+                    var child = arrayData.Children[0];
+                    ReadOnlySpan<long> offsets = arrayData.Buffers[1].Span.CastTo<long>().Slice(arrayData.Offset, arrayData.Length);
+                    ReadOnlySpan<long> sizes = arrayData.Buffers[2].Span.CastTo<long>().Slice(arrayData.Offset, arrayData.Length);
+                    var minOffset = offsets[0];
+                    long maxEnd = 0;
+
+                    for (int i = 0; i < arrayData.Length; ++i)
+                    {
+                        minOffset = Math.Min(minOffset, offsets[i]);
+                        maxEnd = Math.Max(maxEnd, offsets[i] + sizes[i]);
+                    }
+
+                    foreach (long offset in offsets)
+                    {
+                        offsetsBuilder.Append(baseOffset + offset - minOffset);
+                    }
+
+                    var childLength = maxEnd - minOffset;
+                    if (minOffset != 0 || childLength != child.Length)
+                    {
+                        child = child.Slice(checked((int)minOffset), checked((int)childLength));
+                    }
+
+                    baseOffset += childLength;
+                    children.Add(child);
+                }
+
+                ArrowBuffer offsetBuffer = offsetsBuilder.Build(_allocator);
+                ArrayData combinedChild = Concatenate(children, _allocator);
+
+                Result = new ArrayData(type, _totalLength, _totalNullCount, 0, new ArrowBuffer[] { validityBuffer, offsetBuffer, sizesBuffer }, new[] { combinedChild });
+            }
 
             public void Visit(ListType type) => ConcatenateLists(type);
 
@@ -308,6 +368,90 @@ namespace Apache.Arrow
                 ArrayData combinedChild = Concatenate(children, _allocator);
 
                 Result = new ArrayData(type, _totalLength, _totalNullCount, 0, new ArrowBuffer[] { validityBuffer, offsetBuffer }, new[] { combinedChild });
+            }
+
+            private void ConcatenateLargeVariableBinaryArrayData(IArrowType type)
+            {
+                CheckData(type, 3);
+                ArrowBuffer validityBuffer = ConcatenateValidityBuffer();
+                ArrowBuffer offsetBuffer = ConcatenateLargeOffsetBuffer();
+                ArrowBuffer valueBuffer = ConcatenateLargeVariableBinaryValueBuffer();
+
+                Result = new ArrayData(type, _totalLength, _totalNullCount, 0, new ArrowBuffer[] { validityBuffer, offsetBuffer, valueBuffer });
+            }
+
+            private void ConcatenateLargeLists(LargeListType type)
+            {
+                CheckData(type, 2);
+                ArrowBuffer validityBuffer = ConcatenateValidityBuffer();
+                ArrowBuffer offsetBuffer = ConcatenateLargeOffsetBuffer();
+
+                var children = new List<ArrayData>(_arrayDataList.Count);
+                foreach (ArrayData arrayData in _arrayDataList)
+                {
+                    if (arrayData.Length == 0)
+                    {
+                        continue;
+                    }
+
+                    var child = arrayData.Children[0];
+                    ReadOnlySpan<long> offsets = arrayData.Buffers[1].Span.CastTo<long>().Slice(arrayData.Offset, arrayData.Length + 1);
+                    var firstOffset = offsets[0];
+                    var lastOffset = offsets[arrayData.Length];
+                    if (firstOffset != 0 || lastOffset != child.Length)
+                    {
+                        child = child.Slice(checked((int)firstOffset), checked((int)(lastOffset - firstOffset)));
+                    }
+
+                    children.Add(child);
+                }
+
+                ArrayData combinedChild = Concatenate(children, _allocator);
+
+                Result = new ArrayData(type, _totalLength, _totalNullCount, 0, new ArrowBuffer[] { validityBuffer, offsetBuffer }, new[] { combinedChild });
+            }
+
+            private ArrowBuffer ConcatenateLargeOffsetBuffer()
+            {
+                var builder = new ArrowBuffer.Builder<long>(_totalLength + 1);
+                long baseOffset = 0;
+
+                foreach (ArrayData arrayData in _arrayDataList)
+                {
+                    if (arrayData.Length == 0)
+                    {
+                        continue;
+                    }
+
+                    ReadOnlySpan<long> span = arrayData.Buffers[1].Span.CastTo<long>().Slice(arrayData.Offset, arrayData.Length + 1);
+                    var firstOffset = span[0];
+
+                    foreach (long offset in span.Slice(0, arrayData.Length))
+                    {
+                        builder.Append(baseOffset + offset - firstOffset);
+                    }
+
+                    baseOffset += span[arrayData.Length] - firstOffset;
+                }
+
+                builder.Append(baseOffset);
+
+                return builder.Build(_allocator);
+            }
+
+            private ArrowBuffer ConcatenateLargeVariableBinaryValueBuffer()
+            {
+                var builder = new ArrowBuffer.Builder<byte>();
+
+                foreach (ArrayData arrayData in _arrayDataList)
+                {
+                    var offsets = arrayData.Buffers[1].Span.CastTo<long>().Slice(arrayData.Offset, arrayData.Length + 1);
+                    var firstOffset = checked((int)offsets[0]);
+                    var lastOffset = checked((int)offsets[arrayData.Length]);
+                    builder.Append(arrayData.Buffers[2].Span.Slice(firstOffset, lastOffset - firstOffset));
+                }
+
+                return builder.Build(_allocator);
             }
 
             private ArrowBuffer ConcatenateValidityBuffer()

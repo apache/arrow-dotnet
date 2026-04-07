@@ -62,7 +62,11 @@ namespace Apache.Arrow.Ipc
         }
 
         public ArrowFooter(Flatbuf.Footer footer, ref DictionaryMemo dictionaryMemo)
-            : this(Ipc.MessageSerializer.GetSchema(footer.Schema.GetValueOrDefault(), ref dictionaryMemo), GetDictionaries(footer),
+            : this(footer, ref dictionaryMemo, null)
+        { }
+
+        public ArrowFooter(Flatbuf.Footer footer, ref DictionaryMemo dictionaryMemo, ExtensionTypeRegistry extensionRegistry)
+            : this(Ipc.MessageSerializer.GetSchema(footer.Schema.GetValueOrDefault(), ref dictionaryMemo, extensionRegistry ?? ExtensionTypeRegistry.Default), GetDictionaries(footer),
                 GetRecordBatches(footer))
         { }
 

@@ -58,6 +58,8 @@ namespace Apache.Arrow.Types
         LargeString,
         Decimal32,
         Decimal64,
+        Extension,
+        LargeListView,
         RunEndEncoded,
     }
 

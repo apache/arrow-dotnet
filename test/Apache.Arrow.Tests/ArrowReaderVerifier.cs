@@ -96,6 +96,7 @@ namespace Apache.Arrow.Tests
             IArrowArrayVisitor<ListArray>,
             IArrowArrayVisitor<ListViewArray>,
             IArrowArrayVisitor<LargeListArray>,
+            IArrowArrayVisitor<LargeListViewArray>,
             IArrowArrayVisitor<FixedSizeListArray>,
             IArrowArrayVisitor<StringArray>,
             IArrowArrayVisitor<StringViewArray>,
@@ -150,6 +151,7 @@ namespace Apache.Arrow.Tests
             public void Visit(ListArray array) => CompareArrays(array);
             public void Visit(ListViewArray array) => CompareArrays(array);
             public void Visit(LargeListArray array) => CompareArrays(array);
+            public void Visit(LargeListViewArray array) => CompareArrays(array);
             public void Visit(FixedSizeListArray array) => CompareArrays(array);
             public void Visit(FixedSizeBinaryArray array) => CompareArrays(array);
             public void Visit(Decimal32Array array) => CompareArrays(array);
@@ -531,6 +533,45 @@ namespace Apache.Arrow.Tests
                 {
                     Assert.Equal(expectedArray.Offset, actualArray.Offset);
                     Assert.True(expectedArray.ValueOffsetsBuffer.Span.SequenceEqual(actualArray.ValueOffsetsBuffer.Span));
+                    actualArray.Values.Accept(new ArrayComparer(expectedArray.Values, _strictCompare));
+                }
+                else
+                {
+                    for (int i = 0; i < actualArray.Length; ++i)
+                    {
+                        if (expectedArray.IsNull(i))
+                        {
+                            Assert.True(actualArray.IsNull(i));
+                        }
+                        else
+                        {
+                            var expectedList = expectedArray.GetSlicedValues(i);
+                            var actualList = actualArray.GetSlicedValues(i);
+                            actualList.Accept(new ArrayComparer(expectedList, _strictCompare));
+                        }
+                    }
+                }
+            }
+
+            private void CompareArrays(LargeListViewArray actualArray)
+            {
+                Assert.IsAssignableFrom<LargeListViewArray>(_expectedArray);
+                LargeListViewArray expectedArray = (LargeListViewArray)_expectedArray;
+
+                actualArray.Data.DataType.Accept(_arrayTypeComparer);
+
+                Assert.Equal(expectedArray.Length, actualArray.Length);
+                Assert.Equal(expectedArray.NullCount, actualArray.NullCount);
+
+                CompareValidityBuffer(
+                    expectedArray.NullCount, _expectedArray.Length, expectedArray.NullBitmapBuffer,
+                    expectedArray.Offset, actualArray.NullBitmapBuffer, actualArray.Offset);
+
+                if (_strictCompare)
+                {
+                    Assert.Equal(expectedArray.Offset, actualArray.Offset);
+                    Assert.True(expectedArray.ValueOffsetsBuffer.Span.SequenceEqual(actualArray.ValueOffsetsBuffer.Span));
+                    Assert.True(expectedArray.SizesBuffer.Span.SequenceEqual(actualArray.SizesBuffer.Span));
                     actualArray.Values.Accept(new ArrayComparer(expectedArray.Values, _strictCompare));
                 }
                 else

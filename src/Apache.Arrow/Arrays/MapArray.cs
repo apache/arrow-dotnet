@@ -106,6 +106,7 @@ namespace Apache.Arrow
                 KeyBuilder.Clear();
                 ValueBuilder.Clear();
                 ValidityBufferBuilder.Clear();
+                NullCount = 0;
                 return this;
             }
 

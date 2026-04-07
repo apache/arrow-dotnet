@@ -65,6 +65,11 @@ namespace Apache.Arrow.Ipc
         {
         }
 
+        public ArrowFileReader(ArrowContext context, Stream stream, bool leaveOpen = false)
+            : base(new ArrowFileReaderImplementation(stream, context?.Allocator, context?.CompressionCodecFactory, leaveOpen, context?.ExtensionRegistry))
+        {
+        }
+
         public static ArrowFileReader FromFile(string filename)
         {
             var stream = new FileStream(filename, FileMode.Open, FileAccess.Read);

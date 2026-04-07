@@ -20,6 +20,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Apache.Arrow.Arrays;
 using Apache.Arrow.C;
 using Apache.Arrow.Ipc;
 using Apache.Arrow.Scalars;
@@ -29,66 +30,12 @@ using Xunit;
 
 namespace Apache.Arrow.Tests
 {
-    public class CDataSchemaPythonTest : IClassFixture<CDataSchemaPythonTest.PythonNet>
+    [Collection("PythonNet")]
+    public class CDataSchemaPythonTest
     {
-        public class PythonNet : IDisposable
+        public CDataSchemaPythonTest(PythonNetFixture pythonNet)
         {
-            public bool Initialized { get; }
-
-            public bool VersionMismatch { get; }
-
-            public PythonNet()
-            {
-                bool pythonSet = Environment.GetEnvironmentVariable("PYTHONNET_PYDLL") != null;
-                if (!pythonSet)
-                {
-                    Initialized = false;
-                    return;
-                }
-
-                try
-                {
-                    PythonEngine.Initialize();
-                }
-                catch (NotSupportedException e) when (e.Message.Contains("Python ABI ") && e.Message.Contains("not supported"))
-                {
-                    // An unsupported version of Python is being used
-                    Initialized = false;
-                    VersionMismatch = true;
-                    return;
-                }
-
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) &&
-                    PythonEngine.PythonPath.IndexOf("dlls", StringComparison.OrdinalIgnoreCase) < 0)
-                {
-                    dynamic sys = Py.Import("sys");
-                    sys.path.append(Path.Combine(Path.GetDirectoryName(Environment.GetEnvironmentVariable("PYTHONNET_PYDLL")), "DLLs"));
-                }
-
-                Initialized = true;
-            }
-
-            public void Dispose()
-            {
-                PythonEngine.Shutdown();
-            }
-        }
-
-        public CDataSchemaPythonTest(PythonNet pythonNet)
-        {
-            if (!pythonNet.Initialized)
-            {
-                Skip.If(pythonNet.VersionMismatch, "VM has incompatible version of Python installed; skipping C Data Interface tests.");
-
-                bool inCIJob = Environment.GetEnvironmentVariable("GITHUB_ACTIONS") == "true";
-                bool inVerificationJob = Environment.GetEnvironmentVariable("TEST_CSHARP") == "1";
-
-                // Skip these tests if this is not in CI or is a verification job and PythonNet couldn't be initialized
-                Skip.If(inVerificationJob || !inCIJob, "PYTHONNET_PYDLL not set; skipping C Data Interface tests.");
-
-                // Otherwise throw
-                throw new Exception("PYTHONNET_PYDLL not set; cannot run C Data Interface tests.");
-            }
+            pythonNet.EnsureInitialized();
         }
 
         private static Schema GetTestSchema()
@@ -739,58 +686,55 @@ namespace Apache.Arrow.Tests
         [SkippableFact]
         public unsafe void ExportManagedMemoryArray()
         {
-            using (new EnableManagedExport())
+            var expectedValues = Enumerable.Range(0, 100).Select(i => i % 10 == 3 ? null : (long?)i).ToArray();
+            var gcRefs = new List<WeakReference>();
+
+            void TestExport()
             {
-                var expectedValues = Enumerable.Range(0, 100).Select(i => i % 10 == 3 ? null : (long?)i).ToArray();
-                var gcRefs = new List<WeakReference>();
+                var array = CreateManagedMemoryArray(expectedValues, gcRefs);
 
-                void TestExport()
+                dynamic pyArray;
+                using (Py.GIL())
                 {
-                    var array = CreateManagedMemoryArray(expectedValues, gcRefs);
-
-                    dynamic pyArray;
-                    using (Py.GIL())
-                    {
-                        dynamic pa = Py.Import("pyarrow");
-                        pyArray = pa.array(expectedValues);
-                    }
-
-                    CArrowArray* cArray = CArrowArray.Create();
-                    CArrowArrayExporter.ExportArray(array, cArray);
-
-                    CArrowSchema* cSchema = CArrowSchema.Create();
-                    CArrowSchemaExporter.ExportType(array.Data.DataType, cSchema);
-
-                    GcCollect();
-                    foreach (var weakRef in gcRefs)
-                    {
-                        Assert.True(weakRef.IsAlive);
-                    }
-
-                    long arrayPtr = ((IntPtr)cArray).ToInt64();
-                    long schemaPtr = ((IntPtr)cSchema).ToInt64();
-
-                    using (Py.GIL())
-                    {
-                        dynamic pa = Py.Import("pyarrow");
-                        dynamic exportedPyArray = pa.Array._import_from_c(arrayPtr, schemaPtr);
-                        Assert.True(exportedPyArray == pyArray);
-
-                        // Required for the Python object to be garbage collected:
-                        exportedPyArray.Dispose();
-                    }
-
-                    CArrowArray.Free(cArray);
-                    CArrowSchema.Free(cSchema);
+                    dynamic pa = Py.Import("pyarrow");
+                    pyArray = pa.array(expectedValues);
                 }
 
-                TestExport();
+                CArrowArray* cArray = CArrowArray.Create();
+                CArrowArrayExporter.ExportArray(array, cArray);
+
+                CArrowSchema* cSchema = CArrowSchema.Create();
+                CArrowSchemaExporter.ExportType(array.Data.DataType, cSchema);
 
                 GcCollect();
                 foreach (var weakRef in gcRefs)
                 {
-                    Assert.False(weakRef.IsAlive);
+                    Assert.True(weakRef.IsAlive);
                 }
+
+                long arrayPtr = ((IntPtr)cArray).ToInt64();
+                long schemaPtr = ((IntPtr)cSchema).ToInt64();
+
+                using (Py.GIL())
+                {
+                    dynamic pa = Py.Import("pyarrow");
+                    dynamic exportedPyArray = pa.Array._import_from_c(arrayPtr, schemaPtr);
+                    Assert.True(exportedPyArray == pyArray);
+
+                    // Required for the Python object to be garbage collected:
+                    exportedPyArray.Dispose();
+                }
+
+                CArrowArray.Free(cArray);
+                CArrowSchema.Free(cSchema);
+            }
+
+            TestExport();
+
+            GcCollect();
+            foreach (var weakRef in gcRefs)
+            {
+                Assert.False(weakRef.IsAlive);
             }
         }
 
@@ -1008,7 +952,6 @@ namespace Apache.Arrow.Tests
             var originalBatch = GetTestRecordBatch();
             dynamic pyBatch = GetPythonRecordBatch();
 
-            using (new EnableManagedExport())
             using (var stream = new MemoryStream())
             {
                 var writer = new ArrowStreamWriter(stream, originalBatch.Schema);
@@ -1060,7 +1003,6 @@ namespace Apache.Arrow.Tests
 
             var originalBatch = GetTestRecordBatch();
 
-            using (new EnableManagedExport())
             using (var stream = new MemoryStream())
             {
                 var writer = new ArrowStreamWriter(stream, originalBatch.Schema);
@@ -1089,6 +1031,221 @@ namespace Apache.Arrow.Tests
                     CArrowSchema.Free(cSchema);
                 }
             }
+        }
+
+        [SkippableFact]
+        public unsafe void ExportGuidArray()
+        {
+            // Export a C# GuidArray via the C Data Interface and verify
+            // that Python/pyarrow sees it as an arrow.uuid extension array
+            // with the correct UUID values.
+
+            var guid1 = Guid.Parse("01234567-89ab-cdef-0123-456789abcdef");
+            var guid2 = Guid.Parse("fedcba98-7654-3210-fedc-ba9876543210");
+            var guids = new Guid?[] { guid1, null, guid2 };
+
+            var builder = new GuidArray.Builder();
+            foreach (var value in guids)
+            {
+                if (value.HasValue)
+                {
+                    builder.Append(value.Value);
+                }
+                else
+                {
+                    builder.AppendNull();
+                }
+            }
+            var guidArray = builder.Build();
+
+            var field = new Field("uuids", GuidType.Default, true);
+            var schema = new Schema(new[] { field }, null);
+            var batch = new RecordBatch(schema, new[] { guidArray }, guids.Length);
+
+            CArrowArray* cArray = CArrowArray.Create();
+            CArrowArrayExporter.ExportRecordBatch(batch, cArray);
+
+            CArrowSchema* cSchema = CArrowSchema.Create();
+            CArrowSchemaExporter.ExportSchema(batch.Schema, cSchema);
+
+            long arrayPtr = ((IntPtr)cArray).ToInt64();
+            long schemaPtr = ((IntPtr)cSchema).ToInt64();
+
+            using (Py.GIL())
+            {
+                dynamic pa = Py.Import("pyarrow");
+                dynamic uuid_mod = Py.Import("uuid");
+
+                dynamic pyBatch = pa.RecordBatch._import_from_c(arrayPtr, schemaPtr);
+                dynamic pyArray = pyBatch.column(0);
+
+                // Build the expected UUID array in Python
+                dynamic expectedArray = pa.array(
+                    new PyList(new PyObject[]
+                    {
+                        (PyObject)uuid_mod.UUID("01234567-89ab-cdef-0123-456789abcdef").bytes,
+                        PyObject.None,
+                        (PyObject)uuid_mod.UUID("fedcba98-7654-3210-fedc-ba9876543210").bytes,
+                    }),
+                    type: pa.uuid());
+
+                Assert.True((bool)pyArray.equals(expectedArray));
+            }
+
+            CArrowArray.Free(cArray);
+            CArrowSchema.Free(cSchema);
+        }
+
+        [SkippableFact]
+        public unsafe void ImportGuidArray()
+        {
+            // Create a UUID array in Python, export it via the C Data Interface,
+            // and verify that C# resolves it as a GuidArray with correct values.
+
+            CArrowArray* cArray = CArrowArray.Create();
+            CArrowSchema* cSchema = CArrowSchema.Create();
+
+            using (Py.GIL())
+            {
+                dynamic pa = Py.Import("pyarrow");
+                dynamic uuid_mod = Py.Import("uuid");
+
+                dynamic pyArray = pa.array(
+                    new PyList(new PyObject[]
+                    {
+                        (PyObject)uuid_mod.UUID("01234567-89ab-cdef-0123-456789abcdef").bytes,
+                        PyObject.None,
+                        (PyObject)uuid_mod.UUID("fedcba98-7654-3210-fedc-ba9876543210").bytes,
+                    }),
+                    type: pa.uuid());
+
+                long arrayPtr = ((IntPtr)cArray).ToInt64();
+                long schemaPtr = ((IntPtr)cSchema).ToInt64();
+                pyArray._export_to_c(arrayPtr, schemaPtr);
+            }
+
+            var registry = new ExtensionTypeRegistry();
+            registry.Register(GuidExtensionDefinition.Instance);
+
+            Field field = CArrowSchemaImporter.ImportField(cSchema, registry);
+            Assert.IsType<GuidType>(field.DataType);
+
+            IArrowArray importedArray = CArrowArrayImporter.ImportArray(cArray, field.DataType);
+            Assert.IsType<GuidArray>(importedArray);
+
+            var guidArray = (GuidArray)importedArray;
+            Assert.Equal(3, guidArray.Length);
+            Assert.Equal(Guid.Parse("01234567-89ab-cdef-0123-456789abcdef"), guidArray.GetGuid(0));
+            Assert.Null(guidArray.GetGuid(1));
+            Assert.Equal(Guid.Parse("fedcba98-7654-3210-fedc-ba9876543210"), guidArray.GetGuid(2));
+
+            CArrowArray.Free(cArray);
+        }
+
+        [SkippableFact]
+        public unsafe void ExportBool8Array()
+        {
+            // Export a C# Bool8Array via the C Data Interface and verify
+            // that Python/pyarrow sees it as an arrow.bool8 extension array
+            // with the correct values.
+
+            var builder = new Bool8Array.Builder();
+            builder.Append(true);
+            builder.Append(false);
+            builder.Append(null);
+            builder.Append(false);
+            builder.Append(true);
+            var bool8Array = builder.Build();
+
+            var field = new Field("bools", Bool8Type.Default, true);
+            var schema = new Schema(new[] { field }, null);
+            var batch = new RecordBatch(schema, new[] { bool8Array }, bool8Array.Length);
+
+            CArrowArray* cArray = CArrowArray.Create();
+            CArrowArrayExporter.ExportRecordBatch(batch, cArray);
+
+            CArrowSchema* cSchema = CArrowSchema.Create();
+            CArrowSchemaExporter.ExportSchema(batch.Schema, cSchema);
+
+            try
+            {
+                long arrayPtr = ((IntPtr)cArray).ToInt64();
+                long schemaPtr = ((IntPtr)cSchema).ToInt64();
+
+                using (Py.GIL())
+                {
+                    dynamic pa = Py.Import("pyarrow");
+
+                    dynamic pyBatch = pa.RecordBatch._import_from_c(arrayPtr, schemaPtr);
+                    dynamic pyArray = pyBatch.column(0);
+
+                    // Build the expected bool8 array in Python
+                    dynamic expectedArray = pa.array(
+                        new PyList(new PyObject[]
+                        {
+                        PyObject.FromManagedObject(true),
+                        PyObject.FromManagedObject(false),
+                        PyObject.None,
+                        PyObject.FromManagedObject(false),
+                        PyObject.FromManagedObject(true),
+                        }),
+                        type: pa.bool8());
+
+                    Assert.True((bool)pyArray.equals(expectedArray));
+                }
+            }
+            finally
+            {
+                CArrowArray.Free(cArray);
+                CArrowSchema.Free(cSchema);
+            }
+        }
+
+        [SkippableFact]
+        public unsafe void ImportBool8Array()
+        {
+            // Create a bool8 array in Python, export it via the C Data Interface,
+            // and verify that C# resolves it as a Bool8Array with correct values.
+
+            CArrowArray* cArray = CArrowArray.Create();
+            CArrowSchema* cSchema = CArrowSchema.Create();
+
+            using (Py.GIL())
+            {
+                dynamic pa = Py.Import("pyarrow");
+
+                dynamic pyArray = pa.array(
+                    new PyList(new PyObject[]
+                    {
+                        PyObject.None,
+                        PyObject.FromManagedObject(false),
+                        PyObject.FromManagedObject(true),
+                        PyObject.FromManagedObject(true),
+                    }),
+                    type: pa.bool8());
+
+                long arrayPtr = ((IntPtr)cArray).ToInt64();
+                long schemaPtr = ((IntPtr)cSchema).ToInt64();
+                pyArray._export_to_c(arrayPtr, schemaPtr);
+            }
+
+            var registry = new ExtensionTypeRegistry();
+            registry.Register(Bool8ExtensionDefinition.Instance);
+
+            Field field = CArrowSchemaImporter.ImportField(cSchema, registry);
+            Assert.IsType<Bool8Type>(field.DataType);
+
+            IArrowArray importedArray = CArrowArrayImporter.ImportArray(cArray, field.DataType);
+            Assert.IsType<Bool8Array>(importedArray);
+
+            var bool8Array = (Bool8Array)importedArray;
+            Assert.Equal(4, bool8Array.Length);
+            Assert.Null(bool8Array.GetValue(0));
+            Assert.Equal(false, bool8Array.GetValue(1));
+            Assert.Equal(true, bool8Array.GetValue(2));
+            Assert.Equal(true, bool8Array.GetValue(3));
+
+            CArrowArray.Free(cArray);
         }
 
         private static PyObject List(params int?[] values)
@@ -1173,22 +1330,6 @@ namespace Apache.Arrow.Tests
             public void Dispose()
             {
                 _index = -1;
-            }
-        }
-
-        sealed class EnableManagedExport : IDisposable
-        {
-            readonly bool _previousValue;
-
-            public EnableManagedExport()
-            {
-                _previousValue = CArrowArrayExporter.EnableManagedMemoryExport;
-                CArrowArrayExporter.EnableManagedMemoryExport = true;
-            }
-
-            public void Dispose()
-            {
-                CArrowArrayExporter.EnableManagedMemoryExport = _previousValue;
             }
         }
     }

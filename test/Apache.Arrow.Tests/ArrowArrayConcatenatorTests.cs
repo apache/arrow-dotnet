@@ -84,8 +84,12 @@ namespace Apache.Arrow.Tests
                     new Decimal64Type(14, 4),
                     new Decimal128Type(14, 10),
                     new Decimal256Type(14, 10),
+                    LargeBinaryType.Default,
+                    LargeStringType.Default,
+                    new LargeListType(Int64Type.Default),
                     new ListType(Int64Type.Default),
                     new ListViewType(Int64Type.Default),
+                    new LargeListViewType(Int64Type.Default),
                     new StructType(new List<Field>{
                         new Field.Builder().Name("Strings").DataType(StringType.Default).Nullable(true).Build(),
                         new Field.Builder().Name("Ints").DataType(Int32Type.Default).Nullable(true).Build()
@@ -154,6 +158,10 @@ namespace Apache.Arrow.Tests
             IArrowTypeVisitor<FixedSizeListType>,
             IArrowTypeVisitor<StructType>,
             IArrowTypeVisitor<UnionType>,
+            IArrowTypeVisitor<LargeBinaryType>,
+            IArrowTypeVisitor<LargeStringType>,
+            IArrowTypeVisitor<LargeListType>,
+            IArrowTypeVisitor<LargeListViewType>,
             IArrowTypeVisitor<MapType>
         {
             private readonly List<List<int?>> _baseData;
@@ -495,6 +503,44 @@ namespace Apache.Arrow.Tests
                     type, _resultTotalElementCount, resultNullCount, 0, resultBuffers,
                         new[] { stringResultBuilder.Build().Data, intResultBuilder.Build().Data }));
             }
+
+            public void Visit(LargeBinaryType type) =>
+                GenerateTestData<LargeBinaryArray, LargeBinaryArray.Builder>(type, (builder, x) =>
+                {
+                    if (x % 2 == 0)
+                    {
+                        builder.Append((byte)x);
+                    }
+                    else
+                    {
+                        builder.Append(new byte[] { (byte)x, (byte)(x + 1) }.AsSpan());
+                    }
+                });
+
+            public void Visit(LargeStringType type) =>
+                GenerateTestData<LargeStringArray, LargeStringArray.Builder>(type, (builder, x) => builder.Append(x.ToString()));
+
+            public void Visit(LargeListType type) =>
+                GenerateTestData<LargeListArray, LargeListArray.Builder>(type, (builder, x) =>
+                {
+                    builder.Append();
+                    ((Int64Array.Builder)builder.ValueBuilder).Append(x);
+                }, initAction: (builder, length) =>
+                {
+                    builder.Reserve(length);
+                    builder.ValueBuilder.Reserve(length);
+                });
+
+            public void Visit(LargeListViewType type) =>
+                GenerateTestData<LargeListViewArray, LargeListViewArray.Builder>(type, (builder, x) =>
+                {
+                    builder.Append();
+                    ((Int64Array.Builder)builder.ValueBuilder).Append(x);
+                }, initAction: (builder, length) =>
+                {
+                    builder.Reserve(length);
+                    builder.ValueBuilder.Reserve(length);
+                });
 
             public void Visit(MapType type) =>
                 GenerateTestData<MapArray, MapArray.Builder>(type, (builder, x) =>

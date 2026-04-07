@@ -95,12 +95,21 @@ namespace Apache.Arrow
                         IntervalUnit.MonthDayNanosecond => new MonthDayNanosecondIntervalArray.Builder(),
                         _ => throw new ArgumentOutOfRangeException($"unsupported interval unit <{intervalType.Unit}>")
                     };
+                case ArrowTypeId.LargeBinary:
+                    return new LargeBinaryArray.Builder();
+                case ArrowTypeId.LargeString:
+                    return new LargeStringArray.Builder();
+                case ArrowTypeId.LargeList:
+                    return new LargeListArray.Builder(dataType as LargeListType);
+                case ArrowTypeId.LargeListView:
+                    return new LargeListViewArray.Builder(dataType as LargeListViewType);
                 case ArrowTypeId.Map:
                     return new MapArray.Builder(dataType as MapType);
                 case ArrowTypeId.Struct:
                 case ArrowTypeId.Union:
                 case ArrowTypeId.Dictionary:
                 case ArrowTypeId.FixedSizedBinary:
+                case ArrowTypeId.Extension:
                 default:
                     throw new NotSupportedException($"An ArrowArrayBuilder cannot be built for type {dataType.TypeId}.");
             }

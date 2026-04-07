@@ -184,6 +184,7 @@ test_binary_distribution() {
   reference_package "Apache.Arrow.Compression" "Apache.Arrow.Compression.Tests"
   reference_package "Apache.Arrow.Flight.Sql" "Apache.Arrow.Flight.Sql.Tests" "Apache.Arrow.Flight.TestWeb"
   reference_package "Apache.Arrow.Flight.AspNetCore" "Apache.Arrow.Flight.TestWeb"
+  reference_package "Apache.Arrow.Variant" "Apache.Arrow.Variant.Tests"
 
   # Move src directory to ensure we are only testing against built packages
   mv src src.backup

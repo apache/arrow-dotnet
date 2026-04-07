@@ -485,6 +485,14 @@ namespace Apache.Arrow.Tests
                 var actualArray = isNull ? null : actualSpan.ToArray();
                 Assert.Equal(expectedArray, actualArray);
             }
+
+            IReadOnlyList<byte[]> bytesArray = array;
+            for (int i = 0; i < bytesArray.Count; i++)
+            {
+                var expectedArray = expectedContentsArr[i];
+                var actualArray = bytesArray[i];
+                Assert.Equal(expectedArray, actualArray);
+            }
         }
     }
 }

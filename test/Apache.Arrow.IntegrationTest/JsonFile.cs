@@ -191,6 +191,7 @@ namespace Apache.Arrow.IntegrationTest
                 "list" => ToListArrowType(type, children),
                 "listview" => ToListViewArrowType(type, children),
                 "largelist" => ToLargeListArrowType(type, children),
+                "largelistview" => ToLargeListViewArrowType(type, children),
                 "fixedsizelist" => ToFixedSizeListArrowType(type, children),
                 "struct" => ToStructArrowType(type, children),
                 "union" => ToUnionArrowType(type, children),
@@ -313,6 +314,11 @@ namespace Apache.Arrow.IntegrationTest
         private static IArrowType ToLargeListArrowType(JsonArrowType type, Field[] children)
         {
             return new LargeListType(children[0]);
+        }
+
+        private static IArrowType ToLargeListViewArrowType(JsonArrowType type, Field[] children)
+        {
+            return new LargeListViewType(children[0]);
         }
 
         private static IArrowType ToFixedSizeListArrowType(JsonArrowType type, Field[] children)
@@ -483,6 +489,7 @@ namespace Apache.Arrow.IntegrationTest
             IArrowTypeVisitor<ListType>,
             IArrowTypeVisitor<ListViewType>,
             IArrowTypeVisitor<LargeListType>,
+            IArrowTypeVisitor<LargeListViewType>,
             IArrowTypeVisitor<FixedSizeListType>,
             IArrowTypeVisitor<StructType>,
             IArrowTypeVisitor<UnionType>,
@@ -875,6 +882,22 @@ namespace Apache.Arrow.IntegrationTest
                 Array = new LargeListArray(arrayData);
             }
 
+            public void Visit(LargeListViewType type)
+            {
+                ArrowBuffer validityBuffer = GetValidityBuffer(out int nullCount);
+                ArrowBuffer offsetBuffer = GetLargeOffsetBuffer();
+                ArrowBuffer sizeBuffer = GetLargeSizeBuffer();
+
+                var data = JsonFieldData;
+                JsonFieldData = data.Children[0];
+                type.ValueDataType.Accept(this);
+                JsonFieldData = data;
+
+                ArrayData arrayData = new ArrayData(type, JsonFieldData.Count, nullCount, 0,
+                    new[] { validityBuffer, offsetBuffer, sizeBuffer }, new[] { Array.Data });
+                Array = new LargeListViewArray(arrayData);
+            }
+
             public void Visit(FixedSizeListType type)
             {
                 ArrowBuffer validityBuffer = GetValidityBuffer(out int nullCount);
@@ -1068,6 +1091,13 @@ namespace Apache.Arrow.IntegrationTest
                 return valueSizes.Build(default);
             }
 
+            private ArrowBuffer GetLargeSizeBuffer()
+            {
+                ArrowBuffer.Builder<long> valueSizes = new ArrowBuffer.Builder<long>(JsonFieldData.Size.Count);
+                valueSizes.AppendRange(JsonFieldData.LongSize);
+                return valueSizes.Build(default);
+            }
+
             private ArrowBuffer GetTypeIdBuffer()
             {
                 ArrowBuffer.Builder<byte> typeIds = new ArrowBuffer.Builder<byte>(JsonFieldData.TypeId.Length);
@@ -1135,6 +1165,12 @@ namespace Apache.Arrow.IntegrationTest
         public IEnumerable<int> IntSize
         {
             get { return Size.Select(GetInt); }
+        }
+
+        [JsonIgnore]
+        public IEnumerable<long> LongSize
+        {
+            get { return Size.Select(GetLong); }
         }
 
         static int GetInt(JsonNode node)

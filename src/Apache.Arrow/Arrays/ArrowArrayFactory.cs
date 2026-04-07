@@ -71,6 +71,8 @@ namespace Apache.Arrow
                     return new ListViewArray(data);
                 case ArrowTypeId.LargeList:
                     return new LargeListArray(data);
+                case ArrowTypeId.LargeListView:
+                    return new LargeListViewArray(data);
                 case ArrowTypeId.Map:
                     return new MapArray(data);
                 case ArrowTypeId.Struct:
@@ -107,6 +109,11 @@ namespace Apache.Arrow
                     return new FixedSizeListArray(data);
                 case ArrowTypeId.Interval:
                     return IntervalArray.Create(data);
+                case ArrowTypeId.Extension:
+                    var extType = (ExtensionType)data.DataType;
+                    var storageData = new ArrayData(extType.StorageType, data.Length, data.NullCount, data.Offset, data.Buffers, data.Children, data.Dictionary);
+                    IArrowArray storageArray = BuildArray(storageData);
+                    return extType.CreateArray(storageArray);
                 case ArrowTypeId.RunEndEncoded:
                     return new RunEndEncodedArray(data);
                 default:
@@ -117,6 +124,12 @@ namespace Apache.Arrow
         public static IArrowArray Slice(IArrowArray array, int offset, int length)
         {
             ArrayData newData = array.Data.Slice(offset, length);
+            return BuildArray(newData);
+        }
+
+        public static IArrowArray SliceShared(IArrowArray array, int offset, int length)
+        {
+            ArrayData newData = array.Data.SliceShared(offset, length);
             return BuildArray(newData);
         }
     }

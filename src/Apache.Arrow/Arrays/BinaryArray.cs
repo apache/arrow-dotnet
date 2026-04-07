@@ -369,13 +369,21 @@ namespace Apache.Arrow
         }
 
         int IReadOnlyCollection<byte[]>.Count => Length;
-        byte[] IReadOnlyList<byte[]>.this[int index] => GetBytes(index).ToArray();
+        byte[] IReadOnlyList<byte[]>.this[int index]
+        {
+            get
+            {
+                var bytes = GetBytes(index, out bool isNull);
+                return isNull ? null : bytes.ToArray();
+            }
+        }
 
         IEnumerator<byte[]> IEnumerable<byte[]>.GetEnumerator()
         {
             for (int index = 0; index < Length; index++)
             {
-                yield return GetBytes(index).ToArray();
+                var bytes = GetBytes(index, out bool isNull);
+                yield return isNull ? null : bytes.ToArray();
             }
         }
 

@@ -185,7 +185,14 @@ namespace Apache.Arrow.Arrays
 
             public TBuilder AppendNull()
             {
-                ValueBuffer.Append(new byte[ByteWidth]);
+                if (ByteWidth <= 128)
+                {
+                    ValueBuffer.Append(stackalloc byte[ByteWidth]);
+                }
+                else
+                {
+                    ValueBuffer.Append(new byte[ByteWidth]);
+                }
                 ValidityBuffer.Append(false);
                 return Instance;
             }

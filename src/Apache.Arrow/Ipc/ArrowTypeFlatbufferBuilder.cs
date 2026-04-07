@@ -71,6 +71,7 @@ namespace Apache.Arrow.Ipc
             IArrowTypeVisitor<ListType>,
             IArrowTypeVisitor<ListViewType>,
             IArrowTypeVisitor<LargeListType>,
+            IArrowTypeVisitor<LargeListViewType>,
             IArrowTypeVisitor<FixedSizeListType>,
             IArrowTypeVisitor<UnionType>,
             IArrowTypeVisitor<StructType>,
@@ -156,6 +157,14 @@ namespace Apache.Arrow.Ipc
                 Result = FieldType.Build(
                     Flatbuf.Type.LargeList,
                     Flatbuf.LargeList.EndLargeList(Builder));
+            }
+
+            public void Visit(LargeListViewType type)
+            {
+                Flatbuf.LargeListView.StartLargeListView(Builder);
+                Result = FieldType.Build(
+                    Flatbuf.Type.LargeListView,
+                    Flatbuf.LargeListView.EndLargeListView(Builder));
             }
 
             public void Visit(FixedSizeListType type)

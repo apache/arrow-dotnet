@@ -27,7 +27,13 @@ namespace Apache.Arrow.Ipc
         public Stream BaseStream { get; }
         private readonly bool _leaveOpen;
 
-        public ArrowStreamReaderImplementation(Stream stream, MemoryAllocator allocator, ICompressionCodecFactory compressionCodecFactory, bool leaveOpen) : base(allocator, compressionCodecFactory)
+        public ArrowStreamReaderImplementation(Stream stream, MemoryAllocator allocator, ICompressionCodecFactory compressionCodecFactory, bool leaveOpen)
+            : this(stream, allocator, compressionCodecFactory, leaveOpen, null)
+        {
+        }
+
+        public ArrowStreamReaderImplementation(Stream stream, MemoryAllocator allocator, ICompressionCodecFactory compressionCodecFactory, bool leaveOpen, ExtensionTypeRegistry extensionRegistry)
+            : base(allocator, compressionCodecFactory, extensionRegistry)
         {
             BaseStream = stream;
             _leaveOpen = leaveOpen;
@@ -173,7 +179,7 @@ namespace Apache.Arrow.Ipc
                 EnsureFullRead(buff, bytesRead);
 
                 Google.FlatBuffers.ByteBuffer schemabb = CreateByteBuffer(buff);
-                _schema = MessageSerializer.GetSchema(ReadMessage<Flatbuf.Schema>(schemabb), ref _dictionaryMemo);
+                _schema = MessageSerializer.GetSchema(ReadMessage<Flatbuf.Schema>(schemabb), ref _dictionaryMemo, _extensionRegistry);
                 return _schema;
             }
         }
@@ -198,7 +204,7 @@ namespace Apache.Arrow.Ipc
                 EnsureFullRead(buff, bytesRead);
 
                 Google.FlatBuffers.ByteBuffer schemabb = CreateByteBuffer(buff);
-                _schema = MessageSerializer.GetSchema(ReadMessage<Flatbuf.Schema>(schemabb), ref _dictionaryMemo);
+                _schema = MessageSerializer.GetSchema(ReadMessage<Flatbuf.Schema>(schemabb), ref _dictionaryMemo, _extensionRegistry);
             }
         }
 

@@ -138,6 +138,7 @@ namespace Apache.Arrow.Tests
             var emptyList = listBuilder.Build();
 
             Assert.Equal(0, emptyList.Length);
+            Assert.Equal(0, emptyList.NullCount);
 
             List<string> ConvertStringArrayToList(StringArray array)
             {
@@ -327,6 +328,91 @@ namespace Apache.Arrow.Tests
             Assert.Equal(
                 new List<long?> { 12, null },
                 ((Int64Array)childList3.GetSlicedValues(2)).ToList(includeNulls: true));
+        }
+
+        [Fact]
+        public void ListViewArrayBuilderClearResetsNullCount()
+        {
+            var builder = new ListViewArray.Builder(Int64Type.Default);
+            var valueBuilder = (Int64Array.Builder)builder.ValueBuilder;
+
+            builder.AppendNull();
+            builder.Append();
+            valueBuilder.Append(1);
+
+            var list = builder.Build();
+            Assert.Equal(2, list.Length);
+            Assert.Equal(1, list.NullCount);
+
+            builder.Clear();
+            builder.Append();
+            valueBuilder.Append(10);
+            var clearedList = builder.Build();
+
+            Assert.Equal(1, clearedList.Length);
+            Assert.Equal(0, clearedList.NullCount);
+            var slice = (Int64Array)clearedList.GetSlicedValues(0);
+            Assert.Equal(1, slice.Length);
+            Assert.Equal(10, slice.GetValue(0));
+        }
+
+        [Fact]
+        public void ListViewArrayBuilderClearWithoutBuildResetsCorrectly()
+        {
+            var builder = new ListViewArray.Builder(Int64Type.Default);
+            var valueBuilder = (Int64Array.Builder)builder.ValueBuilder;
+
+            builder.Append();
+            valueBuilder.Append(1);
+            valueBuilder.Append(2);
+
+            // Clear without calling Build first
+            builder.Clear();
+
+            builder.Append();
+            valueBuilder.Append(10);
+
+            var array = builder.Build();
+
+            Assert.Equal(1, array.Length);
+            Assert.Equal(0, array.NullCount);
+            var slice = (Int64Array)array.GetSlicedValues(0);
+            Assert.Equal(1, slice.Length);
+            Assert.Equal(10, slice.GetValue(0));
+        }
+
+        [Fact]
+        public void MapArrayBuilderClearResetsNullCount()
+        {
+            var mapType = new MapType(
+                new Field.Builder().Name("key").DataType(StringType.Default).Nullable(false).Build(),
+                new Field.Builder().Name("value").DataType(Int32Type.Default).Nullable(true).Build(),
+                keySorted: false);
+
+            var builder = new MapArray.Builder(mapType);
+            var keyBuilder = (StringArray.Builder)builder.KeyBuilder;
+            var valueBuilder = (Int32Array.Builder)builder.ValueBuilder;
+
+            builder.Append();
+            keyBuilder.Append("a");
+            valueBuilder.Append(1);
+            builder.AppendNull();
+            builder.Append();
+            keyBuilder.Append("b");
+            valueBuilder.Append(2);
+
+            var map = builder.Build();
+            Assert.Equal(3, map.Length);
+            Assert.Equal(1, map.NullCount);
+
+            builder.Clear();
+            builder.Append();
+            keyBuilder.Append("x");
+            valueBuilder.Append(99);
+            var clearedMap = builder.Build();
+
+            Assert.Equal(1, clearedMap.Length);
+            Assert.Equal(0, clearedMap.NullCount);
         }
 
         public class TimestampArrayBuilder
