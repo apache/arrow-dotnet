@@ -176,6 +176,51 @@ public class RunEndEncodedArrayTests
     }
 
     [Fact]
+    public void TestRunEndEncodedLengthMismatchThrows()
+    {
+        Int32Array runEnds = new Int32Array.Builder().AppendRange([3, 7]).Build();
+        StringArray values = new StringArray.Builder().AppendRange(["A", "B", "C"]).Build();
+
+        var ex = Assert.Throws<ArgumentException>(() => new RunEndEncodedArray(runEnds, values));
+        Assert.Contains("length", ex.Message);
+    }
+
+    [Fact]
+    public void TestRunEndEncodedNullRunEndsThrows()
+    {
+        Int32Array runEnds = new Int32Array.Builder().Append(3).AppendNull().Build();
+        StringArray values = new StringArray.Builder().AppendRange(["A", "B"]).Build();
+
+        var ex = Assert.Throws<ArgumentException>(() => new RunEndEncodedArray(runEnds, values));
+        Assert.Contains("null", ex.Message);
+    }
+
+    [Fact]
+    public void TestFindPhysicalIndexOnSlicedArray()
+    {
+        // Run ends: [3, 7, 10] → run 0 (A): positions 0..2, run 1 (B): 3..6, run 2 (C): 7..9
+        Int32Array runEnds = new Int32Array.Builder().AppendRange([3, 7, 10]).Build();
+        StringArray values = new StringArray.Builder().AppendRange(["A", "B", "C"]).Build();
+        var reeArray = new RunEndEncodedArray(runEnds, values);
+
+        // Slice covering underlying positions 2..7 (length 6).
+        // Slice positions: 0→A(2), 1→B(3), 2→B(4), 3→B(5), 4→B(6), 5→C(7)
+        var sliced = (RunEndEncodedArray)ArrowArrayFactory.Slice(reeArray, 2, 6);
+
+        Assert.Equal(6, sliced.Length);
+        Assert.Equal(0, sliced.FindPhysicalIndex(0));
+        Assert.Equal(1, sliced.FindPhysicalIndex(1));
+        Assert.Equal(1, sliced.FindPhysicalIndex(2));
+        Assert.Equal(1, sliced.FindPhysicalIndex(3));
+        Assert.Equal(1, sliced.FindPhysicalIndex(4));
+        Assert.Equal(2, sliced.FindPhysicalIndex(5));
+
+        // Out-of-range against the slice length, even though they would be valid against
+        // the underlying physical array.
+        Assert.Throws<ArgumentOutOfRangeException>(() => sliced.FindPhysicalIndex(6));
+    }
+
+    [Fact]
     public void TestFindPhysicalIndexOutOfRange()
     {
         Int32Array runEnds = new Int32Array.Builder().AppendRange([3, 7]).Build();

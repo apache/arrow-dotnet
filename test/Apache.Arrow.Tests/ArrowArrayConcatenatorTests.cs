@@ -195,6 +195,25 @@ namespace Apache.Arrow.Tests
         }
 
         [Fact]
+        public void TestRunEndEncodedAllEmptyInputs()
+        {
+            // Use String values (3 buffers) and Int32 children (2 buffers) so that any
+            // wrong-shape empty placeholder would crash array construction.
+            RunEndEncodedArray MakeEmpty() => new RunEndEncodedArray(
+                new Int32Array.Builder().Build(),
+                new StringArray.Builder().Build());
+
+            var concatenated = (RunEndEncodedArray)ArrowArrayConcatenator.Concatenate(
+                new IArrowArray[] { MakeEmpty(), MakeEmpty(), MakeEmpty() });
+
+            Assert.Equal(0, concatenated.Length);
+            Assert.Equal(0, concatenated.RunEnds.Length);
+            Assert.Equal(0, concatenated.Values.Length);
+            Assert.IsType<Int32Array>(concatenated.RunEnds);
+            Assert.IsType<StringArray>(concatenated.Values);
+        }
+
+        [Fact]
         public void TestRunEndEncodedWithEmptyInput()
         {
             var empty = new RunEndEncodedArray(

@@ -57,7 +57,15 @@ public sealed class RunEndEncodedType : NestedType
     public RunEndEncodedType(Field runEndsField, Field valuesField)
         : base([runEndsField, valuesField])
     {
-        ValidateRunEndsType(runEndsField.DataType);
+        var typeId = runEndsField.DataType.TypeId;
+        if (typeId != ArrowTypeId.Int16 &&
+            typeId != ArrowTypeId.Int32 &&
+            typeId != ArrowTypeId.Int64)
+        {
+            throw new ArgumentException(
+                $"Run ends type must be Int16, Int32, or Int64, but got {typeId}",
+                nameof(runEndsField));
+        }
     }
 
     /// <summary>
@@ -70,18 +78,6 @@ public sealed class RunEndEncodedType : NestedType
         : this(new Field("run_ends", runEndsDataType, nullable: false),
                new Field("values", valuesDataType, nullable: true))
     {
-    }
-
-    private static void ValidateRunEndsType(IArrowType runEndsDataType)
-    {
-        if (runEndsDataType.TypeId != ArrowTypeId.Int16 &&
-            runEndsDataType.TypeId != ArrowTypeId.Int32 &&
-            runEndsDataType.TypeId != ArrowTypeId.Int64)
-        {
-            throw new ArgumentException(
-                $"Run ends type must be Int16, Int32, or Int64, but got {runEndsDataType.TypeId}",
-                nameof(runEndsDataType));
-        }
     }
 
     public override void Accept(IArrowTypeVisitor visitor) => Accept(this, visitor);

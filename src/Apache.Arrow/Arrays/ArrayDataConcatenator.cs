@@ -403,10 +403,18 @@ namespace Apache.Arrow
                     type.RunEndsDataType, physicalRunCount, 0, 0,
                     new[] { ArrowBuffer.Empty, runEndsValueBuffer });
 
-                ArrayData valuesResult = slicedValues.Count == 0
-                    ? new ArrayData(type.ValuesDataType, 0, 0, 0,
-                        new[] { ArrowBuffer.Empty })
-                    : Concatenate(slicedValues, _allocator);
+                ArrayData valuesResult;
+                if (slicedValues.Count == 0)
+                {
+                    // All inputs were empty. Reuse the first input's values child sliced to length
+                    // 0 so we get a valid ArrayData with the correct buffer/child layout for the
+                    // values type, regardless of what that type is.
+                    valuesResult = _arrayDataList[0].Children[1].Slice(0, 0);
+                }
+                else
+                {
+                    valuesResult = Concatenate(slicedValues, _allocator);
+                }
 
                 Result = new ArrayData(
                     type, _totalLength, 0, 0,

@@ -64,6 +64,19 @@ public class RunEndEncodedArray : Array
         data.EnsureDataType(ArrowTypeId.RunEndEncoded);
 
         ValidateRunEndsType(runEnds);
+
+        if (runEnds.Length != values.Length)
+        {
+            throw new ArgumentException(
+                $"Run ends array length ({runEnds.Length}) must equal values array length ({values.Length}).");
+        }
+        if (runEnds.NullCount != 0)
+        {
+            throw new ArgumentException(
+                $"Run ends array must not contain nulls, but had {runEnds.NullCount} null(s).",
+                nameof(runEnds));
+        }
+
         RunEnds = runEnds;
         Values = values;
     }
@@ -71,6 +84,18 @@ public class RunEndEncodedArray : Array
     private static ArrayData CreateArrayData(IArrowArray runEnds, IArrowArray values)
     {
         ValidateRunEndsType(runEnds);
+
+        if (runEnds.Length != values.Length)
+        {
+            throw new ArgumentException(
+                $"Run ends array length ({runEnds.Length}) must equal values array length ({values.Length}).");
+        }
+        if (runEnds.NullCount != 0)
+        {
+            throw new ArgumentException(
+                $"Run ends array must not contain nulls, but had {runEnds.NullCount} null(s).",
+                nameof(runEnds));
+        }
 
         // The logical length of a REE array is determined by the last value in run_ends
         int logicalLength = GetLogicalLength(runEnds);
@@ -139,12 +164,17 @@ public class RunEndEncodedArray : Array
             throw new ArgumentOutOfRangeException(nameof(logicalIndex));
         }
 
+        // Run ends are stored as cumulative positions in the underlying physical array,
+        // so the search target must be expressed in those same coordinates by adding
+        // the slice's logical offset.
+        int searchIndex = logicalIndex + Data.Offset;
+
         // Binary search to find the run that contains this logical index
         return RunEnds switch
         {
-            Int16Array int16Array => BinarySearchRunEnds(int16Array, logicalIndex),
-            Int32Array int32Array => BinarySearchRunEnds(int32Array, logicalIndex),
-            Int64Array int64Array => BinarySearchRunEnds(int64Array, logicalIndex),
+            Int16Array int16Array => BinarySearchRunEnds(int16Array, searchIndex),
+            Int32Array int32Array => BinarySearchRunEnds(int32Array, searchIndex),
+            Int64Array int64Array => BinarySearchRunEnds(int64Array, searchIndex),
             _ => throw new InvalidOperationException($"Unexpected run ends array type: {RunEnds.GetType()}"),
         };
     }
@@ -157,7 +187,7 @@ public class RunEndEncodedArray : Array
         while (left < right)
         {
             int mid = left + (right - left) / 2;
-            int runEnd = runEnds.GetValue(mid) ?? throw new ArgumentException("invalid length"); ;
+            int runEnd = runEnds.GetValue(mid) ?? throw new ArgumentException("invalid length");
 
             if (logicalIndex < runEnd)
             {
@@ -180,7 +210,7 @@ public class RunEndEncodedArray : Array
         while (left < right)
         {
             int mid = left + (right - left) / 2;
-            int runEnd = runEnds.GetValue(mid) ?? 0;
+            int runEnd = runEnds.GetValue(mid) ?? throw new ArgumentException("invalid length");
 
             if (logicalIndex < runEnd)
             {
@@ -203,7 +233,7 @@ public class RunEndEncodedArray : Array
         while (left < right)
         {
             int mid = left + (right - left) / 2;
-            long runEnd = runEnds.GetValue(mid) ?? 0;
+            long runEnd = runEnds.GetValue(mid) ?? throw new ArgumentException("invalid length");
 
             if (logicalIndex < runEnd)
             {
