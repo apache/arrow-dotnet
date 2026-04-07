@@ -277,6 +277,15 @@ namespace Apache.Arrow.Ipc
                 case ArrowTypeId.Null:
                     return new ArrayData(field.DataType, fieldLength, fieldNullCount, 0, System.Array.Empty<ArrowBuffer>());
                 case ArrowTypeId.RunEndEncoded:
+                    if (fieldNullCount != 0)
+                    {
+                        // REE arrays have no top-level validity bitmap, so the field node's
+                        // null count must be 0. A non-zero value would produce an ArrayData
+                        // whose NullCount != 0 with zero buffers, leading to IndexOutOfRange
+                        // when consumers later access the (nonexistent) validity bitmap.
+                        throw new InvalidDataException(
+                            $"Run-end encoded array field node has non-zero null count ({fieldNullCount}); REE arrays have no top-level validity bitmap and must report null count 0.");
+                    }
                     buffers = 0;
                     break;
                 case ArrowTypeId.Union:

@@ -109,6 +109,10 @@ namespace Apache.Arrow.Ipc
             private readonly ICompressionCodec _compressionCodec;
             private readonly MemoryAllocator _allocator;
             private readonly MemoryStream _fallbackCompressionStream;
+            // Holds visitor-owned arrays (e.g., normalized REE slices) whose buffers are
+            // referenced by entries in _buffers. They must outlive WriteBufferData and be
+            // disposed afterwards via DisposeDeferredArrays.
+            private List<IDisposable> _deferredDisposals;
             public IReadOnlyList<FieldNode> FieldNodes => _fieldNodes;
             public IReadOnlyList<Buffer> Buffers => _buffers;
 
@@ -124,6 +128,26 @@ namespace Apache.Arrow.Ipc
                 _fieldNodes = new List<FieldNode>();
                 _buffers = new List<Buffer>();
                 TotalLength = 0;
+            }
+
+            public void DisposeDeferredArrays()
+            {
+                if (_deferredDisposals == null)
+                {
+                    return;
+                }
+
+                foreach (IDisposable disposable in _deferredDisposals)
+                {
+                    disposable.Dispose();
+                }
+                _deferredDisposals.Clear();
+            }
+
+            private void DeferDisposal(IDisposable disposable)
+            {
+                _deferredDisposals ??= new List<IDisposable>();
+                _deferredDisposals.Add(disposable);
             }
 
             public void VisitArray(IArrowArray array)
@@ -361,11 +385,20 @@ namespace Apache.Arrow.Ipc
 
             public void Visit(RunEndEncodedArray array)
             {
-                // REE arrays have no buffers at the top level, only child arrays
-                // Visit the run_ends array
-                VisitArray(array.RunEnds);
-                // Visit the values array
-                VisitArray(array.Values);
+                // REE arrays have no buffers at the top level, only child arrays.
+                // The IPC stream format always encodes arrays with offset=0, so a sliced REE
+                // must be normalized to the slice range before writing — otherwise the
+                // deserialized array's logical position 0 would map to the underlying array's
+                // physical run 0 instead of the slice's start.
+                //
+                // Normalize() returns an independently-owned array (via SliceShared on the
+                // values child). The visitor records ReadOnlyMemory<byte> references to those
+                // buffers in _buffers, so the normalized array must remain alive until after
+                // WriteBufferData runs. Defer disposal until then.
+                RunEndEncodedArray normalized = array.Normalize();
+                DeferDisposal(normalized);
+                VisitArray(normalized.RunEnds);
+                VisitArray(normalized.Values);
             }
 
             public void Visit(NullArray array)
@@ -807,6 +840,7 @@ namespace Apache.Arrow.Ipc
                 recordBatchOffset, recordBatchBuilder.TotalLength);
 
             long bufferLength = WriteBufferData(recordBatchBuilder.Buffers);
+            recordBatchBuilder.DisposeDeferredArrays();
 
             FinishedWritingRecordBatch(bufferLength, metadataLength);
         }
@@ -847,6 +881,7 @@ namespace Apache.Arrow.Ipc
                 cancellationToken).ConfigureAwait(false);
 
             long bufferLength = await WriteBufferDataAsync(recordBatchBuilder.Buffers, cancellationToken).ConfigureAwait(false);
+            recordBatchBuilder.DisposeDeferredArrays();
 
             FinishedWritingRecordBatch(bufferLength, metadataLength);
         }
@@ -996,6 +1031,7 @@ namespace Apache.Arrow.Ipc
                 dictionaryBatchOffset, recordBatchBuilder.TotalLength);
 
             long bufferLength = WriteBufferData(recordBatchBuilder.Buffers);
+            recordBatchBuilder.DisposeDeferredArrays();
 
             FinishedWritingDictionary(bufferLength, metadataLength);
         }
@@ -1020,6 +1056,7 @@ namespace Apache.Arrow.Ipc
                 dictionaryBatchOffset, recordBatchBuilder.TotalLength, cancellationToken).ConfigureAwait(false);
 
             long bufferLength = await WriteBufferDataAsync(recordBatchBuilder.Buffers, cancellationToken).ConfigureAwait(false);
+            recordBatchBuilder.DisposeDeferredArrays();
 
             FinishedWritingDictionary(bufferLength, metadataLength);
         }

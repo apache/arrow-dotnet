@@ -285,6 +285,73 @@ public class RunEndEncodedArrayTests
     }
 
     [Fact]
+    public void TestRunEndEncodedSlicedArraySerialization()
+    {
+        // Underlying: runs [3, 7, 10], values [foo, bar, baz], logical length 10.
+        // Slice covers underlying positions 2..7 → length 6:
+        //   slice pos 0 → foo, 1..4 → bar, 5 → baz.
+        Int32Array runEnds = new Int32Array.Builder().AppendRange([3, 7, 10]).Build();
+        StringArray values = new StringArray.Builder().AppendRange(["foo", "bar", "baz"]).Build();
+        var reeArray = new RunEndEncodedArray(runEnds, values);
+        var sliced = (RunEndEncodedArray)ArrowArrayFactory.Slice(reeArray, 2, 6);
+
+        var reeField = new Field("ree_column", sliced.Data.DataType, nullable: false);
+        var schema = new Schema([reeField], null);
+        var recordBatch = new RecordBatch(schema, [sliced], sliced.Length);
+
+        using var stream = new MemoryStream();
+        using (var writer = new ArrowStreamWriter(stream, schema, leaveOpen: true))
+        {
+            writer.WriteRecordBatch(recordBatch);
+            writer.WriteEnd();
+        }
+
+        stream.Position = 0;
+        using var reader = new ArrowStreamReader(stream);
+        RecordBatch readBatch = reader.ReadNextRecordBatch();
+
+        Assert.NotNull(readBatch);
+        Assert.Equal(6, readBatch.Length);
+
+        var readArray = (RunEndEncodedArray)readBatch.Column(0);
+        Assert.Equal(6, readArray.Length);
+        Assert.Equal(0, readArray.Offset);
+
+        // Run-ends should be normalized to the slice range, ending at the slice length.
+        var readRunEnds = (Int32Array)readArray.RunEnds;
+        Assert.Equal(new[] { 1, 5, 6 }, readRunEnds.Values.ToArray());
+
+        var readValues = (StringArray)readArray.Values;
+        Assert.Equal(3, readValues.Length);
+        Assert.Equal("foo", readValues.GetString(0));
+        Assert.Equal("bar", readValues.GetString(1));
+        Assert.Equal("baz", readValues.GetString(2));
+
+        // FindPhysicalIndex on the deserialized array should map slice positions correctly.
+        Assert.Equal(0, readArray.FindPhysicalIndex(0));
+        Assert.Equal(1, readArray.FindPhysicalIndex(1));
+        Assert.Equal(1, readArray.FindPhysicalIndex(4));
+        Assert.Equal(2, readArray.FindPhysicalIndex(5));
+    }
+
+    [Fact]
+    public void TestRunEndEncodedConstructorRejectsNonZeroNullCount()
+    {
+        // The ArrayData constructor path must reject a REE whose top-level null count
+        // is non-zero — REE has no validity bitmap, so any non-zero value is invalid.
+        Int32Array runEnds = new Int32Array.Builder().AppendRange([3, 7, 10]).Build();
+        StringArray values = new StringArray.Builder().AppendRange(["foo", "bar", "baz"]).Build();
+        var reeType = new RunEndEncodedType(Int32Type.Default, StringType.Default);
+        var malformedData = new ArrayData(
+            reeType, length: 10, nullCount: 1, offset: 0,
+            buffers: System.Array.Empty<ArrowBuffer>(),
+            children: new[] { runEnds.Data, values.Data });
+
+        var ex = Assert.Throws<ArgumentException>(() => new RunEndEncodedArray(malformedData));
+        Assert.Contains("null count", ex.Message, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
     public void TestRunEndEncodedArrayWithDifferentValueTypes()
     {
         // Test with boolean values

@@ -256,8 +256,14 @@ namespace Apache.Arrow.Tests
 
                 Assert.Equal(expectedArray.Length, array.Length);
 
-                array.RunEnds.Accept(new ArrayComparer(expectedArray.RunEnds, _strictCompare));
-                array.Values.Accept(new ArrayComparer(expectedArray.Values, _strictCompare));
+                // The IPC writer normalizes sliced REE arrays so the deserialized children
+                // are slice-relative, while the expected (in-memory) array's children are still
+                // the unsliced underlying ones. Compare normalized forms so the same logical
+                // content matches regardless of physical layout.
+                using RunEndEncodedArray expectedNormalized = expectedArray.Normalize();
+                using RunEndEncodedArray actualNormalized = array.Normalize();
+                actualNormalized.RunEnds.Accept(new ArrayComparer(expectedNormalized.RunEnds, _strictCompare));
+                actualNormalized.Values.Accept(new ArrayComparer(expectedNormalized.Values, _strictCompare));
             }
 
             public void Visit(NullArray array)

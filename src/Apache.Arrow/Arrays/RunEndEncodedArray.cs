@@ -14,6 +14,7 @@
 // limitations under the License.
 
 using System;
+using Apache.Arrow.Memory;
 using Apache.Arrow.Types;
 
 namespace Apache.Arrow;
@@ -62,6 +63,13 @@ public class RunEndEncodedArray : Array
     {
         data.EnsureBufferCount(0); // REE arrays have no buffers, only children
         data.EnsureDataType(ArrowTypeId.RunEndEncoded);
+
+        if (data.NullCount != 0)
+        {
+            throw new ArgumentException(
+                $"Run-end encoded arrays have no top-level validity bitmap and must report null count 0, but got {data.NullCount}.",
+                nameof(data));
+        }
 
         ValidateRunEndsType(runEnds);
 
@@ -246,6 +254,145 @@ public class RunEndEncodedArray : Array
         }
 
         return left;
+    }
+
+    /// <summary>
+    /// Returns a logically equivalent <see cref="RunEndEncodedArray"/> whose underlying
+    /// children have been normalized to the slice range:
+    /// <list type="bullet">
+    ///   <item><description><c>Offset</c> is 0,</description></item>
+    ///   <item><description>the run-ends array contains only the runs covering this slice,
+    ///     with values shifted so that the last run-end equals the slice <c>Length</c>,</description></item>
+    ///   <item><description>the values array is sliced to the corresponding physical range.</description></item>
+    /// </list>
+    /// <para>
+    /// The returned array is independently disposable: it owns its own references to the
+    /// underlying buffers via reference counting, so it remains valid even if this
+    /// instance is later disposed. Callers are responsible for disposing the returned
+    /// array when done with it. The result may or may not be the same instance as
+    /// <c>this</c>; either way, it carries an independent reference.
+    /// </para>
+    /// </summary>
+    public RunEndEncodedArray Normalize()
+    {
+        if (Offset == 0 && GetLogicalLength(RunEnds) == Length)
+        {
+            // Already normalized — return an independently-owned reference so the caller
+            // can dispose the result without affecting this instance.
+            return (RunEndEncodedArray)ArrowArrayFactory.SliceShared(this, 0, Length);
+        }
+        if (Length == 0)
+        {
+            return new RunEndEncodedArray(
+                ArrowArrayFactory.SliceShared(RunEnds, 0, 0),
+                ArrowArrayFactory.SliceShared(Values, 0, 0));
+        }
+
+        int logicalEnd = Offset + Length;
+        int physicalStart;
+        int physicalEndExclusive;
+        IArrowArray normalizedRunEnds;
+
+        switch (RunEnds)
+        {
+            case Int16Array re16:
+                {
+                    ReadOnlySpan<short> re = re16.Values;
+                    physicalStart = FindNormalizePhysicalStart(re, Offset);
+                    physicalEndExclusive = FindNormalizePhysicalEndExclusive(re, logicalEnd, physicalStart);
+                    int count = physicalEndExclusive - physicalStart;
+
+                    using var native = new NativeBuffer<short, NoOpAllocationTracker>(count, zeroFill: false);
+                    Span<short> dst = native.Span;
+                    for (int p = 0; p < count; p++)
+                    {
+                        int adjusted = Math.Min((int)re[physicalStart + p], logicalEnd) - Offset;
+                        dst[p] = checked((short)adjusted);
+                    }
+                    normalizedRunEnds = new Int16Array(native.Build(), ArrowBuffer.Empty, count, 0, 0);
+                    break;
+                }
+            case Int32Array re32:
+                {
+                    ReadOnlySpan<int> re = re32.Values;
+                    physicalStart = FindNormalizePhysicalStart(re, Offset);
+                    physicalEndExclusive = FindNormalizePhysicalEndExclusive(re, logicalEnd, physicalStart);
+                    int count = physicalEndExclusive - physicalStart;
+
+                    using var native = new NativeBuffer<int, NoOpAllocationTracker>(count, zeroFill: false);
+                    Span<int> dst = native.Span;
+                    for (int p = 0; p < count; p++)
+                    {
+                        dst[p] = Math.Min(re[physicalStart + p], logicalEnd) - Offset;
+                    }
+                    normalizedRunEnds = new Int32Array(native.Build(), ArrowBuffer.Empty, count, 0, 0);
+                    break;
+                }
+            case Int64Array re64:
+                {
+                    ReadOnlySpan<long> re = re64.Values;
+                    physicalStart = FindNormalizePhysicalStart(re, Offset);
+                    physicalEndExclusive = FindNormalizePhysicalEndExclusive(re, logicalEnd, physicalStart);
+                    int count = physicalEndExclusive - physicalStart;
+
+                    using var native = new NativeBuffer<long, NoOpAllocationTracker>(count, zeroFill: false);
+                    Span<long> dst = native.Span;
+                    for (int p = 0; p < count; p++)
+                    {
+                        dst[p] = Math.Min(re[physicalStart + p], (long)logicalEnd) - Offset;
+                    }
+                    normalizedRunEnds = new Int64Array(native.Build(), ArrowBuffer.Empty, count, 0, 0);
+                    break;
+                }
+            default:
+                throw new InvalidOperationException($"Unexpected run-ends array type: {RunEnds.Data.DataType.TypeId}");
+        }
+
+        int physicalCount = physicalEndExclusive - physicalStart;
+        IArrowArray normalizedValues = ArrowArrayFactory.SliceShared(Values, physicalStart, physicalCount);
+        return new RunEndEncodedArray(normalizedRunEnds, normalizedValues);
+    }
+
+    private static int FindNormalizePhysicalStart(ReadOnlySpan<short> runEnds, int logicalOffset)
+    {
+        int lo = 0, hi = runEnds.Length;
+        while (lo < hi) { int mid = lo + (hi - lo) / 2; if (runEnds[mid] > logicalOffset) hi = mid; else lo = mid + 1; }
+        return lo;
+    }
+
+    private static int FindNormalizePhysicalEndExclusive(ReadOnlySpan<short> runEnds, int logicalEnd, int physicalStart)
+    {
+        int lo = physicalStart, hi = runEnds.Length;
+        while (lo < hi) { int mid = lo + (hi - lo) / 2; if (runEnds[mid] >= logicalEnd) hi = mid; else lo = mid + 1; }
+        return Math.Min(lo + 1, runEnds.Length);
+    }
+
+    private static int FindNormalizePhysicalStart(ReadOnlySpan<int> runEnds, int logicalOffset)
+    {
+        int lo = 0, hi = runEnds.Length;
+        while (lo < hi) { int mid = lo + (hi - lo) / 2; if (runEnds[mid] > logicalOffset) hi = mid; else lo = mid + 1; }
+        return lo;
+    }
+
+    private static int FindNormalizePhysicalEndExclusive(ReadOnlySpan<int> runEnds, int logicalEnd, int physicalStart)
+    {
+        int lo = physicalStart, hi = runEnds.Length;
+        while (lo < hi) { int mid = lo + (hi - lo) / 2; if (runEnds[mid] >= logicalEnd) hi = mid; else lo = mid + 1; }
+        return Math.Min(lo + 1, runEnds.Length);
+    }
+
+    private static int FindNormalizePhysicalStart(ReadOnlySpan<long> runEnds, int logicalOffset)
+    {
+        int lo = 0, hi = runEnds.Length;
+        while (lo < hi) { int mid = lo + (hi - lo) / 2; if (runEnds[mid] > logicalOffset) hi = mid; else lo = mid + 1; }
+        return lo;
+    }
+
+    private static int FindNormalizePhysicalEndExclusive(ReadOnlySpan<long> runEnds, int logicalEnd, int physicalStart)
+    {
+        int lo = physicalStart, hi = runEnds.Length;
+        while (lo < hi) { int mid = lo + (hi - lo) / 2; if (runEnds[mid] >= logicalEnd) hi = mid; else lo = mid + 1; }
+        return Math.Min(lo + 1, runEnds.Length);
     }
 
     public override void Accept(IArrowArrayVisitor visitor) => Accept(this, visitor);
