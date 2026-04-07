@@ -74,8 +74,8 @@ namespace Apache.Arrow.Ipc
             IArrowArrayVisitor<Decimal128Array>,
             IArrowArrayVisitor<Decimal256Array>,
             IArrowArrayVisitor<DictionaryArray>,
-            IArrowArrayVisitor<NullArray>,
-            IArrowArrayVisitor<RunEndEncodedArray>
+            IArrowArrayVisitor<RunEndEncodedArray>,
+            IArrowArrayVisitor<NullArray>
         {
             public readonly struct FieldNode
             {
@@ -359,11 +359,6 @@ namespace Apache.Arrow.Ipc
                 array.Indices.Accept(this);
             }
 
-            public void Visit(NullArray array)
-            {
-                // There are no buffers for a NullArray
-            }
-
             public void Visit(RunEndEncodedArray array)
             {
                 // REE arrays have no buffers at the top level, only child arrays
@@ -371,6 +366,11 @@ namespace Apache.Arrow.Ipc
                 VisitArray(array.RunEnds);
                 // Visit the values array
                 VisitArray(array.Values);
+            }
+
+            public void Visit(NullArray array)
+            {
+                // There are no buffers for a NullArray
             }
 
             private ArrowBuffer GetZeroBasedValueOffsets(ArrowBuffer valueOffsetsBuffer, int arrayOffset, int arrayLength)

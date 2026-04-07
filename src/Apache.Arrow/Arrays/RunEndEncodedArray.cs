@@ -110,9 +110,9 @@ public class RunEndEncodedArray : Array
         switch (runEnds)
         {
             case Int16Array int16Array:
-                return int16Array.GetValue(int16Array.Length - 1) ?? 0;
+                return int16Array.GetValue(int16Array.Length - 1) ?? throw new ArgumentException("invalid length");
             case Int32Array int32Array:
-                return int32Array.GetValue(int32Array.Length - 1) ?? 0;
+                return int32Array.GetValue(int32Array.Length - 1) ?? throw new ArgumentException("invalid length");
             case Int64Array int64Array:
                 {
                     long? lastValue = int64Array.GetValue(int64Array.Length - 1);
@@ -120,10 +120,10 @@ public class RunEndEncodedArray : Array
                     {
                         throw new ArgumentException("Run ends value exceeds maximum supported length.");
                     }
-                    return (int)(lastValue ?? 0);
+                    return (int)(lastValue ?? throw new ArgumentException("invalid length"));
                 }
             default:
-                throw new InvalidOperationException($"Unexpected run ends array type: {runEnds.GetType()}");
+                throw new InvalidOperationException($"Unexpected run ends array type: {runEnds.Data.DataType.TypeId}");
         }
     }
 
@@ -157,7 +157,7 @@ public class RunEndEncodedArray : Array
         while (left < right)
         {
             int mid = left + (right - left) / 2;
-            int runEnd = runEnds.GetValue(mid) ?? 0;
+            int runEnd = runEnds.GetValue(mid) ?? throw new ArgumentException("invalid length"); ;
 
             if (logicalIndex < runEnd)
             {

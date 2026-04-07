@@ -112,6 +112,7 @@ namespace Apache.Arrow.Tests
             IArrowArrayVisitor<Decimal128Array>,
             IArrowArrayVisitor<Decimal256Array>,
             IArrowArrayVisitor<DictionaryArray>,
+            IArrowArrayVisitor<RunEndEncodedArray>,
             IArrowArrayVisitor<NullArray>
         {
             private readonly IArrowArray _expectedArray;
@@ -244,6 +245,19 @@ namespace Apache.Arrow.Tests
                 var dictionaryComparer = new ArrayComparer(expectedArray.Dictionary, _strictCompare);
                 array.Indices.Accept(indicesComparer);
                 array.Dictionary.Accept(dictionaryComparer);
+            }
+
+            public void Visit(RunEndEncodedArray array)
+            {
+                Assert.IsAssignableFrom<RunEndEncodedArray>(_expectedArray);
+                RunEndEncodedArray expectedArray = (RunEndEncodedArray)_expectedArray;
+
+                array.Data.DataType.Accept(_arrayTypeComparer);
+
+                Assert.Equal(expectedArray.Length, array.Length);
+
+                array.RunEnds.Accept(new ArrayComparer(expectedArray.RunEnds, _strictCompare));
+                array.Values.Accept(new ArrayComparer(expectedArray.Values, _strictCompare));
             }
 
             public void Visit(NullArray array)

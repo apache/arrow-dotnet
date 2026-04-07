@@ -239,6 +239,15 @@ namespace Apache.Arrow.C
                         ParseChildren("map").Single(),
                         (_cSchema->flags & CArrowSchema.ArrowFlagMapKeysSorted) != 0);
                 }
+                else if (format == "+r")
+                {
+                    if (_cSchema->n_children != 2)
+                    {
+                        throw new InvalidDataException("Expected run-end encoded type to have exactly two children.");
+                    }
+                    List<Field> reeChildren = ParseChildren("run-end encoded");
+                    return new RunEndEncodedType(reeChildren[0], reeChildren[1]);
+                }
 
                 // TODO: Large list type
 

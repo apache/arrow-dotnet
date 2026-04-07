@@ -91,6 +91,18 @@ namespace Apache.Arrow.Tests
                 AddField(CreateField(new DictionaryType(Int32Type.Default, StringType.Default, false), i));
                 AddField(CreateField(new LargeBinaryType(), i));
                 AddField(CreateField(new LargeStringType(), i));
+                AddField(new Field(
+                    $"run_end_encoded_i16_{i}",
+                    new RunEndEncodedType(Int16Type.Default, Int32Type.Default),
+                    nullable: false));
+                AddField(new Field(
+                    $"run_end_encoded_i32_{i}",
+                    new RunEndEncodedType(Int32Type.Default, StringType.Default),
+                    nullable: false));
+                AddField(new Field(
+                    $"run_end_encoded_i64_{i}",
+                    new RunEndEncodedType(Int64Type.Default, Int64Type.Default),
+                    nullable: false));
             }
 
             Schema schema = builder.Build();
@@ -170,6 +182,7 @@ namespace Apache.Arrow.Tests
             IArrowTypeVisitor<FixedSizeBinaryType>,
             IArrowTypeVisitor<MapType>,
             IArrowTypeVisitor<IntervalType>,
+            IArrowTypeVisitor<RunEndEncodedType>,
 #if NET5_0_OR_GREATER
             IArrowTypeVisitor<HalfFloatType>,
 #endif
@@ -811,6 +824,61 @@ namespace Apache.Arrow.Tests
                     default:
                         throw new InvalidOperationException($"unsupported interval unit <{type.Unit}>");
                 }
+            }
+
+            public void Visit(RunEndEncodedType type)
+            {
+                // Build a small set of runs whose cumulative end equals Length.
+                int[] cumulativeRunEnds;
+                if (Length == 0)
+                {
+                    cumulativeRunEnds = System.Array.Empty<int>();
+                }
+                else if (Length <= 2)
+                {
+                    cumulativeRunEnds = new[] { Length };
+                }
+                else
+                {
+                    int third = Math.Max(1, Length / 3);
+                    cumulativeRunEnds = new[] { third, 2 * third, Length };
+                }
+                int runCount = cumulativeRunEnds.Length;
+
+                IArrowArray runEnds;
+                switch (type.RunEndsDataType.TypeId)
+                {
+                    case ArrowTypeId.Int16:
+                        {
+                            var b = new Int16Array.Builder().Reserve(runCount);
+                            foreach (var v in cumulativeRunEnds) b.Append((short)v);
+                            runEnds = b.Build();
+                            break;
+                        }
+                    case ArrowTypeId.Int32:
+                        {
+                            var b = new Int32Array.Builder().Reserve(runCount);
+                            foreach (var v in cumulativeRunEnds) b.Append(v);
+                            runEnds = b.Build();
+                            break;
+                        }
+                    case ArrowTypeId.Int64:
+                        {
+                            var b = new Int64Array.Builder().Reserve(runCount);
+                            foreach (var v in cumulativeRunEnds) b.Append((long)v);
+                            runEnds = b.Build();
+                            break;
+                        }
+                    default:
+                        throw new InvalidOperationException(
+                            $"Unsupported run-ends type {type.RunEndsDataType.TypeId}");
+                }
+
+                IArrowArray values = CreateArray(
+                    new Field("values", type.ValuesDataType, nullable: true),
+                    runCount);
+
+                Array = new RunEndEncodedArray(runEnds, values);
             }
 
             public void Visit(NullType type)
