@@ -59,7 +59,8 @@ namespace Apache.Arrow
             IArrowTypeVisitor<LargeStringType>,
             IArrowTypeVisitor<LargeListType>,
             IArrowTypeVisitor<LargeListViewType>,
-            IArrowTypeVisitor<MapType>
+            IArrowTypeVisitor<MapType>,
+            IArrowTypeVisitor<RunEndEncodedType>
         {
             public ArrayData Result { get; private set; }
             private readonly IReadOnlyList<ArrayData> _arrayDataList;
@@ -285,6 +286,209 @@ namespace Apache.Arrow
             }
 
             public void Visit(MapType type) => ConcatenateLists(type.UnsortedKey()); /* Can't tell if the output is still sorted */
+
+            public void Visit(RunEndEncodedType type)
+            {
+                ArrowTypeId runEndsTypeId = type.RunEndsDataType.TypeId;
+                if (runEndsTypeId != ArrowTypeId.Int16 &&
+                    runEndsTypeId != ArrowTypeId.Int32 &&
+                    runEndsTypeId != ArrowTypeId.Int64)
+                {
+                    throw new InvalidOperationException(
+                        $"Run-ends array must be Int16, Int32, or Int64, but got {runEndsTypeId}");
+                }
+
+                var slicedValues = new List<ArrayData>(_arrayDataList.Count);
+                ArrowBuffer.Builder<short> int16Builder = null;
+                ArrowBuffer.Builder<int> int32Builder = null;
+                ArrowBuffer.Builder<long> int64Builder = null;
+
+                switch (runEndsTypeId)
+                {
+                    case ArrowTypeId.Int16: int16Builder = new ArrowBuffer.Builder<short>(); break;
+                    case ArrowTypeId.Int32: int32Builder = new ArrowBuffer.Builder<int>(); break;
+                    case ArrowTypeId.Int64: int64Builder = new ArrowBuffer.Builder<long>(); break;
+                }
+
+                long baseOffset = 0;
+                int physicalRunCount = 0;
+
+                foreach (ArrayData arrayData in _arrayDataList)
+                {
+                    arrayData.EnsureDataType(type.TypeId);
+
+                    ArrayData runEndsData = arrayData.Children[0];
+                    ArrayData valuesData = arrayData.Children[1];
+
+                    if (runEndsData.DataType.TypeId != runEndsTypeId)
+                    {
+                        throw new ArgumentException(
+                            $"All run-end encoded arrays must have the same run-ends type. Expected <{runEndsTypeId}> but got <{runEndsData.DataType.TypeId}>.");
+                    }
+                    if (valuesData.DataType.TypeId != type.ValuesDataType.TypeId)
+                    {
+                        throw new ArgumentException(
+                            $"All run-end encoded arrays must have the same values type. Expected <{type.ValuesDataType.TypeId}> but got <{valuesData.DataType.TypeId}>.");
+                    }
+
+                    if (arrayData.Length == 0)
+                    {
+                        continue;
+                    }
+
+                    int logicalOffset = arrayData.Offset;
+                    int logicalLength = arrayData.Length;
+                    int logicalEnd = logicalOffset + logicalLength;
+
+                    int physicalStart;
+                    int physicalEndExclusive;
+
+                    switch (runEndsTypeId)
+                    {
+                        case ArrowTypeId.Int16:
+                            {
+                                ReadOnlySpan<short> re = runEndsData.Buffers[1].Span.CastTo<short>()
+                                    .Slice(runEndsData.Offset, runEndsData.Length);
+                                physicalStart = FindPhysicalStartInt16(re, logicalOffset);
+                                physicalEndExclusive = FindPhysicalEndExclusiveInt16(re, logicalEnd, physicalStart);
+                                for (int p = physicalStart; p < physicalEndExclusive; p++)
+                                {
+                                    int adjustedEnd = Math.Min((int)re[p], logicalEnd) - logicalOffset;
+                                    int16Builder.Append(checked((short)(baseOffset + adjustedEnd)));
+                                }
+                                break;
+                            }
+                        case ArrowTypeId.Int32:
+                            {
+                                ReadOnlySpan<int> re = runEndsData.Buffers[1].Span.CastTo<int>()
+                                    .Slice(runEndsData.Offset, runEndsData.Length);
+                                physicalStart = FindPhysicalStartInt32(re, logicalOffset);
+                                physicalEndExclusive = FindPhysicalEndExclusiveInt32(re, logicalEnd, physicalStart);
+                                for (int p = physicalStart; p < physicalEndExclusive; p++)
+                                {
+                                    int adjustedEnd = Math.Min(re[p], logicalEnd) - logicalOffset;
+                                    int32Builder.Append(checked((int)(baseOffset + adjustedEnd)));
+                                }
+                                break;
+                            }
+                        default: // Int64
+                            {
+                                ReadOnlySpan<long> re = runEndsData.Buffers[1].Span.CastTo<long>()
+                                    .Slice(runEndsData.Offset, runEndsData.Length);
+                                physicalStart = FindPhysicalStartInt64(re, logicalOffset);
+                                physicalEndExclusive = FindPhysicalEndExclusiveInt64(re, logicalEnd, physicalStart);
+                                for (int p = physicalStart; p < physicalEndExclusive; p++)
+                                {
+                                    long adjustedEnd = Math.Min(re[p], (long)logicalEnd) - logicalOffset;
+                                    int64Builder.Append(baseOffset + adjustedEnd);
+                                }
+                                break;
+                            }
+                    }
+
+                    int physicalCount = physicalEndExclusive - physicalStart;
+                    physicalRunCount += physicalCount;
+                    slicedValues.Add(valuesData.Slice(physicalStart, physicalCount));
+                    baseOffset += logicalLength;
+                }
+
+                ArrowBuffer runEndsValueBuffer = runEndsTypeId switch
+                {
+                    ArrowTypeId.Int16 => int16Builder.Build(_allocator),
+                    ArrowTypeId.Int32 => int32Builder.Build(_allocator),
+                    _ => int64Builder.Build(_allocator),
+                };
+
+                ArrayData runEndsResult = new ArrayData(
+                    type.RunEndsDataType, physicalRunCount, 0, 0,
+                    new[] { ArrowBuffer.Empty, runEndsValueBuffer });
+
+                ArrayData valuesResult;
+                if (slicedValues.Count == 0)
+                {
+                    // All inputs were empty. Reuse the first input's values child sliced to length
+                    // 0 so we get a valid ArrayData with the correct buffer/child layout for the
+                    // values type, regardless of what that type is.
+                    valuesResult = _arrayDataList[0].Children[1].Slice(0, 0);
+                }
+                else
+                {
+                    valuesResult = Concatenate(slicedValues, _allocator);
+                }
+
+                Result = new ArrayData(
+                    type, _totalLength, 0, 0,
+                    System.Array.Empty<ArrowBuffer>(),
+                    new[] { runEndsResult, valuesResult });
+            }
+
+            private static int FindPhysicalStartInt16(ReadOnlySpan<short> runEnds, int logicalOffset)
+            {
+                // Smallest physical index p where runEnds[p] > logicalOffset
+                int lo = 0, hi = runEnds.Length;
+                while (lo < hi)
+                {
+                    int mid = lo + (hi - lo) / 2;
+                    if (runEnds[mid] > logicalOffset) hi = mid; else lo = mid + 1;
+                }
+                return lo;
+            }
+
+            private static int FindPhysicalEndExclusiveInt16(ReadOnlySpan<short> runEnds, int logicalEnd, int physicalStart)
+            {
+                // Smallest physical index p (>= physicalStart) where runEnds[p] >= logicalEnd, then p+1
+                int lo = physicalStart, hi = runEnds.Length;
+                while (lo < hi)
+                {
+                    int mid = lo + (hi - lo) / 2;
+                    if (runEnds[mid] >= logicalEnd) hi = mid; else lo = mid + 1;
+                }
+                return Math.Min(lo + 1, runEnds.Length);
+            }
+
+            private static int FindPhysicalStartInt32(ReadOnlySpan<int> runEnds, int logicalOffset)
+            {
+                int lo = 0, hi = runEnds.Length;
+                while (lo < hi)
+                {
+                    int mid = lo + (hi - lo) / 2;
+                    if (runEnds[mid] > logicalOffset) hi = mid; else lo = mid + 1;
+                }
+                return lo;
+            }
+
+            private static int FindPhysicalEndExclusiveInt32(ReadOnlySpan<int> runEnds, int logicalEnd, int physicalStart)
+            {
+                int lo = physicalStart, hi = runEnds.Length;
+                while (lo < hi)
+                {
+                    int mid = lo + (hi - lo) / 2;
+                    if (runEnds[mid] >= logicalEnd) hi = mid; else lo = mid + 1;
+                }
+                return Math.Min(lo + 1, runEnds.Length);
+            }
+
+            private static int FindPhysicalStartInt64(ReadOnlySpan<long> runEnds, int logicalOffset)
+            {
+                int lo = 0, hi = runEnds.Length;
+                while (lo < hi)
+                {
+                    int mid = lo + (hi - lo) / 2;
+                    if (runEnds[mid] > logicalOffset) hi = mid; else lo = mid + 1;
+                }
+                return lo;
+            }
+
+            private static int FindPhysicalEndExclusiveInt64(ReadOnlySpan<long> runEnds, int logicalEnd, int physicalStart)
+            {
+                int lo = physicalStart, hi = runEnds.Length;
+                while (lo < hi)
+                {
+                    int mid = lo + (hi - lo) / 2;
+                    if (runEnds[mid] >= logicalEnd) hi = mid; else lo = mid + 1;
+                }
+                return Math.Min(lo + 1, runEnds.Length);
+            }
 
             public void Visit(IArrowType type)
             {

@@ -60,6 +60,7 @@ namespace Apache.Arrow.Types
         Decimal64,
         Extension,
         LargeListView,
+        RunEndEncoded,
     }
 
     public interface IArrowType

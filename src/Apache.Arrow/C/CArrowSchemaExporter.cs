@@ -237,6 +237,7 @@ namespace Apache.Arrow.C
                 case StructType _: return "+s";
                 case UnionType u: return FormatUnion(u);
                 case MapType _: return "+m";
+                case RunEndEncodedType _: return "+r";
                 // Dictionary
                 case DictionaryType dictionaryType:
                     return GetFormat(dictionaryType.IndexType);

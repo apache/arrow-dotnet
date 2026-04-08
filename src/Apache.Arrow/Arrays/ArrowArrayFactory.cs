@@ -114,6 +114,8 @@ namespace Apache.Arrow
                     var storageData = new ArrayData(extType.StorageType, data.Length, data.NullCount, data.Offset, data.Buffers, data.Children, data.Dictionary);
                     IArrowArray storageArray = BuildArray(storageData);
                     return extType.CreateArray(storageArray);
+                case ArrowTypeId.RunEndEncoded:
+                    return new RunEndEncodedArray(data);
                 default:
                     throw new NotSupportedException($"An ArrowArray cannot be built for type {data.DataType.TypeId}.");
             }

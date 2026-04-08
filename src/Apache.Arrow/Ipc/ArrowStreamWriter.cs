@@ -74,7 +74,9 @@ namespace Apache.Arrow.Ipc
             IArrowArrayVisitor<Decimal128Array>,
             IArrowArrayVisitor<Decimal256Array>,
             IArrowArrayVisitor<DictionaryArray>,
-            IArrowArrayVisitor<NullArray>
+            IArrowArrayVisitor<RunEndEncodedArray>,
+            IArrowArrayVisitor<NullArray>,
+            IDisposable
         {
             public readonly struct FieldNode
             {
@@ -108,6 +110,10 @@ namespace Apache.Arrow.Ipc
             private readonly ICompressionCodec _compressionCodec;
             private readonly MemoryAllocator _allocator;
             private readonly MemoryStream _fallbackCompressionStream;
+            // Holds visitor-owned arrays (e.g., normalized REE slices) whose buffers are
+            // referenced by entries in _buffers. They must outlive WriteBufferData and be
+            // disposed afterwards.
+            private List<IDisposable> _deferredDisposals;
             public IReadOnlyList<FieldNode> FieldNodes => _fieldNodes;
             public IReadOnlyList<Buffer> Buffers => _buffers;
 
@@ -123,6 +129,26 @@ namespace Apache.Arrow.Ipc
                 _fieldNodes = new List<FieldNode>();
                 _buffers = new List<Buffer>();
                 TotalLength = 0;
+            }
+
+            public void Dispose()
+            {
+                if (_deferredDisposals == null)
+                {
+                    return;
+                }
+
+                foreach (IDisposable disposable in _deferredDisposals)
+                {
+                    disposable.Dispose();
+                }
+                _deferredDisposals.Clear();
+            }
+
+            private void DeferDisposal(IDisposable disposable)
+            {
+                _deferredDisposals ??= new List<IDisposable>();
+                _deferredDisposals.Add(disposable);
             }
 
             public void VisitArray(IArrowArray array)
@@ -356,6 +382,24 @@ namespace Apache.Arrow.Ipc
                 // We are only interested in indices at this context.
 
                 array.Indices.Accept(this);
+            }
+
+            public void Visit(RunEndEncodedArray array)
+            {
+                // REE arrays have no buffers at the top level, only child arrays.
+                // The IPC stream format always encodes arrays with offset=0, so a sliced REE
+                // must be normalized to the slice range before writing — otherwise the
+                // deserialized array's logical position 0 would map to the underlying array's
+                // physical run 0 instead of the slice's start.
+                //
+                // Normalize() returns an independently-owned array (via SliceShared on the
+                // values child). The visitor records ReadOnlyMemory<byte> references to those
+                // buffers in _buffers, so the normalized array must remain alive until after
+                // WriteBufferData runs. Defer disposal until then.
+                RunEndEncodedArray normalized = array.Normalize();
+                DeferDisposal(normalized);
+                VisitArray(normalized.RunEnds);
+                VisitArray(normalized.Values);
             }
 
             public void Visit(NullArray array)
@@ -781,6 +825,8 @@ namespace Apache.Arrow.Ipc
             (ArrowRecordBatchFlatBufferBuilder recordBatchBuilder, VectorOffset fieldNodesVectorOffset, VectorOffset variadicCountsOffset) =
                 PrepareWritingRecordBatch(recordBatch);
 
+            using var builder = recordBatchBuilder;
+
             VectorOffset buffersVectorOffset = Builder.EndVector();
 
             // Serialize record batch
@@ -819,6 +865,8 @@ namespace Apache.Arrow.Ipc
 
             (ArrowRecordBatchFlatBufferBuilder recordBatchBuilder, VectorOffset fieldNodesVectorOffset, VectorOffset variadicCountsOffset) =
                 PrepareWritingRecordBatch(recordBatch);
+
+            using var builder = recordBatchBuilder;
 
             VectorOffset buffersVectorOffset = Builder.EndVector();
 
@@ -982,6 +1030,8 @@ namespace Apache.Arrow.Ipc
             (ArrowRecordBatchFlatBufferBuilder recordBatchBuilder, Offset<Flatbuf.DictionaryBatch> dictionaryBatchOffset) =
                 CreateDictionaryBatchOffset(id, valueType, dictionary);
 
+            using var builder = recordBatchBuilder;
+
             long metadataLength = WriteMessage(Flatbuf.MessageHeader.DictionaryBatch,
                 dictionaryBatchOffset, recordBatchBuilder.TotalLength);
 
@@ -1005,6 +1055,8 @@ namespace Apache.Arrow.Ipc
 
             (ArrowRecordBatchFlatBufferBuilder recordBatchBuilder, Offset<Flatbuf.DictionaryBatch> dictionaryBatchOffset) =
                 CreateDictionaryBatchOffset(id, valueType, dictionary);
+
+            using var builder = recordBatchBuilder;
 
             long metadataLength = await WriteMessageAsync(Flatbuf.MessageHeader.DictionaryBatch,
                 dictionaryBatchOffset, recordBatchBuilder.TotalLength, cancellationToken).ConfigureAwait(false);

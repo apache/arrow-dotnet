@@ -206,6 +206,11 @@ namespace Apache.Arrow.C
                         children = ProcessListChildren(cArray, mapType.Fields[0].DataType);
                         buffers = ImportListBuffers(cArray);
                         break;
+                    case ArrowTypeId.RunEndEncoded:
+                        RunEndEncodedType reeType = (RunEndEncodedType)storageType;
+                        children = ProcessStructChildren(cArray, reeType.Fields);
+                        buffers = System.Array.Empty<ArrowBuffer>();
+                        break;
                     case ArrowTypeId.Null:
                         buffers = System.Array.Empty<ArrowBuffer>();
                         break;

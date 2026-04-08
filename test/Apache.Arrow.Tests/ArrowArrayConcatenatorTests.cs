@@ -59,6 +59,181 @@ namespace Apache.Arrow.Tests
             ArrowReaderVerifier.CompareArrays(array, actualArray);
         }
 
+        [Fact]
+        public void TestRunEndEncodedInt32RunEnds()
+        {
+            // First array: runs [3, 7], values ["A", "B"], logical length 7
+            var first = new RunEndEncodedArray(
+                new Int32Array.Builder().AppendRange(new[] { 3, 7 }).Build(),
+                new StringArray.Builder().AppendRange(new[] { "A", "B" }).Build());
+
+            // Second array: runs [2, 5], values ["C", "D"], logical length 5
+            var second = new RunEndEncodedArray(
+                new Int32Array.Builder().AppendRange(new[] { 2, 5 }).Build(),
+                new StringArray.Builder().AppendRange(new[] { "C", "D" }).Build());
+
+            var concatenated = (RunEndEncodedArray)ArrowArrayConcatenator.Concatenate(
+                new IArrowArray[] { first, second });
+
+            Assert.Equal(12, concatenated.Length);
+            Assert.Equal(new[] { 3, 7, 9, 12 }, ((Int32Array)concatenated.RunEnds).Values.ToArray());
+            var values = (StringArray)concatenated.Values;
+            Assert.Equal(4, values.Length);
+            Assert.Equal("A", values.GetString(0));
+            Assert.Equal("B", values.GetString(1));
+            Assert.Equal("C", values.GetString(2));
+            Assert.Equal("D", values.GetString(3));
+        }
+
+        [Fact]
+        public void TestRunEndEncodedInt16RunEnds()
+        {
+            var first = new RunEndEncodedArray(
+                new Int16Array.Builder().AppendRange(new short[] { 2, 5 }).Build(),
+                new Int32Array.Builder().AppendRange(new[] { 10, 20 }).Build());
+
+            var second = new RunEndEncodedArray(
+                new Int16Array.Builder().AppendRange(new short[] { 1, 4 }).Build(),
+                new Int32Array.Builder().AppendRange(new[] { 30, 40 }).Build());
+
+            var concatenated = (RunEndEncodedArray)ArrowArrayConcatenator.Concatenate(
+                new IArrowArray[] { first, second });
+
+            Assert.Equal(9, concatenated.Length);
+            Assert.Equal(new short[] { 2, 5, 6, 9 }, ((Int16Array)concatenated.RunEnds).Values.ToArray());
+            Assert.Equal(new[] { 10, 20, 30, 40 }, ((Int32Array)concatenated.Values).Values.ToArray());
+        }
+
+        [Fact]
+        public void TestRunEndEncodedInt64RunEnds()
+        {
+            var first = new RunEndEncodedArray(
+                new Int64Array.Builder().AppendRange(new long[] { 4 }).Build(),
+                new Int64Array.Builder().AppendRange(new long[] { 100 }).Build());
+
+            var second = new RunEndEncodedArray(
+                new Int64Array.Builder().AppendRange(new long[] { 2, 6 }).Build(),
+                new Int64Array.Builder().AppendRange(new long[] { 200, 300 }).Build());
+
+            var third = new RunEndEncodedArray(
+                new Int64Array.Builder().AppendRange(new long[] { 3 }).Build(),
+                new Int64Array.Builder().AppendRange(new long[] { 400 }).Build());
+
+            var concatenated = (RunEndEncodedArray)ArrowArrayConcatenator.Concatenate(
+                new IArrowArray[] { first, second, third });
+
+            Assert.Equal(13, concatenated.Length);
+            Assert.Equal(new long[] { 4, 6, 10, 13 }, ((Int64Array)concatenated.RunEnds).Values.ToArray());
+            Assert.Equal(new long[] { 100, 200, 300, 400 }, ((Int64Array)concatenated.Values).Values.ToArray());
+        }
+
+        [Fact]
+        public void TestRunEndEncodedSlicedInputs()
+        {
+            // Underlying: runs [3, 7, 10], values ["A", "B", "C"], logical length 10
+            // Slice to logical [2, 8) → covers position 2 in run "A", positions 3..6 in run "B",
+            //   position 7 in run "C". New logical length 6.
+            var firstFull = new RunEndEncodedArray(
+                new Int32Array.Builder().AppendRange(new[] { 3, 7, 10 }).Build(),
+                new StringArray.Builder().AppendRange(new[] { "A", "B", "C" }).Build());
+            var firstSliced = (RunEndEncodedArray)ArrowArrayFactory.Slice(firstFull, 2, 6);
+
+            // Underlying: runs [4, 8], values ["X", "Y"], logical length 8
+            // Slice to logical [3, 6) → position 3 in "X", positions 4..5 in "Y". New length 3.
+            var secondFull = new RunEndEncodedArray(
+                new Int32Array.Builder().AppendRange(new[] { 4, 8 }).Build(),
+                new StringArray.Builder().AppendRange(new[] { "X", "Y" }).Build());
+            var secondSliced = (RunEndEncodedArray)ArrowArrayFactory.Slice(secondFull, 3, 3);
+
+            var concatenated = (RunEndEncodedArray)ArrowArrayConcatenator.Concatenate(
+                new IArrowArray[] { firstSliced, secondSliced });
+
+            Assert.Equal(9, concatenated.Length);
+            // Expected runs after concatenation:
+            //   "A" up to position 1 (was 1 element), "B" up to 5 (4 elements), "C" up to 6 (1 element),
+            //   "X" up to 7 (1 element), "Y" up to 9 (2 elements).
+            Assert.Equal(new[] { 1, 5, 6, 7, 9 }, ((Int32Array)concatenated.RunEnds).Values.ToArray());
+            var values = (StringArray)concatenated.Values;
+            Assert.Equal(5, values.Length);
+            Assert.Equal("A", values.GetString(0));
+            Assert.Equal("B", values.GetString(1));
+            Assert.Equal("C", values.GetString(2));
+            Assert.Equal("X", values.GetString(3));
+            Assert.Equal("Y", values.GetString(4));
+        }
+
+        [Fact]
+        public void TestRunEndEncodedMismatchedRunEndsTypeThrows()
+        {
+            var int32RunEnds = new RunEndEncodedArray(
+                new Int32Array.Builder().AppendRange(new[] { 2 }).Build(),
+                new StringArray.Builder().AppendRange(new[] { "A" }).Build());
+
+            var int16RunEnds = new RunEndEncodedArray(
+                new Int16Array.Builder().AppendRange(new short[] { 3 }).Build(),
+                new StringArray.Builder().AppendRange(new[] { "B" }).Build());
+
+            var ex = Assert.Throws<ArgumentException>(() =>
+                ArrowArrayConcatenator.Concatenate(new IArrowArray[] { int32RunEnds, int16RunEnds }));
+            Assert.Contains("run-ends type", ex.Message);
+        }
+
+        [Fact]
+        public void TestRunEndEncodedMismatchedValuesTypeThrows()
+        {
+            var stringValues = new RunEndEncodedArray(
+                new Int32Array.Builder().AppendRange(new[] { 2 }).Build(),
+                new StringArray.Builder().AppendRange(new[] { "A" }).Build());
+
+            var intValues = new RunEndEncodedArray(
+                new Int32Array.Builder().AppendRange(new[] { 3 }).Build(),
+                new Int32Array.Builder().AppendRange(new[] { 99 }).Build());
+
+            var ex = Assert.Throws<ArgumentException>(() =>
+                ArrowArrayConcatenator.Concatenate(new IArrowArray[] { stringValues, intValues }));
+            Assert.Contains("values type", ex.Message);
+        }
+
+        [Fact]
+        public void TestRunEndEncodedAllEmptyInputs()
+        {
+            // Use String values (3 buffers) and Int32 children (2 buffers) so that any
+            // wrong-shape empty placeholder would crash array construction.
+            RunEndEncodedArray MakeEmpty() => new RunEndEncodedArray(
+                new Int32Array.Builder().Build(),
+                new StringArray.Builder().Build());
+
+            var concatenated = (RunEndEncodedArray)ArrowArrayConcatenator.Concatenate(
+                new IArrowArray[] { MakeEmpty(), MakeEmpty(), MakeEmpty() });
+
+            Assert.Equal(0, concatenated.Length);
+            Assert.Equal(0, concatenated.RunEnds.Length);
+            Assert.Equal(0, concatenated.Values.Length);
+            Assert.IsType<Int32Array>(concatenated.RunEnds);
+            Assert.IsType<StringArray>(concatenated.Values);
+        }
+
+        [Fact]
+        public void TestRunEndEncodedWithEmptyInput()
+        {
+            var empty = new RunEndEncodedArray(
+                new Int32Array.Builder().Build(),
+                new StringArray.Builder().Build());
+
+            var nonEmpty = new RunEndEncodedArray(
+                new Int32Array.Builder().AppendRange(new[] { 2, 4 }).Build(),
+                new StringArray.Builder().AppendRange(new[] { "A", "B" }).Build());
+
+            var concatenated = (RunEndEncodedArray)ArrowArrayConcatenator.Concatenate(
+                new IArrowArray[] { empty, nonEmpty, empty });
+
+            Assert.Equal(4, concatenated.Length);
+            Assert.Equal(new[] { 2, 4 }, ((Int32Array)concatenated.RunEnds).Values.ToArray());
+            var values = (StringArray)concatenated.Values;
+            Assert.Equal("A", values.GetString(0));
+            Assert.Equal("B", values.GetString(1));
+        }
+
         private static IEnumerable<Tuple<List<IArrowArray>, IArrowArray>> GenerateTestData(bool slicedArrays = false)
         {
             var targetTypes = new List<IArrowType>() {

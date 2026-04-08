@@ -196,6 +196,7 @@ namespace Apache.Arrow.IntegrationTest
                 "struct" => ToStructArrowType(type, children),
                 "union" => ToUnionArrowType(type, children),
                 "map" => ToMapArrowType(type, children),
+                "runendencoded" => ToRunEndEncodedArrowType(type, children),
                 "null" => NullType.Default,
                 _ => throw new NotSupportedException($"JsonArrowType not supported: {type.Name}")
             };
@@ -346,6 +347,11 @@ namespace Apache.Arrow.IntegrationTest
         {
             return new MapType(children[0], type.KeysSorted);
         }
+
+        private static IArrowType ToRunEndEncodedArrowType(JsonArrowType type, Field[] children)
+        {
+            return new RunEndEncodedType(children[0], children[1]);
+        }
     }
 
     public class JsonField
@@ -495,6 +501,7 @@ namespace Apache.Arrow.IntegrationTest
             IArrowTypeVisitor<UnionType>,
             IArrowTypeVisitor<MapType>,
             IArrowTypeVisitor<DictionaryType>,
+            IArrowTypeVisitor<RunEndEncodedType>,
             IArrowTypeVisitor<NullType>
         {
             private JsonFieldData JsonFieldData { get; set; }
@@ -972,6 +979,27 @@ namespace Apache.Arrow.IntegrationTest
             {
                 type.IndexType.Accept(this);
                 Array = new DictionaryArray(type, Array, this.dictionaries(type));
+            }
+
+            public void Visit(RunEndEncodedType type)
+            {
+                var data = JsonFieldData;
+
+                JsonFieldData = data.Children[0];
+                type.RunEndsDataType.Accept(this);
+                ArrayData runEndsData = Array.Data;
+
+                JsonFieldData = data.Children[1];
+                type.ValuesDataType.Accept(this);
+                ArrayData valuesData = Array.Data;
+
+                JsonFieldData = data;
+
+                ArrayData arrayData = new ArrayData(
+                    type, JsonFieldData.Count, nullCount: 0, offset: 0,
+                    buffers: System.Array.Empty<ArrowBuffer>(),
+                    children: new[] { runEndsData, valuesData });
+                Array = new RunEndEncodedArray(arrayData);
             }
 
             private ArrayData[] GetChildren(NestedType type)
