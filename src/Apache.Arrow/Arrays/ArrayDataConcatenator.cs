@@ -92,10 +92,11 @@ namespace Apache.Arrow
             public void Visit(FixedWidthType type)
             {
                 CheckData(type, 2);
+                var resolvedType = CheckAndResolveFixedWidthType(type);
                 ArrowBuffer validityBuffer = ConcatenateValidityBuffer();
-                ArrowBuffer valueBuffer = ConcatenateFixedWidthTypeValueBuffer(1, type);
+                ArrowBuffer valueBuffer = ConcatenateFixedWidthTypeValueBuffer(1, resolvedType);
 
-                Result = new ArrayData(type, _totalLength, _totalNullCount, 0, new ArrowBuffer[] { validityBuffer, valueBuffer });
+                Result = new ArrayData(resolvedType, _totalLength, _totalNullCount, 0, new ArrowBuffer[] { validityBuffer, valueBuffer });
             }
 
             public void Visit(BinaryType type) => ConcatenateVariableBinaryArrayData(type);
@@ -217,6 +218,7 @@ namespace Apache.Arrow
             public void Visit(FixedSizeListType type)
             {
                 CheckData(type, 1);
+                CheckFixedSizeListCompatibility(type);
                 var listSize = type.ListSize;
                 ArrowBuffer validityBuffer = ConcatenateValidityBuffer();
 
@@ -510,6 +512,142 @@ namespace Apache.Arrow
                 {
                     arrayData.EnsureDataType(type.TypeId);
                     arrayData.EnsureVariadicBufferCount(expectedBufferCount);
+                }
+            }
+
+            private FixedWidthType CheckAndResolveFixedWidthType(FixedWidthType type)
+            {
+                switch (type)
+                {
+                    case Decimal32Type d:
+                        return CheckDecimalCompatibility<Decimal32Type>(d, d.Precision, d.Scale,
+                            (other) => ((Decimal32Type)other).Precision,
+                            (other) => ((Decimal32Type)other).Scale,
+                            (p, s) => new Decimal32Type(p, s));
+                    case Decimal64Type d:
+                        return CheckDecimalCompatibility<Decimal64Type>(d, d.Precision, d.Scale,
+                            (other) => ((Decimal64Type)other).Precision,
+                            (other) => ((Decimal64Type)other).Scale,
+                            (p, s) => new Decimal64Type(p, s));
+                    case Decimal128Type d:
+                        return CheckDecimalCompatibility<Decimal128Type>(d, d.Precision, d.Scale,
+                            (other) => ((Decimal128Type)other).Precision,
+                            (other) => ((Decimal128Type)other).Scale,
+                            (p, s) => new Decimal128Type(p, s));
+                    case Decimal256Type d:
+                        return CheckDecimalCompatibility<Decimal256Type>(d, d.Precision, d.Scale,
+                            (other) => ((Decimal256Type)other).Precision,
+                            (other) => ((Decimal256Type)other).Scale,
+                            (p, s) => new Decimal256Type(p, s));
+                    case TimestampType ts:
+                        CheckTimestampCompatibility(ts);
+                        return type;
+                    case TimeBasedType tb:
+                        CheckTimeUnitCompatibility(tb);
+                        return type;
+                    case IntervalType iv:
+                        CheckIntervalCompatibility(iv);
+                        return type;
+                    case FixedSizeBinaryType fsb:
+                        CheckFixedSizeBinaryCompatibility(fsb);
+                        return type;
+                    default:
+                        return type;
+                }
+            }
+
+            private T CheckDecimalCompatibility<T>(T firstType, int firstPrecision, int firstScale,
+                Func<IArrowType, int> getPrecision, Func<IArrowType, int> getScale,
+                Func<int, int, T> factory) where T : FixedSizeBinaryType
+            {
+                int maxPrecision = firstPrecision;
+
+                for (int i = 1; i < _arrayDataList.Count; i++)
+                {
+                    IArrowType otherType = _arrayDataList[i].DataType;
+                    int otherScale = getScale(otherType);
+                    if (otherScale != firstScale)
+                    {
+                        throw new ArgumentException(
+                            $"Cannot concatenate {firstType.Name} arrays with different scales: {firstScale} vs {otherScale}");
+                    }
+                    maxPrecision = Math.Max(maxPrecision, getPrecision(otherType));
+                }
+
+                if (maxPrecision != firstPrecision)
+                {
+                    return factory(maxPrecision, firstScale);
+                }
+                return firstType;
+            }
+
+            private void CheckTimestampCompatibility(TimestampType firstType)
+            {
+                for (int i = 1; i < _arrayDataList.Count; i++)
+                {
+                    var otherType = (TimestampType)_arrayDataList[i].DataType;
+                    if (otherType.Unit != firstType.Unit)
+                    {
+                        throw new ArgumentException(
+                            $"Cannot concatenate Timestamp arrays with different time units: {firstType.Unit} vs {otherType.Unit}");
+                    }
+                    if (otherType.Timezone != firstType.Timezone)
+                    {
+                        throw new ArgumentException(
+                            $"Cannot concatenate Timestamp arrays with different timezones: \"{firstType.Timezone}\" vs \"{otherType.Timezone}\"");
+                    }
+                }
+            }
+
+            private void CheckTimeUnitCompatibility(TimeBasedType firstType)
+            {
+                for (int i = 1; i < _arrayDataList.Count; i++)
+                {
+                    var otherType = (TimeBasedType)_arrayDataList[i].DataType;
+                    if (otherType.Unit != firstType.Unit)
+                    {
+                        throw new ArgumentException(
+                            $"Cannot concatenate {firstType.Name} arrays with different time units: {firstType.Unit} vs {otherType.Unit}");
+                    }
+                }
+            }
+
+            private void CheckIntervalCompatibility(IntervalType firstType)
+            {
+                for (int i = 1; i < _arrayDataList.Count; i++)
+                {
+                    var otherType = (IntervalType)_arrayDataList[i].DataType;
+                    if (otherType.Unit != firstType.Unit)
+                    {
+                        throw new ArgumentException(
+                            $"Cannot concatenate Interval arrays with different units: {firstType.Unit} vs {otherType.Unit}");
+                    }
+                }
+            }
+
+            private void CheckFixedSizeBinaryCompatibility(FixedSizeBinaryType firstType)
+            {
+                for (int i = 1; i < _arrayDataList.Count; i++)
+                {
+                    var otherType = (FixedSizeBinaryType)_arrayDataList[i].DataType;
+                    if (otherType.ByteWidth != firstType.ByteWidth)
+                    {
+                        throw new ArgumentException(
+                            $"Cannot concatenate FixedSizeBinary arrays with different byte widths: {firstType.ByteWidth} vs {otherType.ByteWidth}");
+                    }
+                }
+            }
+
+            private void CheckFixedSizeListCompatibility(FixedSizeListType firstType)
+            {
+                for (int i = 1; i < _arrayDataList.Count; i++)
+                {
+                    var otherType = (FixedSizeListType)_arrayDataList[i].DataType;
+                    if (otherType.ListSize != firstType.ListSize)
+                    {
+                        throw new ArgumentException(
+                            $"Cannot concatenate FixedSizeList arrays with different list sizes: {firstType.ListSize} vs {otherType.ListSize}");
+                    }
                 }
             }
 

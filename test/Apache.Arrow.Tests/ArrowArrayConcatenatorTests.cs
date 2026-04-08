@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Apache.Arrow.Arrays;
 using Apache.Arrow.Scalars;
 using Apache.Arrow.Types;
 using Xunit;
@@ -823,6 +824,196 @@ namespace Apache.Arrow.Tests
                 return ArrowArrayFactory.Slice(
                     array, _sliceParameters[targetIndex].Offset, _sliceParameters[targetIndex].Length);
             }
+        }
+
+        // --- Parameterized type mismatch / compatibility tests ---
+
+        [Fact]
+        public void TestDecimal32ScaleMismatchThrows()
+        {
+            var a = new Decimal32Array.Builder(new Decimal32Type(7, 3)).Append(1).Build();
+            var b = new Decimal32Array.Builder(new Decimal32Type(7, 2)).Append(2).Build();
+
+            var ex = Assert.Throws<ArgumentException>(() =>
+                ArrowArrayConcatenator.Concatenate(new IArrowArray[] { a, b }));
+            Assert.Contains("scale", ex.Message, StringComparison.OrdinalIgnoreCase);
+        }
+
+        [Fact]
+        public void TestDecimal64ScaleMismatchThrows()
+        {
+            var a = new Decimal64Array.Builder(new Decimal64Type(14, 4)).Append(1).Build();
+            var b = new Decimal64Array.Builder(new Decimal64Type(14, 2)).Append(2).Build();
+
+            var ex = Assert.Throws<ArgumentException>(() =>
+                ArrowArrayConcatenator.Concatenate(new IArrowArray[] { a, b }));
+            Assert.Contains("scale", ex.Message, StringComparison.OrdinalIgnoreCase);
+        }
+
+        [Fact]
+        public void TestDecimal128ScaleMismatchThrows()
+        {
+            var a = new Decimal128Array.Builder(new Decimal128Type(14, 10)).Append(1).Build();
+            var b = new Decimal128Array.Builder(new Decimal128Type(14, 5)).Append(2).Build();
+
+            var ex = Assert.Throws<ArgumentException>(() =>
+                ArrowArrayConcatenator.Concatenate(new IArrowArray[] { a, b }));
+            Assert.Contains("scale", ex.Message, StringComparison.OrdinalIgnoreCase);
+        }
+
+        [Fact]
+        public void TestDecimal256ScaleMismatchThrows()
+        {
+            var a = new Decimal256Array.Builder(new Decimal256Type(14, 10)).Append(1).Build();
+            var b = new Decimal256Array.Builder(new Decimal256Type(14, 3)).Append(2).Build();
+
+            var ex = Assert.Throws<ArgumentException>(() =>
+                ArrowArrayConcatenator.Concatenate(new IArrowArray[] { a, b }));
+            Assert.Contains("scale", ex.Message, StringComparison.OrdinalIgnoreCase);
+        }
+
+        [Fact]
+        public void TestDecimal64PrecisionPromoted()
+        {
+            var a = new Decimal64Array.Builder(new Decimal64Type(10, 4)).Append(1).Append(2).Build();
+            var b = new Decimal64Array.Builder(new Decimal64Type(14, 4)).Append(3).Build();
+            var c = new Decimal64Array.Builder(new Decimal64Type(12, 4)).Append(4).Build();
+
+            var result = ArrowArrayConcatenator.Concatenate(new IArrowArray[] { a, b, c });
+            var resultType = (Decimal64Type)result.Data.DataType;
+
+            Assert.Equal(14, resultType.Precision);
+            Assert.Equal(4, resultType.Scale);
+            Assert.Equal(4, result.Length);
+        }
+
+        [Fact]
+        public void TestDecimal128PrecisionPromoted()
+        {
+            var a = new Decimal128Array.Builder(new Decimal128Type(10, 5)).Append(1).Build();
+            var b = new Decimal128Array.Builder(new Decimal128Type(20, 5)).Append(2).Build();
+
+            var result = ArrowArrayConcatenator.Concatenate(new IArrowArray[] { a, b });
+            var resultType = (Decimal128Type)result.Data.DataType;
+
+            Assert.Equal(20, resultType.Precision);
+            Assert.Equal(5, resultType.Scale);
+            Assert.Equal(2, result.Length);
+        }
+
+        [Fact]
+        public void TestTimestampUnitMismatchThrows()
+        {
+            var a = new TimestampArray.Builder(new TimestampType(TimeUnit.Millisecond, "+00:00")).Append(DateTimeOffset.UtcNow).Build();
+            var b = new TimestampArray.Builder(new TimestampType(TimeUnit.Microsecond, "+00:00")).Append(DateTimeOffset.UtcNow).Build();
+
+            var ex = Assert.Throws<ArgumentException>(() =>
+                ArrowArrayConcatenator.Concatenate(new IArrowArray[] { a, b }));
+            Assert.Contains("time unit", ex.Message, StringComparison.OrdinalIgnoreCase);
+        }
+
+        [Fact]
+        public void TestTimestampTimezoneMismatchThrows()
+        {
+            var a = new TimestampArray.Builder(new TimestampType(TimeUnit.Millisecond, "+00:00")).Append(DateTimeOffset.UtcNow).Build();
+            var b = new TimestampArray.Builder(new TimestampType(TimeUnit.Millisecond, "+05:00")).Append(DateTimeOffset.UtcNow).Build();
+
+            var ex = Assert.Throws<ArgumentException>(() =>
+                ArrowArrayConcatenator.Concatenate(new IArrowArray[] { a, b }));
+            Assert.Contains("timezone", ex.Message, StringComparison.OrdinalIgnoreCase);
+        }
+
+        [Fact]
+        public void TestTime32UnitMismatchThrows()
+        {
+            var a = new Time32Array.Builder(new Time32Type(TimeUnit.Second)).Append(1).Build();
+            var b = new Time32Array.Builder(new Time32Type(TimeUnit.Millisecond)).Append(2).Build();
+
+            var ex = Assert.Throws<ArgumentException>(() =>
+                ArrowArrayConcatenator.Concatenate(new IArrowArray[] { a, b }));
+            Assert.Contains("time unit", ex.Message, StringComparison.OrdinalIgnoreCase);
+        }
+
+        [Fact]
+        public void TestTime64UnitMismatchThrows()
+        {
+            var a = new Time64Array.Builder(new Time64Type(TimeUnit.Microsecond)).Append(1).Build();
+            var b = new Time64Array.Builder(new Time64Type(TimeUnit.Nanosecond)).Append(2).Build();
+
+            var ex = Assert.Throws<ArgumentException>(() =>
+                ArrowArrayConcatenator.Concatenate(new IArrowArray[] { a, b }));
+            Assert.Contains("time unit", ex.Message, StringComparison.OrdinalIgnoreCase);
+        }
+
+        [Fact]
+        public void TestDurationUnitMismatchThrows()
+        {
+            var a = new DurationArray.Builder(DurationType.Second).Append(1).Build();
+            var b = new DurationArray.Builder(DurationType.Nanosecond).Append(2).Build();
+
+            var ex = Assert.Throws<ArgumentException>(() =>
+                ArrowArrayConcatenator.Concatenate(new IArrowArray[] { a, b }));
+            Assert.Contains("time unit", ex.Message, StringComparison.OrdinalIgnoreCase);
+        }
+
+        [Fact]
+        public void TestIntervalUnitMismatchThrows()
+        {
+            var a = new YearMonthIntervalArray.Builder().Append(new YearMonthInterval(1)).Build();
+            var b = new DayTimeIntervalArray.Builder().Append(new DayTimeInterval(1, 100)).Build();
+
+            var ex = Assert.Throws<ArgumentException>(() =>
+                ArrowArrayConcatenator.Concatenate(new IArrowArray[] { a, b }));
+            Assert.Contains("unit", ex.Message, StringComparison.OrdinalIgnoreCase);
+        }
+
+        [Fact]
+        public void TestFixedSizeBinaryWidthMismatchThrows()
+        {
+            var a = BuildFixedSizeBinaryArray(4, new byte[] { 1, 2, 3, 4 });
+            var b = BuildFixedSizeBinaryArray(8, new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 });
+
+            var ex = Assert.Throws<ArgumentException>(() =>
+                ArrowArrayConcatenator.Concatenate(new IArrowArray[] { a, b }));
+            Assert.Contains("byte width", ex.Message, StringComparison.OrdinalIgnoreCase);
+        }
+
+        [Fact]
+        public void TestFixedSizeListSizeMismatchThrows()
+        {
+            var a = BuildFixedSizeListArray(2, new[] { 1, 2, 3, 4 });
+            var b = BuildFixedSizeListArray(3, new[] { 5, 6, 7, 8, 9, 10 });
+
+            var ex = Assert.Throws<ArgumentException>(() =>
+                ArrowArrayConcatenator.Concatenate(new IArrowArray[] { a, b }));
+            Assert.Contains("list size", ex.Message, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static FixedSizeListArray BuildFixedSizeListArray(int listSize, int[] flatValues)
+        {
+            var type = new FixedSizeListType(Int32Type.Default, listSize);
+            var builder = new FixedSizeListArray.Builder(type);
+            int listCount = flatValues.Length / listSize;
+            var valueBuilder = (Int32Array.Builder)builder.ValueBuilder;
+            for (int i = 0; i < listCount; i++)
+            {
+                builder.Append();
+                for (int j = 0; j < listSize; j++)
+                {
+                    valueBuilder.Append(flatValues[i * listSize + j]);
+                }
+            }
+            return builder.Build();
+        }
+
+        private static FixedSizeBinaryArray BuildFixedSizeBinaryArray(int byteWidth, byte[] singleValue)
+        {
+            var validityBuffer = new ArrowBuffer.BitmapBuilder().Append(true).Build();
+            var dataBuffer = new ArrowBuffer.Builder<byte>().Append(singleValue).Build();
+            var arrayData = new ArrayData(
+                new FixedSizeBinaryType(byteWidth), 1, 0, 0,
+                new[] { validityBuffer, dataBuffer });
+            return new FixedSizeBinaryArray(arrayData);
         }
     }
 }
