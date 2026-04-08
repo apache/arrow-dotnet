@@ -2910,6 +2910,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.RunEndEncodedArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.RunEndEncodedArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.RunEndEncodedArray",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.RunEndEncodedArray.yml\" sourcestartlinenumber=\"1\">Represents a run-end encoded array.\nA run-end encoded array stores consecutive runs of the same value more efficiently.\nIt contains two child arrays: run_ends (Int16/Int32/Int64) and values (any type).\nThe run_ends array stores the cumulative end positions of each run.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Apache.Arrow.Scalars.BinaryView.yml",
       "output": {
         ".html": {
@@ -3845,6 +3859,20 @@
       "IsMRef": true,
       "Title": "Apache.Arrow.Types.NumberType",
       "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Types.RunEndEncodedType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Types.RunEndEncodedType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Types.RunEndEncodedType",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Types.RunEndEncodedType.yml\" sourcestartlinenumber=\"1\">Represents a run-end encoded array type.\nContains two child arrays: run_ends and values.\nThe run_ends child array must be a 16/32/64-bit signed integer array\nwhich encodes the indices at which the run with the value in\neach corresponding index in the values child array ends.</p>\n"
     },
     {
       "type": "ManagedReference",

@@ -19195,6 +19195,108 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.RecordBatch.ToString
   nameWithType: RecordBatch.ToString
+- uid: Apache.Arrow.RunEndEncodedArray
+  name: RunEndEncodedArray
+  href: api/Apache.Arrow.RunEndEncodedArray.html
+  commentId: T:Apache.Arrow.RunEndEncodedArray
+  fullName: Apache.Arrow.RunEndEncodedArray
+  nameWithType: RunEndEncodedArray
+- uid: Apache.Arrow.RunEndEncodedArray.#ctor(Apache.Arrow.ArrayData)
+  name: RunEndEncodedArray(ArrayData)
+  href: api/Apache.Arrow.RunEndEncodedArray.html#Apache_Arrow_RunEndEncodedArray__ctor_Apache_Arrow_ArrayData_
+  commentId: M:Apache.Arrow.RunEndEncodedArray.#ctor(Apache.Arrow.ArrayData)
+  name.vb: New(ArrayData)
+  fullName: Apache.Arrow.RunEndEncodedArray.RunEndEncodedArray(Apache.Arrow.ArrayData)
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.New(Apache.Arrow.ArrayData)
+  nameWithType: RunEndEncodedArray.RunEndEncodedArray(ArrayData)
+  nameWithType.vb: RunEndEncodedArray.New(ArrayData)
+- uid: Apache.Arrow.RunEndEncodedArray.#ctor(Apache.Arrow.IArrowArray,Apache.Arrow.IArrowArray)
+  name: RunEndEncodedArray(IArrowArray, IArrowArray)
+  href: api/Apache.Arrow.RunEndEncodedArray.html#Apache_Arrow_RunEndEncodedArray__ctor_Apache_Arrow_IArrowArray_Apache_Arrow_IArrowArray_
+  commentId: M:Apache.Arrow.RunEndEncodedArray.#ctor(Apache.Arrow.IArrowArray,Apache.Arrow.IArrowArray)
+  name.vb: New(IArrowArray, IArrowArray)
+  fullName: Apache.Arrow.RunEndEncodedArray.RunEndEncodedArray(Apache.Arrow.IArrowArray, Apache.Arrow.IArrowArray)
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.New(Apache.Arrow.IArrowArray, Apache.Arrow.IArrowArray)
+  nameWithType: RunEndEncodedArray.RunEndEncodedArray(IArrowArray, IArrowArray)
+  nameWithType.vb: RunEndEncodedArray.New(IArrowArray, IArrowArray)
+- uid: Apache.Arrow.RunEndEncodedArray.#ctor*
+  name: RunEndEncodedArray
+  href: api/Apache.Arrow.RunEndEncodedArray.html#Apache_Arrow_RunEndEncodedArray__ctor_
+  commentId: Overload:Apache.Arrow.RunEndEncodedArray.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Apache.Arrow.RunEndEncodedArray.RunEndEncodedArray
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.New
+  nameWithType: RunEndEncodedArray.RunEndEncodedArray
+  nameWithType.vb: RunEndEncodedArray.New
+- uid: Apache.Arrow.RunEndEncodedArray.Accept(Apache.Arrow.IArrowArrayVisitor)
+  name: Accept(IArrowArrayVisitor)
+  href: api/Apache.Arrow.RunEndEncodedArray.html#Apache_Arrow_RunEndEncodedArray_Accept_Apache_Arrow_IArrowArrayVisitor_
+  commentId: M:Apache.Arrow.RunEndEncodedArray.Accept(Apache.Arrow.IArrowArrayVisitor)
+  fullName: Apache.Arrow.RunEndEncodedArray.Accept(Apache.Arrow.IArrowArrayVisitor)
+  nameWithType: RunEndEncodedArray.Accept(IArrowArrayVisitor)
+- uid: Apache.Arrow.RunEndEncodedArray.Accept*
+  name: Accept
+  href: api/Apache.Arrow.RunEndEncodedArray.html#Apache_Arrow_RunEndEncodedArray_Accept_
+  commentId: Overload:Apache.Arrow.RunEndEncodedArray.Accept
+  isSpec: "True"
+  fullName: Apache.Arrow.RunEndEncodedArray.Accept
+  nameWithType: RunEndEncodedArray.Accept
+- uid: Apache.Arrow.RunEndEncodedArray.FindPhysicalIndex(System.Int32)
+  name: FindPhysicalIndex(int)
+  href: api/Apache.Arrow.RunEndEncodedArray.html#Apache_Arrow_RunEndEncodedArray_FindPhysicalIndex_System_Int32_
+  commentId: M:Apache.Arrow.RunEndEncodedArray.FindPhysicalIndex(System.Int32)
+  name.vb: FindPhysicalIndex(Integer)
+  fullName: Apache.Arrow.RunEndEncodedArray.FindPhysicalIndex(int)
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.FindPhysicalIndex(Integer)
+  nameWithType: RunEndEncodedArray.FindPhysicalIndex(int)
+  nameWithType.vb: RunEndEncodedArray.FindPhysicalIndex(Integer)
+- uid: Apache.Arrow.RunEndEncodedArray.FindPhysicalIndex*
+  name: FindPhysicalIndex
+  href: api/Apache.Arrow.RunEndEncodedArray.html#Apache_Arrow_RunEndEncodedArray_FindPhysicalIndex_
+  commentId: Overload:Apache.Arrow.RunEndEncodedArray.FindPhysicalIndex
+  isSpec: "True"
+  fullName: Apache.Arrow.RunEndEncodedArray.FindPhysicalIndex
+  nameWithType: RunEndEncodedArray.FindPhysicalIndex
+- uid: Apache.Arrow.RunEndEncodedArray.Normalize
+  name: Normalize()
+  href: api/Apache.Arrow.RunEndEncodedArray.html#Apache_Arrow_RunEndEncodedArray_Normalize
+  commentId: M:Apache.Arrow.RunEndEncodedArray.Normalize
+  fullName: Apache.Arrow.RunEndEncodedArray.Normalize()
+  nameWithType: RunEndEncodedArray.Normalize()
+- uid: Apache.Arrow.RunEndEncodedArray.Normalize*
+  name: Normalize
+  href: api/Apache.Arrow.RunEndEncodedArray.html#Apache_Arrow_RunEndEncodedArray_Normalize_
+  commentId: Overload:Apache.Arrow.RunEndEncodedArray.Normalize
+  isSpec: "True"
+  fullName: Apache.Arrow.RunEndEncodedArray.Normalize
+  nameWithType: RunEndEncodedArray.Normalize
+- uid: Apache.Arrow.RunEndEncodedArray.RunEnds
+  name: RunEnds
+  href: api/Apache.Arrow.RunEndEncodedArray.html#Apache_Arrow_RunEndEncodedArray_RunEnds
+  commentId: P:Apache.Arrow.RunEndEncodedArray.RunEnds
+  fullName: Apache.Arrow.RunEndEncodedArray.RunEnds
+  nameWithType: RunEndEncodedArray.RunEnds
+- uid: Apache.Arrow.RunEndEncodedArray.RunEnds*
+  name: RunEnds
+  href: api/Apache.Arrow.RunEndEncodedArray.html#Apache_Arrow_RunEndEncodedArray_RunEnds_
+  commentId: Overload:Apache.Arrow.RunEndEncodedArray.RunEnds
+  isSpec: "True"
+  fullName: Apache.Arrow.RunEndEncodedArray.RunEnds
+  nameWithType: RunEndEncodedArray.RunEnds
+- uid: Apache.Arrow.RunEndEncodedArray.Values
+  name: Values
+  href: api/Apache.Arrow.RunEndEncodedArray.html#Apache_Arrow_RunEndEncodedArray_Values
+  commentId: P:Apache.Arrow.RunEndEncodedArray.Values
+  fullName: Apache.Arrow.RunEndEncodedArray.Values
+  nameWithType: RunEndEncodedArray.Values
+- uid: Apache.Arrow.RunEndEncodedArray.Values*
+  name: Values
+  href: api/Apache.Arrow.RunEndEncodedArray.html#Apache_Arrow_RunEndEncodedArray_Values_
+  commentId: Overload:Apache.Arrow.RunEndEncodedArray.Values
+  isSpec: "True"
+  fullName: Apache.Arrow.RunEndEncodedArray.Values
+  nameWithType: RunEndEncodedArray.Values
 - uid: Apache.Arrow.Scalars
   name: Apache.Arrow.Scalars
   href: api/Apache.Arrow.Scalars.html
@@ -21555,6 +21657,12 @@ references:
   commentId: F:Apache.Arrow.Types.ArrowTypeId.RecordBatch
   fullName: Apache.Arrow.Types.ArrowTypeId.RecordBatch
   nameWithType: ArrowTypeId.RecordBatch
+- uid: Apache.Arrow.Types.ArrowTypeId.RunEndEncoded
+  name: RunEndEncoded
+  href: api/Apache.Arrow.Types.ArrowTypeId.html#Apache_Arrow_Types_ArrowTypeId_RunEndEncoded
+  commentId: F:Apache.Arrow.Types.ArrowTypeId.RunEndEncoded
+  fullName: Apache.Arrow.Types.ArrowTypeId.RunEndEncoded
+  nameWithType: ArrowTypeId.RunEndEncoded
 - uid: Apache.Arrow.Types.ArrowTypeId.String
   name: String
   href: api/Apache.Arrow.Types.ArrowTypeId.html#Apache_Arrow_Types_ArrowTypeId_String
@@ -24521,6 +24629,131 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.Types.NumberType.IsSigned
   nameWithType: NumberType.IsSigned
+- uid: Apache.Arrow.Types.RunEndEncodedType
+  name: RunEndEncodedType
+  href: api/Apache.Arrow.Types.RunEndEncodedType.html
+  commentId: T:Apache.Arrow.Types.RunEndEncodedType
+  fullName: Apache.Arrow.Types.RunEndEncodedType
+  nameWithType: RunEndEncodedType
+- uid: Apache.Arrow.Types.RunEndEncodedType.#ctor(Apache.Arrow.Field,Apache.Arrow.Field)
+  name: RunEndEncodedType(Field, Field)
+  href: api/Apache.Arrow.Types.RunEndEncodedType.html#Apache_Arrow_Types_RunEndEncodedType__ctor_Apache_Arrow_Field_Apache_Arrow_Field_
+  commentId: M:Apache.Arrow.Types.RunEndEncodedType.#ctor(Apache.Arrow.Field,Apache.Arrow.Field)
+  name.vb: New(Field, Field)
+  fullName: Apache.Arrow.Types.RunEndEncodedType.RunEndEncodedType(Apache.Arrow.Field, Apache.Arrow.Field)
+  fullName.vb: Apache.Arrow.Types.RunEndEncodedType.New(Apache.Arrow.Field, Apache.Arrow.Field)
+  nameWithType: RunEndEncodedType.RunEndEncodedType(Field, Field)
+  nameWithType.vb: RunEndEncodedType.New(Field, Field)
+- uid: Apache.Arrow.Types.RunEndEncodedType.#ctor(Apache.Arrow.Types.IArrowType,Apache.Arrow.Types.IArrowType)
+  name: RunEndEncodedType(IArrowType, IArrowType)
+  href: api/Apache.Arrow.Types.RunEndEncodedType.html#Apache_Arrow_Types_RunEndEncodedType__ctor_Apache_Arrow_Types_IArrowType_Apache_Arrow_Types_IArrowType_
+  commentId: M:Apache.Arrow.Types.RunEndEncodedType.#ctor(Apache.Arrow.Types.IArrowType,Apache.Arrow.Types.IArrowType)
+  name.vb: New(IArrowType, IArrowType)
+  fullName: Apache.Arrow.Types.RunEndEncodedType.RunEndEncodedType(Apache.Arrow.Types.IArrowType, Apache.Arrow.Types.IArrowType)
+  fullName.vb: Apache.Arrow.Types.RunEndEncodedType.New(Apache.Arrow.Types.IArrowType, Apache.Arrow.Types.IArrowType)
+  nameWithType: RunEndEncodedType.RunEndEncodedType(IArrowType, IArrowType)
+  nameWithType.vb: RunEndEncodedType.New(IArrowType, IArrowType)
+- uid: Apache.Arrow.Types.RunEndEncodedType.#ctor*
+  name: RunEndEncodedType
+  href: api/Apache.Arrow.Types.RunEndEncodedType.html#Apache_Arrow_Types_RunEndEncodedType__ctor_
+  commentId: Overload:Apache.Arrow.Types.RunEndEncodedType.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Apache.Arrow.Types.RunEndEncodedType.RunEndEncodedType
+  fullName.vb: Apache.Arrow.Types.RunEndEncodedType.New
+  nameWithType: RunEndEncodedType.RunEndEncodedType
+  nameWithType.vb: RunEndEncodedType.New
+- uid: Apache.Arrow.Types.RunEndEncodedType.Accept(Apache.Arrow.Types.IArrowTypeVisitor)
+  name: Accept(IArrowTypeVisitor)
+  href: api/Apache.Arrow.Types.RunEndEncodedType.html#Apache_Arrow_Types_RunEndEncodedType_Accept_Apache_Arrow_Types_IArrowTypeVisitor_
+  commentId: M:Apache.Arrow.Types.RunEndEncodedType.Accept(Apache.Arrow.Types.IArrowTypeVisitor)
+  fullName: Apache.Arrow.Types.RunEndEncodedType.Accept(Apache.Arrow.Types.IArrowTypeVisitor)
+  nameWithType: RunEndEncodedType.Accept(IArrowTypeVisitor)
+- uid: Apache.Arrow.Types.RunEndEncodedType.Accept*
+  name: Accept
+  href: api/Apache.Arrow.Types.RunEndEncodedType.html#Apache_Arrow_Types_RunEndEncodedType_Accept_
+  commentId: Overload:Apache.Arrow.Types.RunEndEncodedType.Accept
+  isSpec: "True"
+  fullName: Apache.Arrow.Types.RunEndEncodedType.Accept
+  nameWithType: RunEndEncodedType.Accept
+- uid: Apache.Arrow.Types.RunEndEncodedType.Name
+  name: Name
+  href: api/Apache.Arrow.Types.RunEndEncodedType.html#Apache_Arrow_Types_RunEndEncodedType_Name
+  commentId: P:Apache.Arrow.Types.RunEndEncodedType.Name
+  fullName: Apache.Arrow.Types.RunEndEncodedType.Name
+  nameWithType: RunEndEncodedType.Name
+- uid: Apache.Arrow.Types.RunEndEncodedType.Name*
+  name: Name
+  href: api/Apache.Arrow.Types.RunEndEncodedType.html#Apache_Arrow_Types_RunEndEncodedType_Name_
+  commentId: Overload:Apache.Arrow.Types.RunEndEncodedType.Name
+  isSpec: "True"
+  fullName: Apache.Arrow.Types.RunEndEncodedType.Name
+  nameWithType: RunEndEncodedType.Name
+- uid: Apache.Arrow.Types.RunEndEncodedType.RunEndsDataType
+  name: RunEndsDataType
+  href: api/Apache.Arrow.Types.RunEndEncodedType.html#Apache_Arrow_Types_RunEndEncodedType_RunEndsDataType
+  commentId: P:Apache.Arrow.Types.RunEndEncodedType.RunEndsDataType
+  fullName: Apache.Arrow.Types.RunEndEncodedType.RunEndsDataType
+  nameWithType: RunEndEncodedType.RunEndsDataType
+- uid: Apache.Arrow.Types.RunEndEncodedType.RunEndsDataType*
+  name: RunEndsDataType
+  href: api/Apache.Arrow.Types.RunEndEncodedType.html#Apache_Arrow_Types_RunEndEncodedType_RunEndsDataType_
+  commentId: Overload:Apache.Arrow.Types.RunEndEncodedType.RunEndsDataType
+  isSpec: "True"
+  fullName: Apache.Arrow.Types.RunEndEncodedType.RunEndsDataType
+  nameWithType: RunEndEncodedType.RunEndsDataType
+- uid: Apache.Arrow.Types.RunEndEncodedType.RunEndsField
+  name: RunEndsField
+  href: api/Apache.Arrow.Types.RunEndEncodedType.html#Apache_Arrow_Types_RunEndEncodedType_RunEndsField
+  commentId: P:Apache.Arrow.Types.RunEndEncodedType.RunEndsField
+  fullName: Apache.Arrow.Types.RunEndEncodedType.RunEndsField
+  nameWithType: RunEndEncodedType.RunEndsField
+- uid: Apache.Arrow.Types.RunEndEncodedType.RunEndsField*
+  name: RunEndsField
+  href: api/Apache.Arrow.Types.RunEndEncodedType.html#Apache_Arrow_Types_RunEndEncodedType_RunEndsField_
+  commentId: Overload:Apache.Arrow.Types.RunEndEncodedType.RunEndsField
+  isSpec: "True"
+  fullName: Apache.Arrow.Types.RunEndEncodedType.RunEndsField
+  nameWithType: RunEndEncodedType.RunEndsField
+- uid: Apache.Arrow.Types.RunEndEncodedType.TypeId
+  name: TypeId
+  href: api/Apache.Arrow.Types.RunEndEncodedType.html#Apache_Arrow_Types_RunEndEncodedType_TypeId
+  commentId: P:Apache.Arrow.Types.RunEndEncodedType.TypeId
+  fullName: Apache.Arrow.Types.RunEndEncodedType.TypeId
+  nameWithType: RunEndEncodedType.TypeId
+- uid: Apache.Arrow.Types.RunEndEncodedType.TypeId*
+  name: TypeId
+  href: api/Apache.Arrow.Types.RunEndEncodedType.html#Apache_Arrow_Types_RunEndEncodedType_TypeId_
+  commentId: Overload:Apache.Arrow.Types.RunEndEncodedType.TypeId
+  isSpec: "True"
+  fullName: Apache.Arrow.Types.RunEndEncodedType.TypeId
+  nameWithType: RunEndEncodedType.TypeId
+- uid: Apache.Arrow.Types.RunEndEncodedType.ValuesDataType
+  name: ValuesDataType
+  href: api/Apache.Arrow.Types.RunEndEncodedType.html#Apache_Arrow_Types_RunEndEncodedType_ValuesDataType
+  commentId: P:Apache.Arrow.Types.RunEndEncodedType.ValuesDataType
+  fullName: Apache.Arrow.Types.RunEndEncodedType.ValuesDataType
+  nameWithType: RunEndEncodedType.ValuesDataType
+- uid: Apache.Arrow.Types.RunEndEncodedType.ValuesDataType*
+  name: ValuesDataType
+  href: api/Apache.Arrow.Types.RunEndEncodedType.html#Apache_Arrow_Types_RunEndEncodedType_ValuesDataType_
+  commentId: Overload:Apache.Arrow.Types.RunEndEncodedType.ValuesDataType
+  isSpec: "True"
+  fullName: Apache.Arrow.Types.RunEndEncodedType.ValuesDataType
+  nameWithType: RunEndEncodedType.ValuesDataType
+- uid: Apache.Arrow.Types.RunEndEncodedType.ValuesField
+  name: ValuesField
+  href: api/Apache.Arrow.Types.RunEndEncodedType.html#Apache_Arrow_Types_RunEndEncodedType_ValuesField
+  commentId: P:Apache.Arrow.Types.RunEndEncodedType.ValuesField
+  fullName: Apache.Arrow.Types.RunEndEncodedType.ValuesField
+  nameWithType: RunEndEncodedType.ValuesField
+- uid: Apache.Arrow.Types.RunEndEncodedType.ValuesField*
+  name: ValuesField
+  href: api/Apache.Arrow.Types.RunEndEncodedType.html#Apache_Arrow_Types_RunEndEncodedType_ValuesField_
+  commentId: Overload:Apache.Arrow.Types.RunEndEncodedType.ValuesField
+  isSpec: "True"
+  fullName: Apache.Arrow.Types.RunEndEncodedType.ValuesField
+  nameWithType: RunEndEncodedType.ValuesField
 - uid: Apache.Arrow.Types.StringType
   name: StringType
   href: api/Apache.Arrow.Types.StringType.html

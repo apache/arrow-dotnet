@@ -517,6 +517,14 @@ backed by FixedSizeBinary(16).</p>
       <dd></dd>
     </dl>
     <dl class="jumplist">
+      <dt><a class="xref" href="Apache.Arrow.RunEndEncodedArray.html">RunEndEncodedArray</a></dt>
+      <dd><p>Represents a run-end encoded array.
+A run-end encoded array stores consecutive runs of the same value more efficiently.
+It contains two child arrays: run_ends (Int16/Int32/Int64) and values (any type).
+The run_ends array stores the cumulative end positions of each run.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
       <dt><a class="xref" href="Apache.Arrow.Schema.html">Schema</a></dt>
       <dd></dd>
     </dl>
