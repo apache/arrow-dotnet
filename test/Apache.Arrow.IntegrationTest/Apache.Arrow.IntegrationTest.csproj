@@ -4,12 +4,11 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <TargetFrameworks>net8.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="System.CommandLine" />
-    <PackageReference Include="System.Text.Json" />
     <ProjectReference Include="..\..\src\Apache.Arrow.Compression\Apache.Arrow.Compression.csproj" />
     <ProjectReference Include="..\..\src\Apache.Arrow\Apache.Arrow.csproj" />
     <ProjectReference Include="..\Apache.Arrow.Tests\Apache.Arrow.Tests.csproj" />
