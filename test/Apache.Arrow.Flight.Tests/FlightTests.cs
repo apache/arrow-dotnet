@@ -577,5 +577,81 @@ namespace Apache.Arrow.Flight.Tests
 
             SchemaComparer.Compare(expectedSchema, actualSchema);
         }
+
+        [Fact]
+        public async Task TestGetWithArrowContext()
+        {
+            // Verify that FlightClient works when constructed with an ArrowContext
+            var context = new ArrowContext();
+            var flightClient = new FlightClient(_testWebFactory.GetChannel(), context);
+
+            var flightDescriptor = FlightDescriptor.CreatePathDescriptor("test-context");
+            var expectedBatch = CreateTestBatch(0, 100);
+
+            GivenStoreBatches(flightDescriptor, new RecordBatchWithMetadata(expectedBatch));
+
+            var flightInfo = await flightClient.GetInfo(flightDescriptor);
+            var endpoint = flightInfo.Endpoints.FirstOrDefault();
+
+            var getStream = flightClient.GetStream(endpoint.Ticket);
+            var resultList = await getStream.ResponseStream.ToListAsync();
+
+            Assert.Single(resultList);
+            ArrowReaderVerifier.CompareBatches(expectedBatch, resultList[0]);
+        }
+
+        [Fact]
+        public async Task TestGetWithNullArrowContext()
+        {
+            // Verify that FlightClient works with null ArrowContext (backward compat)
+            var flightClient = new FlightClient(_testWebFactory.GetChannel(), null);
+
+            var flightDescriptor = FlightDescriptor.CreatePathDescriptor("test-null-context");
+            var expectedBatch = CreateTestBatch(0, 100);
+
+            GivenStoreBatches(flightDescriptor, new RecordBatchWithMetadata(expectedBatch));
+
+            var flightInfo = await flightClient.GetInfo(flightDescriptor);
+            var endpoint = flightInfo.Endpoints.FirstOrDefault();
+
+            var getStream = flightClient.GetStream(endpoint.Ticket);
+            var resultList = await getStream.ResponseStream.ToListAsync();
+
+            Assert.Single(resultList);
+            ArrowReaderVerifier.CompareBatches(expectedBatch, resultList[0]);
+        }
+
+        [Fact]
+        public async Task TestPutAndGetWithArrowContext()
+        {
+            // Verify put + get round-trip works with ArrowContext
+            var context = new ArrowContext();
+            var flightClient = new FlightClient(_testWebFactory.GetChannel(), context);
+
+            var flightDescriptor = FlightDescriptor.CreatePathDescriptor("test-context-roundtrip");
+            var expectedBatch = CreateTestBatch(0, 100);
+
+            var putStream = await flightClient.StartPut(flightDescriptor, expectedBatch.Schema);
+            await putStream.RequestStream.WriteAsync(expectedBatch);
+            await putStream.RequestStream.CompleteAsync();
+            await putStream.ResponseStream.ToListAsync();
+
+            var flightInfo = await flightClient.GetInfo(flightDescriptor);
+            var endpoint = flightInfo.Endpoints.FirstOrDefault();
+
+            var getStream = flightClient.GetStream(endpoint.Ticket);
+            var resultList = await getStream.ResponseStream.ToListAsync();
+
+            Assert.Single(resultList);
+            ArrowReaderVerifier.CompareBatches(expectedBatch, resultList[0]);
+        }
+
+        [Fact]
+        public void TestFlightClientDefaultConstructorStillWorks()
+        {
+            // Verify the original constructor without ArrowContext still works
+            var client = new FlightClient(_testWebFactory.GetChannel());
+            Assert.NotNull(client);
+        }
     }
 }
