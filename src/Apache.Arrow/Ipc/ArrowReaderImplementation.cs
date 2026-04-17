@@ -142,7 +142,7 @@ namespace Apache.Arrow.Ipc
                 case Flatbuf.MessageHeader.RecordBatch:
                     Flatbuf.RecordBatch rb = message.Header<Flatbuf.RecordBatch>().Value;
                     List<IArrowArray> arrays = BuildArrays(message.Version, Schema, bodyByteBuffer, rb);
-                    return new RecordBatch(Schema, memoryOwner, arrays, (int)rb.Length);
+                    return new RecordBatch(Schema, memoryOwner, arrays, checked((int)rb.Length));
                 default:
                     // NOTE: Skip unsupported message type
                     Debug.WriteLine($"Skipping unsupported message type '{message.HeaderType}'");
@@ -257,8 +257,8 @@ namespace Apache.Arrow.Ipc
             IBufferCreator bufferCreator)
         {
 
-            int fieldLength = (int)fieldNode.Length;
-            int fieldNullCount = (int)fieldNode.NullCount;
+            int fieldLength = checked((int)fieldNode.Length);
+            int fieldNullCount = checked((int)fieldNode.NullCount);
 
             if (fieldLength < 0)
             {
@@ -375,8 +375,8 @@ namespace Apache.Arrow.Ipc
                 return ArrowBuffer.Empty;
             }
 
-            int offset = (int)buffer.Offset;
-            int length = (int)buffer.Length;
+            int offset = checked((int)buffer.Offset);
+            int length = checked((int)buffer.Length);
 
             var data = bodyData.ToReadOnlyMemory(offset, length);
             return bufferCreator.CreateBuffer(data);

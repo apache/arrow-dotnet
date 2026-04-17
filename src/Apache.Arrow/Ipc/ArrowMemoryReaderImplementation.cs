@@ -106,7 +106,7 @@ namespace Apache.Arrow.Ipc
                     CreateByteBuffer(_buffer.Slice(_bufferPosition, messageLength)));
                 _bufferPosition += messageLength;
 
-                int bodyLength = (int)message.BodyLength;
+                int bodyLength = checked((int)message.BodyLength);
                 ByteBuffer bodybb = CreateByteBuffer(_buffer.Slice(_bufferPosition, bodyLength));
                 _bufferPosition += bodyLength;
 

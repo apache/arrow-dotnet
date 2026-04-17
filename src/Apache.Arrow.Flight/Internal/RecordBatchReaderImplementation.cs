@@ -135,7 +135,7 @@ namespace Apache.Arrow.Flight.Internal
                 {
                     case MessageHeader.RecordBatch:
                         var body = _flightDataStream.Current.DataBody.Memory;
-                        return CreateArrowObjectFromMessage(message, CreateByteBuffer(body.Slice(0, (int)message.BodyLength)), null);
+                        return CreateArrowObjectFromMessage(message, CreateByteBuffer(body.Slice(0, checked((int)message.BodyLength))), null);
                     default:
                         throw new NotImplementedException();
                 }
