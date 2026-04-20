@@ -17,7 +17,7 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
-using Apache.Arrow.Variant.Json;
+using Apache.Arrow.Operations.Json;
 using BenchmarkDotNet.Attributes;
 
 namespace Apache.Arrow.Variant.Benchmarks
@@ -130,28 +130,25 @@ namespace Apache.Arrow.Variant.Benchmarks
         }
 
         // ---------------------------------------------------------------
-        // EncodeFromJson: UTF-8 JSON → binary (streaming, no VariantValue)
+        // VariantJsonReader: UTF-8 JSON → binary (streaming, no VariantValue)
         // ---------------------------------------------------------------
 
         [Benchmark]
         public byte[] EncodeFromJson_FlatObject()
         {
-            VariantBuilder builder = new VariantBuilder();
-            return builder.EncodeFromJson(_flatJson).Value;
+            return VariantJsonReader.Parse(_flatJson).Value;
         }
 
         [Benchmark]
         public byte[] EncodeFromJson_NestedObject()
         {
-            VariantBuilder builder = new VariantBuilder();
-            return builder.EncodeFromJson(_nestedJson).Value;
+            return VariantJsonReader.Parse(_nestedJson).Value;
         }
 
         [Benchmark]
         public byte[] EncodeFromJson_LargeArray()
         {
-            VariantBuilder builder = new VariantBuilder();
-            return builder.EncodeFromJson(_arrayJson).Value;
+            return VariantJsonReader.Parse(_arrayJson).Value;
         }
 
         // ---------------------------------------------------------------

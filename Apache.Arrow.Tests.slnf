@@ -7,7 +7,8 @@
       "test\\Apache.Arrow.Flight.Tests\\Apache.Arrow.Flight.Tests.csproj",
       "test\\Apache.Arrow.Flight.TestWeb\\Apache.Arrow.Flight.TestWeb.csproj",
       "test\\Apache.Arrow.Tests\\Apache.Arrow.Tests.csproj",
-      "test\\Apache.Arrow.Variant.Tests\\Apache.Arrow.Variant.Tests.csproj"
+      "test\\Apache.Arrow.Variant.Tests\\Apache.Arrow.Variant.Tests.csproj",
+      "test\\Apache.Arrow.Operations.Tests\\Apache.Arrow.Operations.Tests.csproj"
     ]
   }
 }

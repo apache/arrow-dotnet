@@ -15,11 +15,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data.SqlTypes;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Apache.Arrow.Variant;
 
-namespace Apache.Arrow.Variant.Json
+namespace Apache.Arrow.Operations.Json
 {
     /// <summary>
     /// A <see cref="JsonConverter{T}"/> for <see cref="VariantValue"/>.
