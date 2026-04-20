@@ -60,6 +60,13 @@ namespace Apache.Arrow.Variant
         {
             _metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
             _idRemap = idRemap ?? throw new ArgumentNullException(nameof(idRemap));
+
+            if (_metadata.Count != _idRemap.Length)
+            {
+                throw new ArgumentException(
+                    "the idRemap array length must match the metadata builder count used to create it.",
+                    nameof(idRemap));
+            }
         }
 
         /// <summary>
