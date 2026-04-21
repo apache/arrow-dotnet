@@ -35,11 +35,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Arrow.Variant.Tests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Arrow.Variant.Benchmarks", "test\Apache.Arrow.Variant.Benchmarks\Apache.Arrow.Variant.Benchmarks.csproj", "{F3A8B7C6-D5E4-4321-9ABC-DEF012345678}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72D-47B6-A68D-7590B98EB39B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Arrow.Operations", "src\Apache.Arrow.Operations\Apache.Arrow.Operations.csproj", "{B4799C3C-179F-470F-A8A4-8A75D172E3E1}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{0C88DD14-F956-CE84-757C-A364CCF449FC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Arrow.Operations.Tests", "test\Apache.Arrow.Operations.Tests\Apache.Arrow.Operations.Tests.csproj", "{73EBE132-AE05-4C32-9525-515F4768156B}"
 EndProject
@@ -272,10 +268,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{B4799C3C-179F-470F-A8A4-8A75D172E3E1} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
-		{73EBE132-AE05-4C32-9525-515F4768156B} = {0C88DD14-F956-CE84-757C-A364CCF449FC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FD0BB617-6031-4844-B99D-B331E335B572}
