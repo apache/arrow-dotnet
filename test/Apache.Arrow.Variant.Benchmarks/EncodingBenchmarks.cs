@@ -18,9 +18,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 using Apache.Arrow.Operations.Json;
-using BenchmarkDotNet.Attributes;
-
 using Apache.Arrow.Scalars.Variant;
+using BenchmarkDotNet.Attributes;
 
 namespace Apache.Arrow.Variant.Benchmarks
 {
