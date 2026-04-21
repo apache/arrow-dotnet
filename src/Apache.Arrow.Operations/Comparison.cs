@@ -13,250 +13,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 using System;
 using System.Numerics;
-using System.Runtime.Intrinsics;
 
 using Apache.Arrow.Memory;
 using Apache.Arrow.Types;
 
-
 namespace Apache.Arrow.Operations;
 
-public static class BitVectorOps
-{
-    public static ArrowBuffer OnesComplement(ArrowBuffer buffer)
-    {
-        var builder = new ArrowBuffer.BitmapBuilder(buffer.Length * 8);
-        var store = builder.Span;
-        int offset = 0;
-        int size = buffer.Span.Length;
-
-        while ((size - offset) >= 8)
-        {
-            if ((size - offset) >= 64)
-            {
-                var part = buffer.Span.Slice(offset, 64);
-                Vector512<byte> vector = Vector512.Create(part);
-                vector = Vector512.OnesComplement(vector);
-                vector.CopyTo(store.Slice(offset, 64));
-                offset += 64;
-            }
-            else if ((size - offset) >= 32)
-            {
-                var part = buffer.Span.Slice(offset, 32);
-                Vector256<byte> vector = Vector256.Create(part);
-                vector = Vector256.OnesComplement(vector);
-                vector.CopyTo(store.Slice(offset, 32));
-                offset += 32;
-            }
-            else if ((size - offset) >= 16)
-            {
-                var part = buffer.Span.Slice(offset, 16);
-                Vector128<byte> vector = Vector128.Create(part);
-                vector = Vector128.OnesComplement(vector);
-                vector.CopyTo(store.Slice(offset, 16));
-                offset += 16;
-            }
-            else if ((size - offset) >= 8)
-            {
-                var part = buffer.Span.Slice(offset, 8);
-                Vector64<byte> vector = Vector64.Create(part);
-                vector = Vector64.OnesComplement(vector);
-                vector.CopyTo(store.Slice(offset, 8));
-                offset += 8;
-            }
-            else break;
-        }
-
-        for (var i = offset; i < size; i++)
-        {
-            store[i] = (byte)~buffer.Span[i];
-        }
-        return builder.Build();
-    }
-
-    public static ArrowBuffer And(ArrowBuffer buffer, ArrowBuffer buffer2)
-    {
-        var builder = new ArrowBuffer.BitmapBuilder(buffer.Length * 8);
-        var store = builder.Span;
-        int offset = 0;
-        int size = buffer.Span.Length;
-
-        while ((size - offset) >= 8)
-        {
-            if ((size - offset) >= 64)
-            {
-                var part = buffer.Span.Slice(offset, 64);
-                Vector512<byte> vector = Vector512.Create(part);
-                part = buffer2.Span.Slice(offset, 64);
-                Vector512<byte> vector2 = Vector512.Create(part);
-                vector = vector & vector2;
-                vector.CopyTo(store.Slice(offset, 64));
-                offset += 64;
-            }
-            else if ((size - offset) >= 32)
-            {
-                var part = buffer.Span.Slice(offset, 32);
-                Vector256<byte> vector = Vector256.Create(part);
-                part = buffer2.Span.Slice(offset, 32);
-                Vector256<byte> vector2 = Vector256.Create(part);
-                vector = vector & vector2;
-                vector.CopyTo(store.Slice(offset, 32));
-                offset += 32;
-            }
-            else if ((size - offset) >= 16)
-            {
-                var part = buffer.Span.Slice(offset, 16);
-                Vector128<byte> vector = Vector128.Create(part);
-                part = buffer2.Span.Slice(offset, 16);
-                Vector128<byte> vector2 = Vector128.Create(part);
-                vector = vector & vector2;
-                vector = Vector128.OnesComplement(vector);
-                vector.CopyTo(store.Slice(offset, 16));
-                offset += 16;
-            }
-            else if ((size - offset) >= 8)
-            {
-                var part = buffer.Span.Slice(offset, 8);
-                Vector64<byte> vector = Vector64.Create(part);
-                part = buffer2.Span.Slice(offset, 8);
-                Vector64<byte> vector2 = Vector64.Create(part);
-                vector = vector & vector2;
-                vector.CopyTo(store.Slice(offset, 8));
-                offset += 8;
-            }
-            else break;
-        }
-
-        for (var i = offset; i < size; i++)
-        {
-            store[i] = (byte)(buffer.Span[i] & buffer2.Span[i]);
-        }
-        return builder.Build();
-    }
-
-    public static ArrowBuffer Or(ArrowBuffer buffer, ArrowBuffer buffer2)
-    {
-        var builder = new ArrowBuffer.BitmapBuilder(buffer.Length * 8);
-        var store = builder.Span;
-        int offset = 0;
-        int size = buffer.Span.Length;
-
-        while ((size - offset) >= 8)
-        {
-            if ((size - offset) >= 64)
-            {
-                var part = buffer.Span.Slice(offset, 64);
-                Vector512<byte> vector = Vector512.Create(part);
-                part = buffer2.Span.Slice(offset, 64);
-                Vector512<byte> vector2 = Vector512.Create(part);
-                vector = vector | vector2;
-                vector.CopyTo(store.Slice(offset, 64));
-                offset += 64;
-            }
-            else if ((size - offset) >= 32)
-            {
-                var part = buffer.Span.Slice(offset, 32);
-                Vector256<byte> vector = Vector256.Create(part);
-                part = buffer2.Span.Slice(offset, 32);
-                Vector256<byte> vector2 = Vector256.Create(part);
-                vector = vector | vector2;
-                vector.CopyTo(store.Slice(offset, 32));
-                offset += 32;
-            }
-            else if ((size - offset) >= 16)
-            {
-                var part = buffer.Span.Slice(offset, 16);
-                Vector128<byte> vector = Vector128.Create(part);
-                part = buffer2.Span.Slice(offset, 16);
-                Vector128<byte> vector2 = Vector128.Create(part);
-                vector = vector | vector2;
-                vector = Vector128.OnesComplement(vector);
-                vector.CopyTo(store.Slice(offset, 16));
-                offset += 16;
-            }
-            else if ((size - offset) >= 8)
-            {
-                var part = buffer.Span.Slice(offset, 8);
-                Vector64<byte> vector = Vector64.Create(part);
-                part = buffer2.Span.Slice(offset, 8);
-                Vector64<byte> vector2 = Vector64.Create(part);
-                vector = vector | vector2;
-                vector.CopyTo(store.Slice(offset, 8));
-                offset += 8;
-            }
-            else break;
-        }
-
-        for (var i = offset; i < size; i++)
-        {
-            store[i] = (byte)(buffer.Span[i] | buffer2.Span[i]);
-        }
-        return builder.Build();
-    }
-
-    public static ArrowBuffer Xor(ArrowBuffer buffer, ArrowBuffer buffer2)
-    {
-        var builder = new ArrowBuffer.BitmapBuilder(buffer.Length * 8);
-        var store = builder.Span;
-        int offset = 0;
-        int size = buffer.Span.Length;
-
-        while ((size - offset) >= 8)
-        {
-            if ((size - offset) >= 64)
-            {
-                var part = buffer.Span.Slice(offset, 64);
-                Vector512<byte> vector = Vector512.Create(part);
-                part = buffer2.Span.Slice(offset, 64);
-                Vector512<byte> vector2 = Vector512.Create(part);
-                vector = vector ^ vector2;
-                vector.CopyTo(store.Slice(offset, 64));
-                offset += 64;
-            }
-            else if ((size - offset) >= 32)
-            {
-                var part = buffer.Span.Slice(offset, 32);
-                Vector256<byte> vector = Vector256.Create(part);
-                part = buffer2.Span.Slice(offset, 32);
-                Vector256<byte> vector2 = Vector256.Create(part);
-                vector = vector ^ vector2;
-                vector.CopyTo(store.Slice(offset, 32));
-                offset += 32;
-            }
-            else if ((size - offset) >= 16)
-            {
-                var part = buffer.Span.Slice(offset, 16);
-                Vector128<byte> vector = Vector128.Create(part);
-                part = buffer2.Span.Slice(offset, 16);
-                Vector128<byte> vector2 = Vector128.Create(part);
-                vector = vector ^ vector2;
-                vector = Vector128.OnesComplement(vector);
-                vector.CopyTo(store.Slice(offset, 16));
-                offset += 16;
-            }
-            else if ((size - offset) >= 8)
-            {
-                var part = buffer.Span.Slice(offset, 8);
-                Vector64<byte> vector = Vector64.Create(part);
-                part = buffer2.Span.Slice(offset, 8);
-                Vector64<byte> vector2 = Vector64.Create(part);
-                vector = vector ^ vector2;
-                vector.CopyTo(store.Slice(offset, 8));
-                offset += 8;
-            }
-            else break;
-        }
-
-        for (var i = offset; i < size; i++)
-        {
-            store[i] = (byte)(buffer.Span[i] ^ buffer2.Span[i]);
-        }
-        return builder.Build();
-    }
-}
 
 /// <summary>
 /// Specifies how null values should be handled in comparison operations.
@@ -284,7 +48,7 @@ public static class Comparison
     /// <returns></returns>
     public static BooleanArray Invert(BooleanArray mask, MemoryAllocator? allocator = null)
     {
-        var inverted = BitVectorOps.OnesComplement(mask.ValueBuffer);
+        var inverted = BitVectorOps.OnesComplement(mask.ValueBuffer, allocator);
         var invertedmask = new BooleanArray(inverted, mask.NullBitmapBuffer.Clone(), mask.Length, mask.NullCount, 0);
         return invertedmask;
     }
@@ -308,14 +72,14 @@ public static class Comparison
     public static BooleanArray And(BooleanArray lhs, BooleanArray rhs, MemoryAllocator? allocator = null)
     {
         if (lhs.Length != rhs.Length) throw new ArgumentException("Arrays must have the same length");
-        var combined = BitVectorOps.And(lhs.ValueBuffer, rhs.ValueBuffer);
-        var combinedMask = BitVectorOps.And(lhs.NullBitmapBuffer, rhs.NullBitmapBuffer);
+        var combined = BitVectorOps.And(lhs.ValueBuffer, rhs.ValueBuffer, allocator);
+        var combinedMask = BitVectorOps.And(lhs.NullBitmapBuffer, rhs.NullBitmapBuffer, allocator);
         var nullCount = BitUtility.CountBits(combinedMask.Span);
         return new BooleanArray(combined, combinedMask, lhs.Length, nullCount, 0);
     }
 
     /// <summary>
-    /// Performa a pairwise boolean OR operation.
+    /// Perform a pairwise boolean OR operation.
     /// </summary>
     /// <param name="lhs"></param>
     /// <param name="rhs"></param>
@@ -325,14 +89,14 @@ public static class Comparison
     public static BooleanArray Or(BooleanArray lhs, BooleanArray rhs, MemoryAllocator? allocator = null)
     {
         if (lhs.Length != rhs.Length) throw new ArgumentException("Arrays must have the same length");
-        var combined = BitVectorOps.Or(lhs.ValueBuffer, rhs.ValueBuffer);
-        var combinedMask = BitVectorOps.And(lhs.NullBitmapBuffer, rhs.NullBitmapBuffer);
+        var combined = BitVectorOps.Or(lhs.ValueBuffer, rhs.ValueBuffer, allocator);
+        var combinedMask = BitVectorOps.And(lhs.NullBitmapBuffer, rhs.NullBitmapBuffer, allocator);
         var nullCount = BitUtility.CountBits(combinedMask.Span);
         return new BooleanArray(combined, combinedMask, lhs.Length, nullCount, 0);
     }
 
     /// <summary>
-    /// Performa a pairwise boolean equality operation.
+    /// Perform a pairwise boolean equality operation.
     /// </summary>
     /// <param name="lhs"></param>
     /// <param name="rhs"></param>
@@ -342,14 +106,14 @@ public static class Comparison
     public static BooleanArray Equals(BooleanArray lhs, BooleanArray rhs, MemoryAllocator? allocator = null)
     {
         if (lhs.Length != rhs.Length) throw new ArgumentException("Arrays must have the same length");
-        var combined = BitVectorOps.OnesComplement(BitVectorOps.Xor(lhs.ValueBuffer, rhs.ValueBuffer));
-        var combinedMask = BitVectorOps.And(lhs.NullBitmapBuffer, rhs.NullBitmapBuffer);
+        var combined = BitVectorOps.OnesComplement(BitVectorOps.Xor(lhs.ValueBuffer, rhs.ValueBuffer, allocator));
+        var combinedMask = BitVectorOps.And(lhs.NullBitmapBuffer, rhs.NullBitmapBuffer, allocator);
         var nullCount = BitUtility.CountBits(combinedMask.Span);
         return new BooleanArray(combined, combinedMask, lhs.Length, nullCount, 0);
     }
 
     /// <summary>
-    /// Performa a pairwise boolean XOR operation.
+    /// Perform a pairwise boolean XOR operation.
     /// </summary>
     /// <param name="lhs"></param>
     /// <param name="rhs"></param>
@@ -359,8 +123,8 @@ public static class Comparison
     public static BooleanArray Xor(BooleanArray lhs, BooleanArray rhs, MemoryAllocator? allocator = null)
     {
         if (lhs.Length != rhs.Length) throw new ArgumentException("Arrays must have the same length");
-        var combined = BitVectorOps.Xor(lhs.ValueBuffer, rhs.ValueBuffer);
-        var combinedMask = BitVectorOps.And(lhs.NullBitmapBuffer, rhs.NullBitmapBuffer);
+        var combined = BitVectorOps.Xor(lhs.ValueBuffer, rhs.ValueBuffer, allocator);
+        var combinedMask = BitVectorOps.And(lhs.NullBitmapBuffer, rhs.NullBitmapBuffer, allocator);
         var nullCount = BitUtility.CountBits(combinedMask.Span);
         return new BooleanArray(combined, combinedMask, lhs.Length, nullCount, 0);
     }
