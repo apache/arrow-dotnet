@@ -14,9 +14,8 @@
 // limitations under the License.
 
 using System.Collections.Generic;
-using BenchmarkDotNet.Attributes;
-
 using Apache.Arrow.Scalars.Variant;
+using BenchmarkDotNet.Attributes;
 
 namespace Apache.Arrow.Variant.Benchmarks
 {

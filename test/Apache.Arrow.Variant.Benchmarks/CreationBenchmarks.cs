@@ -13,9 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using BenchmarkDotNet.Attributes;
-
 using Apache.Arrow.Scalars.Variant;
+using BenchmarkDotNet.Attributes;
 
 namespace Apache.Arrow.Variant.Benchmarks
 {
