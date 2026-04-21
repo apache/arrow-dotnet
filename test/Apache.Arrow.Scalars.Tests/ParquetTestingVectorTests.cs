@@ -20,6 +20,8 @@ using System.Linq;
 using System.Text.Json;
 using Xunit;
 
+using Apache.Arrow.Scalars.Variant;
+
 namespace Apache.Arrow.Scalars.Tests
 {
     /// <summary>

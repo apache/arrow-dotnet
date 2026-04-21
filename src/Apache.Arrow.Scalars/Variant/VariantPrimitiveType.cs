@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Arrow.Scalars
+namespace Apache.Arrow.Scalars.Variant
 {
     /// <summary>
     /// Primitive type IDs stored in bits 2-7 of the value header byte

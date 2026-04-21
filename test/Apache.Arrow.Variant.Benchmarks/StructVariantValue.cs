@@ -16,6 +16,8 @@
 using System;
 using System.Collections.Generic;
 
+using Apache.Arrow.Scalars.Variant;
+
 namespace Apache.Arrow.Scalars.Benchmarks
 {
     /// <summary>

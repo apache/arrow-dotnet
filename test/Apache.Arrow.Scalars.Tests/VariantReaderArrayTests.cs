@@ -16,6 +16,8 @@
 using System;
 using Xunit;
 
+using Apache.Arrow.Scalars.Variant;
+
 namespace Apache.Arrow.Scalars.Tests
 {
     public class VariantReaderArrayTests

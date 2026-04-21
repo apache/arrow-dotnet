@@ -21,7 +21,7 @@ using System.Data.SqlTypes;
 using System.IO;
 using System.Text;
 
-namespace Apache.Arrow.Scalars
+namespace Apache.Arrow.Scalars.Variant
 {
     /// <summary>
     /// Streams variant value bytes directly from primitive calls, without

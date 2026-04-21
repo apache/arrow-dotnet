@@ -18,6 +18,8 @@ using System.Collections.Generic;
 using System.Data.SqlTypes;
 using Xunit;
 
+using Apache.Arrow.Scalars.Variant;
+
 namespace Apache.Arrow.Scalars.Tests
 {
     public class VariantValueTests

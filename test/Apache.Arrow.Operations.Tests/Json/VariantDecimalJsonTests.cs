@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Text.Json;
 using Apache.Arrow.Operations.Json;
-using Apache.Arrow.Scalars;
+using Apache.Arrow.Scalars.Variant;
 using Xunit;
 
 namespace Apache.Arrow.Operations.Tests

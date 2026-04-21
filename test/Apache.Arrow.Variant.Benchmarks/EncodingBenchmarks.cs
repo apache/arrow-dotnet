@@ -20,6 +20,8 @@ using System.Text.Json;
 using Apache.Arrow.Operations.Json;
 using BenchmarkDotNet.Attributes;
 
+using Apache.Arrow.Scalars.Variant;
+
 namespace Apache.Arrow.Scalars.Benchmarks
 {
     /// <summary>

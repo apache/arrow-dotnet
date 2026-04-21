@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Arrow.Scalars
+namespace Apache.Arrow.Scalars.Variant
 {
     /// <summary>
     /// The basic type stored in the lowest 2 bits of a variant value header byte.
