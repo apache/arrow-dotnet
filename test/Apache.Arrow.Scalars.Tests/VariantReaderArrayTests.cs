@@ -14,9 +14,8 @@
 // limitations under the License.
 
 using System;
-using Xunit;
-
 using Apache.Arrow.Scalars.Variant;
+using Xunit;
 
 namespace Apache.Arrow.Scalars.Tests
 {

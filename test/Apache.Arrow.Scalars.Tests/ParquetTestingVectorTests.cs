@@ -18,9 +18,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using Xunit;
-
 using Apache.Arrow.Scalars.Variant;
+using Xunit;
 
 namespace Apache.Arrow.Scalars.Tests
 {

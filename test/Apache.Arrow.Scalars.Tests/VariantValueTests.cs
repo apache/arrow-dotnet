@@ -16,9 +16,8 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
-using Xunit;
-
 using Apache.Arrow.Scalars.Variant;
+using Xunit;
 
 namespace Apache.Arrow.Scalars.Tests
 {
