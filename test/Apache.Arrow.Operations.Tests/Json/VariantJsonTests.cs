@@ -17,10 +17,11 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Text.Json;
-using Apache.Arrow.Variant.Json;
+using Apache.Arrow.Operations.Json;
+using Apache.Arrow.Variant;
 using Xunit;
 
-namespace Apache.Arrow.Variant.Tests
+namespace Apache.Arrow.Operations.Tests
 {
     public class VariantJsonTests
     {

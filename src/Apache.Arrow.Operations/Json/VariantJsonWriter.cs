@@ -19,11 +19,11 @@ using System.Buffers;
 #else
 using System.IO;
 #endif
-using System.Data.SqlTypes;
 using System.Text;
 using System.Text.Json;
+using Apache.Arrow.Variant;
 
-namespace Apache.Arrow.Variant.Json
+namespace Apache.Arrow.Operations.Json
 {
     /// <summary>
     /// Writes variant binary data directly to JSON without creating intermediate
