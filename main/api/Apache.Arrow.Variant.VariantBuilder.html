@@ -89,7 +89,7 @@
 
 
   <h1 id="Apache_Arrow_Variant_VariantBuilder" data-uid="Apache.Arrow.Variant.VariantBuilder" class="text-break">
-Class VariantBuilder  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantBuilder.cs/#L30"><i class="bi bi-code-slash"></i></a>
+Class VariantBuilder  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantBuilder.cs/#L25"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -155,7 +155,7 @@ producing metadata and value byte arrays.</p>
 
   <h3 id="Apache_Arrow_Variant_VariantBuilder_Encode_Apache_Arrow_Variant_VariantValue_" data-uid="Apache.Arrow.Variant.VariantBuilder.Encode(Apache.Arrow.Variant.VariantValue)">
   Encode(VariantValue)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantBuilder.cs/#L47"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantBuilder.cs/#L31"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Encodes a <a class="xref" href="Apache.Arrow.Variant.VariantValue.html">VariantValue</a> to the variant binary format.</p>
@@ -189,51 +189,11 @@ producing metadata and value byte arrays.</p>
 
 
 
-  <a id="Apache_Arrow_Variant_VariantBuilder_EncodeFromJson_" data-uid="Apache.Arrow.Variant.VariantBuilder.EncodeFromJson*"></a>
-
-  <h3 id="Apache_Arrow_Variant_VariantBuilder_EncodeFromJson_System_ReadOnlySpan_System_Byte__" data-uid="Apache.Arrow.Variant.VariantBuilder.EncodeFromJson(System.ReadOnlySpan{System.Byte})">
-  EncodeFromJson(ReadOnlySpan&lt;byte&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantBuilder.cs/#L540"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Encodes UTF-8 JSON bytes directly to the variant binary format
-without creating intermediate <a class="xref" href="Apache.Arrow.Variant.VariantValue.html">VariantValue</a> objects.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public (byte[] Metadata, byte[] Value) EncodeFromJson(ReadOnlySpan&lt;byte&gt; utf8Json)</code></pre>
-  </div>
-
-  <h4 class="section">Parameters</h4>
-  <dl class="parameters">
-    <dt><code>utf8Json</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
-    <dd><p>The UTF-8 encoded JSON bytes.</p>
-</dd>
-  </dl>
-
-  <h4 class="section">Returns</h4>
-  <dl class="parameters">
-    <dt>(<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[] <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetuple-system.byte[],system.byte[]-.metadata">Metadata</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[] <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetuple-system.byte[],system.byte[]-.value">Value</a>)</dt>
-    <dd><p>A tuple of (metadata bytes, value bytes).</p>
-</dd>
-  </dl>
-
-
-
-
-
-
-
-
-
-
-
 
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantBuilder.cs/#L30" class="edit-link">Edit this page</a>
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantBuilder.cs/#L25" class="edit-link">Edit this page</a>
         </div>
 
 

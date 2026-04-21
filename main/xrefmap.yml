@@ -17832,6 +17832,144 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.NullArray.Offset
   nameWithType: NullArray.Offset
+- uid: Apache.Arrow.Operations.Json
+  name: Apache.Arrow.Operations.Json
+  href: api/Apache.Arrow.Operations.Json.html
+  commentId: N:Apache.Arrow.Operations.Json
+  fullName: Apache.Arrow.Operations.Json
+  nameWithType: Apache.Arrow.Operations.Json
+- uid: Apache.Arrow.Operations.Json.VariantJsonConverter
+  name: VariantJsonConverter
+  href: api/Apache.Arrow.Operations.Json.VariantJsonConverter.html
+  commentId: T:Apache.Arrow.Operations.Json.VariantJsonConverter
+  fullName: Apache.Arrow.Operations.Json.VariantJsonConverter
+  nameWithType: VariantJsonConverter
+- uid: Apache.Arrow.Operations.Json.VariantJsonConverter.HandleNull
+  name: HandleNull
+  href: api/Apache.Arrow.Operations.Json.VariantJsonConverter.html#Apache_Arrow_Operations_Json_VariantJsonConverter_HandleNull
+  commentId: P:Apache.Arrow.Operations.Json.VariantJsonConverter.HandleNull
+  fullName: Apache.Arrow.Operations.Json.VariantJsonConverter.HandleNull
+  nameWithType: VariantJsonConverter.HandleNull
+- uid: Apache.Arrow.Operations.Json.VariantJsonConverter.HandleNull*
+  name: HandleNull
+  href: api/Apache.Arrow.Operations.Json.VariantJsonConverter.html#Apache_Arrow_Operations_Json_VariantJsonConverter_HandleNull_
+  commentId: Overload:Apache.Arrow.Operations.Json.VariantJsonConverter.HandleNull
+  isSpec: "True"
+  fullName: Apache.Arrow.Operations.Json.VariantJsonConverter.HandleNull
+  nameWithType: VariantJsonConverter.HandleNull
+- uid: Apache.Arrow.Operations.Json.VariantJsonConverter.Instance
+  name: Instance
+  href: api/Apache.Arrow.Operations.Json.VariantJsonConverter.html#Apache_Arrow_Operations_Json_VariantJsonConverter_Instance
+  commentId: F:Apache.Arrow.Operations.Json.VariantJsonConverter.Instance
+  fullName: Apache.Arrow.Operations.Json.VariantJsonConverter.Instance
+  nameWithType: VariantJsonConverter.Instance
+- uid: Apache.Arrow.Operations.Json.VariantJsonConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)
+  name: Read(ref Utf8JsonReader, Type, JsonSerializerOptions)
+  href: api/Apache.Arrow.Operations.Json.VariantJsonConverter.html#Apache_Arrow_Operations_Json_VariantJsonConverter_Read_System_Text_Json_Utf8JsonReader__System_Type_System_Text_Json_JsonSerializerOptions_
+  commentId: M:Apache.Arrow.Operations.Json.VariantJsonConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)
+  name.vb: Read(Utf8JsonReader, Type, JsonSerializerOptions)
+  fullName: Apache.Arrow.Operations.Json.VariantJsonConverter.Read(ref System.Text.Json.Utf8JsonReader, System.Type, System.Text.Json.JsonSerializerOptions)
+  fullName.vb: Apache.Arrow.Operations.Json.VariantJsonConverter.Read(System.Text.Json.Utf8JsonReader, System.Type, System.Text.Json.JsonSerializerOptions)
+  nameWithType: VariantJsonConverter.Read(ref Utf8JsonReader, Type, JsonSerializerOptions)
+  nameWithType.vb: VariantJsonConverter.Read(Utf8JsonReader, Type, JsonSerializerOptions)
+- uid: Apache.Arrow.Operations.Json.VariantJsonConverter.Read*
+  name: Read
+  href: api/Apache.Arrow.Operations.Json.VariantJsonConverter.html#Apache_Arrow_Operations_Json_VariantJsonConverter_Read_
+  commentId: Overload:Apache.Arrow.Operations.Json.VariantJsonConverter.Read
+  isSpec: "True"
+  fullName: Apache.Arrow.Operations.Json.VariantJsonConverter.Read
+  nameWithType: VariantJsonConverter.Read
+- uid: Apache.Arrow.Operations.Json.VariantJsonConverter.Write(System.Text.Json.Utf8JsonWriter,Apache.Arrow.Variant.VariantValue,System.Text.Json.JsonSerializerOptions)
+  name: Write(Utf8JsonWriter, VariantValue, JsonSerializerOptions)
+  href: api/Apache.Arrow.Operations.Json.VariantJsonConverter.html#Apache_Arrow_Operations_Json_VariantJsonConverter_Write_System_Text_Json_Utf8JsonWriter_Apache_Arrow_Variant_VariantValue_System_Text_Json_JsonSerializerOptions_
+  commentId: M:Apache.Arrow.Operations.Json.VariantJsonConverter.Write(System.Text.Json.Utf8JsonWriter,Apache.Arrow.Variant.VariantValue,System.Text.Json.JsonSerializerOptions)
+  fullName: Apache.Arrow.Operations.Json.VariantJsonConverter.Write(System.Text.Json.Utf8JsonWriter, Apache.Arrow.Variant.VariantValue, System.Text.Json.JsonSerializerOptions)
+  nameWithType: VariantJsonConverter.Write(Utf8JsonWriter, VariantValue, JsonSerializerOptions)
+- uid: Apache.Arrow.Operations.Json.VariantJsonConverter.Write*
+  name: Write
+  href: api/Apache.Arrow.Operations.Json.VariantJsonConverter.html#Apache_Arrow_Operations_Json_VariantJsonConverter_Write_
+  commentId: Overload:Apache.Arrow.Operations.Json.VariantJsonConverter.Write
+  isSpec: "True"
+  fullName: Apache.Arrow.Operations.Json.VariantJsonConverter.Write
+  nameWithType: VariantJsonConverter.Write
+- uid: Apache.Arrow.Operations.Json.VariantJsonReader
+  name: VariantJsonReader
+  href: api/Apache.Arrow.Operations.Json.VariantJsonReader.html
+  commentId: T:Apache.Arrow.Operations.Json.VariantJsonReader
+  fullName: Apache.Arrow.Operations.Json.VariantJsonReader
+  nameWithType: VariantJsonReader
+- uid: Apache.Arrow.Operations.Json.VariantJsonReader.Parse(System.ReadOnlySpan{System.Byte})
+  name: Parse(ReadOnlySpan<byte>)
+  href: api/Apache.Arrow.Operations.Json.VariantJsonReader.html#Apache_Arrow_Operations_Json_VariantJsonReader_Parse_System_ReadOnlySpan_System_Byte__
+  commentId: M:Apache.Arrow.Operations.Json.VariantJsonReader.Parse(System.ReadOnlySpan{System.Byte})
+  name.vb: Parse(ReadOnlySpan(Of Byte))
+  fullName: Apache.Arrow.Operations.Json.VariantJsonReader.Parse(System.ReadOnlySpan<byte>)
+  fullName.vb: Apache.Arrow.Operations.Json.VariantJsonReader.Parse(System.ReadOnlySpan(Of Byte))
+  nameWithType: VariantJsonReader.Parse(ReadOnlySpan<byte>)
+  nameWithType.vb: VariantJsonReader.Parse(ReadOnlySpan(Of Byte))
+- uid: Apache.Arrow.Operations.Json.VariantJsonReader.Parse(System.String)
+  name: Parse(string)
+  href: api/Apache.Arrow.Operations.Json.VariantJsonReader.html#Apache_Arrow_Operations_Json_VariantJsonReader_Parse_System_String_
+  commentId: M:Apache.Arrow.Operations.Json.VariantJsonReader.Parse(System.String)
+  name.vb: Parse(String)
+  fullName: Apache.Arrow.Operations.Json.VariantJsonReader.Parse(string)
+  fullName.vb: Apache.Arrow.Operations.Json.VariantJsonReader.Parse(String)
+  nameWithType: VariantJsonReader.Parse(string)
+  nameWithType.vb: VariantJsonReader.Parse(String)
+- uid: Apache.Arrow.Operations.Json.VariantJsonReader.Parse*
+  name: Parse
+  href: api/Apache.Arrow.Operations.Json.VariantJsonReader.html#Apache_Arrow_Operations_Json_VariantJsonReader_Parse_
+  commentId: Overload:Apache.Arrow.Operations.Json.VariantJsonReader.Parse
+  isSpec: "True"
+  fullName: Apache.Arrow.Operations.Json.VariantJsonReader.Parse
+  nameWithType: VariantJsonReader.Parse
+- uid: Apache.Arrow.Operations.Json.VariantJsonWriter
+  name: VariantJsonWriter
+  href: api/Apache.Arrow.Operations.Json.VariantJsonWriter.html
+  commentId: T:Apache.Arrow.Operations.Json.VariantJsonWriter
+  fullName: Apache.Arrow.Operations.Json.VariantJsonWriter
+  nameWithType: VariantJsonWriter
+- uid: Apache.Arrow.Operations.Json.VariantJsonWriter.ToJson(Apache.Arrow.Variant.VariantValue,System.Boolean)
+  name: ToJson(VariantValue, bool)
+  href: api/Apache.Arrow.Operations.Json.VariantJsonWriter.html#Apache_Arrow_Operations_Json_VariantJsonWriter_ToJson_Apache_Arrow_Variant_VariantValue_System_Boolean_
+  commentId: M:Apache.Arrow.Operations.Json.VariantJsonWriter.ToJson(Apache.Arrow.Variant.VariantValue,System.Boolean)
+  name.vb: ToJson(VariantValue, Boolean)
+  fullName: Apache.Arrow.Operations.Json.VariantJsonWriter.ToJson(Apache.Arrow.Variant.VariantValue, bool)
+  fullName.vb: Apache.Arrow.Operations.Json.VariantJsonWriter.ToJson(Apache.Arrow.Variant.VariantValue, Boolean)
+  nameWithType: VariantJsonWriter.ToJson(VariantValue, bool)
+  nameWithType.vb: VariantJsonWriter.ToJson(VariantValue, Boolean)
+- uid: Apache.Arrow.Operations.Json.VariantJsonWriter.ToJson(System.Byte[],System.Byte[],System.Boolean)
+  name: ToJson(byte[], byte[], bool)
+  href: api/Apache.Arrow.Operations.Json.VariantJsonWriter.html#Apache_Arrow_Operations_Json_VariantJsonWriter_ToJson_System_Byte___System_Byte___System_Boolean_
+  commentId: M:Apache.Arrow.Operations.Json.VariantJsonWriter.ToJson(System.Byte[],System.Byte[],System.Boolean)
+  name.vb: ToJson(Byte(), Byte(), Boolean)
+  fullName: Apache.Arrow.Operations.Json.VariantJsonWriter.ToJson(byte[], byte[], bool)
+  fullName.vb: Apache.Arrow.Operations.Json.VariantJsonWriter.ToJson(Byte(), Byte(), Boolean)
+  nameWithType: VariantJsonWriter.ToJson(byte[], byte[], bool)
+  nameWithType.vb: VariantJsonWriter.ToJson(Byte(), Byte(), Boolean)
+- uid: Apache.Arrow.Operations.Json.VariantJsonWriter.ToJson*
+  name: ToJson
+  href: api/Apache.Arrow.Operations.Json.VariantJsonWriter.html#Apache_Arrow_Operations_Json_VariantJsonWriter_ToJson_
+  commentId: Overload:Apache.Arrow.Operations.Json.VariantJsonWriter.ToJson
+  isSpec: "True"
+  fullName: Apache.Arrow.Operations.Json.VariantJsonWriter.ToJson
+  nameWithType: VariantJsonWriter.ToJson
+- uid: Apache.Arrow.Operations.Json.VariantJsonWriter.WriteTo(System.Text.Json.Utf8JsonWriter,System.Byte[],System.Byte[])
+  name: WriteTo(Utf8JsonWriter, byte[], byte[])
+  href: api/Apache.Arrow.Operations.Json.VariantJsonWriter.html#Apache_Arrow_Operations_Json_VariantJsonWriter_WriteTo_System_Text_Json_Utf8JsonWriter_System_Byte___System_Byte___
+  commentId: M:Apache.Arrow.Operations.Json.VariantJsonWriter.WriteTo(System.Text.Json.Utf8JsonWriter,System.Byte[],System.Byte[])
+  name.vb: WriteTo(Utf8JsonWriter, Byte(), Byte())
+  fullName: Apache.Arrow.Operations.Json.VariantJsonWriter.WriteTo(System.Text.Json.Utf8JsonWriter, byte[], byte[])
+  fullName.vb: Apache.Arrow.Operations.Json.VariantJsonWriter.WriteTo(System.Text.Json.Utf8JsonWriter, Byte(), Byte())
+  nameWithType: VariantJsonWriter.WriteTo(Utf8JsonWriter, byte[], byte[])
+  nameWithType.vb: VariantJsonWriter.WriteTo(Utf8JsonWriter, Byte(), Byte())
+- uid: Apache.Arrow.Operations.Json.VariantJsonWriter.WriteTo*
+  name: WriteTo
+  href: api/Apache.Arrow.Operations.Json.VariantJsonWriter.html#Apache_Arrow_Operations_Json_VariantJsonWriter_WriteTo_
+  commentId: Overload:Apache.Arrow.Operations.Json.VariantJsonWriter.WriteTo
+  isSpec: "True"
+  fullName: Apache.Arrow.Operations.Json.VariantJsonWriter.WriteTo
+  nameWithType: VariantJsonWriter.WriteTo
 - uid: Apache.Arrow.PrimitiveArrayBuilder`3
   name: PrimitiveArrayBuilder<T, TArray, TBuilder>
   href: api/Apache.Arrow.PrimitiveArrayBuilder-3.html
@@ -26351,144 +26489,6 @@ references:
   commentId: N:Apache.Arrow.Variant
   fullName: Apache.Arrow.Variant
   nameWithType: Apache.Arrow.Variant
-- uid: Apache.Arrow.Variant.Json
-  name: Apache.Arrow.Variant.Json
-  href: api/Apache.Arrow.Variant.Json.html
-  commentId: N:Apache.Arrow.Variant.Json
-  fullName: Apache.Arrow.Variant.Json
-  nameWithType: Apache.Arrow.Variant.Json
-- uid: Apache.Arrow.Variant.Json.VariantJsonConverter
-  name: VariantJsonConverter
-  href: api/Apache.Arrow.Variant.Json.VariantJsonConverter.html
-  commentId: T:Apache.Arrow.Variant.Json.VariantJsonConverter
-  fullName: Apache.Arrow.Variant.Json.VariantJsonConverter
-  nameWithType: VariantJsonConverter
-- uid: Apache.Arrow.Variant.Json.VariantJsonConverter.HandleNull
-  name: HandleNull
-  href: api/Apache.Arrow.Variant.Json.VariantJsonConverter.html#Apache_Arrow_Variant_Json_VariantJsonConverter_HandleNull
-  commentId: P:Apache.Arrow.Variant.Json.VariantJsonConverter.HandleNull
-  fullName: Apache.Arrow.Variant.Json.VariantJsonConverter.HandleNull
-  nameWithType: VariantJsonConverter.HandleNull
-- uid: Apache.Arrow.Variant.Json.VariantJsonConverter.HandleNull*
-  name: HandleNull
-  href: api/Apache.Arrow.Variant.Json.VariantJsonConverter.html#Apache_Arrow_Variant_Json_VariantJsonConverter_HandleNull_
-  commentId: Overload:Apache.Arrow.Variant.Json.VariantJsonConverter.HandleNull
-  isSpec: "True"
-  fullName: Apache.Arrow.Variant.Json.VariantJsonConverter.HandleNull
-  nameWithType: VariantJsonConverter.HandleNull
-- uid: Apache.Arrow.Variant.Json.VariantJsonConverter.Instance
-  name: Instance
-  href: api/Apache.Arrow.Variant.Json.VariantJsonConverter.html#Apache_Arrow_Variant_Json_VariantJsonConverter_Instance
-  commentId: F:Apache.Arrow.Variant.Json.VariantJsonConverter.Instance
-  fullName: Apache.Arrow.Variant.Json.VariantJsonConverter.Instance
-  nameWithType: VariantJsonConverter.Instance
-- uid: Apache.Arrow.Variant.Json.VariantJsonConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)
-  name: Read(ref Utf8JsonReader, Type, JsonSerializerOptions)
-  href: api/Apache.Arrow.Variant.Json.VariantJsonConverter.html#Apache_Arrow_Variant_Json_VariantJsonConverter_Read_System_Text_Json_Utf8JsonReader__System_Type_System_Text_Json_JsonSerializerOptions_
-  commentId: M:Apache.Arrow.Variant.Json.VariantJsonConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)
-  name.vb: Read(Utf8JsonReader, Type, JsonSerializerOptions)
-  fullName: Apache.Arrow.Variant.Json.VariantJsonConverter.Read(ref System.Text.Json.Utf8JsonReader, System.Type, System.Text.Json.JsonSerializerOptions)
-  fullName.vb: Apache.Arrow.Variant.Json.VariantJsonConverter.Read(System.Text.Json.Utf8JsonReader, System.Type, System.Text.Json.JsonSerializerOptions)
-  nameWithType: VariantJsonConverter.Read(ref Utf8JsonReader, Type, JsonSerializerOptions)
-  nameWithType.vb: VariantJsonConverter.Read(Utf8JsonReader, Type, JsonSerializerOptions)
-- uid: Apache.Arrow.Variant.Json.VariantJsonConverter.Read*
-  name: Read
-  href: api/Apache.Arrow.Variant.Json.VariantJsonConverter.html#Apache_Arrow_Variant_Json_VariantJsonConverter_Read_
-  commentId: Overload:Apache.Arrow.Variant.Json.VariantJsonConverter.Read
-  isSpec: "True"
-  fullName: Apache.Arrow.Variant.Json.VariantJsonConverter.Read
-  nameWithType: VariantJsonConverter.Read
-- uid: Apache.Arrow.Variant.Json.VariantJsonConverter.Write(System.Text.Json.Utf8JsonWriter,Apache.Arrow.Variant.VariantValue,System.Text.Json.JsonSerializerOptions)
-  name: Write(Utf8JsonWriter, VariantValue, JsonSerializerOptions)
-  href: api/Apache.Arrow.Variant.Json.VariantJsonConverter.html#Apache_Arrow_Variant_Json_VariantJsonConverter_Write_System_Text_Json_Utf8JsonWriter_Apache_Arrow_Variant_VariantValue_System_Text_Json_JsonSerializerOptions_
-  commentId: M:Apache.Arrow.Variant.Json.VariantJsonConverter.Write(System.Text.Json.Utf8JsonWriter,Apache.Arrow.Variant.VariantValue,System.Text.Json.JsonSerializerOptions)
-  fullName: Apache.Arrow.Variant.Json.VariantJsonConverter.Write(System.Text.Json.Utf8JsonWriter, Apache.Arrow.Variant.VariantValue, System.Text.Json.JsonSerializerOptions)
-  nameWithType: VariantJsonConverter.Write(Utf8JsonWriter, VariantValue, JsonSerializerOptions)
-- uid: Apache.Arrow.Variant.Json.VariantJsonConverter.Write*
-  name: Write
-  href: api/Apache.Arrow.Variant.Json.VariantJsonConverter.html#Apache_Arrow_Variant_Json_VariantJsonConverter_Write_
-  commentId: Overload:Apache.Arrow.Variant.Json.VariantJsonConverter.Write
-  isSpec: "True"
-  fullName: Apache.Arrow.Variant.Json.VariantJsonConverter.Write
-  nameWithType: VariantJsonConverter.Write
-- uid: Apache.Arrow.Variant.Json.VariantJsonReader
-  name: VariantJsonReader
-  href: api/Apache.Arrow.Variant.Json.VariantJsonReader.html
-  commentId: T:Apache.Arrow.Variant.Json.VariantJsonReader
-  fullName: Apache.Arrow.Variant.Json.VariantJsonReader
-  nameWithType: VariantJsonReader
-- uid: Apache.Arrow.Variant.Json.VariantJsonReader.Parse(System.ReadOnlySpan{System.Byte})
-  name: Parse(ReadOnlySpan<byte>)
-  href: api/Apache.Arrow.Variant.Json.VariantJsonReader.html#Apache_Arrow_Variant_Json_VariantJsonReader_Parse_System_ReadOnlySpan_System_Byte__
-  commentId: M:Apache.Arrow.Variant.Json.VariantJsonReader.Parse(System.ReadOnlySpan{System.Byte})
-  name.vb: Parse(ReadOnlySpan(Of Byte))
-  fullName: Apache.Arrow.Variant.Json.VariantJsonReader.Parse(System.ReadOnlySpan<byte>)
-  fullName.vb: Apache.Arrow.Variant.Json.VariantJsonReader.Parse(System.ReadOnlySpan(Of Byte))
-  nameWithType: VariantJsonReader.Parse(ReadOnlySpan<byte>)
-  nameWithType.vb: VariantJsonReader.Parse(ReadOnlySpan(Of Byte))
-- uid: Apache.Arrow.Variant.Json.VariantJsonReader.Parse(System.String)
-  name: Parse(string)
-  href: api/Apache.Arrow.Variant.Json.VariantJsonReader.html#Apache_Arrow_Variant_Json_VariantJsonReader_Parse_System_String_
-  commentId: M:Apache.Arrow.Variant.Json.VariantJsonReader.Parse(System.String)
-  name.vb: Parse(String)
-  fullName: Apache.Arrow.Variant.Json.VariantJsonReader.Parse(string)
-  fullName.vb: Apache.Arrow.Variant.Json.VariantJsonReader.Parse(String)
-  nameWithType: VariantJsonReader.Parse(string)
-  nameWithType.vb: VariantJsonReader.Parse(String)
-- uid: Apache.Arrow.Variant.Json.VariantJsonReader.Parse*
-  name: Parse
-  href: api/Apache.Arrow.Variant.Json.VariantJsonReader.html#Apache_Arrow_Variant_Json_VariantJsonReader_Parse_
-  commentId: Overload:Apache.Arrow.Variant.Json.VariantJsonReader.Parse
-  isSpec: "True"
-  fullName: Apache.Arrow.Variant.Json.VariantJsonReader.Parse
-  nameWithType: VariantJsonReader.Parse
-- uid: Apache.Arrow.Variant.Json.VariantJsonWriter
-  name: VariantJsonWriter
-  href: api/Apache.Arrow.Variant.Json.VariantJsonWriter.html
-  commentId: T:Apache.Arrow.Variant.Json.VariantJsonWriter
-  fullName: Apache.Arrow.Variant.Json.VariantJsonWriter
-  nameWithType: VariantJsonWriter
-- uid: Apache.Arrow.Variant.Json.VariantJsonWriter.ToJson(Apache.Arrow.Variant.VariantValue,System.Boolean)
-  name: ToJson(VariantValue, bool)
-  href: api/Apache.Arrow.Variant.Json.VariantJsonWriter.html#Apache_Arrow_Variant_Json_VariantJsonWriter_ToJson_Apache_Arrow_Variant_VariantValue_System_Boolean_
-  commentId: M:Apache.Arrow.Variant.Json.VariantJsonWriter.ToJson(Apache.Arrow.Variant.VariantValue,System.Boolean)
-  name.vb: ToJson(VariantValue, Boolean)
-  fullName: Apache.Arrow.Variant.Json.VariantJsonWriter.ToJson(Apache.Arrow.Variant.VariantValue, bool)
-  fullName.vb: Apache.Arrow.Variant.Json.VariantJsonWriter.ToJson(Apache.Arrow.Variant.VariantValue, Boolean)
-  nameWithType: VariantJsonWriter.ToJson(VariantValue, bool)
-  nameWithType.vb: VariantJsonWriter.ToJson(VariantValue, Boolean)
-- uid: Apache.Arrow.Variant.Json.VariantJsonWriter.ToJson(System.Byte[],System.Byte[],System.Boolean)
-  name: ToJson(byte[], byte[], bool)
-  href: api/Apache.Arrow.Variant.Json.VariantJsonWriter.html#Apache_Arrow_Variant_Json_VariantJsonWriter_ToJson_System_Byte___System_Byte___System_Boolean_
-  commentId: M:Apache.Arrow.Variant.Json.VariantJsonWriter.ToJson(System.Byte[],System.Byte[],System.Boolean)
-  name.vb: ToJson(Byte(), Byte(), Boolean)
-  fullName: Apache.Arrow.Variant.Json.VariantJsonWriter.ToJson(byte[], byte[], bool)
-  fullName.vb: Apache.Arrow.Variant.Json.VariantJsonWriter.ToJson(Byte(), Byte(), Boolean)
-  nameWithType: VariantJsonWriter.ToJson(byte[], byte[], bool)
-  nameWithType.vb: VariantJsonWriter.ToJson(Byte(), Byte(), Boolean)
-- uid: Apache.Arrow.Variant.Json.VariantJsonWriter.ToJson*
-  name: ToJson
-  href: api/Apache.Arrow.Variant.Json.VariantJsonWriter.html#Apache_Arrow_Variant_Json_VariantJsonWriter_ToJson_
-  commentId: Overload:Apache.Arrow.Variant.Json.VariantJsonWriter.ToJson
-  isSpec: "True"
-  fullName: Apache.Arrow.Variant.Json.VariantJsonWriter.ToJson
-  nameWithType: VariantJsonWriter.ToJson
-- uid: Apache.Arrow.Variant.Json.VariantJsonWriter.WriteTo(System.Text.Json.Utf8JsonWriter,System.Byte[],System.Byte[])
-  name: WriteTo(Utf8JsonWriter, byte[], byte[])
-  href: api/Apache.Arrow.Variant.Json.VariantJsonWriter.html#Apache_Arrow_Variant_Json_VariantJsonWriter_WriteTo_System_Text_Json_Utf8JsonWriter_System_Byte___System_Byte___
-  commentId: M:Apache.Arrow.Variant.Json.VariantJsonWriter.WriteTo(System.Text.Json.Utf8JsonWriter,System.Byte[],System.Byte[])
-  name.vb: WriteTo(Utf8JsonWriter, Byte(), Byte())
-  fullName: Apache.Arrow.Variant.Json.VariantJsonWriter.WriteTo(System.Text.Json.Utf8JsonWriter, byte[], byte[])
-  fullName.vb: Apache.Arrow.Variant.Json.VariantJsonWriter.WriteTo(System.Text.Json.Utf8JsonWriter, Byte(), Byte())
-  nameWithType: VariantJsonWriter.WriteTo(Utf8JsonWriter, byte[], byte[])
-  nameWithType.vb: VariantJsonWriter.WriteTo(Utf8JsonWriter, Byte(), Byte())
-- uid: Apache.Arrow.Variant.Json.VariantJsonWriter.WriteTo*
-  name: WriteTo
-  href: api/Apache.Arrow.Variant.Json.VariantJsonWriter.html#Apache_Arrow_Variant_Json_VariantJsonWriter_WriteTo_
-  commentId: Overload:Apache.Arrow.Variant.Json.VariantJsonWriter.WriteTo
-  isSpec: "True"
-  fullName: Apache.Arrow.Variant.Json.VariantJsonWriter.WriteTo
-  nameWithType: VariantJsonWriter.WriteTo
 - uid: Apache.Arrow.Variant.VariantArrayReader
   name: VariantArrayReader
   href: api/Apache.Arrow.Variant.VariantArrayReader.html
@@ -26592,22 +26592,6 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.Variant.VariantBuilder.Encode
   nameWithType: VariantBuilder.Encode
-- uid: Apache.Arrow.Variant.VariantBuilder.EncodeFromJson(System.ReadOnlySpan{System.Byte})
-  name: EncodeFromJson(ReadOnlySpan<byte>)
-  href: api/Apache.Arrow.Variant.VariantBuilder.html#Apache_Arrow_Variant_VariantBuilder_EncodeFromJson_System_ReadOnlySpan_System_Byte__
-  commentId: M:Apache.Arrow.Variant.VariantBuilder.EncodeFromJson(System.ReadOnlySpan{System.Byte})
-  name.vb: EncodeFromJson(ReadOnlySpan(Of Byte))
-  fullName: Apache.Arrow.Variant.VariantBuilder.EncodeFromJson(System.ReadOnlySpan<byte>)
-  fullName.vb: Apache.Arrow.Variant.VariantBuilder.EncodeFromJson(System.ReadOnlySpan(Of Byte))
-  nameWithType: VariantBuilder.EncodeFromJson(ReadOnlySpan<byte>)
-  nameWithType.vb: VariantBuilder.EncodeFromJson(ReadOnlySpan(Of Byte))
-- uid: Apache.Arrow.Variant.VariantBuilder.EncodeFromJson*
-  name: EncodeFromJson
-  href: api/Apache.Arrow.Variant.VariantBuilder.html#Apache_Arrow_Variant_VariantBuilder_EncodeFromJson_
-  commentId: Overload:Apache.Arrow.Variant.VariantBuilder.EncodeFromJson
-  isSpec: "True"
-  fullName: Apache.Arrow.Variant.VariantBuilder.EncodeFromJson
-  nameWithType: VariantBuilder.EncodeFromJson
 - uid: Apache.Arrow.Variant.VariantMetadata
   name: VariantMetadata
   href: api/Apache.Arrow.Variant.VariantMetadata.html
@@ -28459,6 +28443,439 @@ references:
   fullName.vb: Apache.Arrow.Variant.VariantValue.<>
   nameWithType: VariantValue.operator !=
   nameWithType.vb: VariantValue.<>
+- uid: Apache.Arrow.Variant.VariantValueWriter
+  name: VariantValueWriter
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html
+  commentId: T:Apache.Arrow.Variant.VariantValueWriter
+  fullName: Apache.Arrow.Variant.VariantValueWriter
+  nameWithType: VariantValueWriter
+- uid: Apache.Arrow.Variant.VariantValueWriter.#ctor(Apache.Arrow.Variant.VariantMetadataBuilder,System.Int32[])
+  name: VariantValueWriter(VariantMetadataBuilder, int[])
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter__ctor_Apache_Arrow_Variant_VariantMetadataBuilder_System_Int32___
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.#ctor(Apache.Arrow.Variant.VariantMetadataBuilder,System.Int32[])
+  name.vb: New(VariantMetadataBuilder, Integer())
+  fullName: Apache.Arrow.Variant.VariantValueWriter.VariantValueWriter(Apache.Arrow.Variant.VariantMetadataBuilder, int[])
+  fullName.vb: Apache.Arrow.Variant.VariantValueWriter.New(Apache.Arrow.Variant.VariantMetadataBuilder, Integer())
+  nameWithType: VariantValueWriter.VariantValueWriter(VariantMetadataBuilder, int[])
+  nameWithType.vb: VariantValueWriter.New(VariantMetadataBuilder, Integer())
+- uid: Apache.Arrow.Variant.VariantValueWriter.#ctor*
+  name: VariantValueWriter
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter__ctor_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Apache.Arrow.Variant.VariantValueWriter.VariantValueWriter
+  fullName.vb: Apache.Arrow.Variant.VariantValueWriter.New
+  nameWithType: VariantValueWriter.VariantValueWriter
+  nameWithType.vb: VariantValueWriter.New
+- uid: Apache.Arrow.Variant.VariantValueWriter.BeginArray
+  name: BeginArray()
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_BeginArray
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.BeginArray
+  fullName: Apache.Arrow.Variant.VariantValueWriter.BeginArray()
+  nameWithType: VariantValueWriter.BeginArray()
+- uid: Apache.Arrow.Variant.VariantValueWriter.BeginArray*
+  name: BeginArray
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_BeginArray_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.BeginArray
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.BeginArray
+  nameWithType: VariantValueWriter.BeginArray
+- uid: Apache.Arrow.Variant.VariantValueWriter.BeginObject
+  name: BeginObject()
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_BeginObject
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.BeginObject
+  fullName: Apache.Arrow.Variant.VariantValueWriter.BeginObject()
+  nameWithType: VariantValueWriter.BeginObject()
+- uid: Apache.Arrow.Variant.VariantValueWriter.BeginObject*
+  name: BeginObject
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_BeginObject_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.BeginObject
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.BeginObject
+  nameWithType: VariantValueWriter.BeginObject
+- uid: Apache.Arrow.Variant.VariantValueWriter.EndArray
+  name: EndArray()
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_EndArray
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.EndArray
+  fullName: Apache.Arrow.Variant.VariantValueWriter.EndArray()
+  nameWithType: VariantValueWriter.EndArray()
+- uid: Apache.Arrow.Variant.VariantValueWriter.EndArray*
+  name: EndArray
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_EndArray_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.EndArray
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.EndArray
+  nameWithType: VariantValueWriter.EndArray
+- uid: Apache.Arrow.Variant.VariantValueWriter.EndObject
+  name: EndObject()
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_EndObject
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.EndObject
+  fullName: Apache.Arrow.Variant.VariantValueWriter.EndObject()
+  nameWithType: VariantValueWriter.EndObject()
+- uid: Apache.Arrow.Variant.VariantValueWriter.EndObject*
+  name: EndObject
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_EndObject_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.EndObject
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.EndObject
+  nameWithType: VariantValueWriter.EndObject
+- uid: Apache.Arrow.Variant.VariantValueWriter.ToArray
+  name: ToArray()
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_ToArray
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.ToArray
+  fullName: Apache.Arrow.Variant.VariantValueWriter.ToArray()
+  nameWithType: VariantValueWriter.ToArray()
+- uid: Apache.Arrow.Variant.VariantValueWriter.ToArray*
+  name: ToArray
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_ToArray_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.ToArray
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.ToArray
+  nameWithType: VariantValueWriter.ToArray
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteBinary(System.Byte[])
+  name: WriteBinary(byte[])
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteBinary_System_Byte___
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.WriteBinary(System.Byte[])
+  name.vb: WriteBinary(Byte())
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteBinary(byte[])
+  fullName.vb: Apache.Arrow.Variant.VariantValueWriter.WriteBinary(Byte())
+  nameWithType: VariantValueWriter.WriteBinary(byte[])
+  nameWithType.vb: VariantValueWriter.WriteBinary(Byte())
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteBinary*
+  name: WriteBinary
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteBinary_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.WriteBinary
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteBinary
+  nameWithType: VariantValueWriter.WriteBinary
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteBoolean(System.Boolean)
+  name: WriteBoolean(bool)
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteBoolean_System_Boolean_
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.WriteBoolean(System.Boolean)
+  name.vb: WriteBoolean(Boolean)
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteBoolean(bool)
+  fullName.vb: Apache.Arrow.Variant.VariantValueWriter.WriteBoolean(Boolean)
+  nameWithType: VariantValueWriter.WriteBoolean(bool)
+  nameWithType.vb: VariantValueWriter.WriteBoolean(Boolean)
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteBoolean*
+  name: WriteBoolean
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteBoolean_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.WriteBoolean
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteBoolean
+  nameWithType: VariantValueWriter.WriteBoolean
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteDateDays(System.Int32)
+  name: WriteDateDays(int)
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteDateDays_System_Int32_
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.WriteDateDays(System.Int32)
+  name.vb: WriteDateDays(Integer)
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteDateDays(int)
+  fullName.vb: Apache.Arrow.Variant.VariantValueWriter.WriteDateDays(Integer)
+  nameWithType: VariantValueWriter.WriteDateDays(int)
+  nameWithType.vb: VariantValueWriter.WriteDateDays(Integer)
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteDateDays*
+  name: WriteDateDays
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteDateDays_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.WriteDateDays
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteDateDays
+  nameWithType: VariantValueWriter.WriteDateDays
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteDecimal16(System.Data.SqlTypes.SqlDecimal)
+  name: WriteDecimal16(SqlDecimal)
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteDecimal16_System_Data_SqlTypes_SqlDecimal_
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.WriteDecimal16(System.Data.SqlTypes.SqlDecimal)
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteDecimal16(System.Data.SqlTypes.SqlDecimal)
+  nameWithType: VariantValueWriter.WriteDecimal16(SqlDecimal)
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteDecimal16*
+  name: WriteDecimal16
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteDecimal16_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.WriteDecimal16
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteDecimal16
+  nameWithType: VariantValueWriter.WriteDecimal16
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteDecimal4(System.Decimal)
+  name: WriteDecimal4(decimal)
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteDecimal4_System_Decimal_
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.WriteDecimal4(System.Decimal)
+  name.vb: WriteDecimal4(Decimal)
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteDecimal4(decimal)
+  fullName.vb: Apache.Arrow.Variant.VariantValueWriter.WriteDecimal4(Decimal)
+  nameWithType: VariantValueWriter.WriteDecimal4(decimal)
+  nameWithType.vb: VariantValueWriter.WriteDecimal4(Decimal)
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteDecimal4*
+  name: WriteDecimal4
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteDecimal4_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.WriteDecimal4
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteDecimal4
+  nameWithType: VariantValueWriter.WriteDecimal4
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteDecimal8(System.Decimal)
+  name: WriteDecimal8(decimal)
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteDecimal8_System_Decimal_
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.WriteDecimal8(System.Decimal)
+  name.vb: WriteDecimal8(Decimal)
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteDecimal8(decimal)
+  fullName.vb: Apache.Arrow.Variant.VariantValueWriter.WriteDecimal8(Decimal)
+  nameWithType: VariantValueWriter.WriteDecimal8(decimal)
+  nameWithType.vb: VariantValueWriter.WriteDecimal8(Decimal)
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteDecimal8*
+  name: WriteDecimal8
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteDecimal8_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.WriteDecimal8
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteDecimal8
+  nameWithType: VariantValueWriter.WriteDecimal8
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteDouble(System.Double)
+  name: WriteDouble(double)
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteDouble_System_Double_
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.WriteDouble(System.Double)
+  name.vb: WriteDouble(Double)
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteDouble(double)
+  fullName.vb: Apache.Arrow.Variant.VariantValueWriter.WriteDouble(Double)
+  nameWithType: VariantValueWriter.WriteDouble(double)
+  nameWithType.vb: VariantValueWriter.WriteDouble(Double)
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteDouble*
+  name: WriteDouble
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteDouble_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.WriteDouble
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteDouble
+  nameWithType: VariantValueWriter.WriteDouble
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteFieldName(System.String)
+  name: WriteFieldName(string)
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteFieldName_System_String_
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.WriteFieldName(System.String)
+  name.vb: WriteFieldName(String)
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteFieldName(string)
+  fullName.vb: Apache.Arrow.Variant.VariantValueWriter.WriteFieldName(String)
+  nameWithType: VariantValueWriter.WriteFieldName(string)
+  nameWithType.vb: VariantValueWriter.WriteFieldName(String)
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteFieldName*
+  name: WriteFieldName
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteFieldName_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.WriteFieldName
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteFieldName
+  nameWithType: VariantValueWriter.WriteFieldName
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteFloat(System.Single)
+  name: WriteFloat(float)
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteFloat_System_Single_
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.WriteFloat(System.Single)
+  name.vb: WriteFloat(Single)
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteFloat(float)
+  fullName.vb: Apache.Arrow.Variant.VariantValueWriter.WriteFloat(Single)
+  nameWithType: VariantValueWriter.WriteFloat(float)
+  nameWithType.vb: VariantValueWriter.WriteFloat(Single)
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteFloat*
+  name: WriteFloat
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteFloat_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.WriteFloat
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteFloat
+  nameWithType: VariantValueWriter.WriteFloat
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteInt16(System.Int16)
+  name: WriteInt16(short)
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteInt16_System_Int16_
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.WriteInt16(System.Int16)
+  name.vb: WriteInt16(Short)
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteInt16(short)
+  fullName.vb: Apache.Arrow.Variant.VariantValueWriter.WriteInt16(Short)
+  nameWithType: VariantValueWriter.WriteInt16(short)
+  nameWithType.vb: VariantValueWriter.WriteInt16(Short)
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteInt16*
+  name: WriteInt16
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteInt16_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.WriteInt16
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteInt16
+  nameWithType: VariantValueWriter.WriteInt16
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteInt32(System.Int32)
+  name: WriteInt32(int)
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteInt32_System_Int32_
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.WriteInt32(System.Int32)
+  name.vb: WriteInt32(Integer)
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteInt32(int)
+  fullName.vb: Apache.Arrow.Variant.VariantValueWriter.WriteInt32(Integer)
+  nameWithType: VariantValueWriter.WriteInt32(int)
+  nameWithType.vb: VariantValueWriter.WriteInt32(Integer)
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteInt32*
+  name: WriteInt32
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteInt32_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.WriteInt32
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteInt32
+  nameWithType: VariantValueWriter.WriteInt32
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteInt64(System.Int64)
+  name: WriteInt64(long)
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteInt64_System_Int64_
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.WriteInt64(System.Int64)
+  name.vb: WriteInt64(Long)
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteInt64(long)
+  fullName.vb: Apache.Arrow.Variant.VariantValueWriter.WriteInt64(Long)
+  nameWithType: VariantValueWriter.WriteInt64(long)
+  nameWithType.vb: VariantValueWriter.WriteInt64(Long)
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteInt64*
+  name: WriteInt64
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteInt64_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.WriteInt64
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteInt64
+  nameWithType: VariantValueWriter.WriteInt64
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteInt8(System.SByte)
+  name: WriteInt8(sbyte)
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteInt8_System_SByte_
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.WriteInt8(System.SByte)
+  name.vb: WriteInt8(SByte)
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteInt8(sbyte)
+  fullName.vb: Apache.Arrow.Variant.VariantValueWriter.WriteInt8(SByte)
+  nameWithType: VariantValueWriter.WriteInt8(sbyte)
+  nameWithType.vb: VariantValueWriter.WriteInt8(SByte)
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteInt8*
+  name: WriteInt8
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteInt8_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.WriteInt8
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteInt8
+  nameWithType: VariantValueWriter.WriteInt8
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteIntegerCompact(System.Int64)
+  name: WriteIntegerCompact(long)
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteIntegerCompact_System_Int64_
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.WriteIntegerCompact(System.Int64)
+  name.vb: WriteIntegerCompact(Long)
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteIntegerCompact(long)
+  fullName.vb: Apache.Arrow.Variant.VariantValueWriter.WriteIntegerCompact(Long)
+  nameWithType: VariantValueWriter.WriteIntegerCompact(long)
+  nameWithType.vb: VariantValueWriter.WriteIntegerCompact(Long)
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteIntegerCompact*
+  name: WriteIntegerCompact
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteIntegerCompact_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.WriteIntegerCompact
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteIntegerCompact
+  nameWithType: VariantValueWriter.WriteIntegerCompact
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteNull
+  name: WriteNull()
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteNull
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.WriteNull
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteNull()
+  nameWithType: VariantValueWriter.WriteNull()
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteNull*
+  name: WriteNull
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteNull_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.WriteNull
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteNull
+  nameWithType: VariantValueWriter.WriteNull
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteString(System.String)
+  name: WriteString(string)
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteString_System_String_
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.WriteString(System.String)
+  name.vb: WriteString(String)
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteString(string)
+  fullName.vb: Apache.Arrow.Variant.VariantValueWriter.WriteString(String)
+  nameWithType: VariantValueWriter.WriteString(string)
+  nameWithType.vb: VariantValueWriter.WriteString(String)
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteString*
+  name: WriteString
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteString_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.WriteString
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteString
+  nameWithType: VariantValueWriter.WriteString
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteTimeNtzMicros(System.Int64)
+  name: WriteTimeNtzMicros(long)
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteTimeNtzMicros_System_Int64_
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.WriteTimeNtzMicros(System.Int64)
+  name.vb: WriteTimeNtzMicros(Long)
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteTimeNtzMicros(long)
+  fullName.vb: Apache.Arrow.Variant.VariantValueWriter.WriteTimeNtzMicros(Long)
+  nameWithType: VariantValueWriter.WriteTimeNtzMicros(long)
+  nameWithType.vb: VariantValueWriter.WriteTimeNtzMicros(Long)
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteTimeNtzMicros*
+  name: WriteTimeNtzMicros
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteTimeNtzMicros_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.WriteTimeNtzMicros
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteTimeNtzMicros
+  nameWithType: VariantValueWriter.WriteTimeNtzMicros
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteTimestampMicros(System.Int64)
+  name: WriteTimestampMicros(long)
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteTimestampMicros_System_Int64_
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.WriteTimestampMicros(System.Int64)
+  name.vb: WriteTimestampMicros(Long)
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteTimestampMicros(long)
+  fullName.vb: Apache.Arrow.Variant.VariantValueWriter.WriteTimestampMicros(Long)
+  nameWithType: VariantValueWriter.WriteTimestampMicros(long)
+  nameWithType.vb: VariantValueWriter.WriteTimestampMicros(Long)
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteTimestampMicros*
+  name: WriteTimestampMicros
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteTimestampMicros_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.WriteTimestampMicros
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteTimestampMicros
+  nameWithType: VariantValueWriter.WriteTimestampMicros
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteTimestampNtzMicros(System.Int64)
+  name: WriteTimestampNtzMicros(long)
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteTimestampNtzMicros_System_Int64_
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.WriteTimestampNtzMicros(System.Int64)
+  name.vb: WriteTimestampNtzMicros(Long)
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteTimestampNtzMicros(long)
+  fullName.vb: Apache.Arrow.Variant.VariantValueWriter.WriteTimestampNtzMicros(Long)
+  nameWithType: VariantValueWriter.WriteTimestampNtzMicros(long)
+  nameWithType.vb: VariantValueWriter.WriteTimestampNtzMicros(Long)
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteTimestampNtzMicros*
+  name: WriteTimestampNtzMicros
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteTimestampNtzMicros_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.WriteTimestampNtzMicros
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteTimestampNtzMicros
+  nameWithType: VariantValueWriter.WriteTimestampNtzMicros
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteTimestampNtzNanos(System.Int64)
+  name: WriteTimestampNtzNanos(long)
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteTimestampNtzNanos_System_Int64_
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.WriteTimestampNtzNanos(System.Int64)
+  name.vb: WriteTimestampNtzNanos(Long)
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteTimestampNtzNanos(long)
+  fullName.vb: Apache.Arrow.Variant.VariantValueWriter.WriteTimestampNtzNanos(Long)
+  nameWithType: VariantValueWriter.WriteTimestampNtzNanos(long)
+  nameWithType.vb: VariantValueWriter.WriteTimestampNtzNanos(Long)
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteTimestampNtzNanos*
+  name: WriteTimestampNtzNanos
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteTimestampNtzNanos_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.WriteTimestampNtzNanos
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteTimestampNtzNanos
+  nameWithType: VariantValueWriter.WriteTimestampNtzNanos
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteTimestampTzNanos(System.Int64)
+  name: WriteTimestampTzNanos(long)
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteTimestampTzNanos_System_Int64_
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.WriteTimestampTzNanos(System.Int64)
+  name.vb: WriteTimestampTzNanos(Long)
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteTimestampTzNanos(long)
+  fullName.vb: Apache.Arrow.Variant.VariantValueWriter.WriteTimestampTzNanos(Long)
+  nameWithType: VariantValueWriter.WriteTimestampTzNanos(long)
+  nameWithType.vb: VariantValueWriter.WriteTimestampTzNanos(Long)
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteTimestampTzNanos*
+  name: WriteTimestampTzNanos
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteTimestampTzNanos_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.WriteTimestampTzNanos
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteTimestampTzNanos
+  nameWithType: VariantValueWriter.WriteTimestampTzNanos
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteUuid(System.Guid)
+  name: WriteUuid(Guid)
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteUuid_System_Guid_
+  commentId: M:Apache.Arrow.Variant.VariantValueWriter.WriteUuid(System.Guid)
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteUuid(System.Guid)
+  nameWithType: VariantValueWriter.WriteUuid(Guid)
+- uid: Apache.Arrow.Variant.VariantValueWriter.WriteUuid*
+  name: WriteUuid
+  href: api/Apache.Arrow.Variant.VariantValueWriter.html#Apache_Arrow_Variant_VariantValueWriter_WriteUuid_
+  commentId: Overload:Apache.Arrow.Variant.VariantValueWriter.WriteUuid
+  isSpec: "True"
+  fullName: Apache.Arrow.Variant.VariantValueWriter.WriteUuid
+  nameWithType: VariantValueWriter.WriteUuid
 - uid: Apache.Arrow.YearMonthIntervalArray
   name: YearMonthIntervalArray
   href: api/Apache.Arrow.YearMonthIntervalArray.html
