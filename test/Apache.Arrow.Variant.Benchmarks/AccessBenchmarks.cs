@@ -17,7 +17,7 @@ using BenchmarkDotNet.Attributes;
 
 using Apache.Arrow.Scalars.Variant;
 
-namespace Apache.Arrow.Scalars.Benchmarks
+namespace Apache.Arrow.Variant.Benchmarks
 {
     /// <summary>
     /// Measures typed accessor cost: class (unbox from object) vs

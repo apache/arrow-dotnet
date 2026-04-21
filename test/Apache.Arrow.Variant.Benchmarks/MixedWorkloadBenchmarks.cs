@@ -18,7 +18,7 @@ using BenchmarkDotNet.Attributes;
 
 using Apache.Arrow.Scalars.Variant;
 
-namespace Apache.Arrow.Scalars.Benchmarks
+namespace Apache.Arrow.Variant.Benchmarks
 {
     /// <summary>
     /// Realistic mixed workload: build rows {id: int, name: string, scores: [double, double, double], active: bool}

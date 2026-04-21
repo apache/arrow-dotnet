@@ -17,7 +17,7 @@ using BenchmarkDotNet.Attributes;
 
 using Apache.Arrow.Scalars.Variant;
 
-namespace Apache.Arrow.Scalars.Benchmarks
+namespace Apache.Arrow.Variant.Benchmarks
 {
     /// <summary>
     /// Measures per-call construction cost: class (heap alloc + box) vs

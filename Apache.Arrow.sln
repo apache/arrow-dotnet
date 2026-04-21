@@ -33,7 +33,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Arrow.Scalars", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Arrow.Scalars.Tests", "test\Apache.Arrow.Scalars.Tests\Apache.Arrow.Scalars.Tests.csproj", "{0C495233-010C-45F8-BAB2-D9CD0B7B9861}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Arrow.Scalars.Benchmarks", "test\Apache.Arrow.Scalars.Benchmarks\Apache.Arrow.Scalars.Benchmarks.csproj", "{F3A8B7C6-D5E4-4321-9ABC-DEF012345678}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Arrow.Variant.Benchmarks", "test\Apache.Arrow.Variant.Benchmarks\Apache.Arrow.Variant.Benchmarks.csproj", "{F3A8B7C6-D5E4-4321-9ABC-DEF012345678}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Arrow.Operations", "src\Apache.Arrow.Operations\Apache.Arrow.Operations.csproj", "{B4799C3C-179F-470F-A8A4-8A75D172E3E1}"
 EndProject
