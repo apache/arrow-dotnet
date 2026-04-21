@@ -20,7 +20,7 @@ using System.Data.SqlTypes;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace Apache.Arrow.Variant
+namespace Apache.Arrow.Scalars
 {
     /// <summary>
     /// Zero-copy reader for a single variant value. Provides type inspection

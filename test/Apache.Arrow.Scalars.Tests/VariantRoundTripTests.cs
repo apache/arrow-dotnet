@@ -17,7 +17,7 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace Apache.Arrow.Variant.Tests
+namespace Apache.Arrow.Scalars.Tests
 {
     public class VariantRoundTripTests
     {

@@ -20,7 +20,7 @@ using System.Linq;
 using System.Text.Json;
 using Xunit;
 
-namespace Apache.Arrow.Variant.Tests
+namespace Apache.Arrow.Scalars.Tests
 {
     /// <summary>
     /// Cross-implementation conformance tests using binary test vectors from

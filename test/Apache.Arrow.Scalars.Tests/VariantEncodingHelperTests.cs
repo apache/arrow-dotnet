@@ -16,7 +16,7 @@
 using System;
 using Xunit;
 
-namespace Apache.Arrow.Variant.Tests
+namespace Apache.Arrow.Scalars.Tests
 {
     public class VariantEncodingHelperTests
     {

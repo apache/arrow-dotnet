@@ -20,7 +20,7 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace Apache.Arrow.Variant
+namespace Apache.Arrow.Scalars
 {
     /// <summary>
     /// Represents a materialized variant value as a discriminated union.

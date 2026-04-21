@@ -17,7 +17,7 @@ using System;
 using System.Text;
 using Xunit;
 
-namespace Apache.Arrow.Variant.Tests
+namespace Apache.Arrow.Scalars.Tests
 {
     public class VariantMetadataTests
     {

@@ -17,7 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Apache.Arrow.Variant;
+using Apache.Arrow.Scalars;
 
 namespace Apache.Arrow.Operations.Json
 {

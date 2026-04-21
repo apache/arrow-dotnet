@@ -16,7 +16,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Apache.Arrow.Variant.Benchmarks
+namespace Apache.Arrow.Scalars.Benchmarks
 {
     /// <summary>
     /// Struct variant value with inline storage for numeric primitives.

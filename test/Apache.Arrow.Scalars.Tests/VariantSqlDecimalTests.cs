@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using System.Data.SqlTypes;
 using Xunit;
 
-namespace Apache.Arrow.Variant.Tests
+namespace Apache.Arrow.Scalars.Tests
 {
     public class VariantSqlDecimalTests
     {

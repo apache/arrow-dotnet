@@ -16,7 +16,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Apache.Arrow.Variant.Tests
+namespace Apache.Arrow.Scalars.Tests
 {
     /// <summary>
     /// Hand-crafted binary test vectors for the variant encoding.

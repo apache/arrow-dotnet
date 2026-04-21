@@ -15,7 +15,7 @@
 
 using BenchmarkDotNet.Attributes;
 
-namespace Apache.Arrow.Variant.Benchmarks
+namespace Apache.Arrow.Scalars.Benchmarks
 {
     /// <summary>
     /// Measures equality comparison cost: class (virtual dispatch on boxed values) vs

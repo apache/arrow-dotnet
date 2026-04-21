@@ -20,7 +20,7 @@ using System.Text.Json;
 using Apache.Arrow.Operations.Json;
 using BenchmarkDotNet.Attributes;
 
-namespace Apache.Arrow.Variant.Benchmarks
+namespace Apache.Arrow.Scalars.Benchmarks
 {
     /// <summary>
     /// Measures encoding (VariantValue → binary, JSON → binary),

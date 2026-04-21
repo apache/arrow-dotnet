@@ -15,7 +15,7 @@
 
 using BenchmarkDotNet.Running;
 
-namespace Apache.Arrow.Variant.Benchmarks
+namespace Apache.Arrow.Scalars.Benchmarks
 {
     public static class Program
     {

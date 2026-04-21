@@ -16,7 +16,7 @@
 using System;
 using System.Buffers.Binary;
 
-namespace Apache.Arrow.Variant
+namespace Apache.Arrow.Scalars
 {
     /// <summary>
     /// Internal helpers for reading and writing variant binary encoding.

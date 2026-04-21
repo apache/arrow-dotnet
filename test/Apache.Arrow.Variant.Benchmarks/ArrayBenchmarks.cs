@@ -15,7 +15,7 @@
 
 using BenchmarkDotNet.Attributes;
 
-namespace Apache.Arrow.Variant.Benchmarks
+namespace Apache.Arrow.Scalars.Benchmarks
 {
     /// <summary>
     /// Fill + iterate arrays of variant values. Measures allocation scaling

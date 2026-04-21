@@ -15,7 +15,7 @@
 
 using System;
 
-namespace Apache.Arrow.Variant
+namespace Apache.Arrow.Scalars
 {
     /// <summary>
     /// Zero-copy reader for a variant array value.
