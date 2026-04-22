@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net8.0;net462</TargetFrameworks>
 
     <Description>Format-specific codecs for the Apache Arrow Variant binary format, including JSON reader/writer.</Description>
   </PropertyGroup>
