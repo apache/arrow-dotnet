@@ -41,7 +41,7 @@ namespace Apache.Arrow
             if (!(storageType is StructType structType) || structType.Fields.Count != 2)
                 return false;
 
-            // Validate field order and names per spec
+            // Validate field order and names and nullability per spec
             Field tsField = structType.Fields[0];
             Field offsetField = structType.Fields[1];
 
@@ -49,6 +49,9 @@ namespace Apache.Arrow
                 return false;
 
             if (!(tsField.DataType is TimestampType tsType) || tsType.Timezone != "UTC")
+                return false;
+
+            if (tsField.IsNullable || offsetField.IsNullable)
                 return false;
 
             // offset_minutes must logically be Int16, but may be dict/REE encoded
@@ -153,10 +156,13 @@ namespace Apache.Arrow
             if (IsNull(index))
                 return null;
 
-            DateTimeOffset utc = _timestamps.GetTimestampUnchecked(index);
+            DateTimeOffset? utc = _timestamps.GetTimestamp(index);
+            if (utc == null)
+                return null;
+
             short offsetMins = _offsetMinutes[index] ?? 0;
             TimeSpan offset = TimeSpan.FromMinutes(offsetMins);
-            return utc.ToOffset(offset);
+            return utc.Value.ToOffset(offset);
         }
 
         public int Count => Length;
@@ -240,7 +246,7 @@ namespace Apache.Arrow
             {
                 TimestampArray timestamps = _timestampBuilder.Build();
                 Int16Array offsets = _offsetBuilder.Build();
-                ArrowBuffer validityBuffer = _validityBuilder.Build();
+                ArrowBuffer validityBuffer = _nullCount > 0 ? _validityBuilder.Build() : ArrowBuffer.Empty;
 
                 var structType = (StructType)_type.StorageType;
                 var structArray = new StructArray(

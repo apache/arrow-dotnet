@@ -28,8 +28,10 @@ namespace Apache.Arrow
     public static class IArrowArrayExtensions
     {
         /// <summary>
-        /// Returns an <see cref="IReadOnlyList{T}"/> of nullable T values
-        /// for the given array, regardless of encoding.
+        /// Returns an <see cref="IReadOnlyList{T}"/> view for the given array,
+        /// regardless of encoding.
+        /// Null slots are represented as <c>default(T)</c>. Callers should use
+        /// nullable value types, as that's what the underlying <c>IArrowArray</c> uses.
         /// </summary>
         public static IReadOnlyList<T> AsDecodedReadOnlyList<T>(this IArrowArray array)
         {
@@ -81,6 +83,11 @@ namespace Apache.Arrow
             {
                 get
                 {
+                    if (index < 0 || index >= _indices.Length)
+                    {
+                        throw new ArgumentOutOfRangeException(nameof(index));
+                    }
+
                     if (_indices.IsNull(index))
                         return default;
 

@@ -413,47 +413,47 @@ public class RunEndEncodedArray : Array
         switch (RunEnds)
         {
             case Int16Array int16RunEnds:
-            {
-                long currentRunEnd = int16RunEnds.GetValue(physicalIndex).Value;
-                for (int logical = 0; logical < length; logical++)
                 {
-                    while (logical + offset >= currentRunEnd)
+                    long currentRunEnd = int16RunEnds.GetValue(physicalIndex).Value;
+                    for (int logical = 0; logical < length; logical++)
                     {
-                        physicalIndex++;
-                        currentRunEnd = int16RunEnds.GetValue(physicalIndex).Value;
+                        while (logical + offset >= currentRunEnd)
+                        {
+                            physicalIndex++;
+                            currentRunEnd = int16RunEnds.GetValue(physicalIndex).Value;
+                        }
+                        yield return physicalIndex;
                     }
-                    yield return physicalIndex;
+                    break;
                 }
-                break;
-            }
             case Int32Array int32RunEnds:
-            {
-                long currentRunEnd = int32RunEnds.GetValue(physicalIndex).Value;
-                for (int logical = 0; logical < length; logical++)
                 {
-                    while (logical + offset >= currentRunEnd)
+                    long currentRunEnd = int32RunEnds.GetValue(physicalIndex).Value;
+                    for (int logical = 0; logical < length; logical++)
                     {
-                        physicalIndex++;
-                        currentRunEnd = int32RunEnds.GetValue(physicalIndex).Value;
+                        while (logical + offset >= currentRunEnd)
+                        {
+                            physicalIndex++;
+                            currentRunEnd = int32RunEnds.GetValue(physicalIndex).Value;
+                        }
+                        yield return physicalIndex;
                     }
-                    yield return physicalIndex;
+                    break;
                 }
-                break;
-            }
             case Int64Array int64RunEnds:
-            {
-                long currentRunEnd = int64RunEnds.GetValue(physicalIndex).Value;
-                for (int logical = 0; logical < length; logical++)
                 {
-                    while (logical + offset >= currentRunEnd)
+                    long currentRunEnd = int64RunEnds.GetValue(physicalIndex).Value;
+                    for (int logical = 0; logical < length; logical++)
                     {
-                        physicalIndex++;
-                        currentRunEnd = int64RunEnds.GetValue(physicalIndex).Value;
+                        while (logical + offset >= currentRunEnd)
+                        {
+                            physicalIndex++;
+                            currentRunEnd = int64RunEnds.GetValue(physicalIndex).Value;
+                        }
+                        yield return physicalIndex;
                     }
-                    yield return physicalIndex;
+                    break;
                 }
-                break;
-            }
             default:
                 throw new InvalidOperationException(
                     $"Unexpected run ends array type: {RunEnds.Data.DataType.TypeId}");
