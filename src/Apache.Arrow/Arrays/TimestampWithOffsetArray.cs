@@ -170,8 +170,25 @@ namespace Apache.Arrow
 
         public IEnumerator<DateTimeOffset?> GetEnumerator()
         {
-            for (int i = 0; i < Length; i++)
-                yield return GetValue(i);
+            int index = 0;
+            IReadOnlyList<DateTimeOffset?> timestamps = _timestamps.AsDecodedReadOnlyList<DateTimeOffset?>();
+            using (IEnumerator<short?> offsets = _offsetMinutes.GetEnumerator())
+            {
+                while (offsets.MoveNext() && index < Length)
+                {
+                    DateTimeOffset? utc = timestamps[index];
+                    if (IsNull(index) || utc == null)
+                    {
+                        yield return null;
+                    }
+                    else
+                    {
+                        TimeSpan offset = TimeSpan.FromMinutes(offsets.Current ?? 0);
+                        yield return utc.Value.ToOffset(offset);
+                    }
+                    index++;
+                }
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

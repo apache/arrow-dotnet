@@ -453,6 +453,13 @@ namespace Apache.Arrow.Tests
             {
                 Assert.Equal(Int32Values[i], reader[i]);
             }
+
+            int position = 0;
+            foreach (int? value in reader)
+            {
+                Assert.Equal(Int32Values[position], value);
+                position++;
+            }
         }
 
         private static void AssertStringValues(IReadOnlyList<string> reader)
@@ -461,6 +468,13 @@ namespace Apache.Arrow.Tests
             for (int i = 0; i < StringValues.Length; i++)
             {
                 Assert.Equal(StringValues[i], reader[i]);
+            }
+
+            int position = 0;
+            foreach (string value in reader)
+            {
+                Assert.Equal(StringValues[position], value);
+                position++;
             }
         }
 
@@ -471,6 +485,11 @@ namespace Apache.Arrow.Tests
             {
                 Assert.Null(reader[i]);
             }
+
+            foreach (int? value in reader)
+            {
+                Assert.Null(value);
+            }
         }
 
         private static void AssertAllNullString(IReadOnlyList<string> reader, int count)
@@ -479,6 +498,11 @@ namespace Apache.Arrow.Tests
             for (int i = 0; i < count; i++)
             {
                 Assert.Null(reader[i]);
+            }
+
+            foreach (string value in reader)
+            {
+                Assert.Null(value);
             }
         }
     }

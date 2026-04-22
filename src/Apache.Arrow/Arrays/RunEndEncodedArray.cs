@@ -417,6 +417,9 @@ public class RunEndEncodedArray : Array
                     long currentRunEnd = int16RunEnds.GetValue(physicalIndex).Value;
                     for (int logical = 0; logical < length; logical++)
                     {
+                        // Skip to the next run if we've reached the end of the current run
+                        // Unless the slice offset is greater than zero (or the indexes are
+                        // malformed) we should only execute the loop body once per run.
                         while (logical + offset >= currentRunEnd)
                         {
                             physicalIndex++;

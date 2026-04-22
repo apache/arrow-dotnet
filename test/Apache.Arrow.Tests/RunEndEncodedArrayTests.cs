@@ -430,4 +430,109 @@ public class RunEndEncodedArrayTests
         var reeArray = (RunEndEncodedArray)array;
         Assert.Equal(6, reeArray.Length);
     }
+
+    // =============================================================
+    // EnumeratePhysicalIndices tests
+    // =============================================================
+
+    [Fact]
+    public void EnumeratePhysicalIndicesInt32()
+    {
+        // Run ends: [3, 7, 10] → logical 0-2→phys 0, 3-6→phys 1, 7-9→phys 2
+        Int32Array runEnds = new Int32Array.Builder().AppendRange([3, 7, 10]).Build();
+        StringArray values = new StringArray.Builder().AppendRange(["A", "B", "C"]).Build();
+        var reeArray = new RunEndEncodedArray(runEnds, values);
+
+        int[] expected = [0, 0, 0, 1, 1, 1, 1, 2, 2, 2];
+        Assert.Equal(expected, reeArray.EnumeratePhysicalIndices());
+    }
+
+    [Fact]
+    public void EnumeratePhysicalIndicesInt16()
+    {
+        // Run ends: [2, 5, 8] → logical 0-1→phys 0, 2-4→phys 1, 5-7→phys 2
+        Int16Array runEnds = new Int16Array.Builder().AppendRange([2, 5, 8]).Build();
+        Int32Array values = new Int32Array.Builder().AppendRange([100, 200, 300]).Build();
+        var reeArray = new RunEndEncodedArray(runEnds, values);
+
+        int[] expected = [0, 0, 1, 1, 1, 2, 2, 2];
+        Assert.Equal(expected, reeArray.EnumeratePhysicalIndices());
+    }
+
+    [Fact]
+    public void EnumeratePhysicalIndicesInt64()
+    {
+        // Run ends: [1, 4, 6] → logical 0→phys 0, 1-3→phys 1, 4-5→phys 2
+        Int64Array runEnds = new Int64Array.Builder().AppendRange([1, 4, 6]).Build();
+        DoubleArray values = new DoubleArray.Builder().AppendRange([1.5, 2.5, 3.5]).Build();
+        var reeArray = new RunEndEncodedArray(runEnds, values);
+
+        int[] expected = [0, 1, 1, 1, 2, 2];
+        Assert.Equal(expected, reeArray.EnumeratePhysicalIndices());
+    }
+
+    [Fact]
+    public void EnumeratePhysicalIndicesEmpty()
+    {
+        Int32Array runEnds = new Int32Array.Builder().Build();
+        StringArray values = new StringArray.Builder().Build();
+        var reeArray = new RunEndEncodedArray(runEnds, values);
+
+        Assert.Empty(reeArray.EnumeratePhysicalIndices());
+    }
+
+    [Fact]
+    public void EnumeratePhysicalIndicesSingleRun()
+    {
+        Int32Array runEnds = new Int32Array.Builder().Append(5).Build();
+        StringArray values = new StringArray.Builder().Append("X").Build();
+        var reeArray = new RunEndEncodedArray(runEnds, values);
+
+        int[] expected = [0, 0, 0, 0, 0];
+        Assert.Equal(expected, reeArray.EnumeratePhysicalIndices());
+    }
+
+    [Fact]
+    public void EnumeratePhysicalIndicesSlicedInt32()
+    {
+        // Run ends: [3, 7, 10] → A(0-2), B(3-6), C(7-9)
+        Int32Array runEnds = new Int32Array.Builder().AppendRange([3, 7, 10]).Build();
+        StringArray values = new StringArray.Builder().AppendRange(["A", "B", "C"]).Build();
+        var reeArray = new RunEndEncodedArray(runEnds, values);
+
+        // Slice(2, 6) → logical positions 2-7 of original
+        var sliced = (RunEndEncodedArray)ArrowArrayFactory.Slice(reeArray, 2, 6);
+
+        // Expected physical indices: A(2), B(3), B(4), B(5), B(6), C(7)
+        int[] expected = [0, 1, 1, 1, 1, 2];
+        Assert.Equal(expected, sliced.EnumeratePhysicalIndices());
+    }
+
+    [Fact]
+    public void EnumeratePhysicalIndicesMatchesFindPhysicalIndex()
+    {
+        // Verify enumeration matches individual lookups for all three index types
+        Int16Array runEnds16 = new Int16Array.Builder().AppendRange([2, 5, 8]).Build();
+        Int32Array runEnds32 = new Int32Array.Builder().AppendRange([2, 5, 8]).Build();
+        Int64Array runEnds64 = new Int64Array.Builder().AppendRange([2, 5, 8]).Build();
+        Int32Array values = new Int32Array.Builder().AppendRange([10, 20, 30]).Build();
+
+        var arrays = new[]
+        {
+            new RunEndEncodedArray(runEnds16, values),
+            new RunEndEncodedArray(runEnds32, values),
+            new RunEndEncodedArray(runEnds64, values),
+        };
+
+        foreach (var reeArray in arrays)
+        {
+            int i = 0;
+            foreach (int physicalIndex in reeArray.EnumeratePhysicalIndices())
+            {
+                Assert.Equal(reeArray.FindPhysicalIndex(i), physicalIndex);
+                i++;
+            }
+            Assert.Equal(reeArray.Length, i);
+        }
+    }
 }
