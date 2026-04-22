@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Apache.Arrow.Variant\Apache.Arrow.Variant.csproj" />
+    <ProjectReference Include="..\..\src\Apache.Arrow.Scalars\Apache.Arrow.Scalars.csproj" />
     <ProjectReference Include="..\..\src\Apache.Arrow.Operations\Apache.Arrow.Operations.csproj" />
   </ItemGroup>
 

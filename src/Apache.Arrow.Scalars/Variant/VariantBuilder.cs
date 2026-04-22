@@ -16,7 +16,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Apache.Arrow.Variant
+namespace Apache.Arrow.Scalars.Variant
 {
     /// <summary>
     /// Encodes a <see cref="VariantValue"/> into the binary variant format,

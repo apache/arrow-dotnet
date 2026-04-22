@@ -13,16 +13,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Arrow.Variant
+namespace Apache.Arrow.Scalars.Variant
 {
     /// <summary>
-    /// The basic type stored in the lowest 2 bits of a variant value header byte.
+    /// Primitive type IDs stored in bits 2-7 of the value header byte
+    /// when the basic type is <see cref="VariantBasicType.Primitive"/>.
     /// </summary>
-    public enum VariantBasicType : byte
+    public enum VariantPrimitiveType : byte
     {
-        Primitive = 0,
-        ShortString = 1,
-        Object = 2,
-        Array = 3,
+        NullType = 0,
+        BooleanTrue = 1,
+        BooleanFalse = 2,
+        Int8 = 3,
+        Int16 = 4,
+        Int32 = 5,
+        Int64 = 6,
+        Double = 7,
+        Decimal4 = 8,
+        Decimal8 = 9,
+        Decimal16 = 10,
+        Date = 11,
+        Timestamp = 12,
+        TimestampNtz = 13,
+        Float = 14,
+        Binary = 15,
+        String = 16,
+        TimeNtz = 17,
+        TimestampTzNanos = 18,
+        TimestampNtzNanos = 19,
+        Uuid = 20,
     }
 }

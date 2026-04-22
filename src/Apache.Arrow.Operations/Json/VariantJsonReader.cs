@@ -16,7 +16,7 @@
 using System;
 using System.Text;
 using System.Text.Json;
-using Apache.Arrow.Variant;
+using Apache.Arrow.Scalars.Variant;
 
 namespace Apache.Arrow.Operations.Json
 {

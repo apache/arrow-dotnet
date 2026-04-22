@@ -17,7 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Apache.Arrow.Variant
+namespace Apache.Arrow.Scalars.Variant
 {
     /// <summary>
     /// Collects unique field names and builds the sorted binary metadata

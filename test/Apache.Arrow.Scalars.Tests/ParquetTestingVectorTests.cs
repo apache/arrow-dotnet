@@ -18,9 +18,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using Apache.Arrow.Scalars.Variant;
 using Xunit;
 
-namespace Apache.Arrow.Variant.Tests
+namespace Apache.Arrow.Scalars.Tests
 {
     /// <summary>
     /// Cross-implementation conformance tests using binary test vectors from

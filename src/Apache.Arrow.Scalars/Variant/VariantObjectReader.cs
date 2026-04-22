@@ -16,7 +16,7 @@
 using System;
 using System.Text;
 
-namespace Apache.Arrow.Variant
+namespace Apache.Arrow.Scalars.Variant
 {
     /// <summary>
     /// Zero-copy reader for a variant object value. Provides access to field

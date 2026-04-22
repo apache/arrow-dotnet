@@ -16,7 +16,7 @@
 using System;
 using System.Text;
 
-namespace Apache.Arrow.Variant
+namespace Apache.Arrow.Scalars.Variant
 {
     /// <summary>
     /// Zero-copy reader for variant metadata: a header byte followed by a string
