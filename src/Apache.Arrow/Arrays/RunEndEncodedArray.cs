@@ -14,6 +14,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using Apache.Arrow.Memory;
 using Apache.Arrow.Types;
 
@@ -393,6 +394,73 @@ public class RunEndEncodedArray : Array
         int lo = physicalStart, hi = runEnds.Length;
         while (lo < hi) { int mid = lo + (hi - lo) / 2; if (runEnds[mid] >= logicalEnd) hi = mid; else lo = mid + 1; }
         return Math.Min(lo + 1, runEnds.Length);
+    }
+
+    /// <summary>
+    /// Enumerates the physical index for every logical position in order.
+    /// Unlike repeated calls to <see cref="FindPhysicalIndex"/>, this walks the
+    /// run-ends array linearly, yielding O(n + m) total work instead of O(n·log m).
+    /// </summary>
+    public IEnumerable<int> EnumeratePhysicalIndices()
+    {
+        int length = Length;
+        if (length == 0)
+            yield break;
+
+        int offset = Data.Offset;
+        int physicalIndex = FindPhysicalIndex(0);
+
+        switch (RunEnds)
+        {
+            case Int16Array int16RunEnds:
+                {
+                    long currentRunEnd = int16RunEnds.GetValue(physicalIndex).Value;
+                    for (int logical = 0; logical < length; logical++)
+                    {
+                        // Skip to the next run if we've reached the end of the current run
+                        // Unless the slice offset is greater than zero (or the indexes are
+                        // malformed) we should only execute the loop body once per run.
+                        while (logical + offset >= currentRunEnd)
+                        {
+                            physicalIndex++;
+                            currentRunEnd = int16RunEnds.GetValue(physicalIndex).Value;
+                        }
+                        yield return physicalIndex;
+                    }
+                    break;
+                }
+            case Int32Array int32RunEnds:
+                {
+                    long currentRunEnd = int32RunEnds.GetValue(physicalIndex).Value;
+                    for (int logical = 0; logical < length; logical++)
+                    {
+                        while (logical + offset >= currentRunEnd)
+                        {
+                            physicalIndex++;
+                            currentRunEnd = int32RunEnds.GetValue(physicalIndex).Value;
+                        }
+                        yield return physicalIndex;
+                    }
+                    break;
+                }
+            case Int64Array int64RunEnds:
+                {
+                    long currentRunEnd = int64RunEnds.GetValue(physicalIndex).Value;
+                    for (int logical = 0; logical < length; logical++)
+                    {
+                        while (logical + offset >= currentRunEnd)
+                        {
+                            physicalIndex++;
+                            currentRunEnd = int64RunEnds.GetValue(physicalIndex).Value;
+                        }
+                        yield return physicalIndex;
+                    }
+                    break;
+                }
+            default:
+                throw new InvalidOperationException(
+                    $"Unexpected run ends array type: {RunEnds.Data.DataType.TypeId}");
+        }
     }
 
     public override void Accept(IArrowArrayVisitor visitor) => Accept(this, visitor);
