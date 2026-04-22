@@ -2,11 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Class Bool8Array | Apache Arrow .NET </title>
+      <title>Class TimestampWithOffsetArray | Apache Arrow .NET </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Class Bool8Array | Apache Arrow .NET ">
+      <meta name="title" content="Class TimestampWithOffsetArray | Apache Arrow .NET ">
       
-      <meta name="description" content="Extension array for 1-byte boolean values, backed by an Int8Array.">
+      <meta name="description" content="Extension array for the &amp;quot;arrow.timestamp_with_offset&amp;quot; canonical extension type. Implements  of nullable .">
       <link rel="icon" href="../images/favicon.png">
       <link rel="stylesheet" href="../public/docfx.min.css">
       <link rel="stylesheet" href="../public/main.css">
@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="../">
       
       
-      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Apache_Arrow_Bool8Array.md&amp;value=---%0Auid%3A%20Apache.Arrow.Bool8Array%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Apache_Arrow_TimestampWithOffsetArray.md&amp;value=---%0Auid%3A%20Apache.Arrow.TimestampWithOffsetArray%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -84,12 +84,12 @@
           <nav id="breadcrumb"></nav>
         </div>
 
-        <article data-uid="Apache.Arrow.Bool8Array">
+        <article data-uid="Apache.Arrow.TimestampWithOffsetArray">
 
 
 
-  <h1 id="Apache_Arrow_Bool8Array" data-uid="Apache.Arrow.Bool8Array" class="text-break">
-Class Bool8Array  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Bool8Array.cs/#L71"><i class="bi bi-code-slash"></i></a>
+  <h1 id="Apache_Arrow_TimestampWithOffsetArray" data-uid="Apache.Arrow.TimestampWithOffsetArray" class="text-break">
+Class TimestampWithOffsetArray  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L126"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -97,12 +97,13 @@ Class Bool8Array  <a class="header-action link-secondary" title="View source" hr
   <dl><dt>Assembly</dt><dd>Apache.Arrow.dll</dd></dl>
   </div>
 
-  <div class="markdown summary"><p>Extension array for 1-byte boolean values, backed by an Int8Array.</p>
+  <div class="markdown summary"><p>Extension array for the &quot;arrow.timestamp_with_offset&quot; canonical extension type.
+Implements <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList&lt;T&gt;</a> of nullable <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetimeoffset">DateTimeOffset</a>.</p>
 </div>
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class Bool8Array : ExtensionArray, IArrowArray, IDisposable, IReadOnlyList&lt;bool?&gt;, IReadOnlyCollection&lt;bool?&gt;, IEnumerable&lt;bool?&gt;, IEnumerable</code></pre>
+    <pre><code class="lang-csharp hljs">public class TimestampWithOffsetArray : ExtensionArray, IArrowArray, IDisposable, IReadOnlyList&lt;DateTimeOffset?&gt;, IReadOnlyCollection&lt;DateTimeOffset?&gt;, IEnumerable&lt;DateTimeOffset?&gt;, IEnumerable</code></pre>
   </div>
 
 
@@ -113,7 +114,7 @@ Class Bool8Array  <a class="header-action link-secondary" title="View source" hr
     <dd>
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
       <div><a class="xref" href="Apache.Arrow.ExtensionArray.html">ExtensionArray</a></div>
-      <div><span class="xref">Bool8Array</span></div>
+      <div><span class="xref">TimestampWithOffsetArray</span></div>
     </dd>
   </dl>
 
@@ -122,9 +123,9 @@ Class Bool8Array  <a class="header-action link-secondary" title="View source" hr
     <dd>
       <div><a class="xref" href="Apache.Arrow.IArrowArray.html">IArrowArray</a></div>
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
-      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>?&gt;</div>
-      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1">IReadOnlyCollection</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>?&gt;</div>
-      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>?&gt;</div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetimeoffset">DateTimeOffset</a>?&gt;</div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1">IReadOnlyCollection</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetimeoffset">DateTimeOffset</a>?&gt;</div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetimeoffset">DateTimeOffset</a>?&gt;</div>
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.ienumerable">IEnumerable</a></div>
     </dd>
   </dl>
@@ -205,55 +206,24 @@ Class Bool8Array  <a class="header-action link-secondary" title="View source" hr
 </h2>
 
 
-  <a id="Apache_Arrow_Bool8Array__ctor_" data-uid="Apache.Arrow.Bool8Array.#ctor*"></a>
+  <a id="Apache_Arrow_TimestampWithOffsetArray__ctor_" data-uid="Apache.Arrow.TimestampWithOffsetArray.#ctor*"></a>
 
-  <h3 id="Apache_Arrow_Bool8Array__ctor_Apache_Arrow_Bool8Type_Apache_Arrow_IArrowArray_" data-uid="Apache.Arrow.Bool8Array.#ctor(Apache.Arrow.Bool8Type,Apache.Arrow.IArrowArray)">
-  Bool8Array(Bool8Type, IArrowArray)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Bool8Array.cs/#L75"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Apache_Arrow_TimestampWithOffsetArray__ctor_Apache_Arrow_TimestampWithOffsetType_Apache_Arrow_IArrowArray_" data-uid="Apache.Arrow.TimestampWithOffsetArray.#ctor(Apache.Arrow.TimestampWithOffsetType,Apache.Arrow.IArrowArray)">
+  TimestampWithOffsetArray(TimestampWithOffsetType, IArrowArray)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L132"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Bool8Array(Bool8Type bool8Type, IArrowArray storage)</code></pre>
+    <pre><code class="lang-csharp hljs">public TimestampWithOffsetArray(TimestampWithOffsetType type, IArrowArray storage)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
-    <dt><code>bool8Type</code> <a class="xref" href="Apache.Arrow.Bool8Type.html">Bool8Type</a></dt>
+    <dt><code>type</code> <a class="xref" href="Apache.Arrow.TimestampWithOffsetType.html">TimestampWithOffsetType</a></dt>
     <dd></dd>
-    <dt><code>storage</code> <a class="xref" href="Apache.Arrow.IArrowArray.html">IArrowArray</a></dt>
-    <dd></dd>
-  </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-  <a id="Apache_Arrow_Bool8Array__ctor_" data-uid="Apache.Arrow.Bool8Array.#ctor*"></a>
-
-  <h3 id="Apache_Arrow_Bool8Array__ctor_Apache_Arrow_IArrowArray_" data-uid="Apache.Arrow.Bool8Array.#ctor(Apache.Arrow.IArrowArray)">
-  Bool8Array(IArrowArray)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Bool8Array.cs/#L77"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Bool8Array(IArrowArray storage)</code></pre>
-  </div>
-
-  <h4 class="section">Parameters</h4>
-  <dl class="parameters">
     <dt><code>storage</code> <a class="xref" href="Apache.Arrow.IArrowArray.html">IArrowArray</a></dt>
     <dd></dd>
   </dl>
@@ -273,11 +243,11 @@ Class Bool8Array  <a class="header-action link-secondary" title="View source" hr
 </h2>
 
 
-  <a id="Apache_Arrow_Bool8Array_Count_" data-uid="Apache.Arrow.Bool8Array.Count*"></a>
+  <a id="Apache_Arrow_TimestampWithOffsetArray_Count_" data-uid="Apache.Arrow.TimestampWithOffsetArray.Count*"></a>
 
-  <h3 id="Apache_Arrow_Bool8Array_Count" data-uid="Apache.Arrow.Bool8Array.Count">
+  <h3 id="Apache_Arrow_TimestampWithOffsetArray_Count" data-uid="Apache.Arrow.TimestampWithOffsetArray.Count">
   Count
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Bool8Array.cs/#L136"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L168"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -304,18 +274,18 @@ Class Bool8Array  <a class="header-action link-secondary" title="View source" hr
 
 
 
-  <a id="Apache_Arrow_Bool8Array_Item_" data-uid="Apache.Arrow.Bool8Array.Item*"></a>
+  <a id="Apache_Arrow_TimestampWithOffsetArray_Item_" data-uid="Apache.Arrow.TimestampWithOffsetArray.Item*"></a>
 
-  <h3 id="Apache_Arrow_Bool8Array_Item_System_Int32_" data-uid="Apache.Arrow.Bool8Array.Item(System.Int32)">
+  <h3 id="Apache_Arrow_TimestampWithOffsetArray_Item_System_Int32_" data-uid="Apache.Arrow.TimestampWithOffsetArray.Item(System.Int32)">
   this[int]
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Bool8Array.cs/#L137"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L169"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool? this[int index] { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public DateTimeOffset? this[int index] { get; }</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
@@ -329,38 +299,7 @@ Class Bool8Array  <a class="header-action link-secondary" title="View source" hr
 
   <h4 class="section">Property Value</h4>
   <dl class="parameters">
-    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>?</dt>
-    <dd></dd>
-  </dl>
-
-
-
-
-
-
-
-
-  <a id="Apache_Arrow_Bool8Array_StorageArray_" data-uid="Apache.Arrow.Bool8Array.StorageArray*"></a>
-
-  <h3 id="Apache_Arrow_Bool8Array_StorageArray" data-uid="Apache.Arrow.Bool8Array.StorageArray">
-  StorageArray
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Bool8Array.cs/#L73"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Int8Array StorageArray { get; }</code></pre>
-  </div>
-
-
-
-
-
-  <h4 class="section">Property Value</h4>
-  <dl class="parameters">
-    <dt><a class="xref" href="Apache.Arrow.Int8Array.html">Int8Array</a></dt>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetimeoffset">DateTimeOffset</a>?</dt>
     <dd></dd>
   </dl>
 
@@ -375,24 +314,24 @@ Class Bool8Array  <a class="header-action link-secondary" title="View source" hr
 </h2>
 
 
-  <a id="Apache_Arrow_Bool8Array_GetEnumerator_" data-uid="Apache.Arrow.Bool8Array.GetEnumerator*"></a>
+  <a id="Apache_Arrow_TimestampWithOffsetArray_GetEnumerator_" data-uid="Apache.Arrow.TimestampWithOffsetArray.GetEnumerator*"></a>
 
-  <h3 id="Apache_Arrow_Bool8Array_GetEnumerator" data-uid="Apache.Arrow.Bool8Array.GetEnumerator">
+  <h3 id="Apache_Arrow_TimestampWithOffsetArray_GetEnumerator" data-uid="Apache.Arrow.TimestampWithOffsetArray.GetEnumerator">
   GetEnumerator()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Bool8Array.cs/#L141"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L171"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IEnumerator&lt;bool?&gt; GetEnumerator()</code></pre>
+    <pre><code class="lang-csharp hljs">public IEnumerator&lt;DateTimeOffset?&gt; GetEnumerator()</code></pre>
   </div>
 
 
   <h4 class="section">Returns</h4>
   <dl class="parameters">
-    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1">IEnumerator</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>?&gt;</dt>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1">IEnumerator</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetimeoffset">DateTimeOffset</a>?&gt;</dt>
     <dd></dd>
   </dl>
 
@@ -406,18 +345,20 @@ Class Bool8Array  <a class="header-action link-secondary" title="View source" hr
 
 
 
-  <a id="Apache_Arrow_Bool8Array_GetValue_" data-uid="Apache.Arrow.Bool8Array.GetValue*"></a>
+  <a id="Apache_Arrow_TimestampWithOffsetArray_GetValue_" data-uid="Apache.Arrow.TimestampWithOffsetArray.GetValue*"></a>
 
-  <h3 id="Apache_Arrow_Bool8Array_GetValue_System_Int32_" data-uid="Apache.Arrow.Bool8Array.GetValue(System.Int32)">
+  <h3 id="Apache_Arrow_TimestampWithOffsetArray_GetValue_System_Int32_" data-uid="Apache.Arrow.TimestampWithOffsetArray.GetValue(System.Int32)">
   GetValue(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Bool8Array.cs/#L139"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L151"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets the value at the specified index as a <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetimeoffset">DateTimeOffset</a>
+with the original timezone offset preserved.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool? GetValue(int index)</code></pre>
+    <pre><code class="lang-csharp hljs">public DateTimeOffset? GetValue(int index)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
@@ -428,7 +369,7 @@ Class Bool8Array  <a class="header-action link-secondary" title="View source" hr
 
   <h4 class="section">Returns</h4>
   <dl class="parameters">
-    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>?</dt>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetimeoffset">DateTimeOffset</a>?</dt>
     <dd></dd>
   </dl>
 
@@ -446,7 +387,7 @@ Class Bool8Array  <a class="header-action link-secondary" title="View source" hr
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/Bool8Array.cs/#L71" class="edit-link">Edit this page</a>
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L126" class="edit-link">Edit this page</a>
         </div>
 
 

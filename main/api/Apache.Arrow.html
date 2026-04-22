@@ -381,6 +381,13 @@ backed by FixedSizeBinary(16).</p>
 </dd>
     </dl>
     <dl class="jumplist">
+      <dt><a class="xref" href="Apache.Arrow.IArrowArrayExtensions.html">IArrowArrayExtensions</a></dt>
+      <dd><p>Provides factory methods that return <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList&lt;T&gt;</a> views
+over Arrow arrays, transparently handling plain, dictionary-encoded,
+and run-end encoded layouts.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
       <dt><a class="xref" href="Apache.Arrow.Int16Array.html">Int16Array</a></dt>
       <dd></dd>
     </dl>
@@ -602,6 +609,31 @@ stored as the number of microseconds/nanoseconds (depending on the Time64Type) s
     <dl class="jumplist">
       <dt><a class="xref" href="Apache.Arrow.TimestampArray.Builder.html">TimestampArray.Builder</a></dt>
       <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Apache.Arrow.TimestampWithOffsetArray.html">TimestampWithOffsetArray</a></dt>
+      <dd><p>Extension array for the &quot;arrow.timestamp_with_offset&quot; canonical extension type.
+Implements <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList&lt;T&gt;</a> of nullable <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetimeoffset">DateTimeOffset</a>.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Apache.Arrow.TimestampWithOffsetArray.Builder.html">TimestampWithOffsetArray.Builder</a></dt>
+      <dd><p>Builder for <a class="xref" href="Apache.Arrow.TimestampWithOffsetArray.html">TimestampWithOffsetArray</a>.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Apache.Arrow.TimestampWithOffsetExtensionDefinition.html">TimestampWithOffsetExtensionDefinition</a></dt>
+      <dd><p>Extension definition for the &quot;arrow.timestamp_with_offset&quot; canonical extension type.
+Storage is a struct with fields &quot;timestamp&quot; (Timestamp(unit, &quot;UTC&quot;)) and
+&quot;offset_minutes&quot; (Int16). The offset_minutes field may be dictionary-encoded
+or run-end encoded.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Apache.Arrow.TimestampWithOffsetType.html">TimestampWithOffsetType</a></dt>
+      <dd><p>Extension type for timestamps with per-value UTC offset, stored as
+Struct(timestamp: Timestamp(unit, &quot;UTC&quot;), offset_minutes: Int16).</p>
+</dd>
     </dl>
     <dl class="jumplist">
       <dt><a class="xref" href="Apache.Arrow.UInt16Array.html">UInt16Array</a></dt>

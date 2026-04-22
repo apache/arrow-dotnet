@@ -2,11 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Class ExtensionDefinition | Apache Arrow .NET </title>
+      <title>Class TimestampWithOffsetExtensionDefinition | Apache Arrow .NET </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Class ExtensionDefinition | Apache Arrow .NET ">
+      <meta name="title" content="Class TimestampWithOffsetExtensionDefinition | Apache Arrow .NET ">
       
-      <meta name="description" content="Defines a factory for a particular extension type. Register instances with  to enable automatic resolution during deserialization.">
+      <meta name="description" content="Extension definition for the &amp;quot;arrow.timestamp_with_offset&amp;quot; canonical extension type. Storage is a struct with fields &amp;quot;timestamp&amp;quot; (Timestamp(unit, &amp;quot;UTC&amp;quot;)) and &amp;quot;offset_minutes&amp;quot; (Int16). The offset_minutes field may be dictionary-encoded or run-end encoded.">
       <link rel="icon" href="../images/favicon.png">
       <link rel="stylesheet" href="../public/docfx.min.css">
       <link rel="stylesheet" href="../public/main.css">
@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="../">
       
       
-      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Apache_Arrow_ExtensionDefinition.md&amp;value=---%0Auid%3A%20Apache.Arrow.ExtensionDefinition%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Apache_Arrow_TimestampWithOffsetExtensionDefinition.md&amp;value=---%0Auid%3A%20Apache.Arrow.TimestampWithOffsetExtensionDefinition%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -84,12 +84,12 @@
           <nav id="breadcrumb"></nav>
         </div>
 
-        <article data-uid="Apache.Arrow.ExtensionDefinition">
+        <article data-uid="Apache.Arrow.TimestampWithOffsetExtensionDefinition">
 
 
 
-  <h1 id="Apache_Arrow_ExtensionDefinition" data-uid="Apache.Arrow.ExtensionDefinition" class="text-break">
-Class ExtensionDefinition  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ExtensionType.cs/#L25"><i class="bi bi-code-slash"></i></a>
+  <h1 id="Apache_Arrow_TimestampWithOffsetExtensionDefinition" data-uid="Apache.Arrow.TimestampWithOffsetExtensionDefinition" class="text-break">
+Class TimestampWithOffsetExtensionDefinition  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L29"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -97,13 +97,15 @@ Class ExtensionDefinition  <a class="header-action link-secondary" title="View s
   <dl><dt>Assembly</dt><dd>Apache.Arrow.dll</dd></dl>
   </div>
 
-  <div class="markdown summary"><p>Defines a factory for a particular extension type. Register instances with
-<a class="xref" href="Apache.Arrow.ExtensionTypeRegistry.html">ExtensionTypeRegistry</a> to enable automatic resolution during deserialization.</p>
+  <div class="markdown summary"><p>Extension definition for the &quot;arrow.timestamp_with_offset&quot; canonical extension type.
+Storage is a struct with fields &quot;timestamp&quot; (Timestamp(unit, &quot;UTC&quot;)) and
+&quot;offset_minutes&quot; (Int16). The offset_minutes field may be dictionary-encoded
+or run-end encoded.</p>
 </div>
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class ExtensionDefinition</code></pre>
+    <pre><code class="lang-csharp hljs">public class TimestampWithOffsetExtensionDefinition : ExtensionDefinition</code></pre>
   </div>
 
 
@@ -113,23 +115,19 @@ Class ExtensionDefinition  <a class="header-action link-secondary" title="View s
     <dt>Inheritance</dt>
     <dd>
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
-      <div><span class="xref">ExtensionDefinition</span></div>
+      <div><a class="xref" href="Apache.Arrow.ExtensionDefinition.html">ExtensionDefinition</a></div>
+      <div><span class="xref">TimestampWithOffsetExtensionDefinition</span></div>
     </dd>
   </dl>
 
 
-  <dl class="typelist derived">
-    <dt>Derived</dt>
-    <dd>
-      <div><a class="xref" href="Apache.Arrow.Bool8ExtensionDefinition.html">Bool8ExtensionDefinition</a></div>
-      <div><a class="xref" href="Apache.Arrow.GuidExtensionDefinition.html">GuidExtensionDefinition</a></div>
-      <div><a class="xref" href="Apache.Arrow.TimestampWithOffsetExtensionDefinition.html">TimestampWithOffsetExtensionDefinition</a></div>
-    </dd>
-  </dl>
 
   <dl class="typelist inheritedMembers">
     <dt>Inherited Members</dt>
     <dd>
+    <div>
+      <a class="xref" href="Apache.Arrow.ExtensionDefinition.html#Apache_Arrow_ExtensionDefinition_AddToDefaultRegistry">ExtensionDefinition.AddToDefaultRegistry()</a>
+    </div>
     <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
     </div>
@@ -158,15 +156,49 @@ Class ExtensionDefinition  <a class="header-action link-secondary" title="View s
 
 
 
+  <h2 class="section" id="fields">Fields
+</h2>
+
+
+
+  <h3 id="Apache_Arrow_TimestampWithOffsetExtensionDefinition_Instance" data-uid="Apache.Arrow.TimestampWithOffsetExtensionDefinition.Instance">
+  Instance
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L31"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly TimestampWithOffsetExtensionDefinition Instance</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.TimestampWithOffsetExtensionDefinition.html">TimestampWithOffsetExtensionDefinition</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
   <h2 class="section" id="properties">Properties
 </h2>
 
 
-  <a id="Apache_Arrow_ExtensionDefinition_ExtensionName_" data-uid="Apache.Arrow.ExtensionDefinition.ExtensionName*"></a>
+  <a id="Apache_Arrow_TimestampWithOffsetExtensionDefinition_ExtensionName_" data-uid="Apache.Arrow.TimestampWithOffsetExtensionDefinition.ExtensionName*"></a>
 
-  <h3 id="Apache_Arrow_ExtensionDefinition_ExtensionName" data-uid="Apache.Arrow.ExtensionDefinition.ExtensionName">
+  <h3 id="Apache_Arrow_TimestampWithOffsetExtensionDefinition_ExtensionName" data-uid="Apache.Arrow.TimestampWithOffsetExtensionDefinition.ExtensionName">
   ExtensionName
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ExtensionType.cs/#L30"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L33"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The canonical extension type name (e.g. &quot;arrow.uuid&quot;).</p>
@@ -174,7 +206,7 @@ Class ExtensionDefinition  <a class="header-action link-secondary" title="View s
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract string ExtensionName { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public override string ExtensionName { get; }</code></pre>
   </div>
 
 
@@ -198,38 +230,11 @@ Class ExtensionDefinition  <a class="header-action link-secondary" title="View s
 </h2>
 
 
-  <a id="Apache_Arrow_ExtensionDefinition_AddToDefaultRegistry_" data-uid="Apache.Arrow.ExtensionDefinition.AddToDefaultRegistry*"></a>
+  <a id="Apache_Arrow_TimestampWithOffsetExtensionDefinition_TryCreateType_" data-uid="Apache.Arrow.TimestampWithOffsetExtensionDefinition.TryCreateType*"></a>
 
-  <h3 id="Apache_Arrow_ExtensionDefinition_AddToDefaultRegistry" data-uid="Apache.Arrow.ExtensionDefinition.AddToDefaultRegistry">
-  AddToDefaultRegistry()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ExtensionType.cs/#L44"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Adds this extension type to the default registry</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void AddToDefaultRegistry()</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <a id="Apache_Arrow_ExtensionDefinition_TryCreateType_" data-uid="Apache.Arrow.ExtensionDefinition.TryCreateType*"></a>
-
-  <h3 id="Apache_Arrow_ExtensionDefinition_TryCreateType_Apache_Arrow_Types_IArrowType_System_String_Apache_Arrow_ExtensionType__" data-uid="Apache.Arrow.ExtensionDefinition.TryCreateType(Apache.Arrow.Types.IArrowType,System.String,Apache.Arrow.ExtensionType@)">
+  <h3 id="Apache_Arrow_TimestampWithOffsetExtensionDefinition_TryCreateType_Apache_Arrow_Types_IArrowType_System_String_Apache_Arrow_ExtensionType__" data-uid="Apache.Arrow.TimestampWithOffsetExtensionDefinition.TryCreateType(Apache.Arrow.Types.IArrowType,System.String,Apache.Arrow.ExtensionType@)">
   TryCreateType(IArrowType, string, out ExtensionType)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ExtensionType.cs/#L39"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L37"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Attempt to create an <a class="xref" href="Apache.Arrow.ExtensionType.html">ExtensionType</a> from a storage type and serialized metadata.</p>
@@ -237,7 +242,7 @@ Class ExtensionDefinition  <a class="header-action link-secondary" title="View s
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract bool TryCreateType(IArrowType storageType, string metadata, out ExtensionType type)</code></pre>
+    <pre><code class="lang-csharp hljs">public override bool TryCreateType(IArrowType storageType, string metadata, out ExtensionType type)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
@@ -274,7 +279,7 @@ Class ExtensionDefinition  <a class="header-action link-secondary" title="View s
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ExtensionType.cs/#L25" class="edit-link">Edit this page</a>
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L29" class="edit-link">Edit this page</a>
         </div>
 
 

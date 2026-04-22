@@ -89,7 +89,7 @@
 
 
   <h1 id="Apache_Arrow_RunEndEncodedArray" data-uid="Apache.Arrow.RunEndEncodedArray" class="text-break">
-Class RunEndEncodedArray  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.cs/#L28"><i class="bi bi-code-slash"></i></a>
+Class RunEndEncodedArray  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.cs/#L29"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -188,6 +188,13 @@ The run_ends array stores the cumulative end positions of each run.</p>
     </div>
   </dd></dl>
 
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="Apache.Arrow.IArrowArrayExtensions.html#Apache_Arrow_IArrowArrayExtensions_AsDecodedReadOnlyList__1_Apache_Arrow_IArrowArray_">IArrowArrayExtensions.AsDecodedReadOnlyList&lt;T&gt;(IArrowArray)</a>
+  </div>
+  </dd></dl>
 
 
 
@@ -201,7 +208,7 @@ The run_ends array stores the cumulative end positions of each run.</p>
 
   <h3 id="Apache_Arrow_RunEndEncodedArray__ctor_Apache_Arrow_ArrayData_" data-uid="Apache.Arrow.RunEndEncodedArray.#ctor(Apache.Arrow.ArrayData)">
   RunEndEncodedArray(ArrayData)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.cs/#L46"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.cs/#L47"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Creates a new RunEndEncodedArray from ArrayData.</p>
@@ -234,7 +241,7 @@ The run_ends array stores the cumulative end positions of each run.</p>
 
   <h3 id="Apache_Arrow_RunEndEncodedArray__ctor_Apache_Arrow_IArrowArray_Apache_Arrow_IArrowArray_" data-uid="Apache.Arrow.RunEndEncodedArray.#ctor(Apache.Arrow.IArrowArray,Apache.Arrow.IArrowArray)">
   RunEndEncodedArray(IArrowArray, IArrowArray)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.cs/#L56"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.cs/#L57"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Creates a new RunEndEncodedArray with specified run ends and values arrays.</p>
@@ -274,7 +281,7 @@ The run_ends array stores the cumulative end positions of each run.</p>
 
   <h3 id="Apache_Arrow_RunEndEncodedArray_RunEnds" data-uid="Apache.Arrow.RunEndEncodedArray.RunEnds">
   RunEnds
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.cs/#L34"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.cs/#L35"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets the run ends array (Int16Array, Int32Array, or Int64Array).
@@ -307,7 +314,7 @@ This array contains the cumulative end indices for each run.</p>
 
   <h3 id="Apache_Arrow_RunEndEncodedArray_Values" data-uid="Apache.Arrow.RunEndEncodedArray.Values">
   Values
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.cs/#L40"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.cs/#L41"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets the values array.
@@ -344,7 +351,7 @@ This array contains the actual values that are run-length encoded.</p>
 
   <h3 id="Apache_Arrow_RunEndEncodedArray_Accept_Apache_Arrow_IArrowArrayVisitor_" data-uid="Apache.Arrow.RunEndEncodedArray.Accept(Apache.Arrow.IArrowArrayVisitor)">
   Accept(IArrowArrayVisitor)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.cs/#L398"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.cs/#L466"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -371,11 +378,45 @@ This array contains the actual values that are run-length encoded.</p>
 
 
 
+  <a id="Apache_Arrow_RunEndEncodedArray_EnumeratePhysicalIndices_" data-uid="Apache.Arrow.RunEndEncodedArray.EnumeratePhysicalIndices*"></a>
+
+  <h3 id="Apache_Arrow_RunEndEncodedArray_EnumeratePhysicalIndices" data-uid="Apache.Arrow.RunEndEncodedArray.EnumeratePhysicalIndices">
+  EnumeratePhysicalIndices()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.cs/#L404"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Enumerates the physical index for every logical position in order.
+Unlike repeated calls to <a class="xref" href="Apache.Arrow.RunEndEncodedArray.html#Apache_Arrow_RunEndEncodedArray_FindPhysicalIndex_System_Int32_">FindPhysicalIndex(int)</a>, this walks the
+run-ends array linearly, yielding O(n + m) total work instead of O(n·log m).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;int&gt; EnumeratePhysicalIndices()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="Apache_Arrow_RunEndEncodedArray_FindPhysicalIndex_" data-uid="Apache.Arrow.RunEndEncodedArray.FindPhysicalIndex*"></a>
 
   <h3 id="Apache_Arrow_RunEndEncodedArray_FindPhysicalIndex_System_Int32_" data-uid="Apache.Arrow.RunEndEncodedArray.FindPhysicalIndex(System.Int32)">
   FindPhysicalIndex(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.cs/#L168"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.cs/#L169"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Finds the physical index in the run_ends array that contains the specified logical index.</p>
@@ -414,7 +455,7 @@ This array contains the actual values that are run-length encoded.</p>
 
   <h3 id="Apache_Arrow_RunEndEncodedArray_Normalize" data-uid="Apache.Arrow.RunEndEncodedArray.Normalize">
   Normalize()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.cs/#L276"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.cs/#L277"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Returns a logically equivalent <a class="xref" href="Apache.Arrow.RunEndEncodedArray.html">RunEndEncodedArray</a> whose underlying
@@ -456,7 +497,7 @@ array when done with it. The result may or may not be the same instance as
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.cs/#L28" class="edit-link">Edit this page</a>
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.cs/#L29" class="edit-link">Edit this page</a>
         </div>
 
 

@@ -2098,6 +2098,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.IArrowArrayExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.IArrowArrayExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.IArrowArrayExtensions",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.IArrowArrayExtensions.yml\" sourcestartlinenumber=\"1\">Provides factory methods that return <xref href=\"System.Collections.Generic.IReadOnlyList%601\" data-throw-if-not-resolved=\"false\"></xref> views\nover Arrow arrays, transparently handling plain, dictionary-encoded,\nand run-end encoded layouts.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Apache.Arrow.IArrowArrayVisitor-1.yml",
       "output": {
         ".html": {
@@ -3453,6 +3467,62 @@
       "IsMRef": true,
       "Title": "Apache.Arrow.TimestampArray",
       "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.TimestampWithOffsetArray.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.TimestampWithOffsetArray.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.TimestampWithOffsetArray.Builder",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.TimestampWithOffsetArray.Builder.yml\" sourcestartlinenumber=\"1\">Builder for <xref href=\"Apache.Arrow.TimestampWithOffsetArray\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.TimestampWithOffsetArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.TimestampWithOffsetArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.TimestampWithOffsetArray",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.TimestampWithOffsetArray.yml\" sourcestartlinenumber=\"1\">Extension array for the &quot;arrow.timestamp_with_offset&quot; canonical extension type.\nImplements <xref href=\"System.Collections.Generic.IReadOnlyList%601\" data-throw-if-not-resolved=\"false\"></xref> of nullable <xref href=\"System.DateTimeOffset\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.TimestampWithOffsetExtensionDefinition.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.TimestampWithOffsetExtensionDefinition.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.TimestampWithOffsetExtensionDefinition",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.TimestampWithOffsetExtensionDefinition.yml\" sourcestartlinenumber=\"1\">Extension definition for the &quot;arrow.timestamp_with_offset&quot; canonical extension type.\nStorage is a struct with fields &quot;timestamp&quot; (Timestamp(unit, &quot;UTC&quot;)) and\n&quot;offset_minutes&quot; (Int16). The offset_minutes field may be dictionary-encoded\nor run-end encoded.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.TimestampWithOffsetType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.TimestampWithOffsetType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.TimestampWithOffsetType",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.TimestampWithOffsetType.yml\" sourcestartlinenumber=\"1\">Extension type for timestamps with per-value UTC offset, stored as\nStruct(timestamp: Timestamp(unit, &quot;UTC&quot;), offset_minutes: Int16).</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -5516,11 +5586,11 @@
       "type": "Toc",
       "source_relative_path": "api/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "api/toc.html"
-        },
         ".json": {
           "relative_path": "api/toc.json"
+        },
+        ".html": {
+          "relative_path": "api/toc.html"
         }
       },
       "version": ""
@@ -5559,11 +5629,11 @@
       "type": "Toc",
       "source_relative_path": "toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "toc.html"
-        },
         ".json": {
           "relative_path": "toc.json"
+        },
+        ".html": {
+          "relative_path": "toc.html"
         }
       },
       "version": ""
