@@ -153,8 +153,7 @@ namespace Apache.Arrow
         }
 
         /// <summary>
-        /// Gets a materialized <see cref="VariantValue"/> for the element at the given index,
-        /// or null if the element is null.
+        /// Gets a materialized <see cref="VariantValue"/> for the element at the given index.
         /// </summary>
         public VariantValue GetVariantValue(int index)
         {

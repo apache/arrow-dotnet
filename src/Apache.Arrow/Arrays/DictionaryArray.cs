@@ -68,4 +68,5 @@ namespace Apache.Arrow
             }
             throw new NotSupportedException($"Unsupported index array type: {Indices.Data.DataType}");
         }
-}}
+    }
+}

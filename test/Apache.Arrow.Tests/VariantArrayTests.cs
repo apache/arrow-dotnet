@@ -482,15 +482,17 @@ namespace Apache.Arrow.Tests
                 var batch = new RecordBatch(schema, new IArrowArray[] { array }, array.Length);
 
                 // Write to stream
-                var stream = new MemoryStream();
-                var writer = new ArrowStreamWriter(stream, schema);
-                writer.WriteRecordBatch(batch);
-                writer.WriteEnd();
+                using var stream = new MemoryStream();
+                using (var writer = new ArrowStreamWriter(stream, schema, leaveOpen: true))
+                {
+                    writer.WriteRecordBatch(batch);
+                    writer.WriteEnd();
+                }
                 stream.Position = 0;
 
                 // Read back
-                var reader = new ArrowStreamReader(stream);
-                var readBatch = reader.ReadNextRecordBatch();
+                using var reader = new ArrowStreamReader(stream);
+                using var readBatch = reader.ReadNextRecordBatch();
                 Assert.NotNull(readBatch);
 
                 var readArray = readBatch.Column(0) as VariantArray;
