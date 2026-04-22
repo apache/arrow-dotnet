@@ -16,7 +16,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Apache.Arrow.Types;
+using System.Linq;
 
 namespace Apache.Arrow
 {
@@ -68,13 +68,13 @@ namespace Apache.Arrow
         {
             private readonly IArrowArray _indices;
             private readonly IReadOnlyList<T> _values;
-            private readonly Func<IArrowArray, int, int> _indexLookup;
+            private readonly IIndexes _indexLookup;
 
             public DictionaryReadOnlyList(DictionaryArray dict, IReadOnlyList<T> values)
             {
                 _indices = dict.Indices;
                 _values = values;
-                _indexLookup = GetDictionaryIndex(dict.Indices.Data.DataType);
+                _indexLookup = dict.GetIndexes();
             }
 
             public int Count => _indices.Length;
@@ -91,15 +91,14 @@ namespace Apache.Arrow
                     if (_indices.IsNull(index))
                         return default;
 
-                    int dictIndex = _indexLookup(_indices, index);
+                    int dictIndex = _indexLookup.GetPhysicalIndex(index);
                     return _values[dictIndex];
                 }
             }
 
             public IEnumerator<T> GetEnumerator()
             {
-                for (int i = 0; i < Count; i++)
-                    yield return this[i];
+                return _indexLookup.EnumeratePhysicalIndices().Select(index => index < 0 ? default : _values[index]).GetEnumerator();
             }
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -129,29 +128,10 @@ namespace Apache.Arrow
 
             public IEnumerator<T> GetEnumerator()
             {
-                foreach (int physicalIndex in _ree.EnumeratePhysicalIndices())
-                    yield return _values[physicalIndex];
+                return _ree.EnumeratePhysicalIndices().Select(index => _values[index]).GetEnumerator();
             }
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-        }
-
-        private static Func<IArrowArray, int, int> GetDictionaryIndex(IArrowType type)
-        {
-            switch (type.TypeId)
-            {
-                case ArrowTypeId.Int8: return (array, logicalIndex) => ((Int8Array)array).GetValue(logicalIndex) ?? 0;
-                case ArrowTypeId.Int16: return (array, logicalIndex) => ((Int16Array)array).GetValue(logicalIndex) ?? 0;
-                case ArrowTypeId.Int32: return (array, logicalIndex) => ((Int32Array)array).GetValue(logicalIndex) ?? 0;
-                case ArrowTypeId.Int64: return (array, logicalIndex) => checked((int)(((Int64Array)array).GetValue(logicalIndex) ?? 0));
-                case ArrowTypeId.UInt8: return (array, logicalIndex) => ((UInt8Array)array).GetValue(logicalIndex) ?? 0;
-                case ArrowTypeId.UInt16: return (array, logicalIndex) => ((UInt16Array)array).GetValue(logicalIndex) ?? 0;
-                case ArrowTypeId.UInt32: return (array, logicalIndex) => checked((int)(((UInt32Array)array).GetValue(logicalIndex) ?? 0));
-                case ArrowTypeId.UInt64: return (array, logicalIndex) => checked((int)(((UInt64Array)array).GetValue(logicalIndex) ?? 0));
-                default:
-                    throw new InvalidOperationException(
-                        $"Unsupported dictionary index type: {type.TypeId}");
-            }
         }
     }
 }

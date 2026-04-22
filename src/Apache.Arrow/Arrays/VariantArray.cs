@@ -16,7 +16,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Apache.Arrow.Arrays;
+using System.Linq;
+using Apache.Arrow.Memory;
 using Apache.Arrow.Scalars.Variant;
 using Apache.Arrow.Types;
 
@@ -97,10 +98,12 @@ namespace Apache.Arrow
     /// Extension array for Parquet Variant values, backed by a StructArray
     /// containing "metadata" and "value" binary fields.
     /// </summary>
-    public class VariantArray : ExtensionArray, IReadOnlyList<VariantValue?>
+    public class VariantArray : ExtensionArray, IReadOnlyList<VariantValue>
     {
-        private readonly int _metadataFieldIndex;
-        private readonly int _valueFieldIndex;
+        private readonly IIndexes _metadataIndexes;
+        private readonly IBinaryArray _metadataArray;
+        private readonly IIndexes _valueIndexes;
+        private readonly IBinaryArray _valueArray;
 
         public StructArray StorageArray => (StructArray)Storage;
 
@@ -108,8 +111,8 @@ namespace Apache.Arrow
             : base(variantType, storage)
         {
             var structType = (StructType)variantType.StorageType;
-            _metadataFieldIndex = structType.GetFieldIndex("metadata");
-            _valueFieldIndex = structType.GetFieldIndex("value");
+            _metadataArray = DecodeBinaryArray(StorageArray.Fields[structType.GetFieldIndex("metadata")], out _metadataIndexes);
+            _valueArray = DecodeBinaryArray(StorageArray.Fields[structType.GetFieldIndex("value")], out _valueIndexes);
         }
 
         public VariantArray(IArrowArray storage) : this(VariantType.Default, storage) { }
@@ -119,7 +122,8 @@ namespace Apache.Arrow
         /// </summary>
         public ReadOnlySpan<byte> GetMetadataBytes(int index)
         {
-            return GetFieldBytes(StorageArray.Fields[_metadataFieldIndex], index);
+            int physicalIndex = _metadataIndexes.GetPhysicalIndex(index);
+            return _metadataArray.GetBytes(physicalIndex, out bool isNull);
         }
 
         /// <summary>
@@ -127,7 +131,8 @@ namespace Apache.Arrow
         /// </summary>
         public ReadOnlySpan<byte> GetValueBytes(int index)
         {
-            return GetFieldBytes(StorageArray.Fields[_valueFieldIndex], index);
+            int physicalIndex = _valueIndexes.GetPhysicalIndex(index);
+            return _valueArray.GetBytes(physicalIndex, out bool isNull);
         }
 
         /// <summary>
@@ -151,13 +156,13 @@ namespace Apache.Arrow
         /// Gets a materialized <see cref="VariantValue"/> for the element at the given index,
         /// or null if the element is null.
         /// </summary>
-        public VariantValue? GetVariantValue(int index)
+        public VariantValue GetVariantValue(int index)
         {
             if (index < 0 || index >= Length)
                 throw new ArgumentOutOfRangeException(nameof(index));
 
             if (IsNull(index))
-                return null;
+                return VariantValue.Null;
 
             var metadata = GetMetadataBytes(index);
             var value = GetValueBytes(index);
@@ -166,35 +171,192 @@ namespace Apache.Arrow
         }
 
         public int Count => Length;
-        public VariantValue? this[int index] => GetVariantValue(index);
+        public VariantValue this[int index] => GetVariantValue(index);
 
-        public IEnumerator<VariantValue?> GetEnumerator()
+        public IEnumerator<VariantValue> GetEnumerator()
         {
-            for (int i = 0; i < Length; i++)
+            IEnumerator<int> metadataIdx = _metadataIndexes.EnumeratePhysicalIndices().GetEnumerator();
+            IEnumerator<int> valueIdx = _valueIndexes.EnumeratePhysicalIndices().GetEnumerator();
+            for (int i = 0; metadataIdx.MoveNext() && valueIdx.MoveNext(); i++)
             {
-                yield return GetVariantValue(i);
+                if (IsNull(i))
+                {
+                    yield return VariantValue.Null;
+                    continue;
+                }
+                var metadata = _metadataArray.GetBytes(metadataIdx.Current, out _);
+                var value = _valueArray.GetBytes(valueIdx.Current, out _);
+                yield return new VariantReader(metadata, value).ToVariantValue();
             }
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        private static ReadOnlySpan<byte> GetFieldBytes(IArrowArray field, int index)
+        private static IBinaryArray DecodeBinaryArray(IArrowArray array, out IIndexes indexes)
         {
-            if (field is BinaryArray binaryArray)
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+
+            switch (array)
             {
-                return binaryArray.GetBytes(index);
+                case IBinaryArray binary:
+                    indexes = new SimpleIndexes(binary.Length);
+                    return binary;
+
+                case DictionaryArray dict:
+                    IBinaryArray values = dict.Dictionary as IBinaryArray;
+                    if (values == null)
+                        throw new ArgumentException(
+                            $"Dictionary value type {dict.Dictionary.Data.DataType.TypeId} cannot be read as binary.");
+                    indexes = dict.GetIndexes();
+                    return values;
+
+                case RunEndEncodedArray ree:
+                    IBinaryArray reeValues = ree.Values as IBinaryArray;
+                    if (reeValues == null)
+                        throw new ArgumentException(
+                            $"Run-end encoded value type {ree.Values.Data.DataType.TypeId} cannot be read as binary.");
+                    indexes = ree;
+                    return reeValues;
+                default:
+                    throw new ArgumentException(
+                        $"Cannot create binary reader for array of type {array.Data.DataType.TypeId}.",
+                        nameof(array));
             }
-            if (field is LargeBinaryArray largeBinaryArray)
+        }
+
+        sealed class SimpleIndexes : IIndexes
+        {
+            public SimpleIndexes(int length)
             {
-                return largeBinaryArray.GetBytes(index);
-            }
-            if (field is BinaryViewArray binaryViewArray)
-            {
-                return binaryViewArray.GetBytes(index);
+                Length = length;
             }
 
-            throw new InvalidOperationException(
-                $"Unsupported binary field type: {field.Data.DataType.TypeId}");
+            public int Length { get; }
+            public IEnumerable<int> EnumeratePhysicalIndices() => Enumerable.Range(0, Length);
+            public int GetPhysicalIndex(int index) => index;
+        }
+
+        /// <summary>
+        /// Builder for constructing <see cref="VariantArray"/> instances.
+        /// </summary>
+        public class Builder
+        {
+            private readonly BinaryArray.Builder _metadataBuilder = new BinaryArray.Builder();
+            private readonly BinaryArray.Builder _valueBuilder = new BinaryArray.Builder();
+            private readonly ArrowBuffer.BitmapBuilder _validityBuilder = new ArrowBuffer.BitmapBuilder();
+            private readonly VariantBuilder _encoder = new VariantBuilder();
+            private int _length;
+            private int _nullCount;
+
+            // Pre-encoded placeholder for struct-level nulls.
+            // We use encoded VariantValue.Null so child arrays always have valid binary data.
+            private static readonly Lazy<(byte[] Metadata, byte[] Value)> NullPlaceholder =
+                new Lazy<(byte[], byte[])>(() => new VariantBuilder().Encode(VariantValue.Null));
+
+            /// <summary>
+            /// Gets the number of elements appended so far.
+            /// </summary>
+            public int Length => _length;
+
+            /// <summary>
+            /// Appends a <see cref="VariantValue"/> to the array.
+            /// </summary>
+            public Builder Append(VariantValue value)
+            {
+                var (metadata, valueBytes) = _encoder.Encode(value);
+                _metadataBuilder.Append((ReadOnlySpan<byte>)metadata);
+                _valueBuilder.Append((ReadOnlySpan<byte>)valueBytes);
+                _validityBuilder.Append(true);
+                _length++;
+                return this;
+            }
+
+            /// <summary>
+            /// Appends a nullable <see cref="VariantValue"/>. A null value appends
+            /// a struct-level null (as opposed to a variant-encoded null).
+            /// </summary>
+            public Builder Append(VariantValue? value)
+            {
+                if (value == null)
+                    return AppendNull();
+                return Append(value.Value);
+            }
+
+            /// <summary>
+            /// Appends a variant element from pre-encoded metadata and value bytes.
+            /// The caller is responsible for providing valid variant-encoded data.
+            /// </summary>
+            public Builder Append(ReadOnlySpan<byte> metadata, ReadOnlySpan<byte> value)
+            {
+                _metadataBuilder.Append(metadata);
+                _valueBuilder.Append(value);
+                _validityBuilder.Append(true);
+                _length++;
+                return this;
+            }
+
+            /// <summary>
+            /// Appends a struct-level null element. This is distinct from appending
+            /// <see cref="VariantValue.Null"/>, which represents a valid slot
+            /// containing a variant-encoded null value.
+            /// </summary>
+            public Builder AppendNull()
+            {
+                var placeholder = NullPlaceholder.Value;
+                _metadataBuilder.Append((ReadOnlySpan<byte>)placeholder.Metadata);
+                _valueBuilder.Append((ReadOnlySpan<byte>)placeholder.Value);
+                _validityBuilder.Append(false);
+                _length++;
+                _nullCount++;
+                return this;
+            }
+
+            /// <summary>
+            /// Appends a range of <see cref="VariantValue"/> elements.
+            /// </summary>
+            public Builder AppendRange(IEnumerable<VariantValue> values)
+            {
+                if (values == null)
+                    throw new ArgumentNullException(nameof(values));
+
+                foreach (var value in values)
+                {
+                    Append(value);
+                }
+                return this;
+            }
+
+            /// <summary>
+            /// Appends a range of nullable <see cref="VariantValue"/> elements.
+            /// </summary>
+            public Builder AppendRange(IEnumerable<VariantValue?> values)
+            {
+                if (values == null)
+                    throw new ArgumentNullException(nameof(values));
+
+                foreach (var value in values)
+                {
+                    Append(value);
+                }
+                return this;
+            }
+
+            /// <summary>
+            /// Builds the <see cref="VariantArray"/> from appended values.
+            /// </summary>
+            public VariantArray Build(MemoryAllocator allocator = default)
+            {
+                var metadataArray = _metadataBuilder.Build(allocator);
+                var valueArray = _valueBuilder.Build(allocator);
+                var structType = (StructType)VariantType.Default.StorageType;
+                var nullBitmap = _nullCount > 0 ? _validityBuilder.Build(allocator) : ArrowBuffer.Empty;
+                var structArray = new StructArray(
+                    structType, _length,
+                    new IArrowArray[] { metadataArray, valueArray },
+                    nullBitmap, _nullCount);
+                return new VariantArray(VariantType.Default, structArray);
+            }
         }
     }
 }

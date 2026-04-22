@@ -14,7 +14,7 @@
 // limitations under the License.
 
 using System;
-using System.IO;
+using System.Collections.Generic;
 using Apache.Arrow.Types;
 
 namespace Apache.Arrow
@@ -57,5 +57,15 @@ namespace Apache.Arrow
         }
 
         public override void Accept(IArrowArrayVisitor visitor) => Accept(this, visitor);
-    }
-}
+
+        public IEnumerable<int> EnumeratePhysicalIndices() => GetIndexes().EnumeratePhysicalIndices();
+
+        internal IIndexes GetIndexes()
+        {
+            if (Indices is IIndexes indexes)
+            {
+                return indexes;
+            }
+            throw new NotSupportedException($"Unsupported index array type: {Indices.Data.DataType}");
+        }
+}}

@@ -23,7 +23,7 @@ using Apache.Arrow.Types;
 
 namespace Apache.Arrow
 {
-    public class BinaryViewArray : Array, IReadOnlyList<byte[]>
+    public class BinaryViewArray : Array, IBinaryArray, IReadOnlyList<byte[]>
     {
         public class Builder : BuilderBase<BinaryViewArray, Builder>
         {

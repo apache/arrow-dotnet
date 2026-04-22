@@ -13,11 +13,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Collections.Generic;
 using Apache.Arrow.Types;
 
 namespace Apache.Arrow
 {
-    public class UInt8Array : PrimitiveArray<byte>
+    public class UInt8Array : PrimitiveArray<byte>, IIndexes
     {
         public class Builder : PrimitiveArrayBuilder<byte, UInt8Array, Builder>
         {
@@ -42,5 +43,15 @@ namespace Apache.Arrow
 
         public override void Accept(IArrowArrayVisitor visitor) => Accept(this, visitor);
 
+
+        int IIndexes.GetPhysicalIndex(int index) => this.GetValue(index) ?? -1;
+
+        IEnumerable<int> IIndexes.EnumeratePhysicalIndices()
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                yield return this.GetValue(i) ?? -1;
+            }
+        }
     }
 }
