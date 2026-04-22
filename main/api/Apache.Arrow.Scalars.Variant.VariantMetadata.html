@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="../">
       
       
-      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Apache_Arrow_Variant_VariantMetadata.md&amp;value=---%0Auid%3A%20Apache.Arrow.Variant.VariantMetadata%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Apache_Arrow_Scalars_Variant_VariantMetadata.md&amp;value=---%0Auid%3A%20Apache.Arrow.Scalars.Variant.VariantMetadata%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -84,17 +84,17 @@
           <nav id="breadcrumb"></nav>
         </div>
 
-        <article data-uid="Apache.Arrow.Variant.VariantMetadata">
+        <article data-uid="Apache.Arrow.Scalars.Variant.VariantMetadata">
 
 
 
-  <h1 id="Apache_Arrow_Variant_VariantMetadata" data-uid="Apache.Arrow.Variant.VariantMetadata" class="text-break">
-Struct VariantMetadata  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantMetadata.cs/#L34"><i class="bi bi-code-slash"></i></a>
+  <h1 id="Apache_Arrow_Scalars_Variant_VariantMetadata" data-uid="Apache.Arrow.Scalars.Variant.VariantMetadata" class="text-break">
+Struct VariantMetadata  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantMetadata.cs/#L34"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
-    <dl><dt>Namespace</dt><dd><a class="xref" href="Apache.html">Apache</a>.<a class="xref" href="Apache.Arrow.html">Arrow</a>.<a class="xref" href="Apache.Arrow.Variant.html">Variant</a></dd></dl>
-  <dl><dt>Assembly</dt><dd>Apache.Arrow.Variant.dll</dd></dl>
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Apache.html">Apache</a>.<a class="xref" href="Apache.Arrow.html">Arrow</a>.<a class="xref" href="Apache.Arrow.Scalars.html">Scalars</a>.<a class="xref" href="Apache.Arrow.Scalars.Variant.html">Variant</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Apache.Arrow.Scalars.dll</dd></dl>
   </div>
 
   <div class="markdown summary"><p>Zero-copy reader for variant metadata: a header byte followed by a string
@@ -138,7 +138,7 @@ dictionary used to look up field names in variant objects.</p>
 
 
 
-  <h2 id="Apache_Arrow_Variant_VariantMetadata_remarks">Remarks</h2>
+  <h2 id="Apache_Arrow_Scalars_Variant_VariantMetadata_remarks">Remarks</h2>
   <div class="markdown level0 remarks"><p>Binary layout:</p>
 <pre><code class="lang-csharp">[header: 1 byte]
 [dictionary_size: offset_size bytes]
@@ -151,11 +151,11 @@ dictionary used to look up field names in variant objects.</p>
 </h2>
 
 
-  <a id="Apache_Arrow_Variant_VariantMetadata__ctor_" data-uid="Apache.Arrow.Variant.VariantMetadata.#ctor*"></a>
+  <a id="Apache_Arrow_Scalars_Variant_VariantMetadata__ctor_" data-uid="Apache.Arrow.Scalars.Variant.VariantMetadata.#ctor*"></a>
 
-  <h3 id="Apache_Arrow_Variant_VariantMetadata__ctor_System_ReadOnlySpan_System_Byte__" data-uid="Apache.Arrow.Variant.VariantMetadata.#ctor(System.ReadOnlySpan{System.Byte})">
+  <h3 id="Apache_Arrow_Scalars_Variant_VariantMetadata__ctor_System_ReadOnlySpan_System_Byte__" data-uid="Apache.Arrow.Scalars.Variant.VariantMetadata.#ctor(System.ReadOnlySpan{System.Byte})">
   VariantMetadata(ReadOnlySpan&lt;byte&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantMetadata.cs/#L48"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantMetadata.cs/#L48"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Parses variant metadata from a raw byte span.</p>
@@ -188,11 +188,11 @@ dictionary used to look up field names in variant objects.</p>
 </h2>
 
 
-  <a id="Apache_Arrow_Variant_VariantMetadata_DictionarySize_" data-uid="Apache.Arrow.Variant.VariantMetadata.DictionarySize*"></a>
+  <a id="Apache_Arrow_Scalars_Variant_VariantMetadata_DictionarySize_" data-uid="Apache.Arrow.Scalars.Variant.VariantMetadata.DictionarySize*"></a>
 
-  <h3 id="Apache_Arrow_Variant_VariantMetadata_DictionarySize" data-uid="Apache.Arrow.Variant.VariantMetadata.DictionarySize">
+  <h3 id="Apache_Arrow_Scalars_Variant_VariantMetadata_DictionarySize" data-uid="Apache.Arrow.Scalars.Variant.VariantMetadata.DictionarySize">
   DictionarySize
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantMetadata.cs/#L86"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantMetadata.cs/#L86"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets the number of strings in the metadata dictionary.</p>
@@ -220,11 +220,11 @@ dictionary used to look up field names in variant objects.</p>
 
 
 
-  <a id="Apache_Arrow_Variant_VariantMetadata_IsSorted_" data-uid="Apache.Arrow.Variant.VariantMetadata.IsSorted*"></a>
+  <a id="Apache_Arrow_Scalars_Variant_VariantMetadata_IsSorted_" data-uid="Apache.Arrow.Scalars.Variant.VariantMetadata.IsSorted*"></a>
 
-  <h3 id="Apache_Arrow_Variant_VariantMetadata_IsSorted" data-uid="Apache.Arrow.Variant.VariantMetadata.IsSorted">
+  <h3 id="Apache_Arrow_Scalars_Variant_VariantMetadata_IsSorted" data-uid="Apache.Arrow.Scalars.Variant.VariantMetadata.IsSorted">
   IsSorted
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantMetadata.cs/#L92"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantMetadata.cs/#L92"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets a value indicating whether the dictionary strings are sorted
@@ -257,11 +257,11 @@ in lexicographic (UTF-8 byte) order, enabling binary search.</p>
 </h2>
 
 
-  <a id="Apache_Arrow_Variant_VariantMetadata_FindString_" data-uid="Apache.Arrow.Variant.VariantMetadata.FindString*"></a>
+  <a id="Apache_Arrow_Scalars_Variant_VariantMetadata_FindString_" data-uid="Apache.Arrow.Scalars.Variant.VariantMetadata.FindString*"></a>
 
-  <h3 id="Apache_Arrow_Variant_VariantMetadata_FindString_System_ReadOnlySpan_System_Byte__" data-uid="Apache.Arrow.Variant.VariantMetadata.FindString(System.ReadOnlySpan{System.Byte})">
+  <h3 id="Apache_Arrow_Scalars_Variant_VariantMetadata_FindString_System_ReadOnlySpan_System_Byte__" data-uid="Apache.Arrow.Scalars.Variant.VariantMetadata.FindString(System.ReadOnlySpan{System.Byte})">
   FindString(ReadOnlySpan&lt;byte&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantMetadata.cs/#L132"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantMetadata.cs/#L132"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Finds the dictionary index of the given UTF-8 string.
@@ -291,7 +291,7 @@ Returns -1 if not found.</p>
 
 
 
-  <h4 class="section" id="Apache_Arrow_Variant_VariantMetadata_FindString_System_ReadOnlySpan_System_Byte___remarks">Remarks</h4>
+  <h4 class="section" id="Apache_Arrow_Scalars_Variant_VariantMetadata_FindString_System_ReadOnlySpan_System_Byte___remarks">Remarks</h4>
   <div class="markdown level1 remarks"><p>Uses binary search if the dictionary is marked as sorted;
 otherwise falls back to linear scan.</p>
 </div>
@@ -299,11 +299,11 @@ otherwise falls back to linear scan.</p>
 
 
 
-  <a id="Apache_Arrow_Variant_VariantMetadata_GetString_" data-uid="Apache.Arrow.Variant.VariantMetadata.GetString*"></a>
+  <a id="Apache_Arrow_Scalars_Variant_VariantMetadata_GetString_" data-uid="Apache.Arrow.Scalars.Variant.VariantMetadata.GetString*"></a>
 
-  <h3 id="Apache_Arrow_Variant_VariantMetadata_GetString_System_Int32_" data-uid="Apache.Arrow.Variant.VariantMetadata.GetString(System.Int32)">
+  <h3 id="Apache_Arrow_Scalars_Variant_VariantMetadata_GetString_System_Int32_" data-uid="Apache.Arrow.Scalars.Variant.VariantMetadata.GetString(System.Int32)">
   GetString(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantMetadata.cs/#L114"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantMetadata.cs/#L114"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets the string at the given dictionary index, decoded from UTF-8.</p>
@@ -336,11 +336,11 @@ otherwise falls back to linear scan.</p>
 
 
 
-  <a id="Apache_Arrow_Variant_VariantMetadata_GetStringBytes_" data-uid="Apache.Arrow.Variant.VariantMetadata.GetStringBytes*"></a>
+  <a id="Apache_Arrow_Scalars_Variant_VariantMetadata_GetStringBytes_" data-uid="Apache.Arrow.Scalars.Variant.VariantMetadata.GetStringBytes*"></a>
 
-  <h3 id="Apache_Arrow_Variant_VariantMetadata_GetStringBytes_System_Int32_" data-uid="Apache.Arrow.Variant.VariantMetadata.GetStringBytes(System.Int32)">
+  <h3 id="Apache_Arrow_Scalars_Variant_VariantMetadata_GetStringBytes_System_Int32_" data-uid="Apache.Arrow.Scalars.Variant.VariantMetadata.GetStringBytes(System.Int32)">
   GetStringBytes(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantMetadata.cs/#L97"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantMetadata.cs/#L97"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets the raw UTF-8 bytes of the string at the given dictionary index.</p>
@@ -377,7 +377,7 @@ otherwise falls back to linear scan.</p>
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantMetadata.cs/#L34" class="edit-link">Edit this page</a>
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantMetadata.cs/#L34" class="edit-link">Edit this page</a>
         </div>
 
 

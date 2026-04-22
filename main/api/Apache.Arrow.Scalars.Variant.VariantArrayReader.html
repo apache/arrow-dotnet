@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="../">
       
       
-      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Apache_Arrow_Variant_VariantArrayReader.md&amp;value=---%0Auid%3A%20Apache.Arrow.Variant.VariantArrayReader%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Apache_Arrow_Scalars_Variant_VariantArrayReader.md&amp;value=---%0Auid%3A%20Apache.Arrow.Scalars.Variant.VariantArrayReader%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -84,17 +84,17 @@
           <nav id="breadcrumb"></nav>
         </div>
 
-        <article data-uid="Apache.Arrow.Variant.VariantArrayReader">
+        <article data-uid="Apache.Arrow.Scalars.Variant.VariantArrayReader">
 
 
 
-  <h1 id="Apache_Arrow_Variant_VariantArrayReader" data-uid="Apache.Arrow.Variant.VariantArrayReader" class="text-break">
-Struct VariantArrayReader  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantArrayReader.cs/#L31"><i class="bi bi-code-slash"></i></a>
+  <h1 id="Apache_Arrow_Scalars_Variant_VariantArrayReader" data-uid="Apache.Arrow.Scalars.Variant.VariantArrayReader" class="text-break">
+Struct VariantArrayReader  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantArrayReader.cs/#L31"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
-    <dl><dt>Namespace</dt><dd><a class="xref" href="Apache.html">Apache</a>.<a class="xref" href="Apache.Arrow.html">Arrow</a>.<a class="xref" href="Apache.Arrow.Variant.html">Variant</a></dd></dl>
-  <dl><dt>Assembly</dt><dd>Apache.Arrow.Variant.dll</dd></dl>
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Apache.html">Apache</a>.<a class="xref" href="Apache.Arrow.html">Arrow</a>.<a class="xref" href="Apache.Arrow.Scalars.html">Scalars</a>.<a class="xref" href="Apache.Arrow.Scalars.Variant.html">Variant</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Apache.Arrow.Scalars.dll</dd></dl>
   </div>
 
   <div class="markdown summary"><p>Zero-copy reader for a variant array value.</p>
@@ -137,7 +137,7 @@ Struct VariantArrayReader  <a class="header-action link-secondary" title="View s
 
 
 
-  <h2 id="Apache_Arrow_Variant_VariantArrayReader_remarks">Remarks</h2>
+  <h2 id="Apache_Arrow_Scalars_Variant_VariantArrayReader_remarks">Remarks</h2>
   <div class="markdown level0 remarks"><p>Binary layout (after the header byte):</p>
 <pre><code class="lang-csharp">[num_elements: 1 or 4 bytes depending on is_large]
 [offsets: (num_elements + 1) * offset_size bytes]
@@ -149,11 +149,11 @@ Struct VariantArrayReader  <a class="header-action link-secondary" title="View s
 </h2>
 
 
-  <a id="Apache_Arrow_Variant_VariantArrayReader__ctor_" data-uid="Apache.Arrow.Variant.VariantArrayReader.#ctor*"></a>
+  <a id="Apache_Arrow_Scalars_Variant_VariantArrayReader__ctor_" data-uid="Apache.Arrow.Scalars.Variant.VariantArrayReader.#ctor*"></a>
 
-  <h3 id="Apache_Arrow_Variant_VariantArrayReader__ctor_System_ReadOnlySpan_System_Byte__System_ReadOnlySpan_System_Byte__" data-uid="Apache.Arrow.Variant.VariantArrayReader.#ctor(System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte})">
+  <h3 id="Apache_Arrow_Scalars_Variant_VariantArrayReader__ctor_System_ReadOnlySpan_System_Byte__System_ReadOnlySpan_System_Byte__" data-uid="Apache.Arrow.Scalars.Variant.VariantArrayReader.#ctor(System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte})">
   VariantArrayReader(ReadOnlySpan&lt;byte&gt;, ReadOnlySpan&lt;byte&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantArrayReader.cs/#L43"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantArrayReader.cs/#L43"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Creates an array reader from the metadata and the array value buffer.</p>
@@ -187,11 +187,11 @@ Struct VariantArrayReader  <a class="header-action link-secondary" title="View s
 </h2>
 
 
-  <a id="Apache_Arrow_Variant_VariantArrayReader_ElementCount_" data-uid="Apache.Arrow.Variant.VariantArrayReader.ElementCount*"></a>
+  <a id="Apache_Arrow_Scalars_Variant_VariantArrayReader_ElementCount_" data-uid="Apache.Arrow.Scalars.Variant.VariantArrayReader.ElementCount*"></a>
 
-  <h3 id="Apache_Arrow_Variant_VariantArrayReader_ElementCount" data-uid="Apache.Arrow.Variant.VariantArrayReader.ElementCount">
+  <h3 id="Apache_Arrow_Scalars_Variant_VariantArrayReader_ElementCount" data-uid="Apache.Arrow.Scalars.Variant.VariantArrayReader.ElementCount">
   ElementCount
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantArrayReader.cs/#L66"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantArrayReader.cs/#L66"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets the number of elements in this array.</p>
@@ -223,14 +223,14 @@ Struct VariantArrayReader  <a class="header-action link-secondary" title="View s
 </h2>
 
 
-  <a id="Apache_Arrow_Variant_VariantArrayReader_GetElement_" data-uid="Apache.Arrow.Variant.VariantArrayReader.GetElement*"></a>
+  <a id="Apache_Arrow_Scalars_Variant_VariantArrayReader_GetElement_" data-uid="Apache.Arrow.Scalars.Variant.VariantArrayReader.GetElement*"></a>
 
-  <h3 id="Apache_Arrow_Variant_VariantArrayReader_GetElement_System_Int32_" data-uid="Apache.Arrow.Variant.VariantArrayReader.GetElement(System.Int32)">
+  <h3 id="Apache_Arrow_Scalars_Variant_VariantArrayReader_GetElement_System_Int32_" data-uid="Apache.Arrow.Scalars.Variant.VariantArrayReader.GetElement(System.Int32)">
   GetElement(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantArrayReader.cs/#L71"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantArrayReader.cs/#L71"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Gets a <a class="xref" href="Apache.Arrow.Variant.VariantReader.html">VariantReader</a> for the element at the given index.</p>
+  <div class="markdown level1 summary"><p>Gets a <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantReader.html">VariantReader</a> for the element at the given index.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -246,7 +246,7 @@ Struct VariantArrayReader  <a class="header-action link-secondary" title="View s
 
   <h4 class="section">Returns</h4>
   <dl class="parameters">
-    <dt><a class="xref" href="Apache.Arrow.Variant.VariantReader.html">VariantReader</a></dt>
+    <dt><a class="xref" href="Apache.Arrow.Scalars.Variant.VariantReader.html">VariantReader</a></dt>
     <dd></dd>
   </dl>
 
@@ -264,7 +264,7 @@ Struct VariantArrayReader  <a class="header-action link-secondary" title="View s
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Variant/VariantArrayReader.cs/#L31" class="edit-link">Edit this page</a>
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantArrayReader.cs/#L31" class="edit-link">Edit this page</a>
         </div>
 
 

@@ -97,9 +97,9 @@ Class VariantJsonConverter  <a class="header-action link-secondary" title="View 
   <dl><dt>Assembly</dt><dd>Apache.Arrow.Operations.dll</dd></dl>
   </div>
 
-  <div class="markdown summary"><p>A <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.text.json.serialization.jsonconverter-1">JsonConverter&lt;T&gt;</a> for <a class="xref" href="Apache.Arrow.Variant.VariantValue.html">VariantValue</a>.
+  <div class="markdown summary"><p>A <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.text.json.serialization.jsonconverter-1">JsonConverter&lt;T&gt;</a> for <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValue.html">VariantValue</a>.
 Serializes variant values to their JSON equivalents and deserializes
-JSON values to <a class="xref" href="Apache.Arrow.Variant.VariantValue.html">VariantValue</a> with integer-size inference.</p>
+JSON values to <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValue.html">VariantValue</a> with integer-size inference.</p>
 </div>
   <div class="markdown conceptual"></div>
 
@@ -115,7 +115,7 @@ JSON values to <a class="xref" href="Apache.Arrow.Variant.VariantValue.html">Var
     <dd>
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.text.json.serialization.jsonconverter">JsonConverter</a></div>
-      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.text.json.serialization.jsonconverter-1">JsonConverter</a>&lt;<a class="xref" href="Apache.Arrow.Variant.VariantValue.html">VariantValue</a>&gt;</div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.text.json.serialization.jsonconverter-1">JsonConverter</a>&lt;<a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValue.html">VariantValue</a>&gt;</div>
       <div><span class="xref">VariantJsonConverter</span></div>
     </dd>
   </dl>
@@ -272,7 +272,7 @@ returning C# null by default.</p>
   <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Json/VariantJsonConverter.cs/#L65"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Reads and converts the JSON to type <a class="xref" href="Apache.Arrow.Variant.VariantValue.html">VariantValue</a>.</p>
+  <div class="markdown level1 summary"><p>Reads and converts the JSON to type <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValue.html">VariantValue</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -295,7 +295,7 @@ returning C# null by default.</p>
 
   <h4 class="section">Returns</h4>
   <dl class="parameters">
-    <dt><a class="xref" href="Apache.Arrow.Variant.VariantValue.html">VariantValue</a></dt>
+    <dt><a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValue.html">VariantValue</a></dt>
     <dd><p>The converted value.</p>
 </dd>
   </dl>
@@ -312,7 +312,7 @@ returning C# null by default.</p>
 
   <a id="Apache_Arrow_Operations_Json_VariantJsonConverter_Write_" data-uid="Apache.Arrow.Operations.Json.VariantJsonConverter.Write*"></a>
 
-  <h3 id="Apache_Arrow_Operations_Json_VariantJsonConverter_Write_System_Text_Json_Utf8JsonWriter_Apache_Arrow_Variant_VariantValue_System_Text_Json_JsonSerializerOptions_" data-uid="Apache.Arrow.Operations.Json.VariantJsonConverter.Write(System.Text.Json.Utf8JsonWriter,Apache.Arrow.Variant.VariantValue,System.Text.Json.JsonSerializerOptions)">
+  <h3 id="Apache_Arrow_Operations_Json_VariantJsonConverter_Write_System_Text_Json_Utf8JsonWriter_Apache_Arrow_Scalars_Variant_VariantValue_System_Text_Json_JsonSerializerOptions_" data-uid="Apache.Arrow.Operations.Json.VariantJsonConverter.Write(System.Text.Json.Utf8JsonWriter,Apache.Arrow.Scalars.Variant.VariantValue,System.Text.Json.JsonSerializerOptions)">
   Write(Utf8JsonWriter, VariantValue, JsonSerializerOptions)
   <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Json/VariantJsonConverter.cs/#L71"><i class="bi bi-code-slash"></i></a>
   </h3>
@@ -330,7 +330,7 @@ returning C# null by default.</p>
     <dt><code>writer</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.text.json.utf8jsonwriter">Utf8JsonWriter</a></dt>
     <dd><p>The writer to write to.</p>
 </dd>
-    <dt><code>value</code> <a class="xref" href="Apache.Arrow.Variant.VariantValue.html">VariantValue</a></dt>
+    <dt><code>value</code> <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValue.html">VariantValue</a></dt>
     <dd><p>The value to convert to JSON.</p>
 </dd>
     <dt><code>options</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.text.json.jsonserializeroptions">JsonSerializerOptions</a></dt>

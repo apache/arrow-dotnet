@@ -2,9 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Namespace Apache.Arrow.Variant | Apache Arrow .NET </title>
+      <title>Namespace Apache.Arrow.Scalars.Variant | Apache Arrow .NET </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Namespace Apache.Arrow.Variant | Apache Arrow .NET ">
+      <meta name="title" content="Namespace Apache.Arrow.Scalars.Variant | Apache Arrow .NET ">
       
       
       <link rel="icon" href="../images/favicon.png">
@@ -84,9 +84,9 @@
           <nav id="breadcrumb"></nav>
         </div>
 
-        <article data-uid="Apache.Arrow.Variant">
+        <article data-uid="Apache.Arrow.Scalars.Variant">
 
-  <h1 id="Apache_Arrow_Variant" data-uid="Apache.Arrow.Variant" class="text-break">Namespace Apache.Arrow.Variant</h1>
+  <h1 id="Apache_Arrow_Scalars_Variant" data-uid="Apache.Arrow.Scalars.Variant" class="text-break">Namespace Apache.Arrow.Scalars.Variant</h1>
   <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
   <div class="markdown level0 remarks"></div>
@@ -95,21 +95,21 @@
 Classes
 </h3>
     <dl class="jumplist">
-      <dt><a class="xref" href="Apache.Arrow.Variant.VariantBuilder.html">VariantBuilder</a></dt>
-      <dd><p>Encodes a <a class="xref" href="Apache.Arrow.Variant.VariantValue.html">VariantValue</a> into the binary variant format,
+      <dt><a class="xref" href="Apache.Arrow.Scalars.Variant.VariantBuilder.html">VariantBuilder</a></dt>
+      <dd><p>Encodes a <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValue.html">VariantValue</a> into the binary variant format,
 producing metadata and value byte arrays.</p>
 </dd>
     </dl>
     <dl class="jumplist">
-      <dt><a class="xref" href="Apache.Arrow.Variant.VariantMetadataBuilder.html">VariantMetadataBuilder</a></dt>
+      <dt><a class="xref" href="Apache.Arrow.Scalars.Variant.VariantMetadataBuilder.html">VariantMetadataBuilder</a></dt>
       <dd><p>Collects unique field names and builds the sorted binary metadata
 dictionary used by variant objects.</p>
 </dd>
     </dl>
     <dl class="jumplist">
-      <dt><a class="xref" href="Apache.Arrow.Variant.VariantValueWriter.html">VariantValueWriter</a></dt>
+      <dt><a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValueWriter.html">VariantValueWriter</a></dt>
       <dd><p>Streams variant value bytes directly from primitive calls, without
-requiring an intermediate <a class="xref" href="Apache.Arrow.Variant.VariantValue.html">VariantValue</a>. Use this to
+requiring an intermediate <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValue.html">VariantValue</a>. Use this to
 implement encoders from arbitrary input formats (JSON, CBOR, etc.).</p>
 </dd>
     </dl>
@@ -117,30 +117,30 @@ implement encoders from arbitrary input formats (JSON, CBOR, etc.).</p>
 Structs
 </h3>
     <dl class="jumplist">
-      <dt><a class="xref" href="Apache.Arrow.Variant.VariantArrayReader.html">VariantArrayReader</a></dt>
+      <dt><a class="xref" href="Apache.Arrow.Scalars.Variant.VariantArrayReader.html">VariantArrayReader</a></dt>
       <dd><p>Zero-copy reader for a variant array value.</p>
 </dd>
     </dl>
     <dl class="jumplist">
-      <dt><a class="xref" href="Apache.Arrow.Variant.VariantMetadata.html">VariantMetadata</a></dt>
+      <dt><a class="xref" href="Apache.Arrow.Scalars.Variant.VariantMetadata.html">VariantMetadata</a></dt>
       <dd><p>Zero-copy reader for variant metadata: a header byte followed by a string
 dictionary used to look up field names in variant objects.</p>
 </dd>
     </dl>
     <dl class="jumplist">
-      <dt><a class="xref" href="Apache.Arrow.Variant.VariantObjectReader.html">VariantObjectReader</a></dt>
+      <dt><a class="xref" href="Apache.Arrow.Scalars.Variant.VariantObjectReader.html">VariantObjectReader</a></dt>
       <dd><p>Zero-copy reader for a variant object value. Provides access to field
 names (via the metadata dictionary) and field values.</p>
 </dd>
     </dl>
     <dl class="jumplist">
-      <dt><a class="xref" href="Apache.Arrow.Variant.VariantReader.html">VariantReader</a></dt>
+      <dt><a class="xref" href="Apache.Arrow.Scalars.Variant.VariantReader.html">VariantReader</a></dt>
       <dd><p>Zero-copy reader for a single variant value. Provides type inspection
 and typed accessors for primitives, short strings, objects, and arrays.</p>
 </dd>
     </dl>
     <dl class="jumplist">
-      <dt><a class="xref" href="Apache.Arrow.Variant.VariantValue.html">VariantValue</a></dt>
+      <dt><a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValue.html">VariantValue</a></dt>
       <dd><p>Represents a materialized variant value as a discriminated union.
 Preserves exact type information from the variant encoding.</p>
 </dd>
@@ -149,14 +149,14 @@ Preserves exact type information from the variant encoding.</p>
 Enums
 </h3>
     <dl class="jumplist">
-      <dt><a class="xref" href="Apache.Arrow.Variant.VariantBasicType.html">VariantBasicType</a></dt>
+      <dt><a class="xref" href="Apache.Arrow.Scalars.Variant.VariantBasicType.html">VariantBasicType</a></dt>
       <dd><p>The basic type stored in the lowest 2 bits of a variant value header byte.</p>
 </dd>
     </dl>
     <dl class="jumplist">
-      <dt><a class="xref" href="Apache.Arrow.Variant.VariantPrimitiveType.html">VariantPrimitiveType</a></dt>
+      <dt><a class="xref" href="Apache.Arrow.Scalars.Variant.VariantPrimitiveType.html">VariantPrimitiveType</a></dt>
       <dd><p>Primitive type IDs stored in bits 2-7 of the value header byte
-when the basic type is <a class="xref" href="Apache.Arrow.Variant.VariantBasicType.html#Apache_Arrow_Variant_VariantBasicType_Primitive">Primitive</a>.</p>
+when the basic type is <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantBasicType.html#Apache_Arrow_Scalars_Variant_VariantBasicType_Primitive">Primitive</a>.</p>
 </dd>
     </dl>
 

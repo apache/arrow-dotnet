@@ -2836,7 +2836,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Apache.Arrow.Operations.Json.VariantJsonConverter",
-      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.Json.VariantJsonConverter.yml\" sourcestartlinenumber=\"1\">A <xref href=\"System.Text.Json.Serialization.JsonConverter%601\" data-throw-if-not-resolved=\"false\"></xref> for <xref href=\"Apache.Arrow.Variant.VariantValue\" data-throw-if-not-resolved=\"false\"></xref>.\nSerializes variant values to their JSON equivalents and deserializes\nJSON values to <xref href=\"Apache.Arrow.Variant.VariantValue\" data-throw-if-not-resolved=\"false\"></xref> with integer-size inference.</p>\n"
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.Json.VariantJsonConverter.yml\" sourcestartlinenumber=\"1\">A <xref href=\"System.Text.Json.Serialization.JsonConverter%601\" data-throw-if-not-resolved=\"false\"></xref> for <xref href=\"Apache.Arrow.Scalars.Variant.VariantValue\" data-throw-if-not-resolved=\"false\"></xref>.\nSerializes variant values to their JSON equivalents and deserializes\nJSON values to <xref href=\"Apache.Arrow.Scalars.Variant.VariantValue\" data-throw-if-not-resolved=\"false\"></xref> with integer-size inference.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -2850,7 +2850,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Apache.Arrow.Operations.Json.VariantJsonReader",
-      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.Json.VariantJsonReader.yml\" sourcestartlinenumber=\"1\">Parses a JSON string or UTF-8 bytes directly into variant binary format\n(metadata + value byte arrays) without creating intermediate <xref href=\"Apache.Arrow.Variant.VariantValue\" data-throw-if-not-resolved=\"false\"></xref> objects.</p>\n"
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.Json.VariantJsonReader.yml\" sourcestartlinenumber=\"1\">Parses a JSON string or UTF-8 bytes directly into variant binary format\n(metadata + value byte arrays) without creating intermediate <xref href=\"Apache.Arrow.Scalars.Variant.VariantValue\" data-throw-if-not-resolved=\"false\"></xref> objects.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -2864,7 +2864,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Apache.Arrow.Operations.Json.VariantJsonWriter",
-      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.Json.VariantJsonWriter.yml\" sourcestartlinenumber=\"1\">Writes variant binary data directly to JSON without creating intermediate\n<xref href=\"Apache.Arrow.Variant.VariantValue\" data-throw-if-not-resolved=\"false\"></xref> objects.</p>\n"
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.Json.VariantJsonWriter.yml\" sourcestartlinenumber=\"1\">Writes variant binary data directly to JSON without creating intermediate\n<xref href=\"Apache.Arrow.Scalars.Variant.VariantValue\" data-throw-if-not-resolved=\"false\"></xref> objects.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -3018,6 +3018,160 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Apache.Arrow.Scalars.MonthDayNanosecondInterval",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Scalars.Variant.VariantArrayReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Scalars.Variant.VariantArrayReader.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Scalars.Variant.VariantArrayReader",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Scalars.Variant.VariantArrayReader.yml\" sourcestartlinenumber=\"1\">Zero-copy reader for a variant array value.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Scalars.Variant.VariantBasicType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Scalars.Variant.VariantBasicType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Scalars.Variant.VariantBasicType",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Scalars.Variant.VariantBasicType.yml\" sourcestartlinenumber=\"1\">The basic type stored in the lowest 2 bits of a variant value header byte.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Scalars.Variant.VariantBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Scalars.Variant.VariantBuilder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Scalars.Variant.VariantBuilder",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Scalars.Variant.VariantBuilder.yml\" sourcestartlinenumber=\"1\">Encodes a <xref href=\"Apache.Arrow.Scalars.Variant.VariantValue\" data-throw-if-not-resolved=\"false\"></xref> into the binary variant format,\nproducing metadata and value byte arrays.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Scalars.Variant.VariantMetadata.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Scalars.Variant.VariantMetadata.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Scalars.Variant.VariantMetadata",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Scalars.Variant.VariantMetadata.yml\" sourcestartlinenumber=\"1\">Zero-copy reader for variant metadata: a header byte followed by a string\ndictionary used to look up field names in variant objects.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Scalars.Variant.VariantMetadataBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Scalars.Variant.VariantMetadataBuilder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Scalars.Variant.VariantMetadataBuilder",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Scalars.Variant.VariantMetadataBuilder.yml\" sourcestartlinenumber=\"1\">Collects unique field names and builds the sorted binary metadata\ndictionary used by variant objects.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Scalars.Variant.VariantObjectReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Scalars.Variant.VariantObjectReader.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Scalars.Variant.VariantObjectReader",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Scalars.Variant.VariantObjectReader.yml\" sourcestartlinenumber=\"1\">Zero-copy reader for a variant object value. Provides access to field\nnames (via the metadata dictionary) and field values.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Scalars.Variant.VariantPrimitiveType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Scalars.Variant.VariantPrimitiveType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Scalars.Variant.VariantPrimitiveType",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Scalars.Variant.VariantPrimitiveType.yml\" sourcestartlinenumber=\"1\">Primitive type IDs stored in bits 2-7 of the value header byte\nwhen the basic type is <xref href=\"Apache.Arrow.Scalars.Variant.VariantBasicType.Primitive\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Scalars.Variant.VariantReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Scalars.Variant.VariantReader.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Scalars.Variant.VariantReader",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Scalars.Variant.VariantReader.yml\" sourcestartlinenumber=\"1\">Zero-copy reader for a single variant value. Provides type inspection\nand typed accessors for primitives, short strings, objects, and arrays.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Scalars.Variant.VariantValue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Scalars.Variant.VariantValue.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Scalars.Variant.VariantValue",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Scalars.Variant.VariantValue.yml\" sourcestartlinenumber=\"1\">Represents a materialized variant value as a discriminated union.\nPreserves exact type information from the variant encoding.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Scalars.Variant.VariantValueWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Scalars.Variant.VariantValueWriter.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Scalars.Variant.VariantValueWriter",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Scalars.Variant.VariantValueWriter.yml\" sourcestartlinenumber=\"1\">Streams variant value bytes directly from primitive calls, without\nrequiring an intermediate <xref href=\"Apache.Arrow.Scalars.Variant.VariantValue\" data-throw-if-not-resolved=\"false\"></xref>. Use this to\nimplement encoders from arbitrary input formats (JSON, CBOR, etc.).</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Scalars.Variant.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Scalars.Variant.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Scalars.Variant",
       "Summary": null
     },
     {
@@ -4278,160 +4432,6 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Apache.Arrow.UnionArray",
-      "Summary": null
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Apache.Arrow.Variant.VariantArrayReader.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Apache.Arrow.Variant.VariantArrayReader.html"
-        }
-      },
-      "version": "",
-      "Uid": null,
-      "IsMRef": true,
-      "Title": "Apache.Arrow.Variant.VariantArrayReader",
-      "Summary": "<p sourcefile=\"api/Apache.Arrow.Variant.VariantArrayReader.yml\" sourcestartlinenumber=\"1\">Zero-copy reader for a variant array value.</p>\n"
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Apache.Arrow.Variant.VariantBasicType.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Apache.Arrow.Variant.VariantBasicType.html"
-        }
-      },
-      "version": "",
-      "Uid": null,
-      "IsMRef": true,
-      "Title": "Apache.Arrow.Variant.VariantBasicType",
-      "Summary": "<p sourcefile=\"api/Apache.Arrow.Variant.VariantBasicType.yml\" sourcestartlinenumber=\"1\">The basic type stored in the lowest 2 bits of a variant value header byte.</p>\n"
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Apache.Arrow.Variant.VariantBuilder.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Apache.Arrow.Variant.VariantBuilder.html"
-        }
-      },
-      "version": "",
-      "Uid": null,
-      "IsMRef": true,
-      "Title": "Apache.Arrow.Variant.VariantBuilder",
-      "Summary": "<p sourcefile=\"api/Apache.Arrow.Variant.VariantBuilder.yml\" sourcestartlinenumber=\"1\">Encodes a <xref href=\"Apache.Arrow.Variant.VariantValue\" data-throw-if-not-resolved=\"false\"></xref> into the binary variant format,\nproducing metadata and value byte arrays.</p>\n"
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Apache.Arrow.Variant.VariantMetadata.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Apache.Arrow.Variant.VariantMetadata.html"
-        }
-      },
-      "version": "",
-      "Uid": null,
-      "IsMRef": true,
-      "Title": "Apache.Arrow.Variant.VariantMetadata",
-      "Summary": "<p sourcefile=\"api/Apache.Arrow.Variant.VariantMetadata.yml\" sourcestartlinenumber=\"1\">Zero-copy reader for variant metadata: a header byte followed by a string\ndictionary used to look up field names in variant objects.</p>\n"
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Apache.Arrow.Variant.VariantMetadataBuilder.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Apache.Arrow.Variant.VariantMetadataBuilder.html"
-        }
-      },
-      "version": "",
-      "Uid": null,
-      "IsMRef": true,
-      "Title": "Apache.Arrow.Variant.VariantMetadataBuilder",
-      "Summary": "<p sourcefile=\"api/Apache.Arrow.Variant.VariantMetadataBuilder.yml\" sourcestartlinenumber=\"1\">Collects unique field names and builds the sorted binary metadata\ndictionary used by variant objects.</p>\n"
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Apache.Arrow.Variant.VariantObjectReader.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Apache.Arrow.Variant.VariantObjectReader.html"
-        }
-      },
-      "version": "",
-      "Uid": null,
-      "IsMRef": true,
-      "Title": "Apache.Arrow.Variant.VariantObjectReader",
-      "Summary": "<p sourcefile=\"api/Apache.Arrow.Variant.VariantObjectReader.yml\" sourcestartlinenumber=\"1\">Zero-copy reader for a variant object value. Provides access to field\nnames (via the metadata dictionary) and field values.</p>\n"
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Apache.Arrow.Variant.VariantPrimitiveType.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Apache.Arrow.Variant.VariantPrimitiveType.html"
-        }
-      },
-      "version": "",
-      "Uid": null,
-      "IsMRef": true,
-      "Title": "Apache.Arrow.Variant.VariantPrimitiveType",
-      "Summary": "<p sourcefile=\"api/Apache.Arrow.Variant.VariantPrimitiveType.yml\" sourcestartlinenumber=\"1\">Primitive type IDs stored in bits 2-7 of the value header byte\nwhen the basic type is <xref href=\"Apache.Arrow.Variant.VariantBasicType.Primitive\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Apache.Arrow.Variant.VariantReader.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Apache.Arrow.Variant.VariantReader.html"
-        }
-      },
-      "version": "",
-      "Uid": null,
-      "IsMRef": true,
-      "Title": "Apache.Arrow.Variant.VariantReader",
-      "Summary": "<p sourcefile=\"api/Apache.Arrow.Variant.VariantReader.yml\" sourcestartlinenumber=\"1\">Zero-copy reader for a single variant value. Provides type inspection\nand typed accessors for primitives, short strings, objects, and arrays.</p>\n"
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Apache.Arrow.Variant.VariantValue.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Apache.Arrow.Variant.VariantValue.html"
-        }
-      },
-      "version": "",
-      "Uid": null,
-      "IsMRef": true,
-      "Title": "Apache.Arrow.Variant.VariantValue",
-      "Summary": "<p sourcefile=\"api/Apache.Arrow.Variant.VariantValue.yml\" sourcestartlinenumber=\"1\">Represents a materialized variant value as a discriminated union.\nPreserves exact type information from the variant encoding.</p>\n"
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Apache.Arrow.Variant.VariantValueWriter.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Apache.Arrow.Variant.VariantValueWriter.html"
-        }
-      },
-      "version": "",
-      "Uid": null,
-      "IsMRef": true,
-      "Title": "Apache.Arrow.Variant.VariantValueWriter",
-      "Summary": "<p sourcefile=\"api/Apache.Arrow.Variant.VariantValueWriter.yml\" sourcestartlinenumber=\"1\">Streams variant value bytes directly from primitive calls, without\nrequiring an intermediate <xref href=\"Apache.Arrow.Variant.VariantValue\" data-throw-if-not-resolved=\"false\"></xref>. Use this to\nimplement encoders from arbitrary input formats (JSON, CBOR, etc.).</p>\n"
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Apache.Arrow.Variant.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Apache.Arrow.Variant.html"
-        }
-      },
-      "version": "",
-      "Uid": null,
-      "IsMRef": true,
-      "Title": "Apache.Arrow.Variant",
       "Summary": null
     },
     {
