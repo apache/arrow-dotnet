@@ -20,11 +20,11 @@ using Xunit;
 namespace Apache.Arrow.Tests
 {
     /// <summary>
-    /// Tests for both Design A (ReadOnlyListAdapters) and Design B (ArrayReader)
-    /// transparent encoding reader prototypes, covering plain, dictionary-encoded,
-    /// and run-end encoded arrays for Int32 and String value types.
+    /// Tests for ReadOnlyListAdapters transparent encoding readers,
+    /// covering plain, dictionary-encoded, and run-end encoded arrays
+    /// for Int32 and String value types.
     /// </summary>
-    public class ArrayReaderTests
+    public class ReadOnlyListAdapterTests
     {
         // =============================================================
         // Test data helpers
@@ -192,14 +192,14 @@ namespace Apache.Arrow.Tests
         private static readonly string[] StringValues = new[] { "hello", "world", "world", null, "foo", "foo", "foo", "hello" };
 
         // =============================================================
-        // Design A: ReadOnlyListAdapters tests
+        // ReadOnlyListAdapters tests
         // =============================================================
 
         [Fact]
-        public void DesignA_PlainInt32()
+        public void PlainInt32()
         {
             Int32Array array = BuildPlainInt32Array(Int32Values);
-            IReadOnlyList<int?> reader = array.AsInt32ReadOnlyList();
+            IReadOnlyList<int?> reader = array.AsDecodedReadOnlyList<int?>();
 
             // Returns the array itself (zero overhead)
             Assert.Same(array, reader);
@@ -207,28 +207,28 @@ namespace Apache.Arrow.Tests
         }
 
         [Fact]
-        public void DesignA_DictionaryInt32()
+        public void DictionaryInt32()
         {
             DictionaryArray array = BuildDictionaryInt32Array(Int32Values);
-            IReadOnlyList<int?> reader = array.AsInt32ReadOnlyList();
+            IReadOnlyList<int?> reader = array.AsDecodedReadOnlyList<int?>();
 
             AssertInt32Values(reader);
         }
 
         [Fact]
-        public void DesignA_ReeInt32()
+        public void ReeInt32()
         {
             RunEndEncodedArray array = BuildReeInt32Array(Int32Values);
-            IReadOnlyList<int?> reader = array.AsInt32ReadOnlyList();
+            IReadOnlyList<int?> reader = array.AsDecodedReadOnlyList<int?>();
 
             AssertInt32Values(reader);
         }
 
         [Fact]
-        public void DesignA_PlainString()
+        public void PlainString()
         {
             StringArray array = BuildPlainStringArray(StringValues);
-            IReadOnlyList<string> reader = array.AsStringReadOnlyList();
+            IReadOnlyList<string> reader = array.AsDecodedReadOnlyList<string>();
 
             // Returns the array itself (zero overhead)
             Assert.Same(array, reader);
@@ -236,97 +236,21 @@ namespace Apache.Arrow.Tests
         }
 
         [Fact]
-        public void DesignA_DictionaryString()
+        public void DictionaryString()
         {
             DictionaryArray array = BuildDictionaryStringArray(StringValues);
-            IReadOnlyList<string> reader = array.AsStringReadOnlyList();
+            IReadOnlyList<string> reader = array.AsDecodedReadOnlyList<string>();
 
             AssertStringValues(reader);
         }
 
         [Fact]
-        public void DesignA_ReeString()
+        public void ReeString()
         {
             RunEndEncodedArray array = BuildReeStringArray(StringValues);
-            IReadOnlyList<string> reader = array.AsStringReadOnlyList();
+            IReadOnlyList<string> reader = array.AsDecodedReadOnlyList<string>();
 
             AssertStringValues(reader);
-        }
-
-        // =============================================================
-        // Design B: ArrayReader<T> tests
-        // =============================================================
-
-        [Fact]
-        public void DesignB_PlainInt32()
-        {
-            Int32Array array = BuildPlainInt32Array(Int32Values);
-            ArrayReader<int?> reader = ArrayReader.GetInt32Reader(array);
-
-            Assert.Same(array, reader.Array);
-            AssertInt32Values(reader);
-            Assert.False(reader.IsNull(0));
-            Assert.True(reader.IsNull(3));
-        }
-
-        [Fact]
-        public void DesignB_DictionaryInt32()
-        {
-            DictionaryArray array = BuildDictionaryInt32Array(Int32Values);
-            ArrayReader<int?> reader = ArrayReader.GetInt32Reader(array);
-
-            Assert.Same(array, reader.Array);
-            AssertInt32Values(reader);
-            Assert.False(reader.IsNull(0));
-            Assert.True(reader.IsNull(3));
-        }
-
-        [Fact]
-        public void DesignB_ReeInt32()
-        {
-            RunEndEncodedArray array = BuildReeInt32Array(Int32Values);
-            ArrayReader<int?> reader = ArrayReader.GetInt32Reader(array);
-
-            Assert.Same(array, reader.Array);
-            AssertInt32Values(reader);
-            Assert.False(reader.IsNull(0));
-            Assert.True(reader.IsNull(3));
-        }
-
-        [Fact]
-        public void DesignB_PlainString()
-        {
-            StringArray array = BuildPlainStringArray(StringValues);
-            ArrayReader<string> reader = ArrayReader.GetStringReader(array);
-
-            Assert.Same(array, reader.Array);
-            AssertStringValues(reader);
-            Assert.False(reader.IsNull(0));
-            Assert.True(reader.IsNull(3));
-        }
-
-        [Fact]
-        public void DesignB_DictionaryString()
-        {
-            DictionaryArray array = BuildDictionaryStringArray(StringValues);
-            ArrayReader<string> reader = ArrayReader.GetStringReader(array);
-
-            Assert.Same(array, reader.Array);
-            AssertStringValues(reader);
-            Assert.False(reader.IsNull(0));
-            Assert.True(reader.IsNull(3));
-        }
-
-        [Fact]
-        public void DesignB_ReeString()
-        {
-            RunEndEncodedArray array = BuildReeStringArray(StringValues);
-            ArrayReader<string> reader = ArrayReader.GetStringReader(array);
-
-            Assert.Same(array, reader.Array);
-            AssertStringValues(reader);
-            Assert.False(reader.IsNull(0));
-            Assert.True(reader.IsNull(3));
         }
 
         // =============================================================
@@ -339,10 +263,8 @@ namespace Apache.Arrow.Tests
             var emptyInt = BuildPlainInt32Array(new int?[0]);
             var emptyStr = BuildPlainStringArray(new string[0]);
 
-            Assert.Empty(emptyInt.AsInt32ReadOnlyList());
-            Assert.Empty(emptyStr.AsStringReadOnlyList());
-            Assert.Empty(ArrayReader.GetInt32Reader(emptyInt));
-            Assert.Empty(ArrayReader.GetStringReader(emptyStr));
+            Assert.Empty(emptyInt.AsDecodedReadOnlyList<int?>());
+            Assert.Empty(emptyStr.AsDecodedReadOnlyList<string>());
         }
 
         [Fact]
@@ -352,13 +274,11 @@ namespace Apache.Arrow.Tests
 
             // Plain
             var plain = BuildPlainInt32Array(values);
-            AssertAllNullInt32(plain.AsInt32ReadOnlyList(), 3);
-            AssertAllNullInt32(ArrayReader.GetInt32Reader(plain), 3);
+            AssertAllNullInt32(plain.AsDecodedReadOnlyList<int?>(), 3);
 
             // Dictionary
             var dict = BuildDictionaryInt32Array(values);
-            AssertAllNullInt32(dict.AsInt32ReadOnlyList(), 3);
-            AssertAllNullInt32(ArrayReader.GetInt32Reader(dict), 3);
+            AssertAllNullInt32(dict.AsDecodedReadOnlyList<int?>(), 3);
         }
 
         [Fact]
@@ -367,12 +287,10 @@ namespace Apache.Arrow.Tests
             var values = new string[] { null, null, null };
 
             var plain = BuildPlainStringArray(values);
-            AssertAllNullString(plain.AsStringReadOnlyList(), 3);
-            AssertAllNullString(ArrayReader.GetStringReader(plain), 3);
+            AssertAllNullString(plain.AsDecodedReadOnlyList<string>(), 3);
 
             var dict = BuildDictionaryStringArray(values);
-            AssertAllNullString(dict.AsStringReadOnlyList(), 3);
-            AssertAllNullString(ArrayReader.GetStringReader(dict), 3);
+            AssertAllNullString(dict.AsDecodedReadOnlyList<string>(), 3);
         }
 
         [Fact]
@@ -382,15 +300,12 @@ namespace Apache.Arrow.Tests
             var values = new int?[] { 42, 42, 42, 42, 42 };
             var ree = BuildReeInt32Array(values);
 
-            var readerA = ree.AsInt32ReadOnlyList();
-            var readerB = ArrayReader.GetInt32Reader(ree);
+            var reader = ree.AsDecodedReadOnlyList<int?>();
 
-            Assert.Equal(5, readerA.Count);
-            Assert.Equal(5, readerB.Count);
+            Assert.Equal(5, reader.Count);
             for (int i = 0; i < 5; i++)
             {
-                Assert.Equal(42, readerA[i]);
-                Assert.Equal(42, readerB[i]);
+                Assert.Equal(42, reader[i]);
             }
         }
 
@@ -399,13 +314,132 @@ namespace Apache.Arrow.Tests
         {
             var array = BuildPlainInt32Array(new int?[] { 1, 2, 3 });
 
-            // Design A
-            var listA = new List<int?>(array.AsInt32ReadOnlyList());
-            Assert.Equal(new int?[] { 1, 2, 3 }, listA.ToArray());
+            var list = new List<int?>(array.AsDecodedReadOnlyList<int?>());
+            Assert.Equal(new int?[] { 1, 2, 3 }, list.ToArray());
+        }
 
-            // Design B
-            var listB = new List<int?>(ArrayReader.GetInt32Reader(array));
-            Assert.Equal(new int?[] { 1, 2, 3 }, listB.ToArray());
+        // =============================================================
+        // Sliced array tests
+        // =============================================================
+
+        // Full data: { 10, 20, 20, null, 30, 30, 30, 10 }
+        // Slice(2, 4) => { 20, null, 30, 30 }
+
+        [Fact]
+        public void SlicedPlainInt32()
+        {
+            Int32Array array = BuildPlainInt32Array(Int32Values);
+            var sliced = (Int32Array)array.Slice(2, 4);
+
+            IReadOnlyList<int?> reader = sliced.AsDecodedReadOnlyList<int?>();
+
+            Assert.Same(sliced, reader);
+            Assert.Equal(4, reader.Count);
+            Assert.Equal(20, reader[0]);
+            Assert.Null(reader[1]);
+            Assert.Equal(30, reader[2]);
+            Assert.Equal(30, reader[3]);
+        }
+
+        [Fact]
+        public void SlicedDictionaryInt32()
+        {
+            DictionaryArray array = BuildDictionaryInt32Array(Int32Values);
+            // DictionaryArray.Slice returns a new DictionaryArray with sliced indices
+            var sliced = (DictionaryArray)ArrowArrayFactory.Slice(array, 2, 4);
+
+            IReadOnlyList<int?> reader = sliced.AsDecodedReadOnlyList<int?>();
+
+            Assert.Equal(4, reader.Count);
+            Assert.Equal(20, reader[0]);
+            Assert.Null(reader[1]);
+            Assert.Equal(30, reader[2]);
+            Assert.Equal(30, reader[3]);
+        }
+
+        [Fact]
+        public void SlicedReeInt32()
+        {
+            RunEndEncodedArray array = BuildReeInt32Array(Int32Values);
+            // REE slice adjusts the offset but keeps the same children
+            var sliced = (RunEndEncodedArray)ArrowArrayFactory.Slice(array, 2, 4);
+
+            IReadOnlyList<int?> reader = sliced.AsDecodedReadOnlyList<int?>();
+
+            Assert.Equal(4, reader.Count);
+            Assert.Equal(20, reader[0]);
+            Assert.Null(reader[1]);
+            Assert.Equal(30, reader[2]);
+            Assert.Equal(30, reader[3]);
+        }
+
+        // Full data: { "hello", "world", "world", null, "foo", "foo", "foo", "hello" }
+        // Slice(1, 5) => { "world", "world", null, "foo", "foo" }
+
+        [Fact]
+        public void SlicedPlainString()
+        {
+            StringArray array = BuildPlainStringArray(StringValues);
+            var sliced = (StringArray)array.Slice(1, 5);
+
+            IReadOnlyList<string> reader = sliced.AsDecodedReadOnlyList<string>();
+
+            Assert.Same(sliced, reader);
+            Assert.Equal(5, reader.Count);
+            Assert.Equal("world", reader[0]);
+            Assert.Equal("world", reader[1]);
+            Assert.Null(reader[2]);
+            Assert.Equal("foo", reader[3]);
+            Assert.Equal("foo", reader[4]);
+        }
+
+        [Fact]
+        public void SlicedDictionaryString()
+        {
+            DictionaryArray array = BuildDictionaryStringArray(StringValues);
+            var sliced = (DictionaryArray)ArrowArrayFactory.Slice(array, 1, 5);
+
+            IReadOnlyList<string> reader = sliced.AsDecodedReadOnlyList<string>();
+
+            Assert.Equal(5, reader.Count);
+            Assert.Equal("world", reader[0]);
+            Assert.Equal("world", reader[1]);
+            Assert.Null(reader[2]);
+            Assert.Equal("foo", reader[3]);
+            Assert.Equal("foo", reader[4]);
+        }
+
+        [Fact]
+        public void SlicedReeString()
+        {
+            RunEndEncodedArray array = BuildReeStringArray(StringValues);
+            var sliced = (RunEndEncodedArray)ArrowArrayFactory.Slice(array, 1, 5);
+
+            IReadOnlyList<string> reader = sliced.AsDecodedReadOnlyList<string>();
+
+            Assert.Equal(5, reader.Count);
+            Assert.Equal("world", reader[0]);
+            Assert.Equal("world", reader[1]);
+            Assert.Null(reader[2]);
+            Assert.Equal("foo", reader[3]);
+            Assert.Equal("foo", reader[4]);
+        }
+
+        [Fact]
+        public void SlicedReeEnumerationIsEfficient()
+        {
+            // Verify the enumerator produces the same results as indexed access
+            RunEndEncodedArray array = BuildReeInt32Array(Int32Values);
+            var sliced = (RunEndEncodedArray)ArrowArrayFactory.Slice(array, 2, 4);
+
+            IReadOnlyList<int?> reader = sliced.AsDecodedReadOnlyList<int?>();
+
+            var enumerated = new List<int?>(reader);
+            Assert.Equal(4, enumerated.Count);
+            for (int i = 0; i < 4; i++)
+            {
+                Assert.Equal(reader[i], enumerated[i]);
+            }
         }
 
         // =============================================================
