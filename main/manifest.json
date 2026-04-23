@@ -4506,6 +4506,62 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.VariantArray.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.VariantArray.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.VariantArray.Builder",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.VariantArray.Builder.yml\" sourcestartlinenumber=\"1\">Builder for constructing <xref href=\"Apache.Arrow.VariantArray\" data-throw-if-not-resolved=\"false\"></xref> instances.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.VariantArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.VariantArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.VariantArray",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.VariantArray.yml\" sourcestartlinenumber=\"1\">Extension array for Parquet Variant values, backed by a StructArray\ncontaining &quot;metadata&quot; and &quot;value&quot; binary fields.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.VariantExtensionDefinition.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.VariantExtensionDefinition.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.VariantExtensionDefinition",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.VariantExtensionDefinition.yml\" sourcestartlinenumber=\"1\">Extension definition for the &quot;arrow.parquet.variant&quot; extension type,\nbacked by a struct with &quot;metadata&quot; and &quot;value&quot; binary fields.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.VariantType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.VariantType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.VariantType",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.VariantType.yml\" sourcestartlinenumber=\"1\">Extension type representing Parquet Variant values, stored as\nstruct&lt;metadata: binary, value: binary&gt;.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Apache.Arrow.YearMonthIntervalArray.Builder.yml",
       "output": {
         ".html": {
