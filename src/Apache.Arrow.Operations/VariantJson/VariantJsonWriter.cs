@@ -23,7 +23,7 @@ using System.Text;
 using System.Text.Json;
 using Apache.Arrow.Scalars.Variant;
 
-namespace Apache.Arrow.Operations.Json
+namespace Apache.Arrow.Operations.VariantJson
 {
     /// <summary>
     /// Writes variant binary data directly to JSON without creating intermediate

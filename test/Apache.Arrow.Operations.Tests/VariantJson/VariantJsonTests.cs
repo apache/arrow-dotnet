@@ -17,7 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Text.Json;
-using Apache.Arrow.Operations.Json;
+using Apache.Arrow.Operations.VariantJson;
 using Apache.Arrow.Scalars.Variant;
 using Xunit;
 

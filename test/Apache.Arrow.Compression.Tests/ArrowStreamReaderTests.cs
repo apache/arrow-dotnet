@@ -47,7 +47,7 @@ namespace Apache.Arrow.Compression.Tests
             using var stream = assembly.GetManifestResourceStream($"Apache.Arrow.Compression.Tests.Resources.{fileName}");
             Assert.NotNull(stream);
             var buffer = new byte[stream.Length];
-            stream.ReadExactly(buffer);
+            stream.ReadFullBuffer(buffer);
             var codecFactory = new Compression.CompressionCodecFactory();
             using var reader = new ArrowStreamReader(buffer, codecFactory);
 
