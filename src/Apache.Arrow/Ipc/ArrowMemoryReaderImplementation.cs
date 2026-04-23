@@ -106,7 +106,14 @@ namespace Apache.Arrow.Ipc
                     CreateByteBuffer(_buffer.Slice(_bufferPosition, messageLength)));
                 _bufferPosition += messageLength;
 
-                int bodyLength = checked((int)message.BodyLength);
+                if (message.BodyLength > int.MaxValue)
+                {
+                    throw new InvalidDataException(
+                        $"Cannot read batch. Message body of {message.BodyLength} bytes " +
+                        $"is greater than the maximum supported length ({int.MaxValue})");
+                }
+
+                int bodyLength = (int)message.BodyLength;
                 ByteBuffer bodybb = CreateByteBuffer(_buffer.Slice(_bufferPosition, bodyLength));
                 _bufferPosition += bodyLength;
 

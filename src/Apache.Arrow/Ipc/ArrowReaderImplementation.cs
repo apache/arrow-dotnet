@@ -141,8 +141,15 @@ namespace Apache.Arrow.Ipc
                     break;
                 case Flatbuf.MessageHeader.RecordBatch:
                     Flatbuf.RecordBatch rb = message.Header<Flatbuf.RecordBatch>().Value;
+                    if (rb.Length > int.MaxValue)
+                    {
+                        throw new InvalidDataException(
+                            $"Cannot read batch. Message body of {rb.Length} bytes " +
+                            $"is greater than the maximum supported length ({int.MaxValue})");
+                    }
+
                     List<IArrowArray> arrays = BuildArrays(message.Version, Schema, bodyByteBuffer, rb);
-                    return new RecordBatch(Schema, memoryOwner, arrays, checked((int)rb.Length));
+                    return new RecordBatch(Schema, memoryOwner, arrays, (int)rb.Length);
                 default:
                     // NOTE: Skip unsupported message type
                     Debug.WriteLine($"Skipping unsupported message type '{message.HeaderType}'");
@@ -256,19 +263,18 @@ namespace Apache.Arrow.Ipc
             ByteBuffer bodyData,
             IBufferCreator bufferCreator)
         {
-
-            int fieldLength = checked((int)fieldNode.Length);
-            int fieldNullCount = checked((int)fieldNode.NullCount);
-
-            if (fieldLength < 0)
+            if (fieldNode.Length < 0 || fieldNode.Length > int.MaxValue)
             {
-                throw new InvalidDataException("Field length must be >= 0"); // TODO:Localize exception message
+                throw new InvalidDataException($"Field length of {fieldNode.Length} must be >= 0 and <= {int.MaxValue}");
             }
 
-            if (fieldNullCount < 0)
+            if (fieldNode.NullCount < 0 || fieldNode.NullCount > int.MaxValue)
             {
-                throw new InvalidDataException("Null count must be >= 0"); // TODO:Localize exception message
+                throw new InvalidDataException($"Null count of {fieldNode.NullCount} must be >= 0 and <= {int.MaxValue}");
             }
+
+            int fieldLength = (int)fieldNode.Length;
+            int fieldNullCount = (int)fieldNode.NullCount;
 
             int buffers;
             IArrowType storageType = Types.ArrowTypeExtensions.GetStorageType(field.DataType);
@@ -375,8 +381,20 @@ namespace Apache.Arrow.Ipc
                 return ArrowBuffer.Empty;
             }
 
-            int offset = checked((int)buffer.Offset);
-            int length = checked((int)buffer.Length);
+            if (buffer.Offset < 0 || buffer.Offset > int.MaxValue)
+            {
+                throw new InvalidDataException(
+                    $"IPC buffer offset is out of range for a .NET buffer: offset={buffer.Offset}, length={buffer.Length}.");
+            }
+
+            if (buffer.Length < 0 || buffer.Length > int.MaxValue)
+            {
+                throw new InvalidDataException(
+                    $"IPC buffer length is out of range for a .NET buffer: offset={buffer.Offset}, length={buffer.Length}.");
+            }
+
+            int offset = (int)buffer.Offset;
+            int length = (int)buffer.Length;
 
             var data = bodyData.ToReadOnlyMemory(offset, length);
             return bufferCreator.CreateBuffer(data);

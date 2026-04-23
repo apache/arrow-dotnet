@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -134,6 +135,13 @@ namespace Apache.Arrow.Flight.Internal
                 switch (message.HeaderType)
                 {
                     case MessageHeader.RecordBatch:
+                        if (message.BodyLength > int.MaxValue)
+                        {
+                            throw new InvalidDataException(
+                                $"Cannot read batch. Message body of {message.BodyLength} bytes " +
+                                $"is greater than the maximum supported length ({int.MaxValue})");
+                        }
+
                         var body = _flightDataStream.Current.DataBody.Memory;
                         return CreateArrowObjectFromMessage(message, CreateByteBuffer(body.Slice(0, checked((int)message.BodyLength))), null);
                     default:
