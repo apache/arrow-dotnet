@@ -939,7 +939,7 @@ public class FlightSqlClient
         FlightCallOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        if (transaction == null)
+        if (transaction == default)
             throw new ArgumentNullException(nameof(transaction));
 
         try
@@ -965,7 +965,7 @@ public class FlightSqlClient
         FlightCallOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        if (transaction == null)
+        if (transaction == default)
         {
             throw new ArgumentNullException(nameof(transaction));
         }
