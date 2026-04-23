@@ -14,12 +14,11 @@
 // limitations under the License.
 
 using System;
+using System.Buffers.Binary;
 using System.IO;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Apache.Arrow.Ipc;
-using Apache.Arrow.Memory;
 using Apache.Arrow.Types;
 using Xunit;
 
@@ -325,14 +324,14 @@ namespace Apache.Arrow.Tests
 
             // Message table vtable slot 10 = BodyLength
             int bodyLengthPos = ReadFieldAbsolutePos(buffer, messageTablePos, vtableSlot: 10);
-            Assert.True(BitConverter.ToInt64(buffer, bodyLengthPos) > 0);
+            Assert.True(ToInt64LittleEndian(buffer, bodyLengthPos) > 0);
 
             WriteInt64LittleEndian(buffer, bodyLengthPos, (long)int.MaxValue + 1);
 
             InvalidDataException ex = Assert.Throws<InvalidDataException>(
                 () => new ArrowStreamReader(buffer).ReadNextRecordBatch());
             Assert.Contains("Message body", ex.Message);
-            Assert.Contains("maximum supported length", ex.Message);
+            Assert.Contains("out of range", ex.Message);
         }
 
         [Fact]
@@ -347,13 +346,13 @@ namespace Apache.Arrow.Tests
 
             // RecordBatch table vtable slot 4 = Length (row count)
             int lengthPos = ReadFieldAbsolutePos(buffer, recordBatchTablePos, vtableSlot: 4);
-            Assert.Equal(3L, BitConverter.ToInt64(buffer, lengthPos));
+            Assert.Equal(3L, ToInt64LittleEndian(buffer, lengthPos));
 
             WriteInt64LittleEndian(buffer, lengthPos, (long)int.MaxValue + 1);
 
             InvalidDataException ex = Assert.Throws<InvalidDataException>(
                 () => new ArrowStreamReader(buffer).ReadNextRecordBatch());
-            Assert.Contains("maximum supported length", ex.Message);
+            Assert.Contains("out of range", ex.Message);
         }
 
         [Fact]
@@ -367,7 +366,7 @@ namespace Apache.Arrow.Tests
             // RecordBatch.Nodes (slot 6) is a vector of 16-byte FieldNode structs
             // where the first 8 bytes are Length and the next 8 bytes are NullCount.
             int nodesDataStart = ReadVectorDataStart(buffer, recordBatchTablePos, vtableSlot: 6);
-            Assert.Equal(3L, BitConverter.ToInt64(buffer, nodesDataStart));
+            Assert.Equal(3L, ToInt64LittleEndian(buffer, nodesDataStart));
 
             WriteInt64LittleEndian(buffer, nodesDataStart, (long)int.MaxValue + 1);
 
@@ -388,12 +387,12 @@ namespace Apache.Arrow.Tests
             // (8 bytes Offset, 8 bytes Length). Find the first buffer with non-zero
             // length and corrupt its Length field.
             int buffersDataStart = ReadVectorDataStart(buffer, recordBatchTablePos, vtableSlot: 8);
-            int buffersLength = BitConverter.ToInt32(buffer, buffersDataStart - 4);
+            int buffersLength = ToInt32LittleEndian(buffer, buffersDataStart - 4);
             int targetLengthPos = -1;
             for (int i = 0; i < buffersLength; i++)
             {
                 int lengthPos = buffersDataStart + i * 16 + 8;
-                if (BitConverter.ToInt64(buffer, lengthPos) > 0)
+                if (ToInt64LittleEndian(buffer, lengthPos) > 0)
                 {
                     targetLengthPos = lengthPos;
                     break;
@@ -405,7 +404,7 @@ namespace Apache.Arrow.Tests
 
             InvalidDataException ex = Assert.Throws<InvalidDataException>(
                 () => new ArrowStreamReader(buffer).ReadNextRecordBatch());
-            Assert.Contains("IPC buffer length", ex.Message);
+            Assert.Contains("IPC buffer range", ex.Message);
         }
 
         private static byte[] BuildSimpleInt32Batch(int rowCount)
@@ -433,23 +432,23 @@ namespace Apache.Arrow.Tests
         {
             // Stream layout: [continuation(0xFFFFFFFF)][len][schema message][continuation][len][batch message][body]...
             int pos = 0;
-            Assert.Equal(-1, BitConverter.ToInt32(buffer, pos)); pos += 4;
-            int schemaLen = BitConverter.ToInt32(buffer, pos); pos += 4;
+            Assert.Equal(-1, ToInt32LittleEndian(buffer, pos)); pos += 4;
+            int schemaLen = ToInt32LittleEndian(buffer, pos); pos += 4;
             pos += schemaLen;
-            Assert.Equal(-1, BitConverter.ToInt32(buffer, pos)); pos += 4;
+            Assert.Equal(-1, ToInt32LittleEndian(buffer, pos)); pos += 4;
             pos += 4; // batch message length prefix
             return pos;
         }
 
         private static int ReadRootTablePos(byte[] buffer, int messageStart)
         {
-            return messageStart + BitConverter.ToInt32(buffer, messageStart);
+            return messageStart + ToInt32LittleEndian(buffer, messageStart);
         }
 
         private static int ReadFieldAbsolutePos(byte[] buffer, int tablePos, int vtableSlot)
         {
-            int vtable = tablePos - BitConverter.ToInt32(buffer, tablePos);
-            short fieldOffset = BitConverter.ToInt16(buffer, vtable + vtableSlot);
+            int vtable = tablePos - ToInt32LittleEndian(buffer, tablePos);
+            short fieldOffset = ToInt16LittleEndian(buffer, vtable + vtableSlot);
             Assert.NotEqual(0, fieldOffset); // field must be present in the vtable
             return tablePos + fieldOffset;
         }
@@ -457,13 +456,13 @@ namespace Apache.Arrow.Tests
         private static int ReadUnionTablePos(byte[] buffer, int tablePos, int vtableSlot)
         {
             int unionPtrPos = ReadFieldAbsolutePos(buffer, tablePos, vtableSlot);
-            return unionPtrPos + BitConverter.ToInt32(buffer, unionPtrPos);
+            return unionPtrPos + ToInt32LittleEndian(buffer, unionPtrPos);
         }
 
         private static int ReadVectorDataStart(byte[] buffer, int tablePos, int vtableSlot)
         {
             int vectorPtrPos = ReadFieldAbsolutePos(buffer, tablePos, vtableSlot);
-            int vectorLengthPos = vectorPtrPos + BitConverter.ToInt32(buffer, vectorPtrPos);
+            int vectorLengthPos = vectorPtrPos + ToInt32LittleEndian(buffer, vectorPtrPos);
             return vectorLengthPos + 4; // skip the 4-byte vector length prefix
         }
 
@@ -482,6 +481,21 @@ namespace Apache.Arrow.Tests
                 var schema = await reader.GetSchema();
                 Assert.Null(schema);
             }
+        }
+
+        private static short ToInt16LittleEndian(byte[] buffer, int offset)
+        {
+            return BinaryPrimitives.ReadInt16LittleEndian(buffer.AsSpan().Slice(offset));
+        }
+
+        private static int ToInt32LittleEndian(byte[] buffer, int offset)
+        {
+            return BinaryPrimitives.ReadInt32LittleEndian(buffer.AsSpan().Slice(offset));
+        }
+
+        private static long ToInt64LittleEndian(byte[] buffer, int offset)
+        {
+            return BinaryPrimitives.ReadInt64LittleEndian(buffer.AsSpan().Slice(offset));
         }
 
         private class EmptyAsyncOnlyStream : Stream

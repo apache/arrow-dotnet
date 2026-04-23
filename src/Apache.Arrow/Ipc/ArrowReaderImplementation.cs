@@ -141,11 +141,10 @@ namespace Apache.Arrow.Ipc
                     break;
                 case Flatbuf.MessageHeader.RecordBatch:
                     Flatbuf.RecordBatch rb = message.Header<Flatbuf.RecordBatch>().Value;
-                    if (rb.Length > int.MaxValue)
+                    if (rb.Length < 0 || rb.Length > int.MaxValue)
                     {
                         throw new InvalidDataException(
-                            $"Cannot read batch. Message body of {rb.Length} bytes " +
-                            $"is greater than the maximum supported length ({int.MaxValue})");
+                            $"Cannot read batch. Message body of {rb.Length} rows is out of range.");
                     }
 
                     List<IArrowArray> arrays = BuildArrays(message.Version, Schema, bodyByteBuffer, rb);
@@ -381,16 +380,12 @@ namespace Apache.Arrow.Ipc
                 return ArrowBuffer.Empty;
             }
 
-            if (buffer.Offset < 0 || buffer.Offset > int.MaxValue)
+            if (buffer.Offset < 0 || buffer.Offset > int.MaxValue ||
+                buffer.Length < 0 || buffer.Length > int.MaxValue ||
+                buffer.Length + buffer.Offset > bodyData.Length)
             {
                 throw new InvalidDataException(
-                    $"IPC buffer offset is out of range for a .NET buffer: offset={buffer.Offset}, length={buffer.Length}.");
-            }
-
-            if (buffer.Length < 0 || buffer.Length > int.MaxValue)
-            {
-                throw new InvalidDataException(
-                    $"IPC buffer length is out of range for a .NET buffer: offset={buffer.Offset}, length={buffer.Length}.");
+                    $"IPC buffer range is out of range for a .NET buffer: offset={buffer.Offset}, length={buffer.Length}, size={bodyData.Length}.");
             }
 
             int offset = (int)buffer.Offset;

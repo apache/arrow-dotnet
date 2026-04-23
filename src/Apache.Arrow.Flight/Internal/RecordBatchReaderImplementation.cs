@@ -135,11 +135,10 @@ namespace Apache.Arrow.Flight.Internal
                 switch (message.HeaderType)
                 {
                     case MessageHeader.RecordBatch:
-                        if (message.BodyLength > int.MaxValue)
+                        if (message.BodyLength < 0 || message.BodyLength > int.MaxValue)
                         {
                             throw new InvalidDataException(
-                                $"Cannot read batch. Message body of {message.BodyLength} bytes " +
-                                $"is greater than the maximum supported length ({int.MaxValue})");
+                                $"Cannot read batch. Message body of {message.BodyLength} bytes is out of range");
                         }
 
                         var body = _flightDataStream.Current.DataBody.Memory;
