@@ -18,7 +18,7 @@ using System.Text;
 using System.Text.Json;
 using Apache.Arrow.Scalars.Variant;
 
-namespace Apache.Arrow.Operations.Json
+namespace Apache.Arrow.Operations.VariantJson
 {
     /// <summary>
     /// Parses a JSON string or UTF-8 bytes directly into variant binary format

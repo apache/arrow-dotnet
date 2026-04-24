@@ -19,7 +19,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Apache.Arrow.Scalars.Variant;
 
-namespace Apache.Arrow.Operations.Json
+namespace Apache.Arrow.Operations.VariantJson
 {
     /// <summary>
     /// A <see cref="JsonConverter{T}"/> for <see cref="VariantValue"/>.

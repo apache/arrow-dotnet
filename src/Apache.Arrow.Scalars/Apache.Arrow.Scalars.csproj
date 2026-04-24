@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <TargetFrameworks>netstandard2.0;net8.0;net462</TargetFrameworks>
-
+    <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible($(TargetFramework), 'net8.0'))">true</IsAotCompatible>
     <Description>Apache Arrow scalar types, including Parquet-compatible variants. Provides readers, writers, and object model for the Parquet Variant binary format for semi-structured data.</Description>
   </PropertyGroup>
 
