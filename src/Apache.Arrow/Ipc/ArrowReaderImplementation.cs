@@ -141,6 +141,12 @@ namespace Apache.Arrow.Ipc
                     break;
                 case Flatbuf.MessageHeader.RecordBatch:
                     Flatbuf.RecordBatch rb = message.Header<Flatbuf.RecordBatch>().Value;
+                    if (rb.Length < 0 || rb.Length > int.MaxValue)
+                    {
+                        throw new InvalidDataException(
+                            $"Cannot read batch. Message body of {rb.Length} rows is out of range.");
+                    }
+
                     List<IArrowArray> arrays = BuildArrays(message.Version, Schema, bodyByteBuffer, rb);
                     return new RecordBatch(Schema, memoryOwner, arrays, (int)rb.Length);
                 default:
@@ -256,19 +262,18 @@ namespace Apache.Arrow.Ipc
             ByteBuffer bodyData,
             IBufferCreator bufferCreator)
         {
+            if (fieldNode.Length < 0 || fieldNode.Length > int.MaxValue)
+            {
+                throw new InvalidDataException($"Field length of {fieldNode.Length} must be >= 0 and <= {int.MaxValue}");
+            }
+
+            if (fieldNode.NullCount < 0 || fieldNode.NullCount > int.MaxValue)
+            {
+                throw new InvalidDataException($"Null count of {fieldNode.NullCount} must be >= 0 and <= {int.MaxValue}");
+            }
 
             int fieldLength = (int)fieldNode.Length;
             int fieldNullCount = (int)fieldNode.NullCount;
-
-            if (fieldLength < 0)
-            {
-                throw new InvalidDataException("Field length must be >= 0"); // TODO:Localize exception message
-            }
-
-            if (fieldNullCount < 0)
-            {
-                throw new InvalidDataException("Null count must be >= 0"); // TODO:Localize exception message
-            }
 
             int buffers;
             IArrowType storageType = Types.ArrowTypeExtensions.GetStorageType(field.DataType);
@@ -373,6 +378,14 @@ namespace Apache.Arrow.Ipc
             if (buffer.Length <= 0)
             {
                 return ArrowBuffer.Empty;
+            }
+
+            if (buffer.Offset < 0 || buffer.Offset > int.MaxValue ||
+                buffer.Length < 0 || buffer.Length > int.MaxValue ||
+                buffer.Length + buffer.Offset > bodyData.Length)
+            {
+                throw new InvalidDataException(
+                    $"IPC buffer range is out of range for a .NET buffer: offset={buffer.Offset}, length={buffer.Length}, size={bodyData.Length}.");
             }
 
             int offset = (int)buffer.Offset;

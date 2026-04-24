@@ -152,7 +152,7 @@ public class RunEndEncodedArray : Array, IIndexes
                     long? lastValue = int64Array.GetValue(int64Array.Length - 1);
                     if (lastValue.HasValue && lastValue.Value > int.MaxValue)
                     {
-                        throw new ArgumentException("Run ends value exceeds maximum supported length.");
+                        throw new OverflowException($"Run ends value {lastValue.Value} exceeds maximum supported length {int.MaxValue}.");
                     }
                     return (int)(lastValue ?? throw new ArgumentException("invalid length"));
                 }

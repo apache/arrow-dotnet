@@ -14,12 +14,11 @@
 // limitations under the License.
 
 using System;
+using System.Buffers.Binary;
 using System.IO;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Apache.Arrow.Ipc;
-using Apache.Arrow.Memory;
 using Apache.Arrow.Types;
 using Xunit;
 
@@ -317,6 +316,163 @@ namespace Apache.Arrow.Tests
         }
 
         [Fact]
+        public void MalformedBodyLength_OverflowsInt32()
+        {
+            byte[] buffer = BuildSimpleInt32Batch(rowCount: 3);
+            int messageStart = FindRecordBatchMessageStart(buffer);
+            int messageTablePos = ReadRootTablePos(buffer, messageStart);
+
+            // Message table vtable slot 10 = BodyLength
+            int bodyLengthPos = ReadFieldAbsolutePos(buffer, messageTablePos, vtableSlot: 10);
+            Assert.True(ToInt64LittleEndian(buffer, bodyLengthPos) > 0);
+
+            WriteInt64LittleEndian(buffer, bodyLengthPos, (long)int.MaxValue + 1);
+
+            InvalidDataException ex = Assert.Throws<InvalidDataException>(
+                () => new ArrowStreamReader(buffer).ReadNextRecordBatch());
+            Assert.Contains("Message body", ex.Message);
+            Assert.Contains("out of range", ex.Message);
+        }
+
+        [Fact]
+        public void MalformedRecordBatchLength_OverflowsInt32()
+        {
+            byte[] buffer = BuildSimpleInt32Batch(rowCount: 3);
+            int messageStart = FindRecordBatchMessageStart(buffer);
+            int messageTablePos = ReadRootTablePos(buffer, messageStart);
+
+            // Message.Header (slot 8) is a union pointing at the RecordBatch table
+            int recordBatchTablePos = ReadUnionTablePos(buffer, messageTablePos, vtableSlot: 8);
+
+            // RecordBatch table vtable slot 4 = Length (row count)
+            int lengthPos = ReadFieldAbsolutePos(buffer, recordBatchTablePos, vtableSlot: 4);
+            Assert.Equal(3L, ToInt64LittleEndian(buffer, lengthPos));
+
+            WriteInt64LittleEndian(buffer, lengthPos, (long)int.MaxValue + 1);
+
+            InvalidDataException ex = Assert.Throws<InvalidDataException>(
+                () => new ArrowStreamReader(buffer).ReadNextRecordBatch());
+            Assert.Contains("out of range", ex.Message);
+        }
+
+        [Fact]
+        public void MalformedFieldNodeLength_OverflowsInt32()
+        {
+            byte[] buffer = BuildSimpleInt32Batch(rowCount: 3);
+            int messageStart = FindRecordBatchMessageStart(buffer);
+            int messageTablePos = ReadRootTablePos(buffer, messageStart);
+            int recordBatchTablePos = ReadUnionTablePos(buffer, messageTablePos, vtableSlot: 8);
+
+            // RecordBatch.Nodes (slot 6) is a vector of 16-byte FieldNode structs
+            // where the first 8 bytes are Length and the next 8 bytes are NullCount.
+            int nodesDataStart = ReadVectorDataStart(buffer, recordBatchTablePos, vtableSlot: 6);
+            Assert.Equal(3L, ToInt64LittleEndian(buffer, nodesDataStart));
+
+            WriteInt64LittleEndian(buffer, nodesDataStart, (long)int.MaxValue + 1);
+
+            InvalidDataException ex = Assert.Throws<InvalidDataException>(
+                () => new ArrowStreamReader(buffer).ReadNextRecordBatch());
+            Assert.Contains("Field length", ex.Message);
+        }
+
+        [Fact]
+        public void MalformedBufferLength_OverflowsInt32()
+        {
+            byte[] buffer = BuildSimpleInt32Batch(rowCount: 3);
+            int messageStart = FindRecordBatchMessageStart(buffer);
+            int messageTablePos = ReadRootTablePos(buffer, messageStart);
+            int recordBatchTablePos = ReadUnionTablePos(buffer, messageTablePos, vtableSlot: 8);
+
+            // RecordBatch.Buffers (slot 8) is a vector of 16-byte Buffer structs
+            // (8 bytes Offset, 8 bytes Length). Find the first buffer with non-zero
+            // length and corrupt its Length field.
+            int buffersDataStart = ReadVectorDataStart(buffer, recordBatchTablePos, vtableSlot: 8);
+            int buffersLength = ToInt32LittleEndian(buffer, buffersDataStart - 4);
+            int targetLengthPos = -1;
+            for (int i = 0; i < buffersLength; i++)
+            {
+                int lengthPos = buffersDataStart + i * 16 + 8;
+                if (ToInt64LittleEndian(buffer, lengthPos) > 0)
+                {
+                    targetLengthPos = lengthPos;
+                    break;
+                }
+            }
+            Assert.NotEqual(-1, targetLengthPos);
+
+            WriteInt64LittleEndian(buffer, targetLengthPos, (long)int.MaxValue + 1);
+
+            InvalidDataException ex = Assert.Throws<InvalidDataException>(
+                () => new ArrowStreamReader(buffer).ReadNextRecordBatch());
+            Assert.Contains("IPC buffer range", ex.Message);
+        }
+
+        private static byte[] BuildSimpleInt32Batch(int rowCount)
+        {
+            Schema schema = new(
+                [new Field("x", Int32Type.Default, nullable: true)],
+                metadata: []);
+            Int32Array.Builder arrayBuilder = new();
+            for (int i = 0; i < rowCount; i++)
+            {
+                arrayBuilder.Append(i);
+            }
+            RecordBatch batch = new(schema, [arrayBuilder.Build()], rowCount);
+
+            using MemoryStream stream = new();
+            using (ArrowStreamWriter writer = new(stream, schema, leaveOpen: true))
+            {
+                writer.WriteRecordBatch(batch);
+                writer.WriteEnd();
+            }
+            return stream.ToArray();
+        }
+
+        private static int FindRecordBatchMessageStart(byte[] buffer)
+        {
+            // Stream layout: [continuation(0xFFFFFFFF)][len][schema message][continuation][len][batch message][body]...
+            int pos = 0;
+            Assert.Equal(-1, ToInt32LittleEndian(buffer, pos)); pos += 4;
+            int schemaLen = ToInt32LittleEndian(buffer, pos); pos += 4;
+            pos += schemaLen;
+            Assert.Equal(-1, ToInt32LittleEndian(buffer, pos)); pos += 4;
+            pos += 4; // batch message length prefix
+            return pos;
+        }
+
+        private static int ReadRootTablePos(byte[] buffer, int messageStart)
+        {
+            return messageStart + ToInt32LittleEndian(buffer, messageStart);
+        }
+
+        private static int ReadFieldAbsolutePos(byte[] buffer, int tablePos, int vtableSlot)
+        {
+            int vtable = tablePos - ToInt32LittleEndian(buffer, tablePos);
+            short fieldOffset = ToInt16LittleEndian(buffer, vtable + vtableSlot);
+            Assert.NotEqual(0, fieldOffset); // field must be present in the vtable
+            return tablePos + fieldOffset;
+        }
+
+        private static int ReadUnionTablePos(byte[] buffer, int tablePos, int vtableSlot)
+        {
+            int unionPtrPos = ReadFieldAbsolutePos(buffer, tablePos, vtableSlot);
+            return unionPtrPos + ToInt32LittleEndian(buffer, unionPtrPos);
+        }
+
+        private static int ReadVectorDataStart(byte[] buffer, int tablePos, int vtableSlot)
+        {
+            int vectorPtrPos = ReadFieldAbsolutePos(buffer, tablePos, vtableSlot);
+            int vectorLengthPos = vectorPtrPos + ToInt32LittleEndian(buffer, vectorPtrPos);
+            return vectorLengthPos + 4; // skip the 4-byte vector length prefix
+        }
+
+        private static void WriteInt64LittleEndian(byte[] buffer, int offset, long value)
+        {
+            System.Buffers.Binary.BinaryPrimitives.WriteInt64LittleEndian(
+                buffer.AsSpan(offset), value);
+        }
+
+        [Fact]
         public async Task EmptyStreamNoSyncRead()
         {
             using (var stream = new EmptyAsyncOnlyStream())
@@ -325,6 +481,21 @@ namespace Apache.Arrow.Tests
                 var schema = await reader.GetSchema();
                 Assert.Null(schema);
             }
+        }
+
+        private static short ToInt16LittleEndian(byte[] buffer, int offset)
+        {
+            return BinaryPrimitives.ReadInt16LittleEndian(buffer.AsSpan().Slice(offset));
+        }
+
+        private static int ToInt32LittleEndian(byte[] buffer, int offset)
+        {
+            return BinaryPrimitives.ReadInt32LittleEndian(buffer.AsSpan().Slice(offset));
+        }
+
+        private static long ToInt64LittleEndian(byte[] buffer, int offset)
+        {
+            return BinaryPrimitives.ReadInt64LittleEndian(buffer.AsSpan().Slice(offset));
         }
 
         private class EmptyAsyncOnlyStream : Stream
