@@ -61,6 +61,79 @@ namespace Apache.Arrow.Tests
         }
 
         [Fact]
+        public void TestConcatenateAllEmptyListArraysKeepsEmptyChild()
+        {
+            AssertConcatenateAllEmptyNestedArraysKeepsChild(
+                new ListArray.Builder(Int32Type.Default).Build(),
+                new ListArray.Builder(Int32Type.Default).Build());
+        }
+
+        [Fact]
+        public void TestConcatenateAllEmptyLargeListArraysKeepsEmptyChild()
+        {
+            AssertConcatenateAllEmptyNestedArraysKeepsChild(
+                new LargeListArray.Builder(Int32Type.Default).Build(),
+                new LargeListArray.Builder(Int32Type.Default).Build());
+        }
+
+        [Fact]
+        public void TestConcatenateAllEmptyListViewArraysKeepsEmptyChild()
+        {
+            AssertConcatenateAllEmptyNestedArraysKeepsChild(
+                new ListViewArray.Builder(Int32Type.Default).Build(),
+                new ListViewArray.Builder(Int32Type.Default).Build());
+        }
+
+        [Fact]
+        public void TestConcatenateAllEmptyLargeListViewArraysKeepsEmptyChild()
+        {
+            AssertConcatenateAllEmptyNestedArraysKeepsChild(
+                new LargeListViewArray.Builder(Int32Type.Default).Build(),
+                new LargeListViewArray.Builder(Int32Type.Default).Build());
+        }
+
+        [Fact]
+        public void TestConcatenateNullOnlyListViewArraysKeepsEmptyChild()
+        {
+            var first = new ListViewArray.Builder(Int32Type.Default).AppendNull().Build();
+            var second = new ListViewArray.Builder(Int32Type.Default).AppendNull().Build();
+
+            AssertConcatenateNullOnlyListViewArraysKeepsChild(first, second);
+        }
+
+        [Fact]
+        public void TestConcatenateNullOnlyLargeListViewArraysKeepsEmptyChild()
+        {
+            var first = new LargeListViewArray.Builder(Int32Type.Default).AppendNull().Build();
+            var second = new LargeListViewArray.Builder(Int32Type.Default).AppendNull().Build();
+
+            AssertConcatenateNullOnlyListViewArraysKeepsChild(first, second);
+        }
+
+        private static void AssertConcatenateAllEmptyNestedArraysKeepsChild(IArrowArray first, IArrowArray second)
+        {
+            IArrowArray result = ArrowArrayConcatenator.Concatenate(new[] { first, second });
+
+            Assert.Equal(0, result.Length);
+            Assert.NotNull(result.Data.Children);
+            Assert.Single(result.Data.Children);
+            Assert.NotNull(result.Data.Children[0]);
+            Assert.Equal(0, result.Data.Children[0].Length);
+        }
+
+        private static void AssertConcatenateNullOnlyListViewArraysKeepsChild(IArrowArray first, IArrowArray second)
+        {
+            IArrowArray result = ArrowArrayConcatenator.Concatenate(new[] { first, second });
+
+            Assert.Equal(2, result.Length);
+            Assert.Equal(2, result.NullCount);
+            Assert.NotNull(result.Data.Children);
+            Assert.Single(result.Data.Children);
+            Assert.NotNull(result.Data.Children[0]);
+            Assert.Equal(0, result.Data.Children[0].Length);
+        }
+
+        [Fact]
         public void TestRunEndEncodedInt32RunEnds()
         {
             // First array: runs [3, 7], values ["A", "B"], logical length 7

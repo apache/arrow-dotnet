@@ -133,13 +133,18 @@ namespace Apache.Arrow
                     var child = arrayData.Children[0];
                     ReadOnlySpan<long> offsets = arrayData.Buffers[1].Span.CastTo<long>().Slice(arrayData.Offset, arrayData.Length);
                     ReadOnlySpan<long> sizes = arrayData.Buffers[2].Span.CastTo<long>().Slice(arrayData.Offset, arrayData.Length);
-                    var minOffset = offsets[0];
+                    long minOffset = 0;
                     long maxEnd = 0;
+                    bool hasNonEmptyValue = false;
 
                     for (int i = 0; i < arrayData.Length; ++i)
                     {
-                        minOffset = Math.Min(minOffset, offsets[i]);
-                        maxEnd = Math.Max(maxEnd, offsets[i] + sizes[i]);
+                        if (sizes[i] > 0)
+                        {
+                            minOffset = hasNonEmptyValue ? Math.Min(minOffset, offsets[i]) : offsets[i];
+                            maxEnd = Math.Max(maxEnd, offsets[i] + sizes[i]);
+                            hasNonEmptyValue = true;
+                        }
                     }
 
                     foreach (long offset in offsets)
@@ -158,7 +163,7 @@ namespace Apache.Arrow
                 }
 
                 ArrowBuffer offsetBuffer = offsetsBuilder.Build(_allocator);
-                ArrayData combinedChild = Concatenate(children, _allocator);
+                ArrayData combinedChild = ConcatenateChildrenOrEmpty(children);
 
                 Result = new ArrayData(type, _totalLength, _totalNullCount, 0, new ArrowBuffer[] { validityBuffer, offsetBuffer, sizesBuffer }, new[] { combinedChild });
             }
@@ -185,13 +190,18 @@ namespace Apache.Arrow
                     var child = arrayData.Children[0];
                     ReadOnlySpan<int> offsets = arrayData.Buffers[1].Span.CastTo<int>().Slice(arrayData.Offset, arrayData.Length);
                     ReadOnlySpan<int> sizes = arrayData.Buffers[2].Span.CastTo<int>().Slice(arrayData.Offset, arrayData.Length);
-                    var minOffset = offsets[0];
-                    var maxEnd = 0;
+                    int minOffset = 0;
+                    int maxEnd = 0;
+                    bool hasNonEmptyValue = false;
 
                     for (int i = 0; i < arrayData.Length; ++i)
                     {
-                        minOffset = Math.Min(minOffset, offsets[i]);
-                        maxEnd = Math.Max(maxEnd, offsets[i] + sizes[i]);
+                        if (sizes[i] > 0)
+                        {
+                            minOffset = hasNonEmptyValue ? Math.Min(minOffset, offsets[i]) : offsets[i];
+                            maxEnd = Math.Max(maxEnd, offsets[i] + sizes[i]);
+                            hasNonEmptyValue = true;
+                        }
                     }
 
                     foreach (int offset in offsets)
@@ -210,7 +220,7 @@ namespace Apache.Arrow
                 }
 
                 ArrowBuffer offsetBuffer = offsetsBuilder.Build(_allocator);
-                ArrayData combinedChild = Concatenate(children, _allocator);
+                ArrayData combinedChild = ConcatenateChildrenOrEmpty(children);
 
                 Result = new ArrayData(type, _totalLength, _totalNullCount, 0, new ArrowBuffer[] { validityBuffer, offsetBuffer, sizesBuffer }, new[] { combinedChild });
             }
@@ -237,7 +247,7 @@ namespace Apache.Arrow
                     children.Add(child);
                 }
 
-                ArrayData combinedChild = Concatenate(children, _allocator);
+                ArrayData combinedChild = ConcatenateChildrenOrEmpty(children);
 
                 Result = new ArrayData(type, _totalLength, _totalNullCount, 0, new ArrowBuffer[] { validityBuffer }, new[] { combinedChild });
             }
@@ -707,7 +717,7 @@ namespace Apache.Arrow
                     children.Add(child);
                 }
 
-                ArrayData combinedChild = Concatenate(children, _allocator);
+                ArrayData combinedChild = ConcatenateChildrenOrEmpty(children);
 
                 Result = new ArrayData(type, _totalLength, _totalNullCount, 0, new ArrowBuffer[] { validityBuffer, offsetBuffer }, new[] { combinedChild });
             }
@@ -748,9 +758,29 @@ namespace Apache.Arrow
                     children.Add(child);
                 }
 
-                ArrayData combinedChild = Concatenate(children, _allocator);
+                ArrayData combinedChild = ConcatenateChildrenOrEmpty(children);
 
                 Result = new ArrayData(type, _totalLength, _totalNullCount, 0, new ArrowBuffer[] { validityBuffer, offsetBuffer }, new[] { combinedChild });
+            }
+
+            private ArrayData ConcatenateChildrenOrEmpty(List<ArrayData> children)
+            {
+                if (children.Count > 0)
+                {
+                    return Concatenate(children, _allocator);
+                }
+
+                foreach (ArrayData arrayData in _arrayDataList)
+                {
+                    if (arrayData.Children?.Length > 0 && arrayData.Children[0] != null)
+                    {
+                        // All parent arrays are empty, but the nested array still needs a real
+                        // zero-length child to preserve Arrow's structural invariant.
+                        return arrayData.Children[0].Slice(0, 0);
+                    }
+                }
+
+                throw new InvalidOperationException("Nested array data must contain child data.");
             }
 
             private ArrowBuffer ConcatenateLargeOffsetBuffer()
