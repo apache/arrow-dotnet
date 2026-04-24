@@ -151,7 +151,7 @@ namespace Apache.Arrow.Ipc
 
         public async ValueTask<RecordBatch> ReadRecordBatchAsync(int index, CancellationToken cancellationToken)
         {
-            await ReadSchemaAsync().ConfigureAwait(false);
+            await ReadSchemaAsync(cancellationToken).ConfigureAwait(false);
             await ReadDictionariesAsync(cancellationToken).ConfigureAwait(false);
 
             if (index >= _footer.RecordBatchCount)
@@ -185,7 +185,7 @@ namespace Apache.Arrow.Ipc
 
         public override async ValueTask<RecordBatch> ReadNextRecordBatchAsync(CancellationToken cancellationToken)
         {
-            await ReadSchemaAsync().ConfigureAwait(false);
+            await ReadSchemaAsync(cancellationToken).ConfigureAwait(false);
             await ReadDictionariesAsync(cancellationToken).ConfigureAwait(false);
 
             if (_recordBatchIndex >= _footer.RecordBatchCount)
