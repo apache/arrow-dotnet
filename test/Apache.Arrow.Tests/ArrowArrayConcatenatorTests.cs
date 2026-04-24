@@ -110,6 +110,122 @@ namespace Apache.Arrow.Tests
             AssertConcatenateNullOnlyListViewArraysKeepsChild(first, second);
         }
 
+        [Fact]
+        public void TestConcatenateSlicedNullOnlyListViewArraysNormalizesOffsets()
+        {
+            var builder = new ListViewArray.Builder(Int32Type.Default);
+            var valueBuilder = (Int32Array.Builder)builder.ValueBuilder;
+            builder.Append();
+            valueBuilder.Append(42);
+            builder.AppendNull();
+            var sliced = ArrowArrayFactory.Slice(builder.Build(), 1, 1);
+
+            var result = Assert.IsType<ListViewArray>(ArrowArrayConcatenator.Concatenate(new[] { sliced, sliced }));
+
+            Assert.Equal(new[] { 0, 0 }, result.ValueOffsets.ToArray());
+            Assert.Equal(new[] { 0, 0 }, result.Sizes.ToArray());
+            Assert.Equal(0, result.Data.Children[0].Length);
+        }
+
+        [Fact]
+        public void TestConcatenateSlicedNullOnlyLargeListViewArraysNormalizesOffsets()
+        {
+            var builder = new LargeListViewArray.Builder(Int32Type.Default);
+            var valueBuilder = (Int32Array.Builder)builder.ValueBuilder;
+            builder.Append();
+            valueBuilder.Append(42);
+            builder.AppendNull();
+            var sliced = ArrowArrayFactory.Slice(builder.Build(), 1, 1);
+
+            var result = Assert.IsType<LargeListViewArray>(ArrowArrayConcatenator.Concatenate(new[] { sliced, sliced }));
+
+            Assert.Equal(new[] { 0L, 0L }, result.ValueOffsets.ToArray());
+            Assert.Equal(new[] { 0L, 0L }, result.Sizes.ToArray());
+            Assert.Equal(0, result.Data.Children[0].Length);
+        }
+
+        [Fact]
+        public void TestConcatenateSlicedEmptyListViewArraysNormalizesOffsets()
+        {
+            var builder = new ListViewArray.Builder(Int32Type.Default);
+            var valueBuilder = (Int32Array.Builder)builder.ValueBuilder;
+            builder.Append();
+            valueBuilder.Append(42);
+            builder.Append();
+            var sliced = ArrowArrayFactory.Slice(builder.Build(), 1, 1);
+
+            var result = Assert.IsType<ListViewArray>(ArrowArrayConcatenator.Concatenate(new[] { sliced, sliced }));
+
+            Assert.Equal(new[] { 0, 0 }, result.ValueOffsets.ToArray());
+            Assert.Equal(new[] { 0, 0 }, result.Sizes.ToArray());
+            Assert.Equal(0, result.NullCount);
+            Assert.Equal(0, result.Data.Children[0].Length);
+        }
+
+        [Fact]
+        public void TestConcatenateSlicedEmptyLargeListViewArraysNormalizesOffsets()
+        {
+            var builder = new LargeListViewArray.Builder(Int32Type.Default);
+            var valueBuilder = (Int32Array.Builder)builder.ValueBuilder;
+            builder.Append();
+            valueBuilder.Append(42);
+            builder.Append();
+            var sliced = ArrowArrayFactory.Slice(builder.Build(), 1, 1);
+
+            var result = Assert.IsType<LargeListViewArray>(ArrowArrayConcatenator.Concatenate(new[] { sliced, sliced }));
+
+            Assert.Equal(new[] { 0L, 0L }, result.ValueOffsets.ToArray());
+            Assert.Equal(new[] { 0L, 0L }, result.Sizes.ToArray());
+            Assert.Equal(0, result.NullCount);
+            Assert.Equal(0, result.Data.Children[0].Length);
+        }
+
+        [Fact]
+        public void TestConcatenateListViewZeroSizeSliceAfterNonEmptyUsesBaseOffset()
+        {
+            var nonEmptyBuilder = new ListViewArray.Builder(Int32Type.Default);
+            var nonEmptyValueBuilder = (Int32Array.Builder)nonEmptyBuilder.ValueBuilder;
+            nonEmptyBuilder.Append();
+            nonEmptyValueBuilder.Append(7);
+            var nonEmpty = nonEmptyBuilder.Build();
+
+            var emptyBuilder = new ListViewArray.Builder(Int32Type.Default);
+            var emptyValueBuilder = (Int32Array.Builder)emptyBuilder.ValueBuilder;
+            emptyBuilder.Append();
+            emptyValueBuilder.Append(42);
+            emptyBuilder.Append();
+            var sliced = ArrowArrayFactory.Slice(emptyBuilder.Build(), 1, 1);
+
+            var result = Assert.IsType<ListViewArray>(ArrowArrayConcatenator.Concatenate(new[] { nonEmpty, sliced, sliced }));
+
+            Assert.Equal(new[] { 0, 1, 1 }, result.ValueOffsets.ToArray());
+            Assert.Equal(new[] { 1, 0, 0 }, result.Sizes.ToArray());
+            Assert.Equal(1, result.Data.Children[0].Length);
+        }
+
+        [Fact]
+        public void TestConcatenateLargeListViewZeroSizeSliceAfterNonEmptyUsesBaseOffset()
+        {
+            var nonEmptyBuilder = new LargeListViewArray.Builder(Int32Type.Default);
+            var nonEmptyValueBuilder = (Int32Array.Builder)nonEmptyBuilder.ValueBuilder;
+            nonEmptyBuilder.Append();
+            nonEmptyValueBuilder.Append(7);
+            var nonEmpty = nonEmptyBuilder.Build();
+
+            var emptyBuilder = new LargeListViewArray.Builder(Int32Type.Default);
+            var emptyValueBuilder = (Int32Array.Builder)emptyBuilder.ValueBuilder;
+            emptyBuilder.Append();
+            emptyValueBuilder.Append(42);
+            emptyBuilder.Append();
+            var sliced = ArrowArrayFactory.Slice(emptyBuilder.Build(), 1, 1);
+
+            var result = Assert.IsType<LargeListViewArray>(ArrowArrayConcatenator.Concatenate(new[] { nonEmpty, sliced, sliced }));
+
+            Assert.Equal(new[] { 0L, 1L, 1L }, result.ValueOffsets.ToArray());
+            Assert.Equal(new[] { 1L, 0L, 0L }, result.Sizes.ToArray());
+            Assert.Equal(1, result.Data.Children[0].Length);
+        }
+
         private static void AssertConcatenateAllEmptyNestedArraysKeepsChild(IArrowArray first, IArrowArray second)
         {
             IArrowArray result = ArrowArrayConcatenator.Concatenate(new[] { first, second });

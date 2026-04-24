@@ -147,6 +147,17 @@ namespace Apache.Arrow
                         }
                     }
 
+                    if (!hasNonEmptyValue)
+                    {
+                        for (int i = 0; i < offsets.Length; ++i)
+                        {
+                            offsetsBuilder.Append(baseOffset);
+                        }
+
+                        children.Add(child.Slice(0, 0));
+                        continue;
+                    }
+
                     foreach (long offset in offsets)
                     {
                         offsetsBuilder.Append(baseOffset + offset - minOffset);
@@ -202,6 +213,17 @@ namespace Apache.Arrow
                             maxEnd = Math.Max(maxEnd, offsets[i] + sizes[i]);
                             hasNonEmptyValue = true;
                         }
+                    }
+
+                    if (!hasNonEmptyValue)
+                    {
+                        for (int i = 0; i < offsets.Length; ++i)
+                        {
+                            offsetsBuilder.Append(baseOffset);
+                        }
+
+                        children.Add(child.Slice(0, 0));
+                        continue;
                     }
 
                     foreach (int offset in offsets)
