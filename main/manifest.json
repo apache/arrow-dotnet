@@ -2840,58 +2840,58 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Apache.Arrow.Operations.Json.VariantJsonConverter.yml",
+      "source_relative_path": "api/Apache.Arrow.Operations.VariantJson.VariantJsonConverter.yml",
       "output": {
         ".html": {
-          "relative_path": "api/Apache.Arrow.Operations.Json.VariantJsonConverter.html"
+          "relative_path": "api/Apache.Arrow.Operations.VariantJson.VariantJsonConverter.html"
         }
       },
       "version": "",
       "Uid": null,
       "IsMRef": true,
-      "Title": "Apache.Arrow.Operations.Json.VariantJsonConverter",
-      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.Json.VariantJsonConverter.yml\" sourcestartlinenumber=\"1\">A <xref href=\"System.Text.Json.Serialization.JsonConverter%601\" data-throw-if-not-resolved=\"false\"></xref> for <xref href=\"Apache.Arrow.Scalars.Variant.VariantValue\" data-throw-if-not-resolved=\"false\"></xref>.\nSerializes variant values to their JSON equivalents and deserializes\nJSON values to <xref href=\"Apache.Arrow.Scalars.Variant.VariantValue\" data-throw-if-not-resolved=\"false\"></xref> with integer-size inference.</p>\n"
+      "Title": "Apache.Arrow.Operations.VariantJson.VariantJsonConverter",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.VariantJson.VariantJsonConverter.yml\" sourcestartlinenumber=\"1\">A <xref href=\"System.Text.Json.Serialization.JsonConverter%601\" data-throw-if-not-resolved=\"false\"></xref> for <xref href=\"Apache.Arrow.Scalars.Variant.VariantValue\" data-throw-if-not-resolved=\"false\"></xref>.\nSerializes variant values to their JSON equivalents and deserializes\nJSON values to <xref href=\"Apache.Arrow.Scalars.Variant.VariantValue\" data-throw-if-not-resolved=\"false\"></xref> with integer-size inference.</p>\n"
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Apache.Arrow.Operations.Json.VariantJsonReader.yml",
+      "source_relative_path": "api/Apache.Arrow.Operations.VariantJson.VariantJsonReader.yml",
       "output": {
         ".html": {
-          "relative_path": "api/Apache.Arrow.Operations.Json.VariantJsonReader.html"
+          "relative_path": "api/Apache.Arrow.Operations.VariantJson.VariantJsonReader.html"
         }
       },
       "version": "",
       "Uid": null,
       "IsMRef": true,
-      "Title": "Apache.Arrow.Operations.Json.VariantJsonReader",
-      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.Json.VariantJsonReader.yml\" sourcestartlinenumber=\"1\">Parses a JSON string or UTF-8 bytes directly into variant binary format\n(metadata + value byte arrays) without creating intermediate <xref href=\"Apache.Arrow.Scalars.Variant.VariantValue\" data-throw-if-not-resolved=\"false\"></xref> objects.</p>\n"
+      "Title": "Apache.Arrow.Operations.VariantJson.VariantJsonReader",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.VariantJson.VariantJsonReader.yml\" sourcestartlinenumber=\"1\">Parses a JSON string or UTF-8 bytes directly into variant binary format\n(metadata + value byte arrays) without creating intermediate <xref href=\"Apache.Arrow.Scalars.Variant.VariantValue\" data-throw-if-not-resolved=\"false\"></xref> objects.</p>\n"
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Apache.Arrow.Operations.Json.VariantJsonWriter.yml",
+      "source_relative_path": "api/Apache.Arrow.Operations.VariantJson.VariantJsonWriter.yml",
       "output": {
         ".html": {
-          "relative_path": "api/Apache.Arrow.Operations.Json.VariantJsonWriter.html"
+          "relative_path": "api/Apache.Arrow.Operations.VariantJson.VariantJsonWriter.html"
         }
       },
       "version": "",
       "Uid": null,
       "IsMRef": true,
-      "Title": "Apache.Arrow.Operations.Json.VariantJsonWriter",
-      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.Json.VariantJsonWriter.yml\" sourcestartlinenumber=\"1\">Writes variant binary data directly to JSON without creating intermediate\n<xref href=\"Apache.Arrow.Scalars.Variant.VariantValue\" data-throw-if-not-resolved=\"false\"></xref> objects.</p>\n"
+      "Title": "Apache.Arrow.Operations.VariantJson.VariantJsonWriter",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.VariantJson.VariantJsonWriter.yml\" sourcestartlinenumber=\"1\">Writes variant binary data directly to JSON without creating intermediate\n<xref href=\"Apache.Arrow.Scalars.Variant.VariantValue\" data-throw-if-not-resolved=\"false\"></xref> objects.</p>\n"
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Apache.Arrow.Operations.Json.yml",
+      "source_relative_path": "api/Apache.Arrow.Operations.VariantJson.yml",
       "output": {
         ".html": {
-          "relative_path": "api/Apache.Arrow.Operations.Json.html"
+          "relative_path": "api/Apache.Arrow.Operations.VariantJson.html"
         }
       },
       "version": "",
       "Uid": null,
       "IsMRef": true,
-      "Title": "Apache.Arrow.Operations.Json",
+      "Title": "Apache.Arrow.Operations.VariantJson",
       "Summary": null
     },
     {
@@ -5642,11 +5642,11 @@
       "type": "Toc",
       "source_relative_path": "api/toc.yml",
       "output": {
-        ".json": {
-          "relative_path": "api/toc.json"
-        },
         ".html": {
           "relative_path": "api/toc.html"
+        },
+        ".json": {
+          "relative_path": "api/toc.json"
         }
       },
       "version": ""
@@ -5685,11 +5685,11 @@
       "type": "Toc",
       "source_relative_path": "toc.yml",
       "output": {
-        ".json": {
-          "relative_path": "toc.json"
-        },
         ".html": {
           "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
         }
       },
       "version": ""

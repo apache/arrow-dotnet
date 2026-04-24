@@ -17867,143 +17867,143 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.NullArray.Offset
   nameWithType: NullArray.Offset
-- uid: Apache.Arrow.Operations.Json
-  name: Apache.Arrow.Operations.Json
-  href: api/Apache.Arrow.Operations.Json.html
-  commentId: N:Apache.Arrow.Operations.Json
-  fullName: Apache.Arrow.Operations.Json
-  nameWithType: Apache.Arrow.Operations.Json
-- uid: Apache.Arrow.Operations.Json.VariantJsonConverter
+- uid: Apache.Arrow.Operations.VariantJson
+  name: Apache.Arrow.Operations.VariantJson
+  href: api/Apache.Arrow.Operations.VariantJson.html
+  commentId: N:Apache.Arrow.Operations.VariantJson
+  fullName: Apache.Arrow.Operations.VariantJson
+  nameWithType: Apache.Arrow.Operations.VariantJson
+- uid: Apache.Arrow.Operations.VariantJson.VariantJsonConverter
   name: VariantJsonConverter
-  href: api/Apache.Arrow.Operations.Json.VariantJsonConverter.html
-  commentId: T:Apache.Arrow.Operations.Json.VariantJsonConverter
-  fullName: Apache.Arrow.Operations.Json.VariantJsonConverter
+  href: api/Apache.Arrow.Operations.VariantJson.VariantJsonConverter.html
+  commentId: T:Apache.Arrow.Operations.VariantJson.VariantJsonConverter
+  fullName: Apache.Arrow.Operations.VariantJson.VariantJsonConverter
   nameWithType: VariantJsonConverter
-- uid: Apache.Arrow.Operations.Json.VariantJsonConverter.HandleNull
+- uid: Apache.Arrow.Operations.VariantJson.VariantJsonConverter.HandleNull
   name: HandleNull
-  href: api/Apache.Arrow.Operations.Json.VariantJsonConverter.html#Apache_Arrow_Operations_Json_VariantJsonConverter_HandleNull
-  commentId: P:Apache.Arrow.Operations.Json.VariantJsonConverter.HandleNull
-  fullName: Apache.Arrow.Operations.Json.VariantJsonConverter.HandleNull
+  href: api/Apache.Arrow.Operations.VariantJson.VariantJsonConverter.html#Apache_Arrow_Operations_VariantJson_VariantJsonConverter_HandleNull
+  commentId: P:Apache.Arrow.Operations.VariantJson.VariantJsonConverter.HandleNull
+  fullName: Apache.Arrow.Operations.VariantJson.VariantJsonConverter.HandleNull
   nameWithType: VariantJsonConverter.HandleNull
-- uid: Apache.Arrow.Operations.Json.VariantJsonConverter.HandleNull*
+- uid: Apache.Arrow.Operations.VariantJson.VariantJsonConverter.HandleNull*
   name: HandleNull
-  href: api/Apache.Arrow.Operations.Json.VariantJsonConverter.html#Apache_Arrow_Operations_Json_VariantJsonConverter_HandleNull_
-  commentId: Overload:Apache.Arrow.Operations.Json.VariantJsonConverter.HandleNull
+  href: api/Apache.Arrow.Operations.VariantJson.VariantJsonConverter.html#Apache_Arrow_Operations_VariantJson_VariantJsonConverter_HandleNull_
+  commentId: Overload:Apache.Arrow.Operations.VariantJson.VariantJsonConverter.HandleNull
   isSpec: "True"
-  fullName: Apache.Arrow.Operations.Json.VariantJsonConverter.HandleNull
+  fullName: Apache.Arrow.Operations.VariantJson.VariantJsonConverter.HandleNull
   nameWithType: VariantJsonConverter.HandleNull
-- uid: Apache.Arrow.Operations.Json.VariantJsonConverter.Instance
+- uid: Apache.Arrow.Operations.VariantJson.VariantJsonConverter.Instance
   name: Instance
-  href: api/Apache.Arrow.Operations.Json.VariantJsonConverter.html#Apache_Arrow_Operations_Json_VariantJsonConverter_Instance
-  commentId: F:Apache.Arrow.Operations.Json.VariantJsonConverter.Instance
-  fullName: Apache.Arrow.Operations.Json.VariantJsonConverter.Instance
+  href: api/Apache.Arrow.Operations.VariantJson.VariantJsonConverter.html#Apache_Arrow_Operations_VariantJson_VariantJsonConverter_Instance
+  commentId: F:Apache.Arrow.Operations.VariantJson.VariantJsonConverter.Instance
+  fullName: Apache.Arrow.Operations.VariantJson.VariantJsonConverter.Instance
   nameWithType: VariantJsonConverter.Instance
-- uid: Apache.Arrow.Operations.Json.VariantJsonConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)
+- uid: Apache.Arrow.Operations.VariantJson.VariantJsonConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)
   name: Read(ref Utf8JsonReader, Type, JsonSerializerOptions)
-  href: api/Apache.Arrow.Operations.Json.VariantJsonConverter.html#Apache_Arrow_Operations_Json_VariantJsonConverter_Read_System_Text_Json_Utf8JsonReader__System_Type_System_Text_Json_JsonSerializerOptions_
-  commentId: M:Apache.Arrow.Operations.Json.VariantJsonConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)
+  href: api/Apache.Arrow.Operations.VariantJson.VariantJsonConverter.html#Apache_Arrow_Operations_VariantJson_VariantJsonConverter_Read_System_Text_Json_Utf8JsonReader__System_Type_System_Text_Json_JsonSerializerOptions_
+  commentId: M:Apache.Arrow.Operations.VariantJson.VariantJsonConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)
   name.vb: Read(Utf8JsonReader, Type, JsonSerializerOptions)
-  fullName: Apache.Arrow.Operations.Json.VariantJsonConverter.Read(ref System.Text.Json.Utf8JsonReader, System.Type, System.Text.Json.JsonSerializerOptions)
-  fullName.vb: Apache.Arrow.Operations.Json.VariantJsonConverter.Read(System.Text.Json.Utf8JsonReader, System.Type, System.Text.Json.JsonSerializerOptions)
+  fullName: Apache.Arrow.Operations.VariantJson.VariantJsonConverter.Read(ref System.Text.Json.Utf8JsonReader, System.Type, System.Text.Json.JsonSerializerOptions)
+  fullName.vb: Apache.Arrow.Operations.VariantJson.VariantJsonConverter.Read(System.Text.Json.Utf8JsonReader, System.Type, System.Text.Json.JsonSerializerOptions)
   nameWithType: VariantJsonConverter.Read(ref Utf8JsonReader, Type, JsonSerializerOptions)
   nameWithType.vb: VariantJsonConverter.Read(Utf8JsonReader, Type, JsonSerializerOptions)
-- uid: Apache.Arrow.Operations.Json.VariantJsonConverter.Read*
+- uid: Apache.Arrow.Operations.VariantJson.VariantJsonConverter.Read*
   name: Read
-  href: api/Apache.Arrow.Operations.Json.VariantJsonConverter.html#Apache_Arrow_Operations_Json_VariantJsonConverter_Read_
-  commentId: Overload:Apache.Arrow.Operations.Json.VariantJsonConverter.Read
+  href: api/Apache.Arrow.Operations.VariantJson.VariantJsonConverter.html#Apache_Arrow_Operations_VariantJson_VariantJsonConverter_Read_
+  commentId: Overload:Apache.Arrow.Operations.VariantJson.VariantJsonConverter.Read
   isSpec: "True"
-  fullName: Apache.Arrow.Operations.Json.VariantJsonConverter.Read
+  fullName: Apache.Arrow.Operations.VariantJson.VariantJsonConverter.Read
   nameWithType: VariantJsonConverter.Read
-- uid: Apache.Arrow.Operations.Json.VariantJsonConverter.Write(System.Text.Json.Utf8JsonWriter,Apache.Arrow.Scalars.Variant.VariantValue,System.Text.Json.JsonSerializerOptions)
+- uid: Apache.Arrow.Operations.VariantJson.VariantJsonConverter.Write(System.Text.Json.Utf8JsonWriter,Apache.Arrow.Scalars.Variant.VariantValue,System.Text.Json.JsonSerializerOptions)
   name: Write(Utf8JsonWriter, VariantValue, JsonSerializerOptions)
-  href: api/Apache.Arrow.Operations.Json.VariantJsonConverter.html#Apache_Arrow_Operations_Json_VariantJsonConverter_Write_System_Text_Json_Utf8JsonWriter_Apache_Arrow_Scalars_Variant_VariantValue_System_Text_Json_JsonSerializerOptions_
-  commentId: M:Apache.Arrow.Operations.Json.VariantJsonConverter.Write(System.Text.Json.Utf8JsonWriter,Apache.Arrow.Scalars.Variant.VariantValue,System.Text.Json.JsonSerializerOptions)
-  fullName: Apache.Arrow.Operations.Json.VariantJsonConverter.Write(System.Text.Json.Utf8JsonWriter, Apache.Arrow.Scalars.Variant.VariantValue, System.Text.Json.JsonSerializerOptions)
+  href: api/Apache.Arrow.Operations.VariantJson.VariantJsonConverter.html#Apache_Arrow_Operations_VariantJson_VariantJsonConverter_Write_System_Text_Json_Utf8JsonWriter_Apache_Arrow_Scalars_Variant_VariantValue_System_Text_Json_JsonSerializerOptions_
+  commentId: M:Apache.Arrow.Operations.VariantJson.VariantJsonConverter.Write(System.Text.Json.Utf8JsonWriter,Apache.Arrow.Scalars.Variant.VariantValue,System.Text.Json.JsonSerializerOptions)
+  fullName: Apache.Arrow.Operations.VariantJson.VariantJsonConverter.Write(System.Text.Json.Utf8JsonWriter, Apache.Arrow.Scalars.Variant.VariantValue, System.Text.Json.JsonSerializerOptions)
   nameWithType: VariantJsonConverter.Write(Utf8JsonWriter, VariantValue, JsonSerializerOptions)
-- uid: Apache.Arrow.Operations.Json.VariantJsonConverter.Write*
+- uid: Apache.Arrow.Operations.VariantJson.VariantJsonConverter.Write*
   name: Write
-  href: api/Apache.Arrow.Operations.Json.VariantJsonConverter.html#Apache_Arrow_Operations_Json_VariantJsonConverter_Write_
-  commentId: Overload:Apache.Arrow.Operations.Json.VariantJsonConverter.Write
+  href: api/Apache.Arrow.Operations.VariantJson.VariantJsonConverter.html#Apache_Arrow_Operations_VariantJson_VariantJsonConverter_Write_
+  commentId: Overload:Apache.Arrow.Operations.VariantJson.VariantJsonConverter.Write
   isSpec: "True"
-  fullName: Apache.Arrow.Operations.Json.VariantJsonConverter.Write
+  fullName: Apache.Arrow.Operations.VariantJson.VariantJsonConverter.Write
   nameWithType: VariantJsonConverter.Write
-- uid: Apache.Arrow.Operations.Json.VariantJsonReader
+- uid: Apache.Arrow.Operations.VariantJson.VariantJsonReader
   name: VariantJsonReader
-  href: api/Apache.Arrow.Operations.Json.VariantJsonReader.html
-  commentId: T:Apache.Arrow.Operations.Json.VariantJsonReader
-  fullName: Apache.Arrow.Operations.Json.VariantJsonReader
+  href: api/Apache.Arrow.Operations.VariantJson.VariantJsonReader.html
+  commentId: T:Apache.Arrow.Operations.VariantJson.VariantJsonReader
+  fullName: Apache.Arrow.Operations.VariantJson.VariantJsonReader
   nameWithType: VariantJsonReader
-- uid: Apache.Arrow.Operations.Json.VariantJsonReader.Parse(System.ReadOnlySpan{System.Byte})
+- uid: Apache.Arrow.Operations.VariantJson.VariantJsonReader.Parse(System.ReadOnlySpan{System.Byte})
   name: Parse(ReadOnlySpan<byte>)
-  href: api/Apache.Arrow.Operations.Json.VariantJsonReader.html#Apache_Arrow_Operations_Json_VariantJsonReader_Parse_System_ReadOnlySpan_System_Byte__
-  commentId: M:Apache.Arrow.Operations.Json.VariantJsonReader.Parse(System.ReadOnlySpan{System.Byte})
+  href: api/Apache.Arrow.Operations.VariantJson.VariantJsonReader.html#Apache_Arrow_Operations_VariantJson_VariantJsonReader_Parse_System_ReadOnlySpan_System_Byte__
+  commentId: M:Apache.Arrow.Operations.VariantJson.VariantJsonReader.Parse(System.ReadOnlySpan{System.Byte})
   name.vb: Parse(ReadOnlySpan(Of Byte))
-  fullName: Apache.Arrow.Operations.Json.VariantJsonReader.Parse(System.ReadOnlySpan<byte>)
-  fullName.vb: Apache.Arrow.Operations.Json.VariantJsonReader.Parse(System.ReadOnlySpan(Of Byte))
+  fullName: Apache.Arrow.Operations.VariantJson.VariantJsonReader.Parse(System.ReadOnlySpan<byte>)
+  fullName.vb: Apache.Arrow.Operations.VariantJson.VariantJsonReader.Parse(System.ReadOnlySpan(Of Byte))
   nameWithType: VariantJsonReader.Parse(ReadOnlySpan<byte>)
   nameWithType.vb: VariantJsonReader.Parse(ReadOnlySpan(Of Byte))
-- uid: Apache.Arrow.Operations.Json.VariantJsonReader.Parse(System.String)
+- uid: Apache.Arrow.Operations.VariantJson.VariantJsonReader.Parse(System.String)
   name: Parse(string)
-  href: api/Apache.Arrow.Operations.Json.VariantJsonReader.html#Apache_Arrow_Operations_Json_VariantJsonReader_Parse_System_String_
-  commentId: M:Apache.Arrow.Operations.Json.VariantJsonReader.Parse(System.String)
+  href: api/Apache.Arrow.Operations.VariantJson.VariantJsonReader.html#Apache_Arrow_Operations_VariantJson_VariantJsonReader_Parse_System_String_
+  commentId: M:Apache.Arrow.Operations.VariantJson.VariantJsonReader.Parse(System.String)
   name.vb: Parse(String)
-  fullName: Apache.Arrow.Operations.Json.VariantJsonReader.Parse(string)
-  fullName.vb: Apache.Arrow.Operations.Json.VariantJsonReader.Parse(String)
+  fullName: Apache.Arrow.Operations.VariantJson.VariantJsonReader.Parse(string)
+  fullName.vb: Apache.Arrow.Operations.VariantJson.VariantJsonReader.Parse(String)
   nameWithType: VariantJsonReader.Parse(string)
   nameWithType.vb: VariantJsonReader.Parse(String)
-- uid: Apache.Arrow.Operations.Json.VariantJsonReader.Parse*
+- uid: Apache.Arrow.Operations.VariantJson.VariantJsonReader.Parse*
   name: Parse
-  href: api/Apache.Arrow.Operations.Json.VariantJsonReader.html#Apache_Arrow_Operations_Json_VariantJsonReader_Parse_
-  commentId: Overload:Apache.Arrow.Operations.Json.VariantJsonReader.Parse
+  href: api/Apache.Arrow.Operations.VariantJson.VariantJsonReader.html#Apache_Arrow_Operations_VariantJson_VariantJsonReader_Parse_
+  commentId: Overload:Apache.Arrow.Operations.VariantJson.VariantJsonReader.Parse
   isSpec: "True"
-  fullName: Apache.Arrow.Operations.Json.VariantJsonReader.Parse
+  fullName: Apache.Arrow.Operations.VariantJson.VariantJsonReader.Parse
   nameWithType: VariantJsonReader.Parse
-- uid: Apache.Arrow.Operations.Json.VariantJsonWriter
+- uid: Apache.Arrow.Operations.VariantJson.VariantJsonWriter
   name: VariantJsonWriter
-  href: api/Apache.Arrow.Operations.Json.VariantJsonWriter.html
-  commentId: T:Apache.Arrow.Operations.Json.VariantJsonWriter
-  fullName: Apache.Arrow.Operations.Json.VariantJsonWriter
+  href: api/Apache.Arrow.Operations.VariantJson.VariantJsonWriter.html
+  commentId: T:Apache.Arrow.Operations.VariantJson.VariantJsonWriter
+  fullName: Apache.Arrow.Operations.VariantJson.VariantJsonWriter
   nameWithType: VariantJsonWriter
-- uid: Apache.Arrow.Operations.Json.VariantJsonWriter.ToJson(Apache.Arrow.Scalars.Variant.VariantValue,System.Boolean)
+- uid: Apache.Arrow.Operations.VariantJson.VariantJsonWriter.ToJson(Apache.Arrow.Scalars.Variant.VariantValue,System.Boolean)
   name: ToJson(VariantValue, bool)
-  href: api/Apache.Arrow.Operations.Json.VariantJsonWriter.html#Apache_Arrow_Operations_Json_VariantJsonWriter_ToJson_Apache_Arrow_Scalars_Variant_VariantValue_System_Boolean_
-  commentId: M:Apache.Arrow.Operations.Json.VariantJsonWriter.ToJson(Apache.Arrow.Scalars.Variant.VariantValue,System.Boolean)
+  href: api/Apache.Arrow.Operations.VariantJson.VariantJsonWriter.html#Apache_Arrow_Operations_VariantJson_VariantJsonWriter_ToJson_Apache_Arrow_Scalars_Variant_VariantValue_System_Boolean_
+  commentId: M:Apache.Arrow.Operations.VariantJson.VariantJsonWriter.ToJson(Apache.Arrow.Scalars.Variant.VariantValue,System.Boolean)
   name.vb: ToJson(VariantValue, Boolean)
-  fullName: Apache.Arrow.Operations.Json.VariantJsonWriter.ToJson(Apache.Arrow.Scalars.Variant.VariantValue, bool)
-  fullName.vb: Apache.Arrow.Operations.Json.VariantJsonWriter.ToJson(Apache.Arrow.Scalars.Variant.VariantValue, Boolean)
+  fullName: Apache.Arrow.Operations.VariantJson.VariantJsonWriter.ToJson(Apache.Arrow.Scalars.Variant.VariantValue, bool)
+  fullName.vb: Apache.Arrow.Operations.VariantJson.VariantJsonWriter.ToJson(Apache.Arrow.Scalars.Variant.VariantValue, Boolean)
   nameWithType: VariantJsonWriter.ToJson(VariantValue, bool)
   nameWithType.vb: VariantJsonWriter.ToJson(VariantValue, Boolean)
-- uid: Apache.Arrow.Operations.Json.VariantJsonWriter.ToJson(System.Byte[],System.Byte[],System.Boolean)
+- uid: Apache.Arrow.Operations.VariantJson.VariantJsonWriter.ToJson(System.Byte[],System.Byte[],System.Boolean)
   name: ToJson(byte[], byte[], bool)
-  href: api/Apache.Arrow.Operations.Json.VariantJsonWriter.html#Apache_Arrow_Operations_Json_VariantJsonWriter_ToJson_System_Byte___System_Byte___System_Boolean_
-  commentId: M:Apache.Arrow.Operations.Json.VariantJsonWriter.ToJson(System.Byte[],System.Byte[],System.Boolean)
+  href: api/Apache.Arrow.Operations.VariantJson.VariantJsonWriter.html#Apache_Arrow_Operations_VariantJson_VariantJsonWriter_ToJson_System_Byte___System_Byte___System_Boolean_
+  commentId: M:Apache.Arrow.Operations.VariantJson.VariantJsonWriter.ToJson(System.Byte[],System.Byte[],System.Boolean)
   name.vb: ToJson(Byte(), Byte(), Boolean)
-  fullName: Apache.Arrow.Operations.Json.VariantJsonWriter.ToJson(byte[], byte[], bool)
-  fullName.vb: Apache.Arrow.Operations.Json.VariantJsonWriter.ToJson(Byte(), Byte(), Boolean)
+  fullName: Apache.Arrow.Operations.VariantJson.VariantJsonWriter.ToJson(byte[], byte[], bool)
+  fullName.vb: Apache.Arrow.Operations.VariantJson.VariantJsonWriter.ToJson(Byte(), Byte(), Boolean)
   nameWithType: VariantJsonWriter.ToJson(byte[], byte[], bool)
   nameWithType.vb: VariantJsonWriter.ToJson(Byte(), Byte(), Boolean)
-- uid: Apache.Arrow.Operations.Json.VariantJsonWriter.ToJson*
+- uid: Apache.Arrow.Operations.VariantJson.VariantJsonWriter.ToJson*
   name: ToJson
-  href: api/Apache.Arrow.Operations.Json.VariantJsonWriter.html#Apache_Arrow_Operations_Json_VariantJsonWriter_ToJson_
-  commentId: Overload:Apache.Arrow.Operations.Json.VariantJsonWriter.ToJson
+  href: api/Apache.Arrow.Operations.VariantJson.VariantJsonWriter.html#Apache_Arrow_Operations_VariantJson_VariantJsonWriter_ToJson_
+  commentId: Overload:Apache.Arrow.Operations.VariantJson.VariantJsonWriter.ToJson
   isSpec: "True"
-  fullName: Apache.Arrow.Operations.Json.VariantJsonWriter.ToJson
+  fullName: Apache.Arrow.Operations.VariantJson.VariantJsonWriter.ToJson
   nameWithType: VariantJsonWriter.ToJson
-- uid: Apache.Arrow.Operations.Json.VariantJsonWriter.WriteTo(System.Text.Json.Utf8JsonWriter,System.Byte[],System.Byte[])
+- uid: Apache.Arrow.Operations.VariantJson.VariantJsonWriter.WriteTo(System.Text.Json.Utf8JsonWriter,System.Byte[],System.Byte[])
   name: WriteTo(Utf8JsonWriter, byte[], byte[])
-  href: api/Apache.Arrow.Operations.Json.VariantJsonWriter.html#Apache_Arrow_Operations_Json_VariantJsonWriter_WriteTo_System_Text_Json_Utf8JsonWriter_System_Byte___System_Byte___
-  commentId: M:Apache.Arrow.Operations.Json.VariantJsonWriter.WriteTo(System.Text.Json.Utf8JsonWriter,System.Byte[],System.Byte[])
+  href: api/Apache.Arrow.Operations.VariantJson.VariantJsonWriter.html#Apache_Arrow_Operations_VariantJson_VariantJsonWriter_WriteTo_System_Text_Json_Utf8JsonWriter_System_Byte___System_Byte___
+  commentId: M:Apache.Arrow.Operations.VariantJson.VariantJsonWriter.WriteTo(System.Text.Json.Utf8JsonWriter,System.Byte[],System.Byte[])
   name.vb: WriteTo(Utf8JsonWriter, Byte(), Byte())
-  fullName: Apache.Arrow.Operations.Json.VariantJsonWriter.WriteTo(System.Text.Json.Utf8JsonWriter, byte[], byte[])
-  fullName.vb: Apache.Arrow.Operations.Json.VariantJsonWriter.WriteTo(System.Text.Json.Utf8JsonWriter, Byte(), Byte())
+  fullName: Apache.Arrow.Operations.VariantJson.VariantJsonWriter.WriteTo(System.Text.Json.Utf8JsonWriter, byte[], byte[])
+  fullName.vb: Apache.Arrow.Operations.VariantJson.VariantJsonWriter.WriteTo(System.Text.Json.Utf8JsonWriter, Byte(), Byte())
   nameWithType: VariantJsonWriter.WriteTo(Utf8JsonWriter, byte[], byte[])
   nameWithType.vb: VariantJsonWriter.WriteTo(Utf8JsonWriter, Byte(), Byte())
-- uid: Apache.Arrow.Operations.Json.VariantJsonWriter.WriteTo*
+- uid: Apache.Arrow.Operations.VariantJson.VariantJsonWriter.WriteTo*
   name: WriteTo
-  href: api/Apache.Arrow.Operations.Json.VariantJsonWriter.html#Apache_Arrow_Operations_Json_VariantJsonWriter_WriteTo_
-  commentId: Overload:Apache.Arrow.Operations.Json.VariantJsonWriter.WriteTo
+  href: api/Apache.Arrow.Operations.VariantJson.VariantJsonWriter.html#Apache_Arrow_Operations_VariantJson_VariantJsonWriter_WriteTo_
+  commentId: Overload:Apache.Arrow.Operations.VariantJson.VariantJsonWriter.WriteTo
   isSpec: "True"
-  fullName: Apache.Arrow.Operations.Json.VariantJsonWriter.WriteTo
+  fullName: Apache.Arrow.Operations.VariantJson.VariantJsonWriter.WriteTo
   nameWithType: VariantJsonWriter.WriteTo
 - uid: Apache.Arrow.PrimitiveArrayBuilder`3
   name: PrimitiveArrayBuilder<T, TArray, TBuilder>
