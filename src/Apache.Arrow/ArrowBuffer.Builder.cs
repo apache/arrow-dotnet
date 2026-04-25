@@ -132,6 +132,15 @@ namespace Apache.Arrow
             {
                 if (values != null)
                 {
+                    if (values is ICollection<T> collection)
+                    {
+                        EnsureAdditionalCapacity(collection.Count);
+                    }
+                    else if (values is IReadOnlyCollection<T> readOnlyCollection)
+                    {
+                        EnsureAdditionalCapacity(readOnlyCollection.Count);
+                    }
+
                     foreach (T v in values)
                     {
                         Append(v);
@@ -243,7 +252,7 @@ namespace Apache.Arrow
                 if (numBytes != 0)
                 {
                     var memory = new Memory<byte>(new byte[numBytes]);
-                    Memory.CopyTo(memory);
+                    Memory.Slice(0, Length * _size).CopyTo(memory);
 
                     Memory = memory;
                 }

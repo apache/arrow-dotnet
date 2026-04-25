@@ -14,6 +14,8 @@
 // limitations under the License.
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -158,6 +160,65 @@ namespace Apache.Arrow.Tests
                     Assert.Equal(i, span[i]);
                 }
             }
+
+            [Fact]
+            public void BufferHasExpectedValuesForRangeEnumerable()
+            {
+                var builder = new ArrowBuffer.Builder<int>(1);
+
+                builder.AppendRange(Enumerable.Range(0, 10));
+
+                var buffer = builder.Build();
+                var span = buffer.Span.CastTo<int>();
+
+                for (var i = 0; i < 10; i++)
+                {
+                    Assert.Equal(i, span[i]);
+                }
+            }
+
+            [Fact]
+            public void BufferHasExpectedValuesForReadOnlyCollection()
+            {
+                var builder = new ArrowBuffer.Builder<int>(1);
+                var data = new CountingReadOnlyCollection(Enumerable.Range(0, 10).ToArray());
+
+                builder.AppendRange(data);
+
+                var buffer = builder.Build();
+                var span = buffer.Span.CastTo<int>();
+
+                Assert.Equal(1, data.CountAccesses);
+                for (var i = 0; i < 10; i++)
+                {
+                    Assert.Equal(i, span[i]);
+                }
+            }
+
+            private sealed class CountingReadOnlyCollection : IReadOnlyCollection<int>
+            {
+                private readonly int[] _values;
+
+                public CountingReadOnlyCollection(int[] values)
+                {
+                    _values = values;
+                }
+
+                public int CountAccesses { get; private set; }
+
+                public int Count
+                {
+                    get
+                    {
+                        CountAccesses++;
+                        return _values.Length;
+                    }
+                }
+
+                public IEnumerator<int> GetEnumerator() => ((IEnumerable<int>)_values).GetEnumerator();
+
+                IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+            }
         }
 
         public class Clear
@@ -209,6 +270,19 @@ namespace Apache.Arrow.Tests
 
                 // Act/Assert
                 Assert.Throws<ArgumentOutOfRangeException>(() => builder.Resize(-1));
+            }
+
+            [Fact]
+            public void ReservePreservesAppendedValuesAfterReallocate()
+            {
+                var builder = new ArrowBuffer.Builder<int>(1);
+                builder.Append(42);
+
+                builder.Reserve(builder.Capacity + 1);
+
+                var buffer = builder.Build();
+                var span = buffer.Span.CastTo<int>();
+                Assert.Equal(42, span[0]);
             }
         }
 
