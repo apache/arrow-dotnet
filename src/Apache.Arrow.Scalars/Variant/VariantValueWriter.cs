@@ -159,6 +159,7 @@ namespace Apache.Arrow.Scalars.Variant
         /// </summary>
         public void WriteFieldName(string name)
         {
+            if (_disposed) throw new ObjectDisposedException(nameof(VariantValueWriter));
             if (!(_frame is ObjectFrame objFrame))
             {
                 throw new InvalidOperationException("WriteFieldName may only be called inside an object scope.");
@@ -175,6 +176,7 @@ namespace Apache.Arrow.Scalars.Variant
         /// <summary>Ends the current object scope.</summary>
         public void EndObject()
         {
+            if (_disposed) throw new ObjectDisposedException(nameof(VariantValueWriter));
             if (!(_frame is ObjectFrame objFrame))
             {
                 throw new InvalidOperationException("EndObject called without matching BeginObject.");
@@ -232,6 +234,7 @@ namespace Apache.Arrow.Scalars.Variant
         /// <summary>Ends the current array scope.</summary>
         public void EndArray()
         {
+            if (_disposed) throw new ObjectDisposedException(nameof(VariantValueWriter));
             if (!(_frame is ArrayFrame arrFrame))
             {
                 throw new InvalidOperationException("EndArray called without matching BeginArray.");
@@ -452,20 +455,29 @@ namespace Apache.Arrow.Scalars.Variant
         }
 
         /// <summary>Writes a UUID.</summary>
-        public void WriteUuid(Guid value)
+        public unsafe void WriteUuid(Guid value)
         {
             ref Buffer<byte> buf = ref BeforeWriteValue();
             buf.Append(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Uuid));
             Span<byte> raw = stackalloc byte[16];
+
 #if NET8_0_OR_GREATER
             value.TryWriteBytes(raw, bigEndian: true, out _);
 #else
             // Convert from .NET mixed-endian to big-endian (RFC 4122).
-            byte[] native = value.ToByteArray();
-            raw[0] = native[3]; raw[1] = native[2]; raw[2] = native[1]; raw[3] = native[0];
-            raw[4] = native[5]; raw[5] = native[4];
-            raw[6] = native[7]; raw[7] = native[6];
-            native.AsSpan(8, 8).CopyTo(raw.Slice(8));
+            byte* guidPtr = (byte*)&value;
+            fixed (byte* bytePtr = raw)
+            {
+                bytePtr[0] = guidPtr[3];
+                bytePtr[1] = guidPtr[2];
+                bytePtr[2] = guidPtr[1];
+                bytePtr[3] = guidPtr[0];
+                bytePtr[4] = guidPtr[5];
+                bytePtr[5] = guidPtr[4];
+                bytePtr[6] = guidPtr[7];
+                bytePtr[7] = guidPtr[6];
+                ((long*)bytePtr)[1] = ((long*)guidPtr)[1];
+            }
 #endif
             buf.Append(raw);
         }
@@ -516,92 +528,6 @@ namespace Apache.Arrow.Scalars.Variant
             ref Buffer<byte> buf = ref BeforeWriteValue();
             buf.Append(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.TimestampNtzNanos));
             buf.WriteInt64LE(nanos);
-        }
-
-        // ---------------------------------------------------------------
-        // Transcode from a VariantReader
-        // ---------------------------------------------------------------
-
-        /// <summary>
-        /// Copies the variant value pointed to by <paramref name="source"/> into this
-        /// writer. Useful when copying between metadata dictionaries: field IDs in the
-        /// source are re-looked-up against this writer's <see cref="VariantMetadataBuilder"/>
-        /// on the fly, via <see cref="WriteFieldName"/>.
-        /// </summary>
-        /// <remarks>
-        /// All field names referenced anywhere in <paramref name="source"/> must already
-        /// exist in the metadata builder used to construct this writer. Use
-        /// <see cref="VariantMetadataBuilder.CollectFieldNames(VariantReader)"/> during
-        /// the metadata-collection phase of a two-pass encode to accumulate them.
-        /// </remarks>
-        public void CopyValue(VariantReader source)
-        {
-            switch (source.BasicType)
-            {
-                case VariantBasicType.Primitive:
-                    CopyPrimitive(source);
-                    return;
-
-                case VariantBasicType.ShortString:
-                    WriteString(source.GetString());
-                    return;
-
-                case VariantBasicType.Object:
-                    VariantObjectReader obj = new VariantObjectReader(source.Metadata, source.Value);
-                    BeginObject();
-                    for (int i = 0; i < obj.FieldCount; i++)
-                    {
-                        WriteFieldName(obj.GetFieldName(i));
-                        CopyValue(obj.GetFieldValue(i));
-                    }
-                    EndObject();
-                    return;
-
-                case VariantBasicType.Array:
-                    VariantArrayReader arr = new VariantArrayReader(source.Metadata, source.Value);
-                    BeginArray();
-                    for (int i = 0; i < arr.ElementCount; i++)
-                    {
-                        CopyValue(arr.GetElement(i));
-                    }
-                    EndArray();
-                    return;
-
-                default:
-                    throw new NotSupportedException($"Unsupported basic type: {source.BasicType}");
-            }
-        }
-
-        private void CopyPrimitive(VariantReader source)
-        {
-            VariantPrimitiveType? pt = source.PrimitiveType;
-            switch (pt)
-            {
-                case VariantPrimitiveType.NullType: WriteNull(); return;
-                case VariantPrimitiveType.BooleanTrue: WriteBoolean(true); return;
-                case VariantPrimitiveType.BooleanFalse: WriteBoolean(false); return;
-                case VariantPrimitiveType.Int8: WriteInt8(source.GetInt8()); return;
-                case VariantPrimitiveType.Int16: WriteInt16(source.GetInt16()); return;
-                case VariantPrimitiveType.Int32: WriteInt32(source.GetInt32()); return;
-                case VariantPrimitiveType.Int64: WriteInt64(source.GetInt64()); return;
-                case VariantPrimitiveType.Float: WriteFloat(source.GetFloat()); return;
-                case VariantPrimitiveType.Double: WriteDouble(source.GetDouble()); return;
-                case VariantPrimitiveType.Decimal4: WriteDecimal4(source.GetDecimal4()); return;
-                case VariantPrimitiveType.Decimal8: WriteDecimal8(source.GetDecimal8()); return;
-                // Decimal16 may exceed System.Decimal's range, so route through SqlDecimal.
-                case VariantPrimitiveType.Decimal16: WriteDecimal16(source.GetSqlDecimal()); return;
-                case VariantPrimitiveType.Date: WriteDateDays(source.GetDateDays()); return;
-                case VariantPrimitiveType.Timestamp: WriteTimestampMicros(source.GetTimestampMicros()); return;
-                case VariantPrimitiveType.TimestampNtz: WriteTimestampNtzMicros(source.GetTimestampNtzMicros()); return;
-                case VariantPrimitiveType.TimeNtz: WriteTimeNtzMicros(source.GetTimeNtzMicros()); return;
-                case VariantPrimitiveType.TimestampTzNanos: WriteTimestampTzNanos(source.GetTimestampTzNanos()); return;
-                case VariantPrimitiveType.TimestampNtzNanos: WriteTimestampNtzNanos(source.GetTimestampNtzNanos()); return;
-                case VariantPrimitiveType.String: WriteString(source.GetString()); return;
-                case VariantPrimitiveType.Binary: WriteBinary(source.GetBinary()); return;
-                case VariantPrimitiveType.Uuid: WriteUuid(source.GetUuid()); return;
-                default:
-                    throw new NotSupportedException($"Unsupported primitive type: {pt}");
-            }
         }
 
         // ---------------------------------------------------------------
