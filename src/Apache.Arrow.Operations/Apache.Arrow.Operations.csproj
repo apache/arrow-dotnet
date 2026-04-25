@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Apache.Arrow\Apache.Arrow.csproj" />
     <ProjectReference Include="..\Apache.Arrow.Scalars\Apache.Arrow.Scalars.csproj" />
   </ItemGroup>
 

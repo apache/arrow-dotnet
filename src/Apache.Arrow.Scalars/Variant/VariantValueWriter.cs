@@ -425,6 +425,92 @@ namespace Apache.Arrow.Scalars.Variant
         }
 
         // ---------------------------------------------------------------
+        // Transcode from a VariantReader
+        // ---------------------------------------------------------------
+
+        /// <summary>
+        /// Copies the variant value pointed to by <paramref name="source"/> into this
+        /// writer. Useful when copying between metadata dictionaries: field IDs in the
+        /// source are re-looked-up against this writer's <see cref="VariantMetadataBuilder"/>
+        /// on the fly, via <see cref="WriteFieldName"/>.
+        /// </summary>
+        /// <remarks>
+        /// All field names referenced anywhere in <paramref name="source"/> must already
+        /// exist in the metadata builder used to construct this writer. Use
+        /// <see cref="VariantMetadataBuilder.CollectFieldNames(VariantReader)"/> during
+        /// the metadata-collection phase of a two-pass encode to accumulate them.
+        /// </remarks>
+        public void CopyValue(VariantReader source)
+        {
+            switch (source.BasicType)
+            {
+                case VariantBasicType.Primitive:
+                    CopyPrimitive(source);
+                    return;
+
+                case VariantBasicType.ShortString:
+                    WriteString(source.GetString());
+                    return;
+
+                case VariantBasicType.Object:
+                    VariantObjectReader obj = new VariantObjectReader(source.Metadata, source.Value);
+                    BeginObject();
+                    for (int i = 0; i < obj.FieldCount; i++)
+                    {
+                        WriteFieldName(obj.GetFieldName(i));
+                        CopyValue(obj.GetFieldValue(i));
+                    }
+                    EndObject();
+                    return;
+
+                case VariantBasicType.Array:
+                    VariantArrayReader arr = new VariantArrayReader(source.Metadata, source.Value);
+                    BeginArray();
+                    for (int i = 0; i < arr.ElementCount; i++)
+                    {
+                        CopyValue(arr.GetElement(i));
+                    }
+                    EndArray();
+                    return;
+
+                default:
+                    throw new NotSupportedException($"Unsupported basic type: {source.BasicType}");
+            }
+        }
+
+        private void CopyPrimitive(VariantReader source)
+        {
+            VariantPrimitiveType? pt = source.PrimitiveType;
+            switch (pt)
+            {
+                case VariantPrimitiveType.NullType: WriteNull(); return;
+                case VariantPrimitiveType.BooleanTrue: WriteBoolean(true); return;
+                case VariantPrimitiveType.BooleanFalse: WriteBoolean(false); return;
+                case VariantPrimitiveType.Int8: WriteInt8(source.GetInt8()); return;
+                case VariantPrimitiveType.Int16: WriteInt16(source.GetInt16()); return;
+                case VariantPrimitiveType.Int32: WriteInt32(source.GetInt32()); return;
+                case VariantPrimitiveType.Int64: WriteInt64(source.GetInt64()); return;
+                case VariantPrimitiveType.Float: WriteFloat(source.GetFloat()); return;
+                case VariantPrimitiveType.Double: WriteDouble(source.GetDouble()); return;
+                case VariantPrimitiveType.Decimal4: WriteDecimal4(source.GetDecimal4()); return;
+                case VariantPrimitiveType.Decimal8: WriteDecimal8(source.GetDecimal8()); return;
+                // Decimal16 may exceed System.Decimal's range, so route through SqlDecimal.
+                case VariantPrimitiveType.Decimal16: WriteDecimal16(source.GetSqlDecimal()); return;
+                case VariantPrimitiveType.Date: WriteDateDays(source.GetDateDays()); return;
+                case VariantPrimitiveType.Timestamp: WriteTimestampMicros(source.GetTimestampMicros()); return;
+                case VariantPrimitiveType.TimestampNtz: WriteTimestampNtzMicros(source.GetTimestampNtzMicros()); return;
+                case VariantPrimitiveType.TimeNtz: WriteTimeNtzMicros(source.GetTimeNtzMicros()); return;
+                case VariantPrimitiveType.TimestampTzNanos: WriteTimestampTzNanos(source.GetTimestampTzNanos()); return;
+                case VariantPrimitiveType.TimestampNtzNanos: WriteTimestampNtzNanos(source.GetTimestampNtzNanos()); return;
+                case VariantPrimitiveType.String: WriteString(source.GetString()); return;
+                case VariantPrimitiveType.Binary: WriteBinary(source.GetBinary().ToArray()); return;
+                case VariantPrimitiveType.Uuid: WriteUuid(source.GetUuid()); return;
+                default:
+                    throw new NotSupportedException($"Unsupported primitive type: {pt}");
+            }
+        }
+
+        // ---------------------------------------------------------------
         // Internal bookkeeping
         // ---------------------------------------------------------------
 

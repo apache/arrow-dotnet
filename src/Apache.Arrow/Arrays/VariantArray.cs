@@ -37,9 +37,15 @@ namespace Apache.Arrow
 
         public override bool TryCreateType(IArrowType storageType, string metadata, out ExtensionType type)
         {
+            // Accept the Parquet variant storage layouts:
+            //   struct<metadata: binary, value: binary>                     (unshredded)
+            //   struct<metadata: binary, value: binary, typed_value: T>     (shredded with residual)
+            //   struct<metadata: binary, typed_value: T>                    (fully shredded, no value column)
+            // The metadata field is required. At least one of value/typed_value must be present.
             if (storageType is StructType structType &&
                 FindBinaryFieldIndex(structType, "metadata") >= 0 &&
-                FindBinaryFieldIndex(structType, "value") >= 0)
+                (FindBinaryFieldIndex(structType, "value") >= 0 ||
+                 structType.GetFieldIndex("typed_value") >= 0))
             {
                 type = new VariantType(structType);
                 return true;
@@ -67,8 +73,15 @@ namespace Apache.Arrow
     }
 
     /// <summary>
-    /// Extension type representing Parquet Variant values, stored as
-    /// struct&lt;metadata: binary, value: binary&gt;.
+    /// Extension type representing Parquet Variant values. The underlying storage is
+    /// a struct with a required <c>metadata</c> binary field and at least one of:
+    /// <list type="bullet">
+    /// <item><c>value: binary</c> — the variant value bytes (possibly residual when shredded).</item>
+    /// <item><c>typed_value: T</c> — a typed column populated by variant shredding, where
+    /// <c>T</c> is an Arrow primitive, struct, or list per the Parquet variant shredding spec.</item>
+    /// </list>
+    /// Use <see cref="IsShredded"/> to check for shredded layouts. Decoding shredded
+    /// values requires <c>Apache.Arrow.Operations.Shredding</c>.
     /// </summary>
     public class VariantType : ExtensionType
     {
@@ -79,14 +92,46 @@ namespace Apache.Arrow
         public override string Name => ExtensionName;
         public override string ExtensionMetadata => "";
 
+        /// <summary>
+        /// True if the storage layout has a <c>value</c> binary field (unshredded or
+        /// partially shredded). False for fully shredded layouts that omit the column.
+        /// </summary>
+        public bool HasValueColumn { get; }
+
+        /// <summary>
+        /// True if the storage layout has a <c>typed_value</c> field (shredded).
+        /// </summary>
+        public bool HasTypedValueColumn { get; }
+
+        /// <summary>
+        /// True if the storage layout includes any shredding (has a <c>typed_value</c>
+        /// column, or lacks a <c>value</c> column indicating full shredding).
+        /// </summary>
+        public bool IsShredded => HasTypedValueColumn || !HasValueColumn;
+
+        /// <summary>
+        /// The <c>typed_value</c> field when <see cref="HasTypedValueColumn"/> is true; otherwise null.
+        /// </summary>
+        public Field TypedValueField { get; }
+
         public VariantType() : base(new StructType(new[]
         {
             new Field("metadata", BinaryType.Default, false),
             new Field("value", BinaryType.Default, false),
         }))
-        { }
+        {
+            HasValueColumn = true;
+            HasTypedValueColumn = false;
+            TypedValueField = null;
+        }
 
-        internal VariantType(StructType storageType) : base(storageType) { }
+        internal VariantType(StructType storageType) : base(storageType)
+        {
+            HasValueColumn = VariantExtensionDefinition.FindBinaryFieldIndex(storageType, "value") >= 0;
+            int typedIdx = storageType.GetFieldIndex("typed_value");
+            HasTypedValueColumn = typedIdx >= 0;
+            TypedValueField = typedIdx >= 0 ? storageType.Fields[typedIdx] : null;
+        }
 
         public override ExtensionArray CreateArray(IArrowArray storageArray)
         {
@@ -107,15 +152,53 @@ namespace Apache.Arrow
 
         public StructArray StorageArray => (StructArray)Storage;
 
+        /// <summary>
+        /// The variant type metadata describing which columns are present.
+        /// </summary>
+        public VariantType VariantType => (VariantType)ExtensionType;
+
+        /// <summary>
+        /// True when the underlying column includes shredded data (has a
+        /// <c>typed_value</c> column, or lacks a <c>value</c> column). Reads
+        /// on shredded columns require <c>Apache.Arrow.Operations.Shredding</c>.
+        /// </summary>
+        public bool IsShredded => VariantType.IsShredded;
+
+        /// <summary>
+        /// The <c>typed_value</c> child array when the column is shredded; otherwise null.
+        /// </summary>
+        public IArrowArray TypedValueArray { get; }
+
         public VariantArray(VariantType variantType, IArrowArray storage)
             : base(variantType, storage)
         {
             var structType = (StructType)variantType.StorageType;
             _metadataArray = DecodeBinaryArray(StorageArray.Fields[structType.GetFieldIndex("metadata")], out _metadataIndexes);
-            _valueArray = DecodeBinaryArray(StorageArray.Fields[structType.GetFieldIndex("value")], out _valueIndexes);
+
+            if (variantType.HasValueColumn)
+            {
+                _valueArray = DecodeBinaryArray(StorageArray.Fields[structType.GetFieldIndex("value")], out _valueIndexes);
+            }
+
+            if (variantType.HasTypedValueColumn)
+            {
+                TypedValueArray = StorageArray.Fields[structType.GetFieldIndex("typed_value")];
+            }
         }
 
-        public VariantArray(IArrowArray storage) : this(VariantType.Default, storage) { }
+        public VariantArray(IArrowArray storage) : this(InferVariantType(storage), storage) { }
+
+        private static VariantType InferVariantType(IArrowArray storage)
+        {
+            if (storage == null) throw new ArgumentNullException(nameof(storage));
+            if (VariantExtensionDefinition.Instance.TryCreateType(storage.Data.DataType, null, out ExtensionType ext))
+            {
+                return (VariantType)ext;
+            }
+            throw new ArgumentException(
+                "Storage array does not match a variant layout (expected struct<metadata, value?, typed_value?>).",
+                nameof(storage));
+        }
 
         /// <summary>
         /// Gets the metadata bytes for the element at the given index.
@@ -129,10 +212,40 @@ namespace Apache.Arrow
         /// <summary>
         /// Gets the value bytes for the element at the given index.
         /// </summary>
+        /// <exception cref="InvalidOperationException">If the column has no <c>value</c> field.</exception>
         public ReadOnlySpan<byte> GetValueBytes(int index)
         {
+            if (_valueArray == null)
+            {
+                throw new InvalidOperationException(
+                    "This VariantArray has no 'value' column (fully shredded layout). " +
+                    "Use the shredding-aware readers in Apache.Arrow.Operations.Shredding.");
+            }
             int physicalIndex = _valueIndexes.GetPhysicalIndex(index);
             return _valueArray.GetBytes(physicalIndex, out bool isNull);
+        }
+
+        /// <summary>
+        /// Returns true and sets <paramref name="value"/> when the element at
+        /// <paramref name="index"/> has value bytes, false otherwise. Shredded
+        /// elements whose residual is null will return false.
+        /// </summary>
+        public bool TryGetValueBytes(int index, out ReadOnlySpan<byte> value)
+        {
+            if (_valueArray == null)
+            {
+                value = default;
+                return false;
+            }
+            int physicalIndex = _valueIndexes.GetPhysicalIndex(index);
+            ReadOnlySpan<byte> bytes = _valueArray.GetBytes(physicalIndex, out bool isNull);
+            if (isNull)
+            {
+                value = default;
+                return false;
+            }
+            value = bytes;
+            return true;
         }
 
         /// <summary>
@@ -140,7 +253,11 @@ namespace Apache.Arrow
         /// The reader is only valid while the underlying array buffers are alive.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="index"/> is out of range.</exception>
-        /// <exception cref="InvalidOperationException">If the element at <paramref name="index"/> is null.</exception>
+        /// <exception cref="InvalidOperationException">
+        /// If the element at <paramref name="index"/> is null, or the column is shredded
+        /// (a <see cref="VariantReader"/> over residual bytes alone does not represent the
+        /// logical variant — use <c>Apache.Arrow.Operations.Shredding</c> instead).
+        /// </exception>
         public VariantReader GetVariantReader(int index)
         {
             if (index < 0 || index >= Length)
@@ -149,12 +266,20 @@ namespace Apache.Arrow
             if (IsNull(index))
                 throw new InvalidOperationException("Cannot create a VariantReader for a null element.");
 
+            if (IsShredded)
+                throw new InvalidOperationException(
+                    "Cannot create a VariantReader for a shredded column. Use the shredding-aware " +
+                    "readers in Apache.Arrow.Operations.Shredding.");
+
             return new VariantReader(GetMetadataBytes(index), GetValueBytes(index));
         }
 
         /// <summary>
         /// Gets a materialized <see cref="VariantValue"/> for the element at the given index.
+        /// Shredded columns require <c>Apache.Arrow.Operations.Shredding</c>; call the
+        /// <c>GetShreddedVariant</c> / <c>GetLogicalVariantValue</c> extension methods instead.
         /// </summary>
+        /// <exception cref="InvalidOperationException">If the column is shredded.</exception>
         public VariantValue GetVariantValue(int index)
         {
             if (index < 0 || index >= Length)
@@ -162,6 +287,12 @@ namespace Apache.Arrow
 
             if (IsNull(index))
                 return VariantValue.Null;
+
+            if (IsShredded)
+                throw new InvalidOperationException(
+                    "GetVariantValue is not supported on shredded VariantArrays. " +
+                    "Reference Apache.Arrow.Operations.Shredding and use GetLogicalVariantValue " +
+                    "(transparent materialization) or GetShreddedVariant (reader-style access).");
 
             var metadata = GetMetadataBytes(index);
             var value = GetValueBytes(index);
@@ -174,6 +305,13 @@ namespace Apache.Arrow
 
         public IEnumerator<VariantValue> GetEnumerator()
         {
+            if (IsShredded)
+            {
+                throw new InvalidOperationException(
+                    "Enumeration is not supported on shredded VariantArrays. " +
+                    "Reference Apache.Arrow.Operations.Shredding and iterate via GetLogicalVariantValue.");
+            }
+
             IEnumerator<int> metadataIdx = _metadataIndexes.EnumeratePhysicalIndices().GetEnumerator();
             IEnumerator<int> valueIdx = _valueIndexes.EnumeratePhysicalIndices().GetEnumerator();
             for (int i = 0; metadataIdx.MoveNext() && valueIdx.MoveNext(); i++)

@@ -58,6 +58,38 @@ namespace Apache.Arrow.Scalars.Variant
         public int Count => _names.Count;
 
         /// <summary>
+        /// Recursively walks <paramref name="source"/> and adds every field name it
+        /// references to this builder. Use during the metadata-collection phase of
+        /// a two-pass encode — build the metadata first, finalize it via
+        /// <see cref="Build(out int[])"/>, then pass the resulting remap to a
+        /// <see cref="VariantValueWriter"/> and call <see cref="VariantValueWriter.CopyValue"/>.
+        /// </summary>
+        public void CollectFieldNames(VariantReader source)
+        {
+            switch (source.BasicType)
+            {
+                case VariantBasicType.Object:
+                    VariantObjectReader obj = new VariantObjectReader(source.Metadata, source.Value);
+                    for (int i = 0; i < obj.FieldCount; i++)
+                    {
+                        Add(obj.GetFieldName(i));
+                        CollectFieldNames(obj.GetFieldValue(i));
+                    }
+                    return;
+
+                case VariantBasicType.Array:
+                    VariantArrayReader arr = new VariantArrayReader(source.Metadata, source.Value);
+                    for (int i = 0; i < arr.ElementCount; i++)
+                    {
+                        CollectFieldNames(arr.GetElement(i));
+                    }
+                    return;
+
+                // Primitive values and short strings have no field-name references.
+            }
+        }
+
+        /// <summary>
         /// Builds the binary metadata with the dictionary sorted by UTF-8 byte order.
         /// </summary>
         /// <param name="idRemap">
