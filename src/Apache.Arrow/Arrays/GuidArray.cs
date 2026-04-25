@@ -140,6 +140,9 @@ namespace Apache.Arrow
             if (bytes.Length != GuidType.ByteWidth)
                 throw new ArgumentException("Byte span must be exactly 16 bytes long.", nameof(bytes));
 
+#if NET8_0_OR_GREATER
+            guid.TryWriteBytes(bytes, bigEndian: true, out _);
+#else
             byte* guidPtr = (byte*)&guid;
             fixed (byte* bytePtr = bytes)
             {
@@ -153,6 +156,7 @@ namespace Apache.Arrow
                 bytePtr[7] = guidPtr[6];
                 ((long*)bytePtr)[1] = ((long*)guidPtr)[1];
             }
+#endif
         }
 
         /// <summary>
@@ -164,6 +168,9 @@ namespace Apache.Arrow
             if (bytes.Length != GuidType.ByteWidth)
                 throw new ArgumentException("Byte span must be exactly 16 bytes long.", nameof(bytes));
 
+#if NET8_0_OR_GREATER
+            Guid result = new Guid(bytes, bigEndian: true);
+#else
             Guid result = new Guid();
             byte* guidPtr = (byte*)&result;
             fixed (byte* bytePtr = bytes)
@@ -177,8 +184,9 @@ namespace Apache.Arrow
                 guidPtr[6] = bytePtr[7];
                 guidPtr[7] = bytePtr[6];
                 ((long*)guidPtr)[1] = ((long*)bytePtr)[1];
-                return result;
             }
+#endif
+            return result;
         }
 
         public Guid? GetGuid(int index)
