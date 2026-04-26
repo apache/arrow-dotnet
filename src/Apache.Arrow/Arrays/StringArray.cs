@@ -30,8 +30,6 @@ namespace Apache.Arrow
 
         public new class Builder : BuilderBase<StringArray, Builder>
         {
-            private const int StackallocByteThreshold = 256;
-
             public Builder() : base(StringType.Default) { }
 
             protected override StringArray Build(ArrayData data)
@@ -49,28 +47,28 @@ namespace Apache.Arrow
                 encoding = encoding ?? DefaultEncoding;
 
                 int byteCount = encoding.GetByteCount(value);
+                int valueBufferStart = ValueBuffer.Length;
 
-                if (byteCount == 0)
-                {
-                    return Append(ReadOnlySpan<byte>.Empty);
-                }
+                ValueBuffer.Reserve(byteCount);
 
-                if (byteCount <= StackallocByteThreshold)
+                if (byteCount > 0)
                 {
-                    Span<byte> bytes = stackalloc byte[byteCount];
+                    Span<byte> destination = ValueBuffer.Span.Slice(valueBufferStart, byteCount);
 
                     unsafe
                     {
                         fixed (char* chars = value)
-                        fixed (byte* data = bytes)
+                        fixed (byte* data = destination)
                             encoding.GetBytes(chars, value.Length, data, byteCount);
                     }
 
-                    return Append(bytes);
+                    ValueBuffer.Resize(checked(valueBufferStart + byteCount));
                 }
 
-                byte[] array = encoding.GetBytes(value);
-                return Append(array.AsSpan());
+                ValidityBuffer.Append(true);
+                Offset += byteCount;
+                ValueOffsets.Append(Offset);
+                return this;
             }
 
             public Builder AppendRange(IEnumerable<string> values, Encoding encoding = null)
