@@ -33,7 +33,7 @@ namespace Apache.Arrow.Operations.Shredding
     {
         /// <summary>
         /// The residual variant value bytes. These reference the column-level metadata
-        /// returned by <see cref="VariantShredder.Shred(System.Collections.Generic.IEnumerable{Apache.Arrow.Variant.VariantValue}, ShredSchema)"/>;
+        /// returned by <see cref="VariantShredder.Shred(IEnumerable{Scalars.Variant.VariantValue}, ShredSchema)"/>;
         /// they are NOT self-contained. Non-null when the value (or part of it) could
         /// not be shredded into the typed column. For partially shredded objects this
         /// contains only the unshredded fields.

@@ -424,7 +424,7 @@ namespace Apache.Arrow.Operations.Tests.Shredding
         private static VariantArray BuildShreddedColumn(IArrowType typedType, IArrowArray typedArray)
         {
             byte[] emptyMetadata = new VariantMetadataBuilder().Build();
-            BinaryArray metadataArr = new BinaryArray.Builder().Append(emptyMetadata).Build();
+            BinaryArray metadataArr = new BinaryArray.Builder().Append(emptyMetadata.AsSpan()).Build();
             BinaryArray valueArr = new BinaryArray.Builder().AppendNull().Build();
 
             StructType storageType = new StructType(new List<Field>
