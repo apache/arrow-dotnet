@@ -1848,6 +1848,24 @@ references:
   fullName.vb: Apache.Arrow.BinaryArray.BuilderBase(Of TArray, TBuilder).New
   nameWithType: BinaryArray.BuilderBase<TArray, TBuilder>.BuilderBase
   nameWithType.vb: BinaryArray.BuilderBase(Of TArray, TBuilder).New
+- uid: Apache.Arrow.BinaryArray.BuilderBase`2.AdvanceValueBuffer(System.Int32)
+  name: AdvanceValueBuffer(int)
+  href: api/Apache.Arrow.BinaryArray.BuilderBase-2.html#Apache_Arrow_BinaryArray_BuilderBase_2_AdvanceValueBuffer_System_Int32_
+  commentId: M:Apache.Arrow.BinaryArray.BuilderBase`2.AdvanceValueBuffer(System.Int32)
+  name.vb: AdvanceValueBuffer(Integer)
+  fullName: Apache.Arrow.BinaryArray.BuilderBase<TArray, TBuilder>.AdvanceValueBuffer(int)
+  fullName.vb: Apache.Arrow.BinaryArray.BuilderBase(Of TArray, TBuilder).AdvanceValueBuffer(Integer)
+  nameWithType: BinaryArray.BuilderBase<TArray, TBuilder>.AdvanceValueBuffer(int)
+  nameWithType.vb: BinaryArray.BuilderBase(Of TArray, TBuilder).AdvanceValueBuffer(Integer)
+- uid: Apache.Arrow.BinaryArray.BuilderBase`2.AdvanceValueBuffer*
+  name: AdvanceValueBuffer
+  href: api/Apache.Arrow.BinaryArray.BuilderBase-2.html#Apache_Arrow_BinaryArray_BuilderBase_2_AdvanceValueBuffer_
+  commentId: Overload:Apache.Arrow.BinaryArray.BuilderBase`2.AdvanceValueBuffer
+  isSpec: "True"
+  fullName: Apache.Arrow.BinaryArray.BuilderBase<TArray, TBuilder>.AdvanceValueBuffer
+  fullName.vb: Apache.Arrow.BinaryArray.BuilderBase(Of TArray, TBuilder).AdvanceValueBuffer
+  nameWithType: BinaryArray.BuilderBase<TArray, TBuilder>.AdvanceValueBuffer
+  nameWithType.vb: BinaryArray.BuilderBase(Of TArray, TBuilder).AdvanceValueBuffer
 - uid: Apache.Arrow.BinaryArray.BuilderBase`2.Append(System.Byte)
   name: Append(byte)
   href: api/Apache.Arrow.BinaryArray.BuilderBase-2.html#Apache_Arrow_BinaryArray_BuilderBase_2_Append_System_Byte_
@@ -1987,6 +2005,24 @@ references:
   fullName.vb: Apache.Arrow.BinaryArray.BuilderBase(Of TArray, TBuilder).DataType
   nameWithType: BinaryArray.BuilderBase<TArray, TBuilder>.DataType
   nameWithType.vb: BinaryArray.BuilderBase(Of TArray, TBuilder).DataType
+- uid: Apache.Arrow.BinaryArray.BuilderBase`2.GetValueBufferSpan(System.Int32)
+  name: GetValueBufferSpan(int)
+  href: api/Apache.Arrow.BinaryArray.BuilderBase-2.html#Apache_Arrow_BinaryArray_BuilderBase_2_GetValueBufferSpan_System_Int32_
+  commentId: M:Apache.Arrow.BinaryArray.BuilderBase`2.GetValueBufferSpan(System.Int32)
+  name.vb: GetValueBufferSpan(Integer)
+  fullName: Apache.Arrow.BinaryArray.BuilderBase<TArray, TBuilder>.GetValueBufferSpan(int)
+  fullName.vb: Apache.Arrow.BinaryArray.BuilderBase(Of TArray, TBuilder).GetValueBufferSpan(Integer)
+  nameWithType: BinaryArray.BuilderBase<TArray, TBuilder>.GetValueBufferSpan(int)
+  nameWithType.vb: BinaryArray.BuilderBase(Of TArray, TBuilder).GetValueBufferSpan(Integer)
+- uid: Apache.Arrow.BinaryArray.BuilderBase`2.GetValueBufferSpan*
+  name: GetValueBufferSpan
+  href: api/Apache.Arrow.BinaryArray.BuilderBase-2.html#Apache_Arrow_BinaryArray_BuilderBase_2_GetValueBufferSpan_
+  commentId: Overload:Apache.Arrow.BinaryArray.BuilderBase`2.GetValueBufferSpan
+  isSpec: "True"
+  fullName: Apache.Arrow.BinaryArray.BuilderBase<TArray, TBuilder>.GetValueBufferSpan
+  fullName.vb: Apache.Arrow.BinaryArray.BuilderBase(Of TArray, TBuilder).GetValueBufferSpan
+  nameWithType: BinaryArray.BuilderBase<TArray, TBuilder>.GetValueBufferSpan
+  nameWithType.vb: BinaryArray.BuilderBase(Of TArray, TBuilder).GetValueBufferSpan
 - uid: Apache.Arrow.BinaryArray.BuilderBase`2.Instance
   name: Instance
   href: api/Apache.Arrow.BinaryArray.BuilderBase-2.html#Apache_Arrow_BinaryArray_BuilderBase_2_Instance

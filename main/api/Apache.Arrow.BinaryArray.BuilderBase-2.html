@@ -179,7 +179,7 @@ Class BinaryArray.BuilderBase&lt;TArray, TBuilder&gt;  <a class="header-action l
 
   <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2__ctor_Apache_Arrow_Types_IArrowType_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.#ctor(Apache.Arrow.Types.IArrowType)">
   BuilderBase(IArrowType)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L64"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L65"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -276,7 +276,7 @@ Class BinaryArray.BuilderBase&lt;TArray, TBuilder&gt;  <a class="header-action l
 
   <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_Length" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Length">
   Length
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L88"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L127"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets the length of the array built so far.</p>
@@ -463,11 +463,44 @@ Class BinaryArray.BuilderBase&lt;TArray, TBuilder&gt;  <a class="header-action l
 </h2>
 
 
+  <a id="Apache_Arrow_BinaryArray_BuilderBase_2_AdvanceValueBuffer_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.AdvanceValueBuffer*"></a>
+
+  <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_AdvanceValueBuffer_System_Int32_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.AdvanceValueBuffer(System.Int32)">
+  AdvanceValueBuffer(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L108"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Commits bytes previously written into the span returned by <a class="xref" href="Apache.Arrow.BinaryArray.BuilderBase-2.html#Apache_Arrow_BinaryArray_BuilderBase_2_GetValueBufferSpan_System_Int32_">GetValueBufferSpan(int)</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void AdvanceValueBuffer(int count)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>count</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The number of bytes written to the span returned by the latest <a class="xref" href="Apache.Arrow.BinaryArray.BuilderBase-2.html#Apache_Arrow_BinaryArray_BuilderBase_2_GetValueBufferSpan_System_Int32_">GetValueBufferSpan(int)</a> call.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
   <a id="Apache_Arrow_BinaryArray_BuilderBase_2_Append_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Append*"></a>
 
   <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_Append_System_Byte_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Append(System.Byte)">
   Append(byte)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L131"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L170"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Appends a value, consisting of a single byte, to the array.</p>
@@ -506,7 +539,7 @@ Class BinaryArray.BuilderBase&lt;TArray, TBuilder&gt;  <a class="header-action l
 
   <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_Append_System_Collections_Generic_IEnumerable_System_Byte__" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Append(System.Collections.Generic.IEnumerable{System.Byte})">
   Append(IEnumerable&lt;byte&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L167"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L206"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Append a value, consisting of an enumerable collection of bytes, to the array.</p>
@@ -549,7 +582,7 @@ values are to be added, use the <a class="xref" href="Apache.Arrow.BinaryArray.B
 
   <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_Append_System_ReadOnlySpan_System_Byte__" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Append(System.ReadOnlySpan{System.Byte})">
   Append(ReadOnlySpan&lt;byte&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L149"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L188"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Append a value, consisting of a span of bytes, to the array.</p>
@@ -592,7 +625,7 @@ to be added, use the <a class="xref" href="Apache.Arrow.BinaryArray.BuilderBase-
 
   <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_AppendNull" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.AppendNull">
   AppendNull()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L117"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L156"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Append a single null value to the array.</p>
@@ -625,7 +658,7 @@ to be added, use the <a class="xref" href="Apache.Arrow.BinaryArray.BuilderBase-
 
   <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_AppendRange_System_Collections_Generic_IEnumerable_System_Byte____" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.AppendRange(System.Collections.Generic.IEnumerable{System.Byte[]})">
   AppendRange(IEnumerable&lt;byte[]&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L214"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L253"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Append an enumerable collection of values to the array.</p>
@@ -664,7 +697,7 @@ to be added, use the <a class="xref" href="Apache.Arrow.BinaryArray.BuilderBase-
 
   <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_AppendRange_System_Collections_Generic_IEnumerable_System_Byte__" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.AppendRange(System.Collections.Generic.IEnumerable{System.Byte})">
   AppendRange(IEnumerable&lt;byte&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L194"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L233"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Append an enumerable collection of single-byte values to the array.</p>
@@ -707,7 +740,7 @@ to be added, use the <a class="xref" href="Apache.Arrow.BinaryArray.BuilderBase-
 
   <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_Build_Apache_Arrow_ArrayData_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Build(Apache.Arrow.ArrayData)">
   Build(ArrayData)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L83"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L84"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -743,7 +776,7 @@ to be added, use the <a class="xref" href="Apache.Arrow.BinaryArray.BuilderBase-
 
   <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_Build_Apache_Arrow_Memory_MemoryAllocator_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Build(Apache.Arrow.Memory.MemoryAllocator)">
   Build(MemoryAllocator)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L95"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L134"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Build an Arrow array from the appended contents so far.</p>
@@ -782,7 +815,7 @@ to be added, use the <a class="xref" href="Apache.Arrow.BinaryArray.BuilderBase-
 
   <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_Clear" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Clear">
   Clear()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L270"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L309"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Clear all contents appended so far.</p>
@@ -811,11 +844,50 @@ to be added, use the <a class="xref" href="Apache.Arrow.BinaryArray.BuilderBase-
 
 
 
+  <a id="Apache_Arrow_BinaryArray_BuilderBase_2_GetValueBufferSpan_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.GetValueBufferSpan*"></a>
+
+  <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_GetValueBufferSpan_System_Int32_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.GetValueBufferSpan(System.Int32)">
+  GetValueBufferSpan(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L91"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns writable value-buffer space without changing the committed buffer length.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Span&lt;byte&gt; GetValueBufferSpan(int sizeHint)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>sizeHint</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The minimum number of writable bytes required.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.span-1">Span</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd><p>A span starting at the first uncommitted byte in the value buffer.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="Apache_Arrow_BinaryArray_BuilderBase_2_Reserve_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Reserve*"></a>
 
   <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_Reserve_System_Int32_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Reserve(System.Int32)">
   Reserve(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L236"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L275"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -851,7 +923,7 @@ to be added, use the <a class="xref" href="Apache.Arrow.BinaryArray.BuilderBase-
 
   <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_Resize_System_Int32_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Resize(System.Int32)">
   Resize(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L245"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L284"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -887,7 +959,7 @@ to be added, use the <a class="xref" href="Apache.Arrow.BinaryArray.BuilderBase-
 
   <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_Set_System_Int32_System_Byte_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Set(System.Int32,System.Byte)">
   Set(int, byte)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L260"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L299"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -925,7 +997,7 @@ to be added, use the <a class="xref" href="Apache.Arrow.BinaryArray.BuilderBase-
 
   <h3 id="Apache_Arrow_BinaryArray_BuilderBase_2_Swap_System_Int32_System_Int32_" data-uid="Apache.Arrow.BinaryArray.BuilderBase`2.Swap(System.Int32,System.Int32)">
   Swap(int, int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L254"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L293"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
