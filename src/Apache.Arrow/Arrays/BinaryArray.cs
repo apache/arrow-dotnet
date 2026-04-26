@@ -60,6 +60,7 @@ namespace Apache.Arrow
             protected ArrowBuffer.BitmapBuilder ValidityBuffer { get; }
             protected int Offset { get; set; }
             protected int NullCount => this.ValidityBuffer.UnsetBitCount;
+            private int _availableValueBufferByteCount;
 
             protected BuilderBase(IArrowType dataType)
             {
@@ -81,6 +82,44 @@ namespace Apache.Arrow
             }
 
             protected abstract TArray Build(ArrayData data);
+
+            /// <summary>
+            /// Returns writable value-buffer space without changing the committed buffer length.
+            /// </summary>
+            /// <param name="sizeHint">The minimum number of writable bytes required.</param>
+            /// <returns>A span starting at the first uncommitted byte in the value buffer.</returns>
+            protected Span<byte> GetValueBufferSpan(int sizeHint)
+            {
+                if (sizeHint < 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(sizeHint));
+                }
+
+                ValueBuffer.Reserve(sizeHint);
+                Span<byte> span = ValueBuffer.Span.Slice(ValueBuffer.Length);
+                _availableValueBufferByteCount = span.Length;
+                return span;
+            }
+
+            /// <summary>
+            /// Commits bytes previously written into the span returned by <see cref="GetValueBufferSpan"/>.
+            /// </summary>
+            /// <param name="count">The number of bytes written to the span returned by the latest <see cref="GetValueBufferSpan"/> call.</param>
+            protected void AdvanceValueBuffer(int count)
+            {
+                if (count < 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(count));
+                }
+
+                if (count > _availableValueBufferByteCount)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(count));
+                }
+
+                ValueBuffer.Resize(checked(ValueBuffer.Length + count));
+                _availableValueBufferByteCount = 0;
+            }
 
             /// <summary>
             /// Gets the length of the array built so far.

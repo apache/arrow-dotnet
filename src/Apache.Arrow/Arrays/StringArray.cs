@@ -43,13 +43,49 @@ namespace Apache.Arrow
                 {
                     return AppendNull();
                 }
+
                 encoding = encoding ?? DefaultEncoding;
-                byte[] span = encoding.GetBytes(value);
-                return Append(span.AsSpan());
+
+                int byteCount = encoding.GetByteCount(value);
+                Span<byte> destination = GetValueBufferSpan(byteCount).Slice(0, byteCount);
+
+                if (byteCount > 0)
+                {
+                    unsafe
+                    {
+                        fixed (char* chars = value)
+                        fixed (byte* data = destination)
+                            encoding.GetBytes(chars, value.Length, data, byteCount);
+                    }
+                }
+
+                AdvanceValueBuffer(byteCount);
+                ValidityBuffer.Append(true);
+                Offset += byteCount;
+                ValueOffsets.Append(Offset);
+                return this;
             }
 
             public Builder AppendRange(IEnumerable<string> values, Encoding encoding = null)
             {
+                encoding = encoding ?? DefaultEncoding;
+
+                if (values is ICollection<string> collection && collection.Count > 0)
+                {
+                    int totalByteCount = 0;
+                    foreach (string value in collection)
+                    {
+                        if (value != null)
+                        {
+                            totalByteCount = checked(totalByteCount + encoding.GetByteCount(value));
+                        }
+                    }
+
+                    ValueOffsets.Reserve(collection.Count);
+                    ValidityBuffer.Reserve(collection.Count);
+                    ValueBuffer.Reserve(totalByteCount);
+                }
+
                 foreach (string value in values)
                 {
                     Append(value, encoding);
