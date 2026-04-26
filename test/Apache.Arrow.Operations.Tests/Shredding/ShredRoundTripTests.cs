@@ -15,8 +15,8 @@
 
 using System;
 using System.Collections.Generic;
-using Apache.Arrow.Operations.VariantJson;
 using Apache.Arrow.Operations.Shredding;
+using Apache.Arrow.Operations.VariantJson;
 using Apache.Arrow.Scalars.Variant;
 using Xunit;
 

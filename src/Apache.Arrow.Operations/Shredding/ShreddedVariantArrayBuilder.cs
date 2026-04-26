@@ -111,8 +111,8 @@ namespace Apache.Arrow.Operations.Shredding
             switch (schema.TypedValueType)
             {
                 case ShredType.Object: return BuildObjectTyped(schema, typedValues, allocator);
-                case ShredType.Array:  return BuildArrayTyped(schema, typedValues, allocator);
-                default:               return BuildPrimitiveTyped(schema.TypedValueType, typedValues, allocator);
+                case ShredType.Array: return BuildArrayTyped(schema, typedValues, allocator);
+                default: return BuildPrimitiveTyped(schema.TypedValueType, typedValues, allocator);
             }
         }
 
@@ -240,68 +240,68 @@ namespace Apache.Arrow.Operations.Shredding
             switch (shredType)
             {
                 case ShredType.Boolean:
-                {
-                    BooleanArray.Builder b = new BooleanArray.Builder();
-                    foreach (object v in typedValues)
                     {
-                        if (v == null) b.AppendNull(); else b.Append((bool)v);
+                        BooleanArray.Builder b = new BooleanArray.Builder();
+                        foreach (object v in typedValues)
+                        {
+                            if (v == null) b.AppendNull(); else b.Append((bool)v);
+                        }
+                        return b.Build(allocator);
                     }
-                    return b.Build(allocator);
-                }
                 case ShredType.Int8:
-                {
-                    Int8Array.Builder b = new Int8Array.Builder();
-                    foreach (object v in typedValues)
                     {
-                        if (v == null) b.AppendNull(); else b.Append((sbyte)v);
+                        Int8Array.Builder b = new Int8Array.Builder();
+                        foreach (object v in typedValues)
+                        {
+                            if (v == null) b.AppendNull(); else b.Append((sbyte)v);
+                        }
+                        return b.Build(allocator);
                     }
-                    return b.Build(allocator);
-                }
                 case ShredType.Int16:
-                {
-                    Int16Array.Builder b = new Int16Array.Builder();
-                    foreach (object v in typedValues)
                     {
-                        if (v == null) b.AppendNull(); else b.Append((short)v);
+                        Int16Array.Builder b = new Int16Array.Builder();
+                        foreach (object v in typedValues)
+                        {
+                            if (v == null) b.AppendNull(); else b.Append((short)v);
+                        }
+                        return b.Build(allocator);
                     }
-                    return b.Build(allocator);
-                }
                 case ShredType.Int32:
-                {
-                    Int32Array.Builder b = new Int32Array.Builder();
-                    foreach (object v in typedValues)
                     {
-                        if (v == null) b.AppendNull(); else b.Append((int)v);
+                        Int32Array.Builder b = new Int32Array.Builder();
+                        foreach (object v in typedValues)
+                        {
+                            if (v == null) b.AppendNull(); else b.Append((int)v);
+                        }
+                        return b.Build(allocator);
                     }
-                    return b.Build(allocator);
-                }
                 case ShredType.Int64:
-                {
-                    Int64Array.Builder b = new Int64Array.Builder();
-                    foreach (object v in typedValues)
                     {
-                        if (v == null) b.AppendNull(); else b.Append((long)v);
+                        Int64Array.Builder b = new Int64Array.Builder();
+                        foreach (object v in typedValues)
+                        {
+                            if (v == null) b.AppendNull(); else b.Append((long)v);
+                        }
+                        return b.Build(allocator);
                     }
-                    return b.Build(allocator);
-                }
                 case ShredType.Float:
-                {
-                    FloatArray.Builder b = new FloatArray.Builder();
-                    foreach (object v in typedValues)
                     {
-                        if (v == null) b.AppendNull(); else b.Append((float)v);
+                        FloatArray.Builder b = new FloatArray.Builder();
+                        foreach (object v in typedValues)
+                        {
+                            if (v == null) b.AppendNull(); else b.Append((float)v);
+                        }
+                        return b.Build(allocator);
                     }
-                    return b.Build(allocator);
-                }
                 case ShredType.Double:
-                {
-                    DoubleArray.Builder b = new DoubleArray.Builder();
-                    foreach (object v in typedValues)
                     {
-                        if (v == null) b.AppendNull(); else b.Append((double)v);
+                        DoubleArray.Builder b = new DoubleArray.Builder();
+                        foreach (object v in typedValues)
+                        {
+                            if (v == null) b.AppendNull(); else b.Append((double)v);
+                        }
+                        return b.Build(allocator);
                     }
-                    return b.Build(allocator);
-                }
                 case ShredType.Decimal4:
                 case ShredType.Decimal8:
                 case ShredType.Decimal16:
@@ -319,23 +319,23 @@ namespace Apache.Arrow.Operations.Shredding
                 case ShredType.TimeNtz:
                     return BuildTime64(typedValues, allocator);
                 case ShredType.String:
-                {
-                    StringArray.Builder b = new StringArray.Builder();
-                    foreach (object v in typedValues)
                     {
-                        if (v == null) b.AppendNull(); else b.Append((string)v);
+                        StringArray.Builder b = new StringArray.Builder();
+                        foreach (object v in typedValues)
+                        {
+                            if (v == null) b.AppendNull(); else b.Append((string)v);
+                        }
+                        return b.Build(allocator);
                     }
-                    return b.Build(allocator);
-                }
                 case ShredType.Binary:
-                {
-                    BinaryArray.Builder b = new BinaryArray.Builder();
-                    foreach (object v in typedValues)
                     {
-                        if (v == null) b.AppendNull(); else b.Append((ReadOnlySpan<byte>)(byte[])v);
+                        BinaryArray.Builder b = new BinaryArray.Builder();
+                        foreach (object v in typedValues)
+                        {
+                            if (v == null) b.AppendNull(); else b.Append((ReadOnlySpan<byte>)(byte[])v);
+                        }
+                        return b.Build(allocator);
                     }
-                    return b.Build(allocator);
-                }
                 case ShredType.Uuid:
                     return BuildUuidArray(typedValues, allocator);
                 default:

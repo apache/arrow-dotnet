@@ -34,7 +34,7 @@ namespace Apache.Arrow.Scalars.Variant
             CollectFieldNames(variant, metadataBuilder);
             byte[] metadata = metadataBuilder.Build(out int[] idRemap);
 
-            VariantValueWriter writer = new VariantValueWriter(metadataBuilder, idRemap);
+            using VariantValueWriter writer = new VariantValueWriter(metadataBuilder, idRemap);
             WriteValue(writer, variant);
             return (metadata, writer.ToArray());
         }

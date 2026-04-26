@@ -45,7 +45,7 @@ namespace Apache.Arrow.Scalars.Tests
             dstMetadata.CollectFieldNames(srcReader);
             byte[] dstMetadataBytes = dstMetadata.Build(out int[] idRemap);
 
-            VariantValueWriter writer = new VariantValueWriter(dstMetadata, idRemap);
+            using VariantValueWriter writer = new VariantValueWriter(dstMetadata, idRemap);
             writer.CopyValue(srcReader);
             byte[] dstValue = writer.ToArray();
 
@@ -294,7 +294,7 @@ namespace Apache.Arrow.Scalars.Tests
             dstMetadata.Add("mmm-decoy-3");
 
             byte[] dstMetadataBytes = dstMetadata.Build(out int[] idRemap);
-            VariantValueWriter writer = new VariantValueWriter(dstMetadata, idRemap);
+            using VariantValueWriter writer = new VariantValueWriter(dstMetadata, idRemap);
             writer.CopyValue(srcReader);
             byte[] dstValue = writer.ToArray();
 
@@ -317,7 +317,7 @@ namespace Apache.Arrow.Scalars.Tests
             // Deliberately skip CollectFieldNames — "unknown-field" is not in dst metadata.
             VariantMetadataBuilder dstMetadata = new VariantMetadataBuilder();
             byte[] _ = dstMetadata.Build(out int[] idRemap);
-            VariantValueWriter writer = new VariantValueWriter(dstMetadata, idRemap);
+            using VariantValueWriter writer = new VariantValueWriter(dstMetadata, idRemap);
 
             // Ref structs (VariantReader) can't be captured by lambdas; reconstruct inside.
             Assert.Throws<KeyNotFoundException>(() =>
@@ -401,9 +401,9 @@ namespace Apache.Arrow.Scalars.Tests
             byte[] dstMeta = dst.Build(out int[] remap);
 
             // Transcode each into its own value stream (still referencing `dst`).
-            VariantValueWriter writerA = new VariantValueWriter(dst, remap);
+            using VariantValueWriter writerA = new VariantValueWriter(dst, remap);
             writerA.CopyValue(aReader);
-            VariantValueWriter writerB = new VariantValueWriter(dst, remap);
+            using VariantValueWriter writerB = new VariantValueWriter(dst, remap);
             writerB.CopyValue(bReader);
 
             Assert.Equal(a, new VariantReader(dstMeta, writerA.ToArray()).ToVariantValue());

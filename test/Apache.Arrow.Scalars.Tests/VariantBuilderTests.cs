@@ -153,6 +153,21 @@ namespace Apache.Arrow.Scalars.Tests
         }
 
         [Fact]
+        public void Encode_Uuid_ProducesRfc4122BigEndianValueBytes()
+        {
+            // Round-tripping alone can't catch an endian bug in WriteUuid if
+            // VariantReader has the mirror bug. Pin the wire format directly:
+            // TestVectors.PrimitiveUuid is the canonical encoding of
+            // "550e8400-e29b-41d4-a716-446655440000" — 0x50 header + 16 bytes
+            // in RFC 4122 big-endian order (first three fields big-endian,
+            // last 8 bytes as-is).
+            Guid guid = new Guid("550e8400-e29b-41d4-a716-446655440000");
+            (byte[] _, byte[] value) = _builder.Encode(VariantValue.FromUuid(guid));
+
+            Assert.Equal(TestVectors.PrimitiveUuid.ToArray(), value);
+        }
+
+        [Fact]
         public void Encode_Decimal4()
         {
             (byte[] metadata, byte[] value) = _builder.Encode(VariantValue.FromDecimal4(123.45m));

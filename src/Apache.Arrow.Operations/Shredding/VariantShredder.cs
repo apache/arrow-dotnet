@@ -176,14 +176,14 @@ namespace Apache.Arrow.Operations.Shredding
 
         private static byte[] EncodeValue(VariantValue value, VariantMetadataBuilder metadata, int[] idRemap)
         {
-            VariantValueWriter writer = new VariantValueWriter(metadata, idRemap);
+            using VariantValueWriter writer = new VariantValueWriter(metadata, idRemap);
             WriteVariantValue(writer, value);
             return writer.ToArray();
         }
 
         private static byte[] EncodeResidualObject(List<KeyValuePair<string, VariantValue>> fields, VariantMetadataBuilder metadata, int[] idRemap)
         {
-            VariantValueWriter writer = new VariantValueWriter(metadata, idRemap);
+            using VariantValueWriter writer = new VariantValueWriter(metadata, idRemap);
             writer.BeginObject();
             foreach (KeyValuePair<string, VariantValue> field in fields)
             {

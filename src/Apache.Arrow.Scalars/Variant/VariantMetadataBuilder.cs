@@ -85,7 +85,7 @@ namespace Apache.Arrow.Scalars.Variant
                     }
                     return;
 
-                // Primitive values and short strings have no field-name references.
+                    // Primitive values and short strings have no field-name references.
             }
         }
 

@@ -301,25 +301,25 @@ namespace Apache.Arrow.Operations.Shredding
         {
             switch (_schema.TypedValueType)
             {
-                case ShredType.Boolean:      return VariantValue.FromBoolean(GetBoolean());
-                case ShredType.Int8:         return VariantValue.FromInt8(GetInt8());
-                case ShredType.Int16:        return VariantValue.FromInt16(GetInt16());
-                case ShredType.Int32:        return VariantValue.FromInt32(GetInt32());
-                case ShredType.Int64:        return VariantValue.FromInt64(GetInt64());
-                case ShredType.Float:        return VariantValue.FromFloat(GetFloat());
-                case ShredType.Double:       return VariantValue.FromDouble(GetDouble());
-                case ShredType.Decimal4:     return VariantValue.FromDecimal4(GetDecimal());
-                case ShredType.Decimal8:     return VariantValue.FromDecimal8(GetDecimal());
-                case ShredType.Decimal16:    return VariantValue.FromSqlDecimal(GetSqlDecimal());
-                case ShredType.Date:         return VariantValue.FromDate(GetDateDays());
-                case ShredType.Timestamp:    return VariantValue.FromTimestamp(GetTimestampMicros());
+                case ShredType.Boolean: return VariantValue.FromBoolean(GetBoolean());
+                case ShredType.Int8: return VariantValue.FromInt8(GetInt8());
+                case ShredType.Int16: return VariantValue.FromInt16(GetInt16());
+                case ShredType.Int32: return VariantValue.FromInt32(GetInt32());
+                case ShredType.Int64: return VariantValue.FromInt64(GetInt64());
+                case ShredType.Float: return VariantValue.FromFloat(GetFloat());
+                case ShredType.Double: return VariantValue.FromDouble(GetDouble());
+                case ShredType.Decimal4: return VariantValue.FromDecimal4(GetDecimal());
+                case ShredType.Decimal8: return VariantValue.FromDecimal8(GetDecimal());
+                case ShredType.Decimal16: return VariantValue.FromDecimal16(GetSqlDecimal());
+                case ShredType.Date: return VariantValue.FromDate(GetDateDays());
+                case ShredType.Timestamp: return VariantValue.FromTimestamp(GetTimestampMicros());
                 case ShredType.TimestampNtz: return VariantValue.FromTimestampNtz(GetTimestampNtzMicros());
-                case ShredType.TimeNtz:      return VariantValue.FromTimeNtz(GetTimeNtzMicros());
-                case ShredType.TimestampTzNanos:    return VariantValue.FromTimestampTzNanos(GetTimestampTzNanos());
-                case ShredType.TimestampNtzNanos:   return VariantValue.FromTimestampNtzNanos(GetTimestampNtzNanos());
-                case ShredType.String:       return VariantValue.FromString(GetString());
-                case ShredType.Binary:       return VariantValue.FromBinary(GetBinaryBytes().ToArray());
-                case ShredType.Uuid:         return VariantValue.FromUuid(GetUuid());
+                case ShredType.TimeNtz: return VariantValue.FromTimeNtz(GetTimeNtzMicros());
+                case ShredType.TimestampTzNanos: return VariantValue.FromTimestampTzNanos(GetTimestampTzNanos());
+                case ShredType.TimestampNtzNanos: return VariantValue.FromTimestampNtzNanos(GetTimestampNtzNanos());
+                case ShredType.String: return VariantValue.FromString(GetString());
+                case ShredType.Binary: return VariantValue.FromBinary(GetBinaryBytes().ToArray());
+                case ShredType.Uuid: return VariantValue.FromUuid(GetUuid());
                 default:
                     throw new InvalidOperationException(
                         $"Unexpected primitive shred type {_schema.TypedValueType}.");

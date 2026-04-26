@@ -45,6 +45,6 @@ namespace Apache.Arrow.Operations.Shredding
         public double MinTypeConsistency { get; set; } = 0.8;
 
         /// <summary>Default options.</summary>
-        public static readonly ShredOptions Default = new ShredOptions();
+        public static ShredOptions Default => new ShredOptions();
     }
 }
