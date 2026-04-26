@@ -47,24 +47,19 @@ namespace Apache.Arrow
                 encoding = encoding ?? DefaultEncoding;
 
                 int byteCount = encoding.GetByteCount(value);
-                int valueBufferStart = ValueBuffer.Length;
-
-                ValueBuffer.Reserve(byteCount);
+                Span<byte> destination = GetValueBufferSpan(byteCount).Slice(0, byteCount);
 
                 if (byteCount > 0)
                 {
-                    Span<byte> destination = ValueBuffer.Span.Slice(valueBufferStart, byteCount);
-
                     unsafe
                     {
                         fixed (char* chars = value)
                         fixed (byte* data = destination)
                             encoding.GetBytes(chars, value.Length, data, byteCount);
                     }
-
-                    ValueBuffer.Resize(checked(valueBufferStart + byteCount));
                 }
 
+                AdvanceValueBuffer(byteCount);
                 ValidityBuffer.Append(true);
                 Offset += byteCount;
                 ValueOffsets.Append(Offset);
