@@ -82,6 +82,105 @@ namespace Apache.Arrow.Tests
                 Assert.True(array.IsMaterialized());
                 Assert.Equal(firstValue, retrievedValue);
             }
+
+            [Fact]
+            public void ReturnsAppendedValueForSlice()
+            {
+                // Arrange
+                var array = new StringArray.Builder()
+                    .Append("prefix")
+                    .Append("value")
+                    .AppendNull()
+                    .Append(string.Empty)
+                    .Build();
+
+                var slice = (StringArray)array.Slice(1, 3);
+
+                // Act / Assert
+                Assert.Equal("value", slice.GetString(0));
+                Assert.Null(slice.GetString(1));
+                Assert.Equal(string.Empty, slice.GetString(2));
+            }
+
+            [Fact]
+            public void ReturnsAppendedValueForSliceAfterMaterialize()
+            {
+                // Arrange
+                var array = new StringArray.Builder()
+                    .Append("prefix")
+                    .Append("value")
+                    .AppendNull()
+                    .Append(string.Empty)
+                    .Build();
+
+                var slice = (StringArray)array.Slice(1, 3);
+
+                // Act
+                slice.Materialize();
+
+                // Assert
+                Assert.True(slice.IsMaterialized());
+                Assert.Equal("value", slice.GetString(0));
+                Assert.Null(slice.GetString(1));
+                Assert.Equal(string.Empty, slice.GetString(2));
+            }
+
+            [Fact]
+            public void ReturnsAppendedValueWithCustomEncoding()
+            {
+                // Arrange
+                const string expected = "héllø";
+                var array = new StringArray.Builder()
+                    .Append(expected, Encoding.Unicode)
+                    .Build();
+
+                // Act
+                var retrievedValue = array.GetString(0, Encoding.Unicode);
+
+                // Assert
+                Assert.Equal(expected, retrievedValue);
+            }
+
+            [Fact]
+            public void ReturnsAppendedValueWithCustomEncodingAfterMaterialize()
+            {
+                // Arrange
+                const string expected = "héllø";
+                var array = new StringArray.Builder()
+                    .Append(expected, Encoding.Unicode)
+                    .Build();
+
+                // Act
+                array.Materialize(Encoding.Unicode);
+                var retrievedValue = array.GetString(0, Encoding.Unicode);
+
+                // Assert
+                Assert.True(array.IsMaterialized(Encoding.Unicode));
+                Assert.Equal(expected, retrievedValue);
+            }
+
+            [Fact]
+            public void ReturnsAppendedValueForCustomEncodingSliceAfterMaterialize()
+            {
+                // Arrange
+                var array = new StringArray.Builder()
+                    .Append("prefix", Encoding.Unicode)
+                    .Append("héllø", Encoding.Unicode)
+                    .AppendNull()
+                    .Append(string.Empty, Encoding.Unicode)
+                    .Build();
+
+                var slice = (StringArray)array.Slice(1, 3);
+
+                // Act
+                slice.Materialize(Encoding.Unicode);
+
+                // Assert
+                Assert.True(slice.IsMaterialized(Encoding.Unicode));
+                Assert.Equal("héllø", slice.GetString(0, Encoding.Unicode));
+                Assert.Null(slice.GetString(1, Encoding.Unicode));
+                Assert.Equal(string.Empty, slice.GetString(2, Encoding.Unicode));
+            }
         }
 
         public class Builder
