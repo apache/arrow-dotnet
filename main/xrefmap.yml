@@ -21937,6 +21937,19 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.Scalars.Variant.VariantValueWriter.BeginObject
   nameWithType: VariantValueWriter.BeginObject
+- uid: Apache.Arrow.Scalars.Variant.VariantValueWriter.Dispose
+  name: Dispose()
+  href: api/Apache.Arrow.Scalars.Variant.VariantValueWriter.html#Apache_Arrow_Scalars_Variant_VariantValueWriter_Dispose
+  commentId: M:Apache.Arrow.Scalars.Variant.VariantValueWriter.Dispose
+  fullName: Apache.Arrow.Scalars.Variant.VariantValueWriter.Dispose()
+  nameWithType: VariantValueWriter.Dispose()
+- uid: Apache.Arrow.Scalars.Variant.VariantValueWriter.Dispose*
+  name: Dispose
+  href: api/Apache.Arrow.Scalars.Variant.VariantValueWriter.html#Apache_Arrow_Scalars_Variant_VariantValueWriter_Dispose_
+  commentId: Overload:Apache.Arrow.Scalars.Variant.VariantValueWriter.Dispose
+  isSpec: "True"
+  fullName: Apache.Arrow.Scalars.Variant.VariantValueWriter.Dispose
+  nameWithType: VariantValueWriter.Dispose
 - uid: Apache.Arrow.Scalars.Variant.VariantValueWriter.EndArray
   name: EndArray()
   href: api/Apache.Arrow.Scalars.Variant.VariantValueWriter.html#Apache_Arrow_Scalars_Variant_VariantValueWriter_EndArray
@@ -21976,15 +21989,15 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.Scalars.Variant.VariantValueWriter.ToArray
   nameWithType: VariantValueWriter.ToArray
-- uid: Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteBinary(System.Byte[])
-  name: WriteBinary(byte[])
-  href: api/Apache.Arrow.Scalars.Variant.VariantValueWriter.html#Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteBinary_System_Byte___
-  commentId: M:Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteBinary(System.Byte[])
-  name.vb: WriteBinary(Byte())
-  fullName: Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteBinary(byte[])
-  fullName.vb: Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteBinary(Byte())
-  nameWithType: VariantValueWriter.WriteBinary(byte[])
-  nameWithType.vb: VariantValueWriter.WriteBinary(Byte())
+- uid: Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteBinary(System.ReadOnlySpan{System.Byte})
+  name: WriteBinary(ReadOnlySpan<byte>)
+  href: api/Apache.Arrow.Scalars.Variant.VariantValueWriter.html#Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteBinary_System_ReadOnlySpan_System_Byte__
+  commentId: M:Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteBinary(System.ReadOnlySpan{System.Byte})
+  name.vb: WriteBinary(ReadOnlySpan(Of Byte))
+  fullName: Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteBinary(System.ReadOnlySpan<byte>)
+  fullName.vb: Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteBinary(System.ReadOnlySpan(Of Byte))
+  nameWithType: VariantValueWriter.WriteBinary(ReadOnlySpan<byte>)
+  nameWithType.vb: VariantValueWriter.WriteBinary(ReadOnlySpan(Of Byte))
 - uid: Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteBinary*
   name: WriteBinary
   href: api/Apache.Arrow.Scalars.Variant.VariantValueWriter.html#Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteBinary_

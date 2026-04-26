@@ -89,7 +89,7 @@
 
 
   <h1 id="Apache_Arrow_Scalars_Variant_VariantValueWriter" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter" class="text-break">
-Class VariantValueWriter  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L39"><i class="bi bi-code-slash"></i></a>
+Class VariantValueWriter  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L38"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -104,7 +104,7 @@ implement encoders from arbitrary input formats (JSON, CBOR, etc.).</p>
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public sealed class VariantValueWriter</code></pre>
+    <pre><code class="lang-csharp hljs">public sealed class VariantValueWriter : IDisposable</code></pre>
   </div>
 
 
@@ -118,6 +118,12 @@ implement encoders from arbitrary input formats (JSON, CBOR, etc.).</p>
     </dd>
   </dl>
 
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+    </dd>
+  </dl>
 
 
   <dl class="typelist inheritedMembers">
@@ -148,7 +154,7 @@ implement encoders from arbitrary input formats (JSON, CBOR, etc.).</p>
 
   <h2 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_remarks">Remarks</h2>
   <div class="markdown level0 remarks"><p>Usage pattern:</p>
-<ol><li>Create a <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantMetadataBuilder.html">VariantMetadataBuilder</a> and <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantMetadataBuilder.html#Apache_Arrow_Scalars_Variant_VariantMetadataBuilder_Add_System_String_">Add(string)</a> every field name that will appear.</li><li>Call <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantMetadataBuilder.html#Apache_Arrow_Scalars_Variant_VariantMetadataBuilder_Build_System_Int32____">Build(out int[])</a> to produce the metadata bytes and the ID remap.</li><li>Create a <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValueWriter.html">VariantValueWriter</a> with the metadata builder and remap, emit the value via the <code>Write*</code> / <code>Begin*</code> / <code>End*</code> methods, then call <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValueWriter.html#Apache_Arrow_Scalars_Variant_VariantValueWriter_ToArray">ToArray()</a>.</li></ol>
+<ol><li>Create a <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantMetadataBuilder.html">VariantMetadataBuilder</a> and <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantMetadataBuilder.html#Apache_Arrow_Scalars_Variant_VariantMetadataBuilder_Add_System_String_">Add(string)</a> every field name that will appear.</li><li>Call <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantMetadataBuilder.html#Apache_Arrow_Scalars_Variant_VariantMetadataBuilder_Build_System_Int32____">Build(out int[])</a> to produce the metadata bytes and the ID remap.</li><li>Create a <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValueWriter.html">VariantValueWriter</a> with the metadata builder and remap, emit the value via the <code>Write*</code> / <code>Begin*</code> / <code>End*</code> methods, then call <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValueWriter.html#Apache_Arrow_Scalars_Variant_VariantValueWriter_ToArray">ToArray()</a>.</li><li><a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValueWriter.html#Apache_Arrow_Scalars_Variant_VariantValueWriter_Dispose">Dispose()</a> the writer to return its cached backing arrays to <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.buffers.arraypool-1.shared">Shared</a>. Skipping <code>Dispose</code> leaks those arrays to the GC.</li></ol>
 </div>
 
 
@@ -160,7 +166,7 @@ implement encoders from arbitrary input formats (JSON, CBOR, etc.).</p>
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter__ctor_Apache_Arrow_Scalars_Variant_VariantMetadataBuilder_System_Int32___" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.#ctor(Apache.Arrow.Scalars.Variant.VariantMetadataBuilder,System.Int32[])">
   VariantValueWriter(VariantMetadataBuilder, int[])
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L59"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L62"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Creates a writer that produces value bytes referencing the given metadata.</p>
@@ -200,7 +206,7 @@ implement encoders from arbitrary input formats (JSON, CBOR, etc.).</p>
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_BeginArray" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.BeginArray">
   BeginArray()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L140"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L212"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Begins writing an array. Pair with <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValueWriter.html#Apache_Arrow_Scalars_Variant_VariantValueWriter_EndArray">EndArray()</a>.</p>
@@ -227,7 +233,7 @@ implement encoders from arbitrary input formats (JSON, CBOR, etc.).</p>
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_BeginObject" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.BeginObject">
   BeginObject()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L89"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L129"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Begins writing an object. Pair with <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValueWriter.html#Apache_Arrow_Scalars_Variant_VariantValueWriter_EndObject">EndObject()</a>.</p>
@@ -250,11 +256,43 @@ implement encoders from arbitrary input formats (JSON, CBOR, etc.).</p>
 
 
 
+  <a id="Apache_Arrow_Scalars_Variant_VariantValueWriter_Dispose_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.Dispose*"></a>
+
+  <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_Dispose" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.Dispose">
+  Dispose()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L98"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns all cached backing arrays (the root buffer, any still-open
+frame buffers, and the per-writer array pools) to
+<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.buffers.arraypool-1.shared">Shared</a>. The writer must not be used after
+<a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValueWriter.html#Apache_Arrow_Scalars_Variant_VariantValueWriter_Dispose">Dispose()</a>; calls to <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValueWriter.html#Apache_Arrow_Scalars_Variant_VariantValueWriter_ToArray">ToArray()</a> or any
+<code>Write*</code> / <code>Begin*</code> method will throw
+<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.objectdisposedexception">ObjectDisposedException</a>. Idempotent.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
   <a id="Apache_Arrow_Scalars_Variant_VariantValueWriter_EndArray_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.EndArray*"></a>
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_EndArray" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.EndArray">
   EndArray()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L150"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L235"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Ends the current array scope.</p>
@@ -281,7 +319,7 @@ implement encoders from arbitrary input formats (JSON, CBOR, etc.).</p>
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_EndObject" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.EndObject">
   EndObject()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L120"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L177"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Ends the current object scope.</p>
@@ -308,7 +346,7 @@ implement encoders from arbitrary input formats (JSON, CBOR, etc.).</p>
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_ToArray" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.ToArray">
   ToArray()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L75"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L80"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Returns the encoded value bytes. All opened objects and arrays must be closed.</p>
@@ -338,9 +376,9 @@ implement encoders from arbitrary input formats (JSON, CBOR, etc.).</p>
 
   <a id="Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteBinary_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteBinary*"></a>
 
-  <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteBinary_System_Byte___" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteBinary(System.Byte[])">
-  WriteBinary(byte[])
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L350"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteBinary_System_ReadOnlySpan_System_Byte__" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteBinary(System.ReadOnlySpan{System.Byte})">
+  WriteBinary(ReadOnlySpan&lt;byte&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L449"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Writes a binary blob.</p>
@@ -348,12 +386,12 @@ implement encoders from arbitrary input formats (JSON, CBOR, etc.).</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void WriteBinary(byte[] data)</code></pre>
+    <pre><code class="lang-csharp hljs">public void WriteBinary(ReadOnlySpan&lt;byte&gt; data)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
-    <dt><code>data</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]</dt>
+    <dt><code>data</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
     <dd></dd>
   </dl>
 
@@ -372,7 +410,7 @@ implement encoders from arbitrary input formats (JSON, CBOR, etc.).</p>
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteBoolean_System_Boolean_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteBoolean(System.Boolean)">
   WriteBoolean(bool)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L176"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L276"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Writes a boolean value.</p>
@@ -404,7 +442,7 @@ implement encoders from arbitrary input formats (JSON, CBOR, etc.).</p>
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteDateDays_System_Int32_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteDateDays(System.Int32)">
   WriteDateDays(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L380"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L486"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Writes a date as days since the Unix epoch.</p>
@@ -436,7 +474,7 @@ implement encoders from arbitrary input formats (JSON, CBOR, etc.).</p>
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteDecimal16_System_Data_SqlTypes_SqlDecimal_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteDecimal16(System.Data.SqlTypes.SqlDecimal)">
   WriteDecimal16(SqlDecimal)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L294"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L394"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Writes a Decimal16 (precision ≤ 38) value stored as <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.sqltypes.sqldecimal">SqlDecimal</a>.</p>
@@ -468,7 +506,7 @@ implement encoders from arbitrary input formats (JSON, CBOR, etc.).</p>
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteDecimal4_System_Decimal_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteDecimal4(System.Decimal)">
   WriteDecimal4(decimal)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L256"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L356"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Writes a Decimal4 (precision ≤ 9) value.</p>
@@ -500,7 +538,7 @@ implement encoders from arbitrary input formats (JSON, CBOR, etc.).</p>
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteDecimal8_System_Decimal_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteDecimal8(System.Decimal)">
   WriteDecimal8(decimal)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L275"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L375"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Writes a Decimal8 (precision ≤ 18) value.</p>
@@ -532,7 +570,7 @@ implement encoders from arbitrary input formats (JSON, CBOR, etc.).</p>
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteDouble_System_Double_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteDouble(System.Double)">
   WriteDouble(double)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L248"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L348"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Writes a 64-bit IEEE 754 double.</p>
@@ -564,7 +602,7 @@ implement encoders from arbitrary input formats (JSON, CBOR, etc.).</p>
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteFieldName_System_String_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteFieldName(System.String)">
   WriteFieldName(string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L104"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L160"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Writes the name of the next field in the current object. Must be called
@@ -598,7 +636,7 @@ The name must already exist in the <a class="xref" href="Apache.Arrow.Scalars.Va
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteFloat_System_Single_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteFloat(System.Single)">
   WriteFloat(float)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L240"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L340"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Writes a 32-bit IEEE 754 float.</p>
@@ -630,7 +668,7 @@ The name must already exist in the <a class="xref" href="Apache.Arrow.Scalars.Va
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteInt16_System_Int16_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteInt16(System.Int16)">
   WriteInt16(short)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L192"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L292"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Writes a 16-bit signed integer.</p>
@@ -662,7 +700,7 @@ The name must already exist in the <a class="xref" href="Apache.Arrow.Scalars.Va
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteInt32_System_Int32_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteInt32(System.Int32)">
   WriteInt32(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L200"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L300"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Writes a 32-bit signed integer.</p>
@@ -694,7 +732,7 @@ The name must already exist in the <a class="xref" href="Apache.Arrow.Scalars.Va
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteInt64_System_Int64_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteInt64(System.Int64)">
   WriteInt64(long)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L208"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L308"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Writes a 64-bit signed integer.</p>
@@ -726,7 +764,7 @@ The name must already exist in the <a class="xref" href="Apache.Arrow.Scalars.Va
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteInt8_System_SByte_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteInt8(System.SByte)">
   WriteInt8(sbyte)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L184"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L284"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Writes an 8-bit signed integer.</p>
@@ -758,7 +796,7 @@ The name must already exist in the <a class="xref" href="Apache.Arrow.Scalars.Va
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteIntegerCompact_System_Int64_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteIntegerCompact(System.Int64)">
   WriteIntegerCompact(long)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L219"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L319"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Writes an integer using the narrowest of Int8/Int16/Int32/Int64 that fits.
@@ -791,7 +829,7 @@ Useful for size-minimising encoders such as JSON.</p>
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteNull" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteNull">
   WriteNull()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L169"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L269"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Writes a null value.</p>
@@ -818,7 +856,7 @@ Useful for size-minimising encoders such as JSON.</p>
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteString_System_String_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteString(System.String)">
   WriteString(string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L323"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L423"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Writes a string. Uses the short-string encoding when the UTF-8 byte length is ≤ 63.</p>
@@ -850,7 +888,7 @@ Useful for size-minimising encoders such as JSON.</p>
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteTimeNtzMicros_System_Int64_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteTimeNtzMicros(System.Int64)">
   WriteTimeNtzMicros(long)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L404"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L510"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Writes a time-without-timezone value (microseconds since midnight).</p>
@@ -882,7 +920,7 @@ Useful for size-minimising encoders such as JSON.</p>
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteTimestampMicros_System_Int64_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteTimestampMicros(System.Int64)">
   WriteTimestampMicros(long)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L388"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L494"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Writes a timestamp (tz-adjusted microseconds since the Unix epoch).</p>
@@ -914,7 +952,7 @@ Useful for size-minimising encoders such as JSON.</p>
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteTimestampNtzMicros_System_Int64_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteTimestampNtzMicros(System.Int64)">
   WriteTimestampNtzMicros(long)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L396"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L502"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Writes a timestamp-without-timezone (microseconds since the Unix epoch).</p>
@@ -946,7 +984,7 @@ Useful for size-minimising encoders such as JSON.</p>
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteTimestampNtzNanos_System_Int64_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteTimestampNtzNanos(System.Int64)">
   WriteTimestampNtzNanos(long)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L420"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L526"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Writes a timestamp without timezone (nanoseconds since the Unix epoch).</p>
@@ -978,7 +1016,7 @@ Useful for size-minimising encoders such as JSON.</p>
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteTimestampTzNanos_System_Int64_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteTimestampTzNanos(System.Int64)">
   WriteTimestampTzNanos(long)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L412"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L518"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Writes a timestamp with timezone (nanoseconds since the Unix epoch).</p>
@@ -1010,7 +1048,7 @@ Useful for size-minimising encoders such as JSON.</p>
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteUuid_System_Guid_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.WriteUuid(System.Guid)">
   WriteUuid(Guid)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L360"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L458"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Writes a UUID.</p>
@@ -1042,7 +1080,7 @@ Useful for size-minimising encoders such as JSON.</p>
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L39" class="edit-link">Edit this page</a>
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L38" class="edit-link">Edit this page</a>
         </div>
 
 
