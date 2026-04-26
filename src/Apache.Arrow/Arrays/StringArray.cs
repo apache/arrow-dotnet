@@ -30,6 +30,8 @@ namespace Apache.Arrow
 
         public new class Builder : BuilderBase<StringArray, Builder>
         {
+            private const int StackallocByteThreshold = 256;
+
             public Builder() : base(StringType.Default) { }
 
             protected override StringArray Build(ArrayData data)
@@ -43,13 +45,54 @@ namespace Apache.Arrow
                 {
                     return AppendNull();
                 }
+
                 encoding = encoding ?? DefaultEncoding;
-                byte[] span = encoding.GetBytes(value);
-                return Append(span.AsSpan());
+
+                int byteCount = encoding.GetByteCount(value);
+
+                if (byteCount == 0)
+                {
+                    return Append(ReadOnlySpan<byte>.Empty);
+                }
+
+                if (byteCount <= StackallocByteThreshold)
+                {
+                    Span<byte> bytes = stackalloc byte[byteCount];
+
+                    unsafe
+                    {
+                        fixed (char* chars = value)
+                        fixed (byte* data = bytes)
+                            encoding.GetBytes(chars, value.Length, data, byteCount);
+                    }
+
+                    return Append(bytes);
+                }
+
+                byte[] array = encoding.GetBytes(value);
+                return Append(array.AsSpan());
             }
 
             public Builder AppendRange(IEnumerable<string> values, Encoding encoding = null)
             {
+                encoding = encoding ?? DefaultEncoding;
+
+                if (values is ICollection<string> collection && collection.Count > 0)
+                {
+                    int totalByteCount = 0;
+                    foreach (string value in collection)
+                    {
+                        if (value != null)
+                        {
+                            totalByteCount = checked(totalByteCount + encoding.GetByteCount(value));
+                        }
+                    }
+
+                    ValueOffsets.Reserve(collection.Count);
+                    ValidityBuffer.Reserve(collection.Count);
+                    ValueBuffer.Reserve(totalByteCount);
+                }
+
                 foreach (string value in values)
                 {
                     Append(value, encoding);

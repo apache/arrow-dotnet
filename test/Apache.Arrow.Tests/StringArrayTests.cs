@@ -13,6 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Text;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Apache.Arrow.Tests
@@ -79,6 +81,84 @@ namespace Apache.Arrow.Tests
                 // Assert
                 Assert.True(array.IsMaterialized());
                 Assert.Equal(firstValue, retrievedValue);
+            }
+        }
+
+        public class Builder
+        {
+            [Fact]
+            public void AppendUsesCustomEncoding()
+            {
+                const string expected = "héllø";
+
+                var array = new StringArray.Builder()
+                    .Append(expected, Encoding.Unicode)
+                    .Build();
+
+                Assert.Equal(expected, array.GetString(0, Encoding.Unicode));
+            }
+
+            [Fact]
+            public void AppendLargeStringUsesFallbackPath()
+            {
+                string expected = new string('x', 512);
+
+                var array = new StringArray.Builder()
+                    .Append(expected)
+                    .Build();
+
+                Assert.Equal(expected, array.GetString(0));
+            }
+
+            [Fact]
+            public void AppendRangePreservesCollectionValues()
+            {
+                string[] values = { "first", null, string.Empty, "last" };
+
+                var array = new StringArray.Builder()
+                    .AppendRange(values)
+                    .Build();
+
+                Assert.Equal("first", array.GetString(0));
+                Assert.Null(array.GetString(1));
+                Assert.Equal(string.Empty, array.GetString(2));
+                Assert.Equal("last", array.GetString(3));
+            }
+
+            [Fact]
+            public void AppendRangePreservesCollectionValuesWithCustomEncoding()
+            {
+                string[] values = { "héllø", null, string.Empty, "wørld" };
+
+                var array = new StringArray.Builder()
+                    .AppendRange(values, Encoding.Unicode)
+                    .Build();
+
+                Assert.Equal("héllø", array.GetString(0, Encoding.Unicode));
+                Assert.Null(array.GetString(1, Encoding.Unicode));
+                Assert.Equal(string.Empty, array.GetString(2, Encoding.Unicode));
+                Assert.Equal("wørld", array.GetString(3, Encoding.Unicode));
+            }
+
+            [Fact]
+            public void AppendRangePreservesEnumerableValues()
+            {
+                var array = new StringArray.Builder()
+                    .AppendRange(YieldValues())
+                    .Build();
+
+                Assert.Equal("first", array.GetString(0));
+                Assert.Null(array.GetString(1));
+                Assert.Equal(string.Empty, array.GetString(2));
+                Assert.Equal("last", array.GetString(3));
+            }
+
+            private static IEnumerable<string> YieldValues()
+            {
+                yield return "first";
+                yield return null;
+                yield return string.Empty;
+                yield return "last";
             }
         }
     }
