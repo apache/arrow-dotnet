@@ -55,7 +55,7 @@ namespace Apache.Arrow.Operations.VariantJson
             // Pass 2: stream values into a VariantValueWriter using the sorted field IDs.
             Utf8JsonReader emitter = new Utf8JsonReader(utf8Json);
             emitter.Read();
-            VariantValueWriter writer = new VariantValueWriter(metadataBuilder, idRemap);
+            using VariantValueWriter writer = new VariantValueWriter(metadataBuilder, idRemap);
             WriteValue(ref emitter, writer);
             return (metadata, writer.ToArray());
         }

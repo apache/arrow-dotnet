@@ -15,10 +15,8 @@
 
 using System;
 using System.Buffers;
-using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
-using System.IO;
 using System.Text;
 
 namespace Apache.Arrow.Scalars.Variant
@@ -34,22 +32,27 @@ namespace Apache.Arrow.Scalars.Variant
     /// <item>Create a <see cref="VariantMetadataBuilder"/> and <see cref="VariantMetadataBuilder.Add(string)"/> every field name that will appear.</item>
     /// <item>Call <see cref="VariantMetadataBuilder.Build(out int[])"/> to produce the metadata bytes and the ID remap.</item>
     /// <item>Create a <see cref="VariantValueWriter"/> with the metadata builder and remap, emit the value via the <c>Write*</c> / <c>Begin*</c> / <c>End*</c> methods, then call <see cref="ToArray"/>.</item>
+    /// <item><see cref="Dispose"/> the writer to return its cached backing arrays to <see cref="ArrayPool{T}.Shared"/>. Skipping <c>Dispose</c> leaks those arrays to the GC.</item>
     /// </list>
     /// </remarks>
-    public sealed class VariantValueWriter
+    public sealed class VariantValueWriter : IDisposable
     {
         private const int StackAllocThreshold = 256;
 
         private readonly VariantMetadataBuilder _metadata;
         private readonly int[] _idRemap;
-        private readonly MemoryStream _root = new MemoryStream();
-        private readonly Stack<Frame> _frameStack = new Stack<Frame>();
-        private readonly Stack<MemoryStream> _streamPool = new Stack<MemoryStream>();
-        private Frame _frame;
 
-#if !NET8_0_OR_GREATER
-        private readonly byte[] _scratch = new byte[16];
-#endif
+        // Per-writer stacks of cached backing arrays, separate from
+        // ArrayPool<T>.Shared so that capacity grown on one frame's buffer
+        // carries over to the next frame through the same writer without
+        // being redistributed by size class.
+        private readonly Stack<byte[]> _bytePool = new Stack<byte[]>();
+        private readonly Stack<int[]> _intPool = new Stack<int[]>();
+
+        private Buffer<byte> _root;
+        private readonly Stack<Frame> _frameStack = new Stack<Frame>();
+        private Frame _frame;
+        private bool _disposed;
 
         /// <summary>
         /// Creates a writer that produces value bytes referencing the given metadata.
@@ -67,6 +70,8 @@ namespace Apache.Arrow.Scalars.Variant
                     "the idRemap array length must match the metadata builder count used to create it.",
                     nameof(idRemap));
             }
+
+            _root.Acquire(_bytePool);
         }
 
         /// <summary>
@@ -74,11 +79,46 @@ namespace Apache.Arrow.Scalars.Variant
         /// </summary>
         public byte[] ToArray()
         {
+            if (_disposed) throw new ObjectDisposedException(nameof(VariantValueWriter));
             if (_frame != null)
             {
                 throw new InvalidOperationException("Unclosed object or array at the top of the writer.");
             }
             return _root.ToArray();
+        }
+
+        /// <summary>
+        /// Returns all cached backing arrays (the root buffer, any still-open
+        /// frame buffers, and the per-writer array pools) to
+        /// <see cref="ArrayPool{T}.Shared"/>. The writer must not be used after
+        /// <see cref="Dispose"/>; calls to <see cref="ToArray"/> or any
+        /// <c>Write*</c> / <c>Begin*</c> method will throw
+        /// <see cref="ObjectDisposedException"/>. Idempotent.
+        /// </summary>
+        public void Dispose()
+        {
+            if (_disposed) return;
+            _disposed = true;
+
+            // Release still-owned frame arrays into the per-writer pools.
+            if (_frame != null) ReleaseFrameArrays(_frame);
+            while (_frameStack.Count > 0)
+            {
+                Frame f = _frameStack.Pop();
+                if (f != null) ReleaseFrameArrays(f);
+            }
+            _root.Release(_bytePool);
+
+            // Drain the per-writer pools back to the process-wide shared pool.
+            Buffer<byte>.DrainPool(_bytePool);
+            Buffer<int>.DrainPool(_intPool);
+        }
+
+        private void ReleaseFrameArrays(Frame f)
+        {
+            f.Buffer.Release(_bytePool);
+            f.ValueStarts.Release(_intPool);
+            if (f is ObjectFrame obj) obj.FieldIds.Release(_intPool);
         }
 
         // ---------------------------------------------------------------
@@ -89,10 +129,26 @@ namespace Apache.Arrow.Scalars.Variant
         public void BeginObject()
         {
             BeforeWriteValue();
-            _frameStack.Push(_frame);
-            ObjectFrame frame = new ObjectFrame { Buffer = RentStream() };
-            frame.FieldIds = ArrayPool<int>.Shared.Rent(InitialFrameCapacity);
-            frame.ValueStarts = ArrayPool<int>.Shared.Rent(InitialFrameCapacity);
+            ObjectFrame frame = new ObjectFrame();
+            // Keep _frame / _frameStack untouched until every Acquire + the Push
+            // have succeeded. If any step throws, the catch releases whatever
+            // was acquired so far (Release is a no-op on un-Acquired buffers),
+            // and the writer's visible state is as if BeginObject was never
+            // called — Dispose sees no orphaned arrays.
+            try
+            {
+                frame.Buffer.Acquire(_bytePool);
+                frame.ValueStarts.Acquire(_intPool);
+                frame.FieldIds.Acquire(_intPool);
+                _frameStack.Push(_frame);
+            }
+            catch
+            {
+                frame.FieldIds.Release(_intPool);
+                frame.ValueStarts.Release(_intPool);
+                frame.Buffer.Release(_bytePool);
+                throw;
+            }
             _frame = frame;
         }
 
@@ -103,6 +159,7 @@ namespace Apache.Arrow.Scalars.Variant
         /// </summary>
         public void WriteFieldName(string name)
         {
+            if (_disposed) throw new ObjectDisposedException(nameof(VariantValueWriter));
             if (!(_frame is ObjectFrame objFrame))
             {
                 throw new InvalidOperationException("WriteFieldName may only be called inside an object scope.");
@@ -112,13 +169,14 @@ namespace Apache.Arrow.Scalars.Variant
                 throw new InvalidOperationException("A value must be written for the previous field before writing the next field name.");
             }
             int fieldId = _idRemap[_metadata.GetId(name)];
-            AppendInt(ref objFrame.FieldIds, ref objFrame.FieldIdCount, fieldId);
+            objFrame.FieldIds.Append(fieldId);
             objFrame.PendingValue = true;
         }
 
         /// <summary>Ends the current object scope.</summary>
         public void EndObject()
         {
+            if (_disposed) throw new ObjectDisposedException(nameof(VariantValueWriter));
             if (!(_frame is ObjectFrame objFrame))
             {
                 throw new InvalidOperationException("EndObject called without matching BeginObject.");
@@ -129,36 +187,78 @@ namespace Apache.Arrow.Scalars.Variant
             }
 
             _frame = _frameStack.Pop();
-            MemoryStream output = _frame != null ? _frame.Buffer : _root;
-            WriteObjectBody(output, objFrame);
-            ArrayPool<int>.Shared.Return(objFrame.FieldIds);
-            ArrayPool<int>.Shared.Return(objFrame.ValueStarts);
-            ReturnStream(objFrame.Buffer);
+            // Once objFrame is popped it's no longer visible to Dispose, so
+            // WriteObjectBody must not leave its buffers unreleased on throw.
+            try
+            {
+                if (_frame != null)
+                {
+                    WriteObjectBody(ref _frame.Buffer, objFrame);
+                }
+                else
+                {
+                    WriteObjectBody(ref _root, objFrame);
+                }
+            }
+            finally
+            {
+                objFrame.FieldIds.Release(_intPool);
+                objFrame.ValueStarts.Release(_intPool);
+                objFrame.Buffer.Release(_bytePool);
+            }
         }
 
         /// <summary>Begins writing an array. Pair with <see cref="EndArray"/>.</summary>
         public void BeginArray()
         {
             BeforeWriteValue();
-            _frameStack.Push(_frame);
-            ArrayFrame frame = new ArrayFrame { Buffer = RentStream() };
-            frame.ValueStarts = ArrayPool<int>.Shared.Rent(InitialFrameCapacity);
+            ArrayFrame frame = new ArrayFrame();
+            // See BeginObject: defer any visible state change until all the
+            // rent-and-push steps have succeeded; on throw, release whatever
+            // was acquired so nothing escapes Dispose's reach.
+            try
+            {
+                frame.Buffer.Acquire(_bytePool);
+                frame.ValueStarts.Acquire(_intPool);
+                _frameStack.Push(_frame);
+            }
+            catch
+            {
+                frame.ValueStarts.Release(_intPool);
+                frame.Buffer.Release(_bytePool);
+                throw;
+            }
             _frame = frame;
         }
 
         /// <summary>Ends the current array scope.</summary>
         public void EndArray()
         {
+            if (_disposed) throw new ObjectDisposedException(nameof(VariantValueWriter));
             if (!(_frame is ArrayFrame arrFrame))
             {
                 throw new InvalidOperationException("EndArray called without matching BeginArray.");
             }
 
             _frame = _frameStack.Pop();
-            MemoryStream output = _frame != null ? _frame.Buffer : _root;
-            WriteArrayBody(output, arrFrame);
-            ArrayPool<int>.Shared.Return(arrFrame.ValueStarts);
-            ReturnStream(arrFrame.Buffer);
+            // Popped frame is no longer visible to Dispose; the finally makes
+            // sure its buffers are released even if WriteArrayBody throws.
+            try
+            {
+                if (_frame != null)
+                {
+                    WriteArrayBody(ref _frame.Buffer, arrFrame);
+                }
+                else
+                {
+                    WriteArrayBody(ref _root, arrFrame);
+                }
+            }
+            finally
+            {
+                arrFrame.ValueStarts.Release(_intPool);
+                arrFrame.Buffer.Release(_bytePool);
+            }
         }
 
         // ---------------------------------------------------------------
@@ -168,48 +268,48 @@ namespace Apache.Arrow.Scalars.Variant
         /// <summary>Writes a null value.</summary>
         public void WriteNull()
         {
-            MemoryStream ms = BeforeWriteValue();
-            ms.WriteByte(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.NullType));
+            ref Buffer<byte> buf = ref BeforeWriteValue();
+            buf.Append(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.NullType));
         }
 
         /// <summary>Writes a boolean value.</summary>
         public void WriteBoolean(bool value)
         {
-            MemoryStream ms = BeforeWriteValue();
-            ms.WriteByte(VariantEncodingHelper.MakePrimitiveHeader(
+            ref Buffer<byte> buf = ref BeforeWriteValue();
+            buf.Append(VariantEncodingHelper.MakePrimitiveHeader(
                 value ? VariantPrimitiveType.BooleanTrue : VariantPrimitiveType.BooleanFalse));
         }
 
         /// <summary>Writes an 8-bit signed integer.</summary>
         public void WriteInt8(sbyte value)
         {
-            MemoryStream ms = BeforeWriteValue();
-            ms.WriteByte(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Int8));
-            ms.WriteByte((byte)value);
+            ref Buffer<byte> buf = ref BeforeWriteValue();
+            buf.Append(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Int8));
+            buf.Append((byte)value);
         }
 
         /// <summary>Writes a 16-bit signed integer.</summary>
         public void WriteInt16(short value)
         {
-            MemoryStream ms = BeforeWriteValue();
-            ms.WriteByte(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Int16));
-            WriteInt16LE(ms, value);
+            ref Buffer<byte> buf = ref BeforeWriteValue();
+            buf.Append(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Int16));
+            buf.WriteInt16LE(value);
         }
 
         /// <summary>Writes a 32-bit signed integer.</summary>
         public void WriteInt32(int value)
         {
-            MemoryStream ms = BeforeWriteValue();
-            ms.WriteByte(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Int32));
-            WriteInt32LE(ms, value);
+            ref Buffer<byte> buf = ref BeforeWriteValue();
+            buf.Append(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Int32));
+            buf.WriteInt32LE(value);
         }
 
         /// <summary>Writes a 64-bit signed integer.</summary>
         public void WriteInt64(long value)
         {
-            MemoryStream ms = BeforeWriteValue();
-            ms.WriteByte(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Int64));
-            WriteInt64LE(ms, value);
+            ref Buffer<byte> buf = ref BeforeWriteValue();
+            buf.Append(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Int64));
+            buf.WriteInt64LE(value);
         }
 
         /// <summary>
@@ -239,24 +339,24 @@ namespace Apache.Arrow.Scalars.Variant
         /// <summary>Writes a 32-bit IEEE 754 float.</summary>
         public void WriteFloat(float value)
         {
-            MemoryStream ms = BeforeWriteValue();
-            ms.WriteByte(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Float));
-            WriteFloatLE(ms, value);
+            ref Buffer<byte> buf = ref BeforeWriteValue();
+            buf.Append(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Float));
+            buf.WriteFloatLE(value);
         }
 
         /// <summary>Writes a 64-bit IEEE 754 double.</summary>
         public void WriteDouble(double value)
         {
-            MemoryStream ms = BeforeWriteValue();
-            ms.WriteByte(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Double));
-            WriteDoubleLE(ms, value);
+            ref Buffer<byte> buf = ref BeforeWriteValue();
+            buf.Append(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Double));
+            buf.WriteDoubleLE(value);
         }
 
         /// <summary>Writes a Decimal4 (precision ≤ 9) value.</summary>
         public void WriteDecimal4(decimal value)
         {
-            MemoryStream ms = BeforeWriteValue();
-            ms.WriteByte(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Decimal4));
+            ref Buffer<byte> buf = ref BeforeWriteValue();
+            buf.Append(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Decimal4));
 #if NET8_0_OR_GREATER
             Span<int> bits = stackalloc int[4];
             decimal.GetBits(value, bits);
@@ -267,15 +367,15 @@ namespace Apache.Arrow.Scalars.Variant
             bool negative = (bits[3] & unchecked((int)0x80000000)) != 0;
             int unscaled = bits[0];
             if (negative) unscaled = -unscaled;
-            ms.WriteByte(scale);
-            WriteInt32LE(ms, unscaled);
+            buf.Append(scale);
+            buf.WriteInt32LE(unscaled);
         }
 
         /// <summary>Writes a Decimal8 (precision ≤ 18) value.</summary>
         public void WriteDecimal8(decimal value)
         {
-            MemoryStream ms = BeforeWriteValue();
-            ms.WriteByte(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Decimal8));
+            ref Buffer<byte> buf = ref BeforeWriteValue();
+            buf.Append(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Decimal8));
 #if NET8_0_OR_GREATER
             Span<int> bits = stackalloc int[4];
             decimal.GetBits(value, bits);
@@ -286,15 +386,15 @@ namespace Apache.Arrow.Scalars.Variant
             bool negative = (bits[3] & unchecked((int)0x80000000)) != 0;
             long unscaled = ((long)bits[1] << 32) | (uint)bits[0];
             if (negative) unscaled = -unscaled;
-            ms.WriteByte(scale);
-            WriteInt64LE(ms, unscaled);
+            buf.Append(scale);
+            buf.WriteInt64LE(unscaled);
         }
 
         /// <summary>Writes a Decimal16 (precision ≤ 38) value stored as <see cref="SqlDecimal"/>.</summary>
         public void WriteDecimal16(SqlDecimal value)
         {
-            MemoryStream ms = BeforeWriteValue();
-            ms.WriteByte(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Decimal16));
+            ref Buffer<byte> buf = ref BeforeWriteValue();
+            buf.Append(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Decimal16));
 
             bool positive = value.IsPositive;
             byte scale = (byte)value.Scale;
@@ -314,160 +414,155 @@ namespace Apache.Arrow.Scalars.Variant
                 lo = (long)uLo;
             }
 
-            ms.WriteByte(scale);
-            WriteInt64LE(ms, lo);
-            WriteInt64LE(ms, hi);
+            buf.Append(scale);
+            buf.WriteInt64LE(lo);
+            buf.WriteInt64LE(hi);
         }
 
         /// <summary>Writes a string. Uses the short-string encoding when the UTF-8 byte length is ≤ 63.</summary>
         public void WriteString(string value)
         {
             if (value == null) throw new ArgumentNullException(nameof(value));
-            MemoryStream ms = BeforeWriteValue();
+            ref Buffer<byte> buf = ref BeforeWriteValue();
             int byteCount = Encoding.UTF8.GetByteCount(value);
             if (byteCount <= 63)
             {
-                ms.WriteByte(VariantEncodingHelper.MakeShortStringHeader(byteCount));
+                buf.Append(VariantEncodingHelper.MakeShortStringHeader(byteCount));
             }
             else
             {
-                ms.WriteByte(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.String));
-                WriteInt32LE(ms, byteCount);
+                buf.Append(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.String));
+                buf.WriteInt32LE(byteCount);
             }
 
-            // Encode UTF-8 directly into the MemoryStream's buffer.
-            int dataPos = (int)ms.Position;
-            int needed = dataPos + byteCount;
-            if (needed > ms.Length)
-            {
-                ms.SetLength(needed);
-            }
-            Encoding.UTF8.GetBytes(value, 0, value.Length, ms.GetBuffer(), dataPos);
-            ms.Position = needed;
+            // Encode UTF-8 directly into the buffer.
+            Span<byte> dest = buf.GetSpan(byteCount);
+#if NET8_0_OR_GREATER
+            Encoding.UTF8.GetBytes(value, dest);
+#else
+            Encoding.UTF8.GetBytes(value, 0, value.Length, buf.RawBuffer, buf.Length);
+#endif
+            buf.Advance(byteCount);
         }
 
         /// <summary>Writes a binary blob.</summary>
-        public void WriteBinary(byte[] data)
+        public void WriteBinary(ReadOnlySpan<byte> data)
         {
-            if (data == null) throw new ArgumentNullException(nameof(data));
-            MemoryStream ms = BeforeWriteValue();
-            ms.WriteByte(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Binary));
-            WriteInt32LE(ms, data.Length);
-            ms.Write(data, 0, data.Length);
+            ref Buffer<byte> buf = ref BeforeWriteValue();
+            buf.Append(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Binary));
+            buf.WriteInt32LE(data.Length);
+            buf.Append(data);
         }
 
         /// <summary>Writes a UUID.</summary>
-        public void WriteUuid(Guid value)
+        public unsafe void WriteUuid(Guid value)
         {
-            MemoryStream ms = BeforeWriteValue();
-            ms.WriteByte(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Uuid));
+            ref Buffer<byte> buf = ref BeforeWriteValue();
+            buf.Append(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Uuid));
+            Span<byte> raw = stackalloc byte[16];
+
 #if NET8_0_OR_GREATER
-            Span<byte> buf = stackalloc byte[16];
-            value.TryWriteBytes(buf, bigEndian: true, out int _);
-            ms.Write(buf);
+            value.TryWriteBytes(raw, bigEndian: true, out _);
 #else
-            byte[] native = value.ToByteArray();
             // Convert from .NET mixed-endian to big-endian (RFC 4122).
-            _scratch[0] = native[3]; _scratch[1] = native[2]; _scratch[2] = native[1]; _scratch[3] = native[0];
-            _scratch[4] = native[5]; _scratch[5] = native[4];
-            _scratch[6] = native[7]; _scratch[7] = native[6];
-            Buffer.BlockCopy(native, 8, _scratch, 8, 8);
-            ms.Write(_scratch, 0, 16);
+            byte* guidPtr = (byte*)&value;
+            fixed (byte* bytePtr = raw)
+            {
+                bytePtr[0] = guidPtr[3];
+                bytePtr[1] = guidPtr[2];
+                bytePtr[2] = guidPtr[1];
+                bytePtr[3] = guidPtr[0];
+                bytePtr[4] = guidPtr[5];
+                bytePtr[5] = guidPtr[4];
+                bytePtr[6] = guidPtr[7];
+                bytePtr[7] = guidPtr[6];
+                ((long*)bytePtr)[1] = ((long*)guidPtr)[1];
+            }
 #endif
+            buf.Append(raw);
         }
 
         /// <summary>Writes a date as days since the Unix epoch.</summary>
         public void WriteDateDays(int days)
         {
-            MemoryStream ms = BeforeWriteValue();
-            ms.WriteByte(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Date));
-            WriteInt32LE(ms, days);
+            ref Buffer<byte> buf = ref BeforeWriteValue();
+            buf.Append(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Date));
+            buf.WriteInt32LE(days);
         }
 
         /// <summary>Writes a timestamp (tz-adjusted microseconds since the Unix epoch).</summary>
         public void WriteTimestampMicros(long micros)
         {
-            MemoryStream ms = BeforeWriteValue();
-            ms.WriteByte(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Timestamp));
-            WriteInt64LE(ms, micros);
+            ref Buffer<byte> buf = ref BeforeWriteValue();
+            buf.Append(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Timestamp));
+            buf.WriteInt64LE(micros);
         }
 
         /// <summary>Writes a timestamp-without-timezone (microseconds since the Unix epoch).</summary>
         public void WriteTimestampNtzMicros(long micros)
         {
-            MemoryStream ms = BeforeWriteValue();
-            ms.WriteByte(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.TimestampNtz));
-            WriteInt64LE(ms, micros);
+            ref Buffer<byte> buf = ref BeforeWriteValue();
+            buf.Append(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.TimestampNtz));
+            buf.WriteInt64LE(micros);
         }
 
         /// <summary>Writes a time-without-timezone value (microseconds since midnight).</summary>
         public void WriteTimeNtzMicros(long micros)
         {
-            MemoryStream ms = BeforeWriteValue();
-            ms.WriteByte(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.TimeNtz));
-            WriteInt64LE(ms, micros);
+            ref Buffer<byte> buf = ref BeforeWriteValue();
+            buf.Append(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.TimeNtz));
+            buf.WriteInt64LE(micros);
         }
 
         /// <summary>Writes a timestamp with timezone (nanoseconds since the Unix epoch).</summary>
         public void WriteTimestampTzNanos(long nanos)
         {
-            MemoryStream ms = BeforeWriteValue();
-            ms.WriteByte(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.TimestampTzNanos));
-            WriteInt64LE(ms, nanos);
+            ref Buffer<byte> buf = ref BeforeWriteValue();
+            buf.Append(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.TimestampTzNanos));
+            buf.WriteInt64LE(nanos);
         }
 
         /// <summary>Writes a timestamp without timezone (nanoseconds since the Unix epoch).</summary>
         public void WriteTimestampNtzNanos(long nanos)
         {
-            MemoryStream ms = BeforeWriteValue();
-            ms.WriteByte(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.TimestampNtzNanos));
-            WriteInt64LE(ms, nanos);
+            ref Buffer<byte> buf = ref BeforeWriteValue();
+            buf.Append(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.TimestampNtzNanos));
+            buf.WriteInt64LE(nanos);
         }
 
         // ---------------------------------------------------------------
         // Internal bookkeeping
         // ---------------------------------------------------------------
 
-        private MemoryStream BeforeWriteValue()
+        private ref Buffer<byte> BeforeWriteValue()
         {
+            if (_disposed) throw new ObjectDisposedException(nameof(VariantValueWriter));
             if (_frame is ObjectFrame objFrame)
             {
                 if (!objFrame.PendingValue)
                 {
                     throw new InvalidOperationException("A field name is required before writing an object field value. Call WriteFieldName first.");
                 }
-                AppendInt(ref objFrame.ValueStarts, ref objFrame.ValueStartCount, (int)objFrame.Buffer.Position);
+                objFrame.ValueStarts.Append(objFrame.Buffer.Length);
                 objFrame.PendingValue = false;
-                return objFrame.Buffer;
+                return ref objFrame.Buffer;
             }
             if (_frame is ArrayFrame arrFrame)
             {
-                AppendInt(ref arrFrame.ValueStarts, ref arrFrame.ValueStartCount, (int)arrFrame.Buffer.Position);
-                return arrFrame.Buffer;
+                arrFrame.ValueStarts.Append(arrFrame.Buffer.Length);
+                return ref arrFrame.Buffer;
             }
-            return _root;
+            return ref _root;
         }
 
-        private static void AppendInt(ref int[] array, ref int count, int value)
+        private static void WriteObjectBody(ref Buffer<byte> output, ObjectFrame frame)
         {
-            if (count == array.Length)
-            {
-                int[] grown = ArrayPool<int>.Shared.Rent(array.Length * 2);
-                Array.Copy(array, 0, grown, 0, count);
-                ArrayPool<int>.Shared.Return(array);
-                array = grown;
-            }
-            array[count++] = value;
-        }
-
-        private void WriteObjectBody(MemoryStream output, ObjectFrame frame)
-        {
-            int fieldCount = frame.FieldIdCount;
+            int fieldCount = frame.FieldIds.Length;
             // Sentinel marks the end of the last value in the frame buffer.
-            AppendInt(ref frame.ValueStarts, ref frame.ValueStartCount, (int)frame.Buffer.Position);
+            frame.ValueStarts.Append(frame.Buffer.Length);
 
-            int[] fieldIds = frame.FieldIds;
-            int[] valueStarts = frame.ValueStarts;
+            int[] fieldIds = frame.FieldIds.RawBuffer;
+            int[] valueStarts = frame.ValueStarts.RawBuffer;
 
             // Sort indices so fields are emitted in sorted-field-id order.
 #if NET8_0_OR_GREATER
@@ -506,169 +601,75 @@ namespace Apache.Arrow.Scalars.Variant
             int offsetSize = VariantEncodingHelper.ByteWidthForValue(Math.Max(1, offsets[fieldCount]));
             bool isLarge = fieldCount > 255;
 
-            output.WriteByte(VariantEncodingHelper.MakeObjectHeader(fieldIdSize, offsetSize, isLarge));
+            output.Append(VariantEncodingHelper.MakeObjectHeader(fieldIdSize, offsetSize, isLarge));
 
             if (isLarge)
             {
-                WriteInt32LE(output, fieldCount);
+                output.WriteInt32LE(fieldCount);
             }
             else
             {
-                output.WriteByte((byte)fieldCount);
+                output.Append((byte)fieldCount);
             }
 
             for (int i = 0; i < fieldCount; i++)
             {
-                WriteSmallInt(output, fieldIds[sortOrder[i]], fieldIdSize);
+                output.WriteSmallInt(fieldIds[sortOrder[i]], fieldIdSize);
             }
 
             for (int i = 0; i <= fieldCount; i++)
             {
-                WriteSmallInt(output, offsets[i], offsetSize);
+                output.WriteSmallInt(offsets[i], offsetSize);
             }
 
-            byte[] valueBuffer = frame.Buffer.GetBuffer();
+            byte[] valueBuffer = frame.Buffer.RawBuffer;
             for (int i = 0; i < fieldCount; i++)
             {
                 int idx = sortOrder[i];
                 int start = valueStarts[idx];
                 int length = valueStarts[idx + 1] - start;
-                output.Write(valueBuffer, start, length);
+                output.Append(valueBuffer, start, length);
             }
         }
 
-        private void WriteArrayBody(MemoryStream output, ArrayFrame frame)
+        private static void WriteArrayBody(ref Buffer<byte> output, ArrayFrame frame)
         {
-            int elementCount = frame.ValueStartCount;
+            int elementCount = frame.ValueStarts.Length;
             // Sentinel marks the end of the last element.
-            AppendInt(ref frame.ValueStarts, ref frame.ValueStartCount, (int)frame.Buffer.Position);
-            int[] valueStarts = frame.ValueStarts;
+            frame.ValueStarts.Append(frame.Buffer.Length);
+            int[] valueStarts = frame.ValueStarts.RawBuffer;
 
             int offsetSize = VariantEncodingHelper.ByteWidthForValue(Math.Max(1, valueStarts[elementCount]));
             bool isLarge = elementCount > 255;
 
-            output.WriteByte(VariantEncodingHelper.MakeArrayHeader(offsetSize, isLarge));
+            output.Append(VariantEncodingHelper.MakeArrayHeader(offsetSize, isLarge));
 
             if (isLarge)
             {
-                WriteInt32LE(output, elementCount);
+                output.WriteInt32LE(elementCount);
             }
             else
             {
-                output.WriteByte((byte)elementCount);
+                output.Append((byte)elementCount);
             }
 
             for (int i = 0; i <= elementCount; i++)
             {
-                WriteSmallInt(output, valueStarts[i], offsetSize);
+                output.WriteSmallInt(valueStarts[i], offsetSize);
             }
 
-            output.Write(frame.Buffer.GetBuffer(), 0, (int)frame.Buffer.Position);
+            output.Append(frame.Buffer.RawBuffer, 0, frame.Buffer.Length);
         }
-
-        private MemoryStream RentStream()
-        {
-            if (_streamPool.Count > 0)
-            {
-                MemoryStream ms = _streamPool.Pop();
-                ms.SetLength(0);
-                return ms;
-            }
-            return new MemoryStream();
-        }
-
-        private void ReturnStream(MemoryStream ms)
-        {
-            _streamPool.Push(ms);
-        }
-
-        private void WriteSmallInt(MemoryStream ms, int value, int byteWidth)
-        {
-#if NET8_0_OR_GREATER
-            Span<byte> buf = stackalloc byte[4];
-            VariantEncodingHelper.WriteLittleEndianInt(buf, value, byteWidth);
-            ms.Write(buf.Slice(0, byteWidth));
-#else
-            VariantEncodingHelper.WriteLittleEndianInt(_scratch, value, byteWidth);
-            ms.Write(_scratch, 0, byteWidth);
-#endif
-        }
-
-        private void WriteInt16LE(MemoryStream ms, short value)
-        {
-#if NET8_0_OR_GREATER
-            Span<byte> buf = stackalloc byte[2];
-            BinaryPrimitives.WriteInt16LittleEndian(buf, value);
-            ms.Write(buf);
-#else
-            BinaryPrimitives.WriteInt16LittleEndian(_scratch, value);
-            ms.Write(_scratch, 0, 2);
-#endif
-        }
-
-        private void WriteInt32LE(MemoryStream ms, int value)
-        {
-#if NET8_0_OR_GREATER
-            Span<byte> buf = stackalloc byte[4];
-            BinaryPrimitives.WriteInt32LittleEndian(buf, value);
-            ms.Write(buf);
-#else
-            BinaryPrimitives.WriteInt32LittleEndian(_scratch, value);
-            ms.Write(_scratch, 0, 4);
-#endif
-        }
-
-        private void WriteInt64LE(MemoryStream ms, long value)
-        {
-#if NET8_0_OR_GREATER
-            Span<byte> buf = stackalloc byte[8];
-            BinaryPrimitives.WriteInt64LittleEndian(buf, value);
-            ms.Write(buf);
-#else
-            BinaryPrimitives.WriteInt64LittleEndian(_scratch, value);
-            ms.Write(_scratch, 0, 8);
-#endif
-        }
-
-        private void WriteFloatLE(MemoryStream ms, float value)
-        {
-#if NET8_0_OR_GREATER
-            Span<byte> buf = stackalloc byte[4];
-            BinaryPrimitives.WriteSingleLittleEndian(buf, value);
-            ms.Write(buf);
-#else
-            int bits = System.Runtime.CompilerServices.Unsafe.As<float, int>(ref value);
-            BinaryPrimitives.WriteInt32LittleEndian(_scratch, bits);
-            ms.Write(_scratch, 0, 4);
-#endif
-        }
-
-        private void WriteDoubleLE(MemoryStream ms, double value)
-        {
-#if NET8_0_OR_GREATER
-            Span<byte> buf = stackalloc byte[8];
-            BinaryPrimitives.WriteDoubleLittleEndian(buf, value);
-            ms.Write(buf);
-#else
-            long bits = BitConverter.DoubleToInt64Bits(value);
-            BinaryPrimitives.WriteInt64LittleEndian(_scratch, bits);
-            ms.Write(_scratch, 0, 8);
-#endif
-        }
-
-        private const int InitialFrameCapacity = 16;
 
         private abstract class Frame
         {
-            public MemoryStream Buffer;
-            public int[] ValueStarts;
-            public int ValueStartCount;
+            public Buffer<byte> Buffer;
+            public Buffer<int> ValueStarts;
         }
 
         private sealed class ObjectFrame : Frame
         {
-            public int[] FieldIds;
-            public int FieldIdCount;
+            public Buffer<int> FieldIds;
             public bool PendingValue;
         }
 
