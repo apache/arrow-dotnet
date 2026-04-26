@@ -52,6 +52,9 @@ namespace Apache.Arrow.Scalars.Variant
     /// <see cref="Acquire"/> must be called before any write; writes on a
     /// default-initialized buffer throw <see cref="NullReferenceException"/>.
     /// Failing to <see cref="Release"/> leaks the backing array to the GC.
+    /// For the same reason, the local pool must also be cleaned up when done.
+    /// This can be done with <see cref="DrainPool"/>.
+    /// 
     /// </para>
     /// </remarks>
     internal struct Buffer<T>
@@ -92,6 +95,19 @@ namespace Apache.Arrow.Scalars.Variant
                 pool.Push(_buf);
                 _buf = null;
                 _length = 0;
+            }
+        }
+
+        /// <summary>
+        /// Returns every array stashed in <paramref name="pool"/> to
+        /// <see cref="ArrayPool{T}.Shared"/>. Use at end-of-life of the owner
+        /// to release the per-owner cache built up by <see cref="Release"/>.
+        /// </summary>
+        public static void DrainPool(Stack<T[]> pool)
+        {
+            while (pool.Count > 0)
+            {
+                ArrayPool<T>.Shared.Return(pool.Pop());
             }
         }
 

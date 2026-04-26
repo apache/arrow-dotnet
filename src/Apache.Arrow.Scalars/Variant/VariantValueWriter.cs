@@ -110,8 +110,8 @@ namespace Apache.Arrow.Scalars.Variant
             _root.Release(_bytePool);
 
             // Drain the per-writer pools back to the process-wide shared pool.
-            while (_bytePool.Count > 0) ArrayPool<byte>.Shared.Return(_bytePool.Pop());
-            while (_intPool.Count > 0) ArrayPool<int>.Shared.Return(_intPool.Pop());
+            Buffer<byte>.DrainPool(_bytePool);
+            Buffer<int>.DrainPool(_intPool);
         }
 
         private void ReleaseFrameArrays(Frame f)
