@@ -124,22 +124,33 @@ namespace Apache.Arrow
                 return materializedStrings[index];
             }
 
-            ReadOnlySpan<byte> bytes = GetBytes(index, out bool isNull);
+            if (index < 0 || index >= Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
 
-            if (isNull)
+            if (IsNull(index))
             {
                 return null;
             }
 
-            if (bytes.Length == 0)
+            ReadOnlySpan<int> offsets = ValueOffsets;
+            int valueOffset = offsets[index];
+            int valueLength = offsets[index + 1] - valueOffset;
+
+            if (valueLength == 0)
             {
                 return string.Empty;
             }
 
+            ReadOnlySpan<byte> values = Values;
+
+            // Decode directly from the shared value buffer so the hot path only pays one
+            // bounds/null/offset pass before handing off to the requested encoding.
             unsafe
             {
-                fixed (byte* data = &MemoryMarshal.GetReference(bytes))
-                    return encoding.GetString(data, bytes.Length);
+                fixed (byte* data = &MemoryMarshal.GetReference(values))
+                    return encoding.GetString(data + valueOffset, valueLength);
             }
         }
 
