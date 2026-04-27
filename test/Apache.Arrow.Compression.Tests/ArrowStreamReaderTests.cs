@@ -14,6 +14,7 @@
 // limitations under the License.
 
 using System;
+using System.IO;
 using System.Reflection;
 using Apache.Arrow.Ipc;
 using Apache.Arrow.Memory;
@@ -48,7 +49,7 @@ namespace Apache.Arrow.Compression.Tests
             using var stream = assembly.GetManifestResourceStream($"Apache.Arrow.Compression.Tests.Resources.{fileName}");
             Assert.NotNull(stream);
             var buffer = new byte[stream.Length];
-            stream.ReadExactly(buffer);
+            ReadExactly(stream, buffer);
             var codecFactory = new Compression.CompressionCodecFactory();
             using var reader = new ArrowStreamReader(buffer, codecFactory);
 
@@ -64,7 +65,7 @@ namespace Apache.Arrow.Compression.Tests
             using var stream = assembly.GetManifestResourceStream($"Apache.Arrow.Compression.Tests.Resources.{fileName}");
             Assert.NotNull(stream);
             var buffer = new byte[stream.Length];
-            stream.ReadExactly(buffer);
+            ReadExactly(stream, buffer);
             var codecFactory = new Compression.CompressionCodecFactory();
 
             long allocationsBeforeRead = MemoryAllocator.Default.Value.Statistics.Allocations;
@@ -106,6 +107,21 @@ namespace Apache.Arrow.Compression.Tests
             Assert.True(allocator.Statistics.Allocations > 0);
             Assert.Equal(0, allocator.Rented);
 
+        }
+
+        private static void ReadExactly(Stream stream, byte[] buffer)
+        {
+            int offset = 0;
+            while (offset < buffer.Length)
+            {
+                int bytesRead = stream.Read(buffer, offset, buffer.Length - offset);
+                if (bytesRead == 0)
+                {
+                    throw new EndOfStreamException();
+                }
+
+                offset += bytesRead;
+            }
         }
 
         private static void VerifyCompressedIpcFileBatch(RecordBatch batch)
