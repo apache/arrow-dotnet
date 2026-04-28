@@ -409,6 +409,36 @@ namespace Apache.Arrow.Tests
             }
         }
 
+        [Fact]
+        public async Task ReadRecordBatchAsync_ExposedMemoryStream_BatchDoesNotAliasMutableStreamBuffer()
+        {
+            RecordBatch originalBatch = TestData.CreateSampleRecordBatch(length: 100, createDictionaryArray: false);
+            RecordBatch readBatch;
+            byte[] streamBuffer;
+
+            using (MemoryStream stream = new MemoryStream())
+            {
+                ArrowStreamWriter writer = new ArrowStreamWriter(stream, originalBatch.Schema, leaveOpen: true);
+                await writer.WriteRecordBatchAsync(originalBatch);
+                await writer.WriteEndAsync();
+
+                streamBuffer = stream.GetBuffer();
+                stream.Position = 0;
+
+                using (ArrowStreamReader reader = new ArrowStreamReader(stream, leaveOpen: true))
+                {
+                    readBatch = await reader.ReadNextRecordBatchAsync();
+                }
+            }
+
+            System.Array.Clear(streamBuffer, 0, streamBuffer.Length);
+
+            using (readBatch)
+            {
+                ArrowReaderVerifier.CompareBatches(originalBatch, readBatch);
+            }
+        }
+
         [Theory]
         [InlineData(true)]
         [InlineData(false)]

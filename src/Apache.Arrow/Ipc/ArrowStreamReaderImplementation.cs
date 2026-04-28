@@ -49,20 +49,6 @@ namespace Apache.Arrow.Ipc
 
         public override ValueTask<RecordBatch> ReadNextRecordBatchAsync(CancellationToken cancellationToken)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            if (CanUseExposedMemoryStreamFastPath())
-            {
-                try
-                {
-                    return new ValueTask<RecordBatch>(ReadNextRecordBatch());
-                }
-                catch (Exception ex)
-                {
-                    return new ValueTask<RecordBatch>(Task.FromException<RecordBatch>(ex));
-                }
-            }
-
             return ReadRecordBatchAsync(cancellationToken);
         }
 
@@ -134,11 +120,6 @@ namespace Apache.Arrow.Ipc
 
         protected ReadResult ReadMessage()
         {
-            if (TryReadMessageFromExposedMemoryStream(out ReadResult directResult))
-            {
-                return directResult;
-            }
-
             int messageLength = ReadMessageLength(throwOnFullRead: false, returnOnEmptyStream: false);
             if (messageLength == 0)
             {
@@ -174,158 +155,9 @@ namespace Apache.Arrow.Ipc
             return new ReadResult(messageLength, result);
         }
 
-        private IMemoryOwner<byte> AllocateMessageBodyBuffer(int bodyLength)
+        protected IMemoryOwner<byte> AllocateMessageBodyBuffer(int bodyLength)
         {
             return _allocator.Allocate(bodyLength);
-        }
-
-        private bool TryReadMessageFromExposedMemoryStream(out ReadResult result)
-        {
-            result = default;
-
-            if (!TryReadMessageLengthFromExposedMemoryStream(throwOnFullRead: false, returnOnEmptyStream: false, out int messageLength))
-            {
-                return false;
-            }
-
-            if (messageLength == 0)
-            {
-                return true;
-            }
-
-            TryGetExposedMemoryStream(out MemoryStream stream, out ArraySegment<byte> streamBuffer);
-
-            Memory<byte> messageBuffer = ReadExposedMemory(stream, streamBuffer, messageLength);
-            Flatbuf.Message message = Flatbuf.Message.GetRootAsMessage(CreateByteBuffer(messageBuffer));
-
-            if (message.BodyLength > int.MaxValue)
-            {
-                throw new OverflowException(
-                    $"Arrow IPC message body length ({message.BodyLength}) is larger than " +
-                    $"the maximum supported message size ({int.MaxValue})");
-            }
-
-            int bodyLength = (int)message.BodyLength;
-            Memory<byte> sourceBodyBuffer = ReadExposedMemory(stream, streamBuffer, bodyLength);
-            IMemoryOwner<byte> bodyBufferOwner = AllocateMessageBodyBuffer(bodyLength);
-            Memory<byte> bodyBuffer = bodyBufferOwner.Memory.Slice(0, bodyLength);
-            sourceBodyBuffer.CopyTo(bodyBuffer);
-            Google.FlatBuffers.ByteBuffer bodybb = CreateByteBuffer(bodyBuffer);
-
-            // Stream readers have historically returned batches backed by reader-owned body
-            // buffers. Keep that ownership boundary even when the stream exposes its byte[].
-            result = new ReadResult(messageLength, CreateArrowObjectFromMessage(message, bodybb, bodyBufferOwner));
-            return true;
-        }
-
-        private bool TryReadSchemaFromExposedMemoryStream()
-        {
-            if (!TryReadMessageLengthFromExposedMemoryStream(throwOnFullRead: true, returnOnEmptyStream: true, out int schemaMessageLength))
-            {
-                return false;
-            }
-
-            if (schemaMessageLength == 0)
-            {
-                return true;
-            }
-
-            TryGetExposedMemoryStream(out MemoryStream stream, out ArraySegment<byte> streamBuffer);
-            Memory<byte> schemaBuffer = ReadExposedMemory(stream, streamBuffer, schemaMessageLength);
-            _schema = MessageSerializer.GetSchema(ReadMessage<Flatbuf.Schema>(CreateByteBuffer(schemaBuffer)), ref _dictionaryMemo, _extensionRegistry);
-            return true;
-        }
-
-        private bool TryReadMessageLengthFromExposedMemoryStream(bool throwOnFullRead, bool returnOnEmptyStream, out int messageLength)
-        {
-            messageLength = 0;
-
-            if (!TryGetExposedMemoryStream(out MemoryStream stream, out ArraySegment<byte> streamBuffer))
-            {
-                return false;
-            }
-
-            if (stream.Position == stream.Length && returnOnEmptyStream)
-            {
-                return true;
-            }
-
-            if (!TryReadInt32FromExposedMemoryStream(stream, streamBuffer, throwOnFullRead, out messageLength))
-            {
-                return true;
-            }
-
-            if (messageLength == MessageSerializer.IpcContinuationToken &&
-                !TryReadInt32FromExposedMemoryStream(stream, streamBuffer, throwOnFullRead, out messageLength))
-            {
-                return true;
-            }
-
-            return true;
-        }
-
-        private static bool TryReadInt32FromExposedMemoryStream(MemoryStream stream, ArraySegment<byte> streamBuffer, bool throwOnFullRead, out int value)
-        {
-            value = 0;
-
-            if (!TryReadExposedMemory(stream, streamBuffer, sizeof(int), throwOnFullRead, out Memory<byte> buffer))
-            {
-                return false;
-            }
-
-            value = BitUtility.ReadInt32(buffer);
-            return true;
-        }
-
-        private static bool TryReadExposedMemory(MemoryStream stream, ArraySegment<byte> streamBuffer, int length, bool throwOnFullRead, out Memory<byte> buffer)
-        {
-            buffer = default;
-
-            long remainingLength = stream.Length - stream.Position;
-            if (remainingLength < length)
-            {
-                if (throwOnFullRead)
-                {
-                    throw new InvalidOperationException("Unexpectedly reached the end of the stream before a full buffer was read.");
-                }
-
-                stream.Position = stream.Length;
-                return false;
-            }
-
-            buffer = ReadExposedMemory(stream, streamBuffer, length);
-            return true;
-        }
-
-        private static Memory<byte> ReadExposedMemory(MemoryStream stream, ArraySegment<byte> streamBuffer, int length)
-        {
-            if (length == 0)
-            {
-                return Memory<byte>.Empty;
-            }
-
-            int offset = checked(streamBuffer.Offset + (int)stream.Position);
-            Memory<byte> buffer = streamBuffer.Array.AsMemory(offset, length);
-            stream.Position += length;
-            return buffer;
-        }
-
-        private bool TryGetExposedMemoryStream(out MemoryStream stream, out ArraySegment<byte> streamBuffer)
-        {
-            if (BaseStream is MemoryStream memoryStream && memoryStream.TryGetBuffer(out streamBuffer))
-            {
-                stream = memoryStream;
-                return true;
-            }
-
-            stream = null;
-            streamBuffer = default;
-            return false;
-        }
-
-        protected bool CanUseExposedMemoryStreamFastPath()
-        {
-            return TryGetExposedMemoryStream(out _, out _);
         }
 
         public override ValueTask<Schema> ReadSchemaAsync(CancellationToken cancellationToken = default)
@@ -335,19 +167,6 @@ namespace Apache.Arrow.Ipc
             if (HasReadSchema)
             {
                 return new ValueTask<Schema>(_schema);
-            }
-
-            if (CanUseExposedMemoryStreamFastPath())
-            {
-                try
-                {
-                    ReadSchema();
-                    return new ValueTask<Schema>(_schema);
-                }
-                catch (Exception ex)
-                {
-                    return new ValueTask<Schema>(Task.FromException<Schema>(ex));
-                }
             }
 
             return ReadSchemaAsyncCore(cancellationToken);
@@ -378,11 +197,6 @@ namespace Apache.Arrow.Ipc
         public override void ReadSchema()
         {
             if (HasReadSchema)
-            {
-                return;
-            }
-
-            if (TryReadSchemaFromExposedMemoryStream())
             {
                 return;
             }
@@ -512,6 +326,5 @@ namespace Apache.Arrow.Ipc
                 Batch = batch;
             }
         }
-
     }
 }

@@ -29,7 +29,7 @@ namespace Apache.Arrow.Benchmarks
     [MemoryDiagnoser]
     public class ArrowReaderBenchmark
     {
-        [Params(10_000, 100_000)]
+        [Params(10_000, 1_000_000)]
         public int Count { get; set; }
 
         [Params(1, 5)]
