@@ -87,7 +87,7 @@ namespace Apache.Arrow.Ipc
                 else if (messageLength == MessageSerializer.IpcContinuationToken)
                 {
                     // ARROW-6313, if the first 4 bytes are continuation message, read the next 4 for the length
-                    if (_buffer.Length <= _bufferPosition + sizeof(int))
+                    if (_buffer.Length < _bufferPosition + sizeof(int))
                     {
                         throw new InvalidDataException("Corrupted IPC message. Received a continuation token at the end of the message.");
                     }
@@ -136,7 +136,7 @@ namespace Apache.Arrow.Ipc
             if (schemaMessageLength == MessageSerializer.IpcContinuationToken)
             {
                 // ARROW-6313, if the first 4 bytes are continuation message, read the next 4 for the length
-                if (_buffer.Length <= _bufferPosition + sizeof(int))
+                if (_buffer.Length < _bufferPosition + sizeof(int))
                 {
                     throw new InvalidDataException("Corrupted IPC message. Received a continuation token at the end of the message.");
                 }

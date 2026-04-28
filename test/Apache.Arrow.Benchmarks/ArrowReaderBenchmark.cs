@@ -14,8 +14,8 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Apache.Arrow.Ipc;
 using Apache.Arrow.Memory;
@@ -32,13 +32,19 @@ namespace Apache.Arrow.Benchmarks
         [Params(10_000, 1_000_000)]
         public int Count { get; set; }
 
+        [Params(1, 5)]
+        public int ColumnSetCount { get; set; }
+
         private MemoryStream _memoryStream;
         private static readonly MemoryAllocator s_allocator = new TestMemoryAllocator();
 
         [GlobalSetup]
         public async Task GlobalSetup()
         {
-            RecordBatch batch = TestData.CreateSampleRecordBatch(length: Count, createDictionaryArray: false);
+            RecordBatch batch = TestData.CreateSampleRecordBatch(
+                length: Count,
+                columnSetCount: ColumnSetCount,
+                excludedTypes: new HashSet<ArrowTypeId> { ArrowTypeId.Dictionary, ArrowTypeId.RunEndEncoded });
             _memoryStream = new MemoryStream();
 
             ArrowStreamWriter writer = new ArrowStreamWriter(_memoryStream, batch.Schema);
@@ -84,6 +90,73 @@ namespace Apache.Arrow.Benchmarks
         }
 
         [Benchmark]
+        public async Task<double> ArrowReaderWithMemoryStream_ExplicitDefaultAllocator()
+        {
+            double sum = 0;
+            var reader = new ArrowStreamReader(_memoryStream, MemoryAllocator.Default.Value);
+            RecordBatch recordBatch;
+            while ((recordBatch = await reader.ReadNextRecordBatchAsync()) != null)
+            {
+                using (recordBatch)
+                {
+                    sum += SumAllNumbers(recordBatch);
+                }
+            }
+            return sum;
+        }
+
+        [Benchmark]
+        public async Task<double> ArrowReaderWithNonPubliclyVisibleMemoryStream()
+        {
+            double sum = 0;
+            using var stream = CreateNonPubliclyVisibleReadStream();
+            using var reader = new ArrowStreamReader(stream);
+            RecordBatch recordBatch;
+            while ((recordBatch = await reader.ReadNextRecordBatchAsync()) != null)
+            {
+                using (recordBatch)
+                {
+                    sum += SumAllNumbers(recordBatch);
+                }
+            }
+            return sum;
+        }
+
+        [Benchmark]
+        public async Task<double> ArrowReaderWithNonPubliclyVisibleMemoryStream_ManagedMemory()
+        {
+            double sum = 0;
+            using var stream = CreateNonPubliclyVisibleReadStream();
+            using var reader = new ArrowStreamReader(stream, s_allocator);
+            RecordBatch recordBatch;
+            while ((recordBatch = await reader.ReadNextRecordBatchAsync()) != null)
+            {
+                using (recordBatch)
+                {
+                    sum += SumAllNumbers(recordBatch);
+                }
+            }
+            return sum;
+        }
+
+        [Benchmark]
+        public async Task<double> ArrowReaderWithNonPubliclyVisibleMemoryStream_ExplicitDefaultAllocator()
+        {
+            double sum = 0;
+            using var stream = CreateNonPubliclyVisibleReadStream();
+            using var reader = new ArrowStreamReader(stream, MemoryAllocator.Default.Value);
+            RecordBatch recordBatch;
+            while ((recordBatch = await reader.ReadNextRecordBatchAsync()) != null)
+            {
+                using (recordBatch)
+                {
+                    sum += SumAllNumbers(recordBatch);
+                }
+            }
+            return sum;
+        }
+
+        [Benchmark]
         public async Task<double> ArrowReaderWithMemory()
         {
             double sum = 0;
@@ -99,14 +172,25 @@ namespace Apache.Arrow.Benchmarks
             return sum;
         }
 
+        private MemoryStream CreateNonPubliclyVisibleReadStream()
+        {
+            return new MemoryStream(
+                _memoryStream.GetBuffer(),
+                index: 0,
+                count: checked((int)_memoryStream.Length),
+                writable: false,
+                publiclyVisible: false);
+        }
+
         private static double SumAllNumbers(RecordBatch recordBatch)
         {
             double sum = 0;
 
             for (int k = 0; k < recordBatch.ColumnCount; k++)
             {
-                var array = recordBatch.Arrays.ElementAt(k);
-                switch (recordBatch.Schema.GetFieldByIndex(k).DataType.TypeId)
+                var array = recordBatch.Column(k);
+                ArrowTypeId typeId = recordBatch.Schema.GetFieldByIndex(k).DataType.TypeId;
+                switch (typeId)
                 {
                     case ArrowTypeId.Int64:
                         Int64Array int64Array = (Int64Array)array;

@@ -16,9 +16,11 @@
 using System;
 using System.Buffers.Binary;
 using System.IO;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Apache.Arrow.Ipc;
+using Apache.Arrow.Memory;
 using Apache.Arrow.Types;
 using Xunit;
 
@@ -69,12 +71,19 @@ namespace Apache.Arrow.Tests
 
                 var memoryPool = new TestMemoryAllocator();
                 ArrowStreamReader reader = new ArrowStreamReader(stream, memoryPool, shouldLeaveOpen);
-                reader.ReadNextRecordBatch();
-
-                Assert.Equal(expectedAllocations, memoryPool.Statistics.Allocations);
-                Assert.True(memoryPool.Statistics.BytesAllocated > 0);
+                using (RecordBatch readBatch = reader.ReadNextRecordBatch())
+                {
+                    Assert.Equal(expectedAllocations, memoryPool.Statistics.Allocations);
+                    Assert.True(memoryPool.Statistics.BytesAllocated > 0);
+                    Assert.Equal(expectedAllocations, memoryPool.Rented);
+                }
 
                 reader.Dispose();
+
+                if (!createDictionaryArray)
+                {
+                    Assert.Equal(0, memoryPool.Rented);
+                }
 
                 if (shouldLeaveOpen)
                 {
@@ -109,6 +118,22 @@ namespace Apache.Arrow.Tests
             await TestReaderFromMemory(ArrowReaderVerifier.VerifyReaderAsync, writeEnd);
         }
 
+        [Fact]
+        public async Task ReadRecordBatch_Memory_ExactLengthSlice()
+        {
+            await TestReaderFromMemoryExactLength((reader, originalBatch) =>
+            {
+                ArrowReaderVerifier.VerifyReader(reader, originalBatch);
+                return Task.CompletedTask;
+            });
+        }
+
+        [Fact]
+        public async Task ReadRecordBatchAsync_Memory_ExactLengthSlice()
+        {
+            await TestReaderFromMemoryExactLength(ArrowReaderVerifier.VerifyReaderAsync);
+        }
+
         private static async Task TestReaderFromMemory(
             Func<ArrowStreamReader, RecordBatch, Task> verificationFunc,
             bool writeEnd)
@@ -125,6 +150,24 @@ namespace Apache.Arrow.Tests
                     await writer.WriteEndAsync();
                 }
                 buffer = stream.GetBuffer();
+            }
+
+            ArrowStreamReader reader = new ArrowStreamReader(buffer);
+            await verificationFunc(reader, originalBatch);
+        }
+
+        private static async Task TestReaderFromMemoryExactLength(
+            Func<ArrowStreamReader, RecordBatch, Task> verificationFunc)
+        {
+            RecordBatch originalBatch = TestData.CreateSampleRecordBatch(length: 100);
+
+            ReadOnlyMemory<byte> buffer;
+            using (MemoryStream stream = new MemoryStream())
+            {
+                ArrowStreamWriter writer = new ArrowStreamWriter(stream, originalBatch.Schema);
+                await writer.WriteRecordBatchAsync(originalBatch);
+                await writer.WriteEndAsync();
+                buffer = stream.GetBuffer().AsMemory(0, checked((int)stream.Length));
             }
 
             ArrowStreamReader reader = new ArrowStreamReader(buffer);
@@ -167,6 +210,40 @@ namespace Apache.Arrow.Tests
             }
         }
 
+        [Fact]
+        public async Task ReadRecordBatchAsync_PassesCancellationTokenToSchemaRead()
+        {
+            using var stream = new RequiresCancelableReadStream();
+            using var reader = new ArrowStreamReader(stream);
+            using var cancellation = new CancellationTokenSource();
+
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
+                await reader.ReadNextRecordBatchAsync(cancellation.Token));
+
+            Assert.True(stream.SawCancelableToken);
+        }
+
+        [Fact]
+        public async Task ReadRecordBatchAsync_Stream_DictionaryFixtureWithoutRee()
+        {
+            using RecordBatch originalBatch = TestData.CreateSampleRecordBatch(
+                length: 100,
+                columnSetCount: 5,
+                excludedTypes: new System.Collections.Generic.HashSet<ArrowTypeId> { ArrowTypeId.RunEndEncoded });
+
+            using var stream = new MemoryStream();
+            using (ArrowStreamWriter writer = new ArrowStreamWriter(stream, originalBatch.Schema, leaveOpen: true))
+            {
+                await writer.WriteRecordBatchAsync(originalBatch);
+                await writer.WriteEndAsync();
+            }
+
+            stream.Position = 0;
+
+            using var reader = new ArrowStreamReader(stream);
+            await ArrowReaderVerifier.VerifyReaderAsync(reader, originalBatch);
+        }
+
         [Theory]
         [InlineData(true, true)]
         [InlineData(true, false)]
@@ -175,6 +252,84 @@ namespace Apache.Arrow.Tests
         public async Task ReadRecordBatchAsync_Stream(bool writeEnd, bool createDictionaryArray)
         {
             await TestReaderFromStream(ArrowReaderVerifier.VerifyReaderAsync, writeEnd, createDictionaryArray);
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task ReadRecordBatchAsync_NonPubliclyVisibleMemoryStream(bool createDictionaryArray)
+        {
+            RecordBatch originalBatch = TestData.CreateSampleRecordBatch(length: 100, createDictionaryArray: createDictionaryArray);
+
+            byte[] buffer;
+            using (MemoryStream stream = new MemoryStream())
+            {
+                ArrowStreamWriter writer = new ArrowStreamWriter(stream, originalBatch.Schema, leaveOpen: true);
+                await writer.WriteRecordBatchAsync(originalBatch);
+                await writer.WriteEndAsync();
+                buffer = stream.ToArray();
+            }
+
+            using (MemoryStream stream = new MemoryStream(buffer))
+            {
+                ArrowStreamReader reader = new ArrowStreamReader(stream);
+                await ArrowReaderVerifier.VerifyReaderAsync(reader, originalBatch);
+            }
+        }
+
+        [Fact]
+        public async Task ReadRecordBatchAsync_NonPubliclyVisibleMemoryStream_UsesExplicitAllocator()
+        {
+            RecordBatch originalBatch = TestData.CreateSampleRecordBatch(length: 100, createDictionaryArray: false);
+
+            byte[] buffer;
+            using (MemoryStream stream = new MemoryStream())
+            {
+                ArrowStreamWriter writer = new ArrowStreamWriter(stream, originalBatch.Schema, leaveOpen: true);
+                await writer.WriteRecordBatchAsync(originalBatch);
+                await writer.WriteEndAsync();
+                buffer = stream.ToArray();
+            }
+
+            var allocator = new TestMemoryAllocator();
+            using (MemoryStream stream = new MemoryStream(buffer))
+            using (var reader = new ArrowStreamReader(stream, allocator))
+            {
+                using (RecordBatch readBatch = await reader.ReadNextRecordBatchAsync())
+                {
+                    ArrowReaderVerifier.CompareBatches(originalBatch, readBatch);
+                }
+
+                Assert.True(allocator.Statistics.Allocations > 0);
+                Assert.Equal(0, allocator.Rented);
+                Assert.Null(await reader.ReadNextRecordBatchAsync());
+            }
+        }
+
+        [Fact]
+        public async Task ReadRecordBatchAsync_NonPubliclyVisibleMemoryStream_UsesDefaultAllocator()
+        {
+            RecordBatch originalBatch = TestData.CreateSampleRecordBatch(length: 100, createDictionaryArray: false);
+
+            byte[] buffer;
+            using (MemoryStream stream = new MemoryStream())
+            {
+                ArrowStreamWriter writer = new ArrowStreamWriter(stream, originalBatch.Schema, leaveOpen: true);
+                await writer.WriteRecordBatchAsync(originalBatch);
+                await writer.WriteEndAsync();
+                buffer = stream.ToArray();
+            }
+
+            long allocationsBeforeRead = MemoryAllocator.Default.Value.Statistics.Allocations;
+
+            using (MemoryStream stream = new MemoryStream(buffer))
+            using (var reader = new ArrowStreamReader(stream, MemoryAllocator.Default.Value))
+            using (RecordBatch readBatch = await reader.ReadNextRecordBatchAsync())
+            {
+                ArrowReaderVerifier.CompareBatches(originalBatch, readBatch);
+            }
+
+            Assert.True(MemoryAllocator.Default.Value.Statistics.Allocations > allocationsBeforeRead);
         }
 
         private static async Task TestReaderFromStream(
@@ -196,6 +351,92 @@ namespace Apache.Arrow.Tests
 
                 ArrowStreamReader reader = new ArrowStreamReader(stream);
                 await verificationFunc(reader, originalBatch);
+            }
+        }
+
+        [Fact]
+        public async Task ReadRecordBatch_ExposedMemoryStream_BatchRemainsUsableAfterDispose()
+        {
+            RecordBatch originalBatch = TestData.CreateSampleRecordBatch(length: 100, createDictionaryArray: false);
+            RecordBatch readBatch;
+
+            using (MemoryStream stream = new MemoryStream())
+            {
+                ArrowStreamWriter writer = new ArrowStreamWriter(stream, originalBatch.Schema, leaveOpen: true);
+                await writer.WriteRecordBatchAsync(originalBatch);
+                await writer.WriteEndAsync();
+
+                stream.Position = 0;
+
+                using (ArrowStreamReader reader = new ArrowStreamReader(stream, leaveOpen: true))
+                {
+                    readBatch = reader.ReadNextRecordBatch();
+                }
+            }
+
+            using (readBatch)
+            {
+                ArrowReaderVerifier.CompareBatches(originalBatch, readBatch);
+            }
+        }
+
+        [Fact]
+        public async Task ReadRecordBatch_ExposedMemoryStream_BatchDoesNotAliasMutableStreamBuffer()
+        {
+            RecordBatch originalBatch = TestData.CreateSampleRecordBatch(length: 100, createDictionaryArray: false);
+            RecordBatch readBatch;
+            byte[] streamBuffer;
+
+            using (MemoryStream stream = new MemoryStream())
+            {
+                ArrowStreamWriter writer = new ArrowStreamWriter(stream, originalBatch.Schema, leaveOpen: true);
+                await writer.WriteRecordBatchAsync(originalBatch);
+                await writer.WriteEndAsync();
+
+                streamBuffer = stream.GetBuffer();
+                stream.Position = 0;
+
+                using (ArrowStreamReader reader = new ArrowStreamReader(stream, leaveOpen: true))
+                {
+                    readBatch = reader.ReadNextRecordBatch();
+                }
+            }
+
+            System.Array.Clear(streamBuffer, 0, streamBuffer.Length);
+
+            using (readBatch)
+            {
+                ArrowReaderVerifier.CompareBatches(originalBatch, readBatch);
+            }
+        }
+
+        [Fact]
+        public async Task ReadRecordBatchAsync_ExposedMemoryStream_BatchDoesNotAliasMutableStreamBuffer()
+        {
+            RecordBatch originalBatch = TestData.CreateSampleRecordBatch(length: 100, createDictionaryArray: false);
+            RecordBatch readBatch;
+            byte[] streamBuffer;
+
+            using (MemoryStream stream = new MemoryStream())
+            {
+                ArrowStreamWriter writer = new ArrowStreamWriter(stream, originalBatch.Schema, leaveOpen: true);
+                await writer.WriteRecordBatchAsync(originalBatch);
+                await writer.WriteEndAsync();
+
+                streamBuffer = stream.GetBuffer();
+                stream.Position = 0;
+
+                using (ArrowStreamReader reader = new ArrowStreamReader(stream, leaveOpen: true))
+                {
+                    readBatch = await reader.ReadNextRecordBatchAsync();
+                }
+            }
+
+            System.Array.Clear(streamBuffer, 0, streamBuffer.Length);
+
+            using (readBatch)
+            {
+                ArrowReaderVerifier.CompareBatches(originalBatch, readBatch);
             }
         }
 
@@ -243,10 +484,33 @@ namespace Apache.Arrow.Tests
         /// <summary>
         /// A stream class that only returns a part of the data at a time.
         /// </summary>
-        private class PartialReadStream : MemoryStream
+        private class PartialReadStream : Stream
         {
+            private readonly MemoryStream _innerStream = new MemoryStream();
+
             // by default return 20 bytes at a time
             public int PartialReadLength { get; set; } = 20;
+
+            public override bool CanRead => _innerStream.CanRead;
+            public override bool CanSeek => _innerStream.CanSeek;
+            public override bool CanWrite => _innerStream.CanWrite;
+            public override long Length => _innerStream.Length;
+            public override long Position { get => _innerStream.Position; set => _innerStream.Position = value; }
+
+            public override void Flush() => _innerStream.Flush();
+            public override long Seek(long offset, SeekOrigin origin) => _innerStream.Seek(offset, origin);
+            public override void SetLength(long value) => _innerStream.SetLength(value);
+            public override void Write(byte[] buffer, int offset, int count) => _innerStream.Write(buffer, offset, count);
+
+            public override int Read(byte[] buffer, int offset, int count)
+            {
+                return _innerStream.Read(buffer, offset, Math.Min(count, PartialReadLength));
+            }
+
+            public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken = default)
+            {
+                return _innerStream.ReadAsync(buffer, offset, Math.Min(count, PartialReadLength), cancellationToken);
+            }
 
 #if NET5_0_OR_GREATER
             public override int Read(Span<byte> destination)
@@ -256,7 +520,7 @@ namespace Apache.Arrow.Tests
                     destination = destination.Slice(0, PartialReadLength);
                 }
 
-                return base.Read(destination);
+                return _innerStream.Read(destination);
             }
 
             public override ValueTask<int> ReadAsync(Memory<byte> destination, CancellationToken cancellationToken = default)
@@ -266,53 +530,50 @@ namespace Apache.Arrow.Tests
                     destination = destination.Slice(0, PartialReadLength);
                 }
 
-                return base.ReadAsync(destination, cancellationToken);
-            }
-#else
-            public override int Read(byte[] buffer, int offset, int length)
-            {
-                return base.Read(buffer, offset, Math.Min(length, PartialReadLength));
-            }
-
-            public override Task<int> ReadAsync(byte[] buffer, int offset, int length, CancellationToken cancellationToken = default)
-            {
-                return base.ReadAsync(buffer, offset, Math.Min(length, PartialReadLength), cancellationToken);
+                return _innerStream.ReadAsync(destination, cancellationToken);
             }
 #endif
         }
 
-        [Fact]
-        public unsafe void MalformedColumnNameLength()
+        private class RequiresCancelableReadStream : Stream
         {
-            const int FieldNameLengthOffset = 108;
-            const int FakeFieldNameLength = 165535;
+            public bool SawCancelableToken { get; private set; }
 
-            byte[] buffer;
-            using (var stream = new MemoryStream())
+            public override bool CanRead => true;
+            public override bool CanSeek => false;
+            public override bool CanWrite => false;
+            public override long Length => throw new NotSupportedException();
+            public override long Position { get => throw new NotSupportedException(); set => throw new NotSupportedException(); }
+
+            public override void Flush() { }
+            public override int Read(byte[] buffer, int offset, int count) => throw new NotSupportedException();
+            public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
+            public override void SetLength(long value) => throw new NotSupportedException();
+            public override void Write(byte[] buffer, int offset, int count) => throw new NotSupportedException();
+
+#if NET5_0_OR_GREATER
+            public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default)
             {
-                Schema schema = new(
-                    [new Field("index", Int32Type.Default, nullable: false)],
-                    metadata: []);
-                using (var writer = new ArrowStreamWriter(stream, schema, leaveOpen: true))
+                SawCancelableToken = cancellationToken.CanBeCanceled;
+                if (!SawCancelableToken)
                 {
-                    writer.WriteStart();
-                    writer.WriteEnd();
+                    throw new InvalidOperationException("Expected the caller's cancellation token during schema read.");
                 }
-                buffer = stream.ToArray();
+
+                throw new OperationCanceledException(cancellationToken);
             }
-
-            Span<int> length = buffer.AsSpan().Slice(FieldNameLengthOffset, sizeof(int)).CastTo<int>();
-            Assert.Equal(5, length[0]);
-            length[0] = FakeFieldNameLength;
-
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
+#else
+            public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
             {
-                using (var stream = new MemoryStream(buffer))
-                using (var reader = new ArrowStreamReader(stream))
+                SawCancelableToken = cancellationToken.CanBeCanceled;
+                if (!SawCancelableToken)
                 {
-                    reader.ReadNextRecordBatch();
+                    throw new InvalidOperationException("Expected the caller's cancellation token during schema read.");
                 }
-            });
+
+                throw new OperationCanceledException(cancellationToken);
+            }
+#endif
         }
 
         [Fact]
@@ -468,8 +729,41 @@ namespace Apache.Arrow.Tests
 
         private static void WriteInt64LittleEndian(byte[] buffer, int offset, long value)
         {
-            System.Buffers.Binary.BinaryPrimitives.WriteInt64LittleEndian(
-                buffer.AsSpan(offset), value);
+            BinaryPrimitives.WriteInt64LittleEndian(buffer.AsSpan(offset), value);
+        }
+
+        [Fact]
+        public unsafe void MalformedColumnNameLength()
+        {
+            const int FieldNameLengthOffset = 108;
+            const int FakeFieldNameLength = 165535;
+
+            byte[] buffer;
+            using (var stream = new MemoryStream())
+            {
+                Schema schema = new(
+                    [new Field("index", Int32Type.Default, nullable: false)],
+                    metadata: []);
+                using (var writer = new ArrowStreamWriter(stream, schema, leaveOpen: true))
+                {
+                    writer.WriteStart();
+                    writer.WriteEnd();
+                }
+                buffer = stream.ToArray();
+            }
+
+            Span<int> length = buffer.AsSpan().Slice(FieldNameLengthOffset, sizeof(int)).CastTo<int>();
+            Assert.Equal(5, length[0]);
+            length[0] = FakeFieldNameLength;
+
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                using (var stream = new MemoryStream(buffer))
+                using (var reader = new ArrowStreamReader(stream))
+                {
+                    reader.ReadNextRecordBatch();
+                }
+            });
         }
 
         [Fact]
@@ -481,21 +775,6 @@ namespace Apache.Arrow.Tests
                 var schema = await reader.GetSchema();
                 Assert.Null(schema);
             }
-        }
-
-        private static short ToInt16LittleEndian(byte[] buffer, int offset)
-        {
-            return BinaryPrimitives.ReadInt16LittleEndian(buffer.AsSpan().Slice(offset));
-        }
-
-        private static int ToInt32LittleEndian(byte[] buffer, int offset)
-        {
-            return BinaryPrimitives.ReadInt32LittleEndian(buffer.AsSpan().Slice(offset));
-        }
-
-        private static long ToInt64LittleEndian(byte[] buffer, int offset)
-        {
-            return BinaryPrimitives.ReadInt64LittleEndian(buffer.AsSpan().Slice(offset));
         }
 
         private class EmptyAsyncOnlyStream : Stream
@@ -511,6 +790,21 @@ namespace Apache.Arrow.Tests
             public override void SetLength(long value) => throw new NotSupportedException();
             public override void Write(byte[] buffer, int offset, int count) => throw new NotSupportedException();
             public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken) => Task.FromResult(0);
+        }
+
+        private static short ToInt16LittleEndian(byte[] buffer, int offset)
+        {
+            return BinaryPrimitives.ReadInt16LittleEndian(buffer.AsSpan().Slice(offset));
+        }
+
+        private static int ToInt32LittleEndian(byte[] buffer, int offset)
+        {
+            return BinaryPrimitives.ReadInt32LittleEndian(buffer.AsSpan().Slice(offset));
+        }
+
+        private static long ToInt64LittleEndian(byte[] buffer, int offset)
+        {
+            return BinaryPrimitives.ReadInt64LittleEndian(buffer.AsSpan().Slice(offset));
         }
     }
 }

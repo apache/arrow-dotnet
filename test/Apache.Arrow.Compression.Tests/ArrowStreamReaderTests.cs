@@ -14,8 +14,10 @@
 // limitations under the License.
 
 using System;
+using System.IO;
 using System.Reflection;
 using Apache.Arrow.Ipc;
+using Apache.Arrow.Memory;
 using Apache.Arrow.Tests;
 using Xunit;
 
@@ -47,11 +49,32 @@ namespace Apache.Arrow.Compression.Tests
             using var stream = assembly.GetManifestResourceStream($"Apache.Arrow.Compression.Tests.Resources.{fileName}");
             Assert.NotNull(stream);
             var buffer = new byte[stream.Length];
-            stream.ReadFullBuffer(buffer);
+            ReadExactly(stream, buffer);
             var codecFactory = new Compression.CompressionCodecFactory();
             using var reader = new ArrowStreamReader(buffer, codecFactory);
 
             VerifyCompressedIpcFileBatch(reader.ReadNextRecordBatch());
+        }
+
+        [Theory]
+        [InlineData("ipc_lz4_compression.arrow_stream")]
+        [InlineData("ipc_zstd_compression.arrow_stream")]
+        public void CanReadCompressedIpcStreamFromMemoryBuffer_UsesDefaultAllocator(string fileName)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            using var stream = assembly.GetManifestResourceStream($"Apache.Arrow.Compression.Tests.Resources.{fileName}");
+            Assert.NotNull(stream);
+            var buffer = new byte[stream.Length];
+            ReadExactly(stream, buffer);
+            var codecFactory = new Compression.CompressionCodecFactory();
+
+            long allocationsBeforeRead = MemoryAllocator.Default.Value.Statistics.Allocations;
+
+            using var reader = new ArrowStreamReader(buffer, codecFactory);
+            using RecordBatch batch = reader.ReadNextRecordBatch();
+            VerifyCompressedIpcFileBatch(batch);
+
+            Assert.True(MemoryAllocator.Default.Value.Statistics.Allocations > allocationsBeforeRead);
         }
 
         [Fact]
@@ -86,6 +109,21 @@ namespace Apache.Arrow.Compression.Tests
 
         }
 
+        private static void ReadExactly(Stream stream, byte[] buffer)
+        {
+            int offset = 0;
+            while (offset < buffer.Length)
+            {
+                int bytesRead = stream.Read(buffer, offset, buffer.Length - offset);
+                if (bytesRead == 0)
+                {
+                    throw new EndOfStreamException();
+                }
+
+                offset += bytesRead;
+            }
+        }
+
         private static void VerifyCompressedIpcFileBatch(RecordBatch batch)
         {
             var intArray = (Int32Array)batch.Column("integers");
@@ -103,4 +141,3 @@ namespace Apache.Arrow.Compression.Tests
         }
     }
 }
-

@@ -47,11 +47,10 @@ namespace Apache.Arrow.Ipc
             }
         }
 
-        public override async ValueTask<RecordBatch> ReadNextRecordBatchAsync(CancellationToken cancellationToken)
+        public override ValueTask<RecordBatch> ReadNextRecordBatchAsync(CancellationToken cancellationToken)
         {
-            // TODO: Loop until a record batch is read.
             cancellationToken.ThrowIfCancellationRequested();
-            return await ReadRecordBatchAsync(cancellationToken).ConfigureAwait(false);
+            return ReadRecordBatchAsync(cancellationToken);
         }
 
         public override RecordBatch ReadNextRecordBatch()
@@ -61,7 +60,7 @@ namespace Apache.Arrow.Ipc
 
         protected async ValueTask<RecordBatch> ReadRecordBatchAsync(CancellationToken cancellationToken = default)
         {
-            await ReadSchemaAsync().ConfigureAwait(false);
+            await ReadSchemaAsync(cancellationToken).ConfigureAwait(false);
 
             ReadResult result = default;
             do
@@ -94,7 +93,7 @@ namespace Apache.Arrow.Ipc
 
                 int bodyLength = checked((int)message.BodyLength);
 
-                IMemoryOwner<byte> bodyBuffOwner = _allocator.Allocate(bodyLength);
+                IMemoryOwner<byte> bodyBuffOwner = AllocateMessageBodyBuffer(bodyLength);
                 Memory<byte> bodyBuff = bodyBuffOwner.Memory.Slice(0, bodyLength);
                 bytesRead = await BaseStream.ReadFullBufferAsync(bodyBuff, cancellationToken)
                     .ConfigureAwait(false);
@@ -145,7 +144,7 @@ namespace Apache.Arrow.Ipc
                 }
                 int bodyLength = (int)message.BodyLength;
 
-                IMemoryOwner<byte> bodyBuffOwner = _allocator.Allocate(bodyLength);
+                IMemoryOwner<byte> bodyBuffOwner = AllocateMessageBodyBuffer(bodyLength);
                 Memory<byte> bodyBuff = bodyBuffOwner.Memory.Slice(0, bodyLength);
                 bytesRead = BaseStream.ReadFullBuffer(bodyBuff);
                 EnsureFullRead(bodyBuff, bytesRead);
@@ -157,13 +156,25 @@ namespace Apache.Arrow.Ipc
             return new ReadResult(messageLength, result);
         }
 
-        public override async ValueTask<Schema> ReadSchemaAsync(CancellationToken cancellationToken = default)
+        protected IMemoryOwner<byte> AllocateMessageBodyBuffer(int bodyLength)
         {
+            return _allocator.Allocate(bodyLength);
+        }
+
+        public override ValueTask<Schema> ReadSchemaAsync(CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
             if (HasReadSchema)
             {
-                return _schema;
+                return new ValueTask<Schema>(_schema);
             }
 
+            return ReadSchemaAsyncCore(cancellationToken);
+        }
+
+        private async ValueTask<Schema> ReadSchemaAsyncCore(CancellationToken cancellationToken)
+        {
             // Figure out length of schema
             int schemaMessageLength = await ReadMessageLengthAsync(throwOnFullRead: true, returnOnEmptyStream: true, cancellationToken)
                 .ConfigureAwait(false);

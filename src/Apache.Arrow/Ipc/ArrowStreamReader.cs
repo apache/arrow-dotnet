@@ -68,7 +68,7 @@ namespace Apache.Arrow.Ipc
             if (stream == null)
                 throw new ArgumentNullException(nameof(stream));
 
-            _implementation = new ArrowStreamReaderImplementation(stream, allocator, compressionCodecFactory, leaveOpen);
+            _implementation = CreateImplementation(stream, allocator, compressionCodecFactory, leaveOpen, extensionRegistry: null);
         }
 
         public ArrowStreamReader(ArrowContext context, Stream stream, bool leaveOpen = false)
@@ -78,7 +78,7 @@ namespace Apache.Arrow.Ipc
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            _implementation = new ArrowStreamReaderImplementation(stream, context.Allocator, context.CompressionCodecFactory, leaveOpen, context.ExtensionRegistry);
+            _implementation = CreateImplementation(stream, context.Allocator, context.CompressionCodecFactory, leaveOpen, context.ExtensionRegistry);
         }
 
         public ArrowStreamReader(ReadOnlyMemory<byte> buffer)
@@ -102,6 +102,21 @@ namespace Apache.Arrow.Ipc
         private protected ArrowStreamReader(ArrowReaderImplementation implementation)
         {
             _implementation = implementation;
+        }
+
+        private static ArrowReaderImplementation CreateImplementation(
+            Stream stream,
+            MemoryAllocator allocator,
+            ICompressionCodecFactory compressionCodecFactory,
+            bool leaveOpen,
+            ExtensionTypeRegistry extensionRegistry)
+        {
+            if (stream is MemoryStream memoryStream && memoryStream.TryGetBuffer(out _))
+            {
+                return new ArrowMemoryStreamReaderImplementation(memoryStream, allocator, compressionCodecFactory, leaveOpen, extensionRegistry);
+            }
+
+            return new ArrowStreamReaderImplementation(stream, allocator, compressionCodecFactory, leaveOpen, extensionRegistry);
         }
 
         public void Dispose()
