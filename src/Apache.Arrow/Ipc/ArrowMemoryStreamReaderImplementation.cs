@@ -32,6 +32,7 @@ namespace Apache.Arrow.Ipc
     internal sealed class ArrowMemoryStreamReaderImplementation : ArrowStreamReaderImplementation
     {
         private readonly MemoryStream _stream;
+        private readonly Memory<byte> _streamMemory;
 
         public ArrowMemoryStreamReaderImplementation(
             MemoryStream stream,
@@ -42,6 +43,13 @@ namespace Apache.Arrow.Ipc
             : base(stream, allocator, compressionCodecFactory, leaveOpen, extensionRegistry)
         {
             _stream = stream;
+
+            if (!stream.TryGetBuffer(out ArraySegment<byte> streamBuffer))
+            {
+                throw new InvalidOperationException("Expected MemoryStream to expose its backing buffer.");
+            }
+
+            _streamMemory = streamBuffer.Array.AsMemory(streamBuffer.Offset, streamBuffer.Count);
         }
 
         public override ValueTask<RecordBatch> ReadNextRecordBatchAsync(CancellationToken cancellationToken)
@@ -65,7 +73,7 @@ namespace Apache.Arrow.Ipc
             ReadResult result = default;
             do
             {
-                result = ReadMessageFromExposedMemoryStream();
+                result = ReadMessageFromMemory();
             } while (result.Batch == null && result.MessageLength > 0);
 
             return result.Batch;
@@ -98,25 +106,25 @@ namespace Apache.Arrow.Ipc
                 return;
             }
 
-            int schemaMessageLength = ReadMessageLengthFromExposedMemoryStream(throwOnFullRead: true, returnOnEmptyStream: true);
+            int schemaMessageLength = ReadMessageLengthFromMemory(throwOnFullRead: true, returnOnEmptyStream: true);
             if (schemaMessageLength == 0)
             {
                 return;
             }
 
-            Memory<byte> schemaBuffer = ReadExposedMemory(schemaMessageLength);
+            Memory<byte> schemaBuffer = ReadMemory(schemaMessageLength);
             _schema = MessageSerializer.GetSchema(ReadMessage<Flatbuf.Schema>(CreateByteBuffer(schemaBuffer)), ref _dictionaryMemo, _extensionRegistry);
         }
 
-        private ReadResult ReadMessageFromExposedMemoryStream()
+        private ReadResult ReadMessageFromMemory()
         {
-            int messageLength = ReadMessageLengthFromExposedMemoryStream(throwOnFullRead: false, returnOnEmptyStream: false);
+            int messageLength = ReadMessageLengthFromMemory(throwOnFullRead: false, returnOnEmptyStream: false);
             if (messageLength == 0)
             {
                 return default;
             }
 
-            Memory<byte> messageBuffer = ReadExposedMemory(messageLength);
+            Memory<byte> messageBuffer = ReadMemory(messageLength);
             Flatbuf.Message message = Flatbuf.Message.GetRootAsMessage(CreateByteBuffer(messageBuffer));
 
             if (message.BodyLength > int.MaxValue)
@@ -127,7 +135,7 @@ namespace Apache.Arrow.Ipc
             }
 
             int bodyLength = (int)message.BodyLength;
-            Memory<byte> sourceBodyBuffer = ReadExposedMemory(bodyLength);
+            Memory<byte> sourceBodyBuffer = ReadMemory(bodyLength);
             IMemoryOwner<byte> bodyBufferOwner = AllocateMessageBodyBuffer(bodyLength);
             Memory<byte> bodyBuffer = bodyBufferOwner.Memory.Slice(0, bodyLength);
             sourceBodyBuffer.CopyTo(bodyBuffer);
@@ -137,20 +145,20 @@ namespace Apache.Arrow.Ipc
             return new ReadResult(messageLength, CreateArrowObjectFromMessage(message, bodybb, bodyBufferOwner));
         }
 
-        private int ReadMessageLengthFromExposedMemoryStream(bool throwOnFullRead, bool returnOnEmptyStream)
+        private int ReadMessageLengthFromMemory(bool throwOnFullRead, bool returnOnEmptyStream)
         {
             if (_stream.Position == _stream.Length && returnOnEmptyStream)
             {
                 return 0;
             }
 
-            if (!TryReadInt32FromExposedMemoryStream(throwOnFullRead, out int messageLength))
+            if (!TryReadInt32(throwOnFullRead, out int messageLength))
             {
                 return 0;
             }
 
             if (messageLength == MessageSerializer.IpcContinuationToken &&
-                !TryReadInt32FromExposedMemoryStream(throwOnFullRead, out messageLength))
+                !TryReadInt32(throwOnFullRead, out messageLength))
             {
                 return 0;
             }
@@ -158,11 +166,11 @@ namespace Apache.Arrow.Ipc
             return messageLength;
         }
 
-        private bool TryReadInt32FromExposedMemoryStream(bool throwOnFullRead, out int value)
+        private bool TryReadInt32(bool throwOnFullRead, out int value)
         {
             value = 0;
 
-            if (!TryReadExposedMemory(sizeof(int), throwOnFullRead, out Memory<byte> buffer))
+            if (!TryReadMemory(sizeof(int), throwOnFullRead, out Memory<byte> buffer))
             {
                 return false;
             }
@@ -171,7 +179,7 @@ namespace Apache.Arrow.Ipc
             return true;
         }
 
-        private bool TryReadExposedMemory(int length, bool throwOnFullRead, out Memory<byte> buffer)
+        private bool TryReadMemory(int length, bool throwOnFullRead, out Memory<byte> buffer)
         {
             buffer = default;
 
@@ -187,24 +195,18 @@ namespace Apache.Arrow.Ipc
                 return false;
             }
 
-            buffer = ReadExposedMemory(length);
+            buffer = ReadMemory(length);
             return true;
         }
 
-        private Memory<byte> ReadExposedMemory(int length)
+        private Memory<byte> ReadMemory(int length)
         {
             if (length == 0)
             {
                 return Memory<byte>.Empty;
             }
 
-            if (!_stream.TryGetBuffer(out ArraySegment<byte> streamBuffer))
-            {
-                throw new InvalidOperationException("Expected MemoryStream to expose its backing buffer.");
-            }
-
-            int offset = checked(streamBuffer.Offset + (int)_stream.Position);
-            Memory<byte> buffer = streamBuffer.Array.AsMemory(offset, length);
+            Memory<byte> buffer = _streamMemory.Slice(checked((int)_stream.Position), length);
             _stream.Position += length;
             return buffer;
         }

@@ -49,6 +49,7 @@ namespace Apache.Arrow.Ipc
 
         public override ValueTask<RecordBatch> ReadNextRecordBatchAsync(CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             return ReadRecordBatchAsync(cancellationToken);
         }
 
