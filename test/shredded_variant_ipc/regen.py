@@ -26,6 +26,10 @@ Run from the repo root:
     python test/shredded_variant_ipc/regen.py
 
 Existing .arrow files are overwritten in place.
+
+Test cases such as case-037 may produce different output on different platforms
+because Arrow metadata is read into a hash-based collection where the hashing
+function can vary across platforms.
 """
 
 import json

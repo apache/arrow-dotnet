@@ -114,7 +114,9 @@ namespace Apache.Arrow.Operations.Shredding
         /// <summary>
         /// Materializes the array into a <see cref="VariantValue"/>. If the typed
         /// list is null at this row, falls back to the residual binary (the array
-        /// was stored unshredded for this row).
+        /// was stored unshredded for this row). When neither is populated, the
+        /// slot encodes a variant null — consistent with <see cref="ShreddedObject"/>
+        /// and <see cref="ShreddedVariant"/>.
         /// </summary>
         public VariantValue ToVariantValue()
         {
@@ -137,11 +139,11 @@ namespace Apache.Arrow.Operations.Shredding
                 return VariantValue.FromArray(elements);
             }
 
-            // No typed list at this row — decode from the residual.
+            // No typed list at this row — decode from the residual if present,
+            // otherwise the slot is variant null.
             if (_residual == null || _residual.IsNull(_row))
             {
-                throw new InvalidOperationException(
-                    "Shredded array slot has neither typed list nor residual bytes.");
+                return VariantValue.Null;
             }
             BinaryArray residualBinary = (BinaryArray)_residual;
             ReadOnlySpan<byte> bytes = residualBinary.GetBytes(_row, out _);

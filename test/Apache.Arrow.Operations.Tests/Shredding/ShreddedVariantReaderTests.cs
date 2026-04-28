@@ -342,6 +342,74 @@ namespace Apache.Arrow.Operations.Tests.Shredding
             }
         }
 
+        [Fact]
+        public void GetArray_BothNull_MaterializesAsVariantNull()
+        {
+            // A row where both the residual binary and the typed list are null
+            // encodes a variant null — same convention as ShreddedObject and
+            // ShreddedVariant. Direct GetArray().ToVariantValue() must agree.
+            VariantArray array = BuildArrayShreddedColumnWithNullRow();
+            ShreddedVariant slot = array.GetShreddedVariant(0);
+
+            Assert.Equal(ShredType.Array, slot.Schema.TypedValueType);
+            Assert.False(slot.HasResidual);
+            Assert.False(slot.HasTypedValue);
+
+            ShreddedArray arr = slot.GetArray();
+            Assert.False(arr.IsTypedList);
+            Assert.False(arr.TryGetResidualReader(out _));
+            Assert.Equal(VariantValue.Null, arr.ToVariantValue());
+
+            // The slot-level entry-point path (which short-circuits on IsMissing)
+            // also returns variant null — keeping both APIs consistent.
+            Assert.Equal(VariantValue.Null, slot.ToVariantValue());
+        }
+
+        /// <summary>
+        /// Builds a one-row shredded VariantArray with schema Array&lt;Int32&gt;
+        /// where row 0 has both <c>value</c> and <c>typed_value</c> set to null.
+        /// </summary>
+        private static VariantArray BuildArrayShreddedColumnWithNullRow()
+        {
+            byte[] emptyMetadata = new VariantMetadataBuilder().Build();
+            BinaryArray metadataArr = new BinaryArray.Builder().Append(emptyMetadata.AsSpan()).Build();
+            BinaryArray valueArr = new BinaryArray.Builder().AppendNull().Build();
+
+            // typed_value is list<struct<value: binary, typed_value: int32>>.
+            StructType elementGroupType = new StructType(new List<Field>
+            {
+                new Field("value", BinaryType.Default, true),
+                new Field("typed_value", Int32Type.Default, true),
+            });
+            // Empty inner struct (length 0) — the list row is null so no elements are referenced.
+            StructArray emptyElementGroup = new StructArray(
+                elementGroupType, length: 0,
+                new IArrowArray[]
+                {
+                    new BinaryArray.Builder().Build(),
+                    new Int32Array.Builder().Build(),
+                },
+                ArrowBuffer.Empty, nullCount: 0);
+
+            ListType listType = new ListType(new Field("element", elementGroupType, true));
+            ArrowBuffer offsetsBuffer = new ArrowBuffer.Builder<int>().Append(0).Append(0).Build();
+            ArrowBuffer listValidity = new ArrowBuffer.BitmapBuilder().Append(false).Build();
+            ListArray typedValueList = new ListArray(
+                listType, length: 1, offsetsBuffer, emptyElementGroup, listValidity, nullCount: 1);
+
+            StructType storageType = new StructType(new List<Field>
+            {
+                new Field("metadata", BinaryType.Default, false),
+                new Field("value", BinaryType.Default, true),
+                new Field("typed_value", listType, true),
+            });
+            StructArray storage = new StructArray(
+                storageType, length: 1,
+                new IArrowArray[] { metadataArr, valueArr, typedValueList },
+                ArrowBuffer.Empty, nullCount: 0);
+            return new VariantArray(storage);
+        }
+
         // ---------------------------------------------------------------
         // Decimal32 / Decimal64 typed_value: construct the Arrow struct
         // directly (the Iceberg corpus only exercises Decimal128Type).
