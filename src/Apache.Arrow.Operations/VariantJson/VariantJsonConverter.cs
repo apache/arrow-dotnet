@@ -243,6 +243,7 @@ namespace Apache.Arrow.Operations.VariantJson
                     writer.WriteNumberValue(value.AsDecimal());
                     break;
                 case VariantPrimitiveType.Decimal16:
+                    // SqlDecimal.ToString() is culture-agnostic and produces a plain decimal string without exponent
                     writer.WriteRawValue(value.AsSqlDecimal().ToString());
                     break;
                 case VariantPrimitiveType.Date:

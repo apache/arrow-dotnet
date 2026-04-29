@@ -19,6 +19,9 @@ using System.Data.SqlTypes;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
+#if !NET8_0_OR_GREATER
+using System.Runtime.InteropServices;
+#endif
 
 namespace Apache.Arrow.Scalars.Variant
 {
@@ -116,15 +119,8 @@ namespace Apache.Arrow.Scalars.Variant
         /// <see cref="FromSqlDecimal(SqlDecimal)"/> when you want the smallest
         /// decimal type that fits the value.
         /// </summary>
-        public static VariantValue FromDecimal16(SqlDecimal value)
-        {
-            if (value.Data[3] != 0)
-            {
-                SqlDecimal normalized = SqlDecimal.ConvertToPrecScale(value, 38, value.Scale);
-                return new VariantValue(VariantPrimitiveType.Decimal16, (object)normalized);
-            }
-            return new VariantValue(VariantPrimitiveType.Decimal16, (object)value.Value);
-        }
+        public static VariantValue FromDecimal16(SqlDecimal value) =>
+            new VariantValue(VariantPrimitiveType.Decimal16, (object)value);
 
         /// <summary>
         /// Creates a decimal variant value, choosing the smallest decimal type
@@ -157,26 +153,37 @@ namespace Apache.Arrow.Scalars.Variant
         /// </summary>
         public static VariantValue FromSqlDecimal(SqlDecimal value)
         {
-            int[] data = value.Data;
+#if NET8_0_OR_GREATER
+            Span<uint> data = stackalloc uint[4];
+            value.WriteTdsValue(data);
+#else
+            ReadOnlySpan<uint> data = MemoryMarshal.Cast<int, uint>(value.Data);
+#endif
+
             // SqlDecimal.Data: [0]=least-significant, [3]=most-significant
-            if (data[3] != 0)
+            if (data[3] == 0 && value.Precision - value.Scale <= 28)
             {
-                // Exceeds 96 bits — must store as SqlDecimal
-                SqlDecimal normalized = SqlDecimal.ConvertToPrecScale(value, 38, value.Scale);
-                return new VariantValue(VariantPrimitiveType.Decimal16, (object)normalized);
+                try
+                {
+                    // Fits in decimal — convert and dispatch
+                    decimal d = value.Value;
+                    if (data[2] == 0 && data[1] == 0)
+                    {
+                        return FromDecimal4(d);
+                    }
+                    if (data[2] == 0)
+                    {
+                        return FromDecimal8(d);
+                    }
+                }
+                catch (OverflowException)
+                {
+                    // Value exceeds decimal range — fall back to Decimal16
+                }
             }
 
-            // Fits in decimal — convert and dispatch
-            decimal d = value.Value;
-            if (data[2] == 0 && data[1] == 0)
-            {
-                return FromDecimal4(d);
-            }
-            if (data[2] == 0)
-            {
-                return FromDecimal8(d);
-            }
-            return new VariantValue(VariantPrimitiveType.Decimal16, (object)d);
+            // Exceeds 96 bits — must store as SqlDecimal
+            return new VariantValue(VariantPrimitiveType.Decimal16, (object)value);
         }
 
         /// <summary>Creates a Date variant value from days since epoch.</summary>

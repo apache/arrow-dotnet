@@ -17,6 +17,9 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
+#if !NET8_0_OR_GREATER
+using System.Runtime.InteropServices;
+#endif
 using System.Text;
 
 namespace Apache.Arrow.Scalars.Variant
@@ -397,12 +400,17 @@ namespace Apache.Arrow.Scalars.Variant
             buf.Append(VariantEncodingHelper.MakePrimitiveHeader(VariantPrimitiveType.Decimal16));
 
             bool positive = value.IsPositive;
-            byte scale = (byte)value.Scale;
-            int[] data = value.Data;
+            byte scale = value.Scale;
+#if NET8_0_OR_GREATER
+            Span<uint> data = stackalloc uint[4];
+            value.WriteTdsValue(data);
+#else
+            ReadOnlySpan<uint> data = MemoryMarshal.Cast<int, uint>(value.Data);
+#endif
 
             // SqlDecimal.Data: [0]=least-significant, [3]=most-significant
-            long lo = ((long)(uint)data[1] << 32) | (uint)data[0];
-            long hi = ((long)(uint)data[3] << 32) | (uint)data[2];
+            long lo = ((long)data[1] << 32) | data[0];
+            long hi = ((long)data[3] << 32) | data[2];
 
             if (!positive)
             {
