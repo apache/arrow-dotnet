@@ -104,10 +104,9 @@ namespace Apache.Arrow
         public bool HasTypedValueColumn { get; }
 
         /// <summary>
-        /// True if the storage layout includes any shredding (has a <c>typed_value</c>
-        /// column, or lacks a <c>value</c> column indicating full shredding).
+        /// True if the storage layout includes any shredding (has a <c>typed_value</c> column).
         /// </summary>
-        public bool IsShredded => HasTypedValueColumn || !HasValueColumn;
+        public bool IsShredded => HasTypedValueColumn;
 
         /// <summary>
         /// The <c>typed_value</c> field when <see cref="HasTypedValueColumn"/> is true; otherwise null.

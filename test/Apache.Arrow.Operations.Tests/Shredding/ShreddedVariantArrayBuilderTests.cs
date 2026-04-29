@@ -37,7 +37,7 @@ namespace Apache.Arrow.Operations.Tests.Shredding
             return ShreddedVariantArrayBuilder.Build(schema, metadata, rows);
         }
 
-        private static void AssertRoundTrip(IReadOnlyList<VariantValue> values, ShredSchema schema)
+        private static VariantArray AssertRoundTrip(IReadOnlyList<VariantValue> values, ShredSchema schema)
         {
             VariantArray array = ShredAndBuild(values, schema);
             Assert.Equal(values.Count, array.Length);
@@ -46,6 +46,7 @@ namespace Apache.Arrow.Operations.Tests.Shredding
                 VariantValue actual = array.GetLogicalVariantValue(i);
                 Assert.Equal(values[i], actual);
             }
+            return array;
         }
 
         // ---------------------------------------------------------------
@@ -60,10 +61,8 @@ namespace Apache.Arrow.Operations.Tests.Shredding
                 VariantValue.FromInt32(42),
                 VariantValue.FromString("hello"),
             };
-            VariantArray array = ShredAndBuild(values, ShredSchema.Unshredded());
-
+            VariantArray array = AssertRoundTrip(values, ShredSchema.Unshredded());
             Assert.False(array.IsShredded);
-            AssertRoundTrip(values, ShredSchema.Unshredded());
         }
 
         // ---------------------------------------------------------------
@@ -193,7 +192,11 @@ namespace Apache.Arrow.Operations.Tests.Shredding
                 VariantValue.FromString("not an int"),
                 VariantValue.FromInt32(99),
             };
-            AssertRoundTrip(values, ShredSchema.Primitive(ShredType.Int32));
+            VariantArray array = AssertRoundTrip(values, ShredSchema.Primitive(ShredType.Int32));
+            Assert.True(array.IsShredded);
+            Assert.False(array.TryGetValueBytes(0, out _));
+            Assert.True(array.TryGetValueBytes(1, out _));
+            Assert.False(array.TryGetValueBytes(2, out _));
         }
 
         // ---------------------------------------------------------------
@@ -223,9 +226,12 @@ namespace Apache.Arrow.Operations.Tests.Shredding
                 { "age", ShredSchema.Primitive(ShredType.Int32) },
             });
 
-            VariantArray array = ShredAndBuild(values, schema);
+            VariantArray array = AssertRoundTrip(values, schema);
             Assert.True(array.IsShredded);
-            AssertRoundTrip(values, schema);
+            for (int i = 0; i < array.Length; i++)
+            {
+                Assert.False(array.TryGetValueBytes(i, out _));
+            }
         }
 
         [Fact]
@@ -245,7 +251,9 @@ namespace Apache.Arrow.Operations.Tests.Shredding
                 { "name", ShredSchema.Primitive(ShredType.String) },
             });
 
-            AssertRoundTrip(values, schema);
+            VariantArray array = AssertRoundTrip(values, schema);
+            Assert.True(array.IsShredded);
+            Assert.True(array.TryGetValueBytes(0, out _));
         }
 
         [Fact]
@@ -264,7 +272,9 @@ namespace Apache.Arrow.Operations.Tests.Shredding
                 { "age", ShredSchema.Primitive(ShredType.Int32) },
             });
 
-            AssertRoundTrip(values, schema);
+            VariantArray array = AssertRoundTrip(values, schema);
+            Assert.True(array.IsShredded);
+            Assert.False(array.TryGetValueBytes(0, out _));
         }
 
         // ---------------------------------------------------------------

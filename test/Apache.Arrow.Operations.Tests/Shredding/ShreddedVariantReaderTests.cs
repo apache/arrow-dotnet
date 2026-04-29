@@ -148,10 +148,10 @@ namespace Apache.Arrow.Operations.Tests.Shredding
         [SkippableFact]
         public void GetDecimal_ReadsShreddedDecimal4()
         {
-            VariantArray array = LoadCase("case-024"); // Decimal4 = 123456.789 (scale 3?)
+            VariantArray array = LoadCase("case-024"); // Decimal4 = 12345.6789 (scale 4)
             ShreddedVariant slot = array.GetShreddedVariant(0);
             decimal d = slot.GetDecimal();
-            Assert.NotEqual(0m, d);
+            Assert.Equal(12345.6789m, d);
         }
 
         // ---------------------------------------------------------------
