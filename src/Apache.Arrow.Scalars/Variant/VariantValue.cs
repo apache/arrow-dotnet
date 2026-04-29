@@ -114,6 +114,24 @@ namespace Apache.Arrow.Scalars.Variant
             new VariantValue(VariantPrimitiveType.Decimal16, (object)value);
 
         /// <summary>
+        /// Creates a Decimal16 variant value from a <see cref="SqlDecimal"/>, always
+        /// producing <see cref="VariantPrimitiveType.Decimal16"/>. Values exceeding
+        /// <see cref="decimal"/> range are stored as <see cref="SqlDecimal"/>.
+        /// Use this when the target type is known (e.g. materializing a Decimal16
+        /// shredded column); use <see cref="FromSqlDecimal(SqlDecimal)"/> when you
+        /// want the smallest decimal type that fits the value.
+        /// </summary>
+        public static VariantValue FromDecimal16(SqlDecimal value)
+        {
+            if (value.Data[3] != 0)
+            {
+                SqlDecimal normalized = SqlDecimal.ConvertToPrecScale(value, 38, value.Scale);
+                return new VariantValue(VariantPrimitiveType.Decimal16, (object)normalized);
+            }
+            return new VariantValue(VariantPrimitiveType.Decimal16, (object)value.Value);
+        }
+
+        /// <summary>
         /// Creates a decimal variant value, choosing the smallest decimal type
         /// that can represent the value (Decimal4, Decimal8, or Decimal16).
         /// </summary>
