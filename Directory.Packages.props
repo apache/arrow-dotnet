@@ -52,6 +52,6 @@
                     Version="2.8.2"
                     Condition="'$(TargetFramework)' == 'net462'" />
     <PackageVersion Include="xunit.skippablefact" Version="1.5.61" />
-    <PackageVersion Include="ZstdSharp.Port" Version="0.8.5" />
+    <PackageVersion Include="ZstdSharp.Port" Version="0.8.8" />
   </ItemGroup>
 </Project>
