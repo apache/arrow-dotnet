@@ -243,10 +243,7 @@ namespace Apache.Arrow.Operations.VariantJson
                     writer.WriteNumberValue(value.AsDecimal());
                     break;
                 case VariantPrimitiveType.Decimal16:
-                    if (value.IsSqlDecimalStorage)
-                        writer.WriteRawValue(value.AsSqlDecimal().ToString());
-                    else
-                        writer.WriteNumberValue(value.AsDecimal());
+                    writer.WriteRawValue(value.AsSqlDecimal().ToString());
                     break;
                 case VariantPrimitiveType.Date:
                     DateTime date = value.AsDate();

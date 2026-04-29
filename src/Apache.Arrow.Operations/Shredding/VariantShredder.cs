@@ -283,8 +283,8 @@ namespace Apache.Arrow.Operations.Shredding
                 case ShredType.Float: return value.AsFloat();
                 case ShredType.Double: return value.AsDouble();
                 case ShredType.Decimal4:
-                case ShredType.Decimal8:
-                case ShredType.Decimal16: return value.AsDecimal();
+                case ShredType.Decimal8: return value.AsDecimal();
+                case ShredType.Decimal16: return value.AsSqlDecimal().Value;
                 case ShredType.Date: return value.AsDateDays();
                 case ShredType.Timestamp: return value.AsTimestampMicros();
                 case ShredType.TimestampNtz: return value.AsTimestampNtzMicros();

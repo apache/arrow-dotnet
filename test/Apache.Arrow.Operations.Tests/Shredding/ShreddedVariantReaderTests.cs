@@ -481,7 +481,7 @@ namespace Apache.Arrow.Operations.Tests.Shredding
             // is retained with SqlDecimal storage inside the VariantValue.
             VariantValue v = array.GetLogicalVariantValue(0);
             Assert.Equal(expected, v.AsSqlDecimal());
-            Assert.Throws<OverflowException>(() => v.AsDecimal());
+            Assert.Throws<InvalidOperationException>(() => v.AsDecimal());
         }
 
         /// <summary>
