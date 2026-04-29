@@ -6,7 +6,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <meta name="title" content="Class VariantType | Apache Arrow .NET ">
       
-      <meta name="description" content="Extension type representing Parquet Variant values, stored as struct&amp;lt;metadata: binary, value: binary&amp;gt;.">
+      <meta name="description" content="Extension type representing Parquet Variant values. The underlying storage is a struct with a required metadata binary field and at least one of: value: binary — the variant value bytes (possibly residual when shredded).typed_value: T — a typed column populated by variant shredding, where T is an Arrow primitive, struct, or list per the Parquet variant shredding spec. Use  to check for shredded layouts. Decoding shredded values requires Apache.Arrow.Operations.Shredding.">
       <link rel="icon" href="../images/favicon.png">
       <link rel="stylesheet" href="../public/docfx.min.css">
       <link rel="stylesheet" href="../public/main.css">
@@ -89,7 +89,7 @@
 
 
   <h1 id="Apache_Arrow_VariantType" data-uid="Apache.Arrow.VariantType" class="text-break">
-Class VariantType  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L73"><i class="bi bi-code-slash"></i></a>
+Class VariantType  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L86"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -97,8 +97,12 @@ Class VariantType  <a class="header-action link-secondary" title="View source" h
   <dl><dt>Assembly</dt><dd>Apache.Arrow.dll</dd></dl>
   </div>
 
-  <div class="markdown summary"><p>Extension type representing Parquet Variant values, stored as
-struct&lt;metadata: binary, value: binary&gt;.</p>
+  <div class="markdown summary"><p>Extension type representing Parquet Variant values. The underlying storage is
+a struct with a required <code>metadata</code> binary field and at least one of:</p>
+<ul><li><code>value: binary</code> — the variant value bytes (possibly residual when shredded).</li><li><code>typed_value: T</code> — a typed column populated by variant shredding, where
+<code>T</code> is an Arrow primitive, struct, or list per the Parquet variant shredding spec.</li></ul>
+<p>Use <a class="xref" href="Apache.Arrow.VariantType.html#Apache_Arrow_VariantType_IsShredded">IsShredded</a> to check for shredded layouts. Decoding shredded
+values requires <code>Apache.Arrow.Operations.Shredding</code>.</p>
 </div>
   <div class="markdown conceptual"></div>
 
@@ -187,7 +191,7 @@ struct&lt;metadata: binary, value: binary&gt;.</p>
 
   <h3 id="Apache_Arrow_VariantType__ctor" data-uid="Apache.Arrow.VariantType.#ctor">
   VariantType()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L82"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L116"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -216,7 +220,7 @@ struct&lt;metadata: binary, value: binary&gt;.</p>
 
   <h3 id="Apache_Arrow_VariantType_Default" data-uid="Apache.Arrow.VariantType.Default">
   Default
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L77"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L90"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -251,7 +255,7 @@ struct&lt;metadata: binary, value: binary&gt;.</p>
 
   <h3 id="Apache_Arrow_VariantType_ExtensionMetadata" data-uid="Apache.Arrow.VariantType.ExtensionMetadata">
   ExtensionMetadata
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L80"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L93"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Serialized extension metadata. May be null or empty.</p>
@@ -279,11 +283,108 @@ struct&lt;metadata: binary, value: binary&gt;.</p>
 
 
 
+  <a id="Apache_Arrow_VariantType_HasTypedValueColumn_" data-uid="Apache.Arrow.VariantType.HasTypedValueColumn*"></a>
+
+  <h3 id="Apache_Arrow_VariantType_HasTypedValueColumn" data-uid="Apache.Arrow.VariantType.HasTypedValueColumn">
+  HasTypedValueColumn
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L104"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>True if the storage layout has a <code>typed_value</code> field (shredded).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool HasTypedValueColumn { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_VariantType_HasValueColumn_" data-uid="Apache.Arrow.VariantType.HasValueColumn*"></a>
+
+  <h3 id="Apache_Arrow_VariantType_HasValueColumn" data-uid="Apache.Arrow.VariantType.HasValueColumn">
+  HasValueColumn
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L99"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>True if the storage layout has a <code>value</code> binary field (unshredded or
+partially shredded). False for fully shredded layouts that omit the column.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool HasValueColumn { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_VariantType_IsShredded_" data-uid="Apache.Arrow.VariantType.IsShredded*"></a>
+
+  <h3 id="Apache_Arrow_VariantType_IsShredded" data-uid="Apache.Arrow.VariantType.IsShredded">
+  IsShredded
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L109"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>True if the storage layout includes any shredding (has a <code>typed_value</code> column).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsShredded { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="Apache_Arrow_VariantType_Name_" data-uid="Apache.Arrow.VariantType.Name*"></a>
 
   <h3 id="Apache_Arrow_VariantType_Name" data-uid="Apache.Arrow.VariantType.Name">
   Name
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L79"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L92"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The canonical extension type name (e.g. &quot;arrow.uuid&quot;).</p>
@@ -311,6 +412,38 @@ struct&lt;metadata: binary, value: binary&gt;.</p>
 
 
 
+  <a id="Apache_Arrow_VariantType_TypedValueField_" data-uid="Apache.Arrow.VariantType.TypedValueField*"></a>
+
+  <h3 id="Apache_Arrow_VariantType_TypedValueField" data-uid="Apache.Arrow.VariantType.TypedValueField">
+  TypedValueField
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L114"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The <code>typed_value</code> field when <a class="xref" href="Apache.Arrow.VariantType.html#Apache_Arrow_VariantType_HasTypedValueColumn">HasTypedValueColumn</a> is true; otherwise null.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Field TypedValueField { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Field.html">Field</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <h2 class="section" id="methods">Methods
 </h2>
 
@@ -319,7 +452,7 @@ struct&lt;metadata: binary, value: binary&gt;.</p>
 
   <h3 id="Apache_Arrow_VariantType_CreateArray_Apache_Arrow_IArrowArray_" data-uid="Apache.Arrow.VariantType.CreateArray(Apache.Arrow.IArrowArray)">
   CreateArray(IArrowArray)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L91"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L135"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Create the appropriate <a class="xref" href="Apache.Arrow.ExtensionArray.html">ExtensionArray</a> wrapper for a storage array.</p>
@@ -356,7 +489,7 @@ struct&lt;metadata: binary, value: binary&gt;.</p>
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L73" class="edit-link">Edit this page</a>
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L86" class="edit-link">Edit this page</a>
         </div>
 
 

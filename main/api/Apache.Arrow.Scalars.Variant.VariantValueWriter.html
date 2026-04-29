@@ -256,6 +256,47 @@ implement encoders from arbitrary input formats (JSON, CBOR, etc.).</p>
 
 
 
+  <a id="Apache_Arrow_Scalars_Variant_VariantValueWriter_CopyValue_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.CopyValue*"></a>
+
+  <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_CopyValue_Apache_Arrow_Scalars_Variant_VariantReader_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.CopyValue(Apache.Arrow.Scalars.Variant.VariantReader)">
+  CopyValue(VariantReader)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantValueWriter.cs/#L549"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Copies the variant value pointed to by <code class="paramref">source</code> into this
+writer. Useful when copying between metadata dictionaries: field IDs in the
+source are re-looked-up against this writer's <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantMetadataBuilder.html">VariantMetadataBuilder</a>
+on the fly, via <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValueWriter.html#Apache_Arrow_Scalars_Variant_VariantValueWriter_WriteFieldName_System_String_">WriteFieldName(string)</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void CopyValue(VariantReader source)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>source</code> <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantReader.html">VariantReader</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section" id="Apache_Arrow_Scalars_Variant_VariantValueWriter_CopyValue_Apache_Arrow_Scalars_Variant_VariantReader__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>All field names referenced anywhere in <code class="paramref">source</code> must already
+exist in the metadata builder used to construct this writer. Use
+<a class="xref" href="Apache.Arrow.Scalars.Variant.VariantMetadataBuilder.html#Apache_Arrow_Scalars_Variant_VariantMetadataBuilder_CollectFieldNames_Apache_Arrow_Scalars_Variant_VariantReader_">CollectFieldNames(VariantReader)</a> during
+the metadata-collection phase of a two-pass encode to accumulate them.</p>
+</div>
+
+
+
+
   <a id="Apache_Arrow_Scalars_Variant_VariantValueWriter_Dispose_" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.Dispose*"></a>
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantValueWriter_Dispose" data-uid="Apache.Arrow.Scalars.Variant.VariantValueWriter.Dispose">

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Enum ShredType | Apache Arrow .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Enum ShredType | Apache Arrow .NET ">
+      
+      <meta name="description" content="Describes the type that a shredded typed_value column expects. Maps variant primitive types to the logical Parquet types used for shredding.">
+      <link rel="icon" href="../images/favicon.png">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Apache_Arrow_Operations_Shredding_ShredType.md&amp;value=---%0Auid%3A%20Apache.Arrow.Operations.Shredding.ShredType%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.svg" alt="Apache Arrow .NET">
+            Apache Arrow .NET
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Apache.Arrow.Operations.Shredding.ShredType">
+
+
+
+
+  <h1 id="Apache_Arrow_Operations_Shredding_ShredType" data-uid="Apache.Arrow.Operations.Shredding.ShredType" class="text-break">
+Enum ShredType  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShredType.cs/#L22"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Apache.html">Apache</a>.<a class="xref" href="Apache.Arrow.html">Arrow</a>.<a class="xref" href="Apache.Arrow.Operations.html">Operations</a>.<a class="xref" href="Apache.Arrow.Operations.Shredding.html">Shredding</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Apache.Arrow.Operations.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Describes the type that a shredded typed_value column expects.
+Maps variant primitive types to the logical Parquet types used for shredding.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public enum ShredType : byte</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+  <h2 id="fields">Fields
+</h2>
+  <dl class="parameters">
+    <dt id="Apache_Arrow_Operations_Shredding_ShredType_Array"><code>Array = 21</code></dt>
+  
+  <dd><p>Shredded as an array (Parquet LIST).</p>
+</dd>
+    <dt id="Apache_Arrow_Operations_Shredding_ShredType_Binary"><code>Binary = 18</code></dt>
+  
+  <dd><p>Binary data (Parquet BINARY).</p>
+</dd>
+    <dt id="Apache_Arrow_Operations_Shredding_ShredType_Boolean"><code>Boolean = 1</code></dt>
+  
+  <dd><p>Boolean (Parquet BOOLEAN).</p>
+</dd>
+    <dt id="Apache_Arrow_Operations_Shredding_ShredType_Date"><code>Date = 11</code></dt>
+  
+  <dd><p>Date as days since epoch (Parquet DATE).</p>
+</dd>
+    <dt id="Apache_Arrow_Operations_Shredding_ShredType_Decimal16"><code>Decimal16 = 10</code></dt>
+  
+  <dd><p>Decimal with 16-byte unscaled value.</p>
+</dd>
+    <dt id="Apache_Arrow_Operations_Shredding_ShredType_Decimal4"><code>Decimal4 = 8</code></dt>
+  
+  <dd><p>Decimal with 4-byte unscaled value.</p>
+</dd>
+    <dt id="Apache_Arrow_Operations_Shredding_ShredType_Decimal8"><code>Decimal8 = 9</code></dt>
+  
+  <dd><p>Decimal with 8-byte unscaled value.</p>
+</dd>
+    <dt id="Apache_Arrow_Operations_Shredding_ShredType_Double"><code>Double = 7</code></dt>
+  
+  <dd><p>64-bit double (Parquet DOUBLE).</p>
+</dd>
+    <dt id="Apache_Arrow_Operations_Shredding_ShredType_Float"><code>Float = 6</code></dt>
+  
+  <dd><p>32-bit float (Parquet FLOAT).</p>
+</dd>
+    <dt id="Apache_Arrow_Operations_Shredding_ShredType_Int16"><code>Int16 = 3</code></dt>
+  
+  <dd><p>16-bit signed integer (Parquet INT32 with INT_16 annotation).</p>
+</dd>
+    <dt id="Apache_Arrow_Operations_Shredding_ShredType_Int32"><code>Int32 = 4</code></dt>
+  
+  <dd><p>32-bit signed integer (Parquet INT32).</p>
+</dd>
+    <dt id="Apache_Arrow_Operations_Shredding_ShredType_Int64"><code>Int64 = 5</code></dt>
+  
+  <dd><p>64-bit signed integer (Parquet INT64).</p>
+</dd>
+    <dt id="Apache_Arrow_Operations_Shredding_ShredType_Int8"><code>Int8 = 2</code></dt>
+  
+  <dd><p>8-bit signed integer (Parquet INT32 with INT_8 annotation).</p>
+</dd>
+    <dt id="Apache_Arrow_Operations_Shredding_ShredType_None"><code>None = 0</code></dt>
+  
+  <dd><p>No typed_value column — all values go to the binary value column.</p>
+</dd>
+    <dt id="Apache_Arrow_Operations_Shredding_ShredType_Object"><code>Object = 20</code></dt>
+  
+  <dd><p>Shredded as an object group with named sub-fields.</p>
+</dd>
+    <dt id="Apache_Arrow_Operations_Shredding_ShredType_String"><code>String = 17</code></dt>
+  
+  <dd><p>UTF-8 string (Parquet BINARY with STRING logical type).</p>
+</dd>
+    <dt id="Apache_Arrow_Operations_Shredding_ShredType_TimeNtz"><code>TimeNtz = 14</code></dt>
+  
+  <dd><p>Time without timezone, microseconds (Parquet TIME with MICROS).</p>
+</dd>
+    <dt id="Apache_Arrow_Operations_Shredding_ShredType_Timestamp"><code>Timestamp = 12</code></dt>
+  
+  <dd><p>Timestamp with UTC microseconds (Parquet TIMESTAMP with isAdjustedToUTC=true, MICROS).</p>
+</dd>
+    <dt id="Apache_Arrow_Operations_Shredding_ShredType_TimestampNtz"><code>TimestampNtz = 13</code></dt>
+  
+  <dd><p>Timestamp without timezone, microseconds (Parquet TIMESTAMP with isAdjustedToUTC=false, MICROS).</p>
+</dd>
+    <dt id="Apache_Arrow_Operations_Shredding_ShredType_TimestampNtzNanos"><code>TimestampNtzNanos = 16</code></dt>
+  
+  <dd><p>Timestamp without timezone, nanoseconds.</p>
+</dd>
+    <dt id="Apache_Arrow_Operations_Shredding_ShredType_TimestampTzNanos"><code>TimestampTzNanos = 15</code></dt>
+  
+  <dd><p>Timestamp with UTC nanoseconds.</p>
+</dd>
+    <dt id="Apache_Arrow_Operations_Shredding_ShredType_Uuid"><code>Uuid = 19</code></dt>
+  
+  <dd><p>UUID (Parquet FIXED_LEN_BYTE_ARRAY(16) with UUID logical type).</p>
+</dd>
+  </dl>
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShredType.cs/#L22" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2018 The Apache Software Foundation
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

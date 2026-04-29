@@ -89,7 +89,7 @@
 
 
   <h1 id="Apache_Arrow_VariantArray" data-uid="Apache.Arrow.VariantArray" class="text-break">
-Class VariantArray  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L101"><i class="bi bi-code-slash"></i></a>
+Class VariantArray  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L145"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -196,6 +196,15 @@ containing &quot;metadata&quot; and &quot;value&quot; binary fields.</p>
   <div>
       <a class="xref" href="Apache.Arrow.IArrowArrayExtensions.html#Apache_Arrow_IArrowArrayExtensions_AsDecodedReadOnlyList__1_Apache_Arrow_IArrowArray_">IArrowArrayExtensions.AsDecodedReadOnlyList&lt;T&gt;(IArrowArray)</a>
   </div>
+  <div>
+      <a class="xref" href="Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.html#Apache_Arrow_Operations_Shredding_VariantArrayShreddingExtensions_GetLogicalVariantValue_Apache_Arrow_VariantArray_System_Int32_">VariantArrayShreddingExtensions.GetLogicalVariantValue(VariantArray, int)</a>
+  </div>
+  <div>
+      <a class="xref" href="Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.html#Apache_Arrow_Operations_Shredding_VariantArrayShreddingExtensions_GetShredSchema_Apache_Arrow_VariantArray_">VariantArrayShreddingExtensions.GetShredSchema(VariantArray)</a>
+  </div>
+  <div>
+      <a class="xref" href="Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.html#Apache_Arrow_Operations_Shredding_VariantArrayShreddingExtensions_GetShreddedVariant_Apache_Arrow_VariantArray_System_Int32_">VariantArrayShreddingExtensions.GetShreddedVariant(VariantArray, int)</a>
+  </div>
   </dd></dl>
 
 
@@ -210,7 +219,7 @@ containing &quot;metadata&quot; and &quot;value&quot; binary fields.</p>
 
   <h3 id="Apache_Arrow_VariantArray__ctor_Apache_Arrow_IArrowArray_" data-uid="Apache.Arrow.VariantArray.#ctor(Apache.Arrow.IArrowArray)">
   VariantArray(IArrowArray)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L118"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L188"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -241,7 +250,7 @@ containing &quot;metadata&quot; and &quot;value&quot; binary fields.</p>
 
   <h3 id="Apache_Arrow_VariantArray__ctor_Apache_Arrow_VariantType_Apache_Arrow_IArrowArray_" data-uid="Apache.Arrow.VariantArray.#ctor(Apache.Arrow.VariantType,Apache.Arrow.IArrowArray)">
   VariantArray(VariantType, IArrowArray)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L110"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L171"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -278,7 +287,7 @@ containing &quot;metadata&quot; and &quot;value&quot; binary fields.</p>
 
   <h3 id="Apache_Arrow_VariantArray_Count" data-uid="Apache.Arrow.VariantArray.Count">
   Count
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L172"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L302"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -305,11 +314,45 @@ containing &quot;metadata&quot; and &quot;value&quot; binary fields.</p>
 
 
 
+  <a id="Apache_Arrow_VariantArray_IsShredded_" data-uid="Apache.Arrow.VariantArray.IsShredded*"></a>
+
+  <h3 id="Apache_Arrow_VariantArray_IsShredded" data-uid="Apache.Arrow.VariantArray.IsShredded">
+  IsShredded
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L164"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>True when the underlying column includes shredded data (has a
+<code>typed_value</code> column, or lacks a <code>value</code> column). Reads
+on shredded columns require <code>Apache.Arrow.Operations.Shredding</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsShredded { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="Apache_Arrow_VariantArray_Item_" data-uid="Apache.Arrow.VariantArray.Item*"></a>
 
   <h3 id="Apache_Arrow_VariantArray_Item_System_Int32_" data-uid="Apache.Arrow.VariantArray.Item(System.Int32)">
   this[int]
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L173"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L303"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -345,7 +388,7 @@ containing &quot;metadata&quot; and &quot;value&quot; binary fields.</p>
 
   <h3 id="Apache_Arrow_VariantArray_StorageArray" data-uid="Apache.Arrow.VariantArray.StorageArray">
   StorageArray
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L108"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L152"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -372,6 +415,70 @@ containing &quot;metadata&quot; and &quot;value&quot; binary fields.</p>
 
 
 
+  <a id="Apache_Arrow_VariantArray_TypedValueArray_" data-uid="Apache.Arrow.VariantArray.TypedValueArray*"></a>
+
+  <h3 id="Apache_Arrow_VariantArray_TypedValueArray" data-uid="Apache.Arrow.VariantArray.TypedValueArray">
+  TypedValueArray
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L169"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The <code>typed_value</code> child array when the column is shredded; otherwise null.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IArrowArray TypedValueArray { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.IArrowArray.html">IArrowArray</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_VariantArray_VariantType_" data-uid="Apache.Arrow.VariantArray.VariantType*"></a>
+
+  <h3 id="Apache_Arrow_VariantArray_VariantType" data-uid="Apache.Arrow.VariantArray.VariantType">
+  VariantType
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L157"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The variant type metadata describing which columns are present.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public VariantType VariantType { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.VariantType.html">VariantType</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <h2 class="section" id="methods">Methods
 </h2>
 
@@ -380,7 +487,7 @@ containing &quot;metadata&quot; and &quot;value&quot; binary fields.</p>
 
   <h3 id="Apache_Arrow_VariantArray_GetEnumerator" data-uid="Apache.Arrow.VariantArray.GetEnumerator">
   GetEnumerator()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L175"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L305"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -411,7 +518,7 @@ containing &quot;metadata&quot; and &quot;value&quot; binary fields.</p>
 
   <h3 id="Apache_Arrow_VariantArray_GetMetadataBytes_System_Int32_" data-uid="Apache.Arrow.VariantArray.GetMetadataBytes(System.Int32)">
   GetMetadataBytes(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L123"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L205"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets the metadata bytes for the element at the given index.</p>
@@ -448,7 +555,7 @@ containing &quot;metadata&quot; and &quot;value&quot; binary fields.</p>
 
   <h3 id="Apache_Arrow_VariantArray_GetValueBytes_System_Int32_" data-uid="Apache.Arrow.VariantArray.GetValueBytes(System.Int32)">
   GetValueBytes(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L132"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L215"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets the value bytes for the element at the given index.</p>
@@ -478,6 +585,12 @@ containing &quot;metadata&quot; and &quot;value&quot; binary fields.</p>
 
 
 
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception">InvalidOperationException</a></dt>
+    <dd><p>If the column has no <code>value</code> field.</p>
+</dd>
+  </dl>
 
 
 
@@ -485,7 +598,7 @@ containing &quot;metadata&quot; and &quot;value&quot; binary fields.</p>
 
   <h3 id="Apache_Arrow_VariantArray_GetVariantReader_System_Int32_" data-uid="Apache.Arrow.VariantArray.GetVariantReader(System.Int32)">
   GetVariantReader(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L144"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L260"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets a zero-copy <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantReader.html">VariantReader</a> for the element at the given index.
@@ -522,7 +635,9 @@ The reader is only valid while the underlying array buffers are alive.</p>
     <dd><p>If <code class="paramref">index</code> is out of range.</p>
 </dd>
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception">InvalidOperationException</a></dt>
-    <dd><p>If the element at <code class="paramref">index</code> is null.</p>
+    <dd><p>If the element at <code class="paramref">index</code> is null, or the column is shredded
+(a <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantReader.html">VariantReader</a> over residual bytes alone does not represent the
+logical variant — use <code>Apache.Arrow.Operations.Shredding</code> instead).</p>
 </dd>
   </dl>
 
@@ -532,10 +647,12 @@ The reader is only valid while the underlying array buffers are alive.</p>
 
   <h3 id="Apache_Arrow_VariantArray_GetVariantValue_System_Int32_" data-uid="Apache.Arrow.VariantArray.GetVariantValue(System.Int32)">
   GetVariantValue(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L158"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L282"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Gets a materialized <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValue.html">VariantValue</a> for the element at the given index.</p>
+  <div class="markdown level1 summary"><p>Gets a materialized <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValue.html">VariantValue</a> for the element at the given index.
+Shredded columns require <code>Apache.Arrow.Operations.Shredding</code>; call the
+<code>GetShreddedVariant</code> / <code>GetLogicalVariantValue</code> extension methods instead.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -562,6 +679,53 @@ The reader is only valid while the underlying array buffers are alive.</p>
 
 
 
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception">InvalidOperationException</a></dt>
+    <dd><p>If the column is shredded.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="Apache_Arrow_VariantArray_TryGetValueBytes_" data-uid="Apache.Arrow.VariantArray.TryGetValueBytes*"></a>
+
+  <h3 id="Apache_Arrow_VariantArray_TryGetValueBytes_System_Int32_System_ReadOnlySpan_System_Byte___" data-uid="Apache.Arrow.VariantArray.TryGetValueBytes(System.Int32,System.ReadOnlySpan{System.Byte}@)">
+  TryGetValueBytes(int, out ReadOnlySpan&lt;byte&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L232"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns true and sets <code class="paramref">value</code> when the element at
+<code class="paramref">index</code> has value bytes, false otherwise. Shredded
+elements whose residual is null will return false.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool TryGetValueBytes(int index, out ReadOnlySpan&lt;byte&gt; value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>value</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
 
 
 
@@ -569,7 +733,7 @@ The reader is only valid while the underlying array buffers are alive.</p>
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L101" class="edit-link">Edit this page</a>
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/VariantArray.cs/#L145" class="edit-link">Edit this page</a>
         </div>
 
 

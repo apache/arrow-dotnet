@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Struct ShreddedVariant | Apache Arrow .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Struct ShreddedVariant | Apache Arrow .NET ">
+      
+      <meta name="description" content="Zero-copy reader for a single row of a (possibly shredded) variant column. Composes with the  for this position to expose the typed columns and residual bytes side-by-side, or to materialize the logical value on demand.  A  does not own any Arrow buffers; it is only valid while the underlying Arrow arrays are alive.">
+      <link rel="icon" href="../images/favicon.png">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Apache_Arrow_Operations_Shredding_ShreddedVariant.md&amp;value=---%0Auid%3A%20Apache.Arrow.Operations.Shredding.ShreddedVariant%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.svg" alt="Apache Arrow .NET">
+            Apache Arrow .NET
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant">
+
+
+
+  <h1 id="Apache_Arrow_Operations_Shredding_ShreddedVariant" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant" class="text-break">
+Struct ShreddedVariant  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L33"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Apache.html">Apache</a>.<a class="xref" href="Apache.Arrow.html">Arrow</a>.<a class="xref" href="Apache.Arrow.Operations.html">Operations</a>.<a class="xref" href="Apache.Arrow.Operations.Shredding.html">Shredding</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Apache.Arrow.Operations.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Zero-copy reader for a single row of a (possibly shredded) variant column.
+Composes with the <a class="xref" href="Apache.Arrow.Operations.Shredding.ShredSchema.html">ShredSchema</a> for this position to expose the
+typed columns and residual bytes side-by-side, or to materialize the logical
+value on demand.</p>
+<p>
+A <a class="xref" href="Apache.Arrow.Operations.Shredding.ShreddedVariant.html">ShreddedVariant</a> does not own any Arrow buffers; it is only
+valid while the underlying Arrow arrays are alive.
+</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ref struct ShreddedVariant</code></pre>
+  </div>
+
+
+
+
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetype.equals">ValueType.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode">ValueType.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetype.tostring">ValueType.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_HasResidual_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.HasResidual*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_HasResidual" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.HasResidual">
+  HasResidual
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L64"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>True when the residual <code>value</code> column has a value at this index.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool HasResidual { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_HasTypedValue_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.HasTypedValue*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_HasTypedValue" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.HasTypedValue">
+  HasTypedValue
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L67"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>True when the <code>typed_value</code> column has a value at this index.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool HasTypedValue { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_IsMissing_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.IsMissing*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_IsMissing" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.IsMissing">
+  IsMissing
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L73"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>True when neither the residual nor the typed column is populated at this index
+— valid only for sub-fields of shredded objects.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsMissing { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_Metadata_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.Metadata*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_Metadata" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.Metadata">
+  Metadata
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L61"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The column-level variant metadata.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ReadOnlySpan&lt;byte&gt; Metadata { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_Schema_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.Schema*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_Schema" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.Schema">
+  Schema
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L58"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The schema describing how this slot is shredded.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ShredSchema Schema { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Operations.Shredding.ShredSchema.html">ShredSchema</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetArray_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetArray*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetArray" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetArray">
+  GetArray()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L155"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reader for a shredded array at this slot. Valid only when the schema's
+<a class="xref" href="Apache.Arrow.Operations.Shredding.ShredSchema.html#Apache_Arrow_Operations_Shredding_ShredSchema_TypedValueType">TypedValueType</a> is <a class="xref" href="Apache.Arrow.Operations.Shredding.ShredType.html#Apache_Arrow_Operations_Shredding_ShredType_Array">Array</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ShreddedArray GetArray()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Operations.Shredding.ShreddedArray.html">ShreddedArray</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetBinaryBytes_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetBinaryBytes*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetBinaryBytes" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetBinaryBytes">
+  GetBinaryBytes()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L272"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads the shredded binary value at this slot as a byte span.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ReadOnlySpan&lt;byte&gt; GetBinaryBytes()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetBoolean_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetBoolean*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetBoolean" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetBoolean">
+  GetBoolean()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L188"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads the shredded boolean value at this slot.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool GetBoolean()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetDateDays_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetDateDays*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetDateDays" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetDateDays">
+  GetDateDays()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L251"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads the shredded date (days since epoch) at this slot.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int GetDateDays()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetDecimal_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetDecimal*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetDecimal" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetDecimal">
+  GetDecimal()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L213"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads the shredded decimal value at this slot. Works for Decimal4, Decimal8,
+and Decimal16 shred types, regardless of whether the Arrow column is backed
+by Decimal32Array, Decimal64Array, or Decimal128Array.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public decimal GetDecimal()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.decimal">decimal</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetDouble_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetDouble*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetDouble" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetDouble">
+  GetDouble()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L206"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads the shredded 64-bit double at this slot.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double GetDouble()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetFloat_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetFloat*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetFloat" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetFloat">
+  GetFloat()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L203"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads the shredded 32-bit float at this slot.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float GetFloat()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetInt16_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetInt16*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetInt16" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetInt16">
+  GetInt16()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L194"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads the shredded 16-bit signed integer at this slot.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public short GetInt16()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int16">short</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetInt32_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetInt32*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetInt32" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetInt32">
+  GetInt32()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L197"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads the shredded 32-bit signed integer at this slot.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int GetInt32()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetInt64_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetInt64*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetInt64" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetInt64">
+  GetInt64()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L200"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads the shredded 64-bit signed integer at this slot.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long GetInt64()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetInt8_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetInt8*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetInt8" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetInt8">
+  GetInt8()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L191"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads the shredded 8-bit signed integer at this slot.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sbyte GetInt8()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.sbyte">sbyte</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetObject_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetObject*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetObject" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetObject">
+  GetObject()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L141"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reader for a shredded object at this slot. Valid only when the schema's
+<a class="xref" href="Apache.Arrow.Operations.Shredding.ShredSchema.html#Apache_Arrow_Operations_Shredding_ShredSchema_TypedValueType">TypedValueType</a> is <a class="xref" href="Apache.Arrow.Operations.Shredding.ShredType.html#Apache_Arrow_Operations_Shredding_ShredType_Object">Object</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ShreddedObject GetObject()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Operations.Shredding.ShreddedObject.html">ShreddedObject</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetSqlDecimal_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetSqlDecimal*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetSqlDecimal" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetSqlDecimal">
+  GetSqlDecimal()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L234"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads the shredded decimal value at this slot. Works for Decimal4, Decimal8,
+and Decimal16 shred types, regardless of whether the Arrow column is backed
+by Decimal32Array, Decimal64Array, or Decimal128Array.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SqlDecimal GetSqlDecimal()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.sqltypes.sqldecimal">SqlDecimal</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetString_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetString*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetString" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetString">
+  GetString()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L269"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads the shredded string value at this slot.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string GetString()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetTimeNtzMicros_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetTimeNtzMicros*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetTimeNtzMicros" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetTimeNtzMicros">
+  GetTimeNtzMicros()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L260"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads the shredded time-without-tz (microseconds since midnight) at this slot.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long GetTimeNtzMicros()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetTimestampMicros_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetTimestampMicros*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetTimestampMicros" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetTimestampMicros">
+  GetTimestampMicros()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L254"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads the shredded timestamp (microseconds since epoch, UTC) at this slot.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long GetTimestampMicros()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetTimestampNtzMicros_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetTimestampNtzMicros*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetTimestampNtzMicros" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetTimestampNtzMicros">
+  GetTimestampNtzMicros()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L257"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads the shredded timestamp-without-tz (microseconds since epoch) at this slot.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long GetTimestampNtzMicros()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetTimestampNtzNanos_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetTimestampNtzNanos*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetTimestampNtzNanos" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetTimestampNtzNanos">
+  GetTimestampNtzNanos()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L266"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads the shredded timestamp-without-tz (nanoseconds since epoch) at this slot.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long GetTimestampNtzNanos()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetTimestampTzNanos_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetTimestampTzNanos*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetTimestampTzNanos" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetTimestampTzNanos">
+  GetTimestampTzNanos()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L263"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads the shredded timestamp-with-tz (nanoseconds since epoch) at this slot.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long GetTimestampTzNanos()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetUuid_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetUuid*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetUuid" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetUuid">
+  GetUuid()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L275"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads the shredded UUID at this slot.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Guid GetUuid()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.guid">Guid</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetUuidBytes_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetUuidBytes*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_GetUuidBytes" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.GetUuidBytes">
+  GetUuidBytes()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L292"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads the shredded UUID at this slot as raw big-endian (RFC 4122) bytes.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ReadOnlySpan&lt;byte&gt; GetUuidBytes()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_ToVariantValue_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.ToVariantValue*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_ToVariantValue" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.ToVariantValue">
+  ToVariantValue()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L80"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Materializes this slot into a logical <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValue.html">VariantValue</a>, merging
+typed-column values with residual bytes per the shredding spec.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public VariantValue ToVariantValue()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValue.html">VariantValue</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception">InvalidOperationException</a></dt>
+    <dd><p>If the slot is missing.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_ShreddedVariant_TryGetResidualReader_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.TryGetResidualReader*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariant_TryGetResidualReader_Apache_Arrow_Scalars_Variant_VariantReader__" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariant.TryGetResidualReader(Apache.Arrow.Scalars.Variant.VariantReader@)">
+  TryGetResidualReader(out VariantReader)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L124"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>If the residual column has a value at this index, returns a
+<a class="xref" href="Apache.Arrow.Scalars.Variant.VariantReader.html">VariantReader</a> over its bytes.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool TryGetResidualReader(out VariantReader reader)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>reader</code> <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantReader.html">VariantReader</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariant.cs/#L33" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2018 The Apache Software Foundation
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

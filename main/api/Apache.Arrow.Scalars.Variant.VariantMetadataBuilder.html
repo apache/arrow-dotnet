@@ -229,7 +229,7 @@ If the name already exists, returns the existing ID.</p>
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantMetadataBuilder_Build" data-uid="Apache.Arrow.Scalars.Variant.VariantMetadataBuilder.Build">
   Build()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantMetadataBuilder.cs/#L168"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantMetadataBuilder.cs/#L200"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Builds the binary metadata. Use this overload when you don't need the ID remap.</p>
@@ -261,7 +261,7 @@ If the name already exists, returns the existing ID.</p>
 
   <h3 id="Apache_Arrow_Scalars_Variant_VariantMetadataBuilder_Build_System_Int32____" data-uid="Apache.Arrow.Scalars.Variant.VariantMetadataBuilder.Build(System.Int32[]@)">
   Build(out int[])
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantMetadataBuilder.cs/#L68"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantMetadataBuilder.cs/#L100"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Builds the binary metadata with the dictionary sorted by UTF-8 byte order.</p>
@@ -286,6 +286,42 @@ idRemap[originalId] = sortedId.</p>
     <dd><p>The binary metadata bytes.</p>
 </dd>
   </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Scalars_Variant_VariantMetadataBuilder_CollectFieldNames_" data-uid="Apache.Arrow.Scalars.Variant.VariantMetadataBuilder.CollectFieldNames*"></a>
+
+  <h3 id="Apache_Arrow_Scalars_Variant_VariantMetadataBuilder_CollectFieldNames_Apache_Arrow_Scalars_Variant_VariantReader_" data-uid="Apache.Arrow.Scalars.Variant.VariantMetadataBuilder.CollectFieldNames(Apache.Arrow.Scalars.Variant.VariantReader)">
+  CollectFieldNames(VariantReader)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Scalars/Variant/VariantMetadataBuilder.cs/#L67"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Recursively walks <code class="paramref">source</code> and adds every field name it
+references to this builder. Use during the metadata-collection phase of
+a two-pass encode — build the metadata first, finalize it via
+<a class="xref" href="Apache.Arrow.Scalars.Variant.VariantMetadataBuilder.html#Apache_Arrow_Scalars_Variant_VariantMetadataBuilder_Build_System_Int32____">Build(out int[])</a>, then pass the resulting remap to a
+<a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValueWriter.html">VariantValueWriter</a> and call <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValueWriter.html#Apache_Arrow_Scalars_Variant_VariantValueWriter_CopyValue_Apache_Arrow_Scalars_Variant_VariantReader_">CopyValue(VariantReader)</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void CollectFieldNames(VariantReader source)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>source</code> <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantReader.html">VariantReader</a></dt>
+    <dd></dd>
+  </dl>
+
 
 
 

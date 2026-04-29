@@ -2840,6 +2840,216 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Operations.Shredding.ShredArrayResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Operations.Shredding.ShredArrayResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Operations.Shredding.ShredArrayResult",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.Shredding.ShredArrayResult.yml\" sourcestartlinenumber=\"1\">The typed_value result for a shredded array. Contains one <xref href=\"Apache.Arrow.Operations.Shredding.ShredResult\" data-throw-if-not-resolved=\"false\"></xref>\nper element in the source array.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Operations.Shredding.ShredObjectResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Operations.Shredding.ShredObjectResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Operations.Shredding.ShredObjectResult",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.Shredding.ShredObjectResult.yml\" sourcestartlinenumber=\"1\">The typed_value result for a shredded object. Contains one <xref href=\"Apache.Arrow.Operations.Shredding.ShredResult\" data-throw-if-not-resolved=\"false\"></xref>\nper field defined in the object's <xref href=\"Apache.Arrow.Operations.Shredding.ShredSchema\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Operations.Shredding.ShredOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Operations.Shredding.ShredOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Operations.Shredding.ShredOptions",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.Shredding.ShredOptions.yml\" sourcestartlinenumber=\"1\">Options controlling how <xref href=\"Apache.Arrow.Operations.Shredding.ShredSchemaInferer\" data-throw-if-not-resolved=\"false\"></xref> infers a shredding schema.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Operations.Shredding.ShredResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Operations.Shredding.ShredResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Operations.Shredding.ShredResult",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.Shredding.ShredResult.yml\" sourcestartlinenumber=\"1\">The result of shredding a single variant value: a (value, typed_value) pair.</p>\n<p>\nFollows the Parquet variant shredding spec encoding matrix:\n<ul><li>Both null → missing (only valid for object sub-fields)</li><li>value non-null, typed_value null → unshredded (value in binary)</li><li>value null, typed_value non-null → fully shredded into typed column</li><li>Both non-null → partially shredded object (typed_value has shredded fields, value has residual)</li></ul>\n\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Operations.Shredding.ShredSchema.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Operations.Shredding.ShredSchema.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Operations.Shredding.ShredSchema",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.Shredding.ShredSchema.yml\" sourcestartlinenumber=\"1\">Describes the shredding schema for a variant column — which fields\nto extract into typed Parquet columns and at what types.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Operations.Shredding.ShredSchemaInferer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Operations.Shredding.ShredSchemaInferer.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Operations.Shredding.ShredSchemaInferer",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.Shredding.ShredSchemaInferer.yml\" sourcestartlinenumber=\"1\">Analyzes a batch of <xref href=\"Apache.Arrow.Scalars.Variant.VariantValue\" data-throw-if-not-resolved=\"false\"></xref>s and infers an optimal\n<xref href=\"Apache.Arrow.Operations.Shredding.ShredSchema\" data-throw-if-not-resolved=\"false\"></xref> for shredding them.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Operations.Shredding.ShredType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Operations.Shredding.ShredType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Operations.Shredding.ShredType",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.Shredding.ShredType.yml\" sourcestartlinenumber=\"1\">Describes the type that a shredded typed_value column expects.\nMaps variant primitive types to the logical Parquet types used for shredding.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Operations.Shredding.ShreddedArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Operations.Shredding.ShreddedArray.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Operations.Shredding.ShreddedArray",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.Shredding.ShreddedArray.yml\" sourcestartlinenumber=\"1\">Reader for a single row of a shredded-array slot. The underlying storage\nis a list of element groups (each a <code>{value, typed_value}</code> struct).</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Operations.Shredding.ShreddedObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Operations.Shredding.ShreddedObject.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Operations.Shredding.ShreddedObject",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.Shredding.ShreddedObject.yml\" sourcestartlinenumber=\"1\">Reader for a single row of a shredded-object slot. Provides field-wise\naccess to both typed sub-columns and residual unshredded fields.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Operations.Shredding.ShreddedVariant.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Operations.Shredding.ShreddedVariant.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Operations.Shredding.ShreddedVariant",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.Shredding.ShreddedVariant.yml\" sourcestartlinenumber=\"1\">Zero-copy reader for a single row of a (possibly shredded) variant column.\nComposes with the <xref href=\"Apache.Arrow.Operations.Shredding.ShredSchema\" data-throw-if-not-resolved=\"false\"></xref> for this position to expose the\ntyped columns and residual bytes side-by-side, or to materialize the logical\nvalue on demand.</p>\n<p>\nA <xref href=\"Apache.Arrow.Operations.Shredding.ShreddedVariant\" data-throw-if-not-resolved=\"false\"></xref> does not own any Arrow buffers; it is only\nvalid while the underlying Arrow arrays are alive.\n</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Operations.Shredding.ShreddedVariantArrayBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Operations.Shredding.ShreddedVariantArrayBuilder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Operations.Shredding.ShreddedVariantArrayBuilder",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.Shredding.ShreddedVariantArrayBuilder.yml\" sourcestartlinenumber=\"1\">Assembles a shredded <xref href=\"Apache.Arrow.VariantArray\" data-throw-if-not-resolved=\"false\"></xref> from pre-shredded rows.\nProduces an Arrow struct with shared <code>metadata</code>, residual <code>value</code>,\nand the <code>typed_value</code> tree whose Arrow shape matches the <xref href=\"Apache.Arrow.Operations.Shredding.ShredSchema\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.yml\" sourcestartlinenumber=\"1\">Shredding-aware extensions on <xref href=\"Apache.Arrow.VariantArray\" data-throw-if-not-resolved=\"false\"></xref>. Provides both\ntransparent materialization (<xref href=\"Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.GetLogicalVariantValue(Apache.Arrow.VariantArray%2cSystem.Int32)\" data-throw-if-not-resolved=\"false\"></xref>) and a\nreader-style API (<xref href=\"Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.GetShreddedVariant(Apache.Arrow.VariantArray%2cSystem.Int32)\" data-throw-if-not-resolved=\"false\"></xref>) that exposes typed\ncolumns and residual bytes side-by-side.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Operations.Shredding.VariantShredder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Operations.Shredding.VariantShredder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Operations.Shredding.VariantShredder",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.Shredding.VariantShredder.yml\" sourcestartlinenumber=\"1\">Decomposes <xref href=\"Apache.Arrow.Scalars.Variant.VariantValue\" data-throw-if-not-resolved=\"false\"></xref>s into shredded (value, typed_value) pairs\naccording to a <xref href=\"Apache.Arrow.Operations.Shredding.ShredSchema\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>\nPer the Parquet variant shredding spec, the variant metadata dictionary is shared\nacross an entire column. The <xref href=\"Apache.Arrow.Operations.Shredding.VariantShredder.Shred(System.Collections.Generic.IEnumerable%7bApache.Arrow.Scalars.Variant.VariantValue%7d%2cApache.Arrow.Operations.Shredding.ShredSchema)\" data-throw-if-not-resolved=\"false\"></xref>\nbatch entrypoint builds that shared metadata and emits per-row value bytes that\nreference it — ready to drop into a Parquet <code>value</code> column.\n</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Operations.Shredding.VariantUnshredder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Operations.Shredding.VariantUnshredder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Operations.Shredding.VariantUnshredder",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Operations.Shredding.VariantUnshredder.yml\" sourcestartlinenumber=\"1\">Reconstructs <xref href=\"Apache.Arrow.Scalars.Variant.VariantValue\" data-throw-if-not-resolved=\"false\"></xref>s from shredded (value, typed_value) pairs\naccording to a <xref href=\"Apache.Arrow.Operations.Shredding.ShredSchema\" data-throw-if-not-resolved=\"false\"></xref>. The residual <xref href=\"Apache.Arrow.Operations.Shredding.ShredResult.Value\" data-throw-if-not-resolved=\"false\"></xref>\nbytes are interpreted against the column-level variant metadata supplied to\n<xref href=\"Apache.Arrow.Operations.Shredding.VariantUnshredder.Reconstruct(Apache.Arrow.Operations.Shredding.ShredResult%2cApache.Arrow.Operations.Shredding.ShredSchema%2cSystem.ReadOnlySpan%7bSystem.Byte%7d)\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Operations.Shredding.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Operations.Shredding.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Operations.Shredding",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Apache.Arrow.Operations.VariantJson.VariantJsonConverter.yml",
       "output": {
         ".html": {
@@ -4558,7 +4768,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Apache.Arrow.VariantType",
-      "Summary": "<p sourcefile=\"api/Apache.Arrow.VariantType.yml\" sourcestartlinenumber=\"1\">Extension type representing Parquet Variant values, stored as\nstruct&lt;metadata: binary, value: binary&gt;.</p>\n"
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.VariantType.yml\" sourcestartlinenumber=\"1\">Extension type representing Parquet Variant values. The underlying storage is\na struct with a required <code>metadata</code> binary field and at least one of:</p>\n<ul><li><code>value: binary</code> — the variant value bytes (possibly residual when shredded).</li><li><code>typed_value: T</code> — a typed column populated by variant shredding, where\n<code>T</code> is an Arrow primitive, struct, or list per the Parquet variant shredding spec.</li></ul>\n<p sourcefile=\"api/Apache.Arrow.VariantType.yml\" sourcestartlinenumber=\"7\">Use <xref href=\"Apache.Arrow.VariantType.IsShredded\" data-throw-if-not-resolved=\"false\"></xref> to check for shredded layouts. Decoding shredded\nvalues requires <code>Apache.Arrow.Operations.Shredding</code>.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -5642,11 +5852,11 @@
       "type": "Toc",
       "source_relative_path": "api/toc.yml",
       "output": {
-        ".json": {
-          "relative_path": "api/toc.json"
-        },
         ".html": {
           "relative_path": "api/toc.html"
+        },
+        ".json": {
+          "relative_path": "api/toc.json"
         }
       },
       "version": ""
@@ -5685,11 +5895,11 @@
       "type": "Toc",
       "source_relative_path": "toc.yml",
       "output": {
-        ".json": {
-          "relative_path": "toc.json"
-        },
         ".html": {
           "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
         }
       },
       "version": ""
