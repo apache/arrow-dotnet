@@ -168,6 +168,23 @@ namespace Apache.Arrow.Scalars.Tests
         // ---------------------------------------------------------------
 
         [Fact]
+        public void Decimal16_FromDecimalAndFromSqlDecimal_SameValue_AreEqual()
+        {
+            // A value requiring all 96 bits — auto-sizes to Decimal16 via FromDecimal,
+            // and constructs the same Decimal16 via FromDecimal16(SqlDecimal). The two
+            // must be equal and have the same hash code regardless of how _objectValue
+            // is boxed internally.
+            decimal d = 79228162514264337593543950335m;
+            VariantValue fromDecimal = VariantValue.FromDecimal(d);
+            VariantValue fromSqlDecimal = VariantValue.FromDecimal16(new SqlDecimal(d));
+
+            Assert.Equal(VariantPrimitiveType.Decimal16, fromDecimal.PrimitiveType);
+            Assert.Equal(VariantPrimitiveType.Decimal16, fromSqlDecimal.PrimitiveType);
+            Assert.Equal(fromDecimal, fromSqlDecimal);
+            Assert.Equal(fromDecimal.GetHashCode(), fromSqlDecimal.GetHashCode());
+        }
+
+        [Fact]
         public void FromSqlDecimal_LargeValue_ProducesDecimal16()
         {
             SqlDecimal sd = SqlDecimal.Parse("99999999999999999999999999999999999999");

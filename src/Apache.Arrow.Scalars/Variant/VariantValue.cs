@@ -143,7 +143,7 @@ namespace Apache.Arrow.Scalars.Variant
             {
                 return FromDecimal8(value);
             }
-            return new VariantValue(VariantPrimitiveType.Decimal16, (object)value);
+            return new VariantValue(VariantPrimitiveType.Decimal16, (object)new SqlDecimal(value));
         }
 
         /// <summary>
@@ -384,12 +384,13 @@ namespace Apache.Arrow.Scalars.Variant
         public SqlDecimal AsSqlDecimal()
         {
             if (_primitiveType == VariantPrimitiveType.Decimal4 ||
-                _primitiveType == VariantPrimitiveType.Decimal8 ||
-                _primitiveType == VariantPrimitiveType.Decimal16)
+                _primitiveType == VariantPrimitiveType.Decimal8)
             {
-                if (_objectValue is SqlDecimal sd)
-                    return sd;
                 return new SqlDecimal((decimal)_objectValue);
+            }
+            if (_primitiveType == VariantPrimitiveType.Decimal16)
+            {
+                return (SqlDecimal)_objectValue;
             }
             throw new InvalidOperationException($"Cannot read decimal from variant type {_primitiveType}.");
         }
