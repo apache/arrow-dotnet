@@ -22642,15 +22642,6 @@ references:
   commentId: M:Apache.Arrow.Scalars.Variant.VariantValue.FromDecimal16(System.Data.SqlTypes.SqlDecimal)
   fullName: Apache.Arrow.Scalars.Variant.VariantValue.FromDecimal16(System.Data.SqlTypes.SqlDecimal)
   nameWithType: VariantValue.FromDecimal16(SqlDecimal)
-- uid: Apache.Arrow.Scalars.Variant.VariantValue.FromDecimal16(System.Decimal)
-  name: FromDecimal16(decimal)
-  href: api/Apache.Arrow.Scalars.Variant.VariantValue.html#Apache_Arrow_Scalars_Variant_VariantValue_FromDecimal16_System_Decimal_
-  commentId: M:Apache.Arrow.Scalars.Variant.VariantValue.FromDecimal16(System.Decimal)
-  name.vb: FromDecimal16(Decimal)
-  fullName: Apache.Arrow.Scalars.Variant.VariantValue.FromDecimal16(decimal)
-  fullName.vb: Apache.Arrow.Scalars.Variant.VariantValue.FromDecimal16(Decimal)
-  nameWithType: VariantValue.FromDecimal16(decimal)
-  nameWithType.vb: VariantValue.FromDecimal16(Decimal)
 - uid: Apache.Arrow.Scalars.Variant.VariantValue.FromDecimal16*
   name: FromDecimal16
   href: api/Apache.Arrow.Scalars.Variant.VariantValue.html#Apache_Arrow_Scalars_Variant_VariantValue_FromDecimal16_
