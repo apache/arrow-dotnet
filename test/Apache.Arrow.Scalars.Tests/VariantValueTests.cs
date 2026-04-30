@@ -152,10 +152,17 @@ namespace Apache.Arrow.Scalars.Tests
         [Fact]
         public void Decimal16()
         {
-            decimal d = 79228162514264337593543950335m;
-            VariantValue v = VariantValue.FromDecimal16(d);
+            SqlDecimal sd = new SqlDecimal(79228162514264337593543950335m);
+            VariantValue v = VariantValue.FromDecimal16(sd);
             Assert.Equal(VariantPrimitiveType.Decimal16, v.PrimitiveType);
-            Assert.Equal(d, v.AsDecimal());
+            Assert.Equal(sd, v.AsSqlDecimal());
+        }
+
+        [Fact]
+        public void AsDecimal_OnDecimal16_Throws()
+        {
+            VariantValue v = VariantValue.FromDecimal16(new SqlDecimal(42.5m));
+            Assert.Throws<InvalidOperationException>(() => v.AsDecimal());
         }
 
         [Fact]
@@ -456,23 +463,6 @@ namespace Apache.Arrow.Scalars.Tests
             VariantValue fromDecimal4 = VariantValue.FromDecimal4(42.5m);
             Assert.Equal(fromDecimal4, fromSqlDecimal);
             Assert.Equal(fromDecimal4.GetHashCode(), fromSqlDecimal.GetHashCode());
-        }
-
-        [Fact]
-        public void IsSqlDecimalStorage_FalseForNonDecimalTypes()
-        {
-            Assert.False(VariantValue.FromInt32(42).IsSqlDecimalStorage);
-            Assert.False(VariantValue.FromString("hello").IsSqlDecimalStorage);
-            Assert.False(VariantValue.Null.IsSqlDecimalStorage);
-            Assert.False(VariantValue.FromDouble(3.14).IsSqlDecimalStorage);
-        }
-
-        [Fact]
-        public void IsSqlDecimalStorage_FalseForDecimalStoredValues()
-        {
-            Assert.False(VariantValue.FromDecimal4(42.5m).IsSqlDecimalStorage);
-            Assert.False(VariantValue.FromDecimal8(123456789.12m).IsSqlDecimalStorage);
-            Assert.False(VariantValue.FromDecimal16(42.5m).IsSqlDecimalStorage);
         }
 
         // ---------------------------------------------------------------

@@ -168,12 +168,29 @@ namespace Apache.Arrow.Scalars.Tests
         // ---------------------------------------------------------------
 
         [Fact]
+        public void Decimal16_FromDecimalAndFromSqlDecimal_SameValue_AreEqual()
+        {
+            // A value requiring all 96 bits — auto-sizes to Decimal16 via FromDecimal,
+            // and constructs the same Decimal16 via FromDecimal16(SqlDecimal). The two
+            // must be equal and have the same hash code regardless of how _objectValue
+            // is boxed internally.
+            decimal d = 79228162514264337593543950335m;
+            VariantValue fromDecimal = VariantValue.FromDecimal(d);
+            VariantValue fromSqlDecimal = VariantValue.FromDecimal16(new SqlDecimal(d));
+
+            Assert.Equal(VariantPrimitiveType.Decimal16, fromDecimal.PrimitiveType);
+            Assert.Equal(VariantPrimitiveType.Decimal16, fromSqlDecimal.PrimitiveType);
+            Assert.Equal(fromDecimal, fromSqlDecimal);
+            Assert.Equal(fromDecimal.GetHashCode(), fromSqlDecimal.GetHashCode());
+        }
+
+        [Fact]
         public void FromSqlDecimal_LargeValue_ProducesDecimal16()
         {
             SqlDecimal sd = SqlDecimal.Parse("99999999999999999999999999999999999999");
             VariantValue vv = VariantValue.FromSqlDecimal(sd);
             Assert.Equal(VariantPrimitiveType.Decimal16, vv.PrimitiveType);
-            Assert.True(vv.IsSqlDecimalStorage);
+            Assert.Equal(sd, vv.AsSqlDecimal());
         }
 
         // ---------------------------------------------------------------
@@ -198,15 +215,15 @@ namespace Apache.Arrow.Scalars.Tests
         }
 
         // ---------------------------------------------------------------
-        // AsDecimal from SqlDecimal-stored Decimal16 throws OverflowException
+        // AsDecimal on Decimal16 always throws (regardless of internal storage)
         // ---------------------------------------------------------------
 
         [Fact]
-        public void AsDecimal_FromSqlDecimalStored_Throws()
+        public void AsDecimal_OnLargeDecimal16_Throws()
         {
             SqlDecimal sd = SqlDecimal.Parse("99999999999999999999999999999999999999");
             VariantValue vv = VariantValue.FromSqlDecimal(sd);
-            Assert.Throws<OverflowException>(() => vv.AsDecimal());
+            Assert.Throws<InvalidOperationException>(() => vv.AsDecimal());
         }
 
         // ---------------------------------------------------------------
@@ -271,7 +288,6 @@ namespace Apache.Arrow.Scalars.Tests
             // Should not throw — should use SqlDecimal path
             VariantValue vv = reader.ToVariantValue();
             Assert.Equal(VariantPrimitiveType.Decimal16, vv.PrimitiveType);
-            Assert.True(vv.IsSqlDecimalStorage);
 
             SqlDecimal result = vv.AsSqlDecimal();
             Assert.Equal(SqlDecimal.Parse("79228162514264337593543950336"), result);
@@ -293,15 +309,14 @@ namespace Apache.Arrow.Scalars.Tests
             VariantValue vv2 = reader.ToVariantValue();
 
             Assert.Equal(VariantPrimitiveType.Decimal16, vv2.PrimitiveType);
-            Assert.True(vv2.IsSqlDecimalStorage);
             Assert.Equal(original, vv2.AsSqlDecimal());
         }
 
         [Fact]
-        public void RoundTrip_Materialize_SmallDecimal16_UsesDecimalStorage()
+        public void RoundTrip_Materialize_SmallDecimal16()
         {
-            decimal d = 12345.67m;
-            VariantValue vv1 = VariantValue.FromDecimal16(d);
+            SqlDecimal sd = new SqlDecimal(12345.67m);
+            VariantValue vv1 = VariantValue.FromDecimal16(sd);
             VariantBuilder builder = new VariantBuilder();
             (byte[] metadata, byte[] value) = builder.Encode(vv1);
 
@@ -309,8 +324,7 @@ namespace Apache.Arrow.Scalars.Tests
             VariantValue vv2 = reader.ToVariantValue();
 
             Assert.Equal(VariantPrimitiveType.Decimal16, vv2.PrimitiveType);
-            Assert.False(vv2.IsSqlDecimalStorage);
-            Assert.Equal(d, vv2.AsDecimal());
+            Assert.Equal(sd, vv2.AsSqlDecimal());
         }
 
         // ---------------------------------------------------------------
@@ -434,7 +448,6 @@ namespace Apache.Arrow.Scalars.Tests
             SqlDecimal sd = new SqlDecimal(0m);
             VariantValue vv = VariantValue.FromSqlDecimal(sd);
             Assert.Equal(VariantPrimitiveType.Decimal4, vv.PrimitiveType);
-            Assert.False(vv.IsSqlDecimalStorage);
             Assert.Equal(0m, vv.AsDecimal());
         }
 
@@ -443,27 +456,13 @@ namespace Apache.Arrow.Scalars.Tests
         // ---------------------------------------------------------------
 
         [Fact]
-        public void FromSqlDecimal_96BitBoundary_ProducesDecimal16WithDecimalStorage()
+        public void FromSqlDecimal_96BitBoundary_ProducesDecimal16()
         {
             // A value that needs all 96 bits: data[2] != 0 but data[3] == 0
             SqlDecimal sd = new SqlDecimal(79228162514264337593543950335m);
             VariantValue vv = VariantValue.FromSqlDecimal(sd);
             Assert.Equal(VariantPrimitiveType.Decimal16, vv.PrimitiveType);
-            Assert.False(vv.IsSqlDecimalStorage); // stored as decimal, not SqlDecimal
-            Assert.Equal(79228162514264337593543950335m, vv.AsDecimal());
-        }
-
-        // ---------------------------------------------------------------
-        // AsDecimal on Decimal16 that was created via FromSqlDecimal but fits
-        // ---------------------------------------------------------------
-
-        [Fact]
-        public void AsDecimal_FromSqlDecimalThatFits()
-        {
-            // 96-bit value goes through FromSqlDecimal -> stored as decimal
-            SqlDecimal sd = new SqlDecimal(79228162514264337593543950335m);
-            VariantValue vv = VariantValue.FromSqlDecimal(sd);
-            Assert.Equal(79228162514264337593543950335m, vv.AsDecimal());
+            Assert.Equal(sd, vv.AsSqlDecimal());
         }
 
         // ---------------------------------------------------------------
@@ -512,7 +511,6 @@ namespace Apache.Arrow.Scalars.Tests
             Assert.True(materialized.IsObject);
             IReadOnlyDictionary<string, VariantValue> fields = materialized.AsObject();
             Assert.Equal(sd, fields["big"].AsSqlDecimal());
-            Assert.True(fields["big"].IsSqlDecimalStorage);
             Assert.Equal(42.5m, fields["small"].AsDecimal());
         }
 
@@ -534,10 +532,8 @@ namespace Apache.Arrow.Scalars.Tests
             Assert.True(materialized.IsArray);
             IReadOnlyList<VariantValue> elements = materialized.AsArray();
             Assert.Equal(3, elements.Count);
-            Assert.True(elements[0].IsSqlDecimalStorage);
             Assert.Equal(large, elements[0].AsSqlDecimal());
-            Assert.False(elements[1].IsSqlDecimalStorage);
-            Assert.Equal(42.5m, elements[1].AsDecimal());
+            Assert.Equal(new SqlDecimal(42.5m), elements[1].AsSqlDecimal());
             Assert.Equal(1.23m, elements[2].AsDecimal());
         }
 

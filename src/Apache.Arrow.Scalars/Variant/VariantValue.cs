@@ -19,6 +19,9 @@ using System.Data.SqlTypes;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
+#if !NET8_0_OR_GREATER
+using System.Runtime.InteropServices;
+#endif
 
 namespace Apache.Arrow.Scalars.Variant
 {
@@ -109,27 +112,15 @@ namespace Apache.Arrow.Scalars.Variant
         public static VariantValue FromDecimal8(decimal value) =>
             new VariantValue(VariantPrimitiveType.Decimal8, (object)value);
 
-        /// <summary>Creates a Decimal16 variant value.</summary>
-        public static VariantValue FromDecimal16(decimal value) =>
-            new VariantValue(VariantPrimitiveType.Decimal16, (object)value);
-
         /// <summary>
-        /// Creates a Decimal16 variant value from a <see cref="SqlDecimal"/>, always
-        /// producing <see cref="VariantPrimitiveType.Decimal16"/>. Values exceeding
-        /// <see cref="decimal"/> range are stored as <see cref="SqlDecimal"/>.
-        /// Use this when the target type is known (e.g. materializing a Decimal16
-        /// shredded column); use <see cref="FromSqlDecimal(SqlDecimal)"/> when you
-        /// want the smallest decimal type that fits the value.
+        /// Creates a Decimal16 variant value. Decimal16 covers the full Parquet
+        /// 38-digit decimal range, which exceeds the <see cref="decimal"/> 96-bit
+        /// mantissa, so the API uses <see cref="SqlDecimal"/> uniformly. Use
+        /// <see cref="FromSqlDecimal(SqlDecimal)"/> when you want the smallest
+        /// decimal type that fits the value.
         /// </summary>
-        public static VariantValue FromDecimal16(SqlDecimal value)
-        {
-            if (value.Data[3] != 0)
-            {
-                SqlDecimal normalized = SqlDecimal.ConvertToPrecScale(value, 38, value.Scale);
-                return new VariantValue(VariantPrimitiveType.Decimal16, (object)normalized);
-            }
-            return new VariantValue(VariantPrimitiveType.Decimal16, (object)value.Value);
-        }
+        public static VariantValue FromDecimal16(SqlDecimal value) =>
+            new VariantValue(VariantPrimitiveType.Decimal16, (object)value);
 
         /// <summary>
         /// Creates a decimal variant value, choosing the smallest decimal type
@@ -152,37 +143,47 @@ namespace Apache.Arrow.Scalars.Variant
             {
                 return FromDecimal8(value);
             }
-            return FromDecimal16(value);
+            return new VariantValue(VariantPrimitiveType.Decimal16, (object)new SqlDecimal(value));
         }
 
         /// <summary>
-        /// Creates a decimal variant value from a <see cref="SqlDecimal"/>.
-        /// Values fitting in <see cref="decimal"/> are stored as Decimal4/8/16 using
-        /// the smallest type. Values exceeding <see cref="decimal"/> range are stored
-        /// as Decimal16 with <see cref="SqlDecimal"/> storage.
+        /// Creates a decimal variant value from a <see cref="SqlDecimal"/>, choosing
+        /// the smallest decimal type that fits. Values exceeding <see cref="decimal"/>
+        /// range produce a Decimal16.
         /// </summary>
         public static VariantValue FromSqlDecimal(SqlDecimal value)
         {
-            int[] data = value.Data;
+#if NET8_0_OR_GREATER
+            Span<uint> data = stackalloc uint[4];
+            value.WriteTdsValue(data);
+#else
+            ReadOnlySpan<uint> data = MemoryMarshal.Cast<int, uint>(value.Data);
+#endif
+
             // SqlDecimal.Data: [0]=least-significant, [3]=most-significant
-            if (data[3] != 0)
+            if (data[3] == 0 && value.Precision - value.Scale <= 28)
             {
-                // Exceeds 96 bits — must store as SqlDecimal
-                SqlDecimal normalized = SqlDecimal.ConvertToPrecScale(value, 38, value.Scale);
-                return new VariantValue(VariantPrimitiveType.Decimal16, (object)normalized);
+                try
+                {
+                    // Fits in decimal — convert and dispatch
+                    decimal d = value.Value;
+                    if (data[2] == 0 && data[1] == 0)
+                    {
+                        return FromDecimal4(d);
+                    }
+                    if (data[2] == 0)
+                    {
+                        return FromDecimal8(d);
+                    }
+                }
+                catch (OverflowException)
+                {
+                    // Value exceeds decimal range — fall back to Decimal16
+                }
             }
 
-            // Fits in decimal — convert and dispatch
-            decimal d = value.Value;
-            if (data[2] == 0 && data[1] == 0)
-            {
-                return FromDecimal4(d);
-            }
-            if (data[2] == 0)
-            {
-                return FromDecimal8(d);
-            }
-            return FromDecimal16(d);
+            // Exceeds 96 bits — must store as SqlDecimal
+            return new VariantValue(VariantPrimitiveType.Decimal16, (object)value);
         }
 
         /// <summary>Creates a Date variant value from days since epoch.</summary>
@@ -355,50 +356,44 @@ namespace Apache.Arrow.Scalars.Variant
             return BitConverter.Int64BitsToDouble(_inlineValue);
         }
 
-        /// <summary>Gets a decimal value (works for Decimal4, Decimal8, and Decimal16).</summary>
-        /// <remarks>
-        /// For Decimal16 values stored as <see cref="SqlDecimal"/> (exceeding 96 bits),
-        /// this will throw <see cref="OverflowException"/>. Use <see cref="AsSqlDecimal()"/> instead.
-        /// </remarks>
+        /// <summary>
+        /// Gets a decimal value. Supported for Decimal4 and Decimal8 only.
+        /// Decimal16 can hold 38-digit values that exceed <see cref="decimal"/>
+        /// range, so use <see cref="AsSqlDecimal()"/> for Decimal16 instead.
+        /// </summary>
         public decimal AsDecimal()
         {
             if (_primitiveType == VariantPrimitiveType.Decimal4 ||
-                _primitiveType == VariantPrimitiveType.Decimal8 ||
-                _primitiveType == VariantPrimitiveType.Decimal16)
+                _primitiveType == VariantPrimitiveType.Decimal8)
             {
-                if (_objectValue is SqlDecimal sd)
-                    return sd.Value;
                 return (decimal)_objectValue;
+            }
+            if (_primitiveType == VariantPrimitiveType.Decimal16)
+            {
+                throw new InvalidOperationException(
+                    "Cannot read Decimal16 as System.Decimal; use AsSqlDecimal() instead.");
             }
             throw new InvalidOperationException($"Cannot read decimal from variant type {_primitiveType}.");
         }
 
         /// <summary>
-        /// Gets a decimal value as a <see cref="SqlDecimal"/> (works for Decimal4, Decimal8, and Decimal16).
-        /// Unlike <see cref="AsDecimal()"/>, this method does not throw for large Decimal16 values.
+        /// Gets a decimal value as a <see cref="SqlDecimal"/>. Works for Decimal4,
+        /// Decimal8, and Decimal16 (including values that exceed <see cref="decimal"/>
+        /// range).
         /// </summary>
         public SqlDecimal AsSqlDecimal()
         {
             if (_primitiveType == VariantPrimitiveType.Decimal4 ||
-                _primitiveType == VariantPrimitiveType.Decimal8 ||
-                _primitiveType == VariantPrimitiveType.Decimal16)
+                _primitiveType == VariantPrimitiveType.Decimal8)
             {
-                if (_objectValue is SqlDecimal sd)
-                    return sd;
                 return new SqlDecimal((decimal)_objectValue);
+            }
+            if (_primitiveType == VariantPrimitiveType.Decimal16)
+            {
+                return (SqlDecimal)_objectValue;
             }
             throw new InvalidOperationException($"Cannot read decimal from variant type {_primitiveType}.");
         }
-
-        /// <summary>
-        /// Returns true when the decimal value is stored internally as <see cref="SqlDecimal"/>
-        /// (i.e., it exceeds the range of <see cref="decimal"/>).
-        /// </summary>
-        internal bool IsSqlDecimalStorage =>
-            (_primitiveType == VariantPrimitiveType.Decimal4 ||
-             _primitiveType == VariantPrimitiveType.Decimal8 ||
-             _primitiveType == VariantPrimitiveType.Decimal16) &&
-            _objectValue is SqlDecimal;
 
         /// <summary>Gets the Date value as days since epoch.</summary>
         public int AsDateDays()

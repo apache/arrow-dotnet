@@ -331,7 +331,7 @@ namespace Apache.Arrow.Scalars.Tests
                     // JSON may lose precision for large decimals (e.g. 1.2345678912345678e+16
                     // loses the fractional part). Use relative tolerance comparison.
                     double expectedD16 = expected.GetDouble();
-                    double actualD16 = (double)actual.AsDecimal();
+                    double actualD16 = actual.AsSqlDecimal().ToDouble();
                     double relError = Math.Abs(expectedD16 - actualD16) / Math.Max(1.0, Math.Abs(expectedD16));
                     Assert.True(relError < 1e-10,
                         $"{context}: decimal16 relative error {relError:E3} exceeds tolerance. " +
