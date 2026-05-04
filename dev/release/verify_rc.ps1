@@ -41,6 +41,21 @@ param(
 
 $ErrorActionPreference = "Stop"
 
+# In PowerShell 7.3+, this makes native command failures respect
+# $ErrorActionPreference. On older versions, we rely on Invoke-Block below.
+if ($null -ne (Get-Variable PSNativeCommandUseErrorActionPreference -ErrorAction SilentlyContinue)) {
+    $PSNativeCommandUseErrorActionPreference = $true
+}
+
+function Invoke-Block {
+    # Execute a script block containing native commands and throw on failure.
+    param([scriptblock]$Block)
+    & $Block
+    if ($LASTEXITCODE -ne 0) {
+        throw "Command failed with exit code ${LASTEXITCODE}: $Block"
+    }
+}
+
 $SourceDir = Split-Path -Parent $PSCommandPath
 $TopSourceDir = Split-Path -Parent (Split-Path -Parent $SourceDir)
 
@@ -65,11 +80,7 @@ function GitHub-Actions-Group-End {
 }
 
 function Download([string]$Url) {
-    $FileName = Split-Path -Leaf $Url
-    curl.exe --fail --location --remote-name --show-error --silent $Url
-    if ($LASTEXITCODE -ne 0) {
-        throw "Failed to download $Url"
-    }
+    Invoke-Block { curl.exe --fail --location --remote-name --show-error --silent $Url }
 }
 
 function Download-RC-File([string]$FileName) {
@@ -83,10 +94,7 @@ function Download-RC-File([string]$FileName) {
 function Import-GPG-Keys {
     if ([int]$env:VERIFY_SIGN -gt 0) {
         Download "${ArrowDistBaseUrl}/KEYS"
-        gpg --import KEYS
-        if ($LASTEXITCODE -ne 0) {
-            throw "Failed to import GPG keys"
-        }
+        Invoke-Block { gpg --import KEYS }
     }
 }
 
@@ -108,10 +116,7 @@ function Fetch-Artifact([string]$Artifact) {
     Download-RC-File $Artifact
     if ([int]$env:VERIFY_SIGN -gt 0) {
         Download-RC-File "${Artifact}.asc"
-        gpg --verify "${Artifact}.asc" $Artifact
-        if ($LASTEXITCODE -ne 0) {
-            throw "GPG verification failed for $Artifact"
-        }
+        Invoke-Block { gpg --verify "${Artifact}.asc" $Artifact }
     }
     Download-RC-File "${Artifact}.sha256"
     Verify-SHA "SHA256" "${Artifact}.sha256"
@@ -124,10 +129,7 @@ function Fetch-Archive {
 }
 
 function Ensure-Source-Directory {
-    tar xf "${ArchiveBaseName}.tar.gz"
-    if ($LASTEXITCODE -ne 0) {
-        throw "Failed to extract archive"
-    }
+    Invoke-Block { tar xf "${ArchiveBaseName}.tar.gz" }
 }
 
 function Get-TestTarget {
@@ -143,10 +145,7 @@ function Test-Source-Distribution {
         return
     }
 
-    dotnet build
-    if ($LASTEXITCODE -ne 0) {
-        throw "Source build failed"
-    }
+    Invoke-Block { dotnet build }
 
     # Python and PyArrow are required for C Data Interface tests.
     if (-not (Test-Path env:PYTHON)) {
@@ -156,14 +155,14 @@ function Test-Source-Distribution {
             $env:PYTHON = "python"
         }
     }
-    & $env:PYTHON -m pip install pyarrow find-libpython
-    $env:PYTHONNET_PYDLL = & $env:PYTHON -m find_libpython
+    Invoke-Block { & $env:PYTHON -m pip install pyarrow find-libpython }
+    $env:PYTHONNET_PYDLL = (& $env:PYTHON -m find_libpython).Trim()
+    if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($env:PYTHONNET_PYDLL)) {
+        throw "Failed to locate libpython via find_libpython"
+    }
 
     $TestTarget = Get-TestTarget
-    dotnet test $TestTarget
-    if ($LASTEXITCODE -ne 0) {
-        throw "Source tests failed"
-    }
+    Invoke-Block { dotnet test $TestTarget }
 }
 
 function Reference-Package {
@@ -182,8 +181,8 @@ function Reference-Package {
             Write-Host "Skipping test project ${TestProject} (not present in this release)"
             continue
         }
-        dotnet remove "test/${TestProject}" reference "src/${PackageName}/${PackageName}.csproj"
-        dotnet add "test/${TestProject}" package $PackageName --version $Version
+        Invoke-Block { dotnet remove "test/${TestProject}" reference "src/${PackageName}/${PackageName}.csproj" }
+        Invoke-Block { dotnet add "test/${TestProject}" package $PackageName --version $Version }
     }
 }
 
@@ -194,9 +193,9 @@ function Test-Binary-Distribution {
 
     # Create NuGet local directory source
     New-Item -ItemType Directory -Path nuget -Force | Out-Null
-    dotnet new nugetconfig
+    Invoke-Block { dotnet new nugetconfig }
     $NugetDir = Join-Path (Get-Location).Path "nuget"
-    dotnet nuget add source -n local $NugetDir
+    Invoke-Block { dotnet nuget add source -n local $NugetDir }
 
     Push-Location nuget
     $Packages = Get-ChildItem -Directory "../src" | Select-Object -ExpandProperty Name
@@ -219,10 +218,7 @@ function Test-Binary-Distribution {
     Rename-Item src src.backup
 
     $TestTarget = Get-TestTarget
-    dotnet test $TestTarget
-    if ($LASTEXITCODE -ne 0) {
-        throw "Binary tests failed"
-    }
+    Invoke-Block { dotnet test $TestTarget }
 }
 
 # --- Main ---
@@ -234,8 +230,10 @@ GitHub-Actions-Group-Begin "Setup temporary directory"
 
 if (-not (Test-Path env:VERIFY_TMPDIR)) {
     $VerifyTmpDir = Join-Path ([System.IO.Path]::GetTempPath()) "arrow-dotnet-${Version}-${RC}-$(Get-Random)"
+    $OwnsVerifyTmpDir = $true
 } else {
     $VerifyTmpDir = $env:VERIFY_TMPDIR
+    $OwnsVerifyTmpDir = $false
 }
 
 New-Item -ItemType Directory -Path $VerifyTmpDir -Force | Out-Null
@@ -271,7 +269,7 @@ try {
     throw
 } finally {
     Pop-Location
-    if ($VerifySuccess) {
+    if ($VerifySuccess -and $OwnsVerifyTmpDir) {
         Remove-Item -Recurse -Force $VerifyTmpDir -ErrorAction SilentlyContinue
     }
 }
