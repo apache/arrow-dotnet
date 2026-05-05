@@ -147,13 +147,21 @@ function Test-Source-Distribution {
 
     Invoke-Block { dotnet build }
 
-    # Python and PyArrow are required for C Data Interface tests.
+    # Python 3 and PyArrow are required for C Data Interface tests.
     if (-not (Test-Path env:PYTHON)) {
+        # On Windows, Python 3 installs as python.exe (no python3.exe).
+        # On Linux/macOS, python3 is the standard name.
         if (Get-Command python3 -ErrorAction SilentlyContinue) {
             $env:PYTHON = "python3"
-        } else {
+        } elseif (Get-Command python -ErrorAction SilentlyContinue) {
             $env:PYTHON = "python"
+        } else {
+            throw "Python is required but neither python3 nor python was found"
         }
+    }
+    $pyVersion = & $env:PYTHON --version 2>&1
+    if ($pyVersion -notmatch 'Python 3\.') {
+        throw "Python 3 is required but found: $pyVersion"
     }
     Invoke-Block { & $env:PYTHON -m pip install pyarrow find-libpython }
     $env:PYTHONNET_PYDLL = (& $env:PYTHON -m find_libpython).Trim()
