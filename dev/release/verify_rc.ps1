@@ -151,12 +151,18 @@ function Test-Source-Distribution {
     if (-not (Test-Path env:PYTHON)) {
         # On Windows, Python 3 installs as python.exe (no python3.exe).
         # On Linux/macOS, python3 is the standard name.
-        if (Get-Command python3 -ErrorAction SilentlyContinue) {
-            $env:PYTHON = "python3"
-        } elseif (Get-Command python -ErrorAction SilentlyContinue) {
-            $env:PYTHON = "python"
-        } else {
-            throw "Python is required but neither python3 nor python was found"
+        # Filter out Windows Store "app execution alias" stubs that live
+        # in WindowsApps and just open the Microsoft Store.
+        $env:PYTHON = ""
+        foreach ($name in @("python3", "python")) {
+            $cmd = Get-Command $name -ErrorAction SilentlyContinue
+            if ($cmd -and $cmd.Source -notmatch '[/\\]WindowsApps[/\\]') {
+                $env:PYTHON = $name
+                break
+            }
+        }
+        if ([string]::IsNullOrEmpty($env:PYTHON)) {
+            throw "Python 3 is required but no real Python installation was found (Windows Store stubs do not count)"
         }
     }
     $pyVersion = & $env:PYTHON --version 2>&1
