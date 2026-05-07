@@ -30,11 +30,11 @@ public static class CookieExtensions
 
         var cookies = new List<Cookie>();
 
-        var segments = setCookieHeader.Split([';'], StringSplitOptions.RemoveEmptyEntries);
+        var segments = setCookieHeader.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
         if (segments.Length == 0)
             return cookies;
 
-        var nameValue = segments[0].Split(['='], 2);
+        var nameValue = segments[0].Split(new[] { '=' }, 2);
         if (nameValue.Length != 2 || string.IsNullOrWhiteSpace(nameValue[0]))
             return cookies;
 
@@ -44,7 +44,7 @@ public static class CookieExtensions
 
         foreach (var segment in segments.Skip(1))
         {
-            var kv = segment.Split(['='], 2, StringSplitOptions.RemoveEmptyEntries);
+            var kv = segment.Split(new[] { '=' }, 2, StringSplitOptions.RemoveEmptyEntries);
             var key = kv[0].Trim().ToLowerInvariant();
             var val = kv.Length > 1 ? kv[1] : null;
 
