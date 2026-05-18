@@ -131,7 +131,6 @@ Example demonstrating reading [RecordBatches](xref:Apache.Arrow.RecordBatch) fro
 
 - Serialization
     - Exhaustive validation
-    - Run End Encoding
 - Types
     - Tensor
 - Arrays
