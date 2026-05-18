@@ -362,6 +362,11 @@ namespace Apache.Arrow.Tests
 
                 CompareValidityBuffer(expectedArray.NullCount, _expectedArray.Length, expectedArray.NullBitmapBuffer, expectedArray.Offset, actualArray.NullBitmapBuffer, actualArray.Offset);
 
+                if (_strictCompare)
+                {
+                    Assert.True(expectedArray.Views.SequenceEqual(actualArray.Views));
+                }
+
                 for (int i = 0; i < expectedArray.Length; i++)
                 {
                     Assert.True(
