@@ -25,7 +25,7 @@ namespace Apache.Arrow
         private readonly SharedMemoryHandle _handle;
         private readonly ReadOnlyMemory<byte> _memory;
 
-        public static ArrowBuffer Empty { get; } new ArrowBuffer(Memory<byte>.Empty);
+        public static ArrowBuffer Empty { get; } = new ArrowBuffer(Memory<byte>.Empty);
 
         public ArrowBuffer(ReadOnlyMemory<byte> data)
         {
