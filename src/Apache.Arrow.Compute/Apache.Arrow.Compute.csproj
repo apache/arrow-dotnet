@@ -2,12 +2,13 @@
 
   <PropertyGroup>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <TargetFramework>net8.0</TargetFramework>
-    <IsAotCompatible>true</IsAotCompatible>
-    <Description>Arrow compute kernels: aggregations backed by System.Numerics.Tensors (TensorPrimitives).</Description>
+    <TargetFrameworks>netstandard2.0;net8.0;net462</TargetFrameworks>
+    <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible($(TargetFramework), 'net8.0'))">true</IsAotCompatible>
+    <Description>Arrow compute kernels: SIMD-accelerated aggregations over PrimitiveArray&lt;T&gt;. On net8.0+ the kernels are generic (INumber&lt;T&gt;) and dispatch to System.Numerics.Tensors (TensorPrimitives) on the null-free fast path; on netstandard2.0/net462 they fall back to per-type scalar kernels.</Description>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!-- The generic INumber<T> + TensorPrimitives fast path is only available on net8.0+. -->
+  <ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible($(TargetFramework), 'net8.0'))">
     <PackageReference Include="System.Numerics.Tensors" />
   </ItemGroup>
 
