@@ -33,11 +33,11 @@ namespace Apache.Arrow.Compute
     /// and <see cref="System.Linq.Enumerable.Average(System.Collections.Generic.IEnumerable{int})"/>.
     /// </para>
     /// <para>
-    /// On net8.0 and later the kernels are generic over <see cref="INumber{TSelf}"/> and, when the
-    /// array has no nulls, dispatch to <see cref="TensorPrimitives"/> for a SIMD-accelerated single
+    /// On net8.0 and later the kernels are generic over <c>INumber&lt;T&gt;</c> and, when the
+    /// array has no nulls, dispatch to <c>TensorPrimitives</c> for a SIMD-accelerated single
     /// pass over the contiguous values buffer; when nulls are present they fall back to a correct,
     /// validity-aware scalar loop. On netstandard2.0 and net462 (where generic math and
-    /// <see cref="TensorPrimitives"/> are unavailable) the kernels are provided as per-type overloads
+    /// <c>TensorPrimitives</c> are unavailable) the kernels are provided as per-type overloads
     /// (<see cref="Int32Array"/>, <see cref="Int64Array"/>, <see cref="FloatArray"/>,
     /// <see cref="DoubleArray"/>) backed by scalar loops with the same null semantics.
     /// </para>
