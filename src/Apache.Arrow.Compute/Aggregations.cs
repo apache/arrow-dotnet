@@ -44,6 +44,8 @@ namespace Apache.Arrow.Compute
     /// </remarks>
     public static class Aggregations
     {
+        private const string NoElements = "Sequence contains no non-null elements.";
+
 #if NET8_0_OR_GREATER
         /// <summary>Sums the non-null elements. Returns zero for an empty or all-null array.</summary>
         public static T Sum<T>(this PrimitiveArray<T> array)
@@ -72,7 +74,7 @@ namespace Apache.Arrow.Compute
         /// <summary>Returns the smallest non-null element.</summary>
         /// <exception cref="InvalidOperationException">The array contains no non-null elements.</exception>
         public static T Min<T>(this PrimitiveArray<T> array)
-            where T : unmanaged, INumber<T>
+            where T : unmanaged, INumber<T>, IMinMaxValue<T>
         {
             if (array is null) throw new ArgumentNullException(nameof(array));
 
@@ -80,7 +82,7 @@ namespace Apache.Arrow.Compute
 
             if (values.Length == 0 || array.Length - array.NullCount == 0)
             {
-                throw new InvalidOperationException("Sequence contains no non-null elements.");
+                throw new InvalidOperationException(NoElements);
             }
 
             if (array.NullCount == 0)
@@ -88,13 +90,11 @@ namespace Apache.Arrow.Compute
                 return TensorPrimitives.Min(values);
             }
 
-            bool set = false;
-            T min = T.Zero;
+            T min = T.MaxValue;
             for (int i = 0; i < values.Length; i++)
             {
                 if (!array.IsValid(i)) continue;
-                if (!set) { min = values[i]; set = true; }
-                else if (values[i] < min) { min = values[i]; }
+                if (values[i] < min) { min = values[i]; }
             }
             return min;
         }
@@ -102,7 +102,7 @@ namespace Apache.Arrow.Compute
         /// <summary>Returns the largest non-null element.</summary>
         /// <exception cref="InvalidOperationException">The array contains no non-null elements.</exception>
         public static T Max<T>(this PrimitiveArray<T> array)
-            where T : unmanaged, INumber<T>
+            where T : unmanaged, INumber<T>, IMinMaxValue<T>
         {
             if (array is null) throw new ArgumentNullException(nameof(array));
 
@@ -110,7 +110,7 @@ namespace Apache.Arrow.Compute
 
             if (values.Length == 0 || array.Length - array.NullCount == 0)
             {
-                throw new InvalidOperationException("Sequence contains no non-null elements.");
+                throw new InvalidOperationException(NoElements);
             }
 
             if (array.NullCount == 0)
@@ -118,13 +118,11 @@ namespace Apache.Arrow.Compute
                 return TensorPrimitives.Max(values);
             }
 
-            bool set = false;
-            T max = T.Zero;
+            T max = T.MinValue;
             for (int i = 0; i < values.Length; i++)
             {
                 if (!array.IsValid(i)) continue;
-                if (!set) { max = values[i]; set = true; }
-                else if (values[i] > max) { max = values[i]; }
+                if (values[i] > max) { max = values[i]; }
             }
             return max;
         }
@@ -139,7 +137,7 @@ namespace Apache.Arrow.Compute
             long count = array.Length - array.NullCount;
             if (count == 0)
             {
-                throw new InvalidOperationException("Sequence contains no non-null elements.");
+                throw new InvalidOperationException(NoElements);
             }
 
             T sum = array.Sum();
@@ -149,8 +147,6 @@ namespace Apache.Arrow.Compute
         // netstandard2.0 / net462 fallback: generic math and TensorPrimitives are unavailable, so the
         // kernels are provided as per-type overloads backed by validity-aware scalar loops. The null
         // semantics match the generic net8.0+ implementation above.
-
-        private const string NoElements = "Sequence contains no non-null elements.";
 
         #region Int32Array
 
