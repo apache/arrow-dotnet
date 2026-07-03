@@ -21,7 +21,12 @@ namespace Apache.Arrow.Flight.Server
 {
     public class FlightServerRecordBatchStreamReader : FlightRecordBatchStreamReader
     {
-        public FlightServerRecordBatchStreamReader(IAsyncStreamReader<FlightData> flightDataStream, ArrowContext context = null) : base(new StreamReader<FlightData, Protocol.FlightData>(flightDataStream, data => data.ToProtocol()), context)
+        public FlightServerRecordBatchStreamReader(IAsyncStreamReader<FlightData> flightDataStream)
+            : this(flightDataStream, null)
+        {
+        }
+
+        public FlightServerRecordBatchStreamReader(IAsyncStreamReader<FlightData> flightDataStream, ArrowContext context) : base(new StreamReader<FlightData, Protocol.FlightData>(flightDataStream, data => data.ToProtocol()), context)
         {
         }
 

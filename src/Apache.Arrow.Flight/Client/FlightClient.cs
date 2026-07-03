@@ -29,16 +29,40 @@ namespace Apache.Arrow.Flight.Client
         private readonly FlightService.FlightServiceClient _client;
         private readonly ArrowContext _context;
 
-        public FlightClient(ChannelBase grpcChannel, ArrowContext context = null)
+        public FlightClient(ChannelBase grpcChannel)
+            : this(grpcChannel, null)
+        {
+        }
+
+        public FlightClient(ChannelBase grpcChannel, ArrowContext context)
         {
             _client = new FlightService.FlightServiceClient(grpcChannel);
             _context = context;
         }
 
-        public FlightClient(CallInvoker callInvoker, ArrowContext context = null)
+        public FlightClient(CallInvoker callInvoker)
+            : this(callInvoker, null)
+        {
+        }
+
+        private FlightClient(CallInvoker callInvoker, ArrowContext context)
         {
             _client = new FlightService.FlightServiceClient(callInvoker);
             _context = context;
+        }
+
+        /// <summary>
+        /// Creates a <see cref="FlightClient"/> from a <see cref="CallInvoker"/> with an <see cref="ArrowContext"/>.
+        /// </summary>
+        /// <remarks>
+        /// A factory method is used instead of a constructor overload so that dependency injection
+        /// (e.g. Grpc.Net.ClientFactory) can still resolve the single-argument constructor unambiguously.
+        /// </remarks>
+        /// <param name="callInvoker">The <see cref="CallInvoker"/> to use for gRPC calls</param>
+        /// <param name="context">The <see cref="ArrowContext"/> carrying the compression codec factory and other reader configuration</param>
+        public static FlightClient Create(CallInvoker callInvoker, ArrowContext context)
+        {
+            return new FlightClient(callInvoker, context);
         }
 
         public AsyncServerStreamingCall<FlightInfo> ListFlights(FlightCriteria criteria = null, Metadata headers = null)
@@ -210,7 +234,7 @@ namespace Apache.Arrow.Flight.Client
         {
             var channel = _client.DoExchange(headers, deadline, cancellationToken);
             var requestStream = new FlightClientRecordBatchStreamWriter(channel.RequestStream, flightDescriptor);
-            var responseStream = new FlightClientRecordBatchStreamReader(channel.ResponseStream);
+            var responseStream = new FlightClientRecordBatchStreamReader(channel.ResponseStream, _context);
             var call = new FlightRecordBatchExchangeCall(
                 requestStream,
                 responseStream,

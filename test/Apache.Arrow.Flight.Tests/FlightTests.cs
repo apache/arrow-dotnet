@@ -579,6 +579,35 @@ namespace Apache.Arrow.Flight.Tests
         }
 
         [Fact]
+        public async Task TestIntegrationWithGrpcNetClientFactoryAndArrowContext()
+        {
+            IServiceCollection services = new ServiceCollection();
+
+            services.AddGrpcClient<FlightClient>(grpc => grpc.Address = new Uri(_testWebFactory.GetAddress()))
+                .ConfigureGrpcClientCreator(invoker =>
+                {
+                    return FlightClient.Create(invoker, new ArrowContext());
+                });
+
+            IServiceProvider provider = services.BuildServiceProvider();
+
+            // Test that a FlightClient carrying an ArrowContext can be created via the
+            // Grpc.Net.ClientFactory library using the FlightClient.Create factory method.
+            FlightClient flightClient = provider.GetRequiredService<FlightClient>();
+
+            // Test that the resolved client is functional.
+            var flightDescriptor = FlightDescriptor.CreatePathDescriptor("test-factory-context");
+            var expectedBatch = CreateTestBatch(0, 100);
+            var expectedSchema = expectedBatch.Schema;
+
+            GivenStoreBatches(flightDescriptor, new RecordBatchWithMetadata(expectedBatch));
+
+            var actualSchema = await flightClient.GetSchema(flightDescriptor);
+
+            SchemaComparer.Compare(expectedSchema, actualSchema);
+        }
+
+        [Fact]
         public async Task TestGetWithArrowContext()
         {
             // Verify that FlightClient works when constructed with an ArrowContext
