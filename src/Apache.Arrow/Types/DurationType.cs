@@ -13,6 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+
 namespace Apache.Arrow.Types
 {
     public sealed class DurationType : TimeBasedType
@@ -21,7 +23,6 @@ namespace Apache.Arrow.Types
         public static readonly DurationType Millisecond = new DurationType(TimeUnit.Millisecond);
         public static readonly DurationType Microsecond = new DurationType(TimeUnit.Microsecond);
         public static readonly DurationType Nanosecond = new DurationType(TimeUnit.Nanosecond);
-        private static readonly DurationType[] _types = new DurationType[] { Second, Millisecond, Microsecond, Nanosecond };
 
         private DurationType(TimeUnit unit)
             : base(unit)
@@ -34,7 +35,14 @@ namespace Apache.Arrow.Types
 
         public static DurationType FromTimeUnit(TimeUnit unit)
         {
-            return _types[(int)unit];
+           switch (unit)
+           {
+	         case TimeUnit.Second: return Second;
+	         case TimeUnit.Millisecond: return Millisecond;
+	         case TimeUnit.Microsecond: return Microsecond;
+	         case TimeUnit.Nanosecond: return Nanosecond;
+	         default: throw new ArgumentOutOfRangeException(nameof(unit), unit);
+           }
         }
 
         public override void Accept(IArrowTypeVisitor visitor) => Accept(this, visitor);
