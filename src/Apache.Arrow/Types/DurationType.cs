@@ -33,17 +33,14 @@ namespace Apache.Arrow.Types
         public override string Name => "duration";
         public override int BitWidth => 64;
 
-        public static DurationType FromTimeUnit(TimeUnit unit)
+        public static DurationType FromTimeUnit(TimeUnit unit) => unit switch
         {
-           switch (unit)
-           {
-	         case TimeUnit.Second: return Second;
-	         case TimeUnit.Millisecond: return Millisecond;
-	         case TimeUnit.Microsecond: return Microsecond;
-	         case TimeUnit.Nanosecond: return Nanosecond;
-	         default: throw new ArgumentOutOfRangeException(nameof(unit), unit);
-           }
-        }
+            TimeUnit.Second => Second,
+            TimeUnit.Millisecond => Millisecond,
+            TimeUnit.Microsecond => Microsecond,
+            TimeUnit.Nanosecond => Nanosecond,
+            _ => throw new ArgumentOutOfRangeException(nameof(unit), unit, @"Unsupported time unit.")
+        };
 
         public override void Accept(IArrowTypeVisitor visitor) => Accept(this, visitor);
     }
