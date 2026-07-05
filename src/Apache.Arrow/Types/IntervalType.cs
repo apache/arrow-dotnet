@@ -22,7 +22,6 @@ namespace Apache.Arrow.Types
         public static readonly IntervalType YearMonth = new IntervalType(IntervalUnit.YearMonth);
         public static readonly IntervalType DayTime = new IntervalType(IntervalUnit.DayTime);
         public static readonly IntervalType MonthDayNanosecond = new IntervalType(IntervalUnit.MonthDayNanosecond);
-        private static readonly IntervalType[] _types = new IntervalType[] { YearMonth, DayTime, MonthDayNanosecond };
 
         public override ArrowTypeId TypeId => ArrowTypeId.Interval;
         public override string Name => "interval";
@@ -43,9 +42,12 @@ namespace Apache.Arrow.Types
 
         public override void Accept(IArrowTypeVisitor visitor) => Accept(this, visitor);
 
-        public static IntervalType FromIntervalUnit(IntervalUnit unit)
+        public static IntervalType FromIntervalUnit(IntervalUnit unit) => unit switch
         {
-            return _types[(int)unit];
-        }
+            IntervalUnit.YearMonth => YearMonth,
+            IntervalUnit.DayTime => DayTime,
+            IntervalUnit.MonthDayNanosecond => MonthDayNanosecond,
+            _ => throw new ArgumentOutOfRangeException(nameof(unit), unit, @"Unsupported interval unit")
+        };
     }
 }
