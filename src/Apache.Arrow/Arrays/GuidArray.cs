@@ -50,7 +50,7 @@ namespace Apache.Arrow
     /// </summary>
     public class GuidType : ExtensionType
     {
-        public static GuidType Default = new GuidType();
+        public static readonly GuidType Default = new GuidType();
 
         internal const int ByteWidth = 16;
 
