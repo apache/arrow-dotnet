@@ -7993,6 +7993,15 @@ references:
   fullName.vb: Apache.Arrow.Flight.Client.FlightClient.New(Grpc.Core.ChannelBase)
   nameWithType: FlightClient.FlightClient(ChannelBase)
   nameWithType.vb: FlightClient.New(ChannelBase)
+- uid: Apache.Arrow.Flight.Client.FlightClient.#ctor(Grpc.Core.ChannelBase,Apache.Arrow.ArrowContext)
+  name: FlightClient(ChannelBase, ArrowContext)
+  href: api/Apache.Arrow.Flight.Client.FlightClient.html#Apache_Arrow_Flight_Client_FlightClient__ctor_Grpc_Core_ChannelBase_Apache_Arrow_ArrowContext_
+  commentId: M:Apache.Arrow.Flight.Client.FlightClient.#ctor(Grpc.Core.ChannelBase,Apache.Arrow.ArrowContext)
+  name.vb: New(ChannelBase, ArrowContext)
+  fullName: Apache.Arrow.Flight.Client.FlightClient.FlightClient(Grpc.Core.ChannelBase, Apache.Arrow.ArrowContext)
+  fullName.vb: Apache.Arrow.Flight.Client.FlightClient.New(Grpc.Core.ChannelBase, Apache.Arrow.ArrowContext)
+  nameWithType: FlightClient.FlightClient(ChannelBase, ArrowContext)
+  nameWithType.vb: FlightClient.New(ChannelBase, ArrowContext)
 - uid: Apache.Arrow.Flight.Client.FlightClient.#ctor*
   name: FlightClient
   href: api/Apache.Arrow.Flight.Client.FlightClient.html#Apache_Arrow_Flight_Client_FlightClient__ctor_
@@ -8003,6 +8012,19 @@ references:
   fullName.vb: Apache.Arrow.Flight.Client.FlightClient.New
   nameWithType: FlightClient.FlightClient
   nameWithType.vb: FlightClient.New
+- uid: Apache.Arrow.Flight.Client.FlightClient.Create(Grpc.Core.CallInvoker,Apache.Arrow.ArrowContext)
+  name: Create(CallInvoker, ArrowContext)
+  href: api/Apache.Arrow.Flight.Client.FlightClient.html#Apache_Arrow_Flight_Client_FlightClient_Create_Grpc_Core_CallInvoker_Apache_Arrow_ArrowContext_
+  commentId: M:Apache.Arrow.Flight.Client.FlightClient.Create(Grpc.Core.CallInvoker,Apache.Arrow.ArrowContext)
+  fullName: Apache.Arrow.Flight.Client.FlightClient.Create(Grpc.Core.CallInvoker, Apache.Arrow.ArrowContext)
+  nameWithType: FlightClient.Create(CallInvoker, ArrowContext)
+- uid: Apache.Arrow.Flight.Client.FlightClient.Create*
+  name: Create
+  href: api/Apache.Arrow.Flight.Client.FlightClient.html#Apache_Arrow_Flight_Client_FlightClient_Create_
+  commentId: Overload:Apache.Arrow.Flight.Client.FlightClient.Create
+  isSpec: "True"
+  fullName: Apache.Arrow.Flight.Client.FlightClient.Create
+  nameWithType: FlightClient.Create
 - uid: Apache.Arrow.Flight.Client.FlightClient.DoAction(Apache.Arrow.Flight.FlightAction,Grpc.Core.Metadata)
   name: DoAction(FlightAction, Metadata)
   href: api/Apache.Arrow.Flight.Client.FlightClient.html#Apache_Arrow_Flight_Client_FlightClient_DoAction_Apache_Arrow_Flight_FlightAction_Grpc_Core_Metadata_
@@ -10885,6 +10907,15 @@ references:
   fullName.vb: Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamReader.New(Grpc.Core.IAsyncStreamReader(Of Apache.Arrow.Flight.FlightData))
   nameWithType: FlightServerRecordBatchStreamReader.FlightServerRecordBatchStreamReader(IAsyncStreamReader<FlightData>)
   nameWithType.vb: FlightServerRecordBatchStreamReader.New(IAsyncStreamReader(Of FlightData))
+- uid: Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamReader.#ctor(Grpc.Core.IAsyncStreamReader{Apache.Arrow.Flight.FlightData},Apache.Arrow.ArrowContext)
+  name: FlightServerRecordBatchStreamReader(IAsyncStreamReader<FlightData>, ArrowContext)
+  href: api/Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamReader.html#Apache_Arrow_Flight_Server_FlightServerRecordBatchStreamReader__ctor_Grpc_Core_IAsyncStreamReader_Apache_Arrow_Flight_FlightData__Apache_Arrow_ArrowContext_
+  commentId: M:Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamReader.#ctor(Grpc.Core.IAsyncStreamReader{Apache.Arrow.Flight.FlightData},Apache.Arrow.ArrowContext)
+  name.vb: New(IAsyncStreamReader(Of FlightData), ArrowContext)
+  fullName: Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamReader.FlightServerRecordBatchStreamReader(Grpc.Core.IAsyncStreamReader<Apache.Arrow.Flight.FlightData>, Apache.Arrow.ArrowContext)
+  fullName.vb: Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamReader.New(Grpc.Core.IAsyncStreamReader(Of Apache.Arrow.Flight.FlightData), Apache.Arrow.ArrowContext)
+  nameWithType: FlightServerRecordBatchStreamReader.FlightServerRecordBatchStreamReader(IAsyncStreamReader<FlightData>, ArrowContext)
+  nameWithType.vb: FlightServerRecordBatchStreamReader.New(IAsyncStreamReader(Of FlightData), ArrowContext)
 - uid: Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamReader.#ctor*
   name: FlightServerRecordBatchStreamReader
   href: api/Apache.Arrow.Flight.Server.FlightServerRecordBatchStreamReader.html#Apache_Arrow_Flight_Server_FlightServerRecordBatchStreamReader__ctor_
