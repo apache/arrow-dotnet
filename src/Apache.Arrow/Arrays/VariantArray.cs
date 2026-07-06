@@ -29,7 +29,7 @@ namespace Apache.Arrow
     /// </summary>
     public class VariantExtensionDefinition : ExtensionDefinition
     {
-        public static VariantExtensionDefinition Instance = new VariantExtensionDefinition();
+        public static readonly VariantExtensionDefinition Instance = new VariantExtensionDefinition();
 
         public override string ExtensionName => VariantType.ExtensionName;
 
@@ -87,7 +87,7 @@ namespace Apache.Arrow
     {
         internal const string ExtensionName = "arrow.parquet.variant";
 
-        public static VariantType Default = new VariantType();
+        public static readonly VariantType Default = new VariantType();
 
         public override string Name => ExtensionName;
         public override string ExtensionMetadata => "";

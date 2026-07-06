@@ -18,7 +18,7 @@ namespace Apache.Arrow.Types
 {
     public sealed class StringViewType : ArrowType
     {
-        public static StringViewType Default = new StringViewType();
+        public static readonly StringViewType Default = new StringViewType();
 
         public override ArrowTypeId TypeId => ArrowTypeId.StringView;
         public override string Name => "utf8view";

@@ -50,7 +50,7 @@ namespace Apache.Arrow
     /// </summary>
     public class Bool8Type : ExtensionType
     {
-        public static Bool8Type Default = new Bool8Type();
+        public static readonly Bool8Type Default = new Bool8Type();
 
         public override string Name => "arrow.bool8";
         public override string ExtensionMetadata => "";
