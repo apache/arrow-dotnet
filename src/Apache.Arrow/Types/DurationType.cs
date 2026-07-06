@@ -13,6 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+
 namespace Apache.Arrow.Types
 {
     public sealed class DurationType : TimeBasedType
@@ -21,7 +23,6 @@ namespace Apache.Arrow.Types
         public static readonly DurationType Millisecond = new DurationType(TimeUnit.Millisecond);
         public static readonly DurationType Microsecond = new DurationType(TimeUnit.Microsecond);
         public static readonly DurationType Nanosecond = new DurationType(TimeUnit.Nanosecond);
-        private static readonly DurationType[] _types = new DurationType[] { Second, Millisecond, Microsecond, Nanosecond };
 
         private DurationType(TimeUnit unit)
             : base(unit)
@@ -32,10 +33,14 @@ namespace Apache.Arrow.Types
         public override string Name => "duration";
         public override int BitWidth => 64;
 
-        public static DurationType FromTimeUnit(TimeUnit unit)
+        public static DurationType FromTimeUnit(TimeUnit unit) => unit switch
         {
-            return _types[(int)unit];
-        }
+            TimeUnit.Second => Second,
+            TimeUnit.Millisecond => Millisecond,
+            TimeUnit.Microsecond => Microsecond,
+            TimeUnit.Nanosecond => Nanosecond,
+            _ => throw new ArgumentOutOfRangeException(nameof(unit), unit, @"Unsupported time unit.")
+        };
 
         public override void Accept(IArrowTypeVisitor visitor) => Accept(this, visitor);
     }

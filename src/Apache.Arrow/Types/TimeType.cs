@@ -13,6 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+
 namespace Apache.Arrow.Types
 {
     public abstract class TimeType : TimeBasedType
@@ -21,16 +23,19 @@ namespace Apache.Arrow.Types
         public static readonly Time32Type Millisecond = new Time32Type(TimeUnit.Millisecond);
         public static readonly Time64Type Microsecond = new Time64Type(TimeUnit.Microsecond);
         public static readonly Time64Type Nanosecond = new Time64Type(TimeUnit.Nanosecond);
-        private static readonly TimeType[] _types = new TimeType[] { Second, Millisecond, Microsecond, Nanosecond };
 
         protected TimeType(TimeUnit unit)
             : base(unit)
         {
         }
 
-        public static TimeType FromTimeUnit(TimeUnit unit)
+        public static TimeType FromTimeUnit(TimeUnit unit) => unit switch
         {
-            return _types[(int)unit];
-        }
+            TimeUnit.Second => Second,
+            TimeUnit.Millisecond => Millisecond,
+            TimeUnit.Microsecond => Microsecond,
+            TimeUnit.Nanosecond => Nanosecond,
+            _ => throw new ArgumentOutOfRangeException(nameof(unit), unit, @"Unsupported time unit")
+        };
     }
 }
