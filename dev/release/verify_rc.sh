@@ -186,6 +186,12 @@ test_binary_distribution() {
   reference_package "Apache.Arrow.Flight.AspNetCore" "Apache.Arrow.Flight.TestWeb"
   reference_package "Apache.Arrow.Operations" "Apache.Arrow.Operations.Tests" "Apache.Arrow.Scalars.Tests"
   reference_package "Apache.Arrow.Scalars" "Apache.Arrow.Scalars.Tests" "Apache.Arrow.Tests" "Apache.Arrow.Operations.Tests"
+  reference_package "Apache.Arrow.Serialization" "Apache.Arrow.Serialization.Tests"
+  # The source generator ships inside the Apache.Arrow.Serialization package
+  # as a Roslyn analyzer; drop the direct project reference so the packaged
+  # generator is exercised instead.
+  dotnet remove "test/Apache.Arrow.Serialization.Tests" \
+    reference "src/Apache.Arrow.Serialization.Generator/Apache.Arrow.Serialization.Generator.csproj"
 
   # Move src directory to ensure we are only testing against built packages
   mv src src.backup

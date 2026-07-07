@@ -14,8 +14,8 @@
 // limitations under the License.
 
 using Apache.Arrow;
-using Apache.Arrow.Types;
 using Apache.Arrow.Serialization;
+using Apache.Arrow.Types;
 using Xunit;
 
 namespace Apache.Arrow.Serialization.Tests;
@@ -174,10 +174,16 @@ public class RecordBatchBuilderTests
     }
 
     [Fact]
-    public void EmptyCollection_Throws()
+    public void EmptyCollection_ProducesEmptyBatch()
     {
-        Assert.Throws<ArgumentException>(() =>
-            RecordBatchBuilder.FromObjects(System.Array.Empty<object>()));
+        // Schema is inferred from the type, not the data, so an empty
+        // collection produces a zero-row batch with the full schema.
+        var data = new[] { new { Name = "x", Age = 1 } }.Take(0);
+
+        var batch = RecordBatchBuilder.FromObjects(data);
+
+        Assert.Equal(0, batch.Length);
+        Assert.Equal(2, batch.Schema.FieldsList.Count);
     }
 
     [Fact]

@@ -14,8 +14,8 @@
 // limitations under the License.
 
 using Apache.Arrow;
-using Apache.Arrow.Types;
 using Apache.Arrow.Serialization;
+using Apache.Arrow.Types;
 using Xunit;
 
 namespace Apache.Arrow.Serialization.Tests;

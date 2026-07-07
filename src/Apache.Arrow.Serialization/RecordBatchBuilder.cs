@@ -37,26 +37,21 @@ public static class RecordBatchBuilder
     public static RecordBatch FromObjects<T>(IEnumerable<T> items)
     {
         var list = items as IReadOnlyList<T> ?? items.ToList();
-        if (list.Count == 0)
-            throw new ArgumentException("Cannot infer schema from empty collection.", nameof(items));
 
         var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance)
             .Where(p => p.CanRead)
             .ToArray();
 
-        var fields = new List<Field>();
+        var schema = new Schema.Builder();
         var builders = new List<IColumnBuilder>();
 
         foreach (var prop in properties)
         {
             var propType = prop.PropertyType;
             var (arrowType, nullable) = InferArrowType(propType);
-            fields.Add(new Field(prop.Name, arrowType, nullable));
+            schema.Field(new Field(prop.Name, arrowType, nullable));
             builders.Add(CreateColumnBuilder(propType, arrowType));
         }
-
-        var schema = new Schema.Builder();
-        foreach (var f in fields) schema.Field(f);
 
         // Populate builders
         for (int row = 0; row < list.Count; row++)
@@ -337,7 +332,7 @@ public static class RecordBatchBuilder
         public void Append(object? value)
         {
             if (value is null) _b.AppendNull();
-            else _b.Append(new DateTimeOffset((DateTime)value, TimeSpan.Zero));
+            else _b.Append(ArrowArrayHelper.ToUtcDateTimeOffset((DateTime)value));
         }
         public IArrowArray Build() => _b.Build();
     }
@@ -617,8 +612,21 @@ public static class RecordBatchBuilder
             var listType = typeof(List<>).MakeGenericType(_clrType);
             var typedList = (System.Collections.IList)Activator.CreateInstance(listType, length)!;
 
-            // For null slots, we need a stand-in value (first non-null item)
+            // For null slots, we need a stand-in value (first non-null item,
+            // or a default instance when every item is null)
             object? standIn = _items.FirstOrDefault(v => v is not null);
+            if (standIn is null && nullCount > 0)
+            {
+                try
+                {
+                    standIn = Activator.CreateInstance(_clrType);
+                }
+                catch (MissingMethodException e)
+                {
+                    throw new NotSupportedException(
+                        $"Cannot build an all-null struct column for {_clrType.FullName}: the type has no parameterless constructor to use as a null stand-in.", e);
+                }
+            }
             foreach (var item in _items)
                 typedList.Add(item ?? standIn!);
 

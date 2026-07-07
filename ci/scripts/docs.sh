@@ -21,6 +21,10 @@ set -eux
 
 source_dir=${1}
 
+# Build the serialization library first so its source generator output is
+# available when docfx extracts metadata.
+dotnet build "${source_dir}/src/Apache.Arrow.Serialization/Apache.Arrow.Serialization.csproj"
+
 pushd "${source_dir}/docs"
 
 dotnet tool install -g docfx

@@ -14,9 +14,9 @@
 // limitations under the License.
 
 using System.Collections.Immutable;
+using Apache.Arrow.Serialization.Generator;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Apache.Arrow.Serialization.Generator;
 using Xunit;
 
 namespace Apache.Arrow.Serialization.Tests;

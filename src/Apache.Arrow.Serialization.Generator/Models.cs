@@ -19,7 +19,7 @@ using System.Collections.Generic;
 
 namespace Apache.Arrow.Serialization.Generator
 {
-    internal enum TypeKind2
+    internal enum ArrowTypeKind
     {
         Unknown,
         String,
@@ -54,7 +54,7 @@ namespace Apache.Arrow.Serialization.Generator
 
     internal class TypeInfo
     {
-        public TypeKind2 Kind { get; set; }
+        public ArrowTypeKind Kind { get; set; }
         public string FullTypeName { get; set; } = "";
         public bool IsNullable { get; set; }
         public string? ArrowTypeOverride { get; set; }

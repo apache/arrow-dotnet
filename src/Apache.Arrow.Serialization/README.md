@@ -159,6 +159,8 @@ Records use `{ get; init; }` properties. Classes and structs use `{ get; set; }`
 | `ReadOnlyMemory<byte>` | `Binary` | Override to `BinaryView` via `[ArrowType("binary_view")]` |
 | `enum` | `Dictionary(Int16, Utf8)` | Name-based encoding |
 
+> **Note on decimals:** CLR `decimal` and Arrow decimal types do not match exactly. A CLR `decimal` holds 96 bits of mantissa with a floating scale of 0–28, while `Decimal128(38, 18)` is a fixed-point type with 38 significant digits and a fixed scale of 18 fractional digits. Values with more than 18 fractional digits lose precision on write, and values with more than 20 integer digits do not fit. Use `[ArrowType("decimal128(p, s)")]` to pick a precision/scale that matches your data.
+
 ### Collections
 
 | C# Type | Arrow Type |
