@@ -76,13 +76,18 @@ var roundTrip = ArrowSerializerExtensions.DeserializeFromBytes<Person>(bytes);
 dotnet add package Apache.Arrow.Serialization
 ```
 
-The NuGet package includes both the runtime library and the Roslyn source generator. Targets `net8.0`.
+The NuGet package includes both the runtime library and the Roslyn source generator. Targets `netstandard2.0`, `net462`, and `net8.0` — usable from .NET 8+ and .NET Framework 4.6.2+ (including 4.7.2).
+
+.NET Framework notes:
+- Building requires a Roslyn 4 toolchain (VS 2022 or current .NET SDK) with an SDK-style project, since source generators do not run on older toolchains.
+- Generated code uses modern C# syntax; set `<LangVersion>latest</LangVersion>` if your project targets .NET Framework.
+- `DateOnly`, `TimeOnly`, and `Half` mappings are unavailable on .NET Framework because those types do not exist there; `DateTime`/`DateTimeOffset`/`TimeSpan` cover timestamps and durations.
 
 ## Quick Start
 
 1. Add `[ArrowSerializable]` to your type
 2. Make the type `partial` (required for source generation)
-3. The generator emits `IArrowSerializer<T>` — giving you `ArrowSchema`, `ToRecordBatch`, `FromRecordBatch`, and `ListFromRecordBatch`
+3. The generator emits static members — `ArrowSchema`, `ToRecordBatch`, `FromRecordBatch`, and `ListFromRecordBatch` — plus an `IArrowSerializer<T>` implementation registered with `ArrowSerializerRegistry`, which powers the generic extension methods
 
 ```csharp
 using Apache.Arrow.Serialization;
@@ -99,7 +104,7 @@ public partial record SensorReading
 The source generator produces a `partial` implementation with these static members:
 
 ```csharp
-partial record SensorReading : IArrowSerializer<SensorReading>
+partial record SensorReading : IArrowSerializable
 {
     public static Schema ArrowSchema { get; }
     public static RecordBatch ToRecordBatch(SensorReading value);
@@ -107,6 +112,12 @@ partial record SensorReading : IArrowSerializer<SensorReading>
     public static RecordBatch ToRecordBatch(IReadOnlyList<SensorReading> values);
     public static IReadOnlyList<SensorReading> ListFromRecordBatch(RecordBatch batch);
 }
+```
+
+It also generates an `IArrowSerializer<SensorReading>` implementation that delegates to these statics and registers it with `ArrowSerializerRegistry` via a module initializer. The registry is what lets the generic extension methods (`value.SerializeToBytes()`, `DeserializeFromBytes<T>`, ...) resolve the right serializer on any target framework, and it can also be used directly:
+
+```csharp
+IArrowSerializer<SensorReading> serializer = ArrowSerializerRegistry.Get<SensorReading>();
 ```
 
 ## Supported Types
@@ -576,7 +587,7 @@ When `RecordBatchBuilder` encounters a nested `[ArrowSerializable]` type, it del
 
 ## Extension Methods
 
-`ArrowSerializerExtensions` provides convenience methods for any `IArrowSerializer<T>` type:
+`ArrowSerializerExtensions` provides convenience methods for any `[ArrowSerializable]` type:
 
 | Method | Description |
 |--------|-------------|

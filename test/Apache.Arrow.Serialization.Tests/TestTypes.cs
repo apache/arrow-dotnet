@@ -163,6 +163,7 @@ public partial record WithArrowTypeOverride
     public int Value { get; init; }
 }
 
+#if NET6_0_OR_GREATER
 [ArrowSerializable]
 public partial record WithDateTimeTypes
 {
@@ -172,6 +173,7 @@ public partial record WithDateTimeTypes
     public TimeOnly Time { get; init; }
     public TimeSpan Duration { get; init; }
 }
+#endif
 
 [ArrowSerializable]
 public partial record WithDecimalAndGuid
@@ -180,12 +182,15 @@ public partial record WithDecimalAndGuid
     public Guid Id { get; init; }
 }
 
+#if NET6_0_OR_GREATER
 [ArrowSerializable]
 public partial record WithHalf
 {
     public Half Value { get; init; }
 }
+#endif
 
+#if NET6_0_OR_GREATER
 [ArrowSerializable]
 public partial record WithNullableDateTimeTypes
 {
@@ -197,6 +202,7 @@ public partial record WithNullableDateTimeTypes
     public Guid? Id { get; init; }
     public Half? HalfVal { get; init; }
 }
+#endif
 
 [ArrowSerializable]
 public partial record WithTimestampOverride
@@ -208,6 +214,7 @@ public partial record WithTimestampOverride
     public DateTime DateTimeValue { get; init; }
 }
 
+#if NET6_0_OR_GREATER
 [ArrowSerializable]
 public partial record WithTimeOverride
 {
@@ -217,6 +224,7 @@ public partial record WithTimeOverride
     [ArrowType("time64[ns]")]
     public TimeOnly Nanos { get; init; }
 }
+#endif
 
 [ArrowSerializable]
 public partial record WithDecimalOverride
@@ -285,6 +293,7 @@ public partial record WithWallClockTimestamp
     public DateTimeOffset UtcDateTimeOffset { get; init; }
 }
 
+#if NET6_0_OR_GREATER
 [ArrowSerializable]
 public partial record WithDateOverride
 {
@@ -296,6 +305,7 @@ public partial record WithDateOverride
     [ArrowType("date32")]
     public DateOnly Date32Value { get; init; }
 }
+#endif
 
 [ArrowSerializable]
 public partial record WithBool8
@@ -361,13 +371,13 @@ public class Point2DArrowConverter : IArrowConverter<Point2D>
 
     public Apache.Arrow.IArrowArray ToArray(Point2D value)
     {
-        return new Apache.Arrow.StringArray.Builder().Append(string.Create(System.Globalization.CultureInfo.InvariantCulture, $"{value.X},{value.Y}")).Build();
+        return new Apache.Arrow.StringArray.Builder().Append(FormattableString.Invariant($"{value.X},{value.Y}")).Build();
     }
 
     public Apache.Arrow.IArrowArray ToArray(IReadOnlyList<Point2D> values)
     {
         var b = new Apache.Arrow.StringArray.Builder();
-        foreach (var v in values) b.Append(string.Create(System.Globalization.CultureInfo.InvariantCulture, $"{v.X},{v.Y}"));
+        foreach (var v in values) b.Append(FormattableString.Invariant($"{v.X},{v.Y}"));
         return b.Build();
     }
 
@@ -478,17 +488,21 @@ public partial record WithDateTimeOffsetList
     public List<DateTimeOffset> Timestamps { get; init; } = new();
 }
 
+#if NET6_0_OR_GREATER
 [ArrowSerializable]
 public partial record WithDateOnlyList
 {
     public List<DateOnly> Dates { get; init; } = new();
 }
+#endif
 
+#if NET6_0_OR_GREATER
 [ArrowSerializable]
 public partial record WithTimeOnlyList
 {
     public List<TimeOnly> Times { get; init; } = new();
 }
+#endif
 
 [ArrowSerializable]
 public partial record WithTimeSpanList
@@ -496,11 +510,13 @@ public partial record WithTimeSpanList
     public List<TimeSpan> Durations { get; init; } = new();
 }
 
+#if NET6_0_OR_GREATER
 [ArrowSerializable]
 public partial record WithHalfList
 {
     public List<Half> Values { get; init; } = new();
 }
+#endif
 
 [ArrowSerializable]
 public partial record WithAllPrimitiveLists

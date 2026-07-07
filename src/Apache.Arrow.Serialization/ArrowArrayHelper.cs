@@ -92,12 +92,14 @@ public static class ArrowArrayHelper
                     for (int i = 0; i < length; i++) b.AppendNull();
                     return b.Build();
                 }
+#if NET5_0_OR_GREATER
             case HalfFloatType:
                 {
                     var b = new HalfFloatArray.Builder();
                     for (int i = 0; i < length; i++) b.AppendNull();
                     return b.Build();
                 }
+#endif
             case FloatType:
                 {
                     var b = new FloatArray.Builder();
@@ -264,6 +266,7 @@ public static class ArrowArrayHelper
 
     // --- TimeOnly helpers (Time64) ---
 
+#if NET6_0_OR_GREATER
     public static IArrowArray BuildTimeOnlyArray(TimeOnly value)
     {
         var b = new Time64Array.Builder(Time64Type.Default);
@@ -298,6 +301,7 @@ public static class ArrowArrayHelper
     {
         return array.GetTime(index)!.Value;
     }
+#endif
 
     // --- TimeSpan helpers (Duration) ---
 
@@ -414,5 +418,14 @@ public static class ArrowArrayHelper
     public static T ThrowNotSupported<T>(string message)
     {
         throw new NotSupportedException(message);
+    }
+
+    /// <summary>
+    /// Parses an enum value by name. Used by generated code instead of
+    /// <c>Enum.Parse&lt;T&gt;</c>, whose generic overload does not exist on .NET Framework.
+    /// </summary>
+    public static T ParseEnum<T>(string name) where T : struct
+    {
+        return (T)Enum.Parse(typeof(T), name);
     }
 }

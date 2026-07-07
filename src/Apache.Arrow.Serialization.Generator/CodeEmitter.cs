@@ -55,7 +55,7 @@ namespace Apache.Arrow.Serialization.Generator
             }
 
             var typeKeyword = GetTypeKeyword();
-            Line($"partial {typeKeyword} {_model.TypeName} : IArrowSerializer<{_model.TypeName}>");
+            Line($"partial {typeKeyword} {_model.TypeName} : IArrowSerializable");
             Line("{");
             _indent++;
 
@@ -71,6 +71,8 @@ namespace Apache.Arrow.Serialization.Generator
 
             _indent--;
             Line("}");
+            Line();
+            CodeEmitterHelpers.EmitSerializerRegistration(Line, _model.TypeName);
         }
 
         private void EmitSchemaField()
@@ -1117,12 +1119,12 @@ namespace Apache.Arrow.Serialization.Generator
             if (prop.IsNullable)
             {
                 Line($"var dictArr_{index} = (DictionaryArray){colAccess};");
-                Line($"{enumType}? prop_{index} = dictArr_{index}.IsNull(0) ? null : System.Enum.Parse<{enumType}>(((StringArray)dictArr_{index}.Dictionary).GetString((int)((Int16Array)dictArr_{index}.Indices).GetValue(0).Value)!);");
+                Line($"{enumType}? prop_{index} = dictArr_{index}.IsNull(0) ? null : ArrowArrayHelper.ParseEnum<{enumType}>(((StringArray)dictArr_{index}.Dictionary).GetString((int)((Int16Array)dictArr_{index}.Indices).GetValue(0).Value)!);");
             }
             else
             {
                 Line($"var dictArr_{index} = (DictionaryArray){colAccess};");
-                Line($"var prop_{index} = System.Enum.Parse<{enumType}>(((StringArray)dictArr_{index}.Dictionary).GetString((int)((Int16Array)dictArr_{index}.Indices).GetValue(0).Value)!);");
+                Line($"var prop_{index} = ArrowArrayHelper.ParseEnum<{enumType}>(((StringArray)dictArr_{index}.Dictionary).GetString((int)((Int16Array)dictArr_{index}.Indices).GetValue(0).Value)!);");
             }
         }
 
@@ -1233,7 +1235,7 @@ namespace Apache.Arrow.Serialization.Generator
                         // Enum list elements are dictionary-encoded: Dictionary(Int16, Utf8)
                         Line($"var {listArr}_dictArr = (DictionaryArray){listArr}.Values;");
                         Line($"var {listArr}_dictValues = (StringArray){listArr}_dictArr.Dictionary;");
-                        var readExpr = $"Enumerable.Range({listArr}_start, {listArr}_len).Select(i => System.Enum.Parse<{elemType.FullTypeName}>({listArr}_dictValues.GetString(((Int16Array){listArr}_dictArr.Indices).GetValue(i)!.Value)!))";
+                        var readExpr = $"Enumerable.Range({listArr}_start, {listArr}_len).Select(i => ArrowArrayHelper.ParseEnum<{elemType.FullTypeName}>({listArr}_dictValues.GetString(((Int16Array){listArr}_dictArr.Indices).GetValue(i)!.Value)!))";
                         if (isSet)
                             Line(PropDecl($"new System.Collections.Generic.HashSet<{elemType.FullTypeName}>({readExpr})"));
                         else if (prop.Type.Kind == ArrowTypeKind.Array)
@@ -1390,7 +1392,7 @@ namespace Apache.Arrow.Serialization.Generator
                 ArrowTypeKind.TimeSpan => $"Enumerable.Range(0, {valuesVar}.Length).Select(i => Apache.Arrow.Serialization.ArrowArrayHelper.ReadDuration((DurationArray){valuesVar}, i))",
                 ArrowTypeKind.Guid => $"Enumerable.Range(0, {valuesVar}.Length).Select(i => ((GuidArray){valuesVar}).GetGuid(i)!.Value)",
                 ArrowTypeKind.Binary => $"Enumerable.Range(0, {valuesVar}.Length).Select(i => ((BinaryArray){valuesVar}).GetBytes(i).ToArray())",
-                ArrowTypeKind.Enum => $"Enumerable.Range(0, {valuesVar}.Length).Select(i => System.Enum.Parse<{elemType.FullTypeName}>(((StringArray){valuesVar}).GetString(i)!))",
+                ArrowTypeKind.Enum => $"Enumerable.Range(0, {valuesVar}.Length).Select(i => ArrowArrayHelper.ParseEnum<{elemType.FullTypeName}>(((StringArray){valuesVar}).GetString(i)!))",
                 _ => $"System.Array.Empty<{elemType.FullTypeName}>()",
             };
         }
@@ -1482,7 +1484,7 @@ namespace Apache.Arrow.Serialization.Generator
                         var enumType = valueType.FullTypeName;
                         var dvVar = $"dv_{propIndex}{d}";
                         Line($"var {dvVar} = (DictionaryArray){valsArrayVar};");
-                        Line($"{dictVar}[{keyExpr}] = System.Enum.Parse<{enumType}>(((StringArray){dvVar}.Dictionary).GetString((int)((Int16Array){dvVar}.Indices).GetValue({indexVar}).Value)!);");
+                        Line($"{dictVar}[{keyExpr}] = ArrowArrayHelper.ParseEnum<{enumType}>(((StringArray){dvVar}.Dictionary).GetString((int)((Int16Array){dvVar}.Indices).GetValue({indexVar}).Value)!);");
                         break;
                     }
                 case ArrowTypeKind.NestedRecord:
@@ -1536,7 +1538,7 @@ namespace Apache.Arrow.Serialization.Generator
                 ArrowTypeKind.TimeSpan => $"Apache.Arrow.Serialization.ArrowArrayHelper.ReadDuration((DurationArray){arrayVar}, {indexVar})",
                 ArrowTypeKind.Guid => $"((GuidArray){arrayVar}).GetGuid({indexVar})!.Value",
                 ArrowTypeKind.Binary => $"((BinaryArray){arrayVar}).GetBytes({indexVar}).ToArray()",
-                ArrowTypeKind.Enum => $"System.Enum.Parse<{type.FullTypeName}>(((StringArray){arrayVar}).GetString({indexVar})!)",
+                ArrowTypeKind.Enum => $"ArrowArrayHelper.ParseEnum<{type.FullTypeName}>(((StringArray){arrayVar}).GetString({indexVar})!)",
                 _ => $"default({type.FullTypeName})",
             };
         }
@@ -2462,9 +2464,9 @@ namespace Apache.Arrow.Serialization.Generator
                     {
                         var enumType = prop.Type.FullTypeName;
                         if (prop.IsNullable)
-                            Line($"var prop_{index} = col_{index}.IsNull(row) ? ({enumType}?)null : System.Enum.Parse<{enumType}>(((StringArray)col_{index}.Dictionary).GetString((int)((Int16Array)col_{index}.Indices).GetValue(row).Value)!);");
+                            Line($"var prop_{index} = col_{index}.IsNull(row) ? ({enumType}?)null : ArrowArrayHelper.ParseEnum<{enumType}>(((StringArray)col_{index}.Dictionary).GetString((int)((Int16Array)col_{index}.Indices).GetValue(row).Value)!);");
                         else
-                            Line($"var prop_{index} = System.Enum.Parse<{enumType}>(((StringArray)col_{index}.Dictionary).GetString((int)((Int16Array)col_{index}.Indices).GetValue(row).Value)!);");
+                            Line($"var prop_{index} = ArrowArrayHelper.ParseEnum<{enumType}>(((StringArray)col_{index}.Dictionary).GetString((int)((Int16Array)col_{index}.Indices).GetValue(row).Value)!);");
                         break;
                     }
                 case ArrowTypeKind.List:
@@ -2513,7 +2515,7 @@ namespace Apache.Arrow.Serialization.Generator
                                         // Dictionary-encoded enum values: Dictionary(Int16, Utf8)
                                         Line($"var enumDictArr_{index} = (DictionaryArray)col_{index}.Values;");
                                         Line($"var enumDictValues_{index} = (StringArray)enumDictArr_{index}.Dictionary;");
-                                        var readExpr2 = $"Enumerable.Range(listStart_{index}, listLen_{index}).Select(i => System.Enum.Parse<{elemType.FullTypeName}>(enumDictValues_{index}.GetString(((Int16Array)enumDictArr_{index}.Indices).GetValue(i)!.Value)!))";
+                                        var readExpr2 = $"Enumerable.Range(listStart_{index}, listLen_{index}).Select(i => ArrowArrayHelper.ParseEnum<{elemType.FullTypeName}>(enumDictValues_{index}.GetString(((Int16Array)enumDictArr_{index}.Indices).GetValue(i)!.Value)!))";
                                         if (prop.Type.Kind == ArrowTypeKind.Array)
                                             Line($"{multiDeclPrefix} = {readExpr2}.ToArray();");
                                         else if (prop.Type.Kind == ArrowTypeKind.Set)

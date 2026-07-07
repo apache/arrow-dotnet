@@ -530,6 +530,7 @@ public class MultiRowTests
 
 public class DateTimeTypeTests
 {
+#if NET6_0_OR_GREATER
     [Fact]
     public void DateTime_RoundTrip()
     {
@@ -598,6 +599,7 @@ public class DateTimeTypeTests
         Assert.Equal(items[1].Time, restored[1].Time);
         Assert.Equal(items[1].Duration, restored[1].Duration);
     }
+#endif
 
     [Fact]
     public void DecimalAndGuid_RoundTrip()
@@ -633,6 +635,7 @@ public class DateTimeTypeTests
         }
     }
 
+#if NET6_0_OR_GREATER
     [Fact]
     public void Half_RoundTrip()
     {
@@ -712,6 +715,7 @@ public class DateTimeTypeTests
         Assert.Null(restored[1].Id);
         Assert.Equal(items[2].Date, restored[2].Date);
     }
+#endif
 }
 
 public class ArrowTypeOverrideTests
@@ -771,6 +775,7 @@ public class ArrowTypeOverrideTests
         Assert.Equal(obj.Value, restored.Value);
     }
 
+#if NET6_0_OR_GREATER
     [Fact]
     public void TimeOverride_Time32MillisAndTime64Nanos()
     {
@@ -851,6 +856,7 @@ public class ArrowTypeOverrideTests
         Assert.Equal(items[1].Date64Value, restored[1].Date64Value);
         Assert.Equal(items[1].Date32Value, restored[1].Date32Value);
     }
+#endif
 
     [Fact]
     public void ViewTypes_Schema_UsesViewTypes()
@@ -1743,6 +1749,7 @@ public class PolymorphicTests
         Assert.Equal(obj.Timestamps, restored.Timestamps);
     }
 
+#if NET6_0_OR_GREATER
     [Fact]
     public void DateOnlyList_RoundTrip()
     {
@@ -1758,6 +1765,7 @@ public class PolymorphicTests
         var restored = WithTimeOnlyList.FromRecordBatch(WithTimeOnlyList.ToRecordBatch(obj));
         Assert.Equal(obj.Times, restored.Times);
     }
+#endif
 
     [Fact]
     public void TimeSpanList_RoundTrip()
@@ -1767,6 +1775,7 @@ public class PolymorphicTests
         Assert.Equal(obj.Durations, restored.Durations);
     }
 
+#if NET6_0_OR_GREATER
     [Fact]
     public void HalfList_RoundTrip()
     {
@@ -1774,6 +1783,7 @@ public class PolymorphicTests
         var restored = WithHalfList.FromRecordBatch(WithHalfList.ToRecordBatch(obj));
         Assert.Equal(obj.Values, restored.Values);
     }
+#endif
 
     [Fact]
     public void AllPrimitiveLists_RoundTrip()

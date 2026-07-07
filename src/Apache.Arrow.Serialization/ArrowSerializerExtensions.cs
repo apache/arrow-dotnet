@@ -26,60 +26,60 @@ public static class ArrowSerializerExtensions
     /// <summary>
     /// Serialize an instance to Arrow IPC stream bytes.
     /// </summary>
-    public static byte[] SerializeToBytes<T>(this T value) where T : IArrowSerializer<T>
+    public static byte[] SerializeToBytes<T>(this T value) where T : IArrowSerializable
     {
-        var batch = T.ToRecordBatch(value);
+        var batch = ArrowSerializerRegistry.Get<T>().ToRecordBatch(value);
         return RecordBatchToBytes(batch);
     }
 
     /// <summary>
     /// Deserialize an instance from Arrow IPC stream bytes.
     /// </summary>
-    public static T DeserializeFromBytes<T>(byte[] data) where T : IArrowSerializer<T>
+    public static T DeserializeFromBytes<T>(byte[] data) where T : IArrowSerializable
     {
         var batch = BytesToRecordBatch(data);
-        return T.FromRecordBatch(batch);
+        return ArrowSerializerRegistry.Get<T>().FromRecordBatch(batch);
     }
 
     /// <summary>
     /// Serialize an instance to an Arrow IPC stream.
     /// </summary>
-    public static void SerializeToStream<T>(this T value, Stream destination) where T : IArrowSerializer<T>
+    public static void SerializeToStream<T>(this T value, Stream destination) where T : IArrowSerializable
     {
-        var batch = T.ToRecordBatch(value);
+        var batch = ArrowSerializerRegistry.Get<T>().ToRecordBatch(value);
         WriteRecordBatch(batch, destination);
     }
 
     /// <summary>
     /// Deserialize an instance from an Arrow IPC stream.
     /// </summary>
-    public static T DeserializeFromStream<T>(Stream source) where T : IArrowSerializer<T>
+    public static T DeserializeFromStream<T>(Stream source) where T : IArrowSerializable
     {
         var batch = ReadRecordBatch(source);
-        return T.FromRecordBatch(batch);
+        return ArrowSerializerRegistry.Get<T>().FromRecordBatch(batch);
     }
 
     /// <summary>
     /// Serialize multiple instances to a multi-row RecordBatch.
     /// </summary>
-    public static RecordBatch ToRecordBatch<T>(this IEnumerable<T> items) where T : IArrowSerializer<T>
+    public static RecordBatch ToRecordBatch<T>(this IEnumerable<T> items) where T : IArrowSerializable
     {
         var list = items as IReadOnlyList<T> ?? items.ToList();
-        return T.ToRecordBatch(list);
+        return ArrowSerializerRegistry.Get<T>().ToRecordBatch(list);
     }
 
     /// <summary>
     /// Deserialize all rows from a RecordBatch into a list of instances.
     /// </summary>
-    public static IReadOnlyList<T> ToList<T>(this RecordBatch batch) where T : IArrowSerializer<T>
+    public static IReadOnlyList<T> ToList<T>(this RecordBatch batch) where T : IArrowSerializable
     {
-        return T.ListFromRecordBatch(batch);
+        return ArrowSerializerRegistry.Get<T>().ListFromRecordBatch(batch);
     }
 
     /// <summary>
     /// Serialize multiple instances to Arrow IPC stream bytes.
     /// </summary>
-    public static byte[] SerializeListToBytes<T>(this IEnumerable<T> items) where T : IArrowSerializer<T>
+    public static byte[] SerializeListToBytes<T>(this IEnumerable<T> items) where T : IArrowSerializable
     {
         var batch = items.ToRecordBatch();
         return RecordBatchToBytes(batch);
@@ -88,10 +88,10 @@ public static class ArrowSerializerExtensions
     /// <summary>
     /// Deserialize multiple instances from Arrow IPC stream bytes.
     /// </summary>
-    public static IReadOnlyList<T> DeserializeListFromBytes<T>(byte[] data) where T : IArrowSerializer<T>
+    public static IReadOnlyList<T> DeserializeListFromBytes<T>(byte[] data) where T : IArrowSerializable
     {
         var batch = BytesToRecordBatch(data);
-        return T.ListFromRecordBatch(batch);
+        return ArrowSerializerRegistry.Get<T>().ListFromRecordBatch(batch);
     }
 
     /// <summary>

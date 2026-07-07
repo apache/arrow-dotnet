@@ -56,7 +56,7 @@ namespace Apache.Arrow.Serialization.Generator
             }
 
             var typeKeyword = _model.IsInterface ? "interface" : (_model.IsRecord ? "record" : "class");
-            Line($"partial {typeKeyword} {_model.TypeName} : IArrowSerializer<{_model.TypeName}>");
+            Line($"partial {typeKeyword} {_model.TypeName} : IArrowSerializable");
             Line("{");
             _indent++;
 
@@ -72,6 +72,8 @@ namespace Apache.Arrow.Serialization.Generator
 
             _indent--;
             Line("}");
+            Line();
+            CodeEmitterHelpers.EmitSerializerRegistration(Line, _model.TypeName);
         }
 
         private void EmitSchemaField()
@@ -552,13 +554,13 @@ namespace Apache.Arrow.Serialization.Generator
                         if (prop.IsNullable)
                         {
                             Line($"{enumType}? prop_{propIndex} = null;");
-                            Line($"{{ var da = (DictionaryArray){col}; if (!da.IsNull(0)) {{ var idx = ((Int16Array)da.Indices).GetValue(0).Value; var name = ((StringArray)da.Dictionary).GetString(idx); prop_{propIndex} = System.Enum.Parse<{enumType}>(name!); }} }}");
+                            Line($"{{ var da = (DictionaryArray){col}; if (!da.IsNull(0)) {{ var idx = ((Int16Array)da.Indices).GetValue(0).Value; var name = ((StringArray)da.Dictionary).GetString(idx); prop_{propIndex} = ArrowArrayHelper.ParseEnum<{enumType}>(name!); }} }}");
                         }
                         else
                         {
                             Line($"var da_{propIndex} = (DictionaryArray){col};");
                             Line($"var idx_{propIndex} = ((Int16Array)da_{propIndex}.Indices).GetValue(0).Value;");
-                            Line($"var prop_{propIndex} = System.Enum.Parse<{enumType}>(((StringArray)da_{propIndex}.Dictionary).GetString(idx_{propIndex})!);");
+                            Line($"var prop_{propIndex} = ArrowArrayHelper.ParseEnum<{enumType}>(((StringArray)da_{propIndex}.Dictionary).GetString(idx_{propIndex})!);");
                         }
                         break;
                     }
@@ -626,12 +628,12 @@ namespace Apache.Arrow.Serialization.Generator
                         if (prop.IsNullable)
                         {
                             Line($"{enumType}? prop_{propIndex} = null;");
-                            Line($"if (!{col}.IsNull(row)) {{ var idx = ((Int16Array){col}.Indices).GetValue(row).Value; var name = ((StringArray){col}.Dictionary).GetString(idx); prop_{propIndex} = System.Enum.Parse<{enumType}>(name!); }}");
+                            Line($"if (!{col}.IsNull(row)) {{ var idx = ((Int16Array){col}.Indices).GetValue(row).Value; var name = ((StringArray){col}.Dictionary).GetString(idx); prop_{propIndex} = ArrowArrayHelper.ParseEnum<{enumType}>(name!); }}");
                         }
                         else
                         {
                             Line($"var idx_{propIndex} = ((Int16Array){col}.Indices).GetValue(row).Value;");
-                            Line($"var prop_{propIndex} = System.Enum.Parse<{enumType}>(((StringArray){col}.Dictionary).GetString(idx_{propIndex})!);");
+                            Line($"var prop_{propIndex} = ArrowArrayHelper.ParseEnum<{enumType}>(((StringArray){col}.Dictionary).GetString(idx_{propIndex})!);");
                         }
                         break;
                     }
@@ -680,6 +682,30 @@ namespace Apache.Arrow.Serialization.Generator
     /// </summary>
     internal static class CodeEmitterHelpers
     {
+        /// <summary>
+        /// Emits a registration class with an IArrowSerializer&lt;T&gt; implementation that
+        /// delegates to the generated statics, registered via module initializer so the
+        /// ArrowSerializerRegistry is populated before any user code in the assembly runs.
+        /// </summary>
+        public static void EmitSerializerRegistration(Action<string> line, string typeName)
+        {
+            line($"internal static class {typeName}ArrowSerializerRegistration");
+            line("{");
+            line($"    private sealed class Serializer : IArrowSerializer<{typeName}>");
+            line("    {");
+            line($"        public Schema ArrowSchema => {typeName}.ArrowSchema;");
+            line($"        public RecordBatch ToRecordBatch({typeName} value) => {typeName}.ToRecordBatch(value);");
+            line($"        public {typeName} FromRecordBatch(RecordBatch batch) => {typeName}.FromRecordBatch(batch);");
+            line($"        public RecordBatch ToRecordBatch(IReadOnlyList<{typeName}> values) => {typeName}.ToRecordBatch(values);");
+            line($"        public IReadOnlyList<{typeName}> ListFromRecordBatch(RecordBatch batch) => {typeName}.ListFromRecordBatch(batch);");
+            line("    }");
+            line("");
+            line("    [global::System.Runtime.CompilerServices.ModuleInitializer]");
+            line("    internal static void Register() =>");
+            line($"        ArrowSerializerRegistry.Register<{typeName}>(new Serializer());");
+            line("}");
+        }
+
         /// <summary>
         /// Returns the Arrow type expression for a TypeInfo (e.g., "Int32Type.Default").
         /// </summary>

@@ -94,14 +94,18 @@ public static class RecordBatchBuilder
         if (clrType == typeof(uint)) return (UInt32Type.Default, false);
         if (clrType == typeof(long)) return (Int64Type.Default, false);
         if (clrType == typeof(ulong)) return (UInt64Type.Default, false);
+#if NET5_0_OR_GREATER
         if (clrType == typeof(Half)) return (HalfFloatType.Default, false);
+#endif
         if (clrType == typeof(float)) return (FloatType.Default, false);
         if (clrType == typeof(double)) return (DoubleType.Default, false);
         if (clrType == typeof(decimal)) return (new Decimal128Type(38, 18), false);
         if (clrType == typeof(DateTime)) return (new TimestampType(TimeUnit.Microsecond, "UTC"), false);
         if (clrType == typeof(DateTimeOffset)) return (new TimestampType(TimeUnit.Microsecond, "UTC"), false);
+#if NET6_0_OR_GREATER
         if (clrType == typeof(DateOnly)) return (Date32Type.Default, false);
         if (clrType == typeof(TimeOnly)) return (new Time64Type(TimeUnit.Microsecond), false);
+#endif
         if (clrType == typeof(TimeSpan)) return (DurationType.Microsecond, false);
         if (clrType == typeof(Guid)) return (new GuidType(), false);
         if (clrType == typeof(byte[])) return (BinaryType.Default, true);
@@ -165,14 +169,12 @@ public static class RecordBatchBuilder
     }
 
     /// <summary>
-    /// Check if a type implements IArrowSerializer&lt;T&gt; (i.e. has [ArrowSerializable] source-generated code)
+    /// Check if a type implements IArrowSerializable (i.e. has [ArrowSerializable] source-generated code)
     /// and return its static ArrowSchema if so.
     /// </summary>
     private static Schema? GetGeneratedArrowSchema(Type clrType)
     {
-        var iface = clrType.GetInterfaces()
-            .FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IArrowSerializer<>));
-        if (iface is null) return null;
+        if (!typeof(IArrowSerializable).IsAssignableFrom(clrType)) return null;
 
         var schemaProp = clrType.GetProperty("ArrowSchema", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
         return schemaProp?.GetValue(null) as Schema;
@@ -184,7 +186,8 @@ public static class RecordBatchBuilder
     private static MethodInfo? GetGeneratedToRecordBatchList(Type clrType)
     {
         var listType = typeof(IReadOnlyList<>).MakeGenericType(clrType);
-        return clrType.GetMethod("ToRecordBatch", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy, [listType]);
+        return clrType.GetMethod("ToRecordBatch", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy,
+            binder: null, [listType], modifiers: null);
     }
 
     private static IColumnBuilder CreateColumnBuilder(Type clrType, IArrowType arrowType)
@@ -203,14 +206,18 @@ public static class RecordBatchBuilder
         if (clrType == typeof(uint)) return new TypedColumnBuilder<uint, UInt32Array.Builder>(new(), (b, v) => b.Append(v), b => b.AppendNull(), b => b.Build());
         if (clrType == typeof(long)) return new TypedColumnBuilder<long, Int64Array.Builder>(new(), (b, v) => b.Append(v), b => b.AppendNull(), b => b.Build());
         if (clrType == typeof(ulong)) return new TypedColumnBuilder<ulong, UInt64Array.Builder>(new(), (b, v) => b.Append(v), b => b.AppendNull(), b => b.Build());
+#if NET5_0_OR_GREATER
         if (clrType == typeof(Half)) return new TypedColumnBuilder<Half, HalfFloatArray.Builder>(new(), (b, v) => b.Append(v), b => b.AppendNull(), b => b.Build());
+#endif
         if (clrType == typeof(float)) return new TypedColumnBuilder<float, FloatArray.Builder>(new(), (b, v) => b.Append(v), b => b.AppendNull(), b => b.Build());
         if (clrType == typeof(double)) return new TypedColumnBuilder<double, DoubleArray.Builder>(new(), (b, v) => b.Append(v), b => b.AppendNull(), b => b.Build());
         if (clrType == typeof(decimal)) return new DecimalColumnBuilder();
         if (clrType == typeof(DateTime)) return new DateTimeColumnBuilder();
         if (clrType == typeof(DateTimeOffset)) return new DateTimeOffsetColumnBuilder();
+#if NET6_0_OR_GREATER
         if (clrType == typeof(DateOnly)) return new TypedColumnBuilder<DateOnly, Date32Array.Builder>(new(), (b, v) => b.Append(v), b => b.AppendNull(), b => b.Build());
         if (clrType == typeof(TimeOnly)) return new TimeOnlyColumnBuilder();
+#endif
         if (clrType == typeof(TimeSpan)) return new TimeSpanColumnBuilder();
         if (clrType == typeof(Guid)) return new GuidColumnBuilder();
         if (clrType == typeof(byte[])) return new BinaryColumnBuilder();
@@ -348,6 +355,7 @@ public static class RecordBatchBuilder
         public IArrowArray Build() => _b.Build();
     }
 
+#if NET6_0_OR_GREATER
     private sealed class TimeOnlyColumnBuilder : IColumnBuilder
     {
         private readonly List<(TimeOnly Value, bool IsNull)> _values = new();
@@ -364,6 +372,7 @@ public static class RecordBatchBuilder
             return b.Build();
         }
     }
+#endif
 
     private sealed class TimeSpanColumnBuilder : IColumnBuilder
     {

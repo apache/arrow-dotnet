@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net462;net8.0</TargetFrameworks>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <Description>Source-generated Apache Arrow serialization for .NET. Provides [ArrowSerializable] attribute and IArrowSerializer&lt;T&gt; interface for compile-time Arrow schema derivation, serialization, and deserialization.</Description>
