@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net462;net8.0</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Description>Source-generated Apache Arrow serialization for .NET. Provides [ArrowSerializable] attribute and IArrowSerializer&lt;T&gt; interface for compile-time Arrow schema derivation, serialization, and deserialization.</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Apache.Arrow\Apache.Arrow.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Apache.Arrow.Serialization.Generator\Apache.Arrow.Serialization.Generator.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <!-- Ship the source generator inside this package as a Roslyn analyzer so
+       consumers only need a single PackageReference. -->
+  <ItemGroup>
+    <None Include="$(CSharpDir)artifacts/Apache.Arrow.Serialization.Generator/$(Configuration)/netstandard2.0/Apache.Arrow.Serialization.Generator.dll"
+          Pack="true"
+          PackagePath="analyzers/dotnet/cs"
+          Visible="false" />
+  </ItemGroup>
+
+</Project>

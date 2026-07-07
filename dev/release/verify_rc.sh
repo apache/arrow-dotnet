@@ -173,6 +173,13 @@ test_binary_distribution() {
 
   pushd nuget
   for package in $(cd ../src && echo *); do
+    case "${package}" in
+    Apache.Arrow.Serialization.Generator)
+      # Not packable: the source generator ships inside the
+      # Apache.Arrow.Serialization package as a Roslyn analyzer.
+      continue
+      ;;
+    esac
     for package_type in nupkg snupkg; do
       fetch_artifact "${package}.${VERSION}.${package_type}"
     done
@@ -186,6 +193,15 @@ test_binary_distribution() {
   reference_package "Apache.Arrow.Flight.AspNetCore" "Apache.Arrow.Flight.TestWeb"
   reference_package "Apache.Arrow.Operations" "Apache.Arrow.Operations.Tests" "Apache.Arrow.Scalars.Tests"
   reference_package "Apache.Arrow.Scalars" "Apache.Arrow.Scalars.Tests" "Apache.Arrow.Tests" "Apache.Arrow.Operations.Tests"
+  reference_package "Apache.Arrow.Serialization" "Apache.Arrow.Serialization.Tests"
+  # The source generator ships inside the Apache.Arrow.Serialization package
+  # as a Roslyn analyzer; drop the direct project reference so the packaged
+  # generator is exercised instead. The generator unit tests need the
+  # generator assembly as a compile-time reference, which the package's
+  # analyzer does not provide, so they only run against the source tree.
+  dotnet remove "test/Apache.Arrow.Serialization.Tests" \
+    reference "src/Apache.Arrow.Serialization.Generator/Apache.Arrow.Serialization.Generator.csproj"
+  rm test/Apache.Arrow.Serialization.Tests/DiagnosticTests.cs
 
   # Move src directory to ensure we are only testing against built packages
   mv src src.backup
