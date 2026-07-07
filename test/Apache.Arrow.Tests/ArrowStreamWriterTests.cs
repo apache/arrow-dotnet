@@ -736,5 +736,164 @@ namespace Apache.Arrow.Tests
                 Assert.True(allocator.Statistics.Allocations > 0);
             Assert.Equal(0, allocator.Rented);
         }
+
+        [Fact]
+        public void WriteCustomMetadata_RoundTrips()
+        {
+            RecordBatch originalBatch = TestData.CreateSampleRecordBatch(length: 10);
+            var customMetadata = new Dictionary<string, string>
+            {
+                ["rpc.method"] = "add",
+                ["rpc.version"] = "1",
+                ["request_id"] = "abc-123",
+            };
+
+            using var stream = new MemoryStream();
+            using (var writer = new ArrowStreamWriter(stream, originalBatch.Schema, leaveOpen: true))
+            {
+                writer.WriteRecordBatch(originalBatch, customMetadata);
+                writer.WriteEnd();
+            }
+
+            stream.Position = 0;
+
+            using var reader = new ArrowStreamReader(stream);
+            RecordBatch readBatch = reader.ReadNextRecordBatch();
+            Assert.NotNull(readBatch);
+            ArrowReaderVerifier.CompareBatches(originalBatch, readBatch);
+
+            var readMetadata = reader.LastBatchCustomMetadata;
+            Assert.NotNull(readMetadata);
+            Assert.Equal(3, readMetadata.Count);
+            Assert.Equal("add", readMetadata["rpc.method"]);
+            Assert.Equal("1", readMetadata["rpc.version"]);
+            Assert.Equal("abc-123", readMetadata["request_id"]);
+        }
+
+        [Fact]
+        public async Task WriteCustomMetadataAsync_RoundTrips()
+        {
+            RecordBatch originalBatch = TestData.CreateSampleRecordBatch(length: 10);
+            var customMetadata = new Dictionary<string, string>
+            {
+                ["key1"] = "value1",
+                ["key2"] = "value2",
+            };
+
+            using var stream = new MemoryStream();
+            using (var writer = new ArrowStreamWriter(stream, originalBatch.Schema, leaveOpen: true))
+            {
+                await writer.WriteRecordBatchAsync(originalBatch, customMetadata);
+                await writer.WriteEndAsync();
+            }
+
+            stream.Position = 0;
+
+            using var reader = new ArrowStreamReader(stream);
+            RecordBatch readBatch = reader.ReadNextRecordBatch();
+            Assert.NotNull(readBatch);
+            ArrowReaderVerifier.CompareBatches(originalBatch, readBatch);
+
+            Assert.NotNull(reader.LastBatchCustomMetadata);
+            Assert.Equal("value1", reader.LastBatchCustomMetadata["key1"]);
+            Assert.Equal("value2", reader.LastBatchCustomMetadata["key2"]);
+        }
+
+        [Fact]
+        public void WriteCustomMetadata_MultipleBatches_EachHasOwnMetadata()
+        {
+            RecordBatch batch = TestData.CreateSampleRecordBatch(length: 5);
+            var meta1 = new Dictionary<string, string> { ["batch"] = "first" };
+            var meta2 = new Dictionary<string, string> { ["batch"] = "second", ["extra"] = "data" };
+
+            using var stream = new MemoryStream();
+            using (var writer = new ArrowStreamWriter(stream, batch.Schema, leaveOpen: true))
+            {
+                writer.WriteRecordBatch(batch, meta1);
+                writer.WriteRecordBatch(batch, meta2);
+                writer.WriteEnd();
+            }
+
+            stream.Position = 0;
+
+            using var reader = new ArrowStreamReader(stream);
+
+            reader.ReadNextRecordBatch();
+            Assert.NotNull(reader.LastBatchCustomMetadata);
+            Assert.Single(reader.LastBatchCustomMetadata);
+            Assert.Equal("first", reader.LastBatchCustomMetadata["batch"]);
+
+            reader.ReadNextRecordBatch();
+            Assert.NotNull(reader.LastBatchCustomMetadata);
+            Assert.Equal(2, reader.LastBatchCustomMetadata.Count);
+            Assert.Equal("second", reader.LastBatchCustomMetadata["batch"]);
+            Assert.Equal("data", reader.LastBatchCustomMetadata["extra"]);
+        }
+
+        [Fact]
+        public void WriteWithoutCustomMetadata_LastBatchCustomMetadataIsNull()
+        {
+            RecordBatch batch = TestData.CreateSampleRecordBatch(length: 5);
+
+            using var stream = new MemoryStream();
+            using (var writer = new ArrowStreamWriter(stream, batch.Schema, leaveOpen: true))
+            {
+                writer.WriteRecordBatch(batch);
+                writer.WriteEnd();
+            }
+
+            stream.Position = 0;
+
+            using var reader = new ArrowStreamReader(stream);
+            reader.ReadNextRecordBatch();
+            Assert.Null(reader.LastBatchCustomMetadata);
+        }
+
+        [Fact]
+        public void WriteCustomMetadata_MixedBatches_WithAndWithoutMetadata()
+        {
+            RecordBatch batch = TestData.CreateSampleRecordBatch(length: 5);
+            var meta = new Dictionary<string, string> { ["key"] = "value" };
+
+            using var stream = new MemoryStream();
+            using (var writer = new ArrowStreamWriter(stream, batch.Schema, leaveOpen: true))
+            {
+                writer.WriteRecordBatch(batch, meta);
+                writer.WriteRecordBatch(batch); // no metadata
+                writer.WriteEnd();
+            }
+
+            stream.Position = 0;
+
+            using var reader = new ArrowStreamReader(stream);
+
+            reader.ReadNextRecordBatch();
+            Assert.NotNull(reader.LastBatchCustomMetadata);
+            Assert.Equal("value", reader.LastBatchCustomMetadata["key"]);
+
+            reader.ReadNextRecordBatch();
+            Assert.Null(reader.LastBatchCustomMetadata);
+        }
+
+        [Fact]
+        public void WriteCustomMetadata_EmptyValues_RoundTrips()
+        {
+            RecordBatch batch = TestData.CreateSampleRecordBatch(length: 5);
+            var meta = new Dictionary<string, string> { ["empty"] = "" };
+
+            using var stream = new MemoryStream();
+            using (var writer = new ArrowStreamWriter(stream, batch.Schema, leaveOpen: true))
+            {
+                writer.WriteRecordBatch(batch, meta);
+                writer.WriteEnd();
+            }
+
+            stream.Position = 0;
+
+            using var reader = new ArrowStreamReader(stream);
+            reader.ReadNextRecordBatch();
+            Assert.NotNull(reader.LastBatchCustomMetadata);
+            Assert.Equal("", reader.LastBatchCustomMetadata["empty"]);
+        }
     }
 }
