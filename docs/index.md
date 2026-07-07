@@ -27,6 +27,9 @@ An implementation of Arrow targeting .NET.
 See our current [feature matrix](https://github.com/apache/arrow/blob/main/docs/source/status.rst)
 for currently available features.
 
+For source-generated POCO serialization (`[ArrowSerializable]`), see
+[Apache.Arrow.Serialization](../src/Apache.Arrow.Serialization/README.md).
+
 ## Implementation
 
 - Arrow specification 1.0.0. (Support for reading 0.11+.)

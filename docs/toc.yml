@@ -18,6 +18,8 @@
 # under the License.
 
 items:
+- name: Serialization
+  href: ../src/Apache.Arrow.Serialization/README.md
 - name: API Reference
   type: Namespace
   href: api/

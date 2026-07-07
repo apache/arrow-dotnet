@@ -27,6 +27,13 @@
           "_site/**",
           "images/**"
         ]
+      },
+      {
+        "files": [
+          "README.md"
+        ],
+        "src": "../src/Apache.Arrow.Serialization",
+        "dest": "serialization"
       }
     ],
     "resource": [
