@@ -158,7 +158,10 @@ namespace Apache.Arrow.Tests
             // Smoke test: just verify it doesn't throw.
             // We can't directly observe GC memory pressure, but we verify the
             // alloc/dealloc cycle completes without error.
+            // Test-only use of obsolete API.
+#pragma warning disable CS0618 // Type or member is obsolete
             var buf = new NativeBuffer<byte, MemoryPressureAllocationTracker>(1024);
+#pragma warning restore CS0618 // Type or member is obsolete
             buf.Span[0] = 0xFF;
             buf.Dispose();
         }
