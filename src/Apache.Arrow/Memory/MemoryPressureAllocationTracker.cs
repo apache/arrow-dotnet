@@ -20,7 +20,8 @@ namespace Apache.Arrow.Memory
     /// <summary>
     /// Allows control over the way native allocations interact with the GC.
     /// </summary>
-    public struct MemoryPressureAllocationTracker : INativeAllocationTracker
+    [Obsolete("Use NoOpAllocationTracker instead. See https://learn.microsoft.com/en-us/dotnet/api/system.gc.addmemorypressure?view=net-10.0#remarks for more information on why the GC memory pressure APIs are not always necessary.")]
+    public readonly struct MemoryPressureAllocationTracker : INativeAllocationTracker
     {
         public void Track(int count, long bytes)
         {
