@@ -227,6 +227,7 @@ function Test-Binary-Distribution {
     Reference-Package "Apache.Arrow.Flight.AspNetCore" @("Apache.Arrow.Flight.TestWeb")
     Reference-Package "Apache.Arrow.Operations" @("Apache.Arrow.Operations.Tests", "Apache.Arrow.Scalars.Tests")
     Reference-Package "Apache.Arrow.Scalars" @("Apache.Arrow.Scalars.Tests", "Apache.Arrow.Tests", "Apache.Arrow.Operations.Tests")
+    Reference-Package "Apache.Arrow.Compute" @("Apache.Arrow.Compute.Tests")
 
     # Move src directory to ensure we are only testing against built packages
     Rename-Item src src.backup
