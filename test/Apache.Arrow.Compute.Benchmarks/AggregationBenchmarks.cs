@@ -46,7 +46,7 @@ namespace Apache.Arrow.Compute.Benchmarks
 
         // SIMD fast path (null-free => TensorPrimitives).
         [Benchmark(Baseline = true)]
-        public double Sum_Kernel() => _values.Sum();
+        public double Sum_Kernel() => _values.Sum()!.Value;
 
         // Straightforward managed scalar loop over the same values buffer.
         [Benchmark]
@@ -62,7 +62,7 @@ namespace Apache.Arrow.Compute.Benchmarks
         }
 
         [Benchmark]
-        public double Min_Kernel() => _values.Min();
+        public double Min_Kernel() => _values.Min()!.Value;
 
         [Benchmark]
         public double Min_NaiveScalar()
@@ -77,6 +77,6 @@ namespace Apache.Arrow.Compute.Benchmarks
         }
 
         [Benchmark]
-        public double Mean_Kernel() => _values.Mean();
+        public double Mean_Kernel() => _values.Mean()!.Value;
     }
 }

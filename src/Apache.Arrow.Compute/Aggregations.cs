@@ -26,11 +26,10 @@ namespace Apache.Arrow.Compute
     /// </summary>
     /// <remarks>
     /// <para>
-    /// Null handling follows LINQ semantics: null entries are skipped and do not contribute to the
-    /// result. <c>Sum</c> of an empty or all-null array returns zero. <c>Min</c>, <c>Max</c> and
-    /// <c>Mean</c> throw <see cref="InvalidOperationException"/> when the array contains no non-null
-    /// elements, matching <see cref="System.Linq.Enumerable.Min{TSource}(System.Collections.Generic.IEnumerable{TSource})"/>
-    /// and <see cref="System.Linq.Enumerable.Average(System.Collections.Generic.IEnumerable{int})"/>.
+    /// Null entries are skipped and do not contribute to the result. <c>Sum</c>, <c>Min</c>,
+    /// <c>Max</c> and <c>Mean</c> return <c>null</c> (<see cref="System.Nullable{T}"/>) when the
+    /// array is empty or contains no non-null elements, matching Arrow's <c>ScalarAggregateOptions</c>
+    /// default (<c>min_count = 1</c>) and PyArrow's compute module, which return null in these cases.
     /// </para>
     /// <para>
     /// On net8.0 and later the kernels are generic over <c>INumber&lt;T&gt;</c> and, when the
@@ -44,16 +43,19 @@ namespace Apache.Arrow.Compute
     /// </remarks>
     public static class Aggregations
     {
-        private const string NoElements = "Sequence contains no non-null elements.";
-
 #if NET8_0_OR_GREATER
-        /// <summary>Sums the non-null elements. Returns zero for an empty or all-null array.</summary>
-        public static T Sum<T>(this PrimitiveArray<T> array)
+        /// <summary>Sums the non-null elements. Returns null for an empty or all-null array.</summary>
+        public static T? Sum<T>(this PrimitiveArray<T> array)
             where T : unmanaged, INumber<T>
         {
             if (array is null) throw new ArgumentNullException(nameof(array));
 
             ReadOnlySpan<T> values = array.Values;
+
+            if (values.Length == 0 || array.Length - array.NullCount == 0)
+            {
+                return null;
+            }
 
             if (array.NullCount == 0)
             {
@@ -71,9 +73,8 @@ namespace Apache.Arrow.Compute
             return acc;
         }
 
-        /// <summary>Returns the smallest non-null element.</summary>
-        /// <exception cref="InvalidOperationException">The array contains no non-null elements.</exception>
-        public static T Min<T>(this PrimitiveArray<T> array)
+        /// <summary>Returns the smallest non-null element, or null if there are no non-null elements.</summary>
+        public static T? Min<T>(this PrimitiveArray<T> array)
             where T : unmanaged, INumber<T>, IMinMaxValue<T>
         {
             if (array is null) throw new ArgumentNullException(nameof(array));
@@ -82,7 +83,7 @@ namespace Apache.Arrow.Compute
 
             if (values.Length == 0 || array.Length - array.NullCount == 0)
             {
-                throw new InvalidOperationException(NoElements);
+                return null;
             }
 
             if (array.NullCount == 0)
@@ -99,9 +100,8 @@ namespace Apache.Arrow.Compute
             return min;
         }
 
-        /// <summary>Returns the largest non-null element.</summary>
-        /// <exception cref="InvalidOperationException">The array contains no non-null elements.</exception>
-        public static T Max<T>(this PrimitiveArray<T> array)
+        /// <summary>Returns the largest non-null element, or null if there are no non-null elements.</summary>
+        public static T? Max<T>(this PrimitiveArray<T> array)
             where T : unmanaged, INumber<T>, IMinMaxValue<T>
         {
             if (array is null) throw new ArgumentNullException(nameof(array));
@@ -110,7 +110,7 @@ namespace Apache.Arrow.Compute
 
             if (values.Length == 0 || array.Length - array.NullCount == 0)
             {
-                throw new InvalidOperationException(NoElements);
+                return null;
             }
 
             if (array.NullCount == 0)
@@ -127,9 +127,8 @@ namespace Apache.Arrow.Compute
             return max;
         }
 
-        /// <summary>Returns the arithmetic mean of the non-null elements as a <see cref="double"/>.</summary>
-        /// <exception cref="InvalidOperationException">The array contains no non-null elements.</exception>
-        public static double Mean<T>(this PrimitiveArray<T> array)
+        /// <summary>Returns the arithmetic mean of the non-null elements as a <see cref="double"/>, or null if there are no non-null elements.</summary>
+        public static double? Mean<T>(this PrimitiveArray<T> array)
             where T : unmanaged, INumber<T>
         {
             if (array is null) throw new ArgumentNullException(nameof(array));
@@ -137,10 +136,10 @@ namespace Apache.Arrow.Compute
             long count = array.Length - array.NullCount;
             if (count == 0)
             {
-                throw new InvalidOperationException(NoElements);
+                return null;
             }
 
-            T sum = array.Sum();
+            T sum = array.Sum()!.Value;
             return double.CreateChecked(sum) / count;
         }
 #else
@@ -150,10 +149,11 @@ namespace Apache.Arrow.Compute
 
         #region Int32Array
 
-        /// <summary>Sums the non-null elements. Returns zero for an empty or all-null array.</summary>
-        public static int Sum(this Int32Array array)
+        /// <summary>Sums the non-null elements. Returns null for an empty or all-null array.</summary>
+        public static int? Sum(this Int32Array array)
         {
             if (array is null) throw new ArgumentNullException(nameof(array));
+            if (array.Length - array.NullCount == 0) return null;
             ReadOnlySpan<int> values = array.Values;
             int acc = 0;
             bool noNulls = array.NullCount == 0;
@@ -164,9 +164,8 @@ namespace Apache.Arrow.Compute
             return acc;
         }
 
-        /// <summary>Returns the smallest non-null element.</summary>
-        /// <exception cref="InvalidOperationException">The array contains no non-null elements.</exception>
-        public static int Min(this Int32Array array)
+        /// <summary>Returns the smallest non-null element, or null if there are no non-null elements.</summary>
+        public static int? Min(this Int32Array array)
         {
             if (array is null) throw new ArgumentNullException(nameof(array));
             ReadOnlySpan<int> values = array.Values;
@@ -179,13 +178,12 @@ namespace Apache.Arrow.Compute
                 if (!set) { min = values[i]; set = true; }
                 else if (values[i] < min) min = values[i];
             }
-            if (!set) throw new InvalidOperationException(NoElements);
+            if (!set) return null;
             return min;
         }
 
-        /// <summary>Returns the largest non-null element.</summary>
-        /// <exception cref="InvalidOperationException">The array contains no non-null elements.</exception>
-        public static int Max(this Int32Array array)
+        /// <summary>Returns the largest non-null element, or null if there are no non-null elements.</summary>
+        public static int? Max(this Int32Array array)
         {
             if (array is null) throw new ArgumentNullException(nameof(array));
             ReadOnlySpan<int> values = array.Values;
@@ -198,28 +196,28 @@ namespace Apache.Arrow.Compute
                 if (!set) { max = values[i]; set = true; }
                 else if (values[i] > max) max = values[i];
             }
-            if (!set) throw new InvalidOperationException(NoElements);
+            if (!set) return null;
             return max;
         }
 
-        /// <summary>Returns the arithmetic mean of the non-null elements as a <see cref="double"/>.</summary>
-        /// <exception cref="InvalidOperationException">The array contains no non-null elements.</exception>
-        public static double Mean(this Int32Array array)
+        /// <summary>Returns the arithmetic mean of the non-null elements as a <see cref="double"/>, or null if there are no non-null elements.</summary>
+        public static double? Mean(this Int32Array array)
         {
             if (array is null) throw new ArgumentNullException(nameof(array));
             long count = array.Length - array.NullCount;
-            if (count == 0) throw new InvalidOperationException(NoElements);
-            return (double)array.Sum() / count;
+            if (count == 0) return null;
+            return (double)array.Sum()!.Value / count;
         }
 
         #endregion
 
         #region Int64Array
 
-        /// <summary>Sums the non-null elements. Returns zero for an empty or all-null array.</summary>
-        public static long Sum(this Int64Array array)
+        /// <summary>Sums the non-null elements. Returns null for an empty or all-null array.</summary>
+        public static long? Sum(this Int64Array array)
         {
             if (array is null) throw new ArgumentNullException(nameof(array));
+            if (array.Length - array.NullCount == 0) return null;
             ReadOnlySpan<long> values = array.Values;
             long acc = 0;
             bool noNulls = array.NullCount == 0;
@@ -230,9 +228,8 @@ namespace Apache.Arrow.Compute
             return acc;
         }
 
-        /// <summary>Returns the smallest non-null element.</summary>
-        /// <exception cref="InvalidOperationException">The array contains no non-null elements.</exception>
-        public static long Min(this Int64Array array)
+        /// <summary>Returns the smallest non-null element, or null if there are no non-null elements.</summary>
+        public static long? Min(this Int64Array array)
         {
             if (array is null) throw new ArgumentNullException(nameof(array));
             ReadOnlySpan<long> values = array.Values;
@@ -245,13 +242,12 @@ namespace Apache.Arrow.Compute
                 if (!set) { min = values[i]; set = true; }
                 else if (values[i] < min) min = values[i];
             }
-            if (!set) throw new InvalidOperationException(NoElements);
+            if (!set) return null;
             return min;
         }
 
-        /// <summary>Returns the largest non-null element.</summary>
-        /// <exception cref="InvalidOperationException">The array contains no non-null elements.</exception>
-        public static long Max(this Int64Array array)
+        /// <summary>Returns the largest non-null element, or null if there are no non-null elements.</summary>
+        public static long? Max(this Int64Array array)
         {
             if (array is null) throw new ArgumentNullException(nameof(array));
             ReadOnlySpan<long> values = array.Values;
@@ -264,28 +260,28 @@ namespace Apache.Arrow.Compute
                 if (!set) { max = values[i]; set = true; }
                 else if (values[i] > max) max = values[i];
             }
-            if (!set) throw new InvalidOperationException(NoElements);
+            if (!set) return null;
             return max;
         }
 
-        /// <summary>Returns the arithmetic mean of the non-null elements as a <see cref="double"/>.</summary>
-        /// <exception cref="InvalidOperationException">The array contains no non-null elements.</exception>
-        public static double Mean(this Int64Array array)
+        /// <summary>Returns the arithmetic mean of the non-null elements as a <see cref="double"/>, or null if there are no non-null elements.</summary>
+        public static double? Mean(this Int64Array array)
         {
             if (array is null) throw new ArgumentNullException(nameof(array));
             long count = array.Length - array.NullCount;
-            if (count == 0) throw new InvalidOperationException(NoElements);
-            return (double)array.Sum() / count;
+            if (count == 0) return null;
+            return (double)array.Sum()!.Value / count;
         }
 
         #endregion
 
         #region FloatArray
 
-        /// <summary>Sums the non-null elements. Returns zero for an empty or all-null array.</summary>
-        public static float Sum(this FloatArray array)
+        /// <summary>Sums the non-null elements. Returns null for an empty or all-null array.</summary>
+        public static float? Sum(this FloatArray array)
         {
             if (array is null) throw new ArgumentNullException(nameof(array));
+            if (array.Length - array.NullCount == 0) return null;
             ReadOnlySpan<float> values = array.Values;
             float acc = 0f;
             bool noNulls = array.NullCount == 0;
@@ -296,9 +292,8 @@ namespace Apache.Arrow.Compute
             return acc;
         }
 
-        /// <summary>Returns the smallest non-null element.</summary>
-        /// <exception cref="InvalidOperationException">The array contains no non-null elements.</exception>
-        public static float Min(this FloatArray array)
+        /// <summary>Returns the smallest non-null element, or null if there are no non-null elements.</summary>
+        public static float? Min(this FloatArray array)
         {
             if (array is null) throw new ArgumentNullException(nameof(array));
             ReadOnlySpan<float> values = array.Values;
@@ -311,13 +306,12 @@ namespace Apache.Arrow.Compute
                 if (!set) { min = values[i]; set = true; }
                 else if (values[i] < min) min = values[i];
             }
-            if (!set) throw new InvalidOperationException(NoElements);
+            if (!set) return null;
             return min;
         }
 
-        /// <summary>Returns the largest non-null element.</summary>
-        /// <exception cref="InvalidOperationException">The array contains no non-null elements.</exception>
-        public static float Max(this FloatArray array)
+        /// <summary>Returns the largest non-null element, or null if there are no non-null elements.</summary>
+        public static float? Max(this FloatArray array)
         {
             if (array is null) throw new ArgumentNullException(nameof(array));
             ReadOnlySpan<float> values = array.Values;
@@ -330,28 +324,28 @@ namespace Apache.Arrow.Compute
                 if (!set) { max = values[i]; set = true; }
                 else if (values[i] > max) max = values[i];
             }
-            if (!set) throw new InvalidOperationException(NoElements);
+            if (!set) return null;
             return max;
         }
 
-        /// <summary>Returns the arithmetic mean of the non-null elements as a <see cref="double"/>.</summary>
-        /// <exception cref="InvalidOperationException">The array contains no non-null elements.</exception>
-        public static double Mean(this FloatArray array)
+        /// <summary>Returns the arithmetic mean of the non-null elements as a <see cref="double"/>, or null if there are no non-null elements.</summary>
+        public static double? Mean(this FloatArray array)
         {
             if (array is null) throw new ArgumentNullException(nameof(array));
             long count = array.Length - array.NullCount;
-            if (count == 0) throw new InvalidOperationException(NoElements);
-            return (double)array.Sum() / count;
+            if (count == 0) return null;
+            return (double)array.Sum()!.Value / count;
         }
 
         #endregion
 
         #region DoubleArray
 
-        /// <summary>Sums the non-null elements. Returns zero for an empty or all-null array.</summary>
-        public static double Sum(this DoubleArray array)
+        /// <summary>Sums the non-null elements. Returns null for an empty or all-null array.</summary>
+        public static double? Sum(this DoubleArray array)
         {
             if (array is null) throw new ArgumentNullException(nameof(array));
+            if (array.Length - array.NullCount == 0) return null;
             ReadOnlySpan<double> values = array.Values;
             double acc = 0d;
             bool noNulls = array.NullCount == 0;
@@ -362,9 +356,8 @@ namespace Apache.Arrow.Compute
             return acc;
         }
 
-        /// <summary>Returns the smallest non-null element.</summary>
-        /// <exception cref="InvalidOperationException">The array contains no non-null elements.</exception>
-        public static double Min(this DoubleArray array)
+        /// <summary>Returns the smallest non-null element, or null if there are no non-null elements.</summary>
+        public static double? Min(this DoubleArray array)
         {
             if (array is null) throw new ArgumentNullException(nameof(array));
             ReadOnlySpan<double> values = array.Values;
@@ -377,13 +370,12 @@ namespace Apache.Arrow.Compute
                 if (!set) { min = values[i]; set = true; }
                 else if (values[i] < min) min = values[i];
             }
-            if (!set) throw new InvalidOperationException(NoElements);
+            if (!set) return null;
             return min;
         }
 
-        /// <summary>Returns the largest non-null element.</summary>
-        /// <exception cref="InvalidOperationException">The array contains no non-null elements.</exception>
-        public static double Max(this DoubleArray array)
+        /// <summary>Returns the largest non-null element, or null if there are no non-null elements.</summary>
+        public static double? Max(this DoubleArray array)
         {
             if (array is null) throw new ArgumentNullException(nameof(array));
             ReadOnlySpan<double> values = array.Values;
@@ -396,18 +388,17 @@ namespace Apache.Arrow.Compute
                 if (!set) { max = values[i]; set = true; }
                 else if (values[i] > max) max = values[i];
             }
-            if (!set) throw new InvalidOperationException(NoElements);
+            if (!set) return null;
             return max;
         }
 
-        /// <summary>Returns the arithmetic mean of the non-null elements as a <see cref="double"/>.</summary>
-        /// <exception cref="InvalidOperationException">The array contains no non-null elements.</exception>
-        public static double Mean(this DoubleArray array)
+        /// <summary>Returns the arithmetic mean of the non-null elements as a <see cref="double"/>, or null if there are no non-null elements.</summary>
+        public static double? Mean(this DoubleArray array)
         {
             if (array is null) throw new ArgumentNullException(nameof(array));
             long count = array.Length - array.NullCount;
-            if (count == 0) throw new InvalidOperationException(NoElements);
-            return array.Sum() / count;
+            if (count == 0) return null;
+            return array.Sum()!.Value / count;
         }
 
         #endregion
