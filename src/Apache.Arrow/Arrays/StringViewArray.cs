@@ -13,7 +13,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#nullable enable
+
 using System;
+using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -22,33 +25,56 @@ using Apache.Arrow.Types;
 
 namespace Apache.Arrow
 {
-    public class StringViewArray : BinaryViewArray, IReadOnlyList<string>
+    public class StringViewArray(ArrayData data) : BinaryViewArray(ArrowTypeId.StringView, data), IReadOnlyList<string?>
     {
-        public static readonly Encoding DefaultEncoding = Encoding.UTF8;
+        public static Encoding DefaultEncoding { get; } = new UTF8Encoding(false);
 
-        public new class Builder : BuilderBase<StringViewArray, Builder>
+        public new class Builder() : BuilderBase<StringViewArray, Builder>(StringViewType.Default)
         {
-            public Builder() : base(StringViewType.Default) { }
-
             protected override StringViewArray Build(ArrayData data)
             {
                 return new StringViewArray(data);
             }
 
-            public Builder Append(string value, Encoding encoding = null)
+            public Builder Append(string? value, Encoding? encoding = null)
             {
-                if (value == null)
+                if (value is null)
                 {
                     return AppendNull();
                 }
-                encoding = encoding ?? DefaultEncoding;
-                byte[] span = encoding.GetBytes(value);
-                return Append(span.AsSpan());
+
+                encoding ??= DefaultEncoding;
+                int maxByteCount = encoding.GetMaxByteCount(value.Length);
+                #if NETCOREAPP
+                byte[]? buffer = null;
+
+                Span<byte> span = maxByteCount <= 1024
+                    ? stackalloc byte[maxByteCount]
+                    : buffer = ArrayPool<byte>.Shared.Rent(maxByteCount);
+
+                int encodeBbytes = encoding.GetBytes(value, span);
+                span = span.Slice(0, encodeBbytes);
+                #else
+                byte[] buffer = ArrayPool<byte>.Shared.Rent(maxByteCount);
+                int encodeBbytes = encoding.GetBytes(value, 0, value.Length, buffer, 0);
+                Span<byte> span = buffer.AsSpan(0, encodeBbytes);
+                #endif
+                try
+                {
+                    return Append(span);
+                }
+                finally
+                {
+                    if (buffer != null)
+                    {
+                        ArrayPool<byte>.Shared.Return(buffer);
+                    }
+                }
             }
 
-            public Builder AppendRange(IEnumerable<string> values, Encoding encoding = null)
+            public Builder AppendRange(IEnumerable<string?> values, Encoding? encoding = null)
             {
-                foreach (string value in values)
+                foreach (string? value in values)
                 {
                     Append(value, encoding);
                 }
@@ -57,31 +83,41 @@ namespace Apache.Arrow
             }
         }
 
-        public StringViewArray(ArrayData data)
-            : base(ArrowTypeId.StringView, data) { }
-
-        public StringViewArray(int length,
+        public StringViewArray
+        (
+            int length,
             ArrowBuffer valueOffsetsBuffer,
             ArrowBuffer dataBuffer,
             ArrowBuffer nullBitmapBuffer,
-            int nullCount = 0, int offset = 0)
-            : this(new ArrayData(StringViewType.Default, length, nullCount, offset,
-                new[] { nullBitmapBuffer, valueOffsetsBuffer, dataBuffer }))
-        { }
+            int nullCount = 0,
+            int offset = 0
+        ) : this
+        (
+            new ArrayData
+            (
+                StringViewType.Default,
+                length,
+                nullCount,
+                offset,
+                [nullBitmapBuffer, valueOffsetsBuffer, dataBuffer]
+            )
+        )
+        {
+        }
 
         public override void Accept(IArrowArrayVisitor visitor) => Accept(this, visitor);
 
-        public string GetString(int index, Encoding encoding = default)
+        public string? GetString(int index, Encoding? encoding = null)
         {
             encoding ??= DefaultEncoding;
-
             ReadOnlySpan<byte> bytes = GetBytes(index, out bool isNull);
 
             if (isNull)
             {
                 return null;
             }
-            if (bytes.Length == 0)
+
+            if (bytes.Length is 0)
             {
                 return string.Empty;
             }
@@ -93,11 +129,11 @@ namespace Apache.Arrow
             }
         }
 
-        int IReadOnlyCollection<string>.Count => Length;
+        int IReadOnlyCollection<string?>.Count => Length;
 
-        string IReadOnlyList<string>.this[int index] => GetString(index);
+        string? IReadOnlyList<string?>.this[int index] => GetString(index);
 
-        IEnumerator<string> IEnumerable<string>.GetEnumerator()
+        IEnumerator<string?> IEnumerable<string?>.GetEnumerator()
         {
             for (int index = 0; index < Length; index++)
             {
