@@ -52,24 +52,31 @@ namespace Apache.Arrow
                     ? stackalloc byte[maxByteCount]
                     : buffer = ArrayPool<byte>.Shared.Rent(maxByteCount);
 
-                int encodeBbytes = encoding.GetBytes(value, span);
-                span = span.Slice(0, encodeBbytes);
-                #else
-                byte[] buffer = ArrayPool<byte>.Shared.Rent(maxByteCount);
-                int encodeBbytes = encoding.GetBytes(value, 0, value.Length, buffer, 0);
-                Span<byte> span = buffer.AsSpan(0, encodeBbytes);
-                #endif
                 try
                 {
-                    return Append(span);
+                    int encodeBytes = encoding.GetBytes(value, span);
+                    return Append(span.Slice(0, encodeBytes));
                 }
                 finally
                 {
-                    if (buffer != null)
+                    if (buffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(buffer);
                     }
                 }
+                #else
+                byte[] buffer = ArrayPool<byte>.Shared.Rent(maxByteCount);
+
+                try
+                {
+                    int encodeBytes = encoding.GetBytes(value, 0, value.Length, buffer, 0);
+                    return Append(buffer.AsSpan(0, encodeBytes));
+                }
+                finally
+                {
+                    ArrayPool<byte>.Shared.Return(buffer);
+                }
+                #endif
             }
 
             public Builder AppendRange(IEnumerable<string?> values, Encoding? encoding = null)
