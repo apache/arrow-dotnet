@@ -28,8 +28,7 @@ namespace Apache.Arrow.Compute
     /// <para>
     /// Null entries are skipped and do not contribute to the result. <c>Sum</c>, <c>Min</c>,
     /// <c>Max</c> and <c>Mean</c> return <c>null</c> (<see cref="System.Nullable{T}"/>) when the
-    /// array is empty or contains no non-null elements, matching Arrow's <c>ScalarAggregateOptions</c>
-    /// default (<c>min_count = 1</c>) and PyArrow's compute module, which return null in these cases.
+    /// array is empty or contains no non-null elements.
     /// </para>
     /// <para>
     /// On net8.0 and later the kernels are generic over <c>INumber&lt;T&gt;</c> and, when the
