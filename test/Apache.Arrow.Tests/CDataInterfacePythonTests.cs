@@ -58,6 +58,8 @@ namespace Apache.Arrow.Tests
                     .Field(f => f.Name("f32").DataType(FloatType.Default).Nullable(true))
                     .Field(f => f.Name("f64").DataType(DoubleType.Default).Nullable(true))
 
+                    .Field(f => f.Name("decimal32_9_3").DataType(new Decimal32Type(9, 3)).Nullable(true))
+                    .Field(f => f.Name("decimal64_18_3").DataType(new Decimal64Type(18, 3)).Nullable(true))
                     .Field(f => f.Name("decimal128_19_3").DataType(new Decimal128Type(19, 3)).Nullable(true))
                     .Field(f => f.Name("decimal256_19_3").DataType(new Decimal256Type(19, 3)).Nullable(true))
                     .Field(f => f.Name("decimal256_40_2").DataType(new Decimal256Type(40, 2)).Nullable(false))
@@ -65,6 +67,8 @@ namespace Apache.Arrow.Tests
                     .Field(f => f.Name("binary").DataType(BinaryType.Default).Nullable(false))
                     .Field(f => f.Name("string").DataType(StringType.Default).Nullable(false))
                     .Field(f => f.Name("fw_binary_10").DataType(new FixedSizeBinaryType(10)).Nullable(false))
+                    .Field(f => f.Name("binary_view").DataType(BinaryViewType.Default).Nullable(false))
+                    .Field(f => f.Name("string_view").DataType(StringViewType.Default).Nullable(false))
 
                     .Field(f => f.Name("date32").DataType(Date32Type.Default).Nullable(false))
                     .Field(f => f.Name("date64").DataType(Date64Type.Default).Nullable(false))
@@ -79,6 +83,7 @@ namespace Apache.Arrow.Tests
 
                     .Field(f => f.Name("list_string").DataType(new ListType(StringType.Default)).Nullable(false))
                     .Field(f => f.Name("list_list_i32").DataType(new ListType(new ListType(Int32Type.Default))).Nullable(false))
+                    .Field(f => f.Name("list_view_string").DataType(new ListViewType(StringType.Default)).Nullable(false))
 
                     .Field(f => f.Name("fixed_length_list_i64").DataType(new FixedSizeListType(Int64Type.Default, 10)).Nullable(true))
 
@@ -130,6 +135,8 @@ namespace Apache.Arrow.Tests
                 yield return pa.field("f32", pa.float32(), true);
                 yield return pa.field("f64", pa.float64(), true);
 
+                yield return pa.field("decimal32_9_3", pa.decimal32(9, 3), true);
+                yield return pa.field("decimal64_18_3", pa.decimal64(18, 3), true);
                 yield return pa.field("decimal128_19_3", pa.decimal128(19, 3), true);
                 yield return pa.field("decimal256_19_3", pa.decimal256(19, 3), true);
                 yield return pa.field("decimal256_40_2", pa.decimal256(40, 2), false);
@@ -137,6 +144,8 @@ namespace Apache.Arrow.Tests
                 yield return pa.field("binary", pa.binary(), false);
                 yield return pa.field("string", pa.utf8(), false);
                 yield return pa.field("fw_binary_10", pa.binary(10), false);
+                yield return pa.field("binary_view", pa.binary_view(), false);
+                yield return pa.field("string_view", pa.string_view(), false);
 
                 yield return pa.field("date32", pa.date32(), false);
                 yield return pa.field("date64", pa.date64(), false);
@@ -151,6 +160,7 @@ namespace Apache.Arrow.Tests
 
                 yield return pa.field("list_string", pa.list_(pa.utf8()), false);
                 yield return pa.field("list_list_i32", pa.list_(pa.list_(pa.int32())), false);
+                yield return pa.field("list_view_string", pa.list_view(pa.utf8()), false);
 
                 yield return pa.field("fixed_length_list_i64", pa.list_(pa.int64(), 10), true);
 
