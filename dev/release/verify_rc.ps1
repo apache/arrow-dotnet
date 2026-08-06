@@ -221,7 +221,7 @@ function Test-Binary-Distribution {
     Pop-Location
 
     # Update test projects to reference NuGet packages for the release candidate
-    Reference-Package "Apache.Arrow" @("Apache.Arrow.Tests", "Apache.Arrow.Compression.Tests")
+    Reference-Package "Apache.Arrow" @("Apache.Arrow.Tests", "Apache.Arrow.Compression.Tests", "Apache.Arrow.Compute.Tests")
     Reference-Package "Apache.Arrow.Compression" @("Apache.Arrow.Compression.Tests")
     Reference-Package "Apache.Arrow.Flight.Sql" @("Apache.Arrow.Flight.Sql.Tests", "Apache.Arrow.Flight.TestWeb")
     Reference-Package "Apache.Arrow.Flight.AspNetCore" @("Apache.Arrow.Flight.TestWeb")

@@ -74,7 +74,7 @@ namespace Apache.Arrow.Compute
 
         /// <summary>Returns the smallest non-null element, or null if there are no non-null elements.</summary>
         public static T? Min<T>(this PrimitiveArray<T> array)
-            where T : unmanaged, INumber<T>, IMinMaxValue<T>
+            where T : unmanaged, INumber<T>
         {
             if (array is null) throw new ArgumentNullException(nameof(array));
 
@@ -90,8 +90,14 @@ namespace Apache.Arrow.Compute
                 return TensorPrimitives.Min(values);
             }
 
-            T min = T.MaxValue;
-            for (int i = 0; i < values.Length; i++)
+            int firstValidIndex = 0;
+            while (!array.IsValid(firstValidIndex))
+            {
+                firstValidIndex++;
+            }
+
+            T min = values[firstValidIndex];
+            for (int i = firstValidIndex + 1; i < values.Length; i++)
             {
                 if (!array.IsValid(i)) continue;
                 if (values[i] < min) { min = values[i]; }
@@ -101,7 +107,7 @@ namespace Apache.Arrow.Compute
 
         /// <summary>Returns the largest non-null element, or null if there are no non-null elements.</summary>
         public static T? Max<T>(this PrimitiveArray<T> array)
-            where T : unmanaged, INumber<T>, IMinMaxValue<T>
+            where T : unmanaged, INumber<T>
         {
             if (array is null) throw new ArgumentNullException(nameof(array));
 
@@ -117,8 +123,14 @@ namespace Apache.Arrow.Compute
                 return TensorPrimitives.Max(values);
             }
 
-            T max = T.MinValue;
-            for (int i = 0; i < values.Length; i++)
+            int firstValidIndex = 0;
+            while (!array.IsValid(firstValidIndex))
+            {
+                firstValidIndex++;
+            }
+
+            T max = values[firstValidIndex];
+            for (int i = firstValidIndex + 1; i < values.Length; i++)
             {
                 if (!array.IsValid(i)) continue;
                 if (values[i] > max) { max = values[i]; }

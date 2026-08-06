@@ -45,6 +45,28 @@ namespace Apache.Arrow.Compute.Tests
             return builder.Build();
         }
 
+        private static Int64Array Longs(params long?[] values)
+        {
+            var builder = new Int64Array.Builder();
+            foreach (long? v in values)
+            {
+                if (v.HasValue) builder.Append(v.Value);
+                else builder.AppendNull();
+            }
+            return builder.Build();
+        }
+
+        private static FloatArray Floats(params float?[] values)
+        {
+            var builder = new FloatArray.Builder();
+            foreach (float? v in values)
+            {
+                if (v.HasValue) builder.Append(v.Value);
+                else builder.AppendNull();
+            }
+            return builder.Build();
+        }
+
         [Fact]
         public void Sum_Int32_NoNulls()
         {
@@ -55,6 +77,46 @@ namespace Apache.Arrow.Compute.Tests
         public void Sum_Int32_WithNulls()
         {
             Assert.Equal(4, Ints(1, null, 3).Sum());
+        }
+
+        [Fact]
+        public void Aggregations_Int64_NoNulls()
+        {
+            var a = Longs(1, 2, 3, 4);
+            Assert.Equal(10L, a.Sum());
+            Assert.Equal(1L, a.Min());
+            Assert.Equal(4L, a.Max());
+            Assert.Equal(2.5, a.Mean()!.Value, 6);
+        }
+
+        [Fact]
+        public void Aggregations_Int64_WithNulls()
+        {
+            var a = Longs(1, null, 5, -2);
+            Assert.Equal(4L, a.Sum());
+            Assert.Equal(-2L, a.Min());
+            Assert.Equal(5L, a.Max());
+            Assert.Equal(4.0 / 3.0, a.Mean()!.Value, 6);
+        }
+
+        [Fact]
+        public void Aggregations_Float_NoNulls()
+        {
+            var a = Floats(1.5f, -2.0f, 4.5f);
+            Assert.Equal(4.0f, a.Sum());
+            Assert.Equal(-2.0f, a.Min());
+            Assert.Equal(4.5f, a.Max());
+            Assert.Equal(4.0 / 3.0, a.Mean()!.Value, 6);
+        }
+
+        [Fact]
+        public void Aggregations_Float_WithNulls()
+        {
+            var a = Floats(1.5f, null, 2.5f);
+            Assert.Equal(4.0f, a.Sum());
+            Assert.Equal(1.5f, a.Min());
+            Assert.Equal(2.5f, a.Max());
+            Assert.Equal(2.0, a.Mean()!.Value, 6);
         }
 
         [Fact]
@@ -77,6 +139,18 @@ namespace Apache.Arrow.Compute.Tests
             var a = Doubles(null, 5.0, null, 2.0, 9.0);
             Assert.Equal(2.0, a.Min()!.Value, 6);
             Assert.Equal(9.0, a.Max()!.Value, 6);
+        }
+
+        [Fact]
+        public void Min_Max_OnlyNonNullValueIsNaN_ReturnNaN()
+        {
+            FloatArray floats = Floats(null, float.NaN, null);
+            DoubleArray doubles = Doubles(null, double.NaN, null);
+
+            Assert.True(float.IsNaN(floats.Min()!.Value));
+            Assert.True(float.IsNaN(floats.Max()!.Value));
+            Assert.True(double.IsNaN(doubles.Min()!.Value));
+            Assert.True(double.IsNaN(doubles.Max()!.Value));
         }
 
         [Fact]
@@ -122,7 +196,7 @@ namespace Apache.Arrow.Compute.Tests
         }
 
         [Fact]
-        public void Large_FastPath_MatchesScalar()
+        public void Large_Aggregations_MatchScalar()
         {
             const int n = 1_000_000;
             var rng = new Random(17);
@@ -135,8 +209,15 @@ namespace Apache.Arrow.Compute.Tests
             double scalar = 0.0;
             for (int i = 0; i < n; i++) scalar += data[i];
 
-            // Fast (TensorPrimitives) path; allow small floating-point reorder tolerance.
-            Assert.Equal(scalar, array.Sum()!.Value, 3);
+            double actual = array.Sum()!.Value;
+            double absoluteError = Math.Abs(scalar - actual);
+            double allowedError = Math.Max(
+                1e-9,
+                1e-10 * Math.Max(Math.Abs(scalar), Math.Abs(actual)));
+            Assert.True(
+                absoluteError <= allowedError,
+                $"Sum differs beyond tolerance. Expected: {scalar:R}; actual: {actual:R}; " +
+                $"absolute error: {absoluteError:R}; allowed error: {allowedError:R}.");
             Assert.Equal(data.Min(), array.Min()!.Value, 9);
             Assert.Equal(data.Max(), array.Max()!.Value, 9);
         }
