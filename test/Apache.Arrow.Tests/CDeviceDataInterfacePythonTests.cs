@@ -238,8 +238,7 @@ namespace Apache.Arrow.Tests
         public unsafe void RoundTripTestBatchViaDevice()
         {
             // C# -> Python (via device) -> C# round trip
-            HashSet<ArrowTypeId> unsupported = new HashSet<ArrowTypeId> { ArrowTypeId.ListView, ArrowTypeId.BinaryView, ArrowTypeId.StringView, ArrowTypeId.Decimal32, ArrowTypeId.Decimal64 };
-            RecordBatch batch1 = TestData.CreateSampleRecordBatch(4, excludedTypes: unsupported);
+            RecordBatch batch1 = TestData.CreateSampleRecordBatch(4);
             RecordBatch batch2 = batch1.Clone();
 
             CArrowDeviceArray* cExportDeviceArray = CArrowDeviceArray.Create();
