@@ -1,4 +1,4 @@
-﻿// Licensed to the Apache Software Foundation (ASF) under one or more
+// Licensed to the Apache Software Foundation (ASF) under one or more
 // contributor license agreements. See the NOTICE file distributed with
 // this work for additional information regarding copyright ownership.
 // The ASF licenses this file to You under the Apache License, Version 2.0
@@ -383,6 +383,10 @@ namespace Apache.Arrow
         /// <summary>
         /// Get the collection of bytes, as a read-only span, at a given index in the array.
         /// </summary>
+        /// <remarks>
+        /// CAUTION: The returned ReadOnlySpan is not GC-tracked if backed by unmanaged memory.
+        /// Ensure the BinaryArray object remains in scope and undisposed while accessing this span.
+        /// </remarks>
         /// <param name="index">Index at which to get bytes.</param>
         /// <param name="isNull">Set to <see langword="true"/> if the value at the given index is null.</param>
         /// <returns>Returns a <see cref="ReadOnlySpan{Byte}"/> object.</returns>

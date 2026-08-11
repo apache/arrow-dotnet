@@ -1,4 +1,4 @@
-﻿// Licensed to the Apache Software Foundation (ASF) under one or more
+// Licensed to the Apache Software Foundation (ASF) under one or more
 // contributor license agreements. See the NOTICE file distributed with
 // this work for additional information regarding copyright ownership.
 // The ASF licenses this file to You under the Apache License, Version 2.0
@@ -162,7 +162,15 @@ namespace Apache.Arrow
         }
 
         public ArrowBuffer ValueBuffer => Data.Buffers[1];
-        public ReadOnlySpan<byte> Values => ValueBuffer.Span.Slice(0, (int)Math.Ceiling(Length / 8.0));
+
+        /// <summary>
+        /// Gets the boolean array values as a span of bytes (a bitmap).
+        /// </summary>
+        /// <remarks>
+        /// CAUTION: The returned ReadOnlySpan is not GC-tracked if backed by unmanaged memory.
+        /// Ensure the BooleanArray object remains in scope and undisposed while accessing this span.
+        /// </remarks>
+        public ReadOnlySpan<byte> Values => ValueBuffer.Span.Slice(0, (int)Math.Ceiling((double)Length / 8));
 
         public BooleanArray(
             ArrowBuffer valueBuffer, ArrowBuffer nullBitmapBuffer,
