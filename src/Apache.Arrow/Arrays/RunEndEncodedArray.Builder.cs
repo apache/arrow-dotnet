@@ -37,7 +37,7 @@ public partial class RunEndEncodedArray
         where TValueArray : IArrowArray
     {
         private readonly IEqualityComparer<TValue> _comparer;
-        private int _currentRunLength;
+        private int _length;
         private TValue _lastValue;
         private bool _lastValueIsNull;
         private bool _hasValue;
@@ -55,7 +55,7 @@ public partial class RunEndEncodedArray
         /// <summary>
         /// Gets the total logical length of elements appended to this builder.
         /// </summary>
-        public int Length => _currentRunLength;
+        public int Length => _length;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Builder{TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue}"/> class.
@@ -86,7 +86,7 @@ public partial class RunEndEncodedArray
             {
                 if (!_lastValueIsNull && _comparer.Equals(value, _lastValue))
                 {
-                    _currentRunLength++;
+                    _length++;
                 }
                 else
                 {
@@ -112,7 +112,7 @@ public partial class RunEndEncodedArray
             {
                 if (_lastValueIsNull)
                 {
-                    _currentRunLength++;
+                    _length++;
                 }
                 else
                 {
@@ -168,17 +168,24 @@ public partial class RunEndEncodedArray
         /// <returns>The builder instance for method chaining.</returns>
         public Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue> Reserve(int capacity)
         {
+            if (capacity < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(capacity));
+            }
+
+            ReserveBuilder<TRunEndArray, TRunEndBuilder>(RunEndsBuilder, capacity);
+            ReserveBuilder<TValueArray, TValueBuilder>(ValuesBuilder, capacity);
             return this;
         }
 
         /// <summary>
-        /// Resizes the builder.
+        /// Resizing is not supported for RunEndEncodedArray.Builder.
         /// </summary>
         /// <param name="length">The target length.</param>
         /// <returns>The builder instance for method chaining.</returns>
         public Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue> Resize(int length)
         {
-            return this;
+            throw new NotSupportedException("Resize is not supported on RunEndEncodedArray.Builder.");
         }
 
         /// <summary>
@@ -187,7 +194,7 @@ public partial class RunEndEncodedArray
         /// <returns>The builder instance for method chaining.</returns>
         public Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue> Clear()
         {
-            _currentRunLength = 0;
+            _length = 0;
             _lastValue = default;
             _lastValueIsNull = false;
             _hasValue = false;
@@ -235,7 +242,7 @@ public partial class RunEndEncodedArray
             _lastValue = value;
             _lastValueIsNull = isNull;
             _hasValue = true;
-            _currentRunLength++;
+            _length++;
         }
 
         private void FlushCurrentRun()
@@ -245,7 +252,7 @@ public partial class RunEndEncodedArray
                 return;
             }
 
-            AppendRunEndToRunEndsBuilder(RunEndsBuilder, _currentRunLength);
+            AppendRunEndToRunEndsBuilder(RunEndsBuilder, _length);
 
             if (_lastValueIsNull)
             {
@@ -363,6 +370,44 @@ public partial class RunEndEncodedArray
             }
         }
 
+        private static void ReserveBuilder<TArray, TBuilder>(TBuilder builder, int capacity)
+            where TArray : IArrowArray
+            where TBuilder : IArrowArrayBuilder<TArray>
+        {
+            if (builder is IArrowArrayBuilder<TArray, IArrowArrayBuilder<TArray>> b)
+            {
+                b.Reserve(capacity);
+            }
+            else if (builder is StringArray.Builder sb)
+            {
+                sb.Reserve(capacity);
+            }
+            else if (builder is LargeStringArray.Builder lsb)
+            {
+                lsb.Reserve(capacity);
+            }
+            else if (builder is StringViewArray.Builder svb)
+            {
+                svb.Reserve(capacity);
+            }
+            else if (builder is BinaryArray.Builder bb)
+            {
+                bb.Reserve(capacity);
+            }
+            else if (builder is LargeBinaryArray.Builder lbb)
+            {
+                lbb.Reserve(capacity);
+            }
+            else if (builder is BinaryViewArray.Builder bvb)
+            {
+                bvb.Reserve(capacity);
+            }
+            else
+            {
+                throw new NotSupportedException($"Reserving capacity for builder type '{typeof(TBuilder).Name}' is not supported.");
+            }
+        }
+
         private static void ClearBuilder<TArray, TBuilder>(TBuilder builder)
             where TArray : IArrowArray
             where TBuilder : IArrowArrayBuilder<TArray>
@@ -395,6 +440,11 @@ public partial class RunEndEncodedArray
             {
                 bvb.Clear();
             }
+            else
+            {
+                throw new NotSupportedException($"Clearing builder type '{typeof(TBuilder).Name}' is not supported.");
+            }
         }
     }
 }
+

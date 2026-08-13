@@ -261,4 +261,27 @@ public class RunEndEncodedArrayBuilderTests
         Assert.Equal("abc", values.GetString(0));
         Assert.Equal("def", values.GetString(1));
     }
+
+    [Fact]
+    public void TestReserve_ValidAndNegativeCapacity()
+    {
+        var builder = new RunEndEncodedArray.Builder<Int32Array.Builder, StringArray.Builder, Int32Array, StringArray, string>(
+            new Int32Array.Builder(),
+            new StringArray.Builder());
+
+        builder.Reserve(100);
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => builder.Reserve(-1));
+    }
+
+    [Fact]
+    public void TestResize_ThrowsNotSupportedException()
+    {
+        var builder = new RunEndEncodedArray.Builder<Int32Array.Builder, StringArray.Builder, Int32Array, StringArray, string>(
+            new Int32Array.Builder(),
+            new StringArray.Builder());
+
+        Assert.Throws<NotSupportedException>(() => builder.Resize(10));
+    }
 }
+
