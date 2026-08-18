@@ -15,12 +15,16 @@
 
 using System;
 using System.Buffers;
+using System.Collections.Generic;
 using Apache.Arrow.Memory;
 
 namespace Apache.Arrow.Tests
 {
-    public class PoisonMemoryAllocator : MemoryAllocator
+    public class PoisonMemoryAllocator : MemoryAllocator, IDisposable
     {
+        private readonly List<IMemoryOwner<byte>> _allocatedOwners = new List<IMemoryOwner<byte>>();
+        private bool _disposed;
+
         public PoisonMemoryAllocator(int alignment = DefaultAlignment) : base(alignment)
         {
         }
@@ -29,7 +33,28 @@ namespace Apache.Arrow.Tests
         {
             var innerOwner = NativeMemoryAllocator.Default.Value.Allocate(length);
             bytesAllocated = length;
+            lock (_allocatedOwners)
+            {
+                _allocatedOwners.Add(innerOwner);
+            }
             return new PoisonMemoryOwner(innerOwner);
+        }
+
+        public void Dispose()
+        {
+            if (_disposed)
+            {
+                return;
+            }
+            _disposed = true;
+            lock (_allocatedOwners)
+            {
+                foreach (IMemoryOwner<byte> owner in _allocatedOwners)
+                {
+                    owner.Dispose();
+                }
+                _allocatedOwners.Clear();
+            }
         }
 
         private sealed class PoisonMemoryOwner : IMemoryOwner<byte>
@@ -62,7 +87,6 @@ namespace Apache.Arrow.Tests
                 }
                 _disposed = true;
                 _inner.Memory.Span.Fill(0xFF);
-                _inner.Dispose();
             }
         }
     }

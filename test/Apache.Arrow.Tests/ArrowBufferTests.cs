@@ -116,7 +116,7 @@ namespace Apache.Arrow.Tests
         [Fact]
         public void TestNativeMemoryManagerUseAfterFree()
         {
-            var allocator = new PoisonMemoryAllocator();
+            using var allocator = new PoisonMemoryAllocator();
             // Allocate using the Builder pattern
             var builder = new ArrowBuffer.Builder<byte>(100000);
             builder.Append(new byte[100000]);
@@ -128,7 +128,7 @@ namespace Apache.Arrow.Tests
             // Dispose the buffer to trigger memory poisoning and release
             buffer.Dispose();
 
-            // This will now fail because span[50000] is poisoned with 0xFF after free instead of 0!
+            // span[50000] is poisoned with 0xFF after free, it's not the initial 0 value
             byte b = span[50000];
             Assert.Equal(0xFF, b);
         }
