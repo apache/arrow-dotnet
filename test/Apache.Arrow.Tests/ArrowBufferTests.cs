@@ -1,4 +1,4 @@
-﻿// Licensed to the Apache Software Foundation (ASF) under one or more
+// Licensed to the Apache Software Foundation (ASF) under one or more
 // contributor license agreements. See the NOTICE file distributed with
 // this work for additional information regarding copyright ownership.
 // The ASF licenses this file to You under the Apache License, Version 2.0
@@ -14,7 +14,9 @@
 // limitations under the License.
 
 using System;
+using System.Buffers;
 using System.Threading;
+using Apache.Arrow.Memory;
 using Apache.Arrow.Tests.Fixtures;
 using Xunit;
 
@@ -109,6 +111,26 @@ namespace Apache.Arrow.Tests
 
             span[2] = 10;
             Assert.Equal(10, buffer.Span.CastTo<int>()[2]);
+        }
+
+        [Fact]
+        public void TestNativeMemoryManagerUseAfterFree()
+        {
+            using var allocator = new PoisonMemoryAllocator();
+            // Allocate using the Builder pattern
+            var builder = new ArrowBuffer.Builder<byte>(100000);
+            builder.Append(new byte[100000]);
+            ArrowBuffer buffer = builder.Build(allocator);
+
+            // Extract the unmanaged Span
+            ReadOnlySpan<byte> span = buffer.Span;
+
+            // Dispose the buffer to trigger memory poisoning and release
+            buffer.Dispose();
+
+            // span[50000] is poisoned with 0xFF after free, it's not the initial 0 value
+            byte b = span[50000];
+            Assert.Equal(0xFF, b);
         }
 
         public class Retain

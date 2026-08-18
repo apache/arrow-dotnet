@@ -1,4 +1,4 @@
-﻿// Licensed to the Apache Software Foundation (ASF) under one or more
+// Licensed to the Apache Software Foundation (ASF) under one or more
 // contributor license agreements. See the NOTICE file distributed with
 // this work for additional information regarding copyright ownership.
 // The ASF licenses this file to You under the Apache License, Version 2.0
@@ -31,6 +31,13 @@ namespace Apache.Arrow
 
         public ArrowBuffer ValueBuffer => Data.Buffers[1];
 
+        /// <summary>
+        /// Gets the array values as a span.
+        /// </summary>
+        /// <remarks>
+        /// CAUTION: The returned ReadOnlySpan is not GC-tracked if backed by unmanaged memory.
+        /// Ensure the PrimitiveArray object remains in scope and undisposed while accessing this span.
+        /// </remarks>
         public ReadOnlySpan<T> Values => ValueBuffer.Span.CastTo<T>().Slice(Offset, Length);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -1,4 +1,4 @@
-﻿// Licensed to the Apache Software Foundation (ASF) under one or more
+// Licensed to the Apache Software Foundation (ASF) under one or more
 // contributor license agreements. See the NOTICE file distributed with
 // this work for additional information regarding copyright ownership.
 // The ASF licenses this file to You under the Apache License, Version 2.0
@@ -52,6 +52,13 @@ namespace Apache.Arrow
 
         public int Length => Memory.Length;
 
+        /// <summary>
+        /// Gets a read-only span over the buffer contents.
+        /// </summary>
+        /// <remarks>
+        /// CAUTION: The returned ReadOnlySpan points directly to memory managed by this ArrowBuffer.
+        /// Ensure the ArrowBuffer instance remains rooted and undisposed while using this span to prevent use-after-free.
+        /// </remarks>
         public ReadOnlySpan<byte> Span
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
