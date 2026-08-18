@@ -20634,6 +20634,252 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.RunEndEncodedArray.Accept
   nameWithType: RunEndEncodedArray.Accept
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5
+  name: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html
+  commentId: T:Apache.Arrow.RunEndEncodedArray.Builder`5
+  name.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue)
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue)
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue)
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.#ctor(`0,`1,System.Collections.Generic.IEqualityComparer{`4})
+  name: Builder(TRunEndBuilder, TValueBuilder, IEqualityComparer<TValue>)
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5__ctor__0__1_System_Collections_Generic_IEqualityComparer__4__
+  commentId: M:Apache.Arrow.RunEndEncodedArray.Builder`5.#ctor(`0,`1,System.Collections.Generic.IEqualityComparer{`4})
+  name.vb: New(TRunEndBuilder, TValueBuilder, IEqualityComparer(Of TValue))
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Builder(TRunEndBuilder, TValueBuilder, System.Collections.Generic.IEqualityComparer<TValue>)
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).New(TRunEndBuilder, TValueBuilder, System.Collections.Generic.IEqualityComparer(Of TValue))
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Builder(TRunEndBuilder, TValueBuilder, IEqualityComparer<TValue>)
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).New(TRunEndBuilder, TValueBuilder, IEqualityComparer(Of TValue))
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.#ctor*
+  name: Builder
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5__ctor_
+  commentId: Overload:Apache.Arrow.RunEndEncodedArray.Builder`5.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Builder
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).New
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Builder
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).New
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.Append(System.ReadOnlySpan{`4})
+  name: Append(ReadOnlySpan<TValue>)
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5_Append_System_ReadOnlySpan__4__
+  commentId: M:Apache.Arrow.RunEndEncodedArray.Builder`5.Append(System.ReadOnlySpan{`4})
+  name.vb: Append(ReadOnlySpan(Of TValue))
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Append(System.ReadOnlySpan<TValue>)
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Append(System.ReadOnlySpan(Of TValue))
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Append(ReadOnlySpan<TValue>)
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Append(ReadOnlySpan(Of TValue))
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.Append(`4)
+  name: Append(TValue)
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5_Append__4_
+  commentId: M:Apache.Arrow.RunEndEncodedArray.Builder`5.Append(`4)
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Append(TValue)
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Append(TValue)
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Append(TValue)
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Append(TValue)
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.Append*
+  name: Append
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5_Append_
+  commentId: Overload:Apache.Arrow.RunEndEncodedArray.Builder`5.Append
+  isSpec: "True"
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Append
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Append
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Append
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Append
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.AppendNull
+  name: AppendNull()
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5_AppendNull
+  commentId: M:Apache.Arrow.RunEndEncodedArray.Builder`5.AppendNull
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.AppendNull()
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).AppendNull()
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.AppendNull()
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).AppendNull()
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.AppendNull*
+  name: AppendNull
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5_AppendNull_
+  commentId: Overload:Apache.Arrow.RunEndEncodedArray.Builder`5.AppendNull
+  isSpec: "True"
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.AppendNull
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).AppendNull
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.AppendNull
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).AppendNull
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.AppendRange(System.Collections.Generic.IEnumerable{`4})
+  name: AppendRange(IEnumerable<TValue>)
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5_AppendRange_System_Collections_Generic_IEnumerable__4__
+  commentId: M:Apache.Arrow.RunEndEncodedArray.Builder`5.AppendRange(System.Collections.Generic.IEnumerable{`4})
+  name.vb: AppendRange(IEnumerable(Of TValue))
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.AppendRange(System.Collections.Generic.IEnumerable<TValue>)
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).AppendRange(System.Collections.Generic.IEnumerable(Of TValue))
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.AppendRange(IEnumerable<TValue>)
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).AppendRange(IEnumerable(Of TValue))
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.AppendRange*
+  name: AppendRange
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5_AppendRange_
+  commentId: Overload:Apache.Arrow.RunEndEncodedArray.Builder`5.AppendRange
+  isSpec: "True"
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.AppendRange
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).AppendRange
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.AppendRange
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).AppendRange
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.Build(Apache.Arrow.Memory.MemoryAllocator)
+  name: Build(MemoryAllocator)
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5_Build_Apache_Arrow_Memory_MemoryAllocator_
+  commentId: M:Apache.Arrow.RunEndEncodedArray.Builder`5.Build(Apache.Arrow.Memory.MemoryAllocator)
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Build(Apache.Arrow.Memory.MemoryAllocator)
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Build(Apache.Arrow.Memory.MemoryAllocator)
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Build(MemoryAllocator)
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Build(MemoryAllocator)
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.Build*
+  name: Build
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5_Build_
+  commentId: Overload:Apache.Arrow.RunEndEncodedArray.Builder`5.Build
+  isSpec: "True"
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Build
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Build
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Build
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Build
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.Clear
+  name: Clear()
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5_Clear
+  commentId: M:Apache.Arrow.RunEndEncodedArray.Builder`5.Clear
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Clear()
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Clear()
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Clear()
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Clear()
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.Clear*
+  name: Clear
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5_Clear_
+  commentId: Overload:Apache.Arrow.RunEndEncodedArray.Builder`5.Clear
+  isSpec: "True"
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Clear
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Clear
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Clear
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Clear
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.Length
+  name: Length
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5_Length
+  commentId: P:Apache.Arrow.RunEndEncodedArray.Builder`5.Length
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Length
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Length
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Length
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Length
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.Length*
+  name: Length
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5_Length_
+  commentId: Overload:Apache.Arrow.RunEndEncodedArray.Builder`5.Length
+  isSpec: "True"
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Length
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Length
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Length
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Length
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.Reserve(System.Int32)
+  name: Reserve(int)
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5_Reserve_System_Int32_
+  commentId: M:Apache.Arrow.RunEndEncodedArray.Builder`5.Reserve(System.Int32)
+  name.vb: Reserve(Integer)
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Reserve(int)
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Reserve(Integer)
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Reserve(int)
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Reserve(Integer)
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.Reserve*
+  name: Reserve
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5_Reserve_
+  commentId: Overload:Apache.Arrow.RunEndEncodedArray.Builder`5.Reserve
+  isSpec: "True"
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Reserve
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Reserve
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Reserve
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Reserve
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.Resize(System.Int32)
+  name: Resize(int)
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5_Resize_System_Int32_
+  commentId: M:Apache.Arrow.RunEndEncodedArray.Builder`5.Resize(System.Int32)
+  name.vb: Resize(Integer)
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Resize(int)
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Resize(Integer)
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Resize(int)
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Resize(Integer)
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.Resize*
+  name: Resize
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5_Resize_
+  commentId: Overload:Apache.Arrow.RunEndEncodedArray.Builder`5.Resize
+  isSpec: "True"
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Resize
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Resize
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Resize
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Resize
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.RunEndsBuilder
+  name: RunEndsBuilder
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5_RunEndsBuilder
+  commentId: P:Apache.Arrow.RunEndEncodedArray.Builder`5.RunEndsBuilder
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.RunEndsBuilder
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).RunEndsBuilder
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.RunEndsBuilder
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).RunEndsBuilder
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.RunEndsBuilder*
+  name: RunEndsBuilder
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5_RunEndsBuilder_
+  commentId: Overload:Apache.Arrow.RunEndEncodedArray.Builder`5.RunEndsBuilder
+  isSpec: "True"
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.RunEndsBuilder
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).RunEndsBuilder
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.RunEndsBuilder
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).RunEndsBuilder
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.Set(System.Int32,`4)
+  name: Set(int, TValue)
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5_Set_System_Int32__4_
+  commentId: M:Apache.Arrow.RunEndEncodedArray.Builder`5.Set(System.Int32,`4)
+  name.vb: Set(Integer, TValue)
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Set(int, TValue)
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Set(Integer, TValue)
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Set(int, TValue)
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Set(Integer, TValue)
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.Set*
+  name: Set
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5_Set_
+  commentId: Overload:Apache.Arrow.RunEndEncodedArray.Builder`5.Set
+  isSpec: "True"
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Set
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Set
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Set
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Set
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.Swap(System.Int32,System.Int32)
+  name: Swap(int, int)
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5_Swap_System_Int32_System_Int32_
+  commentId: M:Apache.Arrow.RunEndEncodedArray.Builder`5.Swap(System.Int32,System.Int32)
+  name.vb: Swap(Integer, Integer)
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Swap(int, int)
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Swap(Integer, Integer)
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Swap(int, int)
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Swap(Integer, Integer)
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.Swap*
+  name: Swap
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5_Swap_
+  commentId: Overload:Apache.Arrow.RunEndEncodedArray.Builder`5.Swap
+  isSpec: "True"
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Swap
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Swap
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.Swap
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).Swap
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.ValuesBuilder
+  name: ValuesBuilder
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5_ValuesBuilder
+  commentId: P:Apache.Arrow.RunEndEncodedArray.Builder`5.ValuesBuilder
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.ValuesBuilder
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).ValuesBuilder
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.ValuesBuilder
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).ValuesBuilder
+- uid: Apache.Arrow.RunEndEncodedArray.Builder`5.ValuesBuilder*
+  name: ValuesBuilder
+  href: api/Apache.Arrow.RunEndEncodedArray.Builder-5.html#Apache_Arrow_RunEndEncodedArray_Builder_5_ValuesBuilder_
+  commentId: Overload:Apache.Arrow.RunEndEncodedArray.Builder`5.ValuesBuilder
+  isSpec: "True"
+  fullName: Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.ValuesBuilder
+  fullName.vb: Apache.Arrow.RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).ValuesBuilder
+  nameWithType: RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>.ValuesBuilder
+  nameWithType.vb: RunEndEncodedArray.Builder(Of TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue).ValuesBuilder
 - uid: Apache.Arrow.RunEndEncodedArray.EnumeratePhysicalIndices
   name: EnumeratePhysicalIndices()
   href: api/Apache.Arrow.RunEndEncodedArray.html#Apache_Arrow_RunEndEncodedArray_EnumeratePhysicalIndices

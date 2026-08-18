@@ -3190,6 +3190,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.RunEndEncodedArray.Builder-5.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.RunEndEncodedArray.Builder-5.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.RunEndEncodedArray.Builder<TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue>",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.RunEndEncodedArray.Builder-5.yml\" sourcestartlinenumber=\"1\">Builder for <xref href=\"Apache.Arrow.RunEndEncodedArray\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Apache.Arrow.RunEndEncodedArray.yml",
       "output": {
         ".html": {

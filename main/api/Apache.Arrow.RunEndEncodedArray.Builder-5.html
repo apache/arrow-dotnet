@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class RunEndEncodedArray.Builder&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt; | Apache Arrow .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class RunEndEncodedArray.Builder&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt; | Apache Arrow .NET ">
+      
+      <meta name="description" content="Builder for .">
+      <link rel="icon" href="../images/favicon.png">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/apache/arrow-dotnet/new/main/apiSpec/new?filename=Apache_Arrow_RunEndEncodedArray_Builder_5.md&amp;value=---%0Auid%3A%20Apache.Arrow.RunEndEncodedArray.Builder%605%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.svg" alt="Apache Arrow .NET">
+            Apache Arrow .NET
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5">
+
+
+
+  <h1 id="Apache_Arrow_RunEndEncodedArray_Builder_5" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5" class="text-break">
+Class RunEndEncodedArray.Builder&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt;  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.Builder.cs/#L32"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Apache.html">Apache</a>.<a class="xref" href="Apache.Arrow.html">Arrow</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Apache.Arrow.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Builder for <a class="xref" href="Apache.Arrow.RunEndEncodedArray.html">RunEndEncodedArray</a>.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class RunEndEncodedArray.Builder&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt; : IArrowArrayBuilder&lt;TValue, RunEndEncodedArray, RunEndEncodedArray.Builder&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt;&gt;, IArrowArrayBuilder&lt;RunEndEncodedArray, RunEndEncodedArray.Builder&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt;&gt;, IArrowArrayBuilder&lt;RunEndEncodedArray&gt;, IArrowArrayBuilder where TRunEndBuilder : IArrowArrayBuilder&lt;TRunEndArray&gt; where TValueBuilder : IArrowArrayBuilder&lt;TValueArray&gt; where TRunEndArray : IArrowArray where TValueArray : IArrowArray</code></pre>
+  </div>
+
+
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>TRunEndBuilder</code></dt>
+    <dd><p>The type of the run ends array builder.</p>
+</dd>
+    <dt><code>TValueBuilder</code></dt>
+    <dd><p>The type of the values array builder.</p>
+</dd>
+    <dt><code>TRunEndArray</code></dt>
+    <dd><p>The type of the run ends array (must be Int16Array, Int32Array, or Int64Array).</p>
+</dd>
+    <dt><code>TValueArray</code></dt>
+    <dd><p>The type of the values array.</p>
+</dd>
+    <dt><code>TValue</code></dt>
+    <dd><p>The type of values contained in the values array.</p>
+</dd>
+  </dl>
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">RunEndEncodedArray.Builder&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt;</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="Apache.Arrow.IArrowArrayBuilder-3.html">IArrowArrayBuilder</a>&lt;TValue, <a class="xref" href="Apache.Arrow.RunEndEncodedArray.html">RunEndEncodedArray</a>, <a class="xref" href="Apache.Arrow.RunEndEncodedArray.html">RunEndEncodedArray</a>.<a class="xref" href="Apache.Arrow.RunEndEncodedArray.Builder-5.html">Builder</a>&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt;&gt;</div>
+      <div><a class="xref" href="Apache.Arrow.IArrowArrayBuilder-2.html">IArrowArrayBuilder</a>&lt;<a class="xref" href="Apache.Arrow.RunEndEncodedArray.html">RunEndEncodedArray</a>, <a class="xref" href="Apache.Arrow.RunEndEncodedArray.html">RunEndEncodedArray</a>.<a class="xref" href="Apache.Arrow.RunEndEncodedArray.Builder-5.html">Builder</a>&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt;&gt;</div>
+      <div><a class="xref" href="Apache.Arrow.IArrowArrayBuilder-1.html">IArrowArrayBuilder</a>&lt;<a class="xref" href="Apache.Arrow.RunEndEncodedArray.html">RunEndEncodedArray</a>&gt;</div>
+      <div><a class="xref" href="Apache.Arrow.IArrowArrayBuilder.html">IArrowArrayBuilder</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Apache_Arrow_RunEndEncodedArray_Builder_5__ctor_" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.#ctor*"></a>
+
+  <h3 id="Apache_Arrow_RunEndEncodedArray_Builder_5__ctor__0__1_System_Collections_Generic_IEqualityComparer__4__" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.#ctor(`0,`1,System.Collections.Generic.IEqualityComparer{`4})">
+  Builder(TRunEndBuilder, TValueBuilder, IEqualityComparer&lt;TValue&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.Builder.cs/#L66"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Apache.Arrow.RunEndEncodedArray.Builder-5.html">RunEndEncodedArray.Builder&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt;</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Builder(TRunEndBuilder runEndsBuilder, TValueBuilder valuesBuilder, IEqualityComparer&lt;TValue&gt; comparer = null)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>runEndsBuilder</code> <span class="xref">TRunEndBuilder</span></dt>
+    <dd><p>The builder to use for run-ends. Must be a builder for an Int16, Int32 or Int64 array.</p>
+</dd>
+    <dt><code>valuesBuilder</code> <span class="xref">TValueBuilder</span></dt>
+    <dd><p>The builder to use for values.</p>
+</dd>
+    <dt><code>comparer</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.iequalitycomparer-1">IEqualityComparer</a>&lt;TValue&gt;</dt>
+    <dd><p>Optional equality comparer for value run-length grouping.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Apache_Arrow_RunEndEncodedArray_Builder_5_Length_" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.Length*"></a>
+
+  <h3 id="Apache_Arrow_RunEndEncodedArray_Builder_5_Length" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.Length">
+  Length
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.Builder.cs/#L58"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the total logical length of elements appended to this builder.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Length { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_RunEndEncodedArray_Builder_5_RunEndsBuilder_" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.RunEndsBuilder*"></a>
+
+  <h3 id="Apache_Arrow_RunEndEncodedArray_Builder_5_RunEndsBuilder" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.RunEndsBuilder">
+  RunEndsBuilder
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.Builder.cs/#L48"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the run ends builder.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TRunEndBuilder RunEndsBuilder { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TRunEndBuilder</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_RunEndEncodedArray_Builder_5_ValuesBuilder_" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.ValuesBuilder*"></a>
+
+  <h3 id="Apache_Arrow_RunEndEncodedArray_Builder_5_ValuesBuilder" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.ValuesBuilder">
+  ValuesBuilder
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.Builder.cs/#L53"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the values builder.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TValueBuilder ValuesBuilder { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TValueBuilder</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Apache_Arrow_RunEndEncodedArray_Builder_5_Append_" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.Append*"></a>
+
+  <h3 id="Apache_Arrow_RunEndEncodedArray_Builder_5_Append_System_ReadOnlySpan__4__" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.Append(System.ReadOnlySpan{`4})">
+  Append(ReadOnlySpan&lt;TValue&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.Builder.cs/#L142"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Appends a span of values to the builder.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RunEndEncodedArray.Builder&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt; Append(ReadOnlySpan&lt;TValue&gt; span)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>span</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;TValue&gt;</dt>
+    <dd><p>The span of values to append.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.RunEndEncodedArray.html">RunEndEncodedArray</a>.<a class="xref" href="Apache.Arrow.RunEndEncodedArray.Builder-5.html">Builder</a>&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt;</dt>
+    <dd><p>The builder instance for method chaining.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_RunEndEncodedArray_Builder_5_Append_" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.Append*"></a>
+
+  <h3 id="Apache_Arrow_RunEndEncodedArray_Builder_5_Append__4_" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.Append(`4)">
+  Append(TValue)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.Builder.cs/#L78"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Appends a single value to the builder, automatically grouping identical consecutive values into runs.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RunEndEncodedArray.Builder&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt; Append(TValue value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TValue</span></dt>
+    <dd><p>The value to append.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.RunEndEncodedArray.html">RunEndEncodedArray</a>.<a class="xref" href="Apache.Arrow.RunEndEncodedArray.Builder-5.html">Builder</a>&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt;</dt>
+    <dd><p>The builder instance for method chaining.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_RunEndEncodedArray_Builder_5_AppendNull_" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.AppendNull*"></a>
+
+  <h3 id="Apache_Arrow_RunEndEncodedArray_Builder_5_AppendNull" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.AppendNull">
+  AppendNull()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.Builder.cs/#L112"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Appends a null value to the builder.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RunEndEncodedArray.Builder&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt; AppendNull()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.RunEndEncodedArray.html">RunEndEncodedArray</a>.<a class="xref" href="Apache.Arrow.RunEndEncodedArray.Builder-5.html">Builder</a>&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt;</dt>
+    <dd><p>The builder instance for method chaining.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_RunEndEncodedArray_Builder_5_AppendRange_" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.AppendRange*"></a>
+
+  <h3 id="Apache_Arrow_RunEndEncodedArray_Builder_5_AppendRange_System_Collections_Generic_IEnumerable__4__" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.AppendRange(System.Collections.Generic.IEnumerable{`4})">
+  AppendRange(IEnumerable&lt;TValue&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.Builder.cs/#L156"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Appends a sequence of values to the builder.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RunEndEncodedArray.Builder&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt; AppendRange(IEnumerable&lt;TValue&gt; values)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>values</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;TValue&gt;</dt>
+    <dd><p>The sequence of values to append.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.RunEndEncodedArray.html">RunEndEncodedArray</a>.<a class="xref" href="Apache.Arrow.RunEndEncodedArray.Builder-5.html">Builder</a>&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt;</dt>
+    <dd><p>The builder instance for method chaining.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_RunEndEncodedArray_Builder_5_Build_" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.Build*"></a>
+
+  <h3 id="Apache_Arrow_RunEndEncodedArray_Builder_5_Build_Apache_Arrow_Memory_MemoryAllocator_" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.Build(Apache.Arrow.Memory.MemoryAllocator)">
+  Build(MemoryAllocator)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.Builder.cs/#L231"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Flushes any pending run and builds the <a class="xref" href="Apache.Arrow.RunEndEncodedArray.html">RunEndEncodedArray</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RunEndEncodedArray Build(MemoryAllocator allocator = null)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>allocator</code> <a class="xref" href="Apache.Arrow.Memory.MemoryAllocator.html">MemoryAllocator</a></dt>
+    <dd><p>Optional memory allocator.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.RunEndEncodedArray.html">RunEndEncodedArray</a></dt>
+    <dd><p>The constructed <a class="xref" href="Apache.Arrow.RunEndEncodedArray.html">RunEndEncodedArray</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_RunEndEncodedArray_Builder_5_Clear_" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.Clear*"></a>
+
+  <h3 id="Apache_Arrow_RunEndEncodedArray_Builder_5_Clear" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.Clear">
+  Clear()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.Builder.cs/#L199"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Clears the state of the builder and inner builders.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RunEndEncodedArray.Builder&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt; Clear()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.RunEndEncodedArray.html">RunEndEncodedArray</a>.<a class="xref" href="Apache.Arrow.RunEndEncodedArray.Builder-5.html">Builder</a>&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt;</dt>
+    <dd><p>The builder instance for method chaining.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_RunEndEncodedArray_Builder_5_Reserve_" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.Reserve*"></a>
+
+  <h3 id="Apache_Arrow_RunEndEncodedArray_Builder_5_Reserve_System_Int32_" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.Reserve(System.Int32)">
+  Reserve(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.Builder.cs/#L175"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Validates the capacity argument. Does not preallocate inner builders to allow doubling growth strategy with REE compression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RunEndEncodedArray.Builder&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt; Reserve(int capacity)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>capacity</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The capacity to validate.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.RunEndEncodedArray.html">RunEndEncodedArray</a>.<a class="xref" href="Apache.Arrow.RunEndEncodedArray.Builder-5.html">Builder</a>&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt;</dt>
+    <dd><p>The builder instance for method chaining.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_RunEndEncodedArray_Builder_5_Resize_" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.Resize*"></a>
+
+  <h3 id="Apache_Arrow_RunEndEncodedArray_Builder_5_Resize_System_Int32_" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.Resize(System.Int32)">
+  Resize(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.Builder.cs/#L190"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Resizing is not supported for RunEndEncodedArray.Builder.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RunEndEncodedArray.Builder&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt; Resize(int length)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>length</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The target length.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.RunEndEncodedArray.html">RunEndEncodedArray</a>.<a class="xref" href="Apache.Arrow.RunEndEncodedArray.Builder-5.html">Builder</a>&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt;</dt>
+    <dd><p>The builder instance for method chaining.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_RunEndEncodedArray_Builder_5_Set_" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.Set*"></a>
+
+  <h3 id="Apache_Arrow_RunEndEncodedArray_Builder_5_Set_System_Int32__4_" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.Set(System.Int32,`4)">
+  Set(int, TValue)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.Builder.cs/#L221"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Setting elements at specific indices is not supported for RunEndEncodedArray.Builder.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RunEndEncodedArray.Builder&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt; Set(int index, TValue value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>value</code> <span class="xref">TValue</span></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.RunEndEncodedArray.html">RunEndEncodedArray</a>.<a class="xref" href="Apache.Arrow.RunEndEncodedArray.Builder-5.html">Builder</a>&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_RunEndEncodedArray_Builder_5_Swap_" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.Swap*"></a>
+
+  <h3 id="Apache_Arrow_RunEndEncodedArray_Builder_5_Swap_System_Int32_System_Int32_" data-uid="Apache.Arrow.RunEndEncodedArray.Builder`5.Swap(System.Int32,System.Int32)">
+  Swap(int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.Builder.cs/#L213"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Swapping elements is not supported for RunEndEncodedArray.Builder.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RunEndEncodedArray.Builder&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt; Swap(int i, int j)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>i</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>j</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.RunEndEncodedArray.html">RunEndEncodedArray</a>.<a class="xref" href="Apache.Arrow.RunEndEncodedArray.Builder-5.html">Builder</a>&lt;TRunEndBuilder, TValueBuilder, TRunEndArray, TValueArray, TValue&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/RunEndEncodedArray.Builder.cs/#L32" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2018 The Apache Software Foundation
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
