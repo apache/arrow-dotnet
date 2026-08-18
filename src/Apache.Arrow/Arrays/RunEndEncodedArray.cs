@@ -26,7 +26,7 @@ namespace Apache.Arrow;
 /// It contains two child arrays: run_ends (Int16/Int32/Int64) and values (any type).
 /// The run_ends array stores the cumulative end positions of each run.
 /// </summary>
-public class RunEndEncodedArray : Array, IIndexes
+public partial class RunEndEncodedArray : Array, IIndexes
 {
     /// <summary>
     /// Gets the run ends array (Int16Array, Int32Array, or Int64Array).
