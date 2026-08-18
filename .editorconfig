@@ -27,6 +27,9 @@ trim_trailing_whitespace = true
 
 # C# files
 [*.cs]
+# Encode as UTF-8 without a byte order mark
+charset = utf-8
+
 # New line preferences
 csharp_new_line_before_open_brace = all
 csharp_new_line_before_else = true
