@@ -536,7 +536,7 @@ to reliably determine null values.</p>
 
   <h3 id="Apache_Arrow_BinaryArray_GetBytes_System_Int32_System_Boolean__" data-uid="Apache.Arrow.BinaryArray.GetBytes(System.Int32,System.Boolean@)">
   GetBytes(int, out bool)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L391"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BinaryArray.cs/#L395"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Get the collection of bytes, as a read-only span, at a given index in the array.</p>
@@ -570,6 +570,10 @@ to reliably determine null values.</p>
 
 
 
+  <h4 class="section" id="Apache_Arrow_BinaryArray_GetBytes_System_Int32_System_Boolean___remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>CAUTION: The returned ReadOnlySpan is not GC-tracked if backed by unmanaged memory.
+Ensure the BinaryArray object remains in scope and undisposed while accessing this span.</p>
+</div>
 
   <h4 class="section">Exceptions</h4>
   <dl class="parameters">

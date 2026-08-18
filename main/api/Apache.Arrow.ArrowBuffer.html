@@ -312,10 +312,11 @@ Struct ArrowBuffer  <a class="header-action link-secondary" title="View source" 
 
   <h3 id="Apache_Arrow_ArrowBuffer_Span" data-uid="Apache.Arrow.ArrowBuffer.Span">
   Span
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ArrowBuffer.cs/#L55"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ArrowBuffer.cs/#L62"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets a read-only span over the buffer contents.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -335,6 +336,10 @@ Struct ArrowBuffer  <a class="header-action link-secondary" title="View source" 
 
 
 
+  <h4 class="section" id="Apache_Arrow_ArrowBuffer_Span_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>CAUTION: The returned ReadOnlySpan points directly to memory managed by this ArrowBuffer.
+Ensure the ArrowBuffer instance remains rooted and undisposed while using this span to prevent use-after-free.</p>
+</div>
 
 
 
@@ -347,7 +352,7 @@ Struct ArrowBuffer  <a class="header-action link-secondary" title="View source" 
 
   <h3 id="Apache_Arrow_ArrowBuffer_Clone_Apache_Arrow_Memory_MemoryAllocator_" data-uid="Apache.Arrow.ArrowBuffer.Clone(Apache.Arrow.Memory.MemoryAllocator)">
   Clone(MemoryAllocator)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ArrowBuffer.cs/#L75"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ArrowBuffer.cs/#L82"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -383,7 +388,7 @@ Struct ArrowBuffer  <a class="header-action link-secondary" title="View source" 
 
   <h3 id="Apache_Arrow_ArrowBuffer_Dispose" data-uid="Apache.Arrow.ArrowBuffer.Dispose">
   Dispose()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ArrowBuffer.cs/#L87"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ArrowBuffer.cs/#L94"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -409,7 +414,7 @@ Struct ArrowBuffer  <a class="header-action link-secondary" title="View source" 
 
   <h3 id="Apache_Arrow_ArrowBuffer_Equals_Apache_Arrow_ArrowBuffer_" data-uid="Apache.Arrow.ArrowBuffer.Equals(Apache.Arrow.ArrowBuffer)">
   Equals(ArrowBuffer)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ArrowBuffer.cs/#L82"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ArrowBuffer.cs/#L89"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -445,7 +450,7 @@ Struct ArrowBuffer  <a class="header-action link-secondary" title="View source" 
 
   <h3 id="Apache_Arrow_ArrowBuffer_Retain" data-uid="Apache.Arrow.ArrowBuffer.Retain">
   Retain()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ArrowBuffer.cs/#L65"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/ArrowBuffer.cs/#L72"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Adds another reference to the memory used by this buffer. Allows a single buffer

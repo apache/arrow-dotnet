@@ -209,7 +209,7 @@ Class BooleanArray  <a class="header-action link-secondary" title="View source" 
 
   <h3 id="Apache_Arrow_BooleanArray__ctor_Apache_Arrow_ArrayData_" data-uid="Apache.Arrow.BooleanArray.#ctor(Apache.Arrow.ArrayData)">
   BooleanArray(ArrayData)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BooleanArray.cs/#L174"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BooleanArray.cs/#L182"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -240,7 +240,7 @@ Class BooleanArray  <a class="header-action link-secondary" title="View source" 
 
   <h3 id="Apache_Arrow_BooleanArray__ctor_Apache_Arrow_ArrowBuffer_Apache_Arrow_ArrowBuffer_System_Int32_System_Int32_System_Int32_" data-uid="Apache.Arrow.BooleanArray.#ctor(Apache.Arrow.ArrowBuffer,Apache.Arrow.ArrowBuffer,System.Int32,System.Int32,System.Int32)">
   BooleanArray(ArrowBuffer, ArrowBuffer, int, int, int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BooleanArray.cs/#L167"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BooleanArray.cs/#L175"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -314,10 +314,11 @@ Class BooleanArray  <a class="header-action link-secondary" title="View source" 
 
   <h3 id="Apache_Arrow_BooleanArray_Values" data-uid="Apache.Arrow.BooleanArray.Values">
   Values
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BooleanArray.cs/#L165"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BooleanArray.cs/#L173"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets the boolean array values as a span of bytes (a bitmap).</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -337,6 +338,10 @@ Class BooleanArray  <a class="header-action link-secondary" title="View source" 
 
 
 
+  <h4 class="section" id="Apache_Arrow_BooleanArray_Values_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>CAUTION: The returned ReadOnlySpan is not GC-tracked if backed by unmanaged memory.
+Ensure the BooleanArray object remains in scope and undisposed while accessing this span.</p>
+</div>
 
 
 
@@ -349,7 +354,7 @@ Class BooleanArray  <a class="header-action link-secondary" title="View source" 
 
   <h3 id="Apache_Arrow_BooleanArray_Accept_Apache_Arrow_IArrowArrayVisitor_" data-uid="Apache.Arrow.BooleanArray.Accept(Apache.Arrow.IArrowArrayVisitor)">
   Accept(IArrowArrayVisitor)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BooleanArray.cs/#L180"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BooleanArray.cs/#L188"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -380,7 +385,7 @@ Class BooleanArray  <a class="header-action link-secondary" title="View source" 
 
   <h3 id="Apache_Arrow_BooleanArray_GetBoolean_System_Int32_" data-uid="Apache.Arrow.BooleanArray.GetBoolean(System.Int32)">
   GetBoolean(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BooleanArray.cs/#L182"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BooleanArray.cs/#L190"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -417,7 +422,7 @@ public bool GetBoolean(int index)</code></pre>
 
   <h3 id="Apache_Arrow_BooleanArray_GetValue_System_Int32_" data-uid="Apache.Arrow.BooleanArray.GetValue(System.Int32)">
   GetValue(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BooleanArray.cs/#L188"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/BooleanArray.cs/#L196"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>

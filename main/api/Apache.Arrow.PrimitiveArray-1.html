@@ -305,10 +305,11 @@ Class PrimitiveArray&lt;T&gt;  <a class="header-action link-secondary" title="Vi
 
   <h3 id="Apache_Arrow_PrimitiveArray_1_Values" data-uid="Apache.Arrow.PrimitiveArray`1.Values">
   Values
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/PrimitiveArray.cs/#L34"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/PrimitiveArray.cs/#L41"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets the array values as a span.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -328,6 +329,10 @@ Class PrimitiveArray&lt;T&gt;  <a class="header-action link-secondary" title="Vi
 
 
 
+  <h4 class="section" id="Apache_Arrow_PrimitiveArray_1_Values_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>CAUTION: The returned ReadOnlySpan is not GC-tracked if backed by unmanaged memory.
+Ensure the PrimitiveArray object remains in scope and undisposed while accessing this span.</p>
+</div>
 
 
 
@@ -340,7 +345,7 @@ Class PrimitiveArray&lt;T&gt;  <a class="header-action link-secondary" title="Vi
 
   <h3 id="Apache_Arrow_PrimitiveArray_1_GetValue_System_Int32_" data-uid="Apache.Arrow.PrimitiveArray`1.GetValue(System.Int32)">
   GetValue(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/PrimitiveArray.cs/#L36"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/PrimitiveArray.cs/#L43"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -376,7 +381,7 @@ Class PrimitiveArray&lt;T&gt;  <a class="header-action link-secondary" title="Vi
 
   <h3 id="Apache_Arrow_PrimitiveArray_1_ToList_System_Boolean_" data-uid="Apache.Arrow.PrimitiveArray`1.ToList(System.Boolean)">
   ToList(bool)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/PrimitiveArray.cs/#L46"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/PrimitiveArray.cs/#L53"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
