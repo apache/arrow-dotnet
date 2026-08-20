@@ -84,6 +84,69 @@ namespace Apache.Arrow.Tests
             Assert.Equal(42, buf.Span[0]);
         }
 
+        // Growth doubles to stay amortised, but must saturate rather than overflow. Doubling used to be
+        // unconditional and checked, so a buffer past half the maximum threw OverflowException on its
+        // next grow however little was asked for — a byte buffer could not grow beyond about 1 GiB.
+        //
+        // The arithmetic is tested directly: reproducing it through Grow would mean allocating more than
+        // a gigabyte, which is not something to put in a unit test.
+        [Theory]
+        // length, requested, elementSize, expected
+        [InlineData(0, 1, 1, 1)]                    // nothing to double yet
+        [InlineData(3, 10, 4, 10)]                  // request exceeds the doubling
+        [InlineData(8, 10, 4, 16)]                  // doubling exceeds the request
+        [InlineData(5, 5, 4, 10)]                   // equal: doubling still wins
+        public void ComputeGrowCountDoublesWhileItFits(
+            int length, int requested, int elementSize, int expected)
+        {
+            Assert.Equal(
+                expected,
+                NativeBuffer<byte, NoOpAllocationTracker>.ComputeGrowCount(length, requested, elementSize));
+        }
+
+        [Fact]
+        public void ComputeGrowCountSaturatesInsteadOfOverflowing()
+        {
+            // Past half the maximum, doubling would overflow. The result saturates at the largest
+            // addressable count and still covers the request.
+            const int elementSize = 1;
+            int overHalf = (int.MaxValue / 2) + 1000;
+
+            int grown = NativeBuffer<byte, NoOpAllocationTracker>.ComputeGrowCount(
+                overHalf, overHalf + 1, elementSize);
+
+            Assert.Equal(int.MaxValue, grown);
+            Assert.True(grown >= overHalf + 1);
+        }
+
+        [Fact]
+        public void ComputeGrowCountSaturatesPerElementSize()
+        {
+            // The ceiling is a byte count, so a wider element saturates at proportionally fewer of them.
+            const int elementSize = 8;
+            int maxCount = int.MaxValue / elementSize;
+            int overHalf = (maxCount / 2) + 1000;
+
+            int grown = NativeBuffer<long, NoOpAllocationTracker>.ComputeGrowCount(
+                overHalf, overHalf + 1, elementSize);
+
+            Assert.Equal(maxCount, grown);
+            Assert.True((long)grown * elementSize <= int.MaxValue);
+        }
+
+        [Fact]
+        public void ComputeGrowCountNeverReturnsLessThanRequested()
+        {
+            // A request larger than the ceiling is not silently truncated; Grow still refuses it when it
+            // works out the byte size.
+            const int elementSize = 8;
+            int beyond = (int.MaxValue / elementSize) + 1;
+
+            Assert.Equal(
+                beyond,
+                NativeBuffer<long, NoOpAllocationTracker>.ComputeGrowCount(0, beyond, elementSize));
+        }
+
         [Fact]
         public void BuildTransfersOwnershipToArrowBuffer()
         {

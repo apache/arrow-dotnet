@@ -90,11 +90,8 @@ namespace Apache.Arrow.Memory
             if (newElementCount <= Length)
                 return;
 
-            // Exponential growth (2x) to amortise repeated grows
-            // TODO: There might be a size that's big enough to work for this case but not too big to overflow.
-            // We could use that instead of blindly doubling.
-            int newCount = Math.Max(newElementCount, checked(Length * 2));
             int elementSize = Unsafe.SizeOf<TItem>();
+            int newCount = ComputeGrowCount(Length, newElementCount, elementSize);
             int needed = checked(newCount * elementSize);
 
             var owner = _owner ?? throw new ObjectDisposedException(nameof(NativeBuffer<TItem, TTracker>));
@@ -107,6 +104,24 @@ namespace Apache.Arrow.Memory
 
             _byteLength = needed;
             Length = newCount;
+        }
+
+        /// <summary>
+        /// The element count to grow to: double the current length to amortise repeated grows, but never
+        /// past the largest buffer that can be addressed, and never below what the caller asked for.
+        /// </summary>
+        /// <remarks>
+        /// Doubling used to be unconditional and checked, so once the buffer passed half of the maximum
+        /// its next grow threw <see cref="OverflowException"/> however little was asked for, even though
+        /// the requested size still fit. Saturating instead keeps growth amortised right up to the
+        /// ceiling; a request that genuinely cannot be addressed still overflows at the byte-size
+        /// calculation in <see cref="Grow"/>, as before.
+        /// </remarks>
+        internal static int ComputeGrowCount(int length, int newElementCount, int elementSize)
+        {
+            int maxCount = int.MaxValue / elementSize;
+            long doubled = (long)length * 2;
+            return (int)Math.Max(newElementCount, Math.Min(doubled, maxCount));
         }
 
         public void Dispose()
