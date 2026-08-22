@@ -15,6 +15,7 @@
 
 using System;
 using System.Buffers;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -119,6 +120,10 @@ namespace Apache.Arrow.Memory
         /// </remarks>
         internal static int ComputeGrowCount(int length, int newElementCount, int elementSize)
         {
+            // Always Unsafe.SizeOf<TItem>() for an unmanaged TItem, so never below one; the parameter
+            // exists so the boundary can be tested without allocating a buffer of that size.
+            Debug.Assert(elementSize > 0);
+
             int maxCount = int.MaxValue / elementSize;
             long doubled = (long)length * 2;
             return (int)Math.Max(newElementCount, Math.Min(doubled, maxCount));
