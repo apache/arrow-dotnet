@@ -97,6 +97,45 @@ namespace Apache.Arrow.Scalars.Tests
             Assert.Equal(isLarge, parsedIsLarge);
         }
 
+        // The round-trip test above cannot detect the field-id and offset size bits being
+        // swapped, because MakeObjectHeader and ParseObjectHeader would share the mistake. These
+        // two pin each direction to literal bytes taken from the spec's layout instead:
+        //
+        //   value_header bits 0-1 = field_offset_size - 1
+        //   value_header bits 2-3 = field_id_size - 1
+        //   value_header bit  4   = is_large
+        //   header byte = (value_header << 2) | Object(2)
+
+        [Theory]
+        [InlineData(1, 1, false, 0x02)]
+        [InlineData(2, 1, false, 0x12)]
+        [InlineData(1, 2, false, 0x06)]
+        [InlineData(2, 3, false, 0x1A)]
+        [InlineData(4, 1, true, 0x72)]
+        [InlineData(1, 4, true, 0x4E)]
+        [InlineData(4, 4, true, 0x7E)]
+        public void MakeObjectHeaderUsesSpecBitLayout(int fieldIdSize, int offsetSize, bool isLarge, int expected)
+        {
+            byte header = VariantEncodingHelper.MakeObjectHeader(fieldIdSize, offsetSize, isLarge);
+            Assert.Equal(expected, (int)header);
+        }
+
+        [Theory]
+        [InlineData(0x02, 1, 1, false)]
+        [InlineData(0x12, 2, 1, false)]
+        [InlineData(0x06, 1, 2, false)]
+        [InlineData(0x1A, 2, 3, false)]
+        [InlineData(0x72, 4, 1, true)]
+        [InlineData(0x4E, 1, 4, true)]
+        [InlineData(0x7E, 4, 4, true)]
+        public void ParseObjectHeaderUsesSpecBitLayout(int header, int expectedFieldIdSize, int expectedOffsetSize, bool expectedIsLarge)
+        {
+            VariantEncodingHelper.ParseObjectHeader((byte)header, out int fieldIdSize, out int offsetSize, out bool isLarge);
+            Assert.Equal(expectedFieldIdSize, fieldIdSize);
+            Assert.Equal(expectedOffsetSize, offsetSize);
+            Assert.Equal(expectedIsLarge, isLarge);
+        }
+
         // ---------------------------------------------------------------
         // Array headers
         // ---------------------------------------------------------------

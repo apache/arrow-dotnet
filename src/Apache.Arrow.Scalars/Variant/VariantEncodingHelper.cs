@@ -104,8 +104,8 @@ namespace Apache.Arrow.Scalars.Variant
         // Object value header
         // ---------------------------------------------------------------
         //
-        //  Bits 2-3: field_id_size - 1 (0-3 => 1-4 bytes)
-        //  Bits 4-5: field_offset_size - 1 (0-3 => 1-4 bytes)
+        //  Bits 2-3: field_offset_size - 1 (0-3 => 1-4 bytes)
+        //  Bits 4-5: field_id_size - 1 (0-3 => 1-4 bytes)
         //  Bit  6:   is_large (0 = 1-byte num_fields, 1 = 4-byte num_fields)
         //  Bit  7:   unused (must be 0)
 
@@ -118,8 +118,8 @@ namespace Apache.Arrow.Scalars.Variant
         public static byte MakeObjectHeader(int fieldIdSize, int offsetSize, bool isLarge)
         {
             int valueHeader =
-                ((fieldIdSize - 1) & 0x03) |
-                (((offsetSize - 1) & 0x03) << 2) |
+                ((offsetSize - 1) & 0x03) |
+                (((fieldIdSize - 1) & 0x03) << 2) |
                 ((isLarge ? 1 : 0) << 4);
             return MakeValueHeader(VariantBasicType.Object, valueHeader);
         }
@@ -130,8 +130,8 @@ namespace Apache.Arrow.Scalars.Variant
         public static void ParseObjectHeader(byte header, out int fieldIdSize, out int offsetSize, out bool isLarge)
         {
             int valueHeader = GetValueHeader(header);
-            fieldIdSize = (valueHeader & 0x03) + 1;
-            offsetSize = ((valueHeader >> 2) & 0x03) + 1;
+            offsetSize = (valueHeader & 0x03) + 1;
+            fieldIdSize = ((valueHeader >> 2) & 0x03) + 1;
             isLarge = ((valueHeader >> 4) & 0x01) != 0;
         }
 
