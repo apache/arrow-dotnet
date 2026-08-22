@@ -325,6 +325,37 @@ namespace Apache.Arrow.Scalars.Tests
             (byte)'B', (byte)'o', (byte)'b',
         };
 
+        /// <summary>
+        /// The same object as <see cref="Object_Age30_Name_Bob"/> — {"age": 30, "name": "Bob"} —
+        /// but encoded with field_id_size=2 and offset_size=1.
+        ///
+        /// Every other object vector here uses field_id_size == offset_size, where swapping the
+        /// two header fields is indistinguishable. This one does not, so it detects a reader that
+        /// reads the two size fields from each other's bits: such a reader sees field_id_size=1
+        /// and offset_size=2 and walks the id and offset lists at the wrong widths.
+        ///
+        /// A wider-than-minimal field_id_size is legal; the spec requires readers to honor the
+        /// width declared in the header.
+        /// </summary>
+        public static ReadOnlySpan<byte> Object_Age30_Name_Bob_WideFieldIds => new byte[]
+        {
+            0x12,       // header: basic_type=Object(2), fid_size=2, off_size=1, is_large=false
+                        //   value_header = (fid_size-1) << 2 | (off_size-1) = 0b000100 = 4
+                        //   header byte  = (4 << 2) | 2 = 0x12
+            0x02,       // num_fields = 2
+            0x00, 0x00, // field_id[0] = 0 (=> "age"), 2 bytes little-endian
+            0x01, 0x00, // field_id[1] = 1 (=> "name"), 2 bytes little-endian
+            0x00,       // offset[0] = 0
+            0x02,       // offset[1] = 2
+            0x06,       // end_offset = 6
+            // value 0: Int8 = 30
+            0x0C,       // primitive Int8 header
+            0x1E,       // 30
+            // value 1: short string "Bob"
+            0x0D,       // basic_type=ShortString(1), length=3 => (3 << 2) | 1 = 13
+            (byte)'B', (byte)'o', (byte)'b',
+        };
+
         // =================================================================
         // Array test vectors
         // =================================================================

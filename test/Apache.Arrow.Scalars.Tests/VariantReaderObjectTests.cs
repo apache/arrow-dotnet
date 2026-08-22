@@ -151,6 +151,53 @@ namespace Apache.Arrow.Scalars.Tests
         }
 
         // ---------------------------------------------------------------
+        // Asymmetric header sizes
+        // ---------------------------------------------------------------
+        //
+        // Objects whose field_id_size and offset_size differ are the only ones that can detect
+        // the two header size fields being read from each other's bits. Every vector above uses
+        // field_id_size == offset_size, where the two layouts coincide.
+
+        [Fact]
+        public void WideFieldIds_FieldNames()
+        {
+            VariantObjectReader obj = new VariantObjectReader(
+                TestVectors.SortedMetadata_Age_Name, TestVectors.Object_Age30_Name_Bob_WideFieldIds);
+
+            Assert.Equal(2, obj.FieldCount);
+            Assert.Equal("age", obj.GetFieldName(0));
+            Assert.Equal("name", obj.GetFieldName(1));
+        }
+
+        [Fact]
+        public void WideFieldIds_FieldValues()
+        {
+            VariantObjectReader obj = new VariantObjectReader(
+                TestVectors.SortedMetadata_Age_Name, TestVectors.Object_Age30_Name_Bob_WideFieldIds);
+
+            VariantReader ageValue = obj.GetFieldValue(0);
+            Assert.Equal(VariantPrimitiveType.Int8, ageValue.PrimitiveType);
+            Assert.Equal(30, ageValue.GetInt8());
+
+            VariantReader nameValue = obj.GetFieldValue(1);
+            Assert.True(nameValue.IsString);
+            Assert.Equal("Bob", nameValue.GetString());
+        }
+
+        [Fact]
+        public void WideFieldIds_TryGetField_Both()
+        {
+            VariantObjectReader obj = new VariantObjectReader(
+                TestVectors.SortedMetadata_Age_Name, TestVectors.Object_Age30_Name_Bob_WideFieldIds);
+
+            Assert.True(obj.TryGetField("age", out VariantReader ageValue));
+            Assert.Equal(30, ageValue.GetInt8());
+
+            Assert.True(obj.TryGetField("name", out VariantReader nameValue));
+            Assert.Equal("Bob", nameValue.GetString());
+        }
+
+        // ---------------------------------------------------------------
         // Error cases
         // ---------------------------------------------------------------
 
