@@ -42,6 +42,17 @@ repos:
           dotnet format Apache.Arrow.sln --exclude src/Apache.Arrow/Flatbuf/FlatBuffers/
         always_run: true
         pass_filenames: false
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: fix-byte-order-marker
+        # Visual Studio rewrites these with a byte order mark, so
+        # removing it here would just be undone on the next edit.
+        exclude: |
+          (?x)^(
+            examples/Examples\.sln|
+            src/Apache\.Arrow/Properties/Resources\.resx
+          )$
   - repo: https://github.com/koalaman/shellcheck-precommit
     rev: v0.10.0
     hooks:
