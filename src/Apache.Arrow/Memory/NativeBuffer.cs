@@ -95,8 +95,7 @@ namespace Apache.Arrow.Memory
             int newCount = ComputeGrowCount(Length, newElementCount, elementSize);
             int needed = checked(newCount * elementSize);
 
-            var owner = _owner ?? throw new ObjectDisposedException(nameof(NativeBuffer<TItem, TTracker>));
-            owner.Reallocate(needed);
+            _owner.Reallocate(needed);
 
             if (zeroFill)
             {
@@ -111,13 +110,6 @@ namespace Apache.Arrow.Memory
         /// The element count to grow to: double the current length to amortise repeated grows, but never
         /// past the largest buffer that can be addressed, and never below what the caller asked for.
         /// </summary>
-        /// <remarks>
-        /// Doubling used to be unconditional and checked, so once the buffer passed half of the maximum
-        /// its next grow threw <see cref="OverflowException"/> however little was asked for, even though
-        /// the requested size still fit. Saturating instead keeps growth amortised right up to the
-        /// ceiling; a request that genuinely cannot be addressed still overflows at the byte-size
-        /// calculation in <see cref="Grow"/>, as before.
-        /// </remarks>
         internal static int ComputeGrowCount(int length, int newElementCount, int elementSize)
         {
             // Always Unsafe.SizeOf<TItem>() for an unmanaged TItem, so never below one; the parameter
