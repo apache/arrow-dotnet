@@ -125,12 +125,18 @@ namespace Apache.Arrow.Scalars.Tests
                 Assert.Equal(encoded.FirstFieldId + i, layout.FieldIds[i]);
             }
 
-            Assert.Equal(0, layout.Offsets[0]);
+            // Of the offsets the spec pins down only the last, which ends the data region. Field
+            // IDs are sorted by name, but the values they point at may be stored in any physical
+            // order — see the remarks on VariantObjectReader.GetFieldValue — so the field starts
+            // are checked for containment rather than for the ascending order this writer
+            // happens to emit. Every variant value is at least one byte, so a start offset is
+            // always short of the end.
+            int dataLength = encoded.Value.Length - layout.DataStart;
+            Assert.Equal(dataLength, layout.Offsets[fieldCount]);
             for (int i = 0; i < fieldCount; i++)
             {
-                Assert.True(layout.Offsets[i + 1] > layout.Offsets[i], "offsets are not increasing at index " + i);
+                Assert.InRange(layout.Offsets[i], 0, dataLength - 1);
             }
-            Assert.Equal(encoded.Value.Length - layout.DataStart, layout.Offsets[fieldCount]);
 
             // Confirm the fixture forced each width for the reason it meant to, rather than
             // landing on it by accident: the largest ID and the end offset are the two values
