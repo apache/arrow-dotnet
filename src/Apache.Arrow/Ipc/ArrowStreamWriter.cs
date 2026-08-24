@@ -838,6 +838,7 @@ namespace Apache.Arrow.Ipc
             VectorOffset customMetadataVectorOffset = default;
             if (customMetadata != null && customMetadata.Count > 0)
             {
+                ValidateCustomMetadata(customMetadata);
                 Offset<Flatbuf.KeyValue>[] metadataOffsets = GetMetadataOffsets(customMetadata);
                 customMetadataVectorOffset = Flatbuf.Message.CreateCustomMetadataVector(Builder, metadataOffsets);
             }
@@ -894,6 +895,7 @@ namespace Apache.Arrow.Ipc
             VectorOffset customMetadataVectorOffset = default;
             if (customMetadata != null && customMetadata.Count > 0)
             {
+                ValidateCustomMetadata(customMetadata);
                 Offset<Flatbuf.KeyValue>[] metadataOffsets = GetMetadataOffsets(customMetadata);
                 customMetadataVectorOffset = Flatbuf.Message.CreateCustomMetadataVector(Builder, metadataOffsets);
             }
@@ -1328,6 +1330,25 @@ namespace Apache.Arrow.Ipc
 
             Offset<Flatbuf.Int> indexOffset = Flatbuf.Int.CreateInt(Builder, indexType.BitWidth, indexType.IsSigned);
             return Flatbuf.DictionaryEncoding.CreateDictionaryEncoding(Builder, id, indexOffset, dicType.Ordered);
+        }
+
+        /// <summary>
+        /// Validates that a caller-supplied custom metadata dictionary contains no null keys or values,
+        /// so that failures are reported clearly rather than as an opaque exception from the FlatBuffer builder.
+        /// </summary>
+        private static void ValidateCustomMetadata(IReadOnlyDictionary<string, string> customMetadata)
+        {
+            foreach (KeyValuePair<string, string> metadatum in customMetadata)
+            {
+                if (metadatum.Key == null)
+                {
+                    throw new ArgumentException("Custom metadata must not contain null keys.", nameof(customMetadata));
+                }
+                if (metadatum.Value == null)
+                {
+                    throw new ArgumentException($"Custom metadata value for key '{metadatum.Key}' must not be null.", nameof(customMetadata));
+                }
+            }
         }
 
         private Offset<Flatbuf.KeyValue>[] GetMetadataOffsets(IReadOnlyDictionary<string, string> metadata)

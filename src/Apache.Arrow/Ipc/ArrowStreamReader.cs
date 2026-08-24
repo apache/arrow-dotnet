@@ -155,8 +155,10 @@ namespace Apache.Arrow.Ipc
 
         /// <summary>
         /// Custom metadata from the most recently read RecordBatch Message.
-        /// Updated after each call to ReadNextRecordBatch/ReadNextRecordBatchAsync.
-        /// Returns null if the last batch had no custom metadata.
+        /// Set whenever ReadNextRecordBatch/ReadNextRecordBatchAsync successfully reads a
+        /// RecordBatch message; left unchanged when a call returns null (e.g. at the end of
+        /// the stream), so it continues to reflect the last RecordBatch that was read.
+        /// Returns null if that batch had no custom metadata.
         /// </summary>
         public IReadOnlyDictionary<string, string> LastBatchCustomMetadata => _implementation.LastBatchCustomMetadata;
     }

@@ -91,11 +91,11 @@ namespace Apache.Arrow.Flight.Internal
             await _clientStreamWriter.WriteAsync(_currentFlightData).ConfigureAwait(false);
         }
 
-        private protected override ValueTask<long> WriteMessageAsync<T>(MessageHeader headerType, Offset<T> headerOffset, int bodyLength, CancellationToken cancellationToken)
+        private protected override ValueTask<long> WriteMessageAsync<T>(MessageHeader headerType, Offset<T> headerOffset, int bodyLength, VectorOffset customMetadataOffset, CancellationToken cancellationToken)
         {
             Offset<Flatbuf.Message> messageOffset = Flatbuf.Message.CreateMessage(
                 Builder, CurrentMetadataVersion, headerType, headerOffset.Value,
-                bodyLength);
+                bodyLength, customMetadataOffset);
 
             Builder.Finish(messageOffset.Value);
 
