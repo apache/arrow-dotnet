@@ -48,8 +48,12 @@ namespace Apache.Arrow.Tests
             public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken) =>
                 throw new InvalidOperationException("ReadAsync should not be called for a zero-length buffer.");
 
+#if NETCOREAPP
+            // Stream.ReadAsync(Memory<byte>, CancellationToken) is only overridable on
+            // netcoreapp targets — net462/net472 don't declare it as virtual on Stream.
             public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default) =>
                 throw new InvalidOperationException("ReadAsync should not be called for a zero-length buffer.");
+#endif
 
             public override void Flush() => throw new NotSupportedException();
             public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
