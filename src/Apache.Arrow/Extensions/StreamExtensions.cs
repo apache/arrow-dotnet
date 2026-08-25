@@ -24,6 +24,19 @@ namespace Apache.Arrow
     {
         public static async ValueTask<int> ReadFullBufferAsync(this Stream stream, Memory<byte> buffer, CancellationToken cancellationToken = default)
         {
+            // A zero-length request is trivially satisfied — 0 bytes were asked for, 0 were
+            // read — and must return WITHOUT ever calling stream.ReadAsync. Socket-backed streams
+            // (NetworkStream et al.) do not treat a zero-length ReadAsync as an immediate no-op
+            // the way MemoryStream does: it behaves as a "wait for the socket to become readable"
+            // probe, blocking until the peer sends *something* (or closes). A RecordBatch message
+            // body is legitimately zero-length whenever the batch has no buffers (e.g. a
+            // zero-column schema), so without this fast path, reading such a batch's empty body
+            // over a real socket blocks indefinitely instead of completing immediately.
+            if (buffer.Length == 0)
+            {
+                return 0;
+            }
+
             int totalBytesRead = 0;
             do
             {
@@ -48,6 +61,13 @@ namespace Apache.Arrow
 
         public static int ReadFullBuffer(this Stream stream, Memory<byte> buffer)
         {
+            // See the matching guard in ReadFullBufferAsync above — same
+            // zero-length-buffer-blocks-on-socket-streams rationale applies to the sync path.
+            if (buffer.Length == 0)
+            {
+                return 0;
+            }
+
             int totalBytesRead = 0;
             do
             {
