@@ -154,12 +154,37 @@ namespace Apache.Arrow.Ipc
         }
 
         /// <summary>
-        /// Custom metadata from the most recently read RecordBatch Message.
-        /// Set whenever ReadNextRecordBatch/ReadNextRecordBatchAsync successfully reads a
-        /// RecordBatch message; left unchanged when a call returns null (e.g. at the end of
-        /// the stream), so it continues to reflect the last RecordBatch that was read.
-        /// Returns null if that batch had no custom metadata.
+        /// Reads the next record batch together with the custom metadata on its IPC Message,
+        /// the counterpart of <see cref="ArrowStreamWriter.WriteRecordBatch(RecordBatch, IReadOnlyDictionary{string, string})"/>.
         /// </summary>
-        public IReadOnlyDictionary<string, string> LastBatchCustomMetadata => _implementation.LastBatchCustomMetadata;
+        /// <returns>
+        /// The record batch and its custom metadata. At the end of the stream both
+        /// <see cref="RecordBatchWithMetadata.Batch"/> and
+        /// <see cref="RecordBatchWithMetadata.CustomMetadata"/> are null; the metadata is also
+        /// null for a batch whose message carried none.
+        /// </returns>
+        public async ValueTask<RecordBatchWithMetadata> ReadNextRecordBatchWithCustomMetadataAsync(CancellationToken cancellationToken = default)
+        {
+            RecordBatch batch = await _implementation.ReadNextRecordBatchAsync(cancellationToken).ConfigureAwait(false);
+
+            return batch == null ? default : new RecordBatchWithMetadata(batch, _implementation.LastBatchCustomMetadata);
+        }
+
+        /// <summary>
+        /// Reads the next record batch together with the custom metadata on its IPC Message,
+        /// the counterpart of <see cref="ArrowStreamWriter.WriteRecordBatch(RecordBatch, IReadOnlyDictionary{string, string})"/>.
+        /// </summary>
+        /// <returns>
+        /// The record batch and its custom metadata. At the end of the stream both
+        /// <see cref="RecordBatchWithMetadata.Batch"/> and
+        /// <see cref="RecordBatchWithMetadata.CustomMetadata"/> are null; the metadata is also
+        /// null for a batch whose message carried none.
+        /// </returns>
+        public RecordBatchWithMetadata ReadNextRecordBatchWithCustomMetadata()
+        {
+            RecordBatch batch = _implementation.ReadNextRecordBatch();
+
+            return batch == null ? default : new RecordBatchWithMetadata(batch, _implementation.LastBatchCustomMetadata);
+        }
     }
 }

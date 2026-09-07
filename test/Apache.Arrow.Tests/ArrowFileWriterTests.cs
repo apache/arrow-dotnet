@@ -372,8 +372,14 @@ namespace Apache.Arrow.Tests
 
             stream.Position = 0;
             using var reader = new ArrowFileReader(stream);
-            Assert.NotNull(reader.ReadNextRecordBatch());
-            Assert.Equal(customMetadata, reader.LastBatchCustomMetadata);
+            RecordBatchWithMetadata read = reader.ReadNextRecordBatchWithCustomMetadata();
+            Assert.NotNull(read.Batch);
+            Assert.Equal(customMetadata, read.CustomMetadata);
+
+            // The indexed read on ArrowFileReader reports the same metadata.
+            RecordBatchWithMetadata indexed = await reader.ReadRecordBatchWithCustomMetadataAsync(0);
+            Assert.NotNull(indexed.Batch);
+            Assert.Equal(customMetadata, indexed.CustomMetadata);
         }
 
         [Fact]
@@ -395,8 +401,9 @@ namespace Apache.Arrow.Tests
 
             stream.Position = 0;
             using var reader = new ArrowFileReader(stream);
-            Assert.NotNull(await reader.ReadNextRecordBatchAsync());
-            Assert.Equal(customMetadata, reader.LastBatchCustomMetadata);
+            RecordBatchWithMetadata read = await reader.ReadNextRecordBatchWithCustomMetadataAsync();
+            Assert.NotNull(read.Batch);
+            Assert.Equal(customMetadata, read.CustomMetadata);
         }
 
         [Fact]

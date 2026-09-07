@@ -759,16 +759,15 @@ namespace Apache.Arrow.Tests
             stream.Position = 0;
 
             using var reader = new ArrowStreamReader(stream);
-            RecordBatch readBatch = reader.ReadNextRecordBatch();
-            Assert.NotNull(readBatch);
-            ArrowReaderVerifier.CompareBatches(originalBatch, readBatch);
+            RecordBatchWithMetadata read = reader.ReadNextRecordBatchWithCustomMetadata();
+            Assert.NotNull(read.Batch);
+            ArrowReaderVerifier.CompareBatches(originalBatch, read.Batch);
 
-            var readMetadata = reader.LastBatchCustomMetadata;
-            Assert.NotNull(readMetadata);
-            Assert.Equal(3, readMetadata.Count);
-            Assert.Equal("add", readMetadata["rpc.method"]);
-            Assert.Equal("1", readMetadata["rpc.version"]);
-            Assert.Equal("abc-123", readMetadata["request_id"]);
+            Assert.NotNull(read.CustomMetadata);
+            Assert.Equal(3, read.CustomMetadata.Count);
+            Assert.Equal("add", read.CustomMetadata["rpc.method"]);
+            Assert.Equal("1", read.CustomMetadata["rpc.version"]);
+            Assert.Equal("abc-123", read.CustomMetadata["request_id"]);
         }
 
         [Fact]
@@ -791,13 +790,12 @@ namespace Apache.Arrow.Tests
             stream.Position = 0;
 
             using var reader = new ArrowStreamReader(stream);
-            RecordBatch readBatch = reader.ReadNextRecordBatch();
+            (RecordBatch readBatch, IReadOnlyDictionary<string, string> readMetadata) =
+                await reader.ReadNextRecordBatchWithCustomMetadataAsync();
             Assert.NotNull(readBatch);
             ArrowReaderVerifier.CompareBatches(originalBatch, readBatch);
 
-            Assert.NotNull(reader.LastBatchCustomMetadata);
-            Assert.Equal("value1", reader.LastBatchCustomMetadata["key1"]);
-            Assert.Equal("value2", reader.LastBatchCustomMetadata["key2"]);
+            Assert.Equal(customMetadata, readMetadata);
         }
 
         [Fact]
@@ -819,20 +817,12 @@ namespace Apache.Arrow.Tests
 
             using var reader = new ArrowStreamReader(stream);
 
-            reader.ReadNextRecordBatch();
-            Assert.NotNull(reader.LastBatchCustomMetadata);
-            Assert.Single(reader.LastBatchCustomMetadata);
-            Assert.Equal("first", reader.LastBatchCustomMetadata["batch"]);
-
-            reader.ReadNextRecordBatch();
-            Assert.NotNull(reader.LastBatchCustomMetadata);
-            Assert.Equal(2, reader.LastBatchCustomMetadata.Count);
-            Assert.Equal("second", reader.LastBatchCustomMetadata["batch"]);
-            Assert.Equal("data", reader.LastBatchCustomMetadata["extra"]);
+            Assert.Equal(meta1, reader.ReadNextRecordBatchWithCustomMetadata().CustomMetadata);
+            Assert.Equal(meta2, reader.ReadNextRecordBatchWithCustomMetadata().CustomMetadata);
         }
 
         [Fact]
-        public void WriteWithoutCustomMetadata_LastBatchCustomMetadataIsNull()
+        public void WriteWithoutCustomMetadata_CustomMetadataIsNull()
         {
             RecordBatch batch = TestData.CreateSampleRecordBatch(length: 5);
 
@@ -846,8 +836,9 @@ namespace Apache.Arrow.Tests
             stream.Position = 0;
 
             using var reader = new ArrowStreamReader(stream);
-            reader.ReadNextRecordBatch();
-            Assert.Null(reader.LastBatchCustomMetadata);
+            RecordBatchWithMetadata read = reader.ReadNextRecordBatchWithCustomMetadata();
+            Assert.NotNull(read.Batch);
+            Assert.Null(read.CustomMetadata);
         }
 
         [Fact]
@@ -868,12 +859,16 @@ namespace Apache.Arrow.Tests
 
             using var reader = new ArrowStreamReader(stream);
 
-            reader.ReadNextRecordBatch();
-            Assert.NotNull(reader.LastBatchCustomMetadata);
-            Assert.Equal("value", reader.LastBatchCustomMetadata["key"]);
+            Assert.Equal(meta, reader.ReadNextRecordBatchWithCustomMetadata().CustomMetadata);
 
-            reader.ReadNextRecordBatch();
-            Assert.Null(reader.LastBatchCustomMetadata);
+            RecordBatchWithMetadata second = reader.ReadNextRecordBatchWithCustomMetadata();
+            Assert.NotNull(second.Batch);
+            Assert.Null(second.CustomMetadata);
+
+            // At the end of the stream both halves are null, not the previous batch's metadata.
+            RecordBatchWithMetadata end = reader.ReadNextRecordBatchWithCustomMetadata();
+            Assert.Null(end.Batch);
+            Assert.Null(end.CustomMetadata);
         }
 
         [Fact]
@@ -891,8 +886,9 @@ namespace Apache.Arrow.Tests
             stream.Position = 0;
 
             using var reader = new ArrowStreamReader(stream);
-            reader.ReadNextRecordBatch();
-            Assert.Null(reader.LastBatchCustomMetadata);
+            RecordBatchWithMetadata read = reader.ReadNextRecordBatchWithCustomMetadata();
+            Assert.NotNull(read.Batch);
+            Assert.Null(read.CustomMetadata);
         }
 
         [Fact]
@@ -953,10 +949,10 @@ namespace Apache.Arrow.Tests
             stream.Position = 0;
 
             using var reader = new ArrowStreamReader(stream);
-            RecordBatch readBatch = reader.ReadNextRecordBatch();
-            Assert.NotNull(readBatch);
-            ArrowReaderVerifier.CompareBatches(batch, readBatch);
-            Assert.Equal(good, reader.LastBatchCustomMetadata);
+            RecordBatchWithMetadata read = reader.ReadNextRecordBatchWithCustomMetadata();
+            Assert.NotNull(read.Batch);
+            ArrowReaderVerifier.CompareBatches(batch, read.Batch);
+            Assert.Equal(good, read.CustomMetadata);
             Assert.Null(reader.ReadNextRecordBatch());
         }
 
@@ -976,9 +972,10 @@ namespace Apache.Arrow.Tests
             stream.Position = 0;
 
             using var reader = new ArrowStreamReader(stream);
-            reader.ReadNextRecordBatch();
-            Assert.NotNull(reader.LastBatchCustomMetadata);
-            Assert.Equal("", reader.LastBatchCustomMetadata["empty"]);
+            IReadOnlyDictionary<string, string> readMetadata =
+                reader.ReadNextRecordBatchWithCustomMetadata().CustomMetadata;
+            Assert.NotNull(readMetadata);
+            Assert.Equal("", readMetadata["empty"]);
         }
 
         /// <summary>

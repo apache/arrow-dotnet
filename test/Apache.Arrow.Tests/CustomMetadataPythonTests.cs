@@ -119,11 +119,11 @@ namespace Apache.Arrow.Tests
             using var ms = new MemoryStream(ipcBytes);
             using var reader = new ArrowStreamReader(ms);
 
-            RecordBatch batch = reader.ReadNextRecordBatch();
+            (RecordBatch batch, IReadOnlyDictionary<string, string> metadata) =
+                reader.ReadNextRecordBatchWithCustomMetadata();
             Assert.NotNull(batch);
             Assert.Equal(5, batch.Length);
 
-            var metadata = reader.LastBatchCustomMetadata;
             Assert.NotNull(metadata);
             Assert.Equal("python", metadata["origin"]);
             Assert.Equal("2", metadata["version"]);
