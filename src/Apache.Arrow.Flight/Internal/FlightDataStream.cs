@@ -55,7 +55,7 @@ namespace Apache.Arrow.Flight.Internal
 
             var offset = SerializeSchema(Schema);
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-            await WriteMessageAsync(MessageHeader.Schema, offset, 0, cancellationTokenSource.Token).ConfigureAwait(false);
+            await WriteMessageAsync(MessageHeader.Schema, offset, 0, default, cancellationTokenSource.Token).ConfigureAwait(false);
             await _clientStreamWriter.WriteAsync(_currentFlightData).ConfigureAwait(false);
             HasWrittenSchema = true;
         }
@@ -81,7 +81,7 @@ namespace Apache.Arrow.Flight.Internal
                 _currentFlightData.AppMetadata = applicationMetadata;
             }
 
-            await WriteRecordBatchInternalAsync(recordBatch).ConfigureAwait(false);
+            await WriteRecordBatchInternalAsync(recordBatch, customMetadata: null).ConfigureAwait(false);
 
             //Reset stream position
             this.BaseStream.Position = 0;

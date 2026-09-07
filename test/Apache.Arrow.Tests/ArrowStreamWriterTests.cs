@@ -15,6 +15,7 @@
 
 using System;
 using System.Buffers.Binary;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -876,6 +877,90 @@ namespace Apache.Arrow.Tests
         }
 
         [Fact]
+        public void WriteCustomMetadata_EmptyDictionary_WritesNoMetadata()
+        {
+            RecordBatch batch = TestData.CreateSampleRecordBatch(length: 5);
+
+            using var stream = new MemoryStream();
+            using (var writer = new ArrowStreamWriter(stream, batch.Schema, leaveOpen: true))
+            {
+                writer.WriteRecordBatch(batch, new Dictionary<string, string>());
+                writer.WriteEnd();
+            }
+
+            stream.Position = 0;
+
+            using var reader = new ArrowStreamReader(stream);
+            reader.ReadNextRecordBatch();
+            Assert.Null(reader.LastBatchCustomMetadata);
+        }
+
+        [Fact]
+        public void WriteCustomMetadata_NullKey_Throws()
+        {
+            RecordBatch batch = TestData.CreateSampleRecordBatch(length: 5);
+            // Dictionary<string, string> rejects a null key, so go through a map that allows one.
+            var withNullKey = new NullTolerantMetadata(new KeyValuePair<string, string>(null, "value"));
+
+            using var stream = new MemoryStream();
+            using var writer = new ArrowStreamWriter(stream, batch.Schema, leaveOpen: true);
+
+            Assert.Throws<ArgumentException>(() => writer.WriteRecordBatch(batch, withNullKey));
+        }
+
+        [Fact]
+        public void WriteCustomMetadata_NullValue_Throws()
+        {
+            RecordBatch batch = TestData.CreateSampleRecordBatch(length: 5);
+            var meta = new Dictionary<string, string> { ["key"] = null };
+
+            using var stream = new MemoryStream();
+            using var writer = new ArrowStreamWriter(stream, batch.Schema, leaveOpen: true);
+
+            Assert.Throws<ArgumentException>(() => writer.WriteRecordBatch(batch, meta));
+        }
+
+        [Fact]
+        public async Task WriteCustomMetadataAsync_NullValue_Throws()
+        {
+            RecordBatch batch = TestData.CreateSampleRecordBatch(length: 5);
+            var meta = new Dictionary<string, string> { ["key"] = null };
+
+            using var stream = new MemoryStream();
+            using var writer = new ArrowStreamWriter(stream, batch.Schema, leaveOpen: true);
+
+            await Assert.ThrowsAsync<ArgumentException>(
+                () => writer.WriteRecordBatchAsync(batch, meta));
+        }
+
+        [Fact]
+        public void WriteCustomMetadata_RejectedMetadata_LeavesWriterUsable()
+        {
+            // Validation happens before anything is written, so a rejected dictionary must not
+            // leave the writer part-way through a message.
+            RecordBatch batch = TestData.CreateSampleRecordBatch(length: 5);
+            var good = new Dictionary<string, string> { ["key"] = "value" };
+            var bad = new Dictionary<string, string> { ["key"] = null };
+
+            using var stream = new MemoryStream();
+            using (var writer = new ArrowStreamWriter(stream, batch.Schema, leaveOpen: true))
+            {
+                Assert.Throws<ArgumentException>(() => writer.WriteRecordBatch(batch, bad));
+                writer.WriteRecordBatch(batch, good);
+                writer.WriteEnd();
+            }
+
+            stream.Position = 0;
+
+            using var reader = new ArrowStreamReader(stream);
+            RecordBatch readBatch = reader.ReadNextRecordBatch();
+            Assert.NotNull(readBatch);
+            ArrowReaderVerifier.CompareBatches(batch, readBatch);
+            Assert.Equal(good, reader.LastBatchCustomMetadata);
+            Assert.Null(reader.ReadNextRecordBatch());
+        }
+
+        [Fact]
         public void WriteCustomMetadata_EmptyValues_RoundTrips()
         {
             RecordBatch batch = TestData.CreateSampleRecordBatch(length: 5);
@@ -894,6 +979,25 @@ namespace Apache.Arrow.Tests
             reader.ReadNextRecordBatch();
             Assert.NotNull(reader.LastBatchCustomMetadata);
             Assert.Equal("", reader.LastBatchCustomMetadata["empty"]);
+        }
+
+        /// <summary>
+        /// A metadata collection that can hold a null key, which <see cref="Dictionary{TKey, TValue}"/> cannot.
+        /// </summary>
+        private sealed class NullTolerantMetadata : IReadOnlyDictionary<string, string>
+        {
+            private readonly KeyValuePair<string, string>[] _entries;
+
+            public NullTolerantMetadata(params KeyValuePair<string, string>[] entries) => _entries = entries;
+
+            public int Count => _entries.Length;
+            public IEnumerable<string> Keys => _entries.Select(e => e.Key);
+            public IEnumerable<string> Values => _entries.Select(e => e.Value);
+            public string this[string key] => throw new NotSupportedException();
+            public bool ContainsKey(string key) => throw new NotSupportedException();
+            public bool TryGetValue(string key, out string value) => throw new NotSupportedException();
+            public IEnumerator<KeyValuePair<string, string>> GetEnumerator() => ((IEnumerable<KeyValuePair<string, string>>)_entries).GetEnumerator();
+            IEnumerator IEnumerable.GetEnumerator() => _entries.GetEnumerator();
         }
     }
 }

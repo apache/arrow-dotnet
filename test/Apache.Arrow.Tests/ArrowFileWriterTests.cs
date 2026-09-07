@@ -311,6 +311,114 @@ namespace Apache.Arrow.Tests
             await ValidateRecordBatchFile(stream, recordBatch, strictCompare: false);
         }
 
+        [Fact]
+        public void WriteCustomMetadata_StillWritesFileMagic()
+        {
+            // ArrowFileWriter has to emit the file magic before any message. Regression test for
+            // a WriteRecordBatch overload reaching WriteRecordBatchInternal without it.
+            RecordBatch originalBatch = TestData.CreateSampleRecordBatch(length: 100);
+            var customMetadata = new Dictionary<string, string> { ["batch"] = "first" };
+
+            var stream = new MemoryStream();
+            using (var writer = new ArrowFileWriter(stream, originalBatch.Schema, leaveOpen: true))
+            {
+                writer.WriteRecordBatch(originalBatch, customMetadata);
+                writer.WriteEnd();
+            }
+
+            Assert.Equal(
+                ArrowFileConstants.Magic,
+                stream.ToArray().AsSpan(0, ArrowFileConstants.Magic.Length).ToArray());
+        }
+
+        [Fact]
+        public async Task WriteCustomMetadataAsync_StillWritesFileMagic()
+        {
+            RecordBatch originalBatch = TestData.CreateSampleRecordBatch(length: 100);
+            var customMetadata = new Dictionary<string, string> { ["batch"] = "first" };
+
+            var stream = new MemoryStream();
+            using (var writer = new ArrowFileWriter(stream, originalBatch.Schema, leaveOpen: true))
+            {
+                await writer.WriteRecordBatchAsync(originalBatch, customMetadata);
+                await writer.WriteEndAsync();
+            }
+
+            Assert.Equal(
+                ArrowFileConstants.Magic,
+                stream.ToArray().AsSpan(0, ArrowFileConstants.Magic.Length).ToArray());
+        }
+
+        [Fact]
+        public async Task WriteCustomMetadata_RoundTrips()
+        {
+            RecordBatch originalBatch = TestData.CreateSampleRecordBatch(length: 100);
+            var customMetadata = new Dictionary<string, string>
+            {
+                ["rpc.method"] = "add",
+                ["request_id"] = "abc-123",
+            };
+
+            var stream = new MemoryStream();
+            using (var writer = new ArrowFileWriter(stream, originalBatch.Schema, leaveOpen: true))
+            {
+                writer.WriteRecordBatch(originalBatch, customMetadata);
+                writer.WriteEnd();
+            }
+
+            stream.Position = 0;
+
+            await ValidateRecordBatchFile(stream, originalBatch);
+
+            stream.Position = 0;
+            using var reader = new ArrowFileReader(stream);
+            Assert.NotNull(reader.ReadNextRecordBatch());
+            Assert.Equal(customMetadata, reader.LastBatchCustomMetadata);
+        }
+
+        [Fact]
+        public async Task WriteCustomMetadataAsync_RoundTrips()
+        {
+            RecordBatch originalBatch = TestData.CreateSampleRecordBatch(length: 100);
+            var customMetadata = new Dictionary<string, string> { ["key1"] = "value1" };
+
+            var stream = new MemoryStream();
+            using (var writer = new ArrowFileWriter(stream, originalBatch.Schema, leaveOpen: true))
+            {
+                await writer.WriteRecordBatchAsync(originalBatch, customMetadata);
+                await writer.WriteEndAsync();
+            }
+
+            stream.Position = 0;
+
+            await ValidateRecordBatchFile(stream, originalBatch);
+
+            stream.Position = 0;
+            using var reader = new ArrowFileReader(stream);
+            Assert.NotNull(await reader.ReadNextRecordBatchAsync());
+            Assert.Equal(customMetadata, reader.LastBatchCustomMetadata);
+        }
+
+        [Fact]
+        public async Task WriteCustomMetadata_AfterExplicitWriteStart_RoundTrips()
+        {
+            // WriteStart is idempotent, so writing it up front must not produce a second preamble.
+            RecordBatch originalBatch = TestData.CreateSampleRecordBatch(length: 100);
+            var customMetadata = new Dictionary<string, string> { ["key1"] = "value1" };
+
+            var stream = new MemoryStream();
+            using (var writer = new ArrowFileWriter(stream, originalBatch.Schema, leaveOpen: true))
+            {
+                writer.WriteStart();
+                writer.WriteRecordBatch(originalBatch, customMetadata);
+                writer.WriteEnd();
+            }
+
+            stream.Position = 0;
+
+            await ValidateRecordBatchFile(stream, originalBatch);
+        }
+
         private static void Shuffle(int[] values, Random random)
         {
             var length = values.Length;

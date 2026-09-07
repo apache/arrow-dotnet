@@ -166,19 +166,16 @@ namespace Apache.Arrow.Ipc
 
         private static IReadOnlyDictionary<string, string> ReadMessageCustomMetadata(Flatbuf.Message message)
         {
-            int count = message.CustomMetadataLength;
-            if (count == 0)
-                return null;
-
-            var result = new Dictionary<string, string>(count);
-            for (int i = 0; i < count; i++)
+            Dictionary<string, string> metadata = message.CustomMetadataLength > 0
+                ? new Dictionary<string, string>(message.CustomMetadataLength) : null;
+            for (int i = 0; i < message.CustomMetadataLength; i++)
             {
-                Flatbuf.KeyValue kv = message.CustomMetadata(i).GetValueOrDefault();
-                string key = kv.Key;
-                if (key != null)
-                    result[key] = kv.Value ?? "";
+                Flatbuf.KeyValue keyValue = message.CustomMetadata(i).GetValueOrDefault();
+
+                metadata[keyValue.Key] = keyValue.Value;
             }
-            return result;
+
+            return metadata;
         }
 
         internal static ByteBuffer CreateByteBuffer(ReadOnlyMemory<byte> buffer)
