@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Apache.Arrow\Apache.Arrow.csproj" />
+    <ProjectReference Include="..\..\src\Apache.Arrow.Compute\Apache.Arrow.Compute.csproj" />
+  </ItemGroup>
+
+</Project>

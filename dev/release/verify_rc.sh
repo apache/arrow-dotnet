@@ -180,12 +180,13 @@ test_binary_distribution() {
   popd
 
   # Update test projects to reference NuGet packages for the release candidate
-  reference_package "Apache.Arrow" "Apache.Arrow.Tests" "Apache.Arrow.Compression.Tests"
+  reference_package "Apache.Arrow" "Apache.Arrow.Tests" "Apache.Arrow.Compression.Tests" "Apache.Arrow.Compute.Tests"
   reference_package "Apache.Arrow.Compression" "Apache.Arrow.Compression.Tests"
   reference_package "Apache.Arrow.Flight.Sql" "Apache.Arrow.Flight.Sql.Tests" "Apache.Arrow.Flight.TestWeb"
   reference_package "Apache.Arrow.Flight.AspNetCore" "Apache.Arrow.Flight.TestWeb"
   reference_package "Apache.Arrow.Operations" "Apache.Arrow.Operations.Tests" "Apache.Arrow.Scalars.Tests"
   reference_package "Apache.Arrow.Scalars" "Apache.Arrow.Scalars.Tests" "Apache.Arrow.Tests" "Apache.Arrow.Operations.Tests"
+  reference_package "Apache.Arrow.Compute" "Apache.Arrow.Compute.Tests"
 
   # Move src directory to ensure we are only testing against built packages
   mv src src.backup

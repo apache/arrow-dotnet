@@ -1,0 +1,225 @@
+// Licensed to the Apache Software Foundation (ASF) under one or more
+// contributor license agreements. See the NOTICE file distributed with
+// this work for additional information regarding copyright ownership.
+// The ASF licenses this file to You under the Apache License, Version 2.0
+// (the "License"); you may not use this file except in compliance with
+// the License.  You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+using System;
+using System.Linq;
+using Apache.Arrow;
+using Apache.Arrow.Compute;
+using Xunit;
+
+namespace Apache.Arrow.Compute.Tests
+{
+    public class AggregationsTests
+    {
+        private static DoubleArray Doubles(params double?[] values)
+        {
+            var builder = new DoubleArray.Builder();
+            foreach (double? v in values)
+            {
+                if (v.HasValue) builder.Append(v.Value);
+                else builder.AppendNull();
+            }
+            return builder.Build();
+        }
+
+        private static Int32Array Ints(params int?[] values)
+        {
+            var builder = new Int32Array.Builder();
+            foreach (int? v in values)
+            {
+                if (v.HasValue) builder.Append(v.Value);
+                else builder.AppendNull();
+            }
+            return builder.Build();
+        }
+
+        private static Int64Array Longs(params long?[] values)
+        {
+            var builder = new Int64Array.Builder();
+            foreach (long? v in values)
+            {
+                if (v.HasValue) builder.Append(v.Value);
+                else builder.AppendNull();
+            }
+            return builder.Build();
+        }
+
+        private static FloatArray Floats(params float?[] values)
+        {
+            var builder = new FloatArray.Builder();
+            foreach (float? v in values)
+            {
+                if (v.HasValue) builder.Append(v.Value);
+                else builder.AppendNull();
+            }
+            return builder.Build();
+        }
+
+        [Fact]
+        public void Sum_Int32_NoNulls()
+        {
+            Assert.Equal(10, Ints(1, 2, 3, 4).Sum());
+        }
+
+        [Fact]
+        public void Sum_Int32_WithNulls()
+        {
+            Assert.Equal(4, Ints(1, null, 3).Sum());
+        }
+
+        [Fact]
+        public void Aggregations_Int64_NoNulls()
+        {
+            var a = Longs(1, 2, 3, 4);
+            Assert.Equal(10L, a.Sum());
+            Assert.Equal(1L, a.Min());
+            Assert.Equal(4L, a.Max());
+            Assert.Equal(2.5, a.Mean()!.Value, 6);
+        }
+
+        [Fact]
+        public void Aggregations_Int64_WithNulls()
+        {
+            var a = Longs(1, null, 5, -2);
+            Assert.Equal(4L, a.Sum());
+            Assert.Equal(-2L, a.Min());
+            Assert.Equal(5L, a.Max());
+            Assert.Equal(4.0 / 3.0, a.Mean()!.Value, 6);
+        }
+
+        [Fact]
+        public void Aggregations_Float_NoNulls()
+        {
+            var a = Floats(1.5f, -2.0f, 4.5f);
+            Assert.Equal(4.0f, a.Sum());
+            Assert.Equal(-2.0f, a.Min());
+            Assert.Equal(4.5f, a.Max());
+            Assert.Equal(4.0 / 3.0, a.Mean()!.Value, 6);
+        }
+
+        [Fact]
+        public void Aggregations_Float_WithNulls()
+        {
+            var a = Floats(1.5f, null, 2.5f);
+            Assert.Equal(4.0f, a.Sum());
+            Assert.Equal(1.5f, a.Min());
+            Assert.Equal(2.5f, a.Max());
+            Assert.Equal(2.0, a.Mean()!.Value, 6);
+        }
+
+        [Fact]
+        public void Sum_Double_NoNulls()
+        {
+            Assert.Equal(6.5, Doubles(1.0, 2.0, 3.5).Sum()!.Value, 6);
+        }
+
+        [Fact]
+        public void Min_Max_Double_NoNulls()
+        {
+            var a = Doubles(3.0, -1.0, 7.5, 2.0);
+            Assert.Equal(-1.0, a.Min()!.Value, 6);
+            Assert.Equal(7.5, a.Max()!.Value, 6);
+        }
+
+        [Fact]
+        public void Min_Max_WithNulls_IgnoresNulls()
+        {
+            var a = Doubles(null, 5.0, null, 2.0, 9.0);
+            Assert.Equal(2.0, a.Min()!.Value, 6);
+            Assert.Equal(9.0, a.Max()!.Value, 6);
+        }
+
+        [Fact]
+        public void Min_Max_OnlyNonNullValueIsNaN_ReturnNaN()
+        {
+            FloatArray floats = Floats(null, float.NaN, null);
+            DoubleArray doubles = Doubles(null, double.NaN, null);
+
+            Assert.True(float.IsNaN(floats.Min()!.Value));
+            Assert.True(float.IsNaN(floats.Max()!.Value));
+            Assert.True(double.IsNaN(doubles.Min()!.Value));
+            Assert.True(double.IsNaN(doubles.Max()!.Value));
+        }
+
+        [Fact]
+        public void Mean_Double_WithNulls_DividesByNonNullCount()
+        {
+            // (2 + 4) / 2 = 3, the null is excluded from both sum and count.
+            Assert.Equal(3.0, Doubles(2.0, null, 4.0).Mean()!.Value, 6);
+        }
+
+        [Fact]
+        public void Mean_Int32_ReturnsDouble()
+        {
+            Assert.Equal(2.5, Ints(1, 2, 3, 4).Mean()!.Value, 6);
+        }
+
+        [Fact]
+        public void SingleElement()
+        {
+            Assert.Equal(42.0, Doubles(42.0).Sum()!.Value, 6);
+            Assert.Equal(42.0, Doubles(42.0).Min()!.Value, 6);
+            Assert.Equal(42.0, Doubles(42.0).Max()!.Value, 6);
+            Assert.Equal(42.0, Doubles(42.0).Mean()!.Value, 6);
+        }
+
+        [Fact]
+        public void Empty_AllReturnNull()
+        {
+            var empty = Doubles();
+            Assert.Null(empty.Sum());
+            Assert.Null(empty.Min());
+            Assert.Null(empty.Max());
+            Assert.Null(empty.Mean());
+        }
+
+        [Fact]
+        public void AllNull_AllReturnNull()
+        {
+            var allNull = Doubles(null, null, null);
+            Assert.Null(allNull.Sum());
+            Assert.Null(allNull.Min());
+            Assert.Null(allNull.Max());
+            Assert.Null(allNull.Mean());
+        }
+
+        [Fact]
+        public void Large_Aggregations_MatchScalar()
+        {
+            const int n = 1_000_000;
+            var rng = new Random(17);
+            double[] data = Enumerable.Range(0, n).Select(_ => rng.NextDouble() * 100.0).ToArray();
+
+            var builder = new DoubleArray.Builder();
+            builder.Append(data.AsSpan());
+            DoubleArray array = builder.Build();
+
+            double scalar = 0.0;
+            for (int i = 0; i < n; i++) scalar += data[i];
+
+            double actual = array.Sum()!.Value;
+            double absoluteError = Math.Abs(scalar - actual);
+            double allowedError = Math.Max(
+                1e-9,
+                1e-10 * Math.Max(Math.Abs(scalar), Math.Abs(actual)));
+            Assert.True(
+                absoluteError <= allowedError,
+                $"Sum differs beyond tolerance. Expected: {scalar:R}; actual: {actual:R}; " +
+                $"absolute error: {absoluteError:R}; allowed error: {allowedError:R}.");
+            Assert.Equal(data.Min(), array.Min()!.Value, 9);
+            Assert.Equal(data.Max(), array.Max()!.Value, 9);
+        }
+    }
+}
