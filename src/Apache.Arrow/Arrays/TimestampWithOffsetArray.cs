@@ -16,6 +16,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Apache.Arrow.Memory;
 using Apache.Arrow.Types;
 
 namespace Apache.Arrow
@@ -196,39 +197,57 @@ namespace Apache.Arrow
         /// <summary>
         /// Builder for <see cref="TimestampWithOffsetArray"/>.
         /// </summary>
-        public class Builder
+        public class Builder : IArrowArrayBuilder<DateTimeOffset, TimestampWithOffsetArray, Builder>
         {
+            private static readonly DateTimeOffset s_nullPlaceholder =
+                new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero);
+
             private readonly TimestampArray.Builder _timestampBuilder;
             private readonly Int16Array.Builder _offsetBuilder;
             private readonly ArrowBuffer.BitmapBuilder _validityBuilder;
             private readonly TimestampWithOffsetType _type;
-            private int _length;
-            private int _nullCount;
 
             public Builder(TimeUnit unit = TimeUnit.Microsecond)
+                : this(new TimestampWithOffsetType(unit))
             {
-                _type = new TimestampWithOffsetType(unit);
-                _timestampBuilder = new TimestampArray.Builder(unit, "UTC");
+            }
+
+            public Builder(TimestampWithOffsetType type)
+            {
+                _type = type ?? throw new ArgumentNullException(nameof(type));
+                _timestampBuilder = new TimestampArray.Builder(type.Unit, "UTC");
                 _offsetBuilder = new Int16Array.Builder();
                 _validityBuilder = new ArrowBuffer.BitmapBuilder();
             }
+
+            public int Length => _validityBuilder.Length;
 
             public Builder Append(DateTimeOffset value)
             {
                 _timestampBuilder.Append(value.ToUniversalTime());
                 _offsetBuilder.Append(checked((short)value.Offset.TotalMinutes));
                 _validityBuilder.Append(true);
-                _length++;
+                return this;
+            }
+
+            public Builder Append(DateTimeOffset? value) =>
+                value.HasValue ? Append(value.Value) : AppendNull();
+
+            public Builder Append(ReadOnlySpan<DateTimeOffset> values)
+            {
+                Reserve(values.Length);
+                foreach (DateTimeOffset value in values)
+                {
+                    Append(value);
+                }
                 return this;
             }
 
             public Builder AppendNull()
             {
-                _timestampBuilder.Append(default(DateTimeOffset));
+                _timestampBuilder.Append(s_nullPlaceholder);
                 _offsetBuilder.Append(0);
                 _validityBuilder.Append(false);
-                _length++;
-                _nullCount++;
                 return this;
             }
 
@@ -259,17 +278,72 @@ namespace Apache.Arrow
                 return this;
             }
 
-            public TimestampWithOffsetArray Build()
+            public Builder Reserve(int capacity)
             {
-                TimestampArray timestamps = _timestampBuilder.Build();
-                Int16Array offsets = _offsetBuilder.Build();
-                ArrowBuffer validityBuffer = _nullCount > 0 ? _validityBuilder.Build() : ArrowBuffer.Empty;
+                _timestampBuilder.Reserve(capacity);
+                _offsetBuilder.Reserve(capacity);
+                _validityBuilder.Reserve(capacity);
+                return this;
+            }
+
+            public Builder Resize(int length)
+            {
+                if (length < 0)
+                    throw new ArgumentOutOfRangeException(nameof(length));
+
+                if (length < Length)
+                {
+                    _timestampBuilder.Resize(length);
+                    _offsetBuilder.Resize(length);
+                    _validityBuilder.Resize(length);
+                }
+                else
+                {
+                    Reserve(length - Length);
+                    while (Length < length)
+                    {
+                        AppendNull();
+                    }
+                }
+                return this;
+            }
+
+            public Builder Set(int index, DateTimeOffset value)
+            {
+                _timestampBuilder.Set(index, value.ToUniversalTime());
+                _offsetBuilder.Set(index, checked((short)value.Offset.TotalMinutes));
+                _validityBuilder.Set(index, true);
+                return this;
+            }
+
+            public Builder Swap(int i, int j)
+            {
+                _timestampBuilder.Swap(i, j);
+                _offsetBuilder.Swap(i, j);
+                _validityBuilder.Swap(i, j);
+                return this;
+            }
+
+            public Builder Clear()
+            {
+                _timestampBuilder.Clear();
+                _offsetBuilder.Clear();
+                _validityBuilder.Clear();
+                return this;
+            }
+
+            public TimestampWithOffsetArray Build(MemoryAllocator allocator = default)
+            {
+                TimestampArray timestamps = _timestampBuilder.Build(allocator);
+                Int16Array offsets = _offsetBuilder.Build(allocator);
+                int nullCount = _validityBuilder.UnsetBitCount;
+                ArrowBuffer validityBuffer = nullCount > 0 ? _validityBuilder.Build(allocator) : ArrowBuffer.Empty;
 
                 var structType = (StructType)_type.StorageType;
                 var structArray = new StructArray(
-                    structType, _length,
+                    structType, Length,
                     new IArrowArray[] { timestamps, offsets },
-                    validityBuffer, _nullCount);
+                    validityBuffer, nullCount);
 
                 return new TimestampWithOffsetArray(_type, structArray);
             }

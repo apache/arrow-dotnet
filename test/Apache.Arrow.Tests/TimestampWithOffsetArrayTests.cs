@@ -114,6 +114,67 @@ namespace Apache.Arrow.Tests
         }
 
         [Fact]
+        public void BuilderSupportsStandardOperations()
+        {
+            var first = new DateTimeOffset(2024, 1, 1, 1, 0, 0, TimeSpan.FromHours(1));
+            var second = new DateTimeOffset(2024, 2, 1, 2, 0, 0, TimeSpan.FromHours(2));
+            var replacement = new DateTimeOffset(2024, 3, 1, 3, 0, 0, TimeSpan.FromHours(3));
+            var builder = new TimestampWithOffsetArray.Builder();
+
+            Assert.Same(builder, builder.Reserve(4));
+            Assert.Same(builder, builder.Append(new[] { first, second }.AsSpan()));
+            Assert.Equal(2, builder.Length);
+            Assert.Same(builder, builder.Swap(0, 1));
+            Assert.Same(builder, builder.Set(1, replacement));
+
+            var array = builder.Build();
+            Assert.Equal(second, array.GetValue(0));
+            Assert.Equal(replacement, array.GetValue(1));
+
+            Assert.Same(builder, builder.Resize(4));
+            Assert.Equal(4, builder.Length);
+            array = builder.Build();
+            Assert.Equal(2, array.NullCount);
+            Assert.Null(array.GetValue(2));
+            Assert.Null(array.GetValue(3));
+
+            Assert.Same(builder, builder.Resize(1));
+            array = builder.Build();
+            Assert.Single(array);
+            Assert.Equal(second, array.GetValue(0));
+
+            Assert.Same(builder, builder.Clear());
+            Assert.Equal(0, builder.Length);
+            Assert.Empty(builder.Build());
+        }
+
+        [Fact]
+        public void BuilderImplementsArrayBuilderInterface()
+        {
+            IArrowArrayBuilder<DateTimeOffset, TimestampWithOffsetArray, TimestampWithOffsetArray.Builder> builder =
+                new TimestampWithOffsetArray.Builder();
+
+            TimestampWithOffsetArray array = builder
+                .Append(new DateTimeOffset(2024, 1, 1, 0, 0, 0, TimeSpan.Zero))
+                .Build();
+
+            Assert.Single(array);
+        }
+
+        [Fact]
+        public void NanosecondBuilderCanAppendNullAndResize()
+        {
+            var array = new TimestampWithOffsetArray.Builder(TimeUnit.Nanosecond)
+                .AppendNull()
+                .Resize(2)
+                .Build();
+
+            Assert.Equal(2, array.Length);
+            Assert.Equal(2, array.NullCount);
+            Assert.All(array, value => Assert.Null(value));
+        }
+
+        [Fact]
         public void EmptyArray()
         {
             var builder = new TimestampWithOffsetArray.Builder();
