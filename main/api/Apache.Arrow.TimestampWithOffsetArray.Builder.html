@@ -89,7 +89,7 @@
 
 
   <h1 id="Apache_Arrow_TimestampWithOffsetArray_Builder" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder" class="text-break">
-Class TimestampWithOffsetArray.Builder  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L199"><i class="bi bi-code-slash"></i></a>
+Class TimestampWithOffsetArray.Builder  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L200"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -102,7 +102,7 @@ Class TimestampWithOffsetArray.Builder  <a class="header-action link-secondary" 
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class TimestampWithOffsetArray.Builder</code></pre>
+    <pre><code class="lang-csharp hljs">public class TimestampWithOffsetArray.Builder : IArrowArrayBuilder&lt;DateTimeOffset, TimestampWithOffsetArray, TimestampWithOffsetArray.Builder&gt;, IArrowArrayBuilder&lt;TimestampWithOffsetArray, TimestampWithOffsetArray.Builder&gt;, IArrowArrayBuilder&lt;TimestampWithOffsetArray&gt;, IArrowArrayBuilder</code></pre>
   </div>
 
 
@@ -116,6 +116,15 @@ Class TimestampWithOffsetArray.Builder  <a class="header-action link-secondary" 
     </dd>
   </dl>
 
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="Apache.Arrow.IArrowArrayBuilder-3.html">IArrowArrayBuilder</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetimeoffset">DateTimeOffset</a>, <a class="xref" href="Apache.Arrow.TimestampWithOffsetArray.html">TimestampWithOffsetArray</a>, <a class="xref" href="Apache.Arrow.TimestampWithOffsetArray.html">TimestampWithOffsetArray</a>.<a class="xref" href="Apache.Arrow.TimestampWithOffsetArray.Builder.html">Builder</a>&gt;</div>
+      <div><a class="xref" href="Apache.Arrow.IArrowArrayBuilder-2.html">IArrowArrayBuilder</a>&lt;<a class="xref" href="Apache.Arrow.TimestampWithOffsetArray.html">TimestampWithOffsetArray</a>, <a class="xref" href="Apache.Arrow.TimestampWithOffsetArray.html">TimestampWithOffsetArray</a>.<a class="xref" href="Apache.Arrow.TimestampWithOffsetArray.Builder.html">Builder</a>&gt;</div>
+      <div><a class="xref" href="Apache.Arrow.IArrowArrayBuilder-1.html">IArrowArrayBuilder</a>&lt;<a class="xref" href="Apache.Arrow.TimestampWithOffsetArray.html">TimestampWithOffsetArray</a>&gt;</div>
+      <div><a class="xref" href="Apache.Arrow.IArrowArrayBuilder.html">IArrowArrayBuilder</a></div>
+    </dd>
+  </dl>
 
 
   <dl class="typelist inheritedMembers">
@@ -155,9 +164,40 @@ Class TimestampWithOffsetArray.Builder  <a class="header-action link-secondary" 
 
   <a id="Apache_Arrow_TimestampWithOffsetArray_Builder__ctor_" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.#ctor*"></a>
 
+  <h3 id="Apache_Arrow_TimestampWithOffsetArray_Builder__ctor_Apache_Arrow_TimestampWithOffsetType_" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.#ctor(Apache.Arrow.TimestampWithOffsetType)">
+  Builder(TimestampWithOffsetType)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L215"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Builder(TimestampWithOffsetType type)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>type</code> <a class="xref" href="Apache.Arrow.TimestampWithOffsetType.html">TimestampWithOffsetType</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_TimestampWithOffsetArray_Builder__ctor_" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.#ctor*"></a>
+
   <h3 id="Apache_Arrow_TimestampWithOffsetArray_Builder__ctor_Apache_Arrow_Types_TimeUnit_" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.#ctor(Apache.Arrow.Types.TimeUnit)">
   Builder(TimeUnit)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L208"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L210"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -184,6 +224,41 @@ Class TimestampWithOffsetArray.Builder  <a class="header-action link-secondary" 
 
 
 
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Apache_Arrow_TimestampWithOffsetArray_Builder_Length_" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.Length*"></a>
+
+  <h3 id="Apache_Arrow_TimestampWithOffsetArray_Builder_Length" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.Length">
+  Length
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L223"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Length { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <h2 class="section" id="methods">Methods
 </h2>
 
@@ -192,7 +267,7 @@ Class TimestampWithOffsetArray.Builder  <a class="header-action link-secondary" 
 
   <h3 id="Apache_Arrow_TimestampWithOffsetArray_Builder_Append_System_DateTimeOffset_" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.Append(System.DateTimeOffset)">
   Append(DateTimeOffset)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L216"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L225"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -224,11 +299,83 @@ Class TimestampWithOffsetArray.Builder  <a class="header-action link-secondary" 
 
 
 
+  <a id="Apache_Arrow_TimestampWithOffsetArray_Builder_Append_" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.Append*"></a>
+
+  <h3 id="Apache_Arrow_TimestampWithOffsetArray_Builder_Append_System_Nullable_System_DateTimeOffset__" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.Append(System.Nullable{System.DateTimeOffset})">
+  Append(DateTimeOffset?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L233"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TimestampWithOffsetArray.Builder Append(DateTimeOffset? value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetimeoffset">DateTimeOffset</a>?</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.TimestampWithOffsetArray.html">TimestampWithOffsetArray</a>.<a class="xref" href="Apache.Arrow.TimestampWithOffsetArray.Builder.html">Builder</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_TimestampWithOffsetArray_Builder_Append_" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.Append*"></a>
+
+  <h3 id="Apache_Arrow_TimestampWithOffsetArray_Builder_Append_System_ReadOnlySpan_System_DateTimeOffset__" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.Append(System.ReadOnlySpan{System.DateTimeOffset})">
+  Append(ReadOnlySpan&lt;DateTimeOffset&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L236"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TimestampWithOffsetArray.Builder Append(ReadOnlySpan&lt;DateTimeOffset&gt; values)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>values</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetimeoffset">DateTimeOffset</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.TimestampWithOffsetArray.html">TimestampWithOffsetArray</a>.<a class="xref" href="Apache.Arrow.TimestampWithOffsetArray.Builder.html">Builder</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="Apache_Arrow_TimestampWithOffsetArray_Builder_AppendNull_" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.AppendNull*"></a>
 
   <h3 id="Apache_Arrow_TimestampWithOffsetArray_Builder_AppendNull" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.AppendNull">
   AppendNull()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L225"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L246"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -259,7 +406,7 @@ Class TimestampWithOffsetArray.Builder  <a class="header-action link-secondary" 
 
   <h3 id="Apache_Arrow_TimestampWithOffsetArray_Builder_AppendRange_System_Collections_Generic_IEnumerable_System_DateTimeOffset__" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.AppendRange(System.Collections.Generic.IEnumerable{System.DateTimeOffset})">
   AppendRange(IEnumerable&lt;DateTimeOffset&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L235"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L254"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -295,7 +442,7 @@ Class TimestampWithOffsetArray.Builder  <a class="header-action link-secondary" 
 
   <h3 id="Apache_Arrow_TimestampWithOffsetArray_Builder_AppendRange_System_Collections_Generic_IEnumerable_System_Nullable_System_DateTimeOffset___" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.AppendRange(System.Collections.Generic.IEnumerable{System.Nullable{System.DateTimeOffset}})">
   AppendRange(IEnumerable&lt;DateTimeOffset?&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L246"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L265"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -329,18 +476,23 @@ Class TimestampWithOffsetArray.Builder  <a class="header-action link-secondary" 
 
   <a id="Apache_Arrow_TimestampWithOffsetArray_Builder_Build_" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.Build*"></a>
 
-  <h3 id="Apache_Arrow_TimestampWithOffsetArray_Builder_Build" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.Build">
-  Build()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L262"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Apache_Arrow_TimestampWithOffsetArray_Builder_Build_Apache_Arrow_Memory_MemoryAllocator_" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.Build(Apache.Arrow.Memory.MemoryAllocator)">
+  Build(MemoryAllocator)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L335"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public TimestampWithOffsetArray Build()</code></pre>
+    <pre><code class="lang-csharp hljs">public TimestampWithOffsetArray Build(MemoryAllocator allocator = null)</code></pre>
   </div>
 
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>allocator</code> <a class="xref" href="Apache.Arrow.Memory.MemoryAllocator.html">MemoryAllocator</a></dt>
+    <dd></dd>
+  </dl>
 
   <h4 class="section">Returns</h4>
   <dl class="parameters">
@@ -358,11 +510,190 @@ Class TimestampWithOffsetArray.Builder  <a class="header-action link-secondary" 
 
 
 
+  <a id="Apache_Arrow_TimestampWithOffsetArray_Builder_Clear_" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.Clear*"></a>
+
+  <h3 id="Apache_Arrow_TimestampWithOffsetArray_Builder_Clear" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.Clear">
+  Clear()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L327"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TimestampWithOffsetArray.Builder Clear()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.TimestampWithOffsetArray.html">TimestampWithOffsetArray</a>.<a class="xref" href="Apache.Arrow.TimestampWithOffsetArray.Builder.html">Builder</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_TimestampWithOffsetArray_Builder_Reserve_" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.Reserve*"></a>
+
+  <h3 id="Apache_Arrow_TimestampWithOffsetArray_Builder_Reserve_System_Int32_" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.Reserve(System.Int32)">
+  Reserve(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L281"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TimestampWithOffsetArray.Builder Reserve(int capacity)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>capacity</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.TimestampWithOffsetArray.html">TimestampWithOffsetArray</a>.<a class="xref" href="Apache.Arrow.TimestampWithOffsetArray.Builder.html">Builder</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_TimestampWithOffsetArray_Builder_Resize_" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.Resize*"></a>
+
+  <h3 id="Apache_Arrow_TimestampWithOffsetArray_Builder_Resize_System_Int32_" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.Resize(System.Int32)">
+  Resize(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L289"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TimestampWithOffsetArray.Builder Resize(int length)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>length</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.TimestampWithOffsetArray.html">TimestampWithOffsetArray</a>.<a class="xref" href="Apache.Arrow.TimestampWithOffsetArray.Builder.html">Builder</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_TimestampWithOffsetArray_Builder_Set_" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.Set*"></a>
+
+  <h3 id="Apache_Arrow_TimestampWithOffsetArray_Builder_Set_System_Int32_System_DateTimeOffset_" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.Set(System.Int32,System.DateTimeOffset)">
+  Set(int, DateTimeOffset)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L311"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TimestampWithOffsetArray.Builder Set(int index, DateTimeOffset value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>value</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetimeoffset">DateTimeOffset</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.TimestampWithOffsetArray.html">TimestampWithOffsetArray</a>.<a class="xref" href="Apache.Arrow.TimestampWithOffsetArray.Builder.html">Builder</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_TimestampWithOffsetArray_Builder_Swap_" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.Swap*"></a>
+
+  <h3 id="Apache_Arrow_TimestampWithOffsetArray_Builder_Swap_System_Int32_System_Int32_" data-uid="Apache.Arrow.TimestampWithOffsetArray.Builder.Swap(System.Int32,System.Int32)">
+  Swap(int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L319"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TimestampWithOffsetArray.Builder Swap(int i, int j)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>i</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>j</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.TimestampWithOffsetArray.html">TimestampWithOffsetArray</a>.<a class="xref" href="Apache.Arrow.TimestampWithOffsetArray.Builder.html">Builder</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
 
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L199" class="edit-link">Edit this page</a>
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/Arrays/TimestampWithOffsetArray.cs/#L200" class="edit-link">Edit this page</a>
         </div>
 
 

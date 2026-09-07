@@ -25512,6 +25512,15 @@ references:
   commentId: T:Apache.Arrow.TimestampWithOffsetArray.Builder
   fullName: Apache.Arrow.TimestampWithOffsetArray.Builder
   nameWithType: TimestampWithOffsetArray.Builder
+- uid: Apache.Arrow.TimestampWithOffsetArray.Builder.#ctor(Apache.Arrow.TimestampWithOffsetType)
+  name: Builder(TimestampWithOffsetType)
+  href: api/Apache.Arrow.TimestampWithOffsetArray.Builder.html#Apache_Arrow_TimestampWithOffsetArray_Builder__ctor_Apache_Arrow_TimestampWithOffsetType_
+  commentId: M:Apache.Arrow.TimestampWithOffsetArray.Builder.#ctor(Apache.Arrow.TimestampWithOffsetType)
+  name.vb: New(TimestampWithOffsetType)
+  fullName: Apache.Arrow.TimestampWithOffsetArray.Builder.Builder(Apache.Arrow.TimestampWithOffsetType)
+  fullName.vb: Apache.Arrow.TimestampWithOffsetArray.Builder.New(Apache.Arrow.TimestampWithOffsetType)
+  nameWithType: TimestampWithOffsetArray.Builder.Builder(TimestampWithOffsetType)
+  nameWithType.vb: TimestampWithOffsetArray.Builder.New(TimestampWithOffsetType)
 - uid: Apache.Arrow.TimestampWithOffsetArray.Builder.#ctor(Apache.Arrow.Types.TimeUnit)
   name: Builder(TimeUnit)
   href: api/Apache.Arrow.TimestampWithOffsetArray.Builder.html#Apache_Arrow_TimestampWithOffsetArray_Builder__ctor_Apache_Arrow_Types_TimeUnit_
@@ -25537,6 +25546,21 @@ references:
   commentId: M:Apache.Arrow.TimestampWithOffsetArray.Builder.Append(System.DateTimeOffset)
   fullName: Apache.Arrow.TimestampWithOffsetArray.Builder.Append(System.DateTimeOffset)
   nameWithType: TimestampWithOffsetArray.Builder.Append(DateTimeOffset)
+- uid: Apache.Arrow.TimestampWithOffsetArray.Builder.Append(System.Nullable{System.DateTimeOffset})
+  name: Append(DateTimeOffset?)
+  href: api/Apache.Arrow.TimestampWithOffsetArray.Builder.html#Apache_Arrow_TimestampWithOffsetArray_Builder_Append_System_Nullable_System_DateTimeOffset__
+  commentId: M:Apache.Arrow.TimestampWithOffsetArray.Builder.Append(System.Nullable{System.DateTimeOffset})
+  fullName: Apache.Arrow.TimestampWithOffsetArray.Builder.Append(System.DateTimeOffset?)
+  nameWithType: TimestampWithOffsetArray.Builder.Append(DateTimeOffset?)
+- uid: Apache.Arrow.TimestampWithOffsetArray.Builder.Append(System.ReadOnlySpan{System.DateTimeOffset})
+  name: Append(ReadOnlySpan<DateTimeOffset>)
+  href: api/Apache.Arrow.TimestampWithOffsetArray.Builder.html#Apache_Arrow_TimestampWithOffsetArray_Builder_Append_System_ReadOnlySpan_System_DateTimeOffset__
+  commentId: M:Apache.Arrow.TimestampWithOffsetArray.Builder.Append(System.ReadOnlySpan{System.DateTimeOffset})
+  name.vb: Append(ReadOnlySpan(Of DateTimeOffset))
+  fullName: Apache.Arrow.TimestampWithOffsetArray.Builder.Append(System.ReadOnlySpan<System.DateTimeOffset>)
+  fullName.vb: Apache.Arrow.TimestampWithOffsetArray.Builder.Append(System.ReadOnlySpan(Of System.DateTimeOffset))
+  nameWithType: TimestampWithOffsetArray.Builder.Append(ReadOnlySpan<DateTimeOffset>)
+  nameWithType.vb: TimestampWithOffsetArray.Builder.Append(ReadOnlySpan(Of DateTimeOffset))
 - uid: Apache.Arrow.TimestampWithOffsetArray.Builder.Append*
   name: Append
   href: api/Apache.Arrow.TimestampWithOffsetArray.Builder.html#Apache_Arrow_TimestampWithOffsetArray_Builder_Append_
@@ -25582,12 +25606,12 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.TimestampWithOffsetArray.Builder.AppendRange
   nameWithType: TimestampWithOffsetArray.Builder.AppendRange
-- uid: Apache.Arrow.TimestampWithOffsetArray.Builder.Build
-  name: Build()
-  href: api/Apache.Arrow.TimestampWithOffsetArray.Builder.html#Apache_Arrow_TimestampWithOffsetArray_Builder_Build
-  commentId: M:Apache.Arrow.TimestampWithOffsetArray.Builder.Build
-  fullName: Apache.Arrow.TimestampWithOffsetArray.Builder.Build()
-  nameWithType: TimestampWithOffsetArray.Builder.Build()
+- uid: Apache.Arrow.TimestampWithOffsetArray.Builder.Build(Apache.Arrow.Memory.MemoryAllocator)
+  name: Build(MemoryAllocator)
+  href: api/Apache.Arrow.TimestampWithOffsetArray.Builder.html#Apache_Arrow_TimestampWithOffsetArray_Builder_Build_Apache_Arrow_Memory_MemoryAllocator_
+  commentId: M:Apache.Arrow.TimestampWithOffsetArray.Builder.Build(Apache.Arrow.Memory.MemoryAllocator)
+  fullName: Apache.Arrow.TimestampWithOffsetArray.Builder.Build(Apache.Arrow.Memory.MemoryAllocator)
+  nameWithType: TimestampWithOffsetArray.Builder.Build(MemoryAllocator)
 - uid: Apache.Arrow.TimestampWithOffsetArray.Builder.Build*
   name: Build
   href: api/Apache.Arrow.TimestampWithOffsetArray.Builder.html#Apache_Arrow_TimestampWithOffsetArray_Builder_Build_
@@ -25595,6 +25619,96 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.TimestampWithOffsetArray.Builder.Build
   nameWithType: TimestampWithOffsetArray.Builder.Build
+- uid: Apache.Arrow.TimestampWithOffsetArray.Builder.Clear
+  name: Clear()
+  href: api/Apache.Arrow.TimestampWithOffsetArray.Builder.html#Apache_Arrow_TimestampWithOffsetArray_Builder_Clear
+  commentId: M:Apache.Arrow.TimestampWithOffsetArray.Builder.Clear
+  fullName: Apache.Arrow.TimestampWithOffsetArray.Builder.Clear()
+  nameWithType: TimestampWithOffsetArray.Builder.Clear()
+- uid: Apache.Arrow.TimestampWithOffsetArray.Builder.Clear*
+  name: Clear
+  href: api/Apache.Arrow.TimestampWithOffsetArray.Builder.html#Apache_Arrow_TimestampWithOffsetArray_Builder_Clear_
+  commentId: Overload:Apache.Arrow.TimestampWithOffsetArray.Builder.Clear
+  isSpec: "True"
+  fullName: Apache.Arrow.TimestampWithOffsetArray.Builder.Clear
+  nameWithType: TimestampWithOffsetArray.Builder.Clear
+- uid: Apache.Arrow.TimestampWithOffsetArray.Builder.Length
+  name: Length
+  href: api/Apache.Arrow.TimestampWithOffsetArray.Builder.html#Apache_Arrow_TimestampWithOffsetArray_Builder_Length
+  commentId: P:Apache.Arrow.TimestampWithOffsetArray.Builder.Length
+  fullName: Apache.Arrow.TimestampWithOffsetArray.Builder.Length
+  nameWithType: TimestampWithOffsetArray.Builder.Length
+- uid: Apache.Arrow.TimestampWithOffsetArray.Builder.Length*
+  name: Length
+  href: api/Apache.Arrow.TimestampWithOffsetArray.Builder.html#Apache_Arrow_TimestampWithOffsetArray_Builder_Length_
+  commentId: Overload:Apache.Arrow.TimestampWithOffsetArray.Builder.Length
+  isSpec: "True"
+  fullName: Apache.Arrow.TimestampWithOffsetArray.Builder.Length
+  nameWithType: TimestampWithOffsetArray.Builder.Length
+- uid: Apache.Arrow.TimestampWithOffsetArray.Builder.Reserve(System.Int32)
+  name: Reserve(int)
+  href: api/Apache.Arrow.TimestampWithOffsetArray.Builder.html#Apache_Arrow_TimestampWithOffsetArray_Builder_Reserve_System_Int32_
+  commentId: M:Apache.Arrow.TimestampWithOffsetArray.Builder.Reserve(System.Int32)
+  name.vb: Reserve(Integer)
+  fullName: Apache.Arrow.TimestampWithOffsetArray.Builder.Reserve(int)
+  fullName.vb: Apache.Arrow.TimestampWithOffsetArray.Builder.Reserve(Integer)
+  nameWithType: TimestampWithOffsetArray.Builder.Reserve(int)
+  nameWithType.vb: TimestampWithOffsetArray.Builder.Reserve(Integer)
+- uid: Apache.Arrow.TimestampWithOffsetArray.Builder.Reserve*
+  name: Reserve
+  href: api/Apache.Arrow.TimestampWithOffsetArray.Builder.html#Apache_Arrow_TimestampWithOffsetArray_Builder_Reserve_
+  commentId: Overload:Apache.Arrow.TimestampWithOffsetArray.Builder.Reserve
+  isSpec: "True"
+  fullName: Apache.Arrow.TimestampWithOffsetArray.Builder.Reserve
+  nameWithType: TimestampWithOffsetArray.Builder.Reserve
+- uid: Apache.Arrow.TimestampWithOffsetArray.Builder.Resize(System.Int32)
+  name: Resize(int)
+  href: api/Apache.Arrow.TimestampWithOffsetArray.Builder.html#Apache_Arrow_TimestampWithOffsetArray_Builder_Resize_System_Int32_
+  commentId: M:Apache.Arrow.TimestampWithOffsetArray.Builder.Resize(System.Int32)
+  name.vb: Resize(Integer)
+  fullName: Apache.Arrow.TimestampWithOffsetArray.Builder.Resize(int)
+  fullName.vb: Apache.Arrow.TimestampWithOffsetArray.Builder.Resize(Integer)
+  nameWithType: TimestampWithOffsetArray.Builder.Resize(int)
+  nameWithType.vb: TimestampWithOffsetArray.Builder.Resize(Integer)
+- uid: Apache.Arrow.TimestampWithOffsetArray.Builder.Resize*
+  name: Resize
+  href: api/Apache.Arrow.TimestampWithOffsetArray.Builder.html#Apache_Arrow_TimestampWithOffsetArray_Builder_Resize_
+  commentId: Overload:Apache.Arrow.TimestampWithOffsetArray.Builder.Resize
+  isSpec: "True"
+  fullName: Apache.Arrow.TimestampWithOffsetArray.Builder.Resize
+  nameWithType: TimestampWithOffsetArray.Builder.Resize
+- uid: Apache.Arrow.TimestampWithOffsetArray.Builder.Set(System.Int32,System.DateTimeOffset)
+  name: Set(int, DateTimeOffset)
+  href: api/Apache.Arrow.TimestampWithOffsetArray.Builder.html#Apache_Arrow_TimestampWithOffsetArray_Builder_Set_System_Int32_System_DateTimeOffset_
+  commentId: M:Apache.Arrow.TimestampWithOffsetArray.Builder.Set(System.Int32,System.DateTimeOffset)
+  name.vb: Set(Integer, DateTimeOffset)
+  fullName: Apache.Arrow.TimestampWithOffsetArray.Builder.Set(int, System.DateTimeOffset)
+  fullName.vb: Apache.Arrow.TimestampWithOffsetArray.Builder.Set(Integer, System.DateTimeOffset)
+  nameWithType: TimestampWithOffsetArray.Builder.Set(int, DateTimeOffset)
+  nameWithType.vb: TimestampWithOffsetArray.Builder.Set(Integer, DateTimeOffset)
+- uid: Apache.Arrow.TimestampWithOffsetArray.Builder.Set*
+  name: Set
+  href: api/Apache.Arrow.TimestampWithOffsetArray.Builder.html#Apache_Arrow_TimestampWithOffsetArray_Builder_Set_
+  commentId: Overload:Apache.Arrow.TimestampWithOffsetArray.Builder.Set
+  isSpec: "True"
+  fullName: Apache.Arrow.TimestampWithOffsetArray.Builder.Set
+  nameWithType: TimestampWithOffsetArray.Builder.Set
+- uid: Apache.Arrow.TimestampWithOffsetArray.Builder.Swap(System.Int32,System.Int32)
+  name: Swap(int, int)
+  href: api/Apache.Arrow.TimestampWithOffsetArray.Builder.html#Apache_Arrow_TimestampWithOffsetArray_Builder_Swap_System_Int32_System_Int32_
+  commentId: M:Apache.Arrow.TimestampWithOffsetArray.Builder.Swap(System.Int32,System.Int32)
+  name.vb: Swap(Integer, Integer)
+  fullName: Apache.Arrow.TimestampWithOffsetArray.Builder.Swap(int, int)
+  fullName.vb: Apache.Arrow.TimestampWithOffsetArray.Builder.Swap(Integer, Integer)
+  nameWithType: TimestampWithOffsetArray.Builder.Swap(int, int)
+  nameWithType.vb: TimestampWithOffsetArray.Builder.Swap(Integer, Integer)
+- uid: Apache.Arrow.TimestampWithOffsetArray.Builder.Swap*
+  name: Swap
+  href: api/Apache.Arrow.TimestampWithOffsetArray.Builder.html#Apache_Arrow_TimestampWithOffsetArray_Builder_Swap_
+  commentId: Overload:Apache.Arrow.TimestampWithOffsetArray.Builder.Swap
+  isSpec: "True"
+  fullName: Apache.Arrow.TimestampWithOffsetArray.Builder.Swap
+  nameWithType: TimestampWithOffsetArray.Builder.Swap
 - uid: Apache.Arrow.TimestampWithOffsetArray.Count
   name: Count
   href: api/Apache.Arrow.TimestampWithOffsetArray.html#Apache_Arrow_TimestampWithOffsetArray_Count
