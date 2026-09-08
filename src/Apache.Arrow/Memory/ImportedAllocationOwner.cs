@@ -41,7 +41,6 @@ namespace Apache.Arrow.Memory
             if (length > 0)
             {
                 Interlocked.Add(ref _managedMemory, length);
-                GC.AddMemoryPressure(length);
             }
             return memory;
         }
@@ -55,10 +54,6 @@ namespace Apache.Arrow.Memory
         {
             if (Interlocked.Decrement(ref _referenceCount) == 0)
             {
-                if (_managedMemory > 0)
-                {
-                    GC.RemoveMemoryPressure(_managedMemory);
-                }
                 FinalRelease();
             }
         }
