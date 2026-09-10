@@ -103,7 +103,9 @@ namespace Apache.Arrow.Flight.Internal
                 switch (message.HeaderType)
                 {
                     case MessageHeader.Schema:
-                        _schema = FlightMessageSerializer.DecodeSchema(message.ByteBuffer);
+                        // Use the base reader's DictionaryMemo so dictionary-encoded
+                        // fields are registered (FlightMessageSerializer discards them).
+                        _schema = ReadSchemaFromMessage(message.ByteBuffer);
                         break;
                     default:
                         throw new Exception($"Expected schema as the first message, but got: {message.HeaderType.ToString()}");
@@ -120,8 +122,9 @@ namespace Apache.Arrow.Flight.Internal
             {
                 await ReadSchemaAsync(cancellationToken).ConfigureAwait(false);
             }
-            var moveNextResult = await _flightDataStream.MoveNext().ConfigureAwait(false);
-            if (moveNextResult)
+            // Dictionary batches precede the record batch that references them; keep
+            // reading until CreateArrowObjectFromMessage yields a record batch.
+            while (await _flightDataStream.MoveNext().ConfigureAwait(false))
             {
                 //AppMetadata will never be null, but length 0 if empty
                 //Those are skipped
@@ -131,21 +134,27 @@ namespace Apache.Arrow.Flight.Internal
                 }
 
                 var header = _flightDataStream.Current.DataHeader.Memory;
+                if (header.IsEmpty)
+                {
+                    continue;
+                }
                 Message message = Message.GetRootAsMessage(CreateByteBuffer(header));
 
-                switch (message.HeaderType)
+                if (message.BodyLength < 0 || message.BodyLength > int.MaxValue)
                 {
-                    case MessageHeader.RecordBatch:
-                        if (message.BodyLength < 0 || message.BodyLength > int.MaxValue)
-                        {
-                            throw new InvalidDataException(
-                                $"Cannot read batch. Message body of {message.BodyLength} bytes is out of range");
-                        }
+                    throw new InvalidDataException(
+                        $"Cannot read batch. Message body of {message.BodyLength} bytes is out of range");
+                }
 
-                        var body = _flightDataStream.Current.DataBody.Memory;
-                        return CreateArrowObjectFromMessage(message, CreateByteBuffer(body.Slice(0, checked((int)message.BodyLength))), null);
-                    default:
-                        throw new NotImplementedException();
+                var body = _flightDataStream.Current.DataBody.Memory;
+                var arrowObject = CreateArrowObjectFromMessage(
+                    message,
+                    CreateByteBuffer(body.Slice(0, checked((int)message.BodyLength))),
+                    null);
+
+                if (arrowObject != null)
+                {
+                    return arrowObject;
                 }
             }
             return null;
