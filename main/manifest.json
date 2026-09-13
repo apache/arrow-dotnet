@@ -2434,6 +2434,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Apache.Arrow.Ipc.RecordBatchWithMetadata.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Apache.Arrow.Ipc.RecordBatchWithMetadata.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Apache.Arrow.Ipc.RecordBatchWithMetadata",
+      "Summary": "<p sourcefile=\"api/Apache.Arrow.Ipc.RecordBatchWithMetadata.yml\" sourcestartlinenumber=\"1\">A record batch read from an Arrow IPC source, together with the custom metadata\ncarried on the IPC Message that held it.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Apache.Arrow.Ipc.yml",
       "output": {
         ".html": {

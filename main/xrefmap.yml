@@ -14206,6 +14206,22 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.Ipc.ArrowFileReader.ReadRecordBatchAsync
   nameWithType: ArrowFileReader.ReadRecordBatchAsync
+- uid: Apache.Arrow.Ipc.ArrowFileReader.ReadRecordBatchWithCustomMetadataAsync(System.Int32,System.Threading.CancellationToken)
+  name: ReadRecordBatchWithCustomMetadataAsync(int, CancellationToken)
+  href: api/Apache.Arrow.Ipc.ArrowFileReader.html#Apache_Arrow_Ipc_ArrowFileReader_ReadRecordBatchWithCustomMetadataAsync_System_Int32_System_Threading_CancellationToken_
+  commentId: M:Apache.Arrow.Ipc.ArrowFileReader.ReadRecordBatchWithCustomMetadataAsync(System.Int32,System.Threading.CancellationToken)
+  name.vb: ReadRecordBatchWithCustomMetadataAsync(Integer, CancellationToken)
+  fullName: Apache.Arrow.Ipc.ArrowFileReader.ReadRecordBatchWithCustomMetadataAsync(int, System.Threading.CancellationToken)
+  fullName.vb: Apache.Arrow.Ipc.ArrowFileReader.ReadRecordBatchWithCustomMetadataAsync(Integer, System.Threading.CancellationToken)
+  nameWithType: ArrowFileReader.ReadRecordBatchWithCustomMetadataAsync(int, CancellationToken)
+  nameWithType.vb: ArrowFileReader.ReadRecordBatchWithCustomMetadataAsync(Integer, CancellationToken)
+- uid: Apache.Arrow.Ipc.ArrowFileReader.ReadRecordBatchWithCustomMetadataAsync*
+  name: ReadRecordBatchWithCustomMetadataAsync
+  href: api/Apache.Arrow.Ipc.ArrowFileReader.html#Apache_Arrow_Ipc_ArrowFileReader_ReadRecordBatchWithCustomMetadataAsync_
+  commentId: Overload:Apache.Arrow.Ipc.ArrowFileReader.ReadRecordBatchWithCustomMetadataAsync
+  isSpec: "True"
+  fullName: Apache.Arrow.Ipc.ArrowFileReader.ReadRecordBatchWithCustomMetadataAsync
+  nameWithType: ArrowFileReader.ReadRecordBatchWithCustomMetadataAsync
 - uid: Apache.Arrow.Ipc.ArrowFileReader.RecordBatchCountAsync
   name: RecordBatchCountAsync()
   href: api/Apache.Arrow.Ipc.ArrowFileReader.html#Apache_Arrow_Ipc_ArrowFileReader_RecordBatchCountAsync
@@ -14271,32 +14287,6 @@ references:
   fullName.vb: Apache.Arrow.Ipc.ArrowFileWriter.New
   nameWithType: ArrowFileWriter.ArrowFileWriter
   nameWithType.vb: ArrowFileWriter.New
-- uid: Apache.Arrow.Ipc.ArrowFileWriter.WriteRecordBatch(Apache.Arrow.RecordBatch)
-  name: WriteRecordBatch(RecordBatch)
-  href: api/Apache.Arrow.Ipc.ArrowFileWriter.html#Apache_Arrow_Ipc_ArrowFileWriter_WriteRecordBatch_Apache_Arrow_RecordBatch_
-  commentId: M:Apache.Arrow.Ipc.ArrowFileWriter.WriteRecordBatch(Apache.Arrow.RecordBatch)
-  fullName: Apache.Arrow.Ipc.ArrowFileWriter.WriteRecordBatch(Apache.Arrow.RecordBatch)
-  nameWithType: ArrowFileWriter.WriteRecordBatch(RecordBatch)
-- uid: Apache.Arrow.Ipc.ArrowFileWriter.WriteRecordBatch*
-  name: WriteRecordBatch
-  href: api/Apache.Arrow.Ipc.ArrowFileWriter.html#Apache_Arrow_Ipc_ArrowFileWriter_WriteRecordBatch_
-  commentId: Overload:Apache.Arrow.Ipc.ArrowFileWriter.WriteRecordBatch
-  isSpec: "True"
-  fullName: Apache.Arrow.Ipc.ArrowFileWriter.WriteRecordBatch
-  nameWithType: ArrowFileWriter.WriteRecordBatch
-- uid: Apache.Arrow.Ipc.ArrowFileWriter.WriteRecordBatchAsync(Apache.Arrow.RecordBatch,System.Threading.CancellationToken)
-  name: WriteRecordBatchAsync(RecordBatch, CancellationToken)
-  href: api/Apache.Arrow.Ipc.ArrowFileWriter.html#Apache_Arrow_Ipc_ArrowFileWriter_WriteRecordBatchAsync_Apache_Arrow_RecordBatch_System_Threading_CancellationToken_
-  commentId: M:Apache.Arrow.Ipc.ArrowFileWriter.WriteRecordBatchAsync(Apache.Arrow.RecordBatch,System.Threading.CancellationToken)
-  fullName: Apache.Arrow.Ipc.ArrowFileWriter.WriteRecordBatchAsync(Apache.Arrow.RecordBatch, System.Threading.CancellationToken)
-  nameWithType: ArrowFileWriter.WriteRecordBatchAsync(RecordBatch, CancellationToken)
-- uid: Apache.Arrow.Ipc.ArrowFileWriter.WriteRecordBatchAsync*
-  name: WriteRecordBatchAsync
-  href: api/Apache.Arrow.Ipc.ArrowFileWriter.html#Apache_Arrow_Ipc_ArrowFileWriter_WriteRecordBatchAsync_
-  commentId: Overload:Apache.Arrow.Ipc.ArrowFileWriter.WriteRecordBatchAsync
-  isSpec: "True"
-  fullName: Apache.Arrow.Ipc.ArrowFileWriter.WriteRecordBatchAsync
-  nameWithType: ArrowFileWriter.WriteRecordBatchAsync
 - uid: Apache.Arrow.Ipc.ArrowStreamReader
   name: ArrowStreamReader
   href: api/Apache.Arrow.Ipc.ArrowStreamReader.html
@@ -14473,6 +14463,32 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.Ipc.ArrowStreamReader.ReadNextRecordBatchAsync
   nameWithType: ArrowStreamReader.ReadNextRecordBatchAsync
+- uid: Apache.Arrow.Ipc.ArrowStreamReader.ReadNextRecordBatchWithCustomMetadata
+  name: ReadNextRecordBatchWithCustomMetadata()
+  href: api/Apache.Arrow.Ipc.ArrowStreamReader.html#Apache_Arrow_Ipc_ArrowStreamReader_ReadNextRecordBatchWithCustomMetadata
+  commentId: M:Apache.Arrow.Ipc.ArrowStreamReader.ReadNextRecordBatchWithCustomMetadata
+  fullName: Apache.Arrow.Ipc.ArrowStreamReader.ReadNextRecordBatchWithCustomMetadata()
+  nameWithType: ArrowStreamReader.ReadNextRecordBatchWithCustomMetadata()
+- uid: Apache.Arrow.Ipc.ArrowStreamReader.ReadNextRecordBatchWithCustomMetadata*
+  name: ReadNextRecordBatchWithCustomMetadata
+  href: api/Apache.Arrow.Ipc.ArrowStreamReader.html#Apache_Arrow_Ipc_ArrowStreamReader_ReadNextRecordBatchWithCustomMetadata_
+  commentId: Overload:Apache.Arrow.Ipc.ArrowStreamReader.ReadNextRecordBatchWithCustomMetadata
+  isSpec: "True"
+  fullName: Apache.Arrow.Ipc.ArrowStreamReader.ReadNextRecordBatchWithCustomMetadata
+  nameWithType: ArrowStreamReader.ReadNextRecordBatchWithCustomMetadata
+- uid: Apache.Arrow.Ipc.ArrowStreamReader.ReadNextRecordBatchWithCustomMetadataAsync(System.Threading.CancellationToken)
+  name: ReadNextRecordBatchWithCustomMetadataAsync(CancellationToken)
+  href: api/Apache.Arrow.Ipc.ArrowStreamReader.html#Apache_Arrow_Ipc_ArrowStreamReader_ReadNextRecordBatchWithCustomMetadataAsync_System_Threading_CancellationToken_
+  commentId: M:Apache.Arrow.Ipc.ArrowStreamReader.ReadNextRecordBatchWithCustomMetadataAsync(System.Threading.CancellationToken)
+  fullName: Apache.Arrow.Ipc.ArrowStreamReader.ReadNextRecordBatchWithCustomMetadataAsync(System.Threading.CancellationToken)
+  nameWithType: ArrowStreamReader.ReadNextRecordBatchWithCustomMetadataAsync(CancellationToken)
+- uid: Apache.Arrow.Ipc.ArrowStreamReader.ReadNextRecordBatchWithCustomMetadataAsync*
+  name: ReadNextRecordBatchWithCustomMetadataAsync
+  href: api/Apache.Arrow.Ipc.ArrowStreamReader.html#Apache_Arrow_Ipc_ArrowStreamReader_ReadNextRecordBatchWithCustomMetadataAsync_
+  commentId: Overload:Apache.Arrow.Ipc.ArrowStreamReader.ReadNextRecordBatchWithCustomMetadataAsync
+  isSpec: "True"
+  fullName: Apache.Arrow.Ipc.ArrowStreamReader.ReadNextRecordBatchWithCustomMetadataAsync
+  nameWithType: ArrowStreamReader.ReadNextRecordBatchWithCustomMetadataAsync
 - uid: Apache.Arrow.Ipc.ArrowStreamReader.Schema
   name: Schema
   href: api/Apache.Arrow.Ipc.ArrowStreamReader.html#Apache_Arrow_Ipc_ArrowStreamReader_Schema
@@ -14638,6 +14654,15 @@ references:
   commentId: M:Apache.Arrow.Ipc.ArrowStreamWriter.WriteRecordBatch(Apache.Arrow.RecordBatch)
   fullName: Apache.Arrow.Ipc.ArrowStreamWriter.WriteRecordBatch(Apache.Arrow.RecordBatch)
   nameWithType: ArrowStreamWriter.WriteRecordBatch(RecordBatch)
+- uid: Apache.Arrow.Ipc.ArrowStreamWriter.WriteRecordBatch(Apache.Arrow.RecordBatch,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})
+  name: WriteRecordBatch(RecordBatch, IReadOnlyDictionary<string, string>)
+  href: api/Apache.Arrow.Ipc.ArrowStreamWriter.html#Apache_Arrow_Ipc_ArrowStreamWriter_WriteRecordBatch_Apache_Arrow_RecordBatch_System_Collections_Generic_IReadOnlyDictionary_System_String_System_String__
+  commentId: M:Apache.Arrow.Ipc.ArrowStreamWriter.WriteRecordBatch(Apache.Arrow.RecordBatch,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})
+  name.vb: WriteRecordBatch(RecordBatch, IReadOnlyDictionary(Of String, String))
+  fullName: Apache.Arrow.Ipc.ArrowStreamWriter.WriteRecordBatch(Apache.Arrow.RecordBatch, System.Collections.Generic.IReadOnlyDictionary<string, string>)
+  fullName.vb: Apache.Arrow.Ipc.ArrowStreamWriter.WriteRecordBatch(Apache.Arrow.RecordBatch, System.Collections.Generic.IReadOnlyDictionary(Of String, String))
+  nameWithType: ArrowStreamWriter.WriteRecordBatch(RecordBatch, IReadOnlyDictionary<string, string>)
+  nameWithType.vb: ArrowStreamWriter.WriteRecordBatch(RecordBatch, IReadOnlyDictionary(Of String, String))
 - uid: Apache.Arrow.Ipc.ArrowStreamWriter.WriteRecordBatch*
   name: WriteRecordBatch
   href: api/Apache.Arrow.Ipc.ArrowStreamWriter.html#Apache_Arrow_Ipc_ArrowStreamWriter_WriteRecordBatch_
@@ -14645,6 +14670,15 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.Ipc.ArrowStreamWriter.WriteRecordBatch
   nameWithType: ArrowStreamWriter.WriteRecordBatch
+- uid: Apache.Arrow.Ipc.ArrowStreamWriter.WriteRecordBatchAsync(Apache.Arrow.RecordBatch,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String},System.Threading.CancellationToken)
+  name: WriteRecordBatchAsync(RecordBatch, IReadOnlyDictionary<string, string>, CancellationToken)
+  href: api/Apache.Arrow.Ipc.ArrowStreamWriter.html#Apache_Arrow_Ipc_ArrowStreamWriter_WriteRecordBatchAsync_Apache_Arrow_RecordBatch_System_Collections_Generic_IReadOnlyDictionary_System_String_System_String__System_Threading_CancellationToken_
+  commentId: M:Apache.Arrow.Ipc.ArrowStreamWriter.WriteRecordBatchAsync(Apache.Arrow.RecordBatch,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String},System.Threading.CancellationToken)
+  name.vb: WriteRecordBatchAsync(RecordBatch, IReadOnlyDictionary(Of String, String), CancellationToken)
+  fullName: Apache.Arrow.Ipc.ArrowStreamWriter.WriteRecordBatchAsync(Apache.Arrow.RecordBatch, System.Collections.Generic.IReadOnlyDictionary<string, string>, System.Threading.CancellationToken)
+  fullName.vb: Apache.Arrow.Ipc.ArrowStreamWriter.WriteRecordBatchAsync(Apache.Arrow.RecordBatch, System.Collections.Generic.IReadOnlyDictionary(Of String, String), System.Threading.CancellationToken)
+  nameWithType: ArrowStreamWriter.WriteRecordBatchAsync(RecordBatch, IReadOnlyDictionary<string, string>, CancellationToken)
+  nameWithType.vb: ArrowStreamWriter.WriteRecordBatchAsync(RecordBatch, IReadOnlyDictionary(Of String, String), CancellationToken)
 - uid: Apache.Arrow.Ipc.ArrowStreamWriter.WriteRecordBatchAsync(Apache.Arrow.RecordBatch,System.Threading.CancellationToken)
   name: WriteRecordBatchAsync(RecordBatch, CancellationToken)
   href: api/Apache.Arrow.Ipc.ArrowStreamWriter.html#Apache_Arrow_Ipc_ArrowStreamWriter_WriteRecordBatchAsync_Apache_Arrow_RecordBatch_System_Threading_CancellationToken_
@@ -14905,6 +14939,73 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.Ipc.IpcOptions.WriteLegacyIpcFormat
   nameWithType: IpcOptions.WriteLegacyIpcFormat
+- uid: Apache.Arrow.Ipc.RecordBatchWithMetadata
+  name: RecordBatchWithMetadata
+  href: api/Apache.Arrow.Ipc.RecordBatchWithMetadata.html
+  commentId: T:Apache.Arrow.Ipc.RecordBatchWithMetadata
+  fullName: Apache.Arrow.Ipc.RecordBatchWithMetadata
+  nameWithType: RecordBatchWithMetadata
+- uid: Apache.Arrow.Ipc.RecordBatchWithMetadata.#ctor(Apache.Arrow.RecordBatch,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})
+  name: RecordBatchWithMetadata(RecordBatch, IReadOnlyDictionary<string, string>)
+  href: api/Apache.Arrow.Ipc.RecordBatchWithMetadata.html#Apache_Arrow_Ipc_RecordBatchWithMetadata__ctor_Apache_Arrow_RecordBatch_System_Collections_Generic_IReadOnlyDictionary_System_String_System_String__
+  commentId: M:Apache.Arrow.Ipc.RecordBatchWithMetadata.#ctor(Apache.Arrow.RecordBatch,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})
+  name.vb: New(RecordBatch, IReadOnlyDictionary(Of String, String))
+  fullName: Apache.Arrow.Ipc.RecordBatchWithMetadata.RecordBatchWithMetadata(Apache.Arrow.RecordBatch, System.Collections.Generic.IReadOnlyDictionary<string, string>)
+  fullName.vb: Apache.Arrow.Ipc.RecordBatchWithMetadata.New(Apache.Arrow.RecordBatch, System.Collections.Generic.IReadOnlyDictionary(Of String, String))
+  nameWithType: RecordBatchWithMetadata.RecordBatchWithMetadata(RecordBatch, IReadOnlyDictionary<string, string>)
+  nameWithType.vb: RecordBatchWithMetadata.New(RecordBatch, IReadOnlyDictionary(Of String, String))
+- uid: Apache.Arrow.Ipc.RecordBatchWithMetadata.#ctor*
+  name: RecordBatchWithMetadata
+  href: api/Apache.Arrow.Ipc.RecordBatchWithMetadata.html#Apache_Arrow_Ipc_RecordBatchWithMetadata__ctor_
+  commentId: Overload:Apache.Arrow.Ipc.RecordBatchWithMetadata.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Apache.Arrow.Ipc.RecordBatchWithMetadata.RecordBatchWithMetadata
+  fullName.vb: Apache.Arrow.Ipc.RecordBatchWithMetadata.New
+  nameWithType: RecordBatchWithMetadata.RecordBatchWithMetadata
+  nameWithType.vb: RecordBatchWithMetadata.New
+- uid: Apache.Arrow.Ipc.RecordBatchWithMetadata.Batch
+  name: Batch
+  href: api/Apache.Arrow.Ipc.RecordBatchWithMetadata.html#Apache_Arrow_Ipc_RecordBatchWithMetadata_Batch
+  commentId: P:Apache.Arrow.Ipc.RecordBatchWithMetadata.Batch
+  fullName: Apache.Arrow.Ipc.RecordBatchWithMetadata.Batch
+  nameWithType: RecordBatchWithMetadata.Batch
+- uid: Apache.Arrow.Ipc.RecordBatchWithMetadata.Batch*
+  name: Batch
+  href: api/Apache.Arrow.Ipc.RecordBatchWithMetadata.html#Apache_Arrow_Ipc_RecordBatchWithMetadata_Batch_
+  commentId: Overload:Apache.Arrow.Ipc.RecordBatchWithMetadata.Batch
+  isSpec: "True"
+  fullName: Apache.Arrow.Ipc.RecordBatchWithMetadata.Batch
+  nameWithType: RecordBatchWithMetadata.Batch
+- uid: Apache.Arrow.Ipc.RecordBatchWithMetadata.CustomMetadata
+  name: CustomMetadata
+  href: api/Apache.Arrow.Ipc.RecordBatchWithMetadata.html#Apache_Arrow_Ipc_RecordBatchWithMetadata_CustomMetadata
+  commentId: P:Apache.Arrow.Ipc.RecordBatchWithMetadata.CustomMetadata
+  fullName: Apache.Arrow.Ipc.RecordBatchWithMetadata.CustomMetadata
+  nameWithType: RecordBatchWithMetadata.CustomMetadata
+- uid: Apache.Arrow.Ipc.RecordBatchWithMetadata.CustomMetadata*
+  name: CustomMetadata
+  href: api/Apache.Arrow.Ipc.RecordBatchWithMetadata.html#Apache_Arrow_Ipc_RecordBatchWithMetadata_CustomMetadata_
+  commentId: Overload:Apache.Arrow.Ipc.RecordBatchWithMetadata.CustomMetadata
+  isSpec: "True"
+  fullName: Apache.Arrow.Ipc.RecordBatchWithMetadata.CustomMetadata
+  nameWithType: RecordBatchWithMetadata.CustomMetadata
+- uid: Apache.Arrow.Ipc.RecordBatchWithMetadata.Deconstruct(Apache.Arrow.RecordBatch@,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String}@)
+  name: Deconstruct(out RecordBatch, out IReadOnlyDictionary<string, string>)
+  href: api/Apache.Arrow.Ipc.RecordBatchWithMetadata.html#Apache_Arrow_Ipc_RecordBatchWithMetadata_Deconstruct_Apache_Arrow_RecordBatch__System_Collections_Generic_IReadOnlyDictionary_System_String_System_String___
+  commentId: M:Apache.Arrow.Ipc.RecordBatchWithMetadata.Deconstruct(Apache.Arrow.RecordBatch@,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String}@)
+  name.vb: Deconstruct(RecordBatch, IReadOnlyDictionary(Of String, String))
+  fullName: Apache.Arrow.Ipc.RecordBatchWithMetadata.Deconstruct(out Apache.Arrow.RecordBatch, out System.Collections.Generic.IReadOnlyDictionary<string, string>)
+  fullName.vb: Apache.Arrow.Ipc.RecordBatchWithMetadata.Deconstruct(Apache.Arrow.RecordBatch, System.Collections.Generic.IReadOnlyDictionary(Of String, String))
+  nameWithType: RecordBatchWithMetadata.Deconstruct(out RecordBatch, out IReadOnlyDictionary<string, string>)
+  nameWithType.vb: RecordBatchWithMetadata.Deconstruct(RecordBatch, IReadOnlyDictionary(Of String, String))
+- uid: Apache.Arrow.Ipc.RecordBatchWithMetadata.Deconstruct*
+  name: Deconstruct
+  href: api/Apache.Arrow.Ipc.RecordBatchWithMetadata.html#Apache_Arrow_Ipc_RecordBatchWithMetadata_Deconstruct_
+  commentId: Overload:Apache.Arrow.Ipc.RecordBatchWithMetadata.Deconstruct
+  isSpec: "True"
+  fullName: Apache.Arrow.Ipc.RecordBatchWithMetadata.Deconstruct
+  nameWithType: RecordBatchWithMetadata.Deconstruct
 - uid: Apache.Arrow.LargeBinaryArray
   name: LargeBinaryArray
   href: api/Apache.Arrow.LargeBinaryArray.html
