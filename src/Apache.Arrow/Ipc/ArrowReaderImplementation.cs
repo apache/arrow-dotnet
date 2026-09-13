@@ -81,6 +81,11 @@ namespace Apache.Arrow.Ipc
         public abstract ValueTask<RecordBatch> ReadNextRecordBatchAsync(CancellationToken cancellationToken);
         public abstract RecordBatch ReadNextRecordBatch();
 
+        /// <summary>
+        /// Custom metadata from the most recently read RecordBatch Message, if any.
+        /// </summary>
+        internal IReadOnlyDictionary<string, string> LastBatchCustomMetadata { get; private protected set; }
+
         internal static T ReadMessage<T>(ByteBuffer bb)
             where T : struct, IFlatbufferObject
         {
@@ -148,6 +153,7 @@ namespace Apache.Arrow.Ipc
                     }
 
                     List<IArrowArray> arrays = BuildArrays(message.Version, Schema, bodyByteBuffer, rb);
+                    LastBatchCustomMetadata = ReadMessageCustomMetadata(message);
                     return new RecordBatch(Schema, memoryOwner, arrays, (int)rb.Length);
                 default:
                     // NOTE: Skip unsupported message type
@@ -156,6 +162,20 @@ namespace Apache.Arrow.Ipc
             }
 
             return null;
+        }
+
+        private static IReadOnlyDictionary<string, string> ReadMessageCustomMetadata(Flatbuf.Message message)
+        {
+            Dictionary<string, string> metadata = message.CustomMetadataLength > 0
+                ? new Dictionary<string, string>(message.CustomMetadataLength) : null;
+            for (int i = 0; i < message.CustomMetadataLength; i++)
+            {
+                Flatbuf.KeyValue keyValue = message.CustomMetadata(i).GetValueOrDefault();
+
+                metadata[keyValue.Key] = keyValue.Value;
+            }
+
+            return metadata;
         }
 
         internal static ByteBuffer CreateByteBuffer(ReadOnlyMemory<byte> buffer)

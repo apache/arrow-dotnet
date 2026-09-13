@@ -14,6 +14,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -150,6 +151,40 @@ namespace Apache.Arrow.Ipc
         public RecordBatch ReadNextRecordBatch()
         {
             return _implementation.ReadNextRecordBatch();
+        }
+
+        /// <summary>
+        /// Reads the next record batch together with the custom metadata on its IPC Message,
+        /// the counterpart of <see cref="ArrowStreamWriter.WriteRecordBatch(RecordBatch, IReadOnlyDictionary{string, string})"/>.
+        /// </summary>
+        /// <returns>
+        /// The record batch and its custom metadata. At the end of the stream both
+        /// <see cref="RecordBatchWithMetadata.Batch"/> and
+        /// <see cref="RecordBatchWithMetadata.CustomMetadata"/> are null; the metadata is also
+        /// null for a batch whose message carried none.
+        /// </returns>
+        public async ValueTask<RecordBatchWithMetadata> ReadNextRecordBatchWithCustomMetadataAsync(CancellationToken cancellationToken = default)
+        {
+            RecordBatch batch = await _implementation.ReadNextRecordBatchAsync(cancellationToken).ConfigureAwait(false);
+
+            return batch == null ? default : new RecordBatchWithMetadata(batch, _implementation.LastBatchCustomMetadata);
+        }
+
+        /// <summary>
+        /// Reads the next record batch together with the custom metadata on its IPC Message,
+        /// the counterpart of <see cref="ArrowStreamWriter.WriteRecordBatch(RecordBatch, IReadOnlyDictionary{string, string})"/>.
+        /// </summary>
+        /// <returns>
+        /// The record batch and its custom metadata. At the end of the stream both
+        /// <see cref="RecordBatchWithMetadata.Batch"/> and
+        /// <see cref="RecordBatchWithMetadata.CustomMetadata"/> are null; the metadata is also
+        /// null for a batch whose message carried none.
+        /// </returns>
+        public RecordBatchWithMetadata ReadNextRecordBatchWithCustomMetadata()
+        {
+            RecordBatch batch = _implementation.ReadNextRecordBatch();
+
+            return batch == null ? default : new RecordBatchWithMetadata(batch, _implementation.LastBatchCustomMetadata);
         }
     }
 }

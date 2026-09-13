@@ -85,5 +85,16 @@ namespace Apache.Arrow.Ipc
         {
             return Implementation.ReadRecordBatchAsync(index, cancellationToken);
         }
+
+        /// <summary>
+        /// Reads the record batch at the given index together with the custom metadata on its
+        /// IPC Message, which is null if the message carried none.
+        /// </summary>
+        public async ValueTask<RecordBatchWithMetadata> ReadRecordBatchWithCustomMetadataAsync(int index, CancellationToken cancellationToken = default)
+        {
+            RecordBatch batch = await Implementation.ReadRecordBatchAsync(index, cancellationToken).ConfigureAwait(false);
+
+            return batch == null ? default : new RecordBatchWithMetadata(batch, Implementation.LastBatchCustomMetadata);
+        }
     }
 }

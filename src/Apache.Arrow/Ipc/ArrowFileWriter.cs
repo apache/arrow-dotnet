@@ -66,27 +66,6 @@ namespace Apache.Arrow.Ipc
             RecordBatchBlocks = new List<Block>();
         }
 
-        public override void WriteRecordBatch(RecordBatch recordBatch)
-        {
-            // TODO: Compare record batch schema
-
-            WriteStart();
-
-            WriteRecordBatchInternal(recordBatch);
-        }
-
-        public override async Task WriteRecordBatchAsync(RecordBatch recordBatch, CancellationToken cancellationToken = default)
-        {
-            // TODO: Compare record batch schema
-
-            await WriteStartAsync(cancellationToken).ConfigureAwait(false);
-
-            cancellationToken.ThrowIfCancellationRequested();
-
-            await WriteRecordBatchInternalAsync(recordBatch, cancellationToken)
-                .ConfigureAwait(false);
-        }
-
         private protected override void StartingWritingRecordBatch()
         {
             _currentRecordBatchOffset = BaseStream.Position;
