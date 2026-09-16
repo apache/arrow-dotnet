@@ -71,6 +71,9 @@ namespace Apache.Arrow.Flight.Internal
             // Attached to the record-batch message, not to any preceding dictionary messages.
             _recordBatchAppMetadata = applicationMetadata;
 
+            // Resend the full dictionary before every record batch rather than just the first (#180).
+            HasWrittenDictionaryBatch = false;
+
             // Writes any dictionary-batch messages followed by the record-batch message. Each is
             // flushed as its own FlightData frame (see WriteMessageAsync) so that dictionary batches
             // are delivered before the record batch that references them.

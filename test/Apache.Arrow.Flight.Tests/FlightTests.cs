@@ -59,31 +59,39 @@ namespace Apache.Arrow.Flight.Tests
             return batchBuilder.Build();
         }
 
-        private RecordBatch CreateTestBatchWithDictionaryColumn(int startValue, int length)
+        private static Schema CreateDictionaryTestSchema()
         {
-            var batchBuilder = new RecordBatch.Builder();
+            return new Schema.Builder()
+                .Field(f => f.Name("value").DataType(Int32Type.Default).Nullable(true))
+                .Field(f => f.Name("symbol").DataType(new DictionaryType(Int32Type.Default, StringType.Default, false)).Nullable(true))
+                .Build();
+        }
 
+        // Batches in the same stream must share the same Schema/Field instances.
+        private RecordBatch CreateTestBatchWithDictionaryColumn(Schema schema, int startValue, int length, string[] dictionaryValues)
+        {
             Int32Array.Builder valueBuilder = new Int32Array.Builder();
             for (int i = 0; i < length; i++)
             {
                 valueBuilder.Append(startValue + i);
             }
-            batchBuilder.Append("value", true, valueBuilder.Build());
 
             // Dictionary-encoded (categorical) string column: dictionary<int32, string>.
-            StringArray dictionary = new StringArray.Builder().AppendRange(new[] { "a", "b", "c" }).Build();
+            StringArray dictionary = new StringArray.Builder().AppendRange(dictionaryValues).Build();
             Int32Array.Builder indicesBuilder = new Int32Array.Builder();
             for (int i = 0; i < length; i++)
             {
-                indicesBuilder.Append(i % 3);
+                indicesBuilder.Append(i % dictionaryValues.Length);
             }
-            var dictionaryArray = new DictionaryArray(
-                new DictionaryType(Int32Type.Default, StringType.Default, false),
-                indicesBuilder.Build(),
-                dictionary);
-            batchBuilder.Append("symbol", true, dictionaryArray);
+            var dictionaryType = (DictionaryType)schema.GetFieldByIndex(1).DataType;
+            var dictionaryArray = new DictionaryArray(dictionaryType, indicesBuilder.Build(), dictionary);
 
-            return batchBuilder.Build();
+            return new RecordBatch(schema, new IArrowArray[] { valueBuilder.Build(), dictionaryArray }, length);
+        }
+
+        private RecordBatch CreateTestBatchWithDictionaryColumn(int startValue, int length)
+        {
+            return CreateTestBatchWithDictionaryColumn(CreateDictionaryTestSchema(), startValue, length, new[] { "a", "b", "c" });
         }
 
         [Fact]
@@ -100,6 +108,26 @@ namespace Apache.Arrow.Flight.Tests
 
             Assert.Single(batches);
             ArrowReaderVerifier.CompareBatches(expectedBatch, batches[0]);
+        }
+
+        [Fact]
+        public async Task TestGetRecordBatchesWithReplacementDictionary()
+        {
+            // Batches carry different dictionary vocabularies, exercising the per-batch resend (#180).
+            var flightDescriptor = FlightDescriptor.CreatePathDescriptor("test");
+            var schema = CreateDictionaryTestSchema();
+            var expectedBatch1 = CreateTestBatchWithDictionaryColumn(schema, 0, 50, new[] { "a", "b", "c" });
+            var expectedBatch2 = CreateTestBatchWithDictionaryColumn(schema, 50, 50, new[] { "w", "x", "y", "z" });
+            GivenStoreBatches(flightDescriptor, new RecordBatchWithMetadata(expectedBatch1), new RecordBatchWithMetadata(expectedBatch2));
+
+            var flightInfo = await _flightClient.GetInfo(flightDescriptor);
+            var endpoint = flightInfo.Endpoints.First();
+            var getStream = _flightClient.GetStream(endpoint.Ticket);
+            var batches = await getStream.ResponseStream.ToListAsync();
+
+            Assert.Equal(2, batches.Count);
+            ArrowReaderVerifier.CompareBatches(expectedBatch1, batches[0]);
+            ArrowReaderVerifier.CompareBatches(expectedBatch2, batches[1]);
         }
 
         [Fact]
