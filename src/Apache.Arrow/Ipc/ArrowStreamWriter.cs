@@ -728,7 +728,7 @@ namespace Apache.Arrow.Ipc
 
         protected bool HasWrittenSchema { get; set; }
 
-        private bool HasWrittenDictionaryBatch { get; set; }
+        protected bool HasWrittenDictionaryBatch { get; set; }
 
         private bool HasWrittenStart { get; set; }
 
