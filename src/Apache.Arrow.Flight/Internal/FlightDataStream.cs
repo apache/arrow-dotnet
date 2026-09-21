@@ -36,6 +36,8 @@ namespace Apache.Arrow.Flight.Internal
         private readonly FlightDescriptor _flightDescriptor;
         private readonly IAsyncStreamWriter<Protocol.FlightData> _clientStreamWriter;
         private Protocol.FlightData _currentFlightData;
+        private bool _hasPendingMessage;
+        private ByteString _recordBatchAppMetadata;
 
         public FlightDataStream(IAsyncStreamWriter<Protocol.FlightData> clientStreamWriter, FlightDescriptor flightDescriptor, Schema schema)
             : base(new MemoryStream(), schema)
@@ -46,17 +48,9 @@ namespace Apache.Arrow.Flight.Internal
 
         public async Task SendSchema()
         {
-            _currentFlightData = new Protocol.FlightData();
-
-            if (_flightDescriptor != null)
-            {
-                _currentFlightData.FlightDescriptor = _flightDescriptor.ToProtocol();
-            }
-
             var offset = SerializeSchema(Schema);
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-            await WriteMessageAsync(MessageHeader.Schema, offset, 0, default, cancellationTokenSource.Token).ConfigureAwait(false);
-            await _clientStreamWriter.WriteAsync(_currentFlightData).ConfigureAwait(false);
+            await WriteMessageAsync(MessageHeader.Schema, offset, 0, default, CancellationToken.None).ConfigureAwait(false);
+            await FlushCurrentMessageAsync().ConfigureAwait(false);
             HasWrittenSchema = true;
         }
 
@@ -74,25 +68,31 @@ namespace Apache.Arrow.Flight.Internal
             }
             ResetStream();
 
-            _currentFlightData = new Protocol.FlightData();
+            // Attached to the record-batch message, not to any preceding dictionary messages.
+            _recordBatchAppMetadata = applicationMetadata;
 
-            if (applicationMetadata != null)
-            {
-                _currentFlightData.AppMetadata = applicationMetadata;
-            }
+            // Resend the full dictionary before every record batch rather than just the first (#180).
+            HasWrittenDictionaryBatch = false;
 
+            // Writes any dictionary-batch messages followed by the record-batch message. Each is
+            // flushed as its own FlightData frame (see WriteMessageAsync) so that dictionary batches
+            // are delivered before the record batch that references them.
             await WriteRecordBatchInternalAsync(recordBatch, customMetadata: null).ConfigureAwait(false);
 
-            //Reset stream position
-            this.BaseStream.Position = 0;
-            var bodyData = await ByteString.FromStreamAsync(this.BaseStream).ConfigureAwait(false);
-
-            _currentFlightData.DataBody = bodyData;
-            await _clientStreamWriter.WriteAsync(_currentFlightData).ConfigureAwait(false);
+            // Flush the final (record-batch) message.
+            await FlushCurrentMessageAsync().ConfigureAwait(false);
+            _recordBatchAppMetadata = null;
         }
 
-        private protected override ValueTask<long> WriteMessageAsync<T>(MessageHeader headerType, Offset<T> headerOffset, int bodyLength, VectorOffset customMetadataOffset, CancellationToken cancellationToken)
+        private protected override async ValueTask<long> WriteMessageAsync<T>(MessageHeader headerType, Offset<T> headerOffset, int bodyLength, VectorOffset customMetadataOffset, CancellationToken cancellationToken)
         {
+            // A new message is beginning; the previous message's body is now fully buffered, so flush
+            // it as its own FlightData frame before starting the next one.
+            if (_hasPendingMessage)
+            {
+                await FlushCurrentMessageAsync().ConfigureAwait(false);
+            }
+
             Offset<Flatbuf.Message> messageOffset = Flatbuf.Message.CreateMessage(
                 Builder, CurrentMetadataVersion, headerType, headerOffset.Value,
                 bodyLength, customMetadataOffset);
@@ -101,9 +101,32 @@ namespace Apache.Arrow.Flight.Internal
 
             ReadOnlyMemory<byte> messageData = Builder.DataBuffer.ToReadOnlyMemory(Builder.DataBuffer.Position, Builder.Offset);
 
-            _currentFlightData.DataHeader = ByteString.CopyFrom(messageData.Span);
+            _currentFlightData = new Protocol.FlightData
+            {
+                DataHeader = ByteString.CopyFrom(messageData.Span)
+            };
 
-            return new ValueTask<long>(0);
+            if (headerType == MessageHeader.Schema && _flightDescriptor != null)
+            {
+                _currentFlightData.FlightDescriptor = _flightDescriptor.ToProtocol();
+            }
+
+            if (headerType == MessageHeader.RecordBatch && _recordBatchAppMetadata != null)
+            {
+                _currentFlightData.AppMetadata = _recordBatchAppMetadata;
+            }
+
+            _hasPendingMessage = true;
+            return 0;
+        }
+
+        private async Task FlushCurrentMessageAsync()
+        {
+            this.BaseStream.Position = 0;
+            _currentFlightData.DataBody = await ByteString.FromStreamAsync(this.BaseStream).ConfigureAwait(false);
+            await _clientStreamWriter.WriteAsync(_currentFlightData).ConfigureAwait(false);
+            ResetStream();
+            _hasPendingMessage = false;
         }
     }
 }
