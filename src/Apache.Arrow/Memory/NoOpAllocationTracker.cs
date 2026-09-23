@@ -16,10 +16,9 @@
 namespace Apache.Arrow.Memory
 {
     /// <summary>
-    /// Avoid informing the GC about native allocations. Consider using for micro-benchmarks where
-    /// the impact of GC.AddMemoryPressure and GC.RemoveMemoryPressure can skew timing results.
+    /// Avoid informing the GC about native allocations.
     /// </summary>
-    public struct NoOpAllocationTracker : INativeAllocationTracker
+    public readonly struct NoOpAllocationTracker : INativeAllocationTracker
     {
         public void Track(int count, long bytes) { }
     }

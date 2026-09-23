@@ -31,7 +31,7 @@ namespace Apache.Arrow.Memory
             // TODO: Ensure memory is released if exception occurs.
 
             // TODO: Optimize storage overhead; native memory manager stores a pointer
-            // to allocated memory, offset, and the allocation size. 
+            // to allocated memory, offset, and the allocation size.
 
             // TODO: Should the allocation be moved to NativeMemory?
 
@@ -41,8 +41,6 @@ namespace Apache.Arrow.Memory
             var manager = new NativeMemoryManager(ptr, offset, length);
 
             bytesAllocated = (length + Alignment);
-
-            GC.AddMemoryPressure(bytesAllocated);
 
             // Ensure all allocated memory is zeroed.
             manager.Memory.Span.Fill(0);
@@ -55,7 +53,6 @@ namespace Apache.Arrow.Memory
             public void Release(IntPtr ptr, int offset, int length)
             {
                 Marshal.FreeHGlobal(ptr);
-                GC.RemoveMemoryPressure(length + DefaultAlignment); // See https://github.com/apache/arrow-dotnet/issues/50
             }
         }
     }
