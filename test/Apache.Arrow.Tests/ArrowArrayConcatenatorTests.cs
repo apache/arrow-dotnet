@@ -424,6 +424,156 @@ namespace Apache.Arrow.Tests
             Assert.Equal("B", values.GetString(1));
         }
 
+        [Fact]
+        public void TestExtensionArrays()
+        {
+            var guids = new[] { Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid() };
+            var a = new GuidArray.Builder().Append(guids[0]).AppendNull().Build();
+            var b = new GuidArray.Builder().Append(guids[1]).Append(guids[2]).Build();
+
+            var concatenated = Assert.IsType<GuidArray>(ArrowArrayConcatenator.Concatenate(new IArrowArray[] { a, b }));
+
+            Assert.Equal(4, concatenated.Length);
+            Assert.Equal(1, concatenated.NullCount);
+            Assert.Equal(new Guid?[] { guids[0], null, guids[1], guids[2] }, concatenated.ToArray());
+        }
+
+        [Fact]
+        public void TestListOfExtensionArrays()
+        {
+            var guids = new[] { Guid.NewGuid(), Guid.NewGuid() };
+            ListArray List(Guid guid)
+            {
+                var values = new GuidArray.Builder().Append(guid).Build();
+                var offsets = new ArrowBuffer.Builder<int>().Append(0).Append(1).Build();
+                return new ListArray(new ListType(GuidType.Default), 1, offsets, values, ArrowBuffer.Empty);
+            }
+
+            var concatenated = (ListArray)ArrowArrayConcatenator.Concatenate(new IArrowArray[] { List(guids[0]), List(guids[1]) });
+
+            var values = Assert.IsType<GuidArray>(concatenated.Values);
+            Assert.Equal(new Guid?[] { guids[0], guids[1] }, values.ToArray());
+        }
+
+        [Fact]
+        public void TestMismatchedExtensionTypesThrow()
+        {
+            var a = new GuidArray.Builder().Append(Guid.NewGuid()).Build();
+            var b = new FixedSizeBinaryArray(new ArrayData(new FixedSizeBinaryType(16), a.Length, 0, 0, a.Data.Buffers));
+
+            Assert.Throws<ArgumentException>(() => ArrowArrayConcatenator.Concatenate(new IArrowArray[] { a, b }));
+        }
+
+        [Fact]
+        public void TestStringViewResultOutlivesInputs()
+        {
+            var a = BuildStringView("a string longer than twelve bytes");
+            var b = BuildStringView("another string longer than twelve");
+
+            var concatenated = (StringViewArray)ArrowArrayConcatenator.Concatenate(new IArrowArray[] { a, b });
+            a.Dispose();
+            b.Dispose();
+
+            Assert.Equal("a string longer than twelve bytes", concatenated.GetString(0));
+            Assert.Equal("another string longer than twelve", concatenated.GetString(1));
+            concatenated.Dispose();
+        }
+
+        [Fact]
+        public void TestStringViewResultOutlivesSharedSliceInputs()
+        {
+            var source = BuildStringView("a string longer than twelve bytes", "another string longer than twelve");
+            var a = new StringViewArray(source.Data.SliceShared(0, 1));
+            var b = new StringViewArray(source.Data.SliceShared(1, 1));
+            source.Dispose();
+
+            var concatenated = (StringViewArray)ArrowArrayConcatenator.Concatenate(new IArrowArray[] { a, b });
+            a.Dispose();
+            b.Dispose();
+
+            Assert.Equal("a string longer than twelve bytes", concatenated.GetString(0));
+            Assert.Equal("another string longer than twelve", concatenated.GetString(1));
+            concatenated.Dispose();
+        }
+
+        [Fact]
+        public void TestStringViewWithEmptyInputHavingDataBuffers()
+        {
+            var empty = new StringViewArray(BuildStringView("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzz").Data.Slice(0, 0));
+            var b = BuildStringView("another string longer than twelve");
+            var c = BuildStringView("short", "yet another string longer than twelve");
+
+            var concatenated = (StringViewArray)ArrowArrayConcatenator.Concatenate(new IArrowArray[] { empty, b, empty, c, empty });
+
+            Assert.Equal(3, concatenated.Length);
+            Assert.Equal("another string longer than twelve", concatenated.GetString(0));
+            Assert.Equal("short", concatenated.GetString(1));
+            Assert.Equal("yet another string longer than twelve", concatenated.GetString(2));
+        }
+
+        [Fact]
+        public void TestSingleElementResultOutlivesInput()
+        {
+            var array = BuildStringView("a string longer than twelve bytes");
+
+            var concatenated = (StringViewArray)ArrowArrayConcatenator.Concatenate(new IArrowArray[] { array });
+            array.Dispose();
+
+            Assert.Equal("a string longer than twelve bytes", concatenated.GetString(0));
+            concatenated.Dispose();
+        }
+
+        [Fact]
+        public void TestListWithSingleNonEmptyInputOutlivesInputs()
+        {
+            var builder = new ListArray.Builder(StringType.Default);
+            var valueBuilder = (StringArray.Builder)builder.ValueBuilder;
+            builder.Append();
+            valueBuilder.Append("x");
+            valueBuilder.Append("y");
+            var nonEmpty = builder.Build();
+            var empty = new ListArray.Builder(StringType.Default).Build();
+
+            var concatenated = (ListArray)ArrowArrayConcatenator.Concatenate(new IArrowArray[] { empty, nonEmpty });
+            nonEmpty.Dispose();
+            empty.Dispose();
+
+            var values = (StringArray)concatenated.Values;
+            Assert.Equal("x", values.GetString(0));
+            Assert.Equal("y", values.GetString(1));
+            concatenated.Dispose();
+        }
+
+        [Fact]
+        public void TestRunEndEncodedWithSingleNonEmptyInputOutlivesInputs()
+        {
+            var empty = new RunEndEncodedArray(
+                new Int32Array.Builder().Build(),
+                new StringArray.Builder().Build());
+            var nonEmpty = new RunEndEncodedArray(
+                new Int32Array.Builder().AppendRange(new[] { 2, 4 }).Build(),
+                new StringArray.Builder().AppendRange(new[] { "A", "B" }).Build());
+
+            var concatenated = (RunEndEncodedArray)ArrowArrayConcatenator.Concatenate(new IArrowArray[] { empty, nonEmpty });
+            nonEmpty.Dispose();
+            empty.Dispose();
+
+            var values = (StringArray)concatenated.Values;
+            Assert.Equal("A", values.GetString(0));
+            Assert.Equal("B", values.GetString(1));
+            concatenated.Dispose();
+        }
+
+        private static StringViewArray BuildStringView(params string[] values)
+        {
+            var builder = new StringViewArray.Builder();
+            foreach (string value in values)
+            {
+                builder.Append(value);
+            }
+            return builder.Build();
+        }
+
         private static IEnumerable<Tuple<List<IArrowArray>, IArrowArray>> GenerateTestData(bool slicedArrays = false)
         {
             var targetTypes = new List<IArrowType>() {

@@ -32,15 +32,41 @@ namespace Apache.Arrow
 
             if (arrayDataList.Count == 1)
             {
-                return arrayDataList[0];
+                // The result must stay valid after the input is disposed, so it takes its own references.
+                return arrayDataList[0].Retain();
+            }
+
+            IArrowType type = arrayDataList[0].DataType;
+            if (type is ExtensionType extensionType)
+            {
+                return ConcatenateExtension(extensionType, arrayDataList, allocator);
             }
 
             var arrowArrayConcatenationVisitor = new ArrayDataConcatenationVisitor(arrayDataList, allocator);
 
-            IArrowType type = arrayDataList[0].DataType;
             type.Accept(arrowArrayConcatenationVisitor);
 
             return arrowArrayConcatenationVisitor.Result;
+        }
+
+        private static ArrayData ConcatenateExtension(ExtensionType type, IReadOnlyList<ArrayData> arrayDataList, MemoryAllocator allocator)
+        {
+            var storageDataList = new List<ArrayData>(arrayDataList.Count);
+            foreach (ArrayData arrayData in arrayDataList)
+            {
+                if (!(arrayData.DataType is ExtensionType otherType) ||
+                    otherType.Name != type.Name ||
+                    otherType.ExtensionMetadata != type.ExtensionMetadata)
+                {
+                    throw new ArgumentException(
+                        $"Cannot concatenate extension type {type.Name} with {arrayData.DataType.Name}");
+                }
+
+                storageDataList.Add(new ArrayData(otherType.StorageType, arrayData.Length, arrayData.NullCount, arrayData.Offset, arrayData.Buffers, arrayData.Children, arrayData.Dictionary));
+            }
+
+            ArrayData storage = Concatenate(storageDataList, allocator);
+            return new ArrayData(type, storage.Length, storage.NullCount, storage.Offset, storage.Buffers, storage.Children, storage.Dictionary);
         }
 
         private class ArrayDataConcatenationVisitor :
@@ -443,7 +469,7 @@ namespace Apache.Arrow
                     // All inputs were empty. Reuse the first input's values child sliced to length
                     // 0 so we get a valid ArrayData with the correct buffer/child layout for the
                     // values type, regardless of what that type is.
-                    valuesResult = _arrayDataList[0].Children[1].Slice(0, 0);
+                    valuesResult = _arrayDataList[0].Children[1].SliceShared(0, 0);
                 }
                 else
                 {
@@ -704,9 +730,16 @@ namespace Apache.Arrow
                 int index = 2;
                 foreach (ArrayData arrayData in _arrayDataList)
                 {
+                    // Must skip the same inputs as ConcatenateViewBuffer so buffer indices line up.
+                    if (arrayData.Length == 0)
+                    {
+                        continue;
+                    }
+
+                    // The result shares the inputs' data buffers, so it needs its own references to them.
                     for (int i = 2; i < arrayData.Buffers.Length; i++)
                     {
-                        buffers[index++] = arrayData.Buffers[i];
+                        buffers[index++] = arrayData.Buffers[i].Retain();
                     }
                 }
 
@@ -798,7 +831,7 @@ namespace Apache.Arrow
                     {
                         // All parent arrays are empty, but the nested array still needs a real
                         // zero-length child to preserve Arrow's structural invariant.
-                        return arrayData.Children[0].Slice(0, 0);
+                        return arrayData.Children[0].SliceShared(0, 0);
                     }
                 }
 
