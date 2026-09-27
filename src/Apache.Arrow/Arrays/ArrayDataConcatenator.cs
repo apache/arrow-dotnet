@@ -145,9 +145,11 @@ namespace Apache.Arrow
 
                 // Inputs with no rows don't contribute any dictionary entries.
                 var contributing = new List<ArrayData>(_arrayDataList.Count);
+                bool allOrdered = true;
                 foreach (ArrayData arrayData in _arrayDataList)
                 {
                     var otherType = (DictionaryType)arrayData.DataType;
+                    allOrdered &= otherType.Ordered;
                     if (otherType.IndexType.TypeId != indexType.TypeId)
                     {
                         throw new ArgumentException(
@@ -169,8 +171,6 @@ namespace Apache.Arrow
                     }
                 }
 
-                ArrowBuffer validityBuffer = ConcatenateValidityBuffer();
-
                 ArrayData firstDictionary = (contributing.Count > 0 ? contributing[0] : _arrayDataList[0]).Dictionary;
                 bool sharedDictionary = true;
                 foreach (ArrayData arrayData in contributing)
@@ -184,13 +184,20 @@ namespace Apache.Arrow
 
                 if (sharedDictionary)
                 {
+                    // The result reuses a dictionary every input describes, so it is ordered
+                    // only if every input says that dictionary is ordered.
+                    DictionaryType sharedType = type.Ordered == allOrdered
+                        ? type
+                        : new DictionaryType(type.IndexType, type.ValueType, allOrdered);
+                    ArrowBuffer sharedValidityBuffer = ConcatenateValidityBuffer();
                     ArrowBuffer indexBuffer = ConcatenateFixedWidthTypeValueBuffer(1, type);
-                    Result = new ArrayData(type, _totalLength, _totalNullCount, 0, new ArrowBuffer[] { validityBuffer, indexBuffer }, null, firstDictionary.Retain());
+                    Result = new ArrayData(sharedType, _totalLength, _totalNullCount, 0, new ArrowBuffer[] { sharedValidityBuffer, indexBuffer }, null, firstDictionary.Retain());
                     return;
                 }
 
                 // Append the dictionaries end to end and shift each input's indices past the
-                // entries of the dictionaries before it.
+                // entries of the dictionaries before it. Nothing shows that the appended entries
+                // are in order, so the result is never ordered.
                 var dictionaries = new List<ArrayData>(contributing.Count);
                 long dictionaryLength = 0;
                 foreach (ArrayData arrayData in contributing)
@@ -205,10 +212,26 @@ namespace Apache.Arrow
                         $"Cannot concatenate dictionary arrays: the combined dictionary has {dictionaryLength} entries, which is more than index type {indexType.Name} can address.");
                 }
 
-                ArrowBuffer shiftedIndexBuffer = ConcatenateShiftedIndexBuffer(indexType);
+                // Concatenate the dictionaries first: it can throw, and nothing else has been allocated yet.
                 ArrayData combinedDictionary = Concatenate(dictionaries, _allocator);
+                ArrowBuffer validityBuffer = ArrowBuffer.Empty;
+                ArrowBuffer shiftedIndexBuffer;
+                try
+                {
+                    validityBuffer = ConcatenateValidityBuffer();
+                    shiftedIndexBuffer = ConcatenateShiftedIndexBuffer(indexType);
+                }
+                catch
+                {
+                    validityBuffer.Dispose();
+                    combinedDictionary.Dispose();
+                    throw;
+                }
 
-                Result = new ArrayData(type, _totalLength, _totalNullCount, 0, new ArrowBuffer[] { validityBuffer, shiftedIndexBuffer }, null, combinedDictionary);
+                var combinedType = type.Ordered
+                    ? new DictionaryType(type.IndexType, type.ValueType, false)
+                    : type;
+                Result = new ArrayData(combinedType, _totalLength, _totalNullCount, 0, new ArrowBuffer[] { validityBuffer, shiftedIndexBuffer }, null, combinedDictionary);
             }
 
             private static bool SharesContents(ArrayData left, ArrayData right)
