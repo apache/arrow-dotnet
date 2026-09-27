@@ -110,6 +110,48 @@ namespace Apache.Arrow.Operations.Tests.Shredding
             Assert.Equal(new byte[] { 1, 2, 3 }, bin.GetBinaryBytes().ToArray());
         }
 
+        [Theory]
+        [InlineData(Storage.LargeBinary, true)]
+        [InlineData(Storage.LargeBinary, false)]
+        [InlineData(Storage.BinaryView, true)]
+        [InlineData(Storage.BinaryView, false)]
+        public void Shred_ReadsAlternateStorage(Storage storage, bool shreddedInput)
+        {
+            VariantArray input = shreddedInput ? BuildShredded() : BuildUnshredded();
+
+            AssertRows(Convert(input, storage).Shred(Schema));
+        }
+
+        [Theory]
+        [InlineData(Storage.LargeBinary)]
+        [InlineData(Storage.BinaryView)]
+        public void Reassemble_ReadsAlternateStorage(Storage storage)
+        {
+            VariantArray reassembled = Convert(BuildShredded(), storage).Reassemble();
+
+            Assert.False(reassembled.IsShredded);
+            AssertRows(reassembled);
+        }
+
+        private static VariantArray BuildUnshredded()
+        {
+            var builder = new VariantArray.Builder();
+            builder.AppendRange(Rows);
+            return builder.Build();
+        }
+
+        private static void AssertRows(VariantArray array)
+        {
+            Assert.Equal(Rows.Count, array.Length);
+            for (int i = 0; i < Rows.Count; i++)
+            {
+                if (Rows[i].HasValue)
+                    Assert.Equal(Rows[i].Value, array.GetLogicalVariantValue(i));
+                else
+                    Assert.True(array.IsNull(i));
+            }
+        }
+
         // ---------------------------------------------------------------
         // Storage conversion
         // ---------------------------------------------------------------
