@@ -147,5 +147,18 @@ namespace Apache.Arrow.Operations.Tests.Shredding
             Assert.NotNull(rows[0]);
             Assert.Null(rows[1]);
         }
+
+        [Fact]
+        public void Reconstruct_RoundTripsNullRows()
+        {
+            var values = new List<VariantValue?> { Obj(1), null, VariantValue.Null, VariantValue.FromString("s") };
+            ShredSchema schema = new ShredSchemaInferer().Infer(values);
+            (byte[] metadata, IReadOnlyList<ShredResult> rows) = VariantShredder.Shred(values, schema);
+
+            for (int i = 0; i < values.Count; i++)
+            {
+                Assert.Equal(values[i], VariantUnshredder.Reconstruct(rows[i], schema, metadata));
+            }
+        }
     }
 }

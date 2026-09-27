@@ -30,19 +30,21 @@ namespace Apache.Arrow.Operations.Shredding
         /// <summary>
         /// Reconstructs a variant value from a shredded result.
         /// </summary>
-        /// <param name="shredded">The shredded (value, typed_value) pair.</param>
+        /// <param name="shredded">
+        /// The shredded (value, typed_value) pair, or null for a SQL-NULL row as produced by
+        /// <see cref="VariantShredder.Shred(System.Collections.Generic.IEnumerable{VariantValue?}, ShredSchema)"/>.
+        /// </param>
         /// <param name="schema">The shredding schema that was used to produce the result.</param>
         /// <param name="metadata">The column-level variant metadata bytes.</param>
         /// <returns>
-        /// The reconstructed <see cref="VariantValue"/>, or null if the field is missing
-        /// (both value and typed_value are null).
+        /// The reconstructed <see cref="VariantValue"/>, or null if <paramref name="shredded"/>
+        /// is null (a SQL-NULL row) or the field is missing (both value and typed_value are null).
         /// </returns>
         public static VariantValue? Reconstruct(ShredResult shredded, ShredSchema schema, ReadOnlySpan<byte> metadata)
         {
-            if (shredded == null) throw new ArgumentNullException(nameof(shredded));
             if (schema == null) throw new ArgumentNullException(nameof(schema));
 
-            if (shredded.IsMissing)
+            if (shredded == null || shredded.IsMissing)
             {
                 return null;
             }
