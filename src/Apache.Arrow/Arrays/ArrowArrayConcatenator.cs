@@ -29,7 +29,8 @@ namespace Apache.Arrow
 
             if (arrowArrayList.Count == 1)
             {
-                return arrowArrayList[0];
+                // The result must stay valid after the input is disposed, so it takes its own references.
+                return ArrowArrayFactory.BuildArray(arrowArrayList[0].Data.Retain());
             }
 
             var arrayDataList = new List<ArrayData>(arrowArrayList.Count);
