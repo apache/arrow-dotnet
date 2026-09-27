@@ -19143,6 +19143,61 @@ references:
   isSpec: "True"
   fullName: Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.GetShreddedVariant
   nameWithType: VariantArrayShreddingExtensions.GetShreddedVariant
+- uid: Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.InferShredSchema(Apache.Arrow.VariantArray,Apache.Arrow.Operations.Shredding.ShredOptions)
+  name: InferShredSchema(VariantArray, ShredOptions)
+  href: api/Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.html#Apache_Arrow_Operations_Shredding_VariantArrayShreddingExtensions_InferShredSchema_Apache_Arrow_VariantArray_Apache_Arrow_Operations_Shredding_ShredOptions_
+  commentId: M:Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.InferShredSchema(Apache.Arrow.VariantArray,Apache.Arrow.Operations.Shredding.ShredOptions)
+  fullName: Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.InferShredSchema(Apache.Arrow.VariantArray, Apache.Arrow.Operations.Shredding.ShredOptions)
+  nameWithType: VariantArrayShreddingExtensions.InferShredSchema(VariantArray, ShredOptions)
+- uid: Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.InferShredSchema*
+  name: InferShredSchema
+  href: api/Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.html#Apache_Arrow_Operations_Shredding_VariantArrayShreddingExtensions_InferShredSchema_
+  commentId: Overload:Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.InferShredSchema
+  isSpec: "True"
+  fullName: Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.InferShredSchema
+  nameWithType: VariantArrayShreddingExtensions.InferShredSchema
+- uid: Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.Reassemble(Apache.Arrow.VariantArray,Apache.Arrow.Memory.MemoryAllocator)
+  name: Reassemble(VariantArray, MemoryAllocator)
+  href: api/Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.html#Apache_Arrow_Operations_Shredding_VariantArrayShreddingExtensions_Reassemble_Apache_Arrow_VariantArray_Apache_Arrow_Memory_MemoryAllocator_
+  commentId: M:Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.Reassemble(Apache.Arrow.VariantArray,Apache.Arrow.Memory.MemoryAllocator)
+  fullName: Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.Reassemble(Apache.Arrow.VariantArray, Apache.Arrow.Memory.MemoryAllocator)
+  nameWithType: VariantArrayShreddingExtensions.Reassemble(VariantArray, MemoryAllocator)
+- uid: Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.Reassemble*
+  name: Reassemble
+  href: api/Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.html#Apache_Arrow_Operations_Shredding_VariantArrayShreddingExtensions_Reassemble_
+  commentId: Overload:Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.Reassemble
+  isSpec: "True"
+  fullName: Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.Reassemble
+  nameWithType: VariantArrayShreddingExtensions.Reassemble
+- uid: Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.Shred(Apache.Arrow.VariantArray,Apache.Arrow.Operations.Shredding.ShredSchema,Apache.Arrow.Memory.MemoryAllocator)
+  name: Shred(VariantArray, ShredSchema, MemoryAllocator)
+  href: api/Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.html#Apache_Arrow_Operations_Shredding_VariantArrayShreddingExtensions_Shred_Apache_Arrow_VariantArray_Apache_Arrow_Operations_Shredding_ShredSchema_Apache_Arrow_Memory_MemoryAllocator_
+  commentId: M:Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.Shred(Apache.Arrow.VariantArray,Apache.Arrow.Operations.Shredding.ShredSchema,Apache.Arrow.Memory.MemoryAllocator)
+  fullName: Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.Shred(Apache.Arrow.VariantArray, Apache.Arrow.Operations.Shredding.ShredSchema, Apache.Arrow.Memory.MemoryAllocator)
+  nameWithType: VariantArrayShreddingExtensions.Shred(VariantArray, ShredSchema, MemoryAllocator)
+- uid: Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.Shred*
+  name: Shred
+  href: api/Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.html#Apache_Arrow_Operations_Shredding_VariantArrayShreddingExtensions_Shred_
+  commentId: Overload:Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.Shred
+  isSpec: "True"
+  fullName: Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.Shred
+  nameWithType: VariantArrayShreddingExtensions.Shred
+- uid: Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.TryShred(Apache.Arrow.VariantArray,Apache.Arrow.Operations.Shredding.ShredOptions,Apache.Arrow.VariantArray@,Apache.Arrow.Memory.MemoryAllocator)
+  name: TryShred(VariantArray, ShredOptions, out VariantArray, MemoryAllocator)
+  href: api/Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.html#Apache_Arrow_Operations_Shredding_VariantArrayShreddingExtensions_TryShred_Apache_Arrow_VariantArray_Apache_Arrow_Operations_Shredding_ShredOptions_Apache_Arrow_VariantArray__Apache_Arrow_Memory_MemoryAllocator_
+  commentId: M:Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.TryShred(Apache.Arrow.VariantArray,Apache.Arrow.Operations.Shredding.ShredOptions,Apache.Arrow.VariantArray@,Apache.Arrow.Memory.MemoryAllocator)
+  name.vb: TryShred(VariantArray, ShredOptions, VariantArray, MemoryAllocator)
+  fullName: Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.TryShred(Apache.Arrow.VariantArray, Apache.Arrow.Operations.Shredding.ShredOptions, out Apache.Arrow.VariantArray, Apache.Arrow.Memory.MemoryAllocator)
+  fullName.vb: Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.TryShred(Apache.Arrow.VariantArray, Apache.Arrow.Operations.Shredding.ShredOptions, Apache.Arrow.VariantArray, Apache.Arrow.Memory.MemoryAllocator)
+  nameWithType: VariantArrayShreddingExtensions.TryShred(VariantArray, ShredOptions, out VariantArray, MemoryAllocator)
+  nameWithType.vb: VariantArrayShreddingExtensions.TryShred(VariantArray, ShredOptions, VariantArray, MemoryAllocator)
+- uid: Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.TryShred*
+  name: TryShred
+  href: api/Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.html#Apache_Arrow_Operations_Shredding_VariantArrayShreddingExtensions_TryShred_
+  commentId: Overload:Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.TryShred
+  isSpec: "True"
+  fullName: Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.TryShred
+  nameWithType: VariantArrayShreddingExtensions.TryShred
 - uid: Apache.Arrow.Operations.Shredding.VariantShredder
   name: VariantShredder
   href: api/Apache.Arrow.Operations.Shredding.VariantShredder.html

@@ -89,7 +89,7 @@
 
 
   <h1 id="Apache_Arrow_Operations_Shredding_VariantArrayShreddingExtensions" data-uid="Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions" class="text-break">
-Class VariantArrayShreddingExtensions  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/VariantArrayShreddingExtensions.cs/#L28"><i class="bi bi-code-slash"></i></a>
+Class VariantArrayShreddingExtensions  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/VariantArrayShreddingExtensions.cs/#L30"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -160,7 +160,7 @@ columns and residual bytes side-by-side.</p>
 
   <h3 id="Apache_Arrow_Operations_Shredding_VariantArrayShreddingExtensions_GetLogicalVariantValue_Apache_Arrow_VariantArray_System_Int32_" data-uid="Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.GetLogicalVariantValue(Apache.Arrow.VariantArray,System.Int32)">
   GetLogicalVariantValue(VariantArray, int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/VariantArrayShreddingExtensions.cs/#L70"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/VariantArrayShreddingExtensions.cs/#L72"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Materializes the element at <code class="paramref">index</code> into a logical
@@ -201,7 +201,7 @@ residual bytes. Works for both shredded and unshredded columns.</p>
 
   <h3 id="Apache_Arrow_Operations_Shredding_VariantArrayShreddingExtensions_GetShredSchema_Apache_Arrow_VariantArray_" data-uid="Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.GetShredSchema(Apache.Arrow.VariantArray)">
   GetShredSchema(VariantArray)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/VariantArrayShreddingExtensions.cs/#L35"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/VariantArrayShreddingExtensions.cs/#L37"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets the <a class="xref" href="Apache.Arrow.Operations.Shredding.ShredSchema.html">ShredSchema</a> for a variant array, derived from
@@ -240,7 +240,7 @@ for unshredded columns.</p>
 
   <h3 id="Apache_Arrow_Operations_Shredding_VariantArrayShreddingExtensions_GetShreddedVariant_Apache_Arrow_VariantArray_System_Int32_" data-uid="Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.GetShreddedVariant(Apache.Arrow.VariantArray,System.Int32)">
   GetShreddedVariant(VariantArray, int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/VariantArrayShreddingExtensions.cs/#L47"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/VariantArrayShreddingExtensions.cs/#L49"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets a <a class="xref" href="Apache.Arrow.Operations.Shredding.ShreddedVariant.html">ShreddedVariant</a> reader for the element at the given index.
@@ -283,11 +283,195 @@ full logical variant. Works for both shredded and unshredded columns.</p>
 
 
 
+  <a id="Apache_Arrow_Operations_Shredding_VariantArrayShreddingExtensions_InferShredSchema_" data-uid="Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.InferShredSchema*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_VariantArrayShreddingExtensions_InferShredSchema_Apache_Arrow_VariantArray_Apache_Arrow_Operations_Shredding_ShredOptions_" data-uid="Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.InferShredSchema(Apache.Arrow.VariantArray,Apache.Arrow.Operations.Shredding.ShredOptions)">
+  InferShredSchema(VariantArray, ShredOptions)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/VariantArrayShreddingExtensions.cs/#L92"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Infers a <a class="xref" href="Apache.Arrow.Operations.Shredding.ShredSchema.html">ShredSchema</a> from the logical values of a variant array.
+Null elements are ignored. Works for both shredded and unshredded columns.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static ShredSchema InferShredSchema(this VariantArray array, ShredOptions options = null)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>array</code> <a class="xref" href="Apache.Arrow.VariantArray.html">VariantArray</a></dt>
+    <dd></dd>
+    <dt><code>options</code> <a class="xref" href="Apache.Arrow.Operations.Shredding.ShredOptions.html">ShredOptions</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Operations.Shredding.ShredSchema.html">ShredSchema</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Apache_Arrow_Operations_Shredding_VariantArrayShreddingExtensions_InferShredSchema_Apache_Arrow_VariantArray_Apache_Arrow_Operations_Shredding_ShredOptions__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>When writing a column in batches (e.g. Parquet row groups), infer once over a
+representative batch and pass the result to <a class="xref" href="Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.html#Apache_Arrow_Operations_Shredding_VariantArrayShreddingExtensions_Shred_Apache_Arrow_VariantArray_Apache_Arrow_Operations_Shredding_ShredSchema_Apache_Arrow_Memory_MemoryAllocator_">Shred(VariantArray, ShredSchema, MemoryAllocator)</a> for every batch,
+so that all batches share one layout.</p>
+</div>
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_VariantArrayShreddingExtensions_Reassemble_" data-uid="Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.Reassemble*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_VariantArrayShreddingExtensions_Reassemble_Apache_Arrow_VariantArray_Apache_Arrow_Memory_MemoryAllocator_" data-uid="Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.Reassemble(Apache.Arrow.VariantArray,Apache.Arrow.Memory.MemoryAllocator)">
+  Reassemble(VariantArray, MemoryAllocator)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/VariantArrayShreddingExtensions.cs/#L151"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Converts a shredded variant array into its unshredded equivalent, in which
+every element is stored as self-contained metadata and value bytes. Null
+elements remain null. An unshredded input is returned unchanged.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static VariantArray Reassemble(this VariantArray array, MemoryAllocator allocator = null)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>array</code> <a class="xref" href="Apache.Arrow.VariantArray.html">VariantArray</a></dt>
+    <dd><p>The variant array to reassemble.</p>
+</dd>
+    <dt><code>allocator</code> <a class="xref" href="Apache.Arrow.Memory.MemoryAllocator.html">MemoryAllocator</a></dt>
+    <dd><p>Arrow memory allocator, or default if null.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.VariantArray.html">VariantArray</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_VariantArrayShreddingExtensions_Shred_" data-uid="Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.Shred*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_VariantArrayShreddingExtensions_Shred_Apache_Arrow_VariantArray_Apache_Arrow_Operations_Shredding_ShredSchema_Apache_Arrow_Memory_MemoryAllocator_" data-uid="Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.Shred(Apache.Arrow.VariantArray,Apache.Arrow.Operations.Shredding.ShredSchema,Apache.Arrow.Memory.MemoryAllocator)">
+  Shred(VariantArray, ShredSchema, MemoryAllocator)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/VariantArrayShreddingExtensions.cs/#L106"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Shreds a variant array into the layout described by <code class="paramref">schema</code>.
+The input may itself be shredded (under any schema); its logical values are
+re-shredded. Null elements remain null.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static VariantArray Shred(this VariantArray array, ShredSchema schema, MemoryAllocator allocator = null)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>array</code> <a class="xref" href="Apache.Arrow.VariantArray.html">VariantArray</a></dt>
+    <dd><p>The variant array to shred.</p>
+</dd>
+    <dt><code>schema</code> <a class="xref" href="Apache.Arrow.Operations.Shredding.ShredSchema.html">ShredSchema</a></dt>
+    <dd><p>The target shredding schema.</p>
+</dd>
+    <dt><code>allocator</code> <a class="xref" href="Apache.Arrow.Memory.MemoryAllocator.html">MemoryAllocator</a></dt>
+    <dd><p>Arrow memory allocator, or default if null.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.VariantArray.html">VariantArray</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_VariantArrayShreddingExtensions_TryShred_" data-uid="Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.TryShred*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_VariantArrayShreddingExtensions_TryShred_Apache_Arrow_VariantArray_Apache_Arrow_Operations_Shredding_ShredOptions_Apache_Arrow_VariantArray__Apache_Arrow_Memory_MemoryAllocator_" data-uid="Apache.Arrow.Operations.Shredding.VariantArrayShreddingExtensions.TryShred(Apache.Arrow.VariantArray,Apache.Arrow.Operations.Shredding.ShredOptions,Apache.Arrow.VariantArray@,Apache.Arrow.Memory.MemoryAllocator)">
+  TryShred(VariantArray, ShredOptions, out VariantArray, MemoryAllocator)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/VariantArrayShreddingExtensions.cs/#L128"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Infers a shredding schema from <code class="paramref">array</code> and, if it produces a
+shredded layout, shreds the array into it.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool TryShred(this VariantArray array, ShredOptions options, out VariantArray shredded, MemoryAllocator allocator = null)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>array</code> <a class="xref" href="Apache.Arrow.VariantArray.html">VariantArray</a></dt>
+    <dd><p>The variant array to shred.</p>
+</dd>
+    <dt><code>options</code> <a class="xref" href="Apache.Arrow.Operations.Shredding.ShredOptions.html">ShredOptions</a></dt>
+    <dd><p>Inference options, or <a class="xref" href="Apache.Arrow.Operations.Shredding.ShredOptions.html#Apache_Arrow_Operations_Shredding_ShredOptions_Default">Default</a> if null.</p>
+</dd>
+    <dt><code>shredded</code> <a class="xref" href="Apache.Arrow.VariantArray.html">VariantArray</a></dt>
+    <dd><p>The shredded array, or null when this method returns false.</p>
+</dd>
+    <dt><code>allocator</code> <a class="xref" href="Apache.Arrow.Memory.MemoryAllocator.html">MemoryAllocator</a></dt>
+    <dd><p>Arrow memory allocator, or default if null.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>True if a shredded layout was inferred; false if the values have no layout
+worth shredding (the inferred schema is <a class="xref" href="Apache.Arrow.Operations.Shredding.ShredSchema.html#Apache_Arrow_Operations_Shredding_ShredSchema_Unshredded">Unshredded()</a>).</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
 
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/VariantArrayShreddingExtensions.cs/#L28" class="edit-link">Edit this page</a>
+          <a href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/VariantArrayShreddingExtensions.cs/#L30" class="edit-link">Edit this page</a>
         </div>
 
 
