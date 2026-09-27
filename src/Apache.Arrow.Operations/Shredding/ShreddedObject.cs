@@ -104,7 +104,7 @@ namespace Apache.Arrow.Operations.Shredding
                 reader = default;
                 return false;
             }
-            ReadOnlySpan<byte> bytes = ((BinaryArray)_residual).GetBytes(_index, out _);
+            ReadOnlySpan<byte> bytes = ShreddingHelpers.GetBytes(_residual, _index);
             reader = new VariantReader(_metadata, bytes);
             return true;
         }
@@ -128,8 +128,7 @@ namespace Apache.Arrow.Operations.Shredding
             // No shredded fields at this row — whatever is in the residual IS the value.
             if (!typedPopulated)
             {
-                BinaryArray binary = (BinaryArray)_residual;
-                ReadOnlySpan<byte> bytes = binary.GetBytes(_index, out _);
+                ReadOnlySpan<byte> bytes = ShreddingHelpers.GetBytes(_residual, _index);
                 return new VariantReader(_metadata, bytes).ToVariantValue();
             }
 
@@ -151,8 +150,7 @@ namespace Apache.Arrow.Operations.Shredding
             // Partially shredded object — merge residual unshredded fields.
             if (residualPopulated)
             {
-                BinaryArray residualBinary = (BinaryArray)_residual;
-                ReadOnlySpan<byte> residualBytes = residualBinary.GetBytes(_index, out _);
+                ReadOnlySpan<byte> residualBytes = ShreddingHelpers.GetBytes(_residual, _index);
                 VariantReader residualReader = new VariantReader(_metadata, residualBytes);
                 if (!residualReader.IsObject)
                 {

@@ -125,8 +125,7 @@ namespace Apache.Arrow.Operations.Shredding
         {
             if (HasResidual)
             {
-                BinaryArray binary = (BinaryArray)_valueArray;
-                ReadOnlySpan<byte> bytes = binary.GetBytes(_index, out _);
+                ReadOnlySpan<byte> bytes = ShreddingHelpers.GetBytes(_valueArray, _index);
                 reader = new VariantReader(_metadata, bytes);
                 return true;
             }
@@ -168,8 +167,7 @@ namespace Apache.Arrow.Operations.Shredding
             {
                 throw new InvalidOperationException("No residual value to read.");
             }
-            BinaryArray binary = (BinaryArray)_valueArray;
-            ReadOnlySpan<byte> bytes = binary.GetBytes(_index, out _);
+            ReadOnlySpan<byte> bytes = ShreddingHelpers.GetBytes(_valueArray, _index);
             return new VariantReader(_metadata, bytes).ToVariantValue();
         }
 
@@ -266,10 +264,10 @@ namespace Apache.Arrow.Operations.Shredding
         public long GetTimestampNtzNanos() => ((TimestampArray)RequireTyped(ShredType.TimestampNtzNanos)).GetValue(_index).Value;
 
         /// <summary>Reads the shredded string value at this slot.</summary>
-        public string GetString() => ((StringArray)RequireTyped(ShredType.String)).GetString(_index);
+        public string GetString() => ShreddingHelpers.GetString(RequireTyped(ShredType.String), _index);
 
         /// <summary>Reads the shredded binary value at this slot as a byte span.</summary>
-        public ReadOnlySpan<byte> GetBinaryBytes() => ((BinaryArray)RequireTyped(ShredType.Binary)).GetBytes(_index);
+        public ReadOnlySpan<byte> GetBinaryBytes() => ShreddingHelpers.GetBytes(RequireTyped(ShredType.Binary), _index);
 
         /// <summary>Reads the shredded UUID at this slot.</summary>
         public Guid GetUuid()

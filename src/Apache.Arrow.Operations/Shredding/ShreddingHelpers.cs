@@ -44,5 +44,39 @@ namespace Apache.Arrow.Operations.Shredding
 
             return new ShreddedVariant(slotSchema, metadata, valueArr, typedArr, index);
         }
+
+        /// <summary>
+        /// Reads the bytes at <paramref name="index"/> from any binary representation a
+        /// variant column may use (binary, large_binary or binary_view).
+        /// </summary>
+        public static ReadOnlySpan<byte> GetBytes(IArrowArray array, int index)
+        {
+            switch (array)
+            {
+                case BinaryArray binary: return binary.GetBytes(index);
+                case LargeBinaryArray largeBinary: return largeBinary.GetBytes(index);
+                case BinaryViewArray binaryView: return binaryView.GetBytes(index);
+                default:
+                    throw new InvalidOperationException(
+                        $"Cannot read variant bytes from an array of type {array.Data.DataType.TypeId}.");
+            }
+        }
+
+        /// <summary>
+        /// Reads the string at <paramref name="index"/> from any string representation
+        /// (utf8, large_utf8 or utf8_view).
+        /// </summary>
+        public static string GetString(IArrowArray array, int index)
+        {
+            switch (array)
+            {
+                case StringArray str: return str.GetString(index);
+                case LargeStringArray largeStr: return largeStr.GetString(index);
+                case StringViewArray strView: return strView.GetString(index);
+                default:
+                    throw new InvalidOperationException(
+                        $"Cannot read a string from an array of type {array.Data.DataType.TypeId}.");
+            }
+        }
     }
 }
