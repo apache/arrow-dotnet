@@ -14,7 +14,9 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using Apache.Arrow;
+using Apache.Arrow.Memory;
 using Apache.Arrow.Scalars.Variant;
 
 namespace Apache.Arrow.Operations.Shredding
@@ -76,6 +78,109 @@ namespace Apache.Arrow.Operations.Shredding
                 return VariantValue.Null;
 
             return GetShreddedVariant(array, index).ToVariantValue();
+        }
+
+        /// <summary>
+        /// Infers a <see cref="ShredSchema"/> from the logical values of a variant array.
+        /// Null elements are ignored. Works for both shredded and unshredded columns.
+        /// </summary>
+        /// <remarks>
+        /// When writing a column in batches (e.g. Parquet row groups), infer once over a
+        /// representative batch and pass the result to <see cref="Shred"/> for every batch,
+        /// so that all batches share one layout.
+        /// </remarks>
+        public static ShredSchema InferShredSchema(this VariantArray array, ShredOptions options = null)
+        {
+            if (array == null) throw new ArgumentNullException(nameof(array));
+            return new ShredSchemaInferer().Infer(GetLogicalValues(array), options);
+        }
+
+        /// <summary>
+        /// Shreds a variant array into the layout described by <paramref name="schema"/>.
+        /// The input may itself be shredded (under any schema); its logical values are
+        /// re-shredded. Null elements remain null.
+        /// </summary>
+        /// <param name="array">The variant array to shred.</param>
+        /// <param name="schema">The target shredding schema.</param>
+        /// <param name="allocator">Arrow memory allocator, or default if null.</param>
+        public static VariantArray Shred(this VariantArray array, ShredSchema schema, MemoryAllocator allocator = null)
+        {
+            if (array == null) throw new ArgumentNullException(nameof(array));
+            if (schema == null) throw new ArgumentNullException(nameof(schema));
+
+            (byte[] metadata, IReadOnlyList<ShredResult> rows) =
+                VariantShredder.Shred(GetLogicalValues(array), schema);
+            return ShreddedVariantArrayBuilder.Build(schema, metadata, rows, allocator);
+        }
+
+        /// <summary>
+        /// Infers a shredding schema from <paramref name="array"/> and, if it produces a
+        /// shredded layout, shreds the array into it.
+        /// </summary>
+        /// <param name="array">The variant array to shred.</param>
+        /// <param name="options">Inference options, or <see cref="ShredOptions.Default"/> if null.</param>
+        /// <param name="shredded">The shredded array, or null when this method returns false.</param>
+        /// <param name="allocator">Arrow memory allocator, or default if null.</param>
+        /// <returns>
+        /// True if a shredded layout was inferred; false if the values have no layout
+        /// worth shredding (the inferred schema is <see cref="ShredSchema.Unshredded"/>).
+        /// </returns>
+        public static bool TryShred(
+            this VariantArray array,
+            ShredOptions options,
+            out VariantArray shredded,
+            MemoryAllocator allocator = null)
+        {
+            ShredSchema schema = InferShredSchema(array, options);
+            if (schema.TypedValueType == ShredType.None)
+            {
+                shredded = null;
+                return false;
+            }
+            shredded = Shred(array, schema, allocator);
+            return true;
+        }
+
+        /// <summary>
+        /// Converts a shredded variant array into its unshredded equivalent, in which
+        /// every element is stored as self-contained metadata and value bytes. Null
+        /// elements remain null. An unshredded input is returned unchanged.
+        /// </summary>
+        /// <param name="array">The variant array to reassemble.</param>
+        /// <param name="allocator">Arrow memory allocator, or default if null.</param>
+        public static VariantArray Reassemble(this VariantArray array, MemoryAllocator allocator = null)
+        {
+            if (array == null) throw new ArgumentNullException(nameof(array));
+            if (!array.IsShredded) return array;
+
+            var builder = new VariantArray.Builder();
+            builder.AppendRange(GetLogicalValues(array));
+            return builder.Build(allocator);
+        }
+
+        /// <summary>
+        /// Enumerates the logical value of every element, with null for null elements.
+        /// Resolves the column's schema and child arrays once rather than per row.
+        /// </summary>
+        private static IEnumerable<VariantValue?> GetLogicalValues(VariantArray array)
+        {
+            ShredSchema schema = GetShredSchema(array);
+            IArrowArray valueArr = array.VariantType.HasValueColumn ? GetValueArray(array) : null;
+            IArrowArray typedValueArr = array.TypedValueArray;
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                yield return array.IsNull(i)
+                    ? (VariantValue?)null
+                    : GetLogicalValue(array, schema, valueArr, typedValueArr, i);
+            }
+        }
+
+        private static VariantValue GetLogicalValue(
+            VariantArray array, ShredSchema schema, IArrowArray valueArr, IArrowArray typedValueArr, int index)
+        {
+            return new ShreddedVariant(schema, array.GetMetadataBytes(index), valueArr, typedValueArr, index)
+                .ToVariantValue();
         }
 
         /// <summary>
