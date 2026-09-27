@@ -131,39 +131,39 @@ namespace Apache.Arrow.Operations.Tests.Shredding
             switch (array)
             {
                 case StringArray str when !isVariantBinary && storage == Storage.LargeBinary:
-                {
-                    var b = new LargeStringArray.Builder();
-                    for (int i = 0; i < str.Length; i++)
                     {
-                        if (str.IsNull(i)) b.AppendNull(); else b.Append(str.GetString(i));
+                        var b = new LargeStringArray.Builder();
+                        for (int i = 0; i < str.Length; i++)
+                        {
+                            if (str.IsNull(i)) b.AppendNull(); else b.Append(str.GetString(i));
+                        }
+                        return b.Build();
                     }
-                    return b.Build();
-                }
                 case StringArray str:
                     return str;
                 case BinaryArray bin when isVariantBinary || storage == Storage.LargeBinary:
                     return storage == Storage.LargeBinary ? ToLargeBinary(bin) : (IArrowArray)ToBinaryView(bin);
                 case StructArray st:
-                {
-                    var type = (StructType)st.Data.DataType;
-                    var fields = new List<Field>();
-                    var children = new List<IArrowArray>();
-                    for (int f = 0; f < type.Fields.Count; f++)
                     {
-                        Field field = type.Fields[f];
-                        IArrowArray child = ConvertArray(st.Fields[f], field.Name, storage);
-                        children.Add(child);
-                        fields.Add(new Field(field.Name, child.Data.DataType, field.IsNullable));
+                        var type = (StructType)st.Data.DataType;
+                        var fields = new List<Field>();
+                        var children = new List<IArrowArray>();
+                        for (int f = 0; f < type.Fields.Count; f++)
+                        {
+                            Field field = type.Fields[f];
+                            IArrowArray child = ConvertArray(st.Fields[f], field.Name, storage);
+                            children.Add(child);
+                            fields.Add(new Field(field.Name, child.Data.DataType, field.IsNullable));
+                        }
+                        return new StructArray(new StructType(fields), st.Length, children, st.NullBitmapBuffer, st.NullCount);
                     }
-                    return new StructArray(new StructType(fields), st.Length, children, st.NullBitmapBuffer, st.NullCount);
-                }
                 case ListArray list:
-                {
-                    Field element = ((ListType)list.Data.DataType).ValueField;
-                    IArrowArray values = ConvertArray(list.Values, element.Name, storage);
-                    var listType = new ListType(new Field(element.Name, values.Data.DataType, element.IsNullable));
-                    return new ListArray(listType, list.Length, list.ValueOffsetsBuffer, values, list.NullBitmapBuffer, list.NullCount);
-                }
+                    {
+                        Field element = ((ListType)list.Data.DataType).ValueField;
+                        IArrowArray values = ConvertArray(list.Values, element.Name, storage);
+                        var listType = new ListType(new Field(element.Name, values.Data.DataType, element.IsNullable));
+                        return new ListArray(listType, list.Length, list.ValueOffsetsBuffer, values, list.NullBitmapBuffer, list.NullCount);
+                    }
                 default:
                     return array;
             }
