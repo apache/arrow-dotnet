@@ -36,7 +36,10 @@ namespace Apache.Arrow.Operations.Shredding
         /// </summary>
         /// <param name="schema">The shredding schema applied to each row.</param>
         /// <param name="metadata">The column-level variant metadata (shared across rows).</param>
-        /// <param name="rows">Per-row shred results whose residual bytes reference <paramref name="metadata"/>.</param>
+        /// <param name="rows">
+        /// Per-row shred results whose residual bytes reference <paramref name="metadata"/>.
+        /// A <c>null</c> entry produces a null (SQL-NULL) element in the resulting array.
+        /// </param>
         /// <param name="allocator">Arrow memory allocator, or default if null.</param>
         public static VariantArray Build(
             ShredSchema schema,
@@ -49,6 +52,33 @@ namespace Apache.Arrow.Operations.Shredding
             if (rows == null) throw new ArgumentNullException(nameof(rows));
 
             int rowCount = rows.Count;
+
+            // Top-level validity. Children of a null row are emitted as missing
+            // (value and typed_value both null); metadata is still populated
+            // because the metadata field is non-nullable.
+            ArrowBuffer.BitmapBuilder validity = new ArrowBuffer.BitmapBuilder(rowCount);
+            int nullCount = 0;
+            ShredResult[] childRows = null;
+            for (int i = 0; i < rowCount; i++)
+            {
+                if (rows[i] == null)
+                {
+                    if (childRows == null)
+                    {
+                        childRows = new ShredResult[rowCount];
+                        for (int j = 0; j < i; j++) childRows[j] = rows[j];
+                    }
+                    childRows[i] = ShredResult.Missing;
+                    validity.Append(false);
+                    nullCount++;
+                }
+                else
+                {
+                    if (childRows != null) childRows[i] = rows[i];
+                    validity.Append(true);
+                }
+            }
+            if (childRows != null) rows = childRows;
 
             // metadata column: emit the shared bytes once per row. (A dictionary-encoded
             // or run-end-encoded representation would compress this; VariantArray's reader
@@ -81,8 +111,9 @@ namespace Apache.Arrow.Operations.Shredding
             }
 
             StructType structType = new StructType(fields);
+            ArrowBuffer nullBitmap = nullCount > 0 ? validity.Build(allocator) : ArrowBuffer.Empty;
             StructArray structArr = new StructArray(
-                structType, rowCount, children, ArrowBuffer.Empty, nullCount: 0);
+                structType, rowCount, children, nullBitmap, nullCount);
             // The public VariantArray(IArrowArray) constructor infers the VariantType
             // from the struct's shape (including detecting the shredded layout).
             return new VariantArray(structArr);
