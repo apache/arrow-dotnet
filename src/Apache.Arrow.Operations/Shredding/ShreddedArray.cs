@@ -106,7 +106,7 @@ namespace Apache.Arrow.Operations.Shredding
                 reader = default;
                 return false;
             }
-            ReadOnlySpan<byte> bytes = ((BinaryArray)_residual).GetBytes(_row, out _);
+            ReadOnlySpan<byte> bytes = ShreddingHelpers.GetBytes(_residual, _row);
             reader = new VariantReader(_metadata, bytes);
             return true;
         }
@@ -145,8 +145,7 @@ namespace Apache.Arrow.Operations.Shredding
             {
                 return VariantValue.Null;
             }
-            BinaryArray residualBinary = (BinaryArray)_residual;
-            ReadOnlySpan<byte> bytes = residualBinary.GetBytes(_row, out _);
+            ReadOnlySpan<byte> bytes = ShreddingHelpers.GetBytes(_residual, _row);
             return new VariantReader(_metadata, bytes).ToVariantValue();
         }
     }
