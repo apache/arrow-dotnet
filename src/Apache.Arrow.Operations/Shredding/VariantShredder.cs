@@ -67,6 +67,39 @@ namespace Apache.Arrow.Operations.Shredding
         }
 
         /// <summary>
+        /// Shreds a column of nullable variant values. A <c>null</c> entry is a
+        /// SQL-NULL row, as opposed to <see cref="VariantValue.Null"/>, which is a
+        /// present variant null. SQL-NULL rows produce a <c>null</c> entry in the
+        /// returned rows, which <see cref="ShreddedVariantArrayBuilder.Build"/> turns
+        /// into a null element of the resulting array.
+        /// </summary>
+        public static (byte[] Metadata, IReadOnlyList<ShredResult> Rows) Shred(
+            IEnumerable<VariantValue?> values,
+            ShredSchema schema)
+        {
+            if (values == null) throw new ArgumentNullException(nameof(values));
+            if (schema == null) throw new ArgumentNullException(nameof(schema));
+
+            List<VariantValue?> rows = values as List<VariantValue?> ?? new List<VariantValue?>(values);
+
+            VariantMetadataBuilder metadata = new VariantMetadataBuilder();
+            foreach (VariantValue? row in rows)
+            {
+                if (row.HasValue) CollectFieldNames(row.Value, metadata);
+            }
+            byte[] metadataBytes = metadata.Build(out int[] idRemap);
+
+            ShredResult[] results = new ShredResult[rows.Count];
+            for (int i = 0; i < rows.Count; i++)
+            {
+                VariantValue? row = rows[i];
+                results[i] = row.HasValue ? Shred(row.Value, schema, metadata, idRemap) : null;
+            }
+
+            return (metadataBytes, results);
+        }
+
+        /// <summary>
         /// Shreds a single variant value against a caller-managed metadata dictionary.
         /// Use this when combining shredded columns with external metadata, or when
         /// streaming rows one at a time. The caller is responsible for ensuring

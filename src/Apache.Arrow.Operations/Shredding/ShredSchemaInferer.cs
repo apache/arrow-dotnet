@@ -53,6 +53,28 @@ namespace Apache.Arrow.Operations.Shredding
             return BuildSchema(stats, totalCount, options, 0);
         }
 
+        /// <summary>
+        /// Infers a shredding schema by analyzing the given nullable values.
+        /// <c>null</c> entries are SQL-NULL rows and are ignored; they carry no type
+        /// information and do not count toward frequency thresholds.
+        /// </summary>
+        /// <param name="values">The variant values to analyze.</param>
+        /// <param name="options">Options controlling depth, frequency, and type consistency thresholds.</param>
+        /// <returns>An inferred <see cref="ShredSchema"/>.</returns>
+        public ShredSchema Infer(IEnumerable<VariantValue?> values, ShredOptions options = null)
+        {
+            if (values == null) throw new ArgumentNullException(nameof(values));
+            return Infer(NonNull(values), options);
+        }
+
+        private static IEnumerable<VariantValue> NonNull(IEnumerable<VariantValue?> values)
+        {
+            foreach (VariantValue? value in values)
+            {
+                if (value.HasValue) yield return value.Value;
+            }
+        }
+
         private void CollectStats(VariantValue value, TypeStats stats, int depth, int maxDepth)
         {
             ShredType type = VariantShredder.GetShredType(value);
