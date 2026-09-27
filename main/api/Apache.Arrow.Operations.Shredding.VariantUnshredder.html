@@ -160,7 +160,7 @@ bytes are interpreted against the column-level variant metadata supplied to
 
   <h3 id="Apache_Arrow_Operations_Shredding_VariantUnshredder_Reconstruct_Apache_Arrow_Operations_Shredding_ShredResult_Apache_Arrow_Operations_Shredding_ShredSchema_System_ReadOnlySpan_System_Byte__" data-uid="Apache.Arrow.Operations.Shredding.VariantUnshredder.Reconstruct(Apache.Arrow.Operations.Shredding.ShredResult,Apache.Arrow.Operations.Shredding.ShredSchema,System.ReadOnlySpan{System.Byte})">
   Reconstruct(ShredResult, ShredSchema, ReadOnlySpan&lt;byte&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/VariantUnshredder.cs/#L40"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/VariantUnshredder.cs/#L43"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Reconstructs a variant value from a shredded result.</p>
@@ -174,7 +174,8 @@ bytes are interpreted against the column-level variant metadata supplied to
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
     <dt><code>shredded</code> <a class="xref" href="Apache.Arrow.Operations.Shredding.ShredResult.html">ShredResult</a></dt>
-    <dd><p>The shredded (value, typed_value) pair.</p>
+    <dd><p>The shredded (value, typed_value) pair, or null for a SQL-NULL row as produced by
+<a class="xref" href="Apache.Arrow.Operations.Shredding.VariantShredder.html#Apache_Arrow_Operations_Shredding_VariantShredder_Shred_System_Collections_Generic_IEnumerable_System_Nullable_Apache_Arrow_Scalars_Variant_VariantValue___Apache_Arrow_Operations_Shredding_ShredSchema_">Shred(IEnumerable&lt;VariantValue?&gt;, ShredSchema)</a>.</p>
 </dd>
     <dt><code>schema</code> <a class="xref" href="Apache.Arrow.Operations.Shredding.ShredSchema.html">ShredSchema</a></dt>
     <dd><p>The shredding schema that was used to produce the result.</p>
@@ -187,8 +188,8 @@ bytes are interpreted against the column-level variant metadata supplied to
   <h4 class="section">Returns</h4>
   <dl class="parameters">
     <dt><a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValue.html">VariantValue</a>?</dt>
-    <dd><p>The reconstructed <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValue.html">VariantValue</a>, or null if the field is missing
-(both value and typed_value are null).</p>
+    <dd><p>The reconstructed <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValue.html">VariantValue</a>, or null if <code class="paramref">shredded</code>
+is null (a SQL-NULL row) or the field is missing (both value and typed_value are null).</p>
 </dd>
   </dl>
 

@@ -18386,6 +18386,15 @@ references:
   fullName.vb: Apache.Arrow.Operations.Shredding.ShredSchemaInferer.Infer(System.Collections.Generic.IEnumerable(Of Apache.Arrow.Scalars.Variant.VariantValue), Apache.Arrow.Operations.Shredding.ShredOptions)
   nameWithType: ShredSchemaInferer.Infer(IEnumerable<VariantValue>, ShredOptions)
   nameWithType.vb: ShredSchemaInferer.Infer(IEnumerable(Of VariantValue), ShredOptions)
+- uid: Apache.Arrow.Operations.Shredding.ShredSchemaInferer.Infer(System.Collections.Generic.IEnumerable{System.Nullable{Apache.Arrow.Scalars.Variant.VariantValue}},Apache.Arrow.Operations.Shredding.ShredOptions)
+  name: Infer(IEnumerable<VariantValue?>, ShredOptions)
+  href: api/Apache.Arrow.Operations.Shredding.ShredSchemaInferer.html#Apache_Arrow_Operations_Shredding_ShredSchemaInferer_Infer_System_Collections_Generic_IEnumerable_System_Nullable_Apache_Arrow_Scalars_Variant_VariantValue___Apache_Arrow_Operations_Shredding_ShredOptions_
+  commentId: M:Apache.Arrow.Operations.Shredding.ShredSchemaInferer.Infer(System.Collections.Generic.IEnumerable{System.Nullable{Apache.Arrow.Scalars.Variant.VariantValue}},Apache.Arrow.Operations.Shredding.ShredOptions)
+  name.vb: Infer(IEnumerable(Of VariantValue?), ShredOptions)
+  fullName: Apache.Arrow.Operations.Shredding.ShredSchemaInferer.Infer(System.Collections.Generic.IEnumerable<Apache.Arrow.Scalars.Variant.VariantValue?>, Apache.Arrow.Operations.Shredding.ShredOptions)
+  fullName.vb: Apache.Arrow.Operations.Shredding.ShredSchemaInferer.Infer(System.Collections.Generic.IEnumerable(Of Apache.Arrow.Scalars.Variant.VariantValue?), Apache.Arrow.Operations.Shredding.ShredOptions)
+  nameWithType: ShredSchemaInferer.Infer(IEnumerable<VariantValue?>, ShredOptions)
+  nameWithType.vb: ShredSchemaInferer.Infer(IEnumerable(Of VariantValue?), ShredOptions)
 - uid: Apache.Arrow.Operations.Shredding.ShredSchemaInferer.Infer*
   name: Infer
   href: api/Apache.Arrow.Operations.Shredding.ShredSchemaInferer.html#Apache_Arrow_Operations_Shredding_ShredSchemaInferer_Infer_
@@ -19158,6 +19167,15 @@ references:
   fullName.vb: Apache.Arrow.Operations.Shredding.VariantShredder.Shred(System.Collections.Generic.IEnumerable(Of Apache.Arrow.Scalars.Variant.VariantValue), Apache.Arrow.Operations.Shredding.ShredSchema)
   nameWithType: VariantShredder.Shred(IEnumerable<VariantValue>, ShredSchema)
   nameWithType.vb: VariantShredder.Shred(IEnumerable(Of VariantValue), ShredSchema)
+- uid: Apache.Arrow.Operations.Shredding.VariantShredder.Shred(System.Collections.Generic.IEnumerable{System.Nullable{Apache.Arrow.Scalars.Variant.VariantValue}},Apache.Arrow.Operations.Shredding.ShredSchema)
+  name: Shred(IEnumerable<VariantValue?>, ShredSchema)
+  href: api/Apache.Arrow.Operations.Shredding.VariantShredder.html#Apache_Arrow_Operations_Shredding_VariantShredder_Shred_System_Collections_Generic_IEnumerable_System_Nullable_Apache_Arrow_Scalars_Variant_VariantValue___Apache_Arrow_Operations_Shredding_ShredSchema_
+  commentId: M:Apache.Arrow.Operations.Shredding.VariantShredder.Shred(System.Collections.Generic.IEnumerable{System.Nullable{Apache.Arrow.Scalars.Variant.VariantValue}},Apache.Arrow.Operations.Shredding.ShredSchema)
+  name.vb: Shred(IEnumerable(Of VariantValue?), ShredSchema)
+  fullName: Apache.Arrow.Operations.Shredding.VariantShredder.Shred(System.Collections.Generic.IEnumerable<Apache.Arrow.Scalars.Variant.VariantValue?>, Apache.Arrow.Operations.Shredding.ShredSchema)
+  fullName.vb: Apache.Arrow.Operations.Shredding.VariantShredder.Shred(System.Collections.Generic.IEnumerable(Of Apache.Arrow.Scalars.Variant.VariantValue?), Apache.Arrow.Operations.Shredding.ShredSchema)
+  nameWithType: VariantShredder.Shred(IEnumerable<VariantValue?>, ShredSchema)
+  nameWithType.vb: VariantShredder.Shred(IEnumerable(Of VariantValue?), ShredSchema)
 - uid: Apache.Arrow.Operations.Shredding.VariantShredder.Shred*
   name: Shred
   href: api/Apache.Arrow.Operations.Shredding.VariantShredder.html#Apache_Arrow_Operations_Shredding_VariantShredder_Shred_

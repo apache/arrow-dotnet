@@ -193,6 +193,50 @@ Class ShredSchemaInferer  <a class="header-action link-secondary" title="View so
 
 
 
+  <a id="Apache_Arrow_Operations_Shredding_ShredSchemaInferer_Infer_" data-uid="Apache.Arrow.Operations.Shredding.ShredSchemaInferer.Infer*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_ShredSchemaInferer_Infer_System_Collections_Generic_IEnumerable_System_Nullable_Apache_Arrow_Scalars_Variant_VariantValue___Apache_Arrow_Operations_Shredding_ShredOptions_" data-uid="Apache.Arrow.Operations.Shredding.ShredSchemaInferer.Infer(System.Collections.Generic.IEnumerable{System.Nullable{Apache.Arrow.Scalars.Variant.VariantValue}},Apache.Arrow.Operations.Shredding.ShredOptions)">
+  Infer(IEnumerable&lt;VariantValue?&gt;, ShredOptions)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShredSchemaInferer.cs/#L64"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Infers a shredding schema by analyzing the given nullable values.
+<code>null</code> entries are SQL-NULL rows and are ignored; they carry no type
+information and do not count toward frequency thresholds.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ShredSchema Infer(IEnumerable&lt;VariantValue?&gt; values, ShredOptions options = null)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>values</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValue.html">VariantValue</a>?&gt;</dt>
+    <dd><p>The variant values to analyze.</p>
+</dd>
+    <dt><code>options</code> <a class="xref" href="Apache.Arrow.Operations.Shredding.ShredOptions.html">ShredOptions</a></dt>
+    <dd><p>Options controlling depth, frequency, and type consistency thresholds.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Operations.Shredding.ShredSchema.html">ShredSchema</a></dt>
+    <dd><p>An inferred <a class="xref" href="Apache.Arrow.Operations.Shredding.ShredSchema.html">ShredSchema</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
 
 </article>
 

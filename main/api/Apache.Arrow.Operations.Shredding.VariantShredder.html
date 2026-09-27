@@ -164,7 +164,7 @@ reference it — ready to drop into a Parquet <code>value</code> column.
 
   <h3 id="Apache_Arrow_Operations_Shredding_VariantShredder_Shred_Apache_Arrow_Scalars_Variant_VariantValue_Apache_Arrow_Operations_Shredding_ShredSchema_Apache_Arrow_Scalars_Variant_VariantMetadataBuilder_System_Int32___" data-uid="Apache.Arrow.Operations.Shredding.VariantShredder.Shred(Apache.Arrow.Scalars.Variant.VariantValue,Apache.Arrow.Operations.Shredding.ShredSchema,Apache.Arrow.Scalars.Variant.VariantMetadataBuilder,System.Int32[])">
   Shred(VariantValue, ShredSchema, VariantMetadataBuilder, int[])
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/VariantShredder.cs/#L76"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/VariantShredder.cs/#L109"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Shreds a single variant value against a caller-managed metadata dictionary.
@@ -227,6 +227,49 @@ bytes for each row reference the returned metadata.</p>
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
     <dt><code>values</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValue.html">VariantValue</a>&gt;</dt>
+    <dd></dd>
+    <dt><code>schema</code> <a class="xref" href="Apache.Arrow.Operations.Shredding.ShredSchema.html">ShredSchema</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt>(<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[] <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetuple-system.byte[],system.collections.generic.ireadonlylist-apache.arrow.operations.shredding.shredresult--.metadata">Metadata</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="Apache.Arrow.Operations.Shredding.ShredResult.html">ShredResult</a>&gt; <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetuple-system.byte[],system.collections.generic.ireadonlylist-apache.arrow.operations.shredding.shredresult--.rows">Rows</a>)</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Apache_Arrow_Operations_Shredding_VariantShredder_Shred_" data-uid="Apache.Arrow.Operations.Shredding.VariantShredder.Shred*"></a>
+
+  <h3 id="Apache_Arrow_Operations_Shredding_VariantShredder_Shred_System_Collections_Generic_IEnumerable_System_Nullable_Apache_Arrow_Scalars_Variant_VariantValue___Apache_Arrow_Operations_Shredding_ShredSchema_" data-uid="Apache.Arrow.Operations.Shredding.VariantShredder.Shred(System.Collections.Generic.IEnumerable{System.Nullable{Apache.Arrow.Scalars.Variant.VariantValue}},Apache.Arrow.Operations.Shredding.ShredSchema)">
+  Shred(IEnumerable&lt;VariantValue?&gt;, ShredSchema)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/VariantShredder.cs/#L76"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Shreds a column of nullable variant values. A <code>null</code> entry is a
+SQL-NULL row, as opposed to <a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValue.html#Apache_Arrow_Scalars_Variant_VariantValue_Null">Null</a>, which is a
+present variant null. SQL-NULL rows produce a <code>null</code> entry in the
+returned rows, which <a class="xref" href="Apache.Arrow.Operations.Shredding.ShreddedVariantArrayBuilder.html#Apache_Arrow_Operations_Shredding_ShreddedVariantArrayBuilder_Build_Apache_Arrow_Operations_Shredding_ShredSchema_System_Byte___System_Collections_Generic_IReadOnlyList_Apache_Arrow_Operations_Shredding_ShredResult__Apache_Arrow_Memory_MemoryAllocator_">Build(ShredSchema, byte[], IReadOnlyList&lt;ShredResult&gt;, MemoryAllocator)</a> turns
+into a null element of the resulting array.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static (byte[] Metadata, IReadOnlyList&lt;ShredResult&gt; Rows) Shred(IEnumerable&lt;VariantValue?&gt; values, ShredSchema schema)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>values</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Apache.Arrow.Scalars.Variant.VariantValue.html">VariantValue</a>?&gt;</dt>
     <dd></dd>
     <dt><code>schema</code> <a class="xref" href="Apache.Arrow.Operations.Shredding.ShredSchema.html">ShredSchema</a></dt>
     <dd></dd>

@@ -159,7 +159,7 @@ and the <code>typed_value</code> tree whose Arrow shape matches the <a class="xr
 
   <h3 id="Apache_Arrow_Operations_Shredding_ShreddedVariantArrayBuilder_Build_Apache_Arrow_Operations_Shredding_ShredSchema_System_Byte___System_Collections_Generic_IReadOnlyList_Apache_Arrow_Operations_Shredding_ShredResult__Apache_Arrow_Memory_MemoryAllocator_" data-uid="Apache.Arrow.Operations.Shredding.ShreddedVariantArrayBuilder.Build(Apache.Arrow.Operations.Shredding.ShredSchema,System.Byte[],System.Collections.Generic.IReadOnlyList{Apache.Arrow.Operations.Shredding.ShredResult},Apache.Arrow.Memory.MemoryAllocator)">
   Build(ShredSchema, byte[], IReadOnlyList&lt;ShredResult&gt;, MemoryAllocator)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariantArrayBuilder.cs/#L41"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow.Operations/Shredding/ShreddedVariantArrayBuilder.cs/#L44"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Builds a shredded <a class="xref" href="Apache.Arrow.VariantArray.html">VariantArray</a> from the output of
@@ -180,7 +180,8 @@ and the <code>typed_value</code> tree whose Arrow shape matches the <a class="xr
     <dd><p>The column-level variant metadata (shared across rows).</p>
 </dd>
     <dt><code>rows</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="Apache.Arrow.Operations.Shredding.ShredResult.html">ShredResult</a>&gt;</dt>
-    <dd><p>Per-row shred results whose residual bytes reference <code class="paramref">metadata</code>.</p>
+    <dd><p>Per-row shred results whose residual bytes reference <code class="paramref">metadata</code>.
+A <code>null</code> entry produces a null (SQL-NULL) element in the resulting array.</p>
 </dd>
     <dt><code>allocator</code> <a class="xref" href="Apache.Arrow.Memory.MemoryAllocator.html">MemoryAllocator</a></dt>
     <dd><p>Arrow memory allocator, or default if null.</p>
