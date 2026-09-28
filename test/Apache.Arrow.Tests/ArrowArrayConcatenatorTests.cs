@@ -1328,6 +1328,202 @@ namespace Apache.Arrow.Tests
             Assert.Contains("list size", ex.Message, StringComparison.OrdinalIgnoreCase);
         }
 
+        [Fact]
+        public void TestNullArrays()
+        {
+            var result = ArrowArrayConcatenator.Concatenate(new IArrowArray[] { new NullArray(3), new NullArray(0), new NullArray(2) });
+
+            var nullArray = Assert.IsType<NullArray>(result);
+            Assert.Equal(5, nullArray.Length);
+            Assert.Equal(5, nullArray.NullCount);
+        }
+
+        [Fact]
+        public void TestStructWithNullField()
+        {
+            var type = new StructType(new[] { new Field("n", NullType.Default, true) });
+            StructArray Build(int length) => new StructArray(type, length, new IArrowArray[] { new NullArray(length) }, ArrowBuffer.Empty, 0);
+
+            var result = (StructArray)ArrowArrayConcatenator.Concatenate(new IArrowArray[] { Build(3), Build(2) });
+
+            Assert.Equal(5, result.Length);
+            var field = Assert.IsType<NullArray>(result.Fields[0]);
+            Assert.Equal(5, field.Length);
+        }
+
+        [Fact]
+        public void TestDictionaryArraysWithSharedDictionary()
+        {
+            var dictionary = new StringArray.Builder().AppendRange(new[] { "a", "b" }).Build();
+            var first = BuildDictionaryArray(dictionary, 0, 1);
+            var second = BuildDictionaryArray(dictionary, 1, 0);
+
+            var result = (DictionaryArray)ArrowArrayConcatenator.Concatenate(new IArrowArray[] { first, second });
+            first.Dispose();
+            second.Dispose();
+
+            Assert.Equal(2, result.Dictionary.Length);
+            Assert.Equal(new[] { "a", "b", "b", "a" }, DictionaryStrings(result));
+            result.Dispose();
+        }
+
+        [Fact]
+        public void TestDictionaryArraysWithDifferentDictionaries()
+        {
+            var first = BuildDictionaryArray(new StringArray.Builder().AppendRange(new[] { "a", "b" }).Build(), 0, 1, null);
+            var second = BuildDictionaryArray(new StringArray.Builder().AppendRange(new[] { "x", "y", "z" }).Build(), 2, null, 0);
+            var third = BuildDictionaryArray(new StringArray.Builder().AppendRange(new[] { "q" }).Build(), 0);
+
+            var result = (DictionaryArray)ArrowArrayConcatenator.Concatenate(new IArrowArray[] { first, second, third });
+            first.Dispose();
+            second.Dispose();
+            third.Dispose();
+
+            Assert.Equal(6, result.Dictionary.Length);
+            Assert.Equal(2, result.NullCount);
+            Assert.Equal(new[] { "a", "b", null, "z", null, "x", "q" }, DictionaryStrings(result));
+            result.Dispose();
+        }
+
+        [Fact]
+        public void TestSlicedDictionaryArrays()
+        {
+            var first = BuildDictionaryArray(new StringArray.Builder().AppendRange(new[] { "a", "b", "c" }).Build(), 0, 1, 2, 0);
+            var second = BuildDictionaryArray(new StringArray.Builder().AppendRange(new[] { "x", "y" }).Build(), 1, 0, 1);
+
+            var result = (DictionaryArray)ArrowArrayConcatenator.Concatenate(new IArrowArray[]
+            {
+                ArrowArrayFactory.Slice(first, 1, 2),
+                ArrowArrayFactory.Slice(second, 1, 2),
+            });
+
+            Assert.Equal(new[] { "b", "c", "x", "y" }, DictionaryStrings(result));
+        }
+
+        [Fact]
+        public void TestDictionaryArraysSkipEmptyInputDictionaries()
+        {
+            var dictionary = new StringArray.Builder().AppendRange(new[] { "a", "b" }).Build();
+            var empty = BuildDictionaryArray(new StringArray.Builder().AppendRange(new[] { "x" }).Build());
+
+            var result = (DictionaryArray)ArrowArrayConcatenator.Concatenate(new IArrowArray[]
+            {
+                BuildDictionaryArray(dictionary, 1), empty, BuildDictionaryArray(dictionary, 0),
+            });
+
+            Assert.Equal(2, result.Dictionary.Length);
+            Assert.Equal(new[] { "b", "a" }, DictionaryStrings(result));
+        }
+
+        [Fact]
+        public void TestDictionaryArraysIndexOverflowThrows()
+        {
+            var type = new DictionaryType(Int8Type.Default, Int32Type.Default, false);
+            DictionaryArray Build(int dictionaryLength) => new DictionaryArray(
+                type,
+                new Int8Array.Builder().Append(0).Build(),
+                new Int32Array.Builder().AppendRange(Enumerable.Range(0, dictionaryLength)).Build());
+
+            Assert.Throws<OverflowException>(() =>
+                ArrowArrayConcatenator.Concatenate(new IArrowArray[] { Build(100), Build(29) }));
+
+            var result = (DictionaryArray)ArrowArrayConcatenator.Concatenate(new IArrowArray[] { Build(100), Build(28) });
+            Assert.Equal(128, result.Dictionary.Length);
+            Assert.Equal((sbyte)100, ((Int8Array)result.Indices).GetValue(1));
+        }
+
+        [Fact]
+        public void TestDictionaryArraysSharingMemoryKeepDictionary()
+        {
+            var dictionary = new StringArray.Builder().AppendRange(new[] { "a", "b" }).Build();
+            var first = BuildDictionaryArray(dictionary, 0, 1);
+            // A distinct ArrayData over the same memory, as after Retain.
+            var second = BuildDictionaryArray(new StringArray(dictionary.Data.Retain()), 1, 0);
+            Assert.NotSame(first.Data.Dictionary, second.Data.Dictionary);
+
+            var result = (DictionaryArray)ArrowArrayConcatenator.Concatenate(new IArrowArray[] { first, second });
+            first.Dispose();
+            second.Dispose();
+
+            Assert.Equal(2, result.Dictionary.Length);
+            Assert.Equal(new[] { "a", "b", "b", "a" }, DictionaryStrings(result));
+            result.Dispose();
+        }
+
+        [Fact]
+        public void TestCombinedDictionariesAreNotOrdered()
+        {
+            var first = BuildDictionaryArray(new StringArray.Builder().AppendRange(new[] { "a", "b" }).Build(), ordered: true, 0, 1);
+            var second = BuildDictionaryArray(new StringArray.Builder().AppendRange(new[] { "c", "d" }).Build(), ordered: true, 1, 0);
+
+            var result = (DictionaryArray)ArrowArrayConcatenator.Concatenate(new IArrowArray[] { first, second });
+
+            Assert.False(((DictionaryType)result.Data.DataType).Ordered);
+            Assert.Equal(new[] { "a", "b", "d", "c" }, DictionaryStrings(result));
+        }
+
+        [Theory]
+        [InlineData(true, true, true)]
+        [InlineData(true, false, false)]
+        [InlineData(false, true, false)]
+        [InlineData(false, false, false)]
+        public void TestSharedDictionaryOrderedOnlyIfAllInputsOrdered(bool firstOrdered, bool secondOrdered, bool expected)
+        {
+            var dictionary = new StringArray.Builder().AppendRange(new[] { "a", "b" }).Build();
+            var first = BuildDictionaryArray(dictionary, firstOrdered, 0, 1);
+            var second = BuildDictionaryArray(dictionary, secondOrdered, 1, 0);
+
+            var result = (DictionaryArray)ArrowArrayConcatenator.Concatenate(new IArrowArray[] { first, second });
+
+            Assert.Equal(2, result.Dictionary.Length);
+            Assert.Equal(expected, ((DictionaryType)result.Data.DataType).Ordered);
+        }
+
+        [Fact]
+        public void TestArrayDataConcatenatorKeepsDictionary()
+        {
+            var dictionary = new StringArray.Builder().AppendRange(new[] { "a", "b" }).Build();
+
+            var data = ArrayDataConcatenator.Concatenate(new[]
+            {
+                BuildDictionaryArray(dictionary, 0, 1).Data,
+                BuildDictionaryArray(dictionary, 1, 0).Data,
+            });
+
+            Assert.Equal(4, data.Length);
+            Assert.NotNull(data.Dictionary);
+        }
+
+        private static DictionaryArray BuildDictionaryArray(StringArray dictionary, params int?[] indices) =>
+            BuildDictionaryArray(dictionary, false, indices);
+
+        private static DictionaryArray BuildDictionaryArray(StringArray dictionary, bool ordered, params int?[] indices)
+        {
+            var builder = new Int32Array.Builder();
+            foreach (int? index in indices)
+            {
+                builder.Append(index);
+            }
+
+            return new DictionaryArray(
+                new DictionaryType(Int32Type.Default, StringType.Default, ordered),
+                builder.Build(),
+                dictionary);
+        }
+
+        private static string[] DictionaryStrings(DictionaryArray array)
+        {
+            var indices = (Int32Array)array.Indices;
+            var dictionary = (StringArray)array.Dictionary;
+            var values = new string[array.Length];
+            for (int i = 0; i < array.Length; i++)
+            {
+                int? index = indices.GetValue(i);
+                values[i] = index.HasValue ? dictionary.GetString(index.Value) : null;
+            }
+            return values;
+        }
+
         private static FixedSizeListArray BuildFixedSizeListArray(int listSize, int[] flatValues)
         {
             var type = new FixedSizeListType(Int32Type.Default, listSize);
