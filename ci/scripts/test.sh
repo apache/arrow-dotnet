@@ -30,7 +30,7 @@ if [ -z "${PYTHON:-}" ]; then
   fi
 fi
 if [ "$(uname)" = "Linux" ]; then
-  ${PYTHON} -m venv create arrow-dotnet-dev
+  ${PYTHON} -m venv arrow-dotnet-dev
   # shellcheck source=/dev/null
   . arrow-dotnet-dev/bin/activate
   python3 -m pip install pyarrow find-libpython
