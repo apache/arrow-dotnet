@@ -4,8 +4,6 @@
   <PropertyGroup>
     <IsWindows Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">true</IsWindows>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <!-- Required for PythonNET -->
-    <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(IsWindows)'=='true'">

@@ -41,6 +41,10 @@ namespace Apache.Arrow.Tests
                 return;
             }
 
+            // Disable stashing the Python.NET runtime on shutdown.
+            // This is only required if we reload the runtime in the same process.
+            RuntimeData.FormatterType = typeof(NoopFormatter);
+
             try
             {
                 PythonEngine.Initialize();
