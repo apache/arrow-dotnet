@@ -72,6 +72,8 @@ namespace Apache.Arrow
         private class ArrayDataConcatenationVisitor :
             IArrowTypeVisitor<BooleanType>,
             IArrowTypeVisitor<FixedWidthType>,
+            IArrowTypeVisitor<NullType>,
+            IArrowTypeVisitor<DictionaryType>,
             IArrowTypeVisitor<BinaryType>,
             IArrowTypeVisitor<BinaryViewType>,
             IArrowTypeVisitor<StringType>,
@@ -123,6 +125,223 @@ namespace Apache.Arrow
                 ArrowBuffer valueBuffer = ConcatenateFixedWidthTypeValueBuffer(1, resolvedType);
 
                 Result = new ArrayData(resolvedType, _totalLength, _totalNullCount, 0, new ArrowBuffer[] { validityBuffer, valueBuffer });
+            }
+
+            public void Visit(NullType type)
+            {
+                foreach (ArrayData arrayData in _arrayDataList)
+                {
+                    arrayData.EnsureDataType(type.TypeId);
+                }
+
+                // A null array has no buffers; every slot is null.
+                Result = new ArrayData(type, _totalLength, _totalLength, 0, System.Array.Empty<ArrowBuffer>());
+            }
+
+            public void Visit(DictionaryType type)
+            {
+                CheckData(type, 2);
+                var indexType = (IntegerType)type.IndexType;
+
+                // Inputs with no rows don't contribute any dictionary entries.
+                var contributing = new List<ArrayData>(_arrayDataList.Count);
+                bool allOrdered = true;
+                foreach (ArrayData arrayData in _arrayDataList)
+                {
+                    var otherType = (DictionaryType)arrayData.DataType;
+                    allOrdered &= otherType.Ordered;
+                    if (otherType.IndexType.TypeId != indexType.TypeId)
+                    {
+                        throw new ArgumentException(
+                            $"Cannot concatenate dictionary arrays with different index types: {indexType.Name} vs {otherType.IndexType.Name}");
+                    }
+                    if (otherType.ValueType.TypeId != type.ValueType.TypeId)
+                    {
+                        throw new ArgumentException(
+                            $"Cannot concatenate dictionary arrays with different value types: {type.ValueType.Name} vs {otherType.ValueType.Name}");
+                    }
+                    if (arrayData.Dictionary == null)
+                    {
+                        throw new ArgumentException("Cannot concatenate a dictionary array that has no dictionary.");
+                    }
+
+                    if (arrayData.Length > 0)
+                    {
+                        contributing.Add(arrayData);
+                    }
+                }
+
+                ArrayData firstDictionary = (contributing.Count > 0 ? contributing[0] : _arrayDataList[0]).Dictionary;
+                bool sharedDictionary = true;
+                foreach (ArrayData arrayData in contributing)
+                {
+                    if (!SharesContents(firstDictionary, arrayData.Dictionary))
+                    {
+                        sharedDictionary = false;
+                        break;
+                    }
+                }
+
+                if (sharedDictionary)
+                {
+                    // The result reuses a dictionary every input describes, so it is ordered
+                    // only if every input says that dictionary is ordered.
+                    DictionaryType sharedType = type.Ordered == allOrdered
+                        ? type
+                        : new DictionaryType(type.IndexType, type.ValueType, allOrdered);
+                    ArrowBuffer sharedValidityBuffer = ConcatenateValidityBuffer();
+                    ArrowBuffer indexBuffer = ConcatenateFixedWidthTypeValueBuffer(1, type);
+                    Result = new ArrayData(sharedType, _totalLength, _totalNullCount, 0, new ArrowBuffer[] { sharedValidityBuffer, indexBuffer }, null, firstDictionary.Retain());
+                    return;
+                }
+
+                // Append the dictionaries end to end and shift each input's indices past the
+                // entries of the dictionaries before it. Nothing shows that the appended entries
+                // are in order, so the result is never ordered.
+                var dictionaries = new List<ArrayData>(contributing.Count);
+                long dictionaryLength = 0;
+                foreach (ArrayData arrayData in contributing)
+                {
+                    dictionaries.Add(arrayData.Dictionary);
+                    dictionaryLength += arrayData.Dictionary.Length;
+                }
+
+                if (dictionaryLength - 1 > MaxIndexValue(indexType))
+                {
+                    throw new OverflowException(
+                        $"Cannot concatenate dictionary arrays: the combined dictionary has {dictionaryLength} entries, which is more than index type {indexType.Name} can address.");
+                }
+
+                // Concatenate the dictionaries first: it can throw, and nothing else has been allocated yet.
+                ArrayData combinedDictionary = Concatenate(dictionaries, _allocator);
+                ArrowBuffer validityBuffer = ArrowBuffer.Empty;
+                ArrowBuffer shiftedIndexBuffer;
+                try
+                {
+                    validityBuffer = ConcatenateValidityBuffer();
+                    shiftedIndexBuffer = ConcatenateShiftedIndexBuffer(indexType);
+                }
+                catch
+                {
+                    validityBuffer.Dispose();
+                    combinedDictionary.Dispose();
+                    throw;
+                }
+
+                var combinedType = type.Ordered
+                    ? new DictionaryType(type.IndexType, type.ValueType, false)
+                    : type;
+                Result = new ArrayData(combinedType, _totalLength, _totalNullCount, 0, new ArrowBuffer[] { validityBuffer, shiftedIndexBuffer }, null, combinedDictionary);
+            }
+
+            private static bool SharesContents(ArrayData left, ArrayData right)
+            {
+                if (ReferenceEquals(left, right))
+                {
+                    return true;
+                }
+
+                // Distinct ArrayData objects can still view the same memory, e.g. after Retain or SliceShared.
+                if (left == null || right == null ||
+                    left.DataType.TypeId != right.DataType.TypeId ||
+                    left.Length != right.Length ||
+                    left.Offset != right.Offset ||
+                    left.Buffers.Length != right.Buffers.Length ||
+                    (left.Children?.Length ?? 0) != (right.Children?.Length ?? 0))
+                {
+                    return false;
+                }
+
+                for (int i = 0; i < left.Buffers.Length; i++)
+                {
+                    if (left.Buffers[i].Span != right.Buffers[i].Span)
+                    {
+                        return false;
+                    }
+                }
+
+                for (int i = 0; i < (left.Children?.Length ?? 0); i++)
+                {
+                    if (!SharesContents(left.Children[i], right.Children[i]))
+                    {
+                        return false;
+                    }
+                }
+
+                return left.Dictionary == null && right.Dictionary == null ||
+                    SharesContents(left.Dictionary, right.Dictionary);
+            }
+
+            private static long MaxIndexValue(IntegerType indexType) => indexType.TypeId switch
+            {
+                ArrowTypeId.Int8 => sbyte.MaxValue,
+                ArrowTypeId.UInt8 => byte.MaxValue,
+                ArrowTypeId.Int16 => short.MaxValue,
+                ArrowTypeId.UInt16 => ushort.MaxValue,
+                ArrowTypeId.Int32 => int.MaxValue,
+                ArrowTypeId.UInt32 => uint.MaxValue,
+                _ => long.MaxValue,
+            };
+
+            private ArrowBuffer ConcatenateShiftedIndexBuffer(IntegerType indexType)
+            {
+                int byteWidth = indexType.BitWidth / 8;
+                var builder = new ArrowBuffer.Builder<byte>(_totalLength * byteWidth);
+                builder.Resize(_totalLength * byteWidth);
+                Span<byte> destination = builder.Span;
+                int position = 0;
+                long shift = 0;
+
+                foreach (ArrayData arrayData in _arrayDataList)
+                {
+                    if (arrayData.Length == 0)
+                    {
+                        continue;
+                    }
+
+                    ReadOnlySpan<byte> validity = arrayData.Buffers[0].Span;
+                    bool allNull = validity.Length == 0 && arrayData.GetNullCount() == arrayData.Length;
+                    ReadOnlySpan<byte> source = arrayData.Buffers[1].Span.Slice(arrayData.Offset * byteWidth, arrayData.Length * byteWidth);
+
+                    for (int i = 0; i < arrayData.Length; i++)
+                    {
+                        bool isValid = validity.Length == 0 ? !allNull : BitUtility.GetBit(validity, arrayData.Offset + i);
+                        // A null slot's index is unspecified and may not be in range, so write 0 instead of shifting it.
+                        long index = isValid ? ReadIndex(source, indexType.TypeId, i) + shift : 0;
+                        WriteIndex(destination, indexType.TypeId, position++, index);
+                    }
+
+                    shift += arrayData.Dictionary.Length;
+                }
+
+                return builder.Build(_allocator);
+            }
+
+            private static long ReadIndex(ReadOnlySpan<byte> source, ArrowTypeId typeId, int i) => typeId switch
+            {
+                ArrowTypeId.Int8 => source.CastTo<sbyte>()[i],
+                ArrowTypeId.UInt8 => source[i],
+                ArrowTypeId.Int16 => source.CastTo<short>()[i],
+                ArrowTypeId.UInt16 => source.CastTo<ushort>()[i],
+                ArrowTypeId.Int32 => source.CastTo<int>()[i],
+                ArrowTypeId.UInt32 => source.CastTo<uint>()[i],
+                ArrowTypeId.Int64 => source.CastTo<long>()[i],
+                _ => checked((long)source.CastTo<ulong>()[i]),
+            };
+
+            private static void WriteIndex(Span<byte> destination, ArrowTypeId typeId, int i, long value)
+            {
+                switch (typeId)
+                {
+                    case ArrowTypeId.Int8: destination.CastTo<sbyte>()[i] = (sbyte)value; break;
+                    case ArrowTypeId.UInt8: destination[i] = (byte)value; break;
+                    case ArrowTypeId.Int16: destination.CastTo<short>()[i] = (short)value; break;
+                    case ArrowTypeId.UInt16: destination.CastTo<ushort>()[i] = (ushort)value; break;
+                    case ArrowTypeId.Int32: destination.CastTo<int>()[i] = (int)value; break;
+                    case ArrowTypeId.UInt32: destination.CastTo<uint>()[i] = (uint)value; break;
+                    case ArrowTypeId.Int64: destination.CastTo<long>()[i] = value; break;
+                    default: destination.CastTo<ulong>()[i] = (ulong)value; break;
+                }
             }
 
             public void Visit(BinaryType type) => ConcatenateVariableBinaryArrayData(type);
