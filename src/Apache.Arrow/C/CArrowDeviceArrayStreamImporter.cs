@@ -37,6 +37,25 @@ namespace Apache.Arrow.C
         /// <returns>The imported C# array stream</returns>
         public static unsafe IArrowArrayStream ImportDeviceArrayStream(CArrowDeviceArrayStream* ptr)
         {
+            return ImportDeviceArrayStream(ptr, null);
+        }
+
+        /// <summary>
+        /// Import C pointer as an <see cref="IArrowArrayStream"/>, resolving extension types
+        /// from the given registry.
+        /// </summary>
+        /// <remarks>
+        /// Fields whose extension type is found in <paramref name="extensionRegistry"/> are
+        /// imported with that type, and their columns are returned as extension arrays.
+        /// This will call the release callback on the passed struct if the function fails.
+        /// Otherwise, the release callback is called when the IArrowArrayStream is disposed.
+        /// Only CPU device streams are supported.
+        /// </remarks>
+        /// <param name="ptr">The pointer to the device array stream being imported</param>
+        /// <param name="extensionRegistry">The registry used to resolve extension types</param>
+        /// <returns>The imported C# array stream</returns>
+        public static unsafe IArrowArrayStream ImportDeviceArrayStream(CArrowDeviceArrayStream* ptr, ExtensionTypeRegistry extensionRegistry)
+        {
             if (ptr == null)
             {
                 throw new ArgumentNullException(nameof(ptr));
@@ -47,7 +66,7 @@ namespace Apache.Arrow.C
                     $"Importing device array streams from device type {ptr->device_type} is not supported. Only CPU streams can be imported.");
             }
 
-            return new ImportedArrowDeviceArrayStream(ptr);
+            return new ImportedArrowDeviceArrayStream(ptr, extensionRegistry);
         }
 
         private sealed unsafe class ImportedArrowDeviceArrayStream : IArrowArrayStream
@@ -77,7 +96,7 @@ namespace Apache.Arrow.C
                 return StringUtil.PtrToStringUtf8(error);
             }
 
-            public ImportedArrowDeviceArrayStream(CArrowDeviceArrayStream* cDeviceArrayStream)
+            public ImportedArrowDeviceArrayStream(CArrowDeviceArrayStream* cDeviceArrayStream, ExtensionTypeRegistry extensionRegistry)
             {
                 if (cDeviceArrayStream == null)
                 {
@@ -102,7 +121,7 @@ namespace Apache.Arrow.C
                 {
                     throw new Exception(GetLastError(cDeviceArrayStream, errno));
                 }
-                _schema = CArrowSchemaImporter.ImportSchema(&cSchema);
+                _schema = CArrowSchemaImporter.ImportSchema(&cSchema, extensionRegistry);
 
                 _cDeviceArrayStream = *cDeviceArrayStream;
                 cDeviceArrayStream->release = default;

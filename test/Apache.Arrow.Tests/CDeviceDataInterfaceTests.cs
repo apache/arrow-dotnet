@@ -246,6 +246,38 @@ namespace Apache.Arrow.Tests
         }
 
         [Fact]
+        public async Task ImportDeviceStreamWithExtensionRegistry()
+        {
+            var registry = new ExtensionTypeRegistry();
+            registry.Register(GuidExtensionDefinition.Instance);
+
+            var values = new Guid?[] { Guid.NewGuid(), null, Guid.NewGuid() };
+            GuidArray.Builder builder = new GuidArray.Builder();
+            builder.Append(values[0].Value).AppendNull().Append(values[2].Value);
+            var schema = new Schema(new[] { new Field("guids", GuidType.Default, true) }, null);
+            RecordBatch batch = new RecordBatch(schema, new[] { builder.Build() }, values.Length);
+            IArrowArrayStream arrayStream = new TestArrayStream(schema, batch);
+
+            IArrowArrayStream imported;
+            unsafe
+            {
+                CArrowDeviceArrayStream* ptr = CArrowDeviceArrayStream.Create();
+                CArrowDeviceArrayStreamExporter.ExportArrayStream(arrayStream, ptr);
+                imported = CArrowDeviceArrayStreamImporter.ImportDeviceArrayStream(ptr, registry);
+                CArrowDeviceArrayStream.Free(ptr);
+            }
+
+            using (imported)
+            {
+                Assert.IsType<GuidType>(imported.Schema.FieldsList[0].DataType);
+
+                using RecordBatch importedBatch = await imported.ReadNextRecordBatchAsync();
+                GuidArray guids = Assert.IsType<GuidArray>(importedBatch.Column(0));
+                Assert.Equal(values, guids);
+            }
+        }
+
+        [Fact]
         public async Task ExportImportDeviceStreamRoundTrip()
         {
             RecordBatch batch1 = GetTestRecordBatch();
