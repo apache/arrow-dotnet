@@ -131,6 +131,24 @@ namespace Apache.Arrow.Tests
             }
         }
 
+        [Theory]
+        [InlineData((long)int.MaxValue + 10, 1L)]
+        [InlineData(2_000_000_000L, 2_000_000_000L)]
+        public void TestLargeBinaryValuesTooLongThrowOverflow(long firstLength, long secondLength)
+        {
+            // The offsets claim more data than the value buffers hold, but the total length is computed
+            // before anything is copied, so this checks overflow without allocating gigabytes.
+            static ArrayData LargeBinaryData(long length)
+            {
+                var offsets = new ArrowBuffer.Builder<long>().Append(0).Append(length).Build();
+                return new ArrayData(LargeBinaryType.Default, 1, 0, 0, new[] { ArrowBuffer.Empty, offsets, ArrowBuffer.Empty });
+            }
+
+            var allocator = new GarbageMemoryAllocator();
+            Assert.Throws<OverflowException>(() =>
+                ArrayDataConcatenator.Concatenate(new[] { LargeBinaryData(firstLength), LargeBinaryData(secondLength) }, allocator));
+        }
+
         [Fact]
         public void TestNullOrEmpty()
         {
