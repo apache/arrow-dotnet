@@ -67,10 +67,16 @@ namespace Apache.Arrow.C
                 throw new ArgumentNullException(nameof(schema));
             }
 
-            // A dictionary-encoded field's extension metadata describes its value type. IPC
-            // keeps it on the field, but the C Data Interface puts it on the dictionary child.
+            // The C Data Interface puts the extension metadata of a dictionary's value type on
+            // the dictionary child; on the field itself, it means the extension's storage is the
+            // whole dictionary. The IPC reader leaves a value type's extension metadata on the
+            // field, so move it only when it names the value type. Unresolved metadata stays put.
             IReadOnlyDictionary<string, string> dictionaryMetadata = null;
-            if (datatype is DictionaryType)
+            if (datatype is DictionaryType dictionaryType &&
+                dictionaryType.ValueType is ExtensionType valueType &&
+                metadata != null &&
+                metadata.TryGetValue(ExtensionNameKey, out string extName) &&
+                extName == valueType.Name)
             {
                 metadata = SplitExtensionMetadata(metadata, out dictionaryMetadata);
             }

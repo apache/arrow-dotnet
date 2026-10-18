@@ -402,13 +402,9 @@ namespace Apache.Arrow.C
                     }
                 }
 
-                if (_cSchema->dictionary != null)
-                {
-                    // The C Data Interface puts a dictionary value type's extension metadata on
-                    // the dictionary child. Keep it on the field, which is where IPC puts it.
-                    metadata = WithDictionaryExtensionMetadata(metadata, GetMetadata(_cSchema->dictionary->metadata));
-                }
-
+                // Extension metadata on the dictionary child isn't copied to the field, where it
+                // would mean the extension's storage is the whole dictionary. Like Arrow C++, an
+                // unresolved value type's extension metadata is dropped.
                 return new Field(fieldName, resolvedType, nullable, metadata);
             }
 
@@ -450,27 +446,6 @@ namespace Apache.Arrow.C
                     }
                 }
                 return storageType;
-            }
-
-            private static IReadOnlyDictionary<string, string> WithDictionaryExtensionMetadata(
-                IReadOnlyDictionary<string, string> metadata, IReadOnlyDictionary<string, string> dictionaryMetadata)
-            {
-                if (dictionaryMetadata == null ||
-                    !dictionaryMetadata.TryGetValue(ExtensionNameKey, out string extName) ||
-                    (metadata != null && metadata.ContainsKey(ExtensionNameKey)))
-                {
-                    return metadata;
-                }
-
-                var merged = metadata != null
-                    ? new Dictionary<string, string>((IDictionary<string, string>)metadata)
-                    : new Dictionary<string, string>();
-                merged[ExtensionNameKey] = extName;
-                if (dictionaryMetadata.TryGetValue(ExtensionMetadataKey, out string extMeta))
-                {
-                    merged[ExtensionMetadataKey] = extMeta;
-                }
-                return merged;
             }
 
             private List<Field> ParseChildren(string typeName, ExtensionTypeRegistry extensionRegistry)
