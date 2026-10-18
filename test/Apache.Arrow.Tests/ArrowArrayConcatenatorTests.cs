@@ -45,6 +45,89 @@ namespace Apache.Arrow.Tests
             }
         }
 
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void TestUsesProvidedAllocator(bool slicedArrays)
+        {
+            // The allocator doesn't zero its memory, so this also checks that every byte of the result is written
+            var allocator = new GarbageMemoryAllocator();
+            foreach ((List<IArrowArray> testTargetArrayList, IArrowArray expectedArray) in GenerateTestData(slicedArrays))
+            {
+                long allocations = allocator.Statistics.Allocations;
+                using (IArrowArray actualArray = ArrowArrayConcatenator.Concatenate(testTargetArrayList, allocator))
+                {
+                    ArrowReaderVerifier.CompareArrays(expectedArray, actualArray, strictCompare: !slicedArrays);
+                    Assert.True(allocator.Statistics.Allocations > allocations, $"Concatenating {expectedArray.Data.DataType.Name} didn't use the allocator");
+                }
+            }
+
+            Assert.Equal(0, allocator.Outstanding);
+        }
+
+        [Fact]
+        public void TestPaddingIsZeroedWithAllocatorThatDoesNotZero()
+        {
+            var allocator = new GarbageMemoryAllocator();
+            var first = new StringArray.Builder().Append("a").AppendNull().Append("bc").Build();
+            var second = new StringArray.Builder().AppendNull().Append("def").Build();
+
+            using var result = (StringArray)ArrowArrayConcatenator.Concatenate(new IArrowArray[] { first, second }, allocator);
+
+            // Five slots use the low five bits of the validity bitmap; everything after that is padding
+            ReadOnlySpan<byte> validity = result.NullBitmapBuffer.Span;
+            Assert.Equal(0b10101, validity[0]);
+            AssertAllZero(validity.Slice(1));
+            AssertAllZero(result.ValueOffsetsBuffer.Span.Slice(6 * sizeof(int)));
+            AssertAllZero(result.ValueBuffer.Span.Slice(6));
+        }
+
+        private static void AssertAllZero(ReadOnlySpan<byte> span)
+        {
+            for (int i = 0; i < span.Length; i++)
+            {
+                Assert.True(span[i] == 0, $"Expected padding byte {i} to be zero but it was {span[i]}");
+            }
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void TestConcatenateManyUnalignedBitmapSlices(bool useAllocator)
+        {
+            var random = new Random(1234);
+            var inputs = new List<IArrowArray>();
+            var expected = new List<bool?>();
+            for (int i = 0; i < 40; i++)
+            {
+                int length = random.Next(0, 300);
+                var builder = new BooleanArray.Builder();
+                var values = new List<bool?>();
+                for (int j = 0; j < length; j++)
+                {
+                    bool? value = random.Next(4) == 0 ? null : random.Next(2) == 0;
+                    builder.NullableAppend(value);
+                    values.Add(value);
+                }
+
+                BooleanArray array = builder.Build();
+                int offset = length == 0 ? 0 : random.Next(0, length);
+                int sliceLength = random.Next(0, length - offset + 1);
+                inputs.Add(array.Slice(offset, sliceLength));
+                expected.AddRange(values.GetRange(offset, sliceLength));
+            }
+
+            var allocator = useAllocator ? new GarbageMemoryAllocator() : null;
+            using var result = (BooleanArray)ArrowArrayConcatenator.Concatenate(inputs, allocator);
+
+            Assert.Equal(expected.Count, result.Length);
+            Assert.Equal(expected.Count(v => v == null), result.NullCount);
+            for (int i = 0; i < expected.Count; i++)
+            {
+                Assert.Equal(expected[i], result.GetValue(i));
+            }
+        }
+
         [Fact]
         public void TestNullOrEmpty()
         {

@@ -239,6 +239,71 @@ namespace Apache.Arrow.Tests
             }
         }
 
+        public class CopyBits
+        {
+            [Theory]
+            [InlineData(0, 0, 0)]
+            [InlineData(0, 0, 64)]
+            [InlineData(0, 0, 200)]
+            [InlineData(3, 0, 200)]
+            [InlineData(0, 5, 200)]
+            [InlineData(3, 5, 200)]
+            [InlineData(5, 3, 200)]
+            [InlineData(7, 1, 200)]
+            [InlineData(1, 7, 7)]
+            [InlineData(6, 6, 3)]
+            [InlineData(11, 0, 1000)]
+            [InlineData(9, 17, 1000)]
+            public void CopiesBitRange(int sourceIndex, int destinationIndex, int length)
+            {
+                var random = new Random(sourceIndex * 1000 + destinationIndex * 10 + length);
+                // Make both buffers exactly as long as needed, so that reads past the end are caught
+                byte[] source = new byte[BitUtility.ByteCount(sourceIndex + length)];
+                byte[] destination = new byte[BitUtility.ByteCount(destinationIndex + length) + 2];
+                random.NextBytes(source);
+                random.NextBytes(destination);
+                byte[] expected = (byte[])destination.Clone();
+                for (int i = 0; i < length; i++)
+                {
+                    BitUtility.SetBit(expected, destinationIndex + i, BitUtility.GetBit(source, sourceIndex + i));
+                }
+
+                BitUtility.CopyBits(source, sourceIndex, destination, destinationIndex, length);
+
+                Assert.Equal(expected, destination);
+            }
+
+            [Fact]
+            public void CopiesEveryCombinationOfOffsetsAndLengths()
+            {
+                var random = new Random(42);
+                byte[] source = new byte[40];
+                random.NextBytes(source);
+                byte[] destination = new byte[40];
+                byte[] expected = new byte[40];
+
+                for (int sourceIndex = 0; sourceIndex < 16; sourceIndex++)
+                {
+                    for (int destinationIndex = 0; destinationIndex < 16; destinationIndex++)
+                    {
+                        for (int length = 0; length <= 150; length++)
+                        {
+                            random.NextBytes(destination);
+                            destination.CopyTo(expected, 0);
+                            for (int i = 0; i < length; i++)
+                            {
+                                BitUtility.SetBit(expected, destinationIndex + i, BitUtility.GetBit(source, sourceIndex + i));
+                            }
+
+                            BitUtility.CopyBits(source, sourceIndex, destination, destinationIndex, length);
+
+                            Assert.Equal(expected, destination);
+                        }
+                    }
+                }
+            }
+        }
+
         public class RoundUpToMultipleOf64
         {
             [Theory]

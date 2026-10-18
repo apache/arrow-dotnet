@@ -14,7 +14,9 @@
 // limitations under the License.
 
 using System;
+using System.Buffers;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Apache.Arrow.Memory;
 using Apache.Arrow.Scalars;
 using Apache.Arrow.Types;
@@ -285,36 +287,43 @@ namespace Apache.Arrow
 
             private ArrowBuffer ConcatenateShiftedIndexBuffer(IntegerType indexType)
             {
-                int byteWidth = indexType.BitWidth / 8;
-                var builder = new ArrowBuffer.Builder<byte>(_totalLength * byteWidth);
-                builder.Resize(_totalLength * byteWidth);
-                Span<byte> destination = builder.Span;
-                int position = 0;
-                long shift = 0;
-
-                foreach (ArrayData arrayData in _arrayDataList)
+                int byteLength = checked(_totalLength * (indexType.BitWidth / 8));
+                IMemoryOwner<byte> owner = AllocateBuffer(byteLength, out Span<byte> destination);
+                try
                 {
-                    if (arrayData.Length == 0)
+                    int byteWidth = indexType.BitWidth / 8;
+                    int position = 0;
+                    long shift = 0;
+
+                    foreach (ArrayData arrayData in _arrayDataList)
                     {
-                        continue;
+                        if (arrayData.Length == 0)
+                        {
+                            continue;
+                        }
+
+                        ReadOnlySpan<byte> validity = arrayData.Buffers[0].Span;
+                        bool allNull = validity.Length == 0 && arrayData.GetNullCount() == arrayData.Length;
+                        ReadOnlySpan<byte> source = arrayData.Buffers[1].Span.Slice(arrayData.Offset * byteWidth, arrayData.Length * byteWidth);
+
+                        for (int i = 0; i < arrayData.Length; i++)
+                        {
+                            bool isValid = validity.Length == 0 ? !allNull : BitUtility.GetBit(validity, arrayData.Offset + i);
+                            // A null slot's index is unspecified and may not be in range, so write 0 instead of shifting it.
+                            long index = isValid ? ReadIndex(source, indexType.TypeId, i) + shift : 0;
+                            WriteIndex(destination, indexType.TypeId, position++, index);
+                        }
+
+                        shift += arrayData.Dictionary.Length;
                     }
-
-                    ReadOnlySpan<byte> validity = arrayData.Buffers[0].Span;
-                    bool allNull = validity.Length == 0 && arrayData.GetNullCount() == arrayData.Length;
-                    ReadOnlySpan<byte> source = arrayData.Buffers[1].Span.Slice(arrayData.Offset * byteWidth, arrayData.Length * byteWidth);
-
-                    for (int i = 0; i < arrayData.Length; i++)
-                    {
-                        bool isValid = validity.Length == 0 ? !allNull : BitUtility.GetBit(validity, arrayData.Offset + i);
-                        // A null slot's index is unspecified and may not be in range, so write 0 instead of shifting it.
-                        long index = isValid ? ReadIndex(source, indexType.TypeId, i) + shift : 0;
-                        WriteIndex(destination, indexType.TypeId, position++, index);
-                    }
-
-                    shift += arrayData.Dictionary.Length;
+                }
+                catch
+                {
+                    owner.Dispose();
+                    throw;
                 }
 
-                return builder.Build(_allocator);
+                return BuildBuffer(owner, byteLength);
             }
 
             private static long ReadIndex(ReadOnlySpan<byte> source, ArrowTypeId typeId, int i) => typeId switch
@@ -365,60 +374,69 @@ namespace Apache.Arrow
                 ArrowBuffer sizesBuffer = ConcatenateFixedWidthTypeValueBuffer(2, Int64Type.Default);
 
                 var children = new List<ArrayData>(_arrayDataList.Count);
-                var offsetsBuilder = new ArrowBuffer.Builder<long>(_totalLength);
-                long baseOffset = 0;
-
-                foreach (ArrayData arrayData in _arrayDataList)
+                int offsetsByteLength = checked(_totalLength * sizeof(long));
+                IMemoryOwner<byte> offsetsOwner = AllocateBuffer(offsetsByteLength, out Span<byte> offsetsBytes);
+                try
                 {
-                    if (arrayData.Length == 0)
-                    {
-                        continue;
-                    }
+                    Span<long> destination = offsetsBytes.CastTo<long>();
+                    int position = 0;
+                    long baseOffset = 0;
 
-                    var child = arrayData.Children[0];
-                    ReadOnlySpan<long> offsets = arrayData.Buffers[1].Span.CastTo<long>().Slice(arrayData.Offset, arrayData.Length);
-                    ReadOnlySpan<long> sizes = arrayData.Buffers[2].Span.CastTo<long>().Slice(arrayData.Offset, arrayData.Length);
-                    long minOffset = 0;
-                    long maxEnd = 0;
-                    bool hasNonEmptyValue = false;
-
-                    for (int i = 0; i < arrayData.Length; ++i)
+                    foreach (ArrayData arrayData in _arrayDataList)
                     {
-                        if (sizes[i] > 0)
+                        if (arrayData.Length == 0)
                         {
-                            minOffset = hasNonEmptyValue ? Math.Min(minOffset, offsets[i]) : offsets[i];
-                            maxEnd = Math.Max(maxEnd, offsets[i] + sizes[i]);
-                            hasNonEmptyValue = true;
+                            continue;
                         }
-                    }
 
-                    if (!hasNonEmptyValue)
-                    {
+                        var child = arrayData.Children[0];
+                        ReadOnlySpan<long> offsets = arrayData.Buffers[1].Span.CastTo<long>().Slice(arrayData.Offset, arrayData.Length);
+                        ReadOnlySpan<long> sizes = arrayData.Buffers[2].Span.CastTo<long>().Slice(arrayData.Offset, arrayData.Length);
+                        long minOffset = 0;
+                        long maxEnd = 0;
+                        bool hasNonEmptyValue = false;
+
+                        for (int i = 0; i < arrayData.Length; ++i)
+                        {
+                            if (sizes[i] > 0)
+                            {
+                                minOffset = hasNonEmptyValue ? Math.Min(minOffset, offsets[i]) : offsets[i];
+                                maxEnd = Math.Max(maxEnd, offsets[i] + sizes[i]);
+                                hasNonEmptyValue = true;
+                            }
+                        }
+
+                        if (!hasNonEmptyValue)
+                        {
+                            destination.Slice(position, offsets.Length).Fill(baseOffset);
+                            position += offsets.Length;
+
+                            children.Add(child.Slice(0, 0));
+                            continue;
+                        }
+
                         for (int i = 0; i < offsets.Length; ++i)
                         {
-                            offsetsBuilder.Append(baseOffset);
+                            destination[position++] = baseOffset + offsets[i] - minOffset;
                         }
 
-                        children.Add(child.Slice(0, 0));
-                        continue;
-                    }
+                        var childLength = maxEnd - minOffset;
+                        if (minOffset != 0 || childLength != child.Length)
+                        {
+                            child = child.Slice(checked((int)minOffset), checked((int)childLength));
+                        }
 
-                    foreach (long offset in offsets)
-                    {
-                        offsetsBuilder.Append(baseOffset + offset - minOffset);
+                        baseOffset += childLength;
+                        children.Add(child);
                     }
-
-                    var childLength = maxEnd - minOffset;
-                    if (minOffset != 0 || childLength != child.Length)
-                    {
-                        child = child.Slice(checked((int)minOffset), checked((int)childLength));
-                    }
-
-                    baseOffset += childLength;
-                    children.Add(child);
+                }
+                catch
+                {
+                    offsetsOwner.Dispose();
+                    throw;
                 }
 
-                ArrowBuffer offsetBuffer = offsetsBuilder.Build(_allocator);
+                ArrowBuffer offsetBuffer = BuildBuffer(offsetsOwner, offsetsByteLength);
                 ArrayData combinedChild = ConcatenateChildrenOrEmpty(children);
 
                 Result = new ArrayData(type, _totalLength, _totalNullCount, 0, new ArrowBuffer[] { validityBuffer, offsetBuffer, sizesBuffer }, new[] { combinedChild });
@@ -433,60 +451,69 @@ namespace Apache.Arrow
                 ArrowBuffer sizesBuffer = ConcatenateFixedWidthTypeValueBuffer(2, Int32Type.Default);
 
                 var children = new List<ArrayData>(_arrayDataList.Count);
-                var offsetsBuilder = new ArrowBuffer.Builder<int>(_totalLength);
-                int baseOffset = 0;
-
-                foreach (ArrayData arrayData in _arrayDataList)
+                int offsetsByteLength = checked(_totalLength * sizeof(int));
+                IMemoryOwner<byte> offsetsOwner = AllocateBuffer(offsetsByteLength, out Span<byte> offsetsBytes);
+                try
                 {
-                    if (arrayData.Length == 0)
-                    {
-                        continue;
-                    }
+                    Span<int> destination = offsetsBytes.CastTo<int>();
+                    int position = 0;
+                    int baseOffset = 0;
 
-                    var child = arrayData.Children[0];
-                    ReadOnlySpan<int> offsets = arrayData.Buffers[1].Span.CastTo<int>().Slice(arrayData.Offset, arrayData.Length);
-                    ReadOnlySpan<int> sizes = arrayData.Buffers[2].Span.CastTo<int>().Slice(arrayData.Offset, arrayData.Length);
-                    int minOffset = 0;
-                    int maxEnd = 0;
-                    bool hasNonEmptyValue = false;
-
-                    for (int i = 0; i < arrayData.Length; ++i)
+                    foreach (ArrayData arrayData in _arrayDataList)
                     {
-                        if (sizes[i] > 0)
+                        if (arrayData.Length == 0)
                         {
-                            minOffset = hasNonEmptyValue ? Math.Min(minOffset, offsets[i]) : offsets[i];
-                            maxEnd = Math.Max(maxEnd, offsets[i] + sizes[i]);
-                            hasNonEmptyValue = true;
+                            continue;
                         }
-                    }
 
-                    if (!hasNonEmptyValue)
-                    {
+                        var child = arrayData.Children[0];
+                        ReadOnlySpan<int> offsets = arrayData.Buffers[1].Span.CastTo<int>().Slice(arrayData.Offset, arrayData.Length);
+                        ReadOnlySpan<int> sizes = arrayData.Buffers[2].Span.CastTo<int>().Slice(arrayData.Offset, arrayData.Length);
+                        int minOffset = 0;
+                        int maxEnd = 0;
+                        bool hasNonEmptyValue = false;
+
+                        for (int i = 0; i < arrayData.Length; ++i)
+                        {
+                            if (sizes[i] > 0)
+                            {
+                                minOffset = hasNonEmptyValue ? Math.Min(minOffset, offsets[i]) : offsets[i];
+                                maxEnd = Math.Max(maxEnd, offsets[i] + sizes[i]);
+                                hasNonEmptyValue = true;
+                            }
+                        }
+
+                        if (!hasNonEmptyValue)
+                        {
+                            destination.Slice(position, offsets.Length).Fill(baseOffset);
+                            position += offsets.Length;
+
+                            children.Add(child.Slice(0, 0));
+                            continue;
+                        }
+
                         for (int i = 0; i < offsets.Length; ++i)
                         {
-                            offsetsBuilder.Append(baseOffset);
+                            destination[position++] = baseOffset + offsets[i] - minOffset;
                         }
 
-                        children.Add(child.Slice(0, 0));
-                        continue;
-                    }
+                        var childLength = maxEnd - minOffset;
+                        if (minOffset != 0 || childLength != child.Length)
+                        {
+                            child = child.Slice(minOffset, childLength);
+                        }
 
-                    foreach (int offset in offsets)
-                    {
-                        offsetsBuilder.Append(baseOffset + offset - minOffset);
+                        baseOffset += childLength;
+                        children.Add(child);
                     }
-
-                    var childLength = maxEnd - minOffset;
-                    if (minOffset != 0 || childLength != child.Length)
-                    {
-                        child = child.Slice(minOffset, childLength);
-                    }
-
-                    baseOffset += childLength;
-                    children.Add(child);
+                }
+                catch
+                {
+                    offsetsOwner.Dispose();
+                    throw;
                 }
 
-                ArrowBuffer offsetBuffer = offsetsBuilder.Build(_allocator);
+                ArrowBuffer offsetBuffer = BuildBuffer(offsetsOwner, offsetsByteLength);
                 ArrayData combinedChild = ConcatenateChildrenOrEmpty(children);
 
                 Result = new ArrayData(type, _totalLength, _totalNullCount, 0, new ArrowBuffer[] { validityBuffer, offsetBuffer, sizesBuffer }, new[] { combinedChild });
@@ -1057,47 +1084,104 @@ namespace Apache.Arrow
                 throw new InvalidOperationException("Nested array data must contain child data.");
             }
 
-            private ArrowBuffer ConcatenateLargeOffsetBuffer()
+            private IMemoryOwner<byte> AllocateBuffer(int byteLength, out Span<byte> destination)
             {
-                var builder = new ArrowBuffer.Builder<long>(_totalLength + 1);
-                long baseOffset = 0;
+                // Buffers are padded to a multiple of 64 bytes, like those built by ArrowBuffer.Builder
+                int paddedLength = checked((int)BitUtility.RoundUpToMultipleOf64(byteLength));
+                IMemoryOwner<byte> owner = (_allocator ?? MemoryAllocator.Default.Value).Allocate(paddedLength);
+                destination = owner.Memory.Span.Slice(0, byteLength);
+                return owner;
+            }
 
-                foreach (ArrayData arrayData in _arrayDataList)
+            private IMemoryOwner<byte> AllocateBitmap(out Span<byte> destination)
+            {
+                IMemoryOwner<byte> owner = AllocateBuffer(BitUtility.ByteCount(_totalLength), out destination);
+                if (destination.Length > 0)
                 {
-                    if (arrayData.Length == 0)
-                    {
-                        continue;
-                    }
-
-                    ReadOnlySpan<long> span = arrayData.Buffers[1].Span.CastTo<long>().Slice(arrayData.Offset, arrayData.Length + 1);
-                    var firstOffset = span[0];
-
-                    foreach (long offset in span.Slice(0, arrayData.Length))
-                    {
-                        builder.Append(baseOffset + offset - firstOffset);
-                    }
-
-                    baseOffset += span[arrayData.Length] - firstOffset;
+                    // Bits are copied one range at a time, which leaves the bits past the end untouched
+                    destination[destination.Length - 1] = 0;
                 }
 
-                builder.Append(baseOffset);
+                return owner;
+            }
 
-                return builder.Build(_allocator);
+            private static ArrowBuffer BuildBuffer(IMemoryOwner<byte> owner, int byteLength)
+            {
+                // Allocators don't have to return zeroed memory, so clear the padding explicitly
+                int paddedLength = checked((int)BitUtility.RoundUpToMultipleOf64(byteLength));
+                owner.Memory.Span.Slice(byteLength, paddedLength - byteLength).Clear();
+                return new ArrowBuffer(owner);
+            }
+
+            private ArrowBuffer ConcatenateLargeOffsetBuffer()
+            {
+                int byteLength = checked((_totalLength + 1) * sizeof(long));
+                IMemoryOwner<byte> owner = AllocateBuffer(byteLength, out Span<byte> bytes);
+                try
+                {
+                    Span<long> destination = bytes.CastTo<long>();
+                    int position = 0;
+                    long baseOffset = 0;
+
+                    foreach (ArrayData arrayData in _arrayDataList)
+                    {
+                        if (arrayData.Length == 0)
+                        {
+                            continue;
+                        }
+
+                        ReadOnlySpan<long> span = arrayData.Buffers[1].Span.CastTo<long>().Slice(arrayData.Offset, arrayData.Length + 1);
+                        var firstOffset = span[0];
+
+                        for (int i = 0; i < arrayData.Length; i++)
+                        {
+                            destination[position++] = baseOffset + span[i] - firstOffset;
+                        }
+
+                        baseOffset += span[arrayData.Length] - firstOffset;
+                    }
+
+                    destination[position] = baseOffset;
+                }
+                catch
+                {
+                    owner.Dispose();
+                    throw;
+                }
+
+                return BuildBuffer(owner, byteLength);
             }
 
             private ArrowBuffer ConcatenateLargeVariableBinaryValueBuffer()
             {
-                var builder = new ArrowBuffer.Builder<byte>();
-
+                int byteLength = 0;
                 foreach (ArrayData arrayData in _arrayDataList)
                 {
                     var offsets = arrayData.Buffers[1].Span.CastTo<long>().Slice(arrayData.Offset, arrayData.Length + 1);
-                    var firstOffset = checked((int)offsets[0]);
-                    var lastOffset = checked((int)offsets[arrayData.Length]);
-                    builder.Append(arrayData.Buffers[2].Span.Slice(firstOffset, lastOffset - firstOffset));
+                    byteLength = checked(byteLength + (int)(offsets[arrayData.Length] - offsets[0]));
                 }
 
-                return builder.Build(_allocator);
+                IMemoryOwner<byte> owner = AllocateBuffer(byteLength, out Span<byte> destination);
+                try
+                {
+                    int position = 0;
+                    foreach (ArrayData arrayData in _arrayDataList)
+                    {
+                        var offsets = arrayData.Buffers[1].Span.CastTo<long>().Slice(arrayData.Offset, arrayData.Length + 1);
+                        var firstOffset = checked((int)offsets[0]);
+                        var lastOffset = checked((int)offsets[arrayData.Length]);
+                        int length = lastOffset - firstOffset;
+                        arrayData.Buffers[2].Span.Slice(firstOffset, length).CopyTo(destination.Slice(position, length));
+                        position += length;
+                    }
+                }
+                catch
+                {
+                    owner.Dispose();
+                    throw;
+                }
+
+                return BuildBuffer(owner, byteLength);
             }
 
             private ArrowBuffer ConcatenateValidityBuffer()
@@ -1107,199 +1191,272 @@ namespace Apache.Arrow
                     return ArrowBuffer.Empty;
                 }
 
-                var builder = new ArrowBuffer.BitmapBuilder(_totalLength);
-
-                foreach (ArrayData arrayData in _arrayDataList)
+                IMemoryOwner<byte> owner = AllocateBitmap(out Span<byte> destination);
+                try
                 {
-                    int length = arrayData.Length;
-                    int offset = arrayData.Offset;
-                    ReadOnlySpan<byte> span = arrayData.Buffers[0].Span;
-
-                    if (length > 0 && span.Length == 0)
+                    int position = 0;
+                    foreach (ArrayData arrayData in _arrayDataList)
                     {
-                        if (arrayData.NullCount == 0)
+                        int length = arrayData.Length;
+                        int offset = arrayData.Offset;
+                        ReadOnlySpan<byte> span = arrayData.Buffers[0].Span;
+
+                        if (length > 0 && span.Length == 0)
                         {
-                            builder.AppendRange(true, length);
-                        }
-                        else if (arrayData.NullCount == length)
-                        {
-                            builder.AppendRange(false, length);
+                            if (arrayData.NullCount == 0)
+                            {
+                                BitUtility.SetBits(destination, position, length, true);
+                            }
+                            else if (arrayData.NullCount == length)
+                            {
+                                BitUtility.SetBits(destination, position, length, false);
+                            }
+                            else
+                            {
+                                throw new Exception("Array has no validity buffer and null count != 0 or length");
+                            }
                         }
                         else
                         {
-                            throw new Exception("Array has no validity buffer and null count != 0 or length");
+                            BitUtility.CopyBits(span, offset, destination, position, length);
                         }
-                    }
-                    else if (offset == 0)
-                    {
-                        builder.Append(span, length);
-                    }
-                    else
-                    {
-                        for (int i = 0; i < length; ++i)
-                        {
-                            builder.Append(BitUtility.GetBit(span, offset + i));
-                        }
+
+                        position += length;
                     }
                 }
+                catch
+                {
+                    owner.Dispose();
+                    throw;
+                }
 
-                return builder.Build(_allocator);
+                return BuildBuffer(owner, destination.Length);
             }
 
             private ArrowBuffer ConcatenateBitmapBuffer(int bufferIndex)
             {
-                var builder = new ArrowBuffer.BitmapBuilder(_totalLength);
-
-                foreach (ArrayData arrayData in _arrayDataList)
+                IMemoryOwner<byte> owner = AllocateBitmap(out Span<byte> destination);
+                try
                 {
-                    int length = arrayData.Length;
-                    int offset = arrayData.Offset;
-                    ReadOnlySpan<byte> span = arrayData.Buffers[bufferIndex].Span;
-
-                    if (offset == 0)
+                    int position = 0;
+                    foreach (ArrayData arrayData in _arrayDataList)
                     {
-                        builder.Append(span, length);
-                    }
-                    else
-                    {
-                        for (int i = 0; i < length; ++i)
-                        {
-                            builder.Append(BitUtility.GetBit(span, offset + i));
-                        }
+                        BitUtility.CopyBits(arrayData.Buffers[bufferIndex].Span, arrayData.Offset, destination, position, arrayData.Length);
+                        position += arrayData.Length;
                     }
                 }
+                catch
+                {
+                    owner.Dispose();
+                    throw;
+                }
 
-                return builder.Build(_allocator);
+                return BuildBuffer(owner, destination.Length);
             }
 
             private ArrowBuffer ConcatenateFixedWidthTypeValueBuffer(int bufferIndex, FixedWidthType type)
             {
                 int typeByteWidth = type.BitWidth / 8;
-                var builder = new ArrowBuffer.Builder<byte>(_totalLength * typeByteWidth);
-
-                foreach (ArrayData arrayData in _arrayDataList)
+                int byteLength = checked(_totalLength * typeByteWidth);
+                IMemoryOwner<byte> owner = AllocateBuffer(byteLength, out Span<byte> destination);
+                try
                 {
-                    int byteLength = arrayData.Length * typeByteWidth;
-                    int byteOffset = arrayData.Offset * typeByteWidth;
+                    int position = 0;
+                    foreach (ArrayData arrayData in _arrayDataList)
+                    {
+                        int length = arrayData.Length * typeByteWidth;
+                        int offset = arrayData.Offset * typeByteWidth;
 
-                    builder.Append(arrayData.Buffers[bufferIndex].Span.Slice(byteOffset, byteLength));
+                        arrayData.Buffers[bufferIndex].Span.Slice(offset, length).CopyTo(destination.Slice(position, length));
+                        position += length;
+                    }
+                }
+                catch
+                {
+                    owner.Dispose();
+                    throw;
                 }
 
-                return builder.Build(_allocator);
+                return BuildBuffer(owner, byteLength);
             }
 
             private ArrowBuffer ConcatenateVariableBinaryValueBuffer()
             {
-                var builder = new ArrowBuffer.Builder<byte>();
-
+                int byteLength = 0;
                 foreach (ArrayData arrayData in _arrayDataList)
                 {
                     var offsets = arrayData.Buffers[1].Span.CastTo<int>().Slice(arrayData.Offset, arrayData.Length + 1);
-                    var firstOffset = offsets[0];
-                    var lastOffset = offsets[arrayData.Length];
-                    builder.Append(arrayData.Buffers[2].Span.Slice(firstOffset, lastOffset - firstOffset));
+                    byteLength = checked(byteLength + (offsets[arrayData.Length] - offsets[0]));
                 }
 
-                return builder.Build(_allocator);
+                IMemoryOwner<byte> owner = AllocateBuffer(byteLength, out Span<byte> destination);
+                try
+                {
+                    int position = 0;
+                    foreach (ArrayData arrayData in _arrayDataList)
+                    {
+                        var offsets = arrayData.Buffers[1].Span.CastTo<int>().Slice(arrayData.Offset, arrayData.Length + 1);
+                        var firstOffset = offsets[0];
+                        var lastOffset = offsets[arrayData.Length];
+                        int length = lastOffset - firstOffset;
+                        arrayData.Buffers[2].Span.Slice(firstOffset, length).CopyTo(destination.Slice(position, length));
+                        position += length;
+                    }
+                }
+                catch
+                {
+                    owner.Dispose();
+                    throw;
+                }
+
+                return BuildBuffer(owner, byteLength);
             }
 
             private ArrowBuffer ConcatenateOffsetBuffer()
             {
-                var builder = new ArrowBuffer.Builder<int>(_totalLength + 1);
-                int baseOffset = 0;
-
-                foreach (ArrayData arrayData in _arrayDataList)
+                int byteLength = checked((_totalLength + 1) * sizeof(int));
+                IMemoryOwner<byte> owner = AllocateBuffer(byteLength, out Span<byte> bytes);
+                try
                 {
-                    if (arrayData.Length == 0)
+                    Span<int> destination = bytes.CastTo<int>();
+                    int position = 0;
+                    int baseOffset = 0;
+
+                    foreach (ArrayData arrayData in _arrayDataList)
                     {
-                        continue;
+                        if (arrayData.Length == 0)
+                        {
+                            continue;
+                        }
+
+                        ReadOnlySpan<int> span = arrayData.Buffers[1].Span.CastTo<int>().Slice(arrayData.Offset, arrayData.Length + 1);
+                        // First offset may be non-zero for sliced arrays
+                        var firstOffset = span[0];
+
+                        for (int i = 0; i < arrayData.Length; i++)
+                        {
+                            destination[position++] = baseOffset + span[i] - firstOffset;
+                        }
+
+                        baseOffset += span[arrayData.Length] - firstOffset;
                     }
 
-                    ReadOnlySpan<int> span = arrayData.Buffers[1].Span.CastTo<int>().Slice(arrayData.Offset, arrayData.Length + 1);
-                    // First offset may be non-zero for sliced arrays
-                    var firstOffset = span[0];
-
-                    foreach (int offset in span.Slice(0, arrayData.Length))
-                    {
-                        builder.Append(baseOffset + offset - firstOffset);
-                    }
-
-                    baseOffset += span[arrayData.Length] - firstOffset;
+                    destination[position] = baseOffset;
+                }
+                catch
+                {
+                    owner.Dispose();
+                    throw;
                 }
 
-                builder.Append(baseOffset);
-
-                return builder.Build(_allocator);
+                return BuildBuffer(owner, byteLength);
             }
 
             private ArrowBuffer ConcatenateViewBuffer(out int variadicBufferCount)
             {
-                var builder = new ArrowBuffer.Builder<BinaryView>(_totalLength);
+                int byteLength = checked(_totalLength * Unsafe.SizeOf<BinaryView>());
+                IMemoryOwner<byte> owner = AllocateBuffer(byteLength, out Span<byte> bytes);
                 variadicBufferCount = 0;
-                foreach (ArrayData arrayData in _arrayDataList)
+                try
                 {
-                    if (arrayData.Length == 0)
-                    {
-                        continue;
-                    }
+                    Span<BinaryView> destination = bytes.CastTo<BinaryView>();
+                    int position = 0;
 
-                    ReadOnlySpan<BinaryView> span = arrayData.Buffers[1].Span.CastTo<BinaryView>().Slice(arrayData.Offset, arrayData.Length);
-                    foreach (BinaryView view in span)
+                    foreach (ArrayData arrayData in _arrayDataList)
                     {
-                        if (view.Length > BinaryView.MaxInlineLength)
+                        if (arrayData.Length == 0)
                         {
-                            builder.Append(view.AdjustBufferIndex(variadicBufferCount));
+                            continue;
+                        }
+
+                        ReadOnlySpan<BinaryView> span = arrayData.Buffers[1].Span.CastTo<BinaryView>().Slice(arrayData.Offset, arrayData.Length);
+                        if (variadicBufferCount == 0)
+                        {
+                            // Buffer indices only need adjusting after the first data buffers
+                            span.CopyTo(destination.Slice(position));
                         }
                         else
                         {
-                            builder.Append(view);
+                            for (int i = 0; i < span.Length; i++)
+                            {
+                                BinaryView view = span[i];
+                                destination[position + i] = view.Length > BinaryView.MaxInlineLength
+                                    ? view.AdjustBufferIndex(variadicBufferCount)
+                                    : view;
+                            }
                         }
-                    }
 
-                    variadicBufferCount += (arrayData.Buffers.Length - 2);
+                        position += span.Length;
+                        variadicBufferCount += (arrayData.Buffers.Length - 2);
+                    }
+                }
+                catch
+                {
+                    owner.Dispose();
+                    throw;
                 }
 
-                return builder.Build(_allocator);
+                return BuildBuffer(owner, byteLength);
             }
 
             private ArrowBuffer ConcatenateUnionTypeBuffer()
             {
-                var builder = new ArrowBuffer.Builder<byte>(_totalLength);
-
-                foreach (ArrayData arrayData in _arrayDataList)
+                IMemoryOwner<byte> owner = AllocateBuffer(_totalLength, out Span<byte> destination);
+                try
                 {
-                    builder.Append(arrayData.Buffers[0].Span.Slice(arrayData.Offset, arrayData.Length));
+                    int position = 0;
+                    foreach (ArrayData arrayData in _arrayDataList)
+                    {
+                        arrayData.Buffers[0].Span.Slice(arrayData.Offset, arrayData.Length).CopyTo(destination.Slice(position));
+                        position += arrayData.Length;
+                    }
+                }
+                catch
+                {
+                    owner.Dispose();
+                    throw;
                 }
 
-                return builder.Build(_allocator);
+                return BuildBuffer(owner, _totalLength);
             }
 
             private ArrowBuffer ConcatenateUnionOffsetBuffer()
             {
-                var builder = new ArrowBuffer.Builder<int>(_totalLength);
-                var typeCount = _arrayDataList.Count > 0 ? _arrayDataList[0].Children.Length : 0;
-                var baseOffsets = new int[typeCount];
-
-                foreach (ArrayData arrayData in _arrayDataList)
+                int byteLength = checked(_totalLength * sizeof(int));
+                IMemoryOwner<byte> owner = AllocateBuffer(byteLength, out Span<byte> bytes);
+                try
                 {
-                    ReadOnlySpan<byte> typeSpan = arrayData.Buffers[0].Span.Slice(arrayData.Offset, arrayData.Length);
-                    ReadOnlySpan<int> offsetSpan = arrayData.Buffers[1].Span.CastTo<int>().Slice(arrayData.Offset, arrayData.Length);
-                    for (int i = 0; i < arrayData.Length; ++i)
-                    {
-                        var typeId = typeSpan[i];
-                        builder.Append(checked(baseOffsets[typeId] + offsetSpan[i]));
-                    }
+                    Span<int> destination = bytes.CastTo<int>();
+                    int position = 0;
+                    var typeCount = _arrayDataList.Count > 0 ? _arrayDataList[0].Children.Length : 0;
+                    var baseOffsets = new int[typeCount];
 
-                    for (int i = 0; i < typeCount; ++i)
+                    foreach (ArrayData arrayData in _arrayDataList)
                     {
-                        checked
+                        ReadOnlySpan<byte> typeSpan = arrayData.Buffers[0].Span.Slice(arrayData.Offset, arrayData.Length);
+                        ReadOnlySpan<int> offsetSpan = arrayData.Buffers[1].Span.CastTo<int>().Slice(arrayData.Offset, arrayData.Length);
+                        for (int i = 0; i < arrayData.Length; ++i)
                         {
-                            baseOffsets[i] += arrayData.Children[i].Length;
+                            var typeId = typeSpan[i];
+                            destination[position++] = checked(baseOffsets[typeId] + offsetSpan[i]);
+                        }
+
+                        for (int i = 0; i < typeCount; ++i)
+                        {
+                            checked
+                            {
+                                baseOffsets[i] += arrayData.Children[i].Length;
+                            }
                         }
                     }
                 }
+                catch
+                {
+                    owner.Dispose();
+                    throw;
+                }
 
-                return builder.Build(_allocator);
+                return BuildBuffer(owner, byteLength);
             }
 
             private List<ArrayData> SelectChildren(int index)
