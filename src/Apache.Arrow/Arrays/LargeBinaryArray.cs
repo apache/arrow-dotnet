@@ -222,7 +222,12 @@ public class LargeBinaryArray : Array, IBinaryArray, IReadOnlyList<byte[]>, ICol
 
     public ArrowBuffer ValueBuffer => Data.Buffers[2];
 
-    public ReadOnlySpan<long> ValueOffsets => ValueOffsetsBuffer.Span.CastTo<long>().Slice(Offset, Length + 1);
+    // A zero-length array may have an empty offsets buffer (e.g. when read from IPC).
+    private static readonly long[] s_zeroOffset = { 0 };
+
+    public ReadOnlySpan<long> ValueOffsets => Length == 0 && ValueOffsetsBuffer.IsEmpty
+        ? s_zeroOffset
+        : ValueOffsetsBuffer.Span.CastTo<long>().Slice(Offset, Length + 1);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public int GetValueLength(int index)
