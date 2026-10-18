@@ -22,22 +22,31 @@ namespace Apache.Arrow.Tests
 {
     /// <summary>
     /// An allocator that fills new memory with a nonzero pattern, to catch code that
-    /// assumes allocated memory is zeroed. It also counts outstanding allocations.
+    /// assumes allocated memory is zeroed. It can also return more memory than was requested,
+    /// as allocators are allowed to, and it counts outstanding allocations.
     /// </summary>
     public class GarbageMemoryAllocator : MemoryAllocator
     {
         public const byte Garbage = 0xA5;
 
+        private readonly int _extraLength;
         private int _outstanding;
         public int Outstanding => _outstanding;
 
+        /// <param name="extraLength">How many bytes more than requested each allocation has.</param>
+        public GarbageMemoryAllocator(int extraLength = 0)
+        {
+            _extraLength = extraLength;
+        }
+
         protected override IMemoryOwner<byte> AllocateInternal(int length, out int bytesAllocated)
         {
-            byte[] array = ArrayPool<byte>.Shared.Rent(length);
+            int extendedLength = length + _extraLength;
+            byte[] array = ArrayPool<byte>.Shared.Rent(extendedLength);
             array.AsSpan().Fill(Garbage);
             bytesAllocated = array.Length;
             Interlocked.Increment(ref _outstanding);
-            return new GarbageMemoryOwner(this, array, length);
+            return new GarbageMemoryOwner(this, array, extendedLength);
         }
 
         private sealed class GarbageMemoryOwner : IMemoryOwner<byte>

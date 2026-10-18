@@ -68,11 +68,14 @@ namespace Apache.Arrow.Tests
         [Fact]
         public void TestPaddingIsZeroedWithAllocatorThatDoesNotZero()
         {
-            var allocator = new GarbageMemoryAllocator();
+            var allocator = new GarbageMemoryAllocator(extraLength: 40);
             var first = new StringArray.Builder().Append("a").AppendNull().Append("bc").Build();
             var second = new StringArray.Builder().AppendNull().Append("def").Build();
 
             using var result = (StringArray)ArrowArrayConcatenator.Concatenate(new IArrowArray[] { first, second }, allocator);
+
+            // The allocator returns more memory than requested, and all of it is visible through the buffer
+            Assert.True(result.ValueBuffer.Length >= 64 + 40);
 
             // Five slots use the low five bits of the validity bitmap; everything after that is padding
             ReadOnlySpan<byte> validity = result.NullBitmapBuffer.Span;
@@ -117,7 +120,7 @@ namespace Apache.Arrow.Tests
                 expected.AddRange(values.GetRange(offset, sliceLength));
             }
 
-            var allocator = useAllocator ? new GarbageMemoryAllocator() : null;
+            var allocator = useAllocator ? new GarbageMemoryAllocator(extraLength: 40) : null;
             using var result = (BooleanArray)ArrowArrayConcatenator.Concatenate(inputs, allocator);
 
             Assert.Equal(expected.Count, result.Length);

@@ -1107,9 +1107,9 @@ namespace Apache.Arrow
 
             private static ArrowBuffer BuildBuffer(IMemoryOwner<byte> owner, int byteLength)
             {
-                // Allocators don't have to return zeroed memory, so clear the padding explicitly
-                int paddedLength = checked((int)BitUtility.RoundUpToMultipleOf64(byteLength));
-                owner.Memory.Span.Slice(byteLength, paddedLength - byteLength).Clear();
+                // Allocators don't have to return zeroed memory, and may return more than was requested,
+                // so clear everything past the written bytes explicitly
+                owner.Memory.Span.Slice(byteLength).Clear();
                 return new ArrowBuffer(owner);
             }
 
