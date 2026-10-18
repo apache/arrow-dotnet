@@ -47,7 +47,25 @@ namespace Apache.Arrow.C
         /// <returns>The imported C# array stream</returns>
         public static unsafe IArrowArrayStream ImportArrayStream(CArrowArrayStream* ptr)
         {
-            return new ImportedArrowArrayStream(ptr);
+            return new ImportedArrowArrayStream(ptr, null);
+        }
+
+        /// <summary>
+        /// Import C pointer as an <see cref="IArrowArrayStream"/>, resolving extension types
+        /// from the given registry.
+        /// </summary>
+        /// <remarks>
+        /// Fields whose extension type is found in <paramref name="extensionRegistry"/> are
+        /// imported with that type, and their columns are returned as extension arrays.
+        /// This will call the release callback on the passed struct if the function fails.
+        /// Otherwise, the release callback is called when the IArrowArrayStream is disposed.
+        /// </remarks>
+        /// <param name="ptr">The pointer to the stream being imported</param>
+        /// <param name="extensionRegistry">The registry used to resolve extension types</param>
+        /// <returns>The imported C# array stream</returns>
+        public static unsafe IArrowArrayStream ImportArrayStream(CArrowArrayStream* ptr, ExtensionTypeRegistry extensionRegistry)
+        {
+            return new ImportedArrowArrayStream(ptr, extensionRegistry);
         }
 
         private sealed unsafe class ImportedArrowArrayStream : IArrowArrayStream
@@ -70,7 +88,7 @@ namespace Apache.Arrow.C
                 return StringUtil.PtrToStringUtf8(error);
             }
 
-            public ImportedArrowArrayStream(CArrowArrayStream* cArrayStream)
+            public ImportedArrowArrayStream(CArrowArrayStream* cArrayStream, ExtensionTypeRegistry extensionRegistry)
             {
                 if (cArrayStream == null)
                 {
@@ -91,7 +109,7 @@ namespace Apache.Arrow.C
                 {
                     throw new Exception(GetLastError(cArrayStream, errno));
                 }
-                _schema = CArrowSchemaImporter.ImportSchema(&cSchema);
+                _schema = CArrowSchemaImporter.ImportSchema(&cSchema, extensionRegistry);
 
                 _cArrayStream = *cArrayStream;
                 cArrayStream->release = default;

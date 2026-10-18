@@ -1175,6 +1175,57 @@ namespace Apache.Arrow.Tests
         }
 
         [SkippableFact]
+        public unsafe void ImportArrayStreamWithExtensionTypes()
+        {
+            // Import a pyarrow stream with arrow.uuid at the top level and nested
+            // in a list, and verify that both resolve when given a registry.
+
+            Guid guid1 = Guid.Parse("01234567-89ab-cdef-0123-456789abcdef");
+            Guid guid2 = Guid.Parse("fedcba98-7654-3210-fedc-ba9876543210");
+
+            CArrowArrayStream* cArrayStream = CArrowArrayStream.Create();
+
+            using (Py.GIL())
+            {
+                dynamic pa = Py.Import("pyarrow");
+                dynamic uuid_mod = Py.Import("uuid");
+                PyObject bytes1 = uuid_mod.UUID(guid1.ToString()).bytes;
+                PyObject bytes2 = uuid_mod.UUID(guid2.ToString()).bytes;
+
+                dynamic table = pa.table(
+                    new PyList(new PyObject[]
+                    {
+                        pa.array(new PyList(new PyObject[] { bytes1, PyObject.None }), type: pa.uuid()),
+                        // pa.array can't convert nested Python values to list<uuid>.
+                        pa.ListArray.from_arrays(
+                            pa.array(new[] { 0, 2, 3 }, type: pa.int32()),
+                            pa.array(new PyList(new PyObject[] { bytes1, bytes2, bytes2 }), type: pa.uuid())),
+                    }),
+                    new[] { "uuid", "uuid_list" });
+
+                dynamic batchReader = pa.RecordBatchReader.from_batches(table.schema, table.to_batches());
+
+                long streamPtr = ((IntPtr)cArrayStream).ToInt64();
+                batchReader._export_to_c(streamPtr);
+            }
+
+            var registry = new ExtensionTypeRegistry();
+            registry.Register(GuidExtensionDefinition.Instance);
+
+            using IArrowArrayStream stream = CArrowArrayStreamImporter.ImportArrayStream(cArrayStream, registry);
+            CArrowArrayStream.Free(cArrayStream);
+
+            using RecordBatch batch = stream.ReadNextRecordBatchAsync().Result;
+
+            GuidArray uuids = Assert.IsType<GuidArray>(batch.Column("uuid"));
+            Assert.Equal(new Guid?[] { guid1, null }, uuids);
+
+            ListArray uuidLists = Assert.IsType<ListArray>(batch.Column("uuid_list"));
+            Assert.Equal(new Guid?[] { guid1, guid2 }, Assert.IsType<GuidArray>(uuidLists.GetSlicedValues(0)));
+            Assert.Equal(new Guid?[] { guid2 }, Assert.IsType<GuidArray>(uuidLists.GetSlicedValues(1)));
+        }
+
+        [SkippableFact]
         public unsafe void ExportBool8Array()
         {
             // Export a C# Bool8Array via the C Data Interface and verify

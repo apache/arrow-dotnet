@@ -160,6 +160,15 @@ namespace Apache.Arrow.C
 
             public ArrowType GetAsType()
             {
+                return GetAsType(null);
+            }
+
+            /// <summary>
+            /// Gets the type, resolving extension types of nested fields from
+            /// <paramref name="extensionRegistry"/> if it is not null.
+            /// </summary>
+            public ArrowType GetAsType(ExtensionTypeRegistry extensionRegistry)
+            {
                 var format = StringUtil.PtrToStringUtf8(_cSchema->format);
                 if (_cSchema->dictionary != null)
                 {
@@ -177,7 +186,7 @@ namespace Apache.Arrow.C
                     };
 
                     var dictionarySchema = new ImportedArrowSchema(_cSchema->dictionary, isRoot: false);
-                    ArrowType dictionaryType = dictionarySchema.GetAsType();
+                    ArrowType dictionaryType = dictionarySchema.GetAsType(extensionRegistry);
 
                     bool ordered = _cSchema->GetFlag(CArrowSchema.ArrowFlagDictionaryOrdered);
 
@@ -198,7 +207,7 @@ namespace Apache.Arrow.C
                     }
                     childSchema = new ImportedArrowSchema(_cSchema->GetChild(0), isRoot: false);
 
-                    Field childField = childSchema.GetAsField();
+                    Field childField = childSchema.GetAsField(extensionRegistry);
 
                     return format switch
                     {
@@ -211,7 +220,7 @@ namespace Apache.Arrow.C
                 }
                 else if (format == "+s")
                 {
-                    return new StructType(ParseChildren("struct"));
+                    return new StructType(ParseChildren("struct", extensionRegistry));
                 }
                 else if (format.StartsWith("+w:"))
                 {
@@ -229,14 +238,14 @@ namespace Apache.Arrow.C
                     }
                     childSchema = new ImportedArrowSchema(_cSchema->GetChild(0), isRoot: false);
 
-                    Field childField = childSchema.GetAsField();
+                    Field childField = childSchema.GetAsField(extensionRegistry);
 
                     return new FixedSizeListType(childField, width);
                 }
                 else if (format == "+m")
                 {
                     return new MapType(
-                        ParseChildren("map").Single(),
+                        ParseChildren("map", extensionRegistry).Single(),
                         (_cSchema->flags & CArrowSchema.ArrowFlagMapKeysSorted) != 0);
                 }
                 else if (format == "+r")
@@ -245,7 +254,7 @@ namespace Apache.Arrow.C
                     {
                         throw new InvalidDataException("Expected run-end encoded type to have exactly two children.");
                     }
-                    List<Field> reeChildren = ParseChildren("run-end encoded");
+                    List<Field> reeChildren = ParseChildren("run-end encoded", extensionRegistry);
                     return new RunEndEncodedType(reeChildren[0], reeChildren[1]);
                 }
 
@@ -316,7 +325,7 @@ namespace Apache.Arrow.C
                         pos = next + 1;
                     } while (pos < format.Length);
 
-                    return new UnionType(ParseChildren("union"), typeIds, unionMode);
+                    return new UnionType(ParseChildren("union", extensionRegistry), typeIds, unionMode);
                 }
 
                 return format switch
@@ -372,7 +381,7 @@ namespace Apache.Arrow.C
 
                 bool nullable = _cSchema->GetFlag(CArrowSchema.ArrowFlagNullable);
 
-                IArrowType type = GetAsType();
+                IArrowType type = GetAsType(extensionRegistry);
                 IReadOnlyDictionary<string, string> metadata = GetMetadata(_cSchema->metadata);
 
                 // Resolve extension type from metadata
@@ -398,24 +407,9 @@ namespace Apache.Arrow.C
 
             public Schema GetAsSchema(ExtensionTypeRegistry extensionRegistry)
             {
-                ArrowType fullType = GetAsType();
+                ArrowType fullType = GetAsType(extensionRegistry);
                 if (fullType is StructType structType)
                 {
-                    // Re-resolve fields with extension registry
-                    if (extensionRegistry != null)
-                    {
-                        var fields = new List<Field>();
-                        for (int i = 0; i < _cSchema->n_children; i++)
-                        {
-                            if (_cSchema->GetChild(i) == null)
-                            {
-                                throw new InvalidDataException("Expected struct type child to be non-null.");
-                            }
-                            var childSchema = new ImportedArrowSchema(_cSchema->GetChild(i), isRoot: false);
-                            fields.Add(childSchema.GetAsField(extensionRegistry));
-                        }
-                        return new Schema(fields, GetMetadata(_cSchema->metadata));
-                    }
                     return new Schema(structType.Fields, GetMetadata(_cSchema->metadata));
                 }
                 else
@@ -424,7 +418,7 @@ namespace Apache.Arrow.C
                 }
             }
 
-            private List<Field> ParseChildren(string typeName)
+            private List<Field> ParseChildren(string typeName, ExtensionTypeRegistry extensionRegistry)
             {
                 var child_schemas = new ImportedArrowSchema[_cSchema->n_children];
 
@@ -437,7 +431,7 @@ namespace Apache.Arrow.C
                     child_schemas[i] = new ImportedArrowSchema(_cSchema->GetChild(i), isRoot: false);
                 }
 
-                return child_schemas.Select(schema => schema.GetAsField()).ToList();
+                return child_schemas.Select(schema => schema.GetAsField(extensionRegistry)).ToList();
             }
 
             private unsafe static IReadOnlyDictionary<string, string> GetMetadata(byte* metadata)

@@ -16,7 +16,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Apache.Arrow.Arrays;
+using Apache.Arrow.C;
 using Apache.Arrow.Ipc;
 using Apache.Arrow.Types;
 using Xunit;
@@ -345,6 +349,172 @@ namespace Apache.Arrow.Tests
             finally
             {
                 Apache.Arrow.C.CArrowSchema.Free(cSchema);
+            }
+        }
+
+        [Fact]
+        public async Task CDataArrayStreamWithRegistry()
+        {
+            var registry = new ExtensionTypeRegistry();
+            registry.Register(GuidExtensionDefinition.Instance);
+
+            var values = new Guid?[] { Guid.NewGuid(), null, Guid.NewGuid() };
+            RecordBatch batch = BuildGuidRecordBatch(values);
+
+            IArrowArrayStream imported;
+            unsafe
+            {
+                CArrowArrayStream* cStream = CArrowArrayStream.Create();
+                CArrowArrayStreamExporter.ExportArrayStream(new SingleBatchStream(batch), cStream);
+                imported = CArrowArrayStreamImporter.ImportArrayStream(cStream, registry);
+                CArrowArrayStream.Free(cStream);
+            }
+
+            using (imported)
+            {
+                Assert.IsType<GuidType>(imported.Schema.FieldsList[0].DataType);
+
+                using RecordBatch importedBatch = await imported.ReadNextRecordBatchAsync();
+                GuidArray guids = Assert.IsType<GuidArray>(importedBatch.Column(0));
+                Assert.Equal(values, guids);
+
+                Assert.Null(await imported.ReadNextRecordBatchAsync());
+            }
+        }
+
+        [Fact]
+        public async Task CDataArrayStreamWithoutRegistry()
+        {
+            RecordBatch batch = BuildGuidRecordBatch(new Guid?[] { Guid.NewGuid() });
+
+            IArrowArrayStream imported;
+            unsafe
+            {
+                CArrowArrayStream* cStream = CArrowArrayStream.Create();
+                CArrowArrayStreamExporter.ExportArrayStream(new SingleBatchStream(batch), cStream);
+                imported = CArrowArrayStreamImporter.ImportArrayStream(cStream);
+                CArrowArrayStream.Free(cStream);
+            }
+
+            using (imported)
+            {
+                Field field = imported.Schema.FieldsList[0];
+                Assert.IsType<FixedSizeBinaryType>(field.DataType);
+                Assert.Equal("arrow.uuid", field.Metadata["ARROW:extension:name"]);
+
+                using RecordBatch importedBatch = await imported.ReadNextRecordBatchAsync();
+                Assert.IsType<FixedSizeBinaryArray>(importedBatch.Column(0));
+            }
+        }
+
+        [Fact]
+        public unsafe void CDataSchemaResolvesNestedExtensionTypes()
+        {
+            var registry = new ExtensionTypeRegistry();
+            registry.Register(GuidExtensionDefinition.Instance);
+
+            Field Item() => new Field("item", GuidType.Default, true);
+            var schema = new Schema(new[]
+            {
+                new Field("list", new ListType(Item()), true),
+                new Field("large_list", new LargeListType(Item()), true),
+                new Field("list_view", new ListViewType(Item()), true),
+                new Field("large_list_view", new LargeListViewType(Item()), true),
+                new Field("fixed_size_list", new FixedSizeListType(Item(), 2), true),
+                new Field("list_of_list", new ListType(new Field("item", new ListType(Item()), true)), true),
+                new Field("struct", new StructType(new[] { Item() }), true),
+                new Field("map", new MapType(new Field("key", StringType.Default, false), Item()), true),
+                new Field("union", new UnionType(new[] { Item() }, new[] { 0 }, UnionMode.Sparse), true),
+                new Field("ree", new RunEndEncodedType(Int32Type.Default, GuidType.Default), true),
+                new Field("dictionary", new DictionaryType(Int32Type.Default, new ListType(Item()), false), true),
+            }, null);
+
+            var cSchema = CArrowSchema.Create();
+            try
+            {
+                CArrowSchemaExporter.ExportSchema(schema, cSchema);
+                Schema imported = CArrowSchemaImporter.ImportSchema(cSchema, registry);
+
+                Assert.Equal(schema.FieldsList.Count, imported.FieldsList.Count);
+                foreach (Field field in imported.FieldsList)
+                {
+                    Assert.True(ContainsGuidType(field.DataType), $"Field '{field.Name}' did not resolve arrow.uuid: {field.DataType}");
+                }
+            }
+            finally
+            {
+                CArrowSchema.Free(cSchema);
+            }
+
+            static bool ContainsGuidType(IArrowType type) => type switch
+            {
+                GuidType => true,
+                DictionaryType dictionary => ContainsGuidType(dictionary.ValueType),
+                NestedType nested => nested.Fields.Any(f => ContainsGuidType(f.DataType)),
+                _ => false,
+            };
+        }
+
+        [Fact]
+        public async Task CDataArrayStreamResolvesListOfExtensionType()
+        {
+            var registry = new ExtensionTypeRegistry();
+            registry.Register(GuidExtensionDefinition.Instance);
+
+            var values = new Guid?[] { Guid.NewGuid(), null, Guid.NewGuid() };
+            GuidArray guids = (GuidArray)BuildGuidRecordBatch(values).Column(0);
+            var listType = new ListType(new Field("item", GuidType.Default, true));
+            var list = new ListArray(listType, 2,
+                new ArrowBuffer.Builder<int>().Append(0).Append(1).Append(3).Build(),
+                guids, ArrowBuffer.Empty);
+            var schema = new Schema(new[] { new Field("guid_lists", listType, true) }, null);
+            RecordBatch batch = new RecordBatch(schema, new[] { list }, list.Length);
+
+            IArrowArrayStream imported;
+            unsafe
+            {
+                CArrowArrayStream* cStream = CArrowArrayStream.Create();
+                CArrowArrayStreamExporter.ExportArrayStream(new SingleBatchStream(batch), cStream);
+                imported = CArrowArrayStreamImporter.ImportArrayStream(cStream, registry);
+                CArrowArrayStream.Free(cStream);
+            }
+
+            using (imported)
+            {
+                ListType importedType = Assert.IsType<ListType>(imported.Schema.FieldsList[0].DataType);
+                Assert.IsType<GuidType>(importedType.ValueDataType);
+
+                using RecordBatch importedBatch = await imported.ReadNextRecordBatchAsync();
+                ListArray importedList = Assert.IsType<ListArray>(importedBatch.Column(0));
+                Assert.IsType<GuidArray>(importedList.Values);
+                Assert.Equal(new Guid?[] { values[0] }, Assert.IsType<GuidArray>(importedList.GetSlicedValues(0)));
+                Assert.Equal(new Guid?[] { values[1], values[2] }, Assert.IsType<GuidArray>(importedList.GetSlicedValues(1)));
+            }
+        }
+
+        private sealed class SingleBatchStream : IArrowArrayStream
+        {
+            private RecordBatch _batch;
+
+            public SingleBatchStream(RecordBatch batch)
+            {
+                Schema = batch.Schema;
+                _batch = batch;
+            }
+
+            public Schema Schema { get; }
+
+            public ValueTask<RecordBatch> ReadNextRecordBatchAsync(CancellationToken cancellationToken = default)
+            {
+                RecordBatch result = _batch;
+                _batch = null;
+                return new ValueTask<RecordBatch>(result);
+            }
+
+            public void Dispose()
+            {
+                _batch?.Dispose();
+                _batch = null;
             }
         }
     }
