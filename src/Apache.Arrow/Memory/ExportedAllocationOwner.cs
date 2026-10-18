@@ -103,7 +103,12 @@ namespace Apache.Arrow.Memory
                 _sharedHandles[i] = default;
             }
 
-            GC.RemoveMemoryPressure(_allocationSize);
+            // Nothing is allocated when exporting an array without buffers or children (e.g. a NullArray),
+            // and RemoveMemoryPressure throws for zero.
+            if (_allocationSize > 0)
+            {
+                GC.RemoveMemoryPressure(_allocationSize);
+            }
             GC.SuppressFinalize(this);
             _disposed = true;
         }
