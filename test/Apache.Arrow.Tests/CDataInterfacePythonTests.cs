@@ -1226,6 +1226,100 @@ namespace Apache.Arrow.Tests
         }
 
         [SkippableFact]
+        public unsafe void ExportDictionaryOfGuidArray()
+        {
+            // Export a dictionary-encoded GuidArray and verify that pyarrow sees a
+            // dictionary whose value type is arrow.uuid.
+
+            var guid1 = Guid.Parse("01234567-89ab-cdef-0123-456789abcdef");
+            var guid2 = Guid.Parse("fedcba98-7654-3210-fedc-ba9876543210");
+            GuidArray dictionary = new GuidArray.Builder().Append(guid1).Append(guid2).Build();
+            Int32Array indices = new Int32Array.Builder().Append(1).AppendNull().Append(0).Build();
+            var dictionaryType = new DictionaryType(Int32Type.Default, GuidType.Default, false);
+            var array = new DictionaryArray(dictionaryType, indices, dictionary);
+            var schema = new Schema(new[] { new Field("uuids", dictionaryType, true) }, null);
+            var batch = new RecordBatch(schema, new[] { array }, array.Length);
+
+            CArrowArray* cArray = CArrowArray.Create();
+            CArrowArrayExporter.ExportRecordBatch(batch, cArray);
+            CArrowSchema* cSchema = CArrowSchema.Create();
+            CArrowSchemaExporter.ExportSchema(batch.Schema, cSchema);
+
+            long arrayPtr = ((IntPtr)cArray).ToInt64();
+            long schemaPtr = ((IntPtr)cSchema).ToInt64();
+
+            using (Py.GIL())
+            {
+                dynamic pa = Py.Import("pyarrow");
+                dynamic uuid_mod = Py.Import("uuid");
+
+                dynamic pyBatch = pa.RecordBatch._import_from_c(arrayPtr, schemaPtr);
+                dynamic pyArray = pyBatch.column(0);
+
+                Assert.True((bool)pyArray.type.equals(pa.dictionary(pa.int32(), pa.uuid())));
+
+                dynamic expectedArray = pa.DictionaryArray.from_arrays(
+                    pa.array(new PyList(new PyObject[] { new PyInt(1), PyObject.None, new PyInt(0) }), type: pa.int32()),
+                    pa.array(
+                        new PyList(new PyObject[]
+                        {
+                            (PyObject)uuid_mod.UUID(guid1.ToString()).bytes,
+                            (PyObject)uuid_mod.UUID(guid2.ToString()).bytes,
+                        }),
+                        type: pa.uuid()));
+
+                Assert.True((bool)pyArray.equals(expectedArray));
+            }
+
+            CArrowArray.Free(cArray);
+            CArrowSchema.Free(cSchema);
+        }
+
+        [SkippableFact]
+        public unsafe void ImportDictionaryOfGuidArray()
+        {
+            // Import a pyarrow dictionary<int32, arrow.uuid> array and verify that the
+            // dictionary values resolve to a GuidArray.
+
+            var guid1 = Guid.Parse("01234567-89ab-cdef-0123-456789abcdef");
+            var guid2 = Guid.Parse("fedcba98-7654-3210-fedc-ba9876543210");
+
+            CArrowArray* cArray = CArrowArray.Create();
+            CArrowSchema* cSchema = CArrowSchema.Create();
+
+            using (Py.GIL())
+            {
+                dynamic pa = Py.Import("pyarrow");
+                dynamic uuid_mod = Py.Import("uuid");
+
+                dynamic pyArray = pa.DictionaryArray.from_arrays(
+                    pa.array(new[] { 1, 0, 1 }, type: pa.int32()),
+                    pa.array(
+                        new PyList(new PyObject[]
+                        {
+                            (PyObject)uuid_mod.UUID(guid1.ToString()).bytes,
+                            (PyObject)uuid_mod.UUID(guid2.ToString()).bytes,
+                        }),
+                        type: pa.uuid()));
+
+                pyArray._export_to_c(((IntPtr)cArray).ToInt64(), ((IntPtr)cSchema).ToInt64());
+            }
+
+            var registry = new ExtensionTypeRegistry();
+            registry.Register(GuidExtensionDefinition.Instance);
+
+            Field field = CArrowSchemaImporter.ImportField(cSchema, registry);
+            DictionaryType dictionaryType = Assert.IsType<DictionaryType>(field.DataType);
+            Assert.IsType<GuidType>(dictionaryType.ValueType);
+
+            var importedArray = (DictionaryArray)CArrowArrayImporter.ImportArray(cArray, field.DataType);
+            Assert.Equal(new Guid?[] { guid1, guid2 }, Assert.IsType<GuidArray>(importedArray.Dictionary));
+            Assert.Equal(new int?[] { 1, 0, 1 }, (Int32Array)importedArray.Indices);
+
+            CArrowArray.Free(cArray);
+        }
+
+        [SkippableFact]
         public unsafe void ExportBool8Array()
         {
             // Export a C# Bool8Array via the C Data Interface and verify

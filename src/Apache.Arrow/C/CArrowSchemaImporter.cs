@@ -26,6 +26,9 @@ namespace Apache.Arrow.C
 {
     public static class CArrowSchemaImporter
     {
+        private const string ExtensionNameKey = "ARROW:extension:name";
+        private const string ExtensionMetadataKey = "ARROW:extension:metadata";
+
         /// <summary>
         /// Import C pointer as an <see cref="ArrowType"/>.
         /// </summary>
@@ -186,7 +189,10 @@ namespace Apache.Arrow.C
                     };
 
                     var dictionarySchema = new ImportedArrowSchema(_cSchema->dictionary, isRoot: false);
-                    ArrowType dictionaryType = dictionarySchema.GetAsType(extensionRegistry);
+                    IArrowType dictionaryType = ResolveExtensionType(
+                        dictionarySchema.GetAsType(extensionRegistry),
+                        GetMetadata(_cSchema->dictionary->metadata),
+                        extensionRegistry);
 
                     bool ordered = _cSchema->GetFlag(CArrowSchema.ArrowFlagDictionaryOrdered);
 
@@ -384,20 +390,26 @@ namespace Apache.Arrow.C
                 IArrowType type = GetAsType(extensionRegistry);
                 IReadOnlyDictionary<string, string> metadata = GetMetadata(_cSchema->metadata);
 
-                // Resolve extension type from metadata
-                if (metadata != null &&
-                    extensionRegistry != null &&
-                    metadata.TryGetValue("ARROW:extension:name", out string extName) &&
-                    extensionRegistry.TryGetDefinition(extName, out ExtensionDefinition extDef))
+                IArrowType resolvedType = ResolveExtensionType(type, metadata, extensionRegistry);
+                if (resolvedType == type && type is DictionaryType dictionaryType && !(dictionaryType.ValueType is ExtensionType))
                 {
-                    metadata.TryGetValue("ARROW:extension:metadata", out string extMeta);
-                    if (extDef.TryCreateType(type, extMeta, out ExtensionType extType))
+                    // Older versions of this library exported a dictionary value type's extension
+                    // metadata on the field instead of on the dictionary child.
+                    IArrowType valueType = ResolveExtensionType(dictionaryType.ValueType, metadata, extensionRegistry);
+                    if (valueType != dictionaryType.ValueType)
                     {
-                        type = extType;
+                        resolvedType = new DictionaryType(dictionaryType.IndexType, valueType, dictionaryType.Ordered);
                     }
                 }
 
-                return new Field(fieldName, type, nullable, metadata);
+                if (_cSchema->dictionary != null)
+                {
+                    // The C Data Interface puts a dictionary value type's extension metadata on
+                    // the dictionary child. Keep it on the field, which is where IPC puts it.
+                    metadata = WithDictionaryExtensionMetadata(metadata, GetMetadata(_cSchema->dictionary->metadata));
+                }
+
+                return new Field(fieldName, resolvedType, nullable, metadata);
             }
 
             public Schema GetAsSchema()
@@ -416,6 +428,49 @@ namespace Apache.Arrow.C
                 {
                     throw new ArgumentException("Imported type is not a struct type, so it cannot be converted to a schema.");
                 }
+            }
+
+            /// <summary>
+            /// Returns the extension type named in <paramref name="metadata"/> if
+            /// <paramref name="extensionRegistry"/> defines it for <paramref name="storageType"/>;
+            /// otherwise returns <paramref name="storageType"/>.
+            /// </summary>
+            private static IArrowType ResolveExtensionType(
+                IArrowType storageType, IReadOnlyDictionary<string, string> metadata, ExtensionTypeRegistry extensionRegistry)
+            {
+                if (metadata != null &&
+                    extensionRegistry != null &&
+                    metadata.TryGetValue(ExtensionNameKey, out string extName) &&
+                    extensionRegistry.TryGetDefinition(extName, out ExtensionDefinition extDef))
+                {
+                    metadata.TryGetValue(ExtensionMetadataKey, out string extMeta);
+                    if (extDef.TryCreateType(storageType, extMeta, out ExtensionType extType))
+                    {
+                        return extType;
+                    }
+                }
+                return storageType;
+            }
+
+            private static IReadOnlyDictionary<string, string> WithDictionaryExtensionMetadata(
+                IReadOnlyDictionary<string, string> metadata, IReadOnlyDictionary<string, string> dictionaryMetadata)
+            {
+                if (dictionaryMetadata == null ||
+                    !dictionaryMetadata.TryGetValue(ExtensionNameKey, out string extName) ||
+                    (metadata != null && metadata.ContainsKey(ExtensionNameKey)))
+                {
+                    return metadata;
+                }
+
+                var merged = metadata != null
+                    ? new Dictionary<string, string>((IDictionary<string, string>)metadata)
+                    : new Dictionary<string, string>();
+                merged[ExtensionNameKey] = extName;
+                if (dictionaryMetadata.TryGetValue(ExtensionMetadataKey, out string extMeta))
+                {
+                    merged[ExtensionMetadataKey] = extMeta;
+                }
+                return merged;
             }
 
             private List<Field> ParseChildren(string typeName, ExtensionTypeRegistry extensionRegistry)
