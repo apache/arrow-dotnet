@@ -197,6 +197,56 @@ Only CPU device streams are supported.</p>
 
 
 
+  <a id="Apache_Arrow_C_CArrowDeviceArrayStreamImporter_ImportDeviceArrayStream_" data-uid="Apache.Arrow.C.CArrowDeviceArrayStreamImporter.ImportDeviceArrayStream*"></a>
+
+  <h3 id="Apache_Arrow_C_CArrowDeviceArrayStreamImporter_ImportDeviceArrayStream_Apache_Arrow_C_CArrowDeviceArrayStream__Apache_Arrow_ExtensionTypeRegistry_" data-uid="Apache.Arrow.C.CArrowDeviceArrayStreamImporter.ImportDeviceArrayStream(Apache.Arrow.C.CArrowDeviceArrayStream*,Apache.Arrow.ExtensionTypeRegistry)">
+  ImportDeviceArrayStream(CArrowDeviceArrayStream*, ExtensionTypeRegistry)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/apache/arrow-dotnet/blob/main/src/Apache.Arrow/C/CArrowDeviceArrayStreamImporter.cs/#L57"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Import C pointer as an <a class="xref" href="Apache.Arrow.Ipc.IArrowArrayStream.html">IArrowArrayStream</a>, resolving extension types
+from the given registry.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IArrowArrayStream ImportDeviceArrayStream(CArrowDeviceArrayStream* ptr, ExtensionTypeRegistry extensionRegistry)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ptr</code> <a class="xref" href="Apache.Arrow.C.CArrowDeviceArrayStream.html">CArrowDeviceArrayStream</a>*</dt>
+    <dd><p>The pointer to the device array stream being imported</p>
+</dd>
+    <dt><code>extensionRegistry</code> <a class="xref" href="Apache.Arrow.ExtensionTypeRegistry.html">ExtensionTypeRegistry</a></dt>
+    <dd><p>The registry used to resolve extension types</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Apache.Arrow.Ipc.IArrowArrayStream.html">IArrowArrayStream</a></dt>
+    <dd><p>The imported C# array stream</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Apache_Arrow_C_CArrowDeviceArrayStreamImporter_ImportDeviceArrayStream_Apache_Arrow_C_CArrowDeviceArrayStream__Apache_Arrow_ExtensionTypeRegistry__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Fields whose extension type is found in <code class="paramref">extensionRegistry</code> are
+imported with that type, and their columns are returned as extension arrays.
+This will call the release callback on the passed struct if the function fails.
+Otherwise, the release callback is called when the IArrowArrayStream is disposed.
+Only CPU device streams are supported.</p>
+</div>
+
+
+
+
 
 </article>
 

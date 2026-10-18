@@ -4035,6 +4035,12 @@ references:
   commentId: M:Apache.Arrow.C.CArrowArrayStreamImporter.ImportArrayStream(Apache.Arrow.C.CArrowArrayStream*)
   fullName: Apache.Arrow.C.CArrowArrayStreamImporter.ImportArrayStream(Apache.Arrow.C.CArrowArrayStream*)
   nameWithType: CArrowArrayStreamImporter.ImportArrayStream(CArrowArrayStream*)
+- uid: Apache.Arrow.C.CArrowArrayStreamImporter.ImportArrayStream(Apache.Arrow.C.CArrowArrayStream*,Apache.Arrow.ExtensionTypeRegistry)
+  name: ImportArrayStream(CArrowArrayStream*, ExtensionTypeRegistry)
+  href: api/Apache.Arrow.C.CArrowArrayStreamImporter.html#Apache_Arrow_C_CArrowArrayStreamImporter_ImportArrayStream_Apache_Arrow_C_CArrowArrayStream__Apache_Arrow_ExtensionTypeRegistry_
+  commentId: M:Apache.Arrow.C.CArrowArrayStreamImporter.ImportArrayStream(Apache.Arrow.C.CArrowArrayStream*,Apache.Arrow.ExtensionTypeRegistry)
+  fullName: Apache.Arrow.C.CArrowArrayStreamImporter.ImportArrayStream(Apache.Arrow.C.CArrowArrayStream*, Apache.Arrow.ExtensionTypeRegistry)
+  nameWithType: CArrowArrayStreamImporter.ImportArrayStream(CArrowArrayStream*, ExtensionTypeRegistry)
 - uid: Apache.Arrow.C.CArrowArrayStreamImporter.ImportArrayStream*
   name: ImportArrayStream
   href: api/Apache.Arrow.C.CArrowArrayStreamImporter.html#Apache_Arrow_C_CArrowArrayStreamImporter_ImportArrayStream_
@@ -4237,6 +4243,12 @@ references:
   commentId: M:Apache.Arrow.C.CArrowDeviceArrayStreamImporter.ImportDeviceArrayStream(Apache.Arrow.C.CArrowDeviceArrayStream*)
   fullName: Apache.Arrow.C.CArrowDeviceArrayStreamImporter.ImportDeviceArrayStream(Apache.Arrow.C.CArrowDeviceArrayStream*)
   nameWithType: CArrowDeviceArrayStreamImporter.ImportDeviceArrayStream(CArrowDeviceArrayStream*)
+- uid: Apache.Arrow.C.CArrowDeviceArrayStreamImporter.ImportDeviceArrayStream(Apache.Arrow.C.CArrowDeviceArrayStream*,Apache.Arrow.ExtensionTypeRegistry)
+  name: ImportDeviceArrayStream(CArrowDeviceArrayStream*, ExtensionTypeRegistry)
+  href: api/Apache.Arrow.C.CArrowDeviceArrayStreamImporter.html#Apache_Arrow_C_CArrowDeviceArrayStreamImporter_ImportDeviceArrayStream_Apache_Arrow_C_CArrowDeviceArrayStream__Apache_Arrow_ExtensionTypeRegistry_
+  commentId: M:Apache.Arrow.C.CArrowDeviceArrayStreamImporter.ImportDeviceArrayStream(Apache.Arrow.C.CArrowDeviceArrayStream*,Apache.Arrow.ExtensionTypeRegistry)
+  fullName: Apache.Arrow.C.CArrowDeviceArrayStreamImporter.ImportDeviceArrayStream(Apache.Arrow.C.CArrowDeviceArrayStream*, Apache.Arrow.ExtensionTypeRegistry)
+  nameWithType: CArrowDeviceArrayStreamImporter.ImportDeviceArrayStream(CArrowDeviceArrayStream*, ExtensionTypeRegistry)
 - uid: Apache.Arrow.C.CArrowDeviceArrayStreamImporter.ImportDeviceArrayStream*
   name: ImportDeviceArrayStream
   href: api/Apache.Arrow.C.CArrowDeviceArrayStreamImporter.html#Apache_Arrow_C_CArrowDeviceArrayStreamImporter_ImportDeviceArrayStream_
