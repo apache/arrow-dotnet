@@ -330,6 +330,63 @@ namespace Apache.Arrow.Tests
             Assert.Equal(1, result.Data.Children[0].Length);
         }
 
+        public static IEnumerable<object[]> VariableBinaryTypes()
+        {
+            yield return new object[] { StringType.Default };
+            yield return new object[] { BinaryType.Default };
+            yield return new object[] { LargeStringType.Default };
+            yield return new object[] { LargeBinaryType.Default };
+        }
+
+        // A zero-length variable binary array may have an empty offsets buffer
+        // (e.g. as written to IPC by Arrow C++ or nanoarrow). See GH-462.
+        [Theory]
+        [MemberData(nameof(VariableBinaryTypes))]
+        public void TestConcatenateVariableBinaryWithEmptyOffsetsBuffer(IArrowType type)
+        {
+            IArrowArray empty = ArrowArrayFactory.BuildArray(new ArrayData(
+                type, length: 0, nullCount: 0, offset: 0,
+                new[] { ArrowBuffer.Empty, ArrowBuffer.Empty, ArrowBuffer.Empty }));
+
+            IArrowArray first = BuildVariableBinaryArray(type, "a", null);
+            IArrowArray second = BuildVariableBinaryArray(type, "bc");
+            IArrowArray expected = BuildVariableBinaryArray(type, "a", null, "bc");
+
+            IArrowArray actual = ArrowArrayConcatenator.Concatenate(new[] { empty, first, empty, second, empty });
+            ArrowReaderVerifier.CompareArrays(expected, actual, strictCompare: false);
+
+            IArrowArray allEmpty = ArrowArrayConcatenator.Concatenate(new[] { empty, empty });
+            Assert.Equal(0, allEmpty.Length);
+            Assert.Equal(type.TypeId, allEmpty.Data.DataType.TypeId);
+        }
+
+        private static IArrowArray BuildVariableBinaryArray(IArrowType type, params string[] values)
+        {
+            // Binary arrays share the layout of the corresponding string arrays.
+            IArrowArray strings;
+            if (type is LargeStringType || type is LargeBinaryType)
+            {
+                var builder = new LargeStringArray.Builder();
+                foreach (string value in values)
+                {
+                    if (value == null) builder.AppendNull(); else builder.Append(value);
+                }
+                strings = builder.Build();
+            }
+            else
+            {
+                var builder = new StringArray.Builder();
+                foreach (string value in values)
+                {
+                    if (value == null) builder.AppendNull(); else builder.Append(value);
+                }
+                strings = builder.Build();
+            }
+
+            ArrayData data = strings.Data;
+            return ArrowArrayFactory.BuildArray(new ArrayData(type, data.Length, data.NullCount, data.Offset, data.Buffers));
+        }
+
         private static void AssertConcatenateAllEmptyNestedArraysKeepsChild(IArrowArray first, IArrowArray second)
         {
             IArrowArray result = ArrowArrayConcatenator.Concatenate(new[] { first, second });
