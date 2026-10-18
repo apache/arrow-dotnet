@@ -1157,6 +1157,11 @@ namespace Apache.Arrow
                 int byteLength = 0;
                 foreach (ArrayData arrayData in _arrayDataList)
                 {
+                    if (arrayData.Length == 0)
+                    {
+                        continue;
+                    }
+
                     var offsets = arrayData.Buffers[1].Span.CastTo<long>().Slice(arrayData.Offset, arrayData.Length + 1);
                     byteLength = checked(byteLength + (int)(offsets[arrayData.Length] - offsets[0]));
                 }
@@ -1167,6 +1172,11 @@ namespace Apache.Arrow
                     int position = 0;
                     foreach (ArrayData arrayData in _arrayDataList)
                     {
+                        if (arrayData.Length == 0)
+                        {
+                            continue;
+                        }
+
                         var offsets = arrayData.Buffers[1].Span.CastTo<long>().Slice(arrayData.Offset, arrayData.Length + 1);
                         var firstOffset = checked((int)offsets[0]);
                         var lastOffset = checked((int)offsets[arrayData.Length]);
@@ -1285,6 +1295,11 @@ namespace Apache.Arrow
                 int byteLength = 0;
                 foreach (ArrayData arrayData in _arrayDataList)
                 {
+                    if (arrayData.Length == 0)
+                    {
+                        continue;
+                    }
+
                     var offsets = arrayData.Buffers[1].Span.CastTo<int>().Slice(arrayData.Offset, arrayData.Length + 1);
                     byteLength = checked(byteLength + (offsets[arrayData.Length] - offsets[0]));
                 }
@@ -1295,6 +1310,11 @@ namespace Apache.Arrow
                     int position = 0;
                     foreach (ArrayData arrayData in _arrayDataList)
                     {
+                        if (arrayData.Length == 0)
+                        {
+                            continue;
+                        }
+
                         var offsets = arrayData.Buffers[1].Span.CastTo<int>().Slice(arrayData.Offset, arrayData.Length + 1);
                         var firstOffset = offsets[0];
                         var lastOffset = offsets[arrayData.Length];
