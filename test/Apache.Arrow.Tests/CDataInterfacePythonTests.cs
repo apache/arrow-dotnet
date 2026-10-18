@@ -694,6 +694,32 @@ namespace Apache.Arrow.Tests
         }
 
         [SkippableFact]
+        public unsafe void ExportZeroLengthArrayWithEmptyOffsets()
+        {
+            foreach (IArrowArray array in CDataInterfaceDataTests.GetZeroLengthArraysWithEmptyOffsets())
+            {
+                CArrowArray* cArray = CArrowArray.Create();
+                CArrowArrayExporter.ExportArray(array, cArray);
+                CArrowSchema* cSchema = CArrowSchema.Create();
+                CArrowSchemaExporter.ExportType(array.Data.DataType, cSchema);
+
+                long arrayPtr = ((IntPtr)cArray).ToInt64();
+                long schemaPtr = ((IntPtr)cSchema).ToInt64();
+
+                using (Py.GIL())
+                {
+                    dynamic pa = Py.Import("pyarrow");
+                    dynamic exportedPyArray = pa.Array._import_from_c(arrayPtr, schemaPtr);
+                    exportedPyArray.validate(full: true);
+                    Assert.Equal(0, (int)exportedPyArray.__len__());
+                }
+
+                CArrowArray.Free(cArray);
+                CArrowSchema.Free(cSchema);
+            }
+        }
+
+        [SkippableFact]
         public unsafe void ExportManagedMemoryArray()
         {
             var expectedValues = Enumerable.Range(0, 100).Select(i => i % 10 == 3 ? null : (long?)i).ToArray();

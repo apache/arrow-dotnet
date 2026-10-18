@@ -117,7 +117,12 @@ namespace Apache.Arrow
 
         public ArrowBuffer ValueOffsetsBuffer => Data.Buffers[1];
 
-        public ReadOnlySpan<int> ValueOffsets => ValueOffsetsBuffer.Span.CastTo<int>().Slice(Offset, Length + 1);
+        // A zero-length array may have an empty offsets buffer (e.g. when read from IPC).
+        private static ReadOnlySpan<int> ZeroOffset => new int[] { 0 };
+
+        public ReadOnlySpan<int> ValueOffsets => Length == 0 && ValueOffsetsBuffer.IsEmpty
+            ? ZeroOffset
+            : ValueOffsetsBuffer.Span.CastTo<int>().Slice(Offset, Length + 1);
 
         public ListArray(IArrowType dataType, int length,
             ArrowBuffer valueOffsetsBuffer, IArrowArray values,

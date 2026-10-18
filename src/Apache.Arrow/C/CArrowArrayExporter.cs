@@ -159,6 +159,17 @@ namespace Apache.Arrow.C
                 {
                     cArray->buffers[array.Buffers.Length] = (byte*)lengths;
                 }
+
+                // A zero-length array may have an empty offsets buffer (e.g. when read from IPC),
+                // but consumers expect offset + 1 offsets, so export zeros in its place.
+                int offsetWidth = GetOffsetWidth(storageTypeId);
+                if (offsetWidth > 0 && array.Length == 0 && array.Buffers[1].IsEmpty)
+                {
+                    int byteLength = checked((array.Offset + 1) * offsetWidth);
+                    IntPtr zeros = sharedOwner.Allocate(byteLength);
+                    new Span<byte>((void*)zeros, byteLength).Clear();
+                    cArray->buffers[1] = (byte*)zeros;
+                }
             }
 
             cArray->n_children = array.Children?.Length ?? 0;
@@ -258,5 +269,12 @@ namespace Apache.Arrow.C
             ((ExportedAllocationOwner)gch.Target).DecRef();
             gch.Free();
         }
+
+        private static int GetOffsetWidth(ArrowTypeId typeId) => typeId switch
+        {
+            ArrowTypeId.Binary or ArrowTypeId.String or ArrowTypeId.List or ArrowTypeId.Map => sizeof(int),
+            ArrowTypeId.LargeBinary or ArrowTypeId.LargeString or ArrowTypeId.LargeList => sizeof(long),
+            _ => 0,
+        };
     }
 }

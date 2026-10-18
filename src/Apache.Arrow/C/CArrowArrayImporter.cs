@@ -288,6 +288,21 @@ namespace Apache.Arrow.C
                 }
             }
 
+            // Some producers (including older versions of this library) export a null offsets
+            // buffer for a zero-length array. Accept that, but not for a non-empty array.
+            private static bool HasOffsetsBuffer(CArrowArray* cArray)
+            {
+                if (cArray->buffers[1] != null)
+                {
+                    return true;
+                }
+                if (cArray->length != 0)
+                {
+                    throw new InvalidOperationException("Array has a non-zero length but no offsets buffer");
+                }
+                return false;
+            }
+
             private ArrowBuffer[] ImportByteArrayBuffers(CArrowArray* cArray)
             {
                 if (cArray->n_buffers != 3)
@@ -295,10 +310,14 @@ namespace Apache.Arrow.C
                     throw new InvalidOperationException("Byte arrays are expected to have exactly three buffers");
                 }
 
+                if (!HasOffsetsBuffer(cArray))
+                {
+                    return new ArrowBuffer[] { ImportValidityBuffer(cArray), ArrowBuffer.Empty, ArrowBuffer.Empty };
+                }
+
                 int length = checked((int)cArray->offset + (int)cArray->length);
                 int offsetsLength = (length + 1) * 4;
                 int* offsets = (int*)cArray->buffers[1];
-                Debug.Assert(offsets != null);
                 int valuesLength = offsets[length];
 
                 ArrowBuffer[] buffers = new ArrowBuffer[3];
@@ -346,10 +365,14 @@ namespace Apache.Arrow.C
                         $"is greater than the maximum supported large byte array length ({maxLength})");
                 }
 
+                if (!HasOffsetsBuffer(cArray))
+                {
+                    return new ArrowBuffer[] { ImportValidityBuffer(cArray), ArrowBuffer.Empty, ArrowBuffer.Empty };
+                }
+
                 int length = checked((int)cArray->offset + (int)cArray->length);
                 int offsetsLength = (length + 1) * 8;
                 long* offsets = (long*)cArray->buffers[1];
-                Debug.Assert(offsets != null);
                 long valuesLength = offsets[length];
 
                 if (valuesLength > int.MaxValue)
@@ -379,7 +402,7 @@ namespace Apache.Arrow.C
 
                 ArrowBuffer[] buffers = new ArrowBuffer[2];
                 buffers[0] = ImportValidityBuffer(cArray);
-                buffers[1] = ImportCArrayBuffer(cArray, 1, offsetsLength);
+                buffers[1] = HasOffsetsBuffer(cArray) ? ImportCArrayBuffer(cArray, 1, offsetsLength) : ArrowBuffer.Empty;
 
                 return buffers;
             }
@@ -448,7 +471,7 @@ namespace Apache.Arrow.C
 
                 ArrowBuffer[] buffers = new ArrowBuffer[2];
                 buffers[0] = ImportValidityBuffer(cArray);
-                buffers[1] = ImportCArrayBuffer(cArray, 1, offsetsLength);
+                buffers[1] = HasOffsetsBuffer(cArray) ? ImportCArrayBuffer(cArray, 1, offsetsLength) : ArrowBuffer.Empty;
 
                 return buffers;
             }
