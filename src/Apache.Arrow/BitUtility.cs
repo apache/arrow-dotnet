@@ -123,6 +123,75 @@ namespace Apache.Arrow
             }
         }
 
+        /// <summary>
+        /// Copy a range of bits from one bitmap to another. Bits of the destination
+        /// outside of the copied range are left unchanged.
+        /// </summary>
+        /// <param name="source">Bitmap to copy bits from.</param>
+        /// <param name="sourceIndex">Bit index in the source to start copying from.</param>
+        /// <param name="destination">Bitmap to copy bits to.</param>
+        /// <param name="destinationIndex">Bit index in the destination to start copying to.</param>
+        /// <param name="length">Number of bits to copy.</param>
+        internal static void CopyBits(ReadOnlySpan<byte> source, int sourceIndex, Span<byte> destination, int destinationIndex, int length)
+        {
+            // Copy single bits until the destination is byte-aligned
+            while (length > 0 && destinationIndex % 8 != 0)
+            {
+                SetBit(destination, destinationIndex++, GetBit(source, sourceIndex++));
+                length--;
+            }
+
+            int fullBytes = length / 8;
+            if (fullBytes > 0)
+            {
+                Span<byte> target = destination.Slice(destinationIndex / 8, fullBytes);
+                int shift = sourceIndex % 8;
+                if (shift == 0)
+                {
+                    source.Slice(sourceIndex / 8, fullBytes).CopyTo(target);
+                }
+                else
+                {
+                    // The bits of each destination byte straddle two source bytes
+                    CopyShiftedBytes(source.Slice(sourceIndex / 8, fullBytes + 1), shift, target);
+                }
+
+                sourceIndex += fullBytes * 8;
+                destinationIndex += fullBytes * 8;
+                length -= fullBytes * 8;
+            }
+
+            for (int i = 0; i < length; i++)
+            {
+                SetBit(destination, destinationIndex + i, GetBit(source, sourceIndex + i));
+            }
+        }
+
+        private static void CopyShiftedBytes(ReadOnlySpan<byte> source, int shift, Span<byte> destination)
+        {
+            Debug.Assert(shift > 0 && shift < 8);
+            Debug.Assert(source.Length == destination.Length + 1);
+
+            int i = 0;
+            if (BitConverter.IsLittleEndian)
+            {
+                // Produce eight destination bytes at a time from nine source bytes
+                ref byte sourceRef = ref MemoryMarshal.GetReference(source);
+                ref byte destinationRef = ref MemoryMarshal.GetReference(destination);
+                for (; i + 8 <= destination.Length; i += 8)
+                {
+                    ulong low = Unsafe.ReadUnaligned<ulong>(ref Unsafe.Add(ref sourceRef, i));
+                    ulong high = Unsafe.Add(ref sourceRef, i + 8);
+                    Unsafe.WriteUnaligned(ref Unsafe.Add(ref destinationRef, i), (low >> shift) | (high << (64 - shift)));
+                }
+            }
+
+            for (; i < destination.Length; i++)
+            {
+                destination[i] = (byte)((source[i] >> shift) | (source[i + 1] << (8 - shift)));
+            }
+        }
+
         public static void ToggleBit(Span<byte> data, int index)
         {
             data[index / 8] ^= BitMask[index % 8];
