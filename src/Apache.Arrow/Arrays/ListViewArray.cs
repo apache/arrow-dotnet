@@ -198,12 +198,7 @@ namespace Apache.Arrow
                 return null;
             }
 
-            if (!(Values is Array array))
-            {
-                return default;
-            }
-
-            return array.Slice(ValueOffsets[index], GetValueLength(index));
+            return ArrowArrayFactory.Slice(Values, ValueOffsets[index], GetValueLength(index));
         }
 
         protected override void Dispose(bool disposing)

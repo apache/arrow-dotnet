@@ -167,15 +167,10 @@ namespace Apache.Arrow
                 return null;
             }
 
-            if (!(Values is Array array))
-            {
-                return default;
-            }
-
             index += Data.Offset;
 
             int length = ((FixedSizeListType)Data.DataType).ListSize;
-            return array.Slice(index * length, length);
+            return ArrowArrayFactory.Slice(Values, index * length, length);
         }
 
         protected override void Dispose(bool disposing)
