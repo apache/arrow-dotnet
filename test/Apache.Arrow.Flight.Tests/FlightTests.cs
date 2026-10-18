@@ -513,12 +513,12 @@ namespace Apache.Arrow.Flight.Tests
         [Fact]
         public async Task EnsureCallRaisesRequestCancelled()
         {
+            // Cancel up front rather than racing a timer, so every call sees a cancelled token
             var cts = new CancellationTokenSource();
-            cts.CancelAfter(1);
+            cts.Cancel();
 
             var batch = CreateTestBatch(0, 100);
             var flightDescriptor = FlightDescriptor.CreatePathDescriptor("raise_cancelled");
-            await Task.Delay(5);
             RpcException exception = null;
 
             var asyncServerStreamingCallFlights = _flightClient.ListFlights(null, null, null, cts.Token);
