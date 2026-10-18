@@ -111,6 +111,24 @@ namespace Apache.Arrow.Tests
             CArrowArray.Free(cArray);
         }
 
+        [Theory]
+        [InlineData(0)]
+        [InlineData(3)]
+        public unsafe void RoundTripNullArray(int length)
+        {
+            // A NullArray has no buffers or children, so exporting it allocates nothing.
+            var array = new NullArray(length);
+            CArrowArray* cArray = CArrowArray.Create();
+            CArrowArrayExporter.ExportArray(array, cArray);
+            using (var imported = (NullArray)CArrowArrayImporter.ImportArray(cArray, array.Data.DataType))
+            {
+                Assert.Equal(length, imported.Length);
+                Assert.Equal(length, imported.NullCount);
+            }
+            Assert.True(cArray->release == default);
+            CArrowArray.Free(cArray);
+        }
+
         [Fact]
         public unsafe void ExportArrayPreservesSource()
         {
