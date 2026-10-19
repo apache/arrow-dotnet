@@ -26,6 +26,9 @@ namespace Apache.Arrow.C
 {
     public static class CArrowSchemaImporter
     {
+        private const string ExtensionNameKey = "ARROW:extension:name";
+        private const string ExtensionMetadataKey = "ARROW:extension:metadata";
+
         /// <summary>
         /// Import C pointer as an <see cref="ArrowType"/>.
         /// </summary>
@@ -186,7 +189,10 @@ namespace Apache.Arrow.C
                     };
 
                     var dictionarySchema = new ImportedArrowSchema(_cSchema->dictionary, isRoot: false);
-                    ArrowType dictionaryType = dictionarySchema.GetAsType(extensionRegistry);
+                    IArrowType dictionaryType = ResolveExtensionType(
+                        dictionarySchema.GetAsType(extensionRegistry),
+                        GetMetadata(_cSchema->dictionary->metadata),
+                        extensionRegistry);
 
                     bool ordered = _cSchema->GetFlag(CArrowSchema.ArrowFlagDictionaryOrdered);
 
@@ -384,18 +390,10 @@ namespace Apache.Arrow.C
                 IArrowType type = GetAsType(extensionRegistry);
                 IReadOnlyDictionary<string, string> metadata = GetMetadata(_cSchema->metadata);
 
-                // Resolve extension type from metadata
-                if (metadata != null &&
-                    extensionRegistry != null &&
-                    metadata.TryGetValue("ARROW:extension:name", out string extName) &&
-                    extensionRegistry.TryGetDefinition(extName, out ExtensionDefinition extDef))
-                {
-                    metadata.TryGetValue("ARROW:extension:metadata", out string extMeta);
-                    if (extDef.TryCreateType(type, extMeta, out ExtensionType extType))
-                    {
-                        type = extType;
-                    }
-                }
+                // On a dictionary field, extension metadata means the extension's storage is the
+                // whole dictionary. Extension metadata on the dictionary child isn't copied to the
+                // field for that reason; like Arrow C++, an unresolved value type's is dropped.
+                type = ResolveExtensionType(type, metadata, extensionRegistry);
 
                 return new Field(fieldName, type, nullable, metadata);
             }
@@ -416,6 +414,28 @@ namespace Apache.Arrow.C
                 {
                     throw new ArgumentException("Imported type is not a struct type, so it cannot be converted to a schema.");
                 }
+            }
+
+            /// <summary>
+            /// Returns the extension type named in <paramref name="metadata"/> if
+            /// <paramref name="extensionRegistry"/> defines it for <paramref name="storageType"/>;
+            /// otherwise returns <paramref name="storageType"/>.
+            /// </summary>
+            private static IArrowType ResolveExtensionType(
+                IArrowType storageType, IReadOnlyDictionary<string, string> metadata, ExtensionTypeRegistry extensionRegistry)
+            {
+                if (metadata != null &&
+                    extensionRegistry != null &&
+                    metadata.TryGetValue(ExtensionNameKey, out string extName) &&
+                    extensionRegistry.TryGetDefinition(extName, out ExtensionDefinition extDef))
+                {
+                    metadata.TryGetValue(ExtensionMetadataKey, out string extMeta);
+                    if (extDef.TryCreateType(storageType, extMeta, out ExtensionType extType))
+                    {
+                        return extType;
+                    }
+                }
+                return storageType;
             }
 
             private List<Field> ParseChildren(string typeName, ExtensionTypeRegistry extensionRegistry)

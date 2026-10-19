@@ -492,6 +492,259 @@ namespace Apache.Arrow.Tests
             }
         }
 
+        private static readonly DictionaryType s_guidDictionaryType = new DictionaryType(Int32Type.Default, GuidType.Default, false);
+
+        private static ExtensionTypeRegistry GuidRegistry()
+        {
+            var registry = new ExtensionTypeRegistry();
+            registry.Register(GuidExtensionDefinition.Instance);
+            return registry;
+        }
+
+        private static unsafe Dictionary<string, string> ReadMetadata(byte* metadata)
+        {
+            var result = new Dictionary<string, string>();
+            if (metadata == null)
+            {
+                return result;
+            }
+
+            int count = *(int*)metadata;
+            byte* ptr = metadata + 4;
+            for (int i = 0; i < count; i++)
+            {
+                int keyLength = *(int*)ptr;
+                string key = System.Text.Encoding.UTF8.GetString(ptr + 4, keyLength);
+                ptr += 4 + keyLength;
+                int valueLength = *(int*)ptr;
+                string value = System.Text.Encoding.UTF8.GetString(ptr + 4, valueLength);
+                ptr += 4 + valueLength;
+                result[key] = value;
+            }
+            return result;
+        }
+
+        [Fact]
+        public unsafe void CDataExportTypeIncludesExtensionMetadata()
+        {
+            CArrowSchema* cSchema = CArrowSchema.Create();
+            try
+            {
+                CArrowSchemaExporter.ExportType(GuidType.Default, cSchema);
+
+                Dictionary<string, string> metadata = ReadMetadata(cSchema->metadata);
+                Assert.Equal("arrow.uuid", metadata["ARROW:extension:name"]);
+                Assert.Equal("", metadata["ARROW:extension:metadata"]);
+            }
+            finally
+            {
+                CArrowSchema.Free(cSchema);
+            }
+        }
+
+        [Fact]
+        public unsafe void CDataExportDictionaryOfExtensionPutsMetadataOnDictionary()
+        {
+            var field = new Field("f", s_guidDictionaryType, true,
+                new Dictionary<string, string> { ["other"] = "value" });
+
+            CArrowSchema* cSchema = CArrowSchema.Create();
+            try
+            {
+                CArrowSchemaExporter.ExportField(field, cSchema);
+
+                Assert.Equal(new Dictionary<string, string> { ["other"] = "value" }, ReadMetadata(cSchema->metadata));
+                Dictionary<string, string> dictionaryMetadata = ReadMetadata(cSchema->dictionary->metadata);
+                Assert.Equal("arrow.uuid", dictionaryMetadata["ARROW:extension:name"]);
+            }
+            finally
+            {
+                CArrowSchema.Free(cSchema);
+            }
+        }
+
+        [Fact]
+        public unsafe void CDataExportMovesValueExtensionMetadataFromDictionaryField()
+        {
+            // The IPC reader leaves a dictionary value type's extension metadata on the field.
+            var field = new Field("f", s_guidDictionaryType, true,
+                new Dictionary<string, string>
+                {
+                    ["ARROW:extension:name"] = "arrow.uuid",
+                    ["ARROW:extension:metadata"] = "",
+                    ["other"] = "value",
+                });
+
+            CArrowSchema* cSchema = CArrowSchema.Create();
+            try
+            {
+                CArrowSchemaExporter.ExportField(field, cSchema);
+
+                Assert.Equal(new Dictionary<string, string> { ["other"] = "value" }, ReadMetadata(cSchema->metadata));
+                Assert.Equal(
+                    new Dictionary<string, string> { ["ARROW:extension:name"] = "arrow.uuid", ["ARROW:extension:metadata"] = "" },
+                    ReadMetadata(cSchema->dictionary->metadata));
+            }
+            finally
+            {
+                CArrowSchema.Free(cSchema);
+            }
+        }
+
+        [Fact]
+        public unsafe void CDataExportKeepsUnresolvedDictionaryFieldExtensionMetadata()
+        {
+            // Without a resolved value type, extension metadata on a dictionary field means
+            // the extension's storage is the whole dictionary, so it must stay on the field.
+            var metadata = new Dictionary<string, string>
+            {
+                ["ARROW:extension:name"] = "test.dict_storage",
+                ["ARROW:extension:metadata"] = "",
+            };
+            var field = new Field("f", new DictionaryType(Int32Type.Default, StringType.Default, false), true, metadata);
+
+            CArrowSchema* cSchema = CArrowSchema.Create();
+            try
+            {
+                CArrowSchemaExporter.ExportField(field, cSchema);
+
+                Assert.Equal(metadata, ReadMetadata(cSchema->metadata));
+                Assert.Empty(ReadMetadata(cSchema->dictionary->metadata));
+            }
+            finally
+            {
+                CArrowSchema.Free(cSchema);
+            }
+        }
+
+        [Fact]
+        public unsafe void CDataDictionaryStorageExtensionPassThroughWithoutRegistry()
+        {
+            // Arrow C++ exports an extension type whose storage is a dictionary with its
+            // metadata on the field. Importing it without the definition and exporting it
+            // again must not move that metadata to the dictionary values.
+            var metadata = new Dictionary<string, string>
+            {
+                ["ARROW:extension:name"] = "test.dict_storage",
+                ["ARROW:extension:metadata"] = "",
+            };
+            CArrowSchema* cSchema = CArrowSchema.Create();
+            CArrowSchema* cMetadataSchema = CArrowSchema.Create();
+            CArrowSchemaExporter.ExportField(new Field("f", new DictionaryType(Int32Type.Default, StringType.Default, false), true), cSchema);
+            CArrowSchemaExporter.ExportField(new Field("m", Int32Type.Default, true, metadata), cMetadataSchema);
+            byte* swapped = cSchema->metadata;
+            cSchema->metadata = cMetadataSchema->metadata;
+            cMetadataSchema->metadata = swapped;
+            CArrowSchema.Free(cMetadataSchema);
+
+            Field imported = CArrowSchemaImporter.ImportField(cSchema, GuidRegistry());
+            CArrowSchema.Free(cSchema);
+            Assert.Equal(metadata, imported.Metadata);
+
+            CArrowSchema* cReexported = CArrowSchema.Create();
+            try
+            {
+                CArrowSchemaExporter.ExportField(imported, cReexported);
+
+                Assert.Equal(metadata, ReadMetadata(cReexported->metadata));
+                Assert.Empty(ReadMetadata(cReexported->dictionary->metadata));
+            }
+            finally
+            {
+                CArrowSchema.Free(cReexported);
+            }
+        }
+
+        [Fact]
+        public unsafe void CDataDictionaryOfExtensionRoundTrip()
+        {
+            var field = new Field("f", s_guidDictionaryType, true);
+
+            CArrowSchema* cSchema = CArrowSchema.Create();
+            CArrowSchemaExporter.ExportField(field, cSchema);
+            Field imported = CArrowSchemaImporter.ImportField(cSchema, GuidRegistry());
+            CArrowSchema.Free(cSchema);
+
+            DictionaryType dictionaryType = Assert.IsType<DictionaryType>(imported.DataType);
+            Assert.IsType<Int32Type>(dictionaryType.IndexType);
+            Assert.IsType<GuidType>(dictionaryType.ValueType);
+            Assert.Null(imported.Metadata);
+        }
+
+        [Fact]
+        public unsafe void CDataDictionaryOfExtensionRoundTripWithoutRegistry()
+        {
+            var field = new Field("f", s_guidDictionaryType, true);
+
+            CArrowSchema* cSchema = CArrowSchema.Create();
+            CArrowSchemaExporter.ExportField(field, cSchema);
+            Field imported = CArrowSchemaImporter.ImportField(cSchema);
+            CArrowSchema.Free(cSchema);
+
+            // Like Arrow C++, the unresolved value type's extension metadata is dropped rather
+            // than moved to the field, where it would describe the whole dictionary.
+            DictionaryType dictionaryType = Assert.IsType<DictionaryType>(imported.DataType);
+            Assert.IsType<FixedSizeBinaryType>(dictionaryType.ValueType);
+            Assert.Null(imported.Metadata);
+        }
+
+        [Fact]
+        public unsafe void CDataImportDoesNotApplyDictionaryFieldExtensionMetadataToValues()
+        {
+            // On a dictionary field, extension metadata describes the whole dictionary, so as in
+            // Arrow C++ a field-level arrow.uuid doesn't resolve. (Older versions of this library
+            // exported a value type's extension metadata this way.) Build such a schema by
+            // swapping in the metadata of another export.
+            var storageField = new Field("f", new DictionaryType(Int32Type.Default, new FixedSizeBinaryType(16), false), true);
+            var metadataField = new Field("m", Int32Type.Default, true,
+                new Dictionary<string, string>
+                {
+                    ["ARROW:extension:name"] = "arrow.uuid",
+                    ["ARROW:extension:metadata"] = "",
+                });
+
+            CArrowSchema* cSchema = CArrowSchema.Create();
+            CArrowSchema* cMetadataSchema = CArrowSchema.Create();
+            CArrowSchemaExporter.ExportField(storageField, cSchema);
+            CArrowSchemaExporter.ExportField(metadataField, cMetadataSchema);
+            byte* metadata = cSchema->metadata;
+            cSchema->metadata = cMetadataSchema->metadata;
+            cMetadataSchema->metadata = metadata;
+            CArrowSchema.Free(cMetadataSchema);
+
+            Field imported = CArrowSchemaImporter.ImportField(cSchema, GuidRegistry());
+            CArrowSchema.Free(cSchema);
+
+            DictionaryType dictionaryType = Assert.IsType<DictionaryType>(imported.DataType);
+            Assert.IsType<FixedSizeBinaryType>(dictionaryType.ValueType);
+            Assert.Equal("arrow.uuid", imported.Metadata["ARROW:extension:name"]);
+        }
+
+        [Fact]
+        public unsafe void CDataDictionaryOfExtensionArrayRoundTrip()
+        {
+            var values = new Guid?[] { Guid.NewGuid(), Guid.NewGuid() };
+            GuidArray dictionary = (GuidArray)BuildGuidRecordBatch(values).Column(0);
+            Int32Array indices = new Int32Array.Builder().Append(1).AppendNull().Append(0).Append(1).Build();
+            var array = new DictionaryArray(s_guidDictionaryType, indices, dictionary);
+            var schema = new Schema(new[] { new Field("f", s_guidDictionaryType, true) }, null);
+            var batch = new RecordBatch(schema, new[] { array }, array.Length);
+
+            CArrowArray* cArray = CArrowArray.Create();
+            CArrowSchema* cSchema = CArrowSchema.Create();
+            CArrowArrayExporter.ExportRecordBatch(batch, cArray);
+            CArrowSchemaExporter.ExportSchema(schema, cSchema);
+
+            Schema importedSchema = CArrowSchemaImporter.ImportSchema(cSchema, GuidRegistry());
+            using RecordBatch importedBatch = CArrowArrayImporter.ImportRecordBatch(cArray, importedSchema);
+            CArrowSchema.Free(cSchema);
+            CArrowArray.Free(cArray);
+
+            DictionaryArray importedArray = Assert.IsType<DictionaryArray>(importedBatch.Column(0));
+            Assert.Equal(values, Assert.IsType<GuidArray>(importedArray.Dictionary));
+            Assert.Equal(new int?[] { 1, null, 0, 1 }, (Int32Array)importedArray.Indices);
+        }
+
         private sealed class SingleBatchStream : IArrowArrayStream
         {
             private RecordBatch _batch;
