@@ -390,22 +390,12 @@ namespace Apache.Arrow.C
                 IArrowType type = GetAsType(extensionRegistry);
                 IReadOnlyDictionary<string, string> metadata = GetMetadata(_cSchema->metadata);
 
-                IArrowType resolvedType = ResolveExtensionType(type, metadata, extensionRegistry);
-                if (resolvedType == type && type is DictionaryType dictionaryType && !(dictionaryType.ValueType is ExtensionType))
-                {
-                    // Older versions of this library exported a dictionary value type's extension
-                    // metadata on the field instead of on the dictionary child.
-                    IArrowType valueType = ResolveExtensionType(dictionaryType.ValueType, metadata, extensionRegistry);
-                    if (valueType != dictionaryType.ValueType)
-                    {
-                        resolvedType = new DictionaryType(dictionaryType.IndexType, valueType, dictionaryType.Ordered);
-                    }
-                }
+                // On a dictionary field, extension metadata means the extension's storage is the
+                // whole dictionary. Extension metadata on the dictionary child isn't copied to the
+                // field for that reason; like Arrow C++, an unresolved value type's is dropped.
+                type = ResolveExtensionType(type, metadata, extensionRegistry);
 
-                // Extension metadata on the dictionary child isn't copied to the field, where it
-                // would mean the extension's storage is the whole dictionary. Like Arrow C++, an
-                // unresolved value type's extension metadata is dropped.
-                return new Field(fieldName, resolvedType, nullable, metadata);
+                return new Field(fieldName, type, nullable, metadata);
             }
 
             public Schema GetAsSchema()

@@ -689,10 +689,12 @@ namespace Apache.Arrow.Tests
         }
 
         [Fact]
-        public unsafe void CDataImportDictionaryWithLegacyFieldExtensionMetadata()
+        public unsafe void CDataImportDoesNotApplyDictionaryFieldExtensionMetadataToValues()
         {
-            // Older versions of this library put the value type's extension metadata on the
-            // dictionary field. Build such a schema by swapping in the metadata of another export.
+            // On a dictionary field, extension metadata describes the whole dictionary, so as in
+            // Arrow C++ a field-level arrow.uuid doesn't resolve. (Older versions of this library
+            // exported a value type's extension metadata this way.) Build such a schema by
+            // swapping in the metadata of another export.
             var storageField = new Field("f", new DictionaryType(Int32Type.Default, new FixedSizeBinaryType(16), false), true);
             var metadataField = new Field("m", Int32Type.Default, true,
                 new Dictionary<string, string>
@@ -714,7 +716,8 @@ namespace Apache.Arrow.Tests
             CArrowSchema.Free(cSchema);
 
             DictionaryType dictionaryType = Assert.IsType<DictionaryType>(imported.DataType);
-            Assert.IsType<GuidType>(dictionaryType.ValueType);
+            Assert.IsType<FixedSizeBinaryType>(dictionaryType.ValueType);
+            Assert.Equal("arrow.uuid", imported.Metadata["ARROW:extension:name"]);
         }
 
         [Fact]
