@@ -1309,6 +1309,7 @@ namespace Apache.Arrow.Tests
             registry.Register(GuidExtensionDefinition.Instance);
 
             Field field = CArrowSchemaImporter.ImportField(cSchema, registry);
+            CArrowSchema.Free(cSchema);
             DictionaryType dictionaryType = Assert.IsType<DictionaryType>(field.DataType);
             Assert.IsType<GuidType>(dictionaryType.ValueType);
 
