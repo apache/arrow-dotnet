@@ -61,12 +61,13 @@ namespace Apache.Arrow.Ipc
                 throw new ArgumentException($"Field {field.Name} is already in Memo");
             }
 
-            if (field.DataType.TypeId != ArrowTypeId.Dictionary)
+            // The field may be an extension type whose storage is a dictionary
+            if (!(Types.ArrowTypeExtensions.GetStorageType(field.DataType) is DictionaryType dictionaryType))
             {
                 throw new ArgumentException($"Field type is not DictionaryType: Name={field.Name}, {field.DataType.Name}");
             }
 
-            IArrowType valueType = ((DictionaryType)field.DataType).ValueType;
+            IArrowType valueType = dictionaryType.ValueType;
 
             if (_idToValueType.TryGetValue(id, out IArrowType valueTypeInDic))
             {

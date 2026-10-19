@@ -566,7 +566,8 @@ namespace Apache.Arrow.Tests
         [Fact]
         public unsafe void CDataExportMovesValueExtensionMetadataFromDictionaryField()
         {
-            // The IPC reader leaves a dictionary value type's extension metadata on the field.
+            // Earlier versions of the IPC reader left a dictionary value type's extension metadata
+            // on the field.
             var field = new Field("f", s_guidDictionaryType, true,
                 new Dictionary<string, string>
                 {
@@ -743,6 +744,229 @@ namespace Apache.Arrow.Tests
             DictionaryArray importedArray = Assert.IsType<DictionaryArray>(importedBatch.Column(0));
             Assert.Equal(values, Assert.IsType<GuidArray>(importedArray.Dictionary));
             Assert.Equal(new int?[] { 1, null, 0, 1 }, (Int32Array)importedArray.Indices);
+        }
+
+        [Fact]
+        public void IpcDictionaryOfExtensionWritesValueMetadataToDictionaryEncoding()
+        {
+            // Earlier versions of the IPC reader left a dictionary value type's extension metadata
+            // on the field.
+            var field = new Field("f", s_guidDictionaryType, true,
+                new Dictionary<string, string>
+                {
+                    ["ARROW:extension:name"] = "arrow.uuid",
+                    ["ARROW:extension:metadata"] = "",
+                    ["other"] = "value",
+                });
+
+            Flatbuf.Field written = WriteSchemaField(field);
+
+            Assert.Equal(Flatbuf.Type.FixedSizeBinary, written.TypeType);
+            Assert.Equal(new Dictionary<string, string> { ["other"] = "value" }, ReadFieldMetadata(written));
+            Assert.Equal(
+                new Dictionary<string, string> { ["ARROW:extension:name"] = "arrow.uuid", ["ARROW:extension:metadata"] = "" },
+                ReadDictionaryMetadata(written));
+        }
+
+        [Fact]
+        public void IpcDictionaryOfExtensionRoundTrip()
+        {
+            var values = new Guid?[] { Guid.NewGuid(), Guid.NewGuid() };
+            RecordBatch batch = BuildGuidDictionaryRecordBatch(values);
+
+            RecordBatch readBatch = IpcRoundTrip(batch, GuidRegistry());
+
+            Field field = readBatch.Schema.GetFieldByIndex(0);
+            DictionaryType dictionaryType = Assert.IsType<DictionaryType>(field.DataType);
+            Assert.IsType<Int32Type>(dictionaryType.IndexType);
+            Assert.IsType<GuidType>(dictionaryType.ValueType);
+            Assert.Null(field.Metadata);
+
+            DictionaryArray readArray = Assert.IsType<DictionaryArray>(readBatch.Column(0));
+            Assert.Equal(values, Assert.IsType<GuidArray>(readArray.Dictionary));
+            Assert.Equal(new int?[] { 1, null, 0, 1 }, (Int32Array)readArray.Indices);
+        }
+
+        [Fact]
+        public void IpcDictionaryOfExtensionRoundTripWithoutRegistry()
+        {
+            RecordBatch batch = BuildGuidDictionaryRecordBatch(new Guid?[] { Guid.NewGuid(), Guid.NewGuid() });
+
+            RecordBatch readBatch = IpcRoundTrip(batch, new ExtensionTypeRegistry());
+
+            // As in Arrow C++, an unresolved value type's metadata is dropped rather than moved
+            // to the field, where it would describe the whole dictionary.
+            Field field = readBatch.Schema.GetFieldByIndex(0);
+            DictionaryType dictionaryType = Assert.IsType<DictionaryType>(field.DataType);
+            Assert.IsType<FixedSizeBinaryType>(dictionaryType.ValueType);
+            Assert.Null(field.Metadata);
+            Assert.IsType<FixedSizeBinaryArray>(((DictionaryArray)readBatch.Column(0)).Dictionary);
+        }
+
+        [Fact]
+        public void IpcNestedDictionaryOfExtensionRoundTrip()
+        {
+            var values = new Guid?[] { Guid.NewGuid(), Guid.NewGuid() };
+            DictionaryArray dictionaryArray = (DictionaryArray)BuildGuidDictionaryRecordBatch(values).Column(0);
+            var listType = new ListType(new Field("item", s_guidDictionaryType, true));
+            ArrowBuffer offsets = new ArrowBuffer.Builder<int>().Append(0).Append(1).Append(4).Build();
+            var listArray = new ListArray(listType, 2, offsets, dictionaryArray, ArrowBuffer.Empty);
+            var schema = new Schema(new[] { new Field("f", listType, true) }, null);
+            var batch = new RecordBatch(schema, new[] { listArray }, listArray.Length);
+
+            RecordBatch readBatch = IpcRoundTrip(batch, GuidRegistry());
+
+            ListType readListType = Assert.IsType<ListType>(readBatch.Schema.GetFieldByIndex(0).DataType);
+            DictionaryType dictionaryType = Assert.IsType<DictionaryType>(readListType.ValueDataType);
+            Assert.IsType<GuidType>(dictionaryType.ValueType);
+            Assert.Null(readListType.ValueField.Metadata);
+
+            ListArray readList = Assert.IsType<ListArray>(readBatch.Column(0));
+            DictionaryArray readValues = Assert.IsType<DictionaryArray>(readList.Values);
+            Assert.Equal(values, Assert.IsType<GuidArray>(readValues.Dictionary));
+            Assert.Equal(new int?[] { 1, null, 0, 1 }, (Int32Array)readValues.Indices);
+        }
+
+        [Fact]
+        public void IpcDictionaryFieldExtensionMetadataDescribesWholeDictionary()
+        {
+            // Writers before format 1.6, including earlier versions of this library, put a
+            // dictionary value type's extension metadata on the field. Like Arrow C++, it is
+            // resolved against the whole dictionary type, not the values.
+            var metadata = new Dictionary<string, string>
+            {
+                ["ARROW:extension:name"] = "arrow.uuid",
+                ["ARROW:extension:metadata"] = "",
+            };
+            var dictionaryType = new DictionaryType(Int32Type.Default, new FixedSizeBinaryType(16), false);
+            var field = new Field("f", dictionaryType, true, metadata);
+            var storage = (FixedSizeBinaryArray)((GuidArray)BuildGuidRecordBatch(new Guid?[] { Guid.NewGuid() }).Column(0)).Storage;
+            Int32Array indices = new Int32Array.Builder().Append(0).AppendNull().Build();
+            var array = new DictionaryArray(dictionaryType, indices, storage);
+            var batch = new RecordBatch(new Schema(new[] { field }, null), new[] { array }, array.Length);
+
+            Flatbuf.Field written = WriteSchemaField(field);
+            Assert.Equal(metadata, ReadFieldMetadata(written));
+            Assert.Empty(ReadDictionaryMetadata(written));
+
+            RecordBatch readBatch = IpcRoundTrip(batch, GuidRegistry());
+
+            Field readField = readBatch.Schema.GetFieldByIndex(0);
+            DictionaryType readType = Assert.IsType<DictionaryType>(readField.DataType);
+            Assert.IsType<FixedSizeBinaryType>(readType.ValueType);
+            Assert.Equal(metadata, readField.Metadata);
+        }
+
+        [Fact]
+        public void IpcDictionaryStorageExtensionRoundTrip()
+        {
+            var dictionaryType = new DictionaryType(Int32Type.Default, StringType.Default, false);
+            var extensionType = new DictionaryStorageType(dictionaryType);
+            var field = new Field("f", extensionType, true);
+            StringArray dictionary = new StringArray.Builder().Append("a").Append("b").Build();
+            Int32Array indices = new Int32Array.Builder().Append(1).AppendNull().Append(0).Build();
+            var array = extensionType.CreateArray(new DictionaryArray(dictionaryType, indices, dictionary));
+            var batch = new RecordBatch(new Schema(new[] { field }, null), new[] { array }, array.Length);
+
+            // An extension type whose storage is a dictionary keeps its metadata on the field
+            Flatbuf.Field written = WriteSchemaField(field);
+            Assert.Equal(
+                new Dictionary<string, string> { ["ARROW:extension:name"] = DictionaryStorageType.ExtensionName, ["ARROW:extension:metadata"] = "" },
+                ReadFieldMetadata(written));
+            Assert.Empty(ReadDictionaryMetadata(written));
+
+            var registry = new ExtensionTypeRegistry();
+            registry.Register(DictionaryStorageDefinition.Instance);
+            RecordBatch readBatch = IpcRoundTrip(batch, registry);
+
+            DictionaryStorageType readType = Assert.IsType<DictionaryStorageType>(readBatch.Schema.GetFieldByIndex(0).DataType);
+            Assert.IsType<StringType>(Assert.IsType<DictionaryType>(readType.StorageType).ValueType);
+            ExtensionArray readArray = Assert.IsAssignableFrom<ExtensionArray>(readBatch.Column(0));
+            DictionaryArray readStorage = Assert.IsType<DictionaryArray>(readArray.Storage);
+            StringArray readDictionary = Assert.IsType<StringArray>(readStorage.Dictionary);
+            Assert.Equal(new[] { "a", "b" }, new[] { readDictionary.GetString(0), readDictionary.GetString(1) });
+            Assert.Equal(new int?[] { 1, null, 0 }, (Int32Array)readStorage.Indices);
+        }
+
+        private static RecordBatch BuildGuidDictionaryRecordBatch(Guid?[] values)
+        {
+            GuidArray dictionary = (GuidArray)BuildGuidRecordBatch(values).Column(0);
+            Int32Array indices = new Int32Array.Builder().Append(1).AppendNull().Append(0).Append(1).Build();
+            var array = new DictionaryArray(s_guidDictionaryType, indices, dictionary);
+            var schema = new Schema(new[] { new Field("f", s_guidDictionaryType, true) }, null);
+            return new RecordBatch(schema, new[] { array }, array.Length);
+        }
+
+        private static RecordBatch IpcRoundTrip(RecordBatch batch, ExtensionTypeRegistry registry)
+        {
+            var stream = new MemoryStream();
+            var writer = new ArrowStreamWriter(stream, batch.Schema);
+            writer.WriteRecordBatch(batch);
+            writer.WriteEnd();
+            stream.Position = 0;
+
+            var reader = new ArrowStreamReader(new ArrowContext(extensionRegistry: registry), stream);
+            RecordBatch readBatch = reader.ReadNextRecordBatch();
+            Assert.NotNull(readBatch);
+            return readBatch;
+        }
+
+        private static Flatbuf.Field WriteSchemaField(Field field)
+        {
+            var stream = new MemoryStream();
+            var writer = new ArrowStreamWriter(stream, new Schema(new[] { field }, null));
+            writer.WriteStart();
+
+            // Skip the continuation marker and the metadata length
+            var message = Flatbuf.Message.GetRootAsMessage(new Google.FlatBuffers.ByteBuffer(stream.ToArray(), 8));
+            return message.Header<Flatbuf.Schema>().Value.Fields(0).Value;
+        }
+
+        private static Dictionary<string, string> ReadFieldMetadata(Flatbuf.Field field)
+        {
+            var result = new Dictionary<string, string>();
+            for (int i = 0; i < field.CustomMetadataLength; i++)
+            {
+                Flatbuf.KeyValue keyValue = field.CustomMetadata(i).Value;
+                result[keyValue.Key] = keyValue.Value;
+            }
+            return result;
+        }
+
+        private static Dictionary<string, string> ReadDictionaryMetadata(Flatbuf.Field field)
+        {
+            Flatbuf.DictionaryEncoding encoding = field.Dictionary.Value;
+            var result = new Dictionary<string, string>();
+            for (int i = 0; i < encoding.CustomMetadataLength; i++)
+            {
+                Flatbuf.KeyValue keyValue = encoding.CustomMetadata(i).Value;
+                result[keyValue.Key] = keyValue.Value;
+            }
+            return result;
+        }
+
+        private sealed class DictionaryStorageType : ExtensionType
+        {
+            public const string ExtensionName = "test.dict_storage";
+
+            public DictionaryStorageType(IArrowType storageType) : base(storageType) { }
+
+            public override string Name => ExtensionName;
+            public override string ExtensionMetadata => "";
+            public override ExtensionArray CreateArray(IArrowArray storageArray) => new ExtensionArray(this, storageArray);
+        }
+
+        private sealed class DictionaryStorageDefinition : ExtensionDefinition
+        {
+            public static readonly DictionaryStorageDefinition Instance = new DictionaryStorageDefinition();
+
+            public override string ExtensionName => DictionaryStorageType.ExtensionName;
+
+            public override bool TryCreateType(IArrowType storageType, string metadata, out ExtensionType type)
+            {
+                type = storageType is DictionaryType ? new DictionaryStorageType(storageType) : null;
+                return type != null;
+            }
         }
 
         private sealed class SingleBatchStream : IArrowArrayStream
