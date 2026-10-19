@@ -463,6 +463,7 @@ namespace Apache.Arrow.Tests
             }
 
             ArrowType type = CArrowSchemaImporter.ImportType(cSchema);
+            CArrowSchema.Free(cSchema);
             StringArray importedArray = (StringArray)CArrowArrayImporter.ImportArray(cArray, type);
 
             Assert.Equal(5, importedArray.Length);
@@ -533,6 +534,7 @@ namespace Apache.Arrow.Tests
             }
 
             Schema schema = CArrowSchemaImporter.ImportSchema(cSchema);
+            CArrowSchema.Free(cSchema);
             RecordBatch recordBatch = CArrowArrayImporter.ImportRecordBatch(cArray, schema);
             CArrowArray.Free(cArray);
 
@@ -1160,6 +1162,7 @@ namespace Apache.Arrow.Tests
             registry.Register(GuidExtensionDefinition.Instance);
 
             Field field = CArrowSchemaImporter.ImportField(cSchema, registry);
+            CArrowSchema.Free(cSchema);
             Assert.IsType<GuidType>(field.DataType);
 
             IArrowArray importedArray = CArrowArrayImporter.ImportArray(cArray, field.DataType);
@@ -1411,6 +1414,7 @@ namespace Apache.Arrow.Tests
             registry.Register(Bool8ExtensionDefinition.Instance);
 
             Field field = CArrowSchemaImporter.ImportField(cSchema, registry);
+            CArrowSchema.Free(cSchema);
             Assert.IsType<Bool8Type>(field.DataType);
 
             IArrowArray importedArray = CArrowArrayImporter.ImportArray(cArray, field.DataType);
