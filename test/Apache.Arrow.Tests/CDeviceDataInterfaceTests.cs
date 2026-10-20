@@ -318,6 +318,36 @@ namespace Apache.Arrow.Tests
         }
 
         [Fact]
+        public async Task ExportedDeviceStreamDisposesBatchesOnRelease()
+        {
+            var allocator = new TestMemoryAllocator();
+            RecordBatch batch = CDataInterfaceDataTests.GetAllocatorBackedRecordBatch(allocator);
+            Assert.True(allocator.Rented > 0);
+
+            IArrowArrayStream imported;
+            unsafe
+            {
+                CArrowDeviceArrayStream* ptr = CArrowDeviceArrayStream.Create();
+                CArrowDeviceArrayStreamExporter.ExportArrayStream(new TestArrayStream(batch.Schema, batch), ptr);
+                imported = CArrowDeviceArrayStreamImporter.ImportDeviceArrayStream(ptr);
+                CArrowDeviceArrayStream.Free(ptr);
+            }
+
+            using (imported)
+            {
+                RecordBatch importedBatch = await imported.ReadNextRecordBatchAsync();
+                Assert.Equal(new int?[] { 1, 2, null, 4 }, (Int32Array)importedBatch.Column(0));
+                Assert.True(allocator.Rented > 0);
+
+                // Releasing the exported array should release the batch the stream handed over.
+                importedBatch.Dispose();
+                Assert.Equal(0, allocator.Rented);
+
+                Assert.Null(await imported.ReadNextRecordBatchAsync());
+            }
+        }
+
+        [Fact]
         public unsafe void ImportNonCpuDeviceStreamThrows()
         {
             CArrowDeviceArrayStream* ptr = CArrowDeviceArrayStream.Create();
