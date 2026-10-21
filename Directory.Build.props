@@ -44,10 +44,10 @@
     <Authors>The Apache Software Foundation</Authors>
     <PackageIcon>logo_asf.png</PackageIcon>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageProjectUrl>https://arrow.apache.org/</PackageProjectUrl>
+    <PackageProjectUrl>https://arrow.apache.org/dotnet/</PackageProjectUrl>
     <PackageTags>apache arrow</PackageTags>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/apache/arrow</RepositoryUrl>
+    <RepositoryUrl>https://github.com/apache/arrow-dotnet</RepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
