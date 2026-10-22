@@ -39,19 +39,28 @@ This package is part of the .NET implementation of Apache Arrow.
 
 ## Usage
 
+Example of reading all record batches from an Arrow IPC file:
+
 ```csharp
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Apache.Arrow;
 using Apache.Arrow.Ipc;
 
-public static async Task<RecordBatch> ReadArrowAsync(string filename)
+public static async Task<List<RecordBatch>> ReadArrowFileAsync(string filename)
 {
+    var batches = new List<RecordBatch>();
     using (var stream = File.OpenRead(filename))
     using (var reader = new ArrowFileReader(stream))
     {
-        return await reader.ReadNextRecordBatchAsync();
+        RecordBatch batch;
+        while ((batch = await reader.ReadNextRecordBatchAsync()) != null)
+        {
+            batches.Add(batch);
+        }
     }
+    return batches;
 }
 ```
 
