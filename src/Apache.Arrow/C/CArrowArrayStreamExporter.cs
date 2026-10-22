@@ -104,7 +104,9 @@ namespace Apache.Arrow.C
                 RecordBatch recordBatch = arrayStream.ArrowArrayStream.ReadNextRecordBatchAsync().Result;
                 if (recordBatch != null)
                 {
-                    CArrowArrayExporter.ExportRecordBatch(recordBatch, cArray);
+                    // The stream hands us ownership of each batch it returns. The exported array keeps
+                    // it alive and disposes it on release, rather than leaving it to the finalizer.
+                    CArrowArrayExporter.ExportRecordBatch(recordBatch, cArray, transferOwnership: true);
                 }
                 return arrayStream.ClearError();
             }

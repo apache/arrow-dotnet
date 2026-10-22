@@ -68,6 +68,17 @@ namespace Apache.Arrow.C
         /// </example>
         public static unsafe void ExportRecordBatch(RecordBatch batch, CArrowDeviceArray* deviceArray)
         {
+            ExportRecordBatch(batch, deviceArray, transferOwnership: false);
+        }
+
+        /// <summary>
+        /// Export a <see cref="RecordBatch"/> to a <see cref="CArrowDeviceArray"/>. When
+        /// <paramref name="transferOwnership"/> is true, the exported array takes over the caller's
+        /// reference to <paramref name="batch"/> and disposes it when the array is released (or
+        /// immediately if the export fails).
+        /// </summary>
+        internal static unsafe void ExportRecordBatch(RecordBatch batch, CArrowDeviceArray* deviceArray, bool transferOwnership)
+        {
             if (batch == null)
             {
                 throw new ArgumentNullException(nameof(batch));
@@ -77,7 +88,7 @@ namespace Apache.Arrow.C
                 throw new ArgumentNullException(nameof(deviceArray));
             }
 
-            CArrowArrayExporter.ExportRecordBatch(batch, &deviceArray->array);
+            CArrowArrayExporter.ExportRecordBatch(batch, &deviceArray->array, transferOwnership);
             deviceArray->device_type = ArrowDeviceType.Cpu;
             deviceArray->device_id = -1;
             deviceArray->sync_event = null;

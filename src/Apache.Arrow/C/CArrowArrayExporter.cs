@@ -92,6 +92,17 @@ namespace Apache.Arrow.C
         /// </example>
         public static unsafe void ExportRecordBatch(RecordBatch batch, CArrowArray* cArray)
         {
+            ExportRecordBatch(batch, cArray, transferOwnership: false);
+        }
+
+        /// <summary>
+        /// Export a <see cref="RecordBatch"/> to a <see cref="CArrowArray"/>. When
+        /// <paramref name="transferOwnership"/> is true, the exported array takes over the caller's
+        /// reference to <paramref name="batch"/> and disposes it when the array is released (or
+        /// immediately if the export fails).
+        /// </summary>
+        internal static unsafe void ExportRecordBatch(RecordBatch batch, CArrowArray* cArray, bool transferOwnership)
+        {
             if (batch == null)
             {
                 throw new ArgumentNullException(nameof(batch));
@@ -106,6 +117,10 @@ namespace Apache.Arrow.C
             }
 
             ExportedAllocationOwner allocationOwner = new ExportedAllocationOwner();
+            if (transferOwnership)
+            {
+                allocationOwner.TakeOwnership(batch);
+            }
             try
             {
                 ConvertRecordBatch(allocationOwner, batch, cArray);

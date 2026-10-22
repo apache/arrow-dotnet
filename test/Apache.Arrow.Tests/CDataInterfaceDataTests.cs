@@ -14,10 +14,15 @@
 // limitations under the License.
 
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 using Apache.Arrow.C;
+using Apache.Arrow.Ipc;
+using Apache.Arrow.Memory;
 using Apache.Arrow.Types;
 using Xunit;
 
@@ -297,6 +302,130 @@ namespace Apache.Arrow.Tests
             CArrowArrayExporter.ExportRecordBatch(batch, cArray);
 
             CArrowArray.Free(cArray);
+        }
+        [Fact]
+        public async Task ExportedArrayStreamDisposesBatchesOnRelease()
+        {
+            var allocator = new TestMemoryAllocator();
+            RecordBatch batch = GetAllocatorBackedRecordBatch(allocator);
+            Assert.True(allocator.Rented > 0);
+
+            IArrowArrayStream imported;
+            unsafe
+            {
+                CArrowArrayStream* cArrayStream = CArrowArrayStream.Create();
+                CArrowArrayStreamExporter.ExportArrayStream(new SingleBatchStream(batch), cArrayStream);
+                imported = CArrowArrayStreamImporter.ImportArrayStream(cArrayStream);
+                CArrowArrayStream.Free(cArrayStream);
+            }
+
+            using (imported)
+            {
+                RecordBatch importedBatch = await imported.ReadNextRecordBatchAsync();
+                Assert.Equal(new int?[] { 1, 2, null, 4 }, (Int32Array)importedBatch.Column(0));
+                Assert.True(allocator.Rented > 0);
+
+                // Releasing the exported array should release the batch the stream handed over.
+                importedBatch.Dispose();
+                Assert.Equal(0, allocator.Rented);
+
+                Assert.Null(await imported.ReadNextRecordBatchAsync());
+            }
+        }
+
+        [Fact]
+        public async Task ExportedArrayStreamUnpinsMemoryBeforeDisposingBatch()
+        {
+            // The values buffer wraps a ReadOnlyMemory<byte>, so exporting it pins the memory.
+            // The native memory manager throws if it is disposed while still pinned.
+            var owner = new DisposeTrackingMemoryOwner(new NativeMemoryAllocator().Allocate(4 * sizeof(int)));
+            new int[] { 1, 2, 3, 4 }.CopyTo(MemoryMarshal.Cast<byte, int>(owner.Memory.Span));
+            var values = new ArrowBuffer((ReadOnlyMemory<byte>)owner.Memory.Slice(0, 4 * sizeof(int)));
+            var array = new Int32Array(values, ArrowBuffer.Empty, 4, 0, 0);
+            Schema schema = new Schema.Builder()
+                .Field(f => f.Name("ints").DataType(Int32Type.Default).Nullable(false))
+                .Build();
+            var batch = new RecordBatch(schema, owner, new List<IArrowArray> { array }, array.Length);
+
+            IArrowArrayStream imported;
+            unsafe
+            {
+                CArrowArrayStream* cArrayStream = CArrowArrayStream.Create();
+                CArrowArrayStreamExporter.ExportArrayStream(new SingleBatchStream(batch), cArrayStream);
+                imported = CArrowArrayStreamImporter.ImportArrayStream(cArrayStream);
+                CArrowArrayStream.Free(cArrayStream);
+            }
+
+            using (imported)
+            {
+                RecordBatch importedBatch = await imported.ReadNextRecordBatchAsync();
+                Assert.Equal(new int?[] { 1, 2, 3, 4 }, (Int32Array)importedBatch.Column(0));
+                Assert.False(owner.Disposed);
+
+                importedBatch.Dispose();
+                Assert.True(owner.Disposed);
+            }
+        }
+
+        internal static RecordBatch GetAllocatorBackedRecordBatch(MemoryAllocator allocator)
+        {
+            Int32Array array = new Int32Array.Builder()
+                .Append(1)
+                .Append(2)
+                .AppendNull()
+                .Append(4)
+                .Build(allocator);
+            Schema schema = new Schema.Builder()
+                .Field(f => f.Name("ints").DataType(Int32Type.Default).Nullable(true))
+                .Build();
+            return new RecordBatch(schema, new IArrowArray[] { array }, array.Length);
+        }
+
+        private sealed class DisposeTrackingMemoryOwner : IMemoryOwner<byte>
+        {
+            private readonly IMemoryOwner<byte> _inner;
+
+            public DisposeTrackingMemoryOwner(IMemoryOwner<byte> inner)
+            {
+                _inner = inner;
+            }
+
+            public Memory<byte> Memory => _inner.Memory;
+
+            public bool Disposed { get; private set; }
+
+            public void Dispose()
+            {
+                _inner.Dispose();
+                Disposed = true;
+            }
+        }
+
+        private sealed class SingleBatchStream : IArrowArrayStream
+        {
+            private RecordBatch _batch;
+
+            public SingleBatchStream(RecordBatch batch)
+            {
+                Schema = batch.Schema;
+                _batch = batch;
+            }
+
+            public Schema Schema { get; }
+
+            public ValueTask<RecordBatch> ReadNextRecordBatchAsync(CancellationToken cancellationToken = default)
+            {
+                // Ownership of the returned batch passes to the caller.
+                RecordBatch result = _batch;
+                _batch = null;
+                return new ValueTask<RecordBatch>(result);
+            }
+
+            public void Dispose()
+            {
+                _batch?.Dispose();
+                _batch = null;
+            }
         }
     }
 }

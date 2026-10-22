@@ -26,6 +26,7 @@ namespace Apache.Arrow.Memory
         private readonly List<IntPtr> _pointers = new List<IntPtr>();
         private readonly List<MemoryHandle> _handles = new List<MemoryHandle>();
         private readonly List<SharedMemoryHandle> _sharedHandles = new List<SharedMemoryHandle>();
+        private readonly List<IDisposable> _ownedObjects = new List<IDisposable>();
         private long _allocationSize;
         private long _referenceCount;
         private bool _disposed;
@@ -60,6 +61,15 @@ namespace Apache.Arrow.Memory
             IntPtr pointer = Reference(handle);
             _sharedHandles.Add(sharedHandle);
             return pointer;
+        }
+
+        /// <summary>
+        /// Makes this owner responsible for disposing <paramref name="obj"/> once the exported
+        /// memory is released.
+        /// </summary>
+        public void TakeOwnership(IDisposable obj)
+        {
+            _ownedObjects.Add(obj);
         }
 
         public void IncRef()
@@ -101,6 +111,14 @@ namespace Apache.Arrow.Memory
             {
                 _sharedHandles[i]?.Dispose();
                 _sharedHandles[i] = default;
+            }
+
+            // Owned objects are disposed only after the pins above have been released, because
+            // some memory managers throw when they are disposed while still pinned.
+            for (int i = 0; i < _ownedObjects.Count; i++)
+            {
+                _ownedObjects[i]?.Dispose();
+                _ownedObjects[i] = null;
             }
 
             // Nothing is allocated when exporting an array without buffers or children (e.g. a NullArray),
