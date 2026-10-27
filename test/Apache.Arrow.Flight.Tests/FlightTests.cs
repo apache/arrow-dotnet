@@ -67,7 +67,6 @@ namespace Apache.Arrow.Flight.Tests
                 .Build();
         }
 
-        // Batches in the same stream must share the same Schema/Field instances.
         private RecordBatch CreateTestBatchWithDictionaryColumn(Schema schema, int startValue, int length, string[] dictionaryValues)
         {
             Int32Array.Builder valueBuilder = new Int32Array.Builder();
@@ -118,6 +117,29 @@ namespace Apache.Arrow.Flight.Tests
             var schema = CreateDictionaryTestSchema();
             var expectedBatch1 = CreateTestBatchWithDictionaryColumn(schema, 0, 50, new[] { "a", "b", "c" });
             var expectedBatch2 = CreateTestBatchWithDictionaryColumn(schema, 50, 50, new[] { "w", "x", "y", "z" });
+            GivenStoreBatches(flightDescriptor, new RecordBatchWithMetadata(expectedBatch1), new RecordBatchWithMetadata(expectedBatch2));
+
+            var flightInfo = await _flightClient.GetInfo(flightDescriptor);
+            var endpoint = flightInfo.Endpoints.First();
+            var getStream = _flightClient.GetStream(endpoint.Ticket);
+            var batches = await getStream.ResponseStream.ToListAsync();
+
+            Assert.Equal(2, batches.Count);
+            ArrowReaderVerifier.CompareBatches(expectedBatch1, batches[0]);
+            ArrowReaderVerifier.CompareBatches(expectedBatch2, batches[1]);
+        }
+
+        [Fact]
+        public async Task TestGetRecordBatchesWithDistinctSchemaInstancesPerBatch()
+        {
+            // Each batch is built from its own Schema instance (equal by value, distinct by
+            // reference) rather than sharing one Schema/Field object across the stream. The
+            // writer must assign dictionary ids from its own schema, not from whichever Field
+            // object a batch happens to carry, or later batches get assigned ids the client's
+            // schema never declared.
+            var flightDescriptor = FlightDescriptor.CreatePathDescriptor("test");
+            var expectedBatch1 = CreateTestBatchWithDictionaryColumn(CreateDictionaryTestSchema(), 0, 50, new[] { "a", "b", "c" });
+            var expectedBatch2 = CreateTestBatchWithDictionaryColumn(CreateDictionaryTestSchema(), 50, 50, new[] { "a", "b", "c" });
             GivenStoreBatches(flightDescriptor, new RecordBatchWithMetadata(expectedBatch1), new RecordBatchWithMetadata(expectedBatch2));
 
             var flightInfo = await _flightClient.GetInfo(flightDescriptor);
