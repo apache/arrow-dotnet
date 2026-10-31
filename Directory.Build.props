@@ -44,6 +44,7 @@
     <Authors>The Apache Software Foundation</Authors>
     <PackageIcon>logo_asf.png</PackageIcon>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://arrow.apache.org/dotnet/</PackageProjectUrl>
     <PackageTags>apache arrow</PackageTags>
     <RepositoryType>git</RepositoryType>
@@ -55,6 +56,7 @@
   <ItemGroup Condition="'$(IsPackable)' == 'true'">
     <Content Include="$(CSharpDir)LICENSE.txt" Pack="true" PackagePath="" />
     <Content Include="$(CSharpDir)logo_asf.png" Link="logo_asf.png" Pack="true" PackagePath="\" />
+    <Content Include="$(CSharpDir)src/README.md" Link="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
