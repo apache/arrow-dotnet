@@ -123,7 +123,7 @@ namespace Apache.Arrow.C
 #if NET5_0_OR_GREATER
                         cArray->release(cArray);
 #else
-                        Marshal.GetDelegateForFunctionPointer<CArrowArrayExporter.ReleaseArrowArray>(cArray->release)(cArray);
+                        NativeDelegate.GetDelegateForFunctionPointer<CArrowArrayExporter.ReleaseArrowArray>(cArray->release)(cArray);
 #endif
                     }
                 }

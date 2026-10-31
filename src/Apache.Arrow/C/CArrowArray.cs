@@ -84,7 +84,7 @@ namespace Apache.Arrow.C
 #if NET5_0_OR_GREATER
                 array->release(array);
 #else
-                Marshal.GetDelegateForFunctionPointer<CArrowArrayExporter.ReleaseArrowArray>(array->release)(array);
+                NativeDelegate.GetDelegateForFunctionPointer<CArrowArrayExporter.ReleaseArrowArray>(array->release)(array);
 #endif
                 Debug.Assert(array->release == default,
                              "Calling the CArrowArray release func should have set it to NULL");

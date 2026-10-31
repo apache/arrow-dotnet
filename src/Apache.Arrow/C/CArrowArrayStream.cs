@@ -110,7 +110,7 @@ namespace Apache.Arrow.C
 
                 arrayStream->release(arrayStream);
 #else
-                Marshal.GetDelegateForFunctionPointer<CArrowArrayStreamExporter.ReleaseArrayStream>(arrayStream->release)(arrayStream);
+                NativeDelegate.GetDelegateForFunctionPointer<CArrowArrayStreamExporter.ReleaseArrayStream>(arrayStream->release)(arrayStream);
 #endif
             }
             Marshal.FreeHGlobal((IntPtr)arrayStream);

@@ -84,7 +84,7 @@ namespace Apache.Arrow.C
 #if NET5_0_OR_GREATER
                     error = stream->get_last_error(stream);
 #else
-                    error = Marshal.GetDelegateForFunctionPointer<CArrowDeviceArrayStreamExporter.GetLastErrorDeviceArrayStream>(stream->get_last_error)(stream);
+                    error = NativeDelegate.GetDelegateForFunctionPointer<CArrowDeviceArrayStreamExporter.GetLastErrorDeviceArrayStream>(stream->get_last_error)(stream);
 #endif
                 }
 
@@ -115,7 +115,7 @@ namespace Apache.Arrow.C
 #if NET5_0_OR_GREATER
                 int errno = cDeviceArrayStream->get_schema(cDeviceArrayStream, &cSchema);
 #else
-                int errno = Marshal.GetDelegateForFunctionPointer<CArrowDeviceArrayStreamExporter.GetSchemaDeviceArrayStream>(cDeviceArrayStream->get_schema)(cDeviceArrayStream, &cSchema);
+                int errno = NativeDelegate.GetDelegateForFunctionPointer<CArrowDeviceArrayStreamExporter.GetSchemaDeviceArrayStream>(cDeviceArrayStream->get_schema)(cDeviceArrayStream, &cSchema);
 #endif
                 if (errno != 0)
                 {
@@ -153,7 +153,7 @@ namespace Apache.Arrow.C
 #if NET5_0_OR_GREATER
                     int errno = cDeviceArrayStream->get_next(cDeviceArrayStream, &cDeviceArray);
 #else
-                    int errno = Marshal.GetDelegateForFunctionPointer<CArrowDeviceArrayStreamExporter.GetNextDeviceArrayStream>(cDeviceArrayStream->get_next)(cDeviceArrayStream, &cDeviceArray);
+                    int errno = NativeDelegate.GetDelegateForFunctionPointer<CArrowDeviceArrayStreamExporter.GetNextDeviceArrayStream>(cDeviceArrayStream->get_next)(cDeviceArrayStream, &cDeviceArray);
 #endif
                     if (errno != 0)
                     {
@@ -178,7 +178,7 @@ namespace Apache.Arrow.C
 #if NET5_0_OR_GREATER
                         cDeviceArrayStream->release(cDeviceArrayStream);
 #else
-                        Marshal.GetDelegateForFunctionPointer<CArrowDeviceArrayStreamExporter.ReleaseDeviceArrayStream>(cDeviceArrayStream->release)(cDeviceArrayStream);
+                        NativeDelegate.GetDelegateForFunctionPointer<CArrowDeviceArrayStreamExporter.ReleaseDeviceArrayStream>(cDeviceArrayStream->release)(cDeviceArrayStream);
 #endif
                     }
                 }

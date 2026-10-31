@@ -79,7 +79,7 @@ namespace Apache.Arrow.C
 #if NET5_0_OR_GREATER
                 byte* error = arrayStream->get_last_error(arrayStream);
 #else
-                byte* error = Marshal.GetDelegateForFunctionPointer<CArrowArrayStreamExporter.GetLastErrorArrayStream>(arrayStream->get_last_error)(arrayStream);
+                byte* error = NativeDelegate.GetDelegateForFunctionPointer<CArrowArrayStreamExporter.GetLastErrorArrayStream>(arrayStream->get_last_error)(arrayStream);
 #endif
                 if (error == null)
                 {
@@ -103,7 +103,7 @@ namespace Apache.Arrow.C
 #if NET5_0_OR_GREATER
                 int errno = cArrayStream->get_schema(cArrayStream, &cSchema);
 #else
-                int errno = Marshal.GetDelegateForFunctionPointer<CArrowArrayStreamExporter.GetSchemaArrayStream>(cArrayStream->get_schema)(cArrayStream, &cSchema);
+                int errno = NativeDelegate.GetDelegateForFunctionPointer<CArrowArrayStreamExporter.GetSchemaArrayStream>(cArrayStream->get_schema)(cArrayStream, &cSchema);
 #endif
                 if (errno != 0)
                 {
@@ -141,7 +141,7 @@ namespace Apache.Arrow.C
 #if NET5_0_OR_GREATER
                     int errno = cArrayStream->get_next(cArrayStream, &cArray);
 #else
-                    int errno = Marshal.GetDelegateForFunctionPointer<CArrowArrayStreamExporter.GetNextArrayStream>(cArrayStream->get_next)(cArrayStream, &cArray);
+                    int errno = NativeDelegate.GetDelegateForFunctionPointer<CArrowArrayStreamExporter.GetNextArrayStream>(cArrayStream->get_next)(cArrayStream, &cArray);
 #endif
                     if (errno != 0)
                     {
@@ -166,7 +166,7 @@ namespace Apache.Arrow.C
 #if NET5_0_OR_GREATER
                         cArrayStream->release(cArrayStream);
 #else
-                        Marshal.GetDelegateForFunctionPointer<CArrowArrayStreamExporter.ReleaseArrayStream>(cArrayStream->release)(cArrayStream);
+                        NativeDelegate.GetDelegateForFunctionPointer<CArrowArrayStreamExporter.ReleaseArrayStream>(cArrayStream->release)(cArrayStream);
 #endif
                     }
                 }
