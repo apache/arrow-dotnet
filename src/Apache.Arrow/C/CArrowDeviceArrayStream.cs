@@ -115,7 +115,7 @@ namespace Apache.Arrow.C
 #if NET5_0_OR_GREATER
                 stream->release(stream);
 #else
-                Marshal.GetDelegateForFunctionPointer<CArrowDeviceArrayStreamExporter.ReleaseDeviceArrayStream>(stream->release)(stream);
+                NativeDelegate.GetDelegateForFunctionPointer<CArrowDeviceArrayStreamExporter.ReleaseDeviceArrayStream>(stream->release)(stream);
 #endif
             }
             Marshal.FreeHGlobal((IntPtr)stream);

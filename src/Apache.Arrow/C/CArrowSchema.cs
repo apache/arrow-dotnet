@@ -75,7 +75,7 @@ namespace Apache.Arrow.C
 #if NET5_0_OR_GREATER
                 schema->release(schema);
 #else
-                Marshal.GetDelegateForFunctionPointer<CArrowSchemaExporter.ReleaseArrowSchema>(schema->release)(schema);
+                NativeDelegate.GetDelegateForFunctionPointer<CArrowSchemaExporter.ReleaseArrowSchema>(schema->release)(schema);
 #endif
             }
             Marshal.FreeHGlobal((IntPtr)schema);

@@ -156,7 +156,7 @@ namespace Apache.Arrow.C
 #if NET5_0_OR_GREATER
                     _cSchema->release(_cSchema);
 #else
-                    Marshal.GetDelegateForFunctionPointer<CArrowSchemaExporter.ReleaseArrowSchema>(_cSchema->release)(_cSchema);
+                    NativeDelegate.GetDelegateForFunctionPointer<CArrowSchemaExporter.ReleaseArrowSchema>(_cSchema->release)(_cSchema);
 #endif
                 }
             }
