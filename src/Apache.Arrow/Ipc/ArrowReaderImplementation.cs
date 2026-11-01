@@ -178,6 +178,15 @@ namespace Apache.Arrow.Ipc
             return metadata;
         }
 
+        /// <summary>
+        /// Decode a schema message, registering any dictionary-encoded fields in the
+        /// reader's DictionaryMemo so subsequent dictionary batches can be resolved.
+        /// </summary>
+        protected Schema ReadSchemaFromMessage(ByteBuffer schemaBuffer)
+        {
+            return MessageSerializer.GetSchema(ReadMessage<Flatbuf.Schema>(schemaBuffer), ref _dictionaryMemo, _extensionRegistry);
+        }
+
         internal static ByteBuffer CreateByteBuffer(ReadOnlyMemory<byte> buffer)
         {
             return new ByteBuffer(new ReadOnlyMemoryBufferAllocator(buffer), 0);
