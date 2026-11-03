@@ -69,8 +69,9 @@ namespace Apache.Arrow.C
 
             // The C Data Interface puts the extension metadata of a dictionary's value type on
             // the dictionary child; on the field itself, it means the extension's storage is the
-            // whole dictionary. The IPC reader leaves a value type's extension metadata on the
-            // field, so move it only when it names the value type. Unresolved metadata stays put.
+            // whole dictionary. Earlier versions of this library's IPC reader left a value type's
+            // extension metadata on the field, so move it only when it names the value type.
+            // Unresolved metadata stays put.
             IReadOnlyDictionary<string, string> dictionaryMetadata = null;
             if (datatype is DictionaryType dictionaryType &&
                 dictionaryType.ValueType is ExtensionType valueType &&

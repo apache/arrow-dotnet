@@ -35,25 +35,36 @@ internal struct DictionaryEncoding : IFlatbufferObject
   /// preserve that metadata here
   public bool IsOrdered { get { int o = __p.__offset(8); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
   public DictionaryKind DictionaryKind { get { int o = __p.__offset(10); return o != 0 ? (DictionaryKind)__p.bb.GetShort(o + __p.bb_pos) : DictionaryKind.DenseArray; } }
+  /// Metadata for the dictionary value type, e.g. the extension type of the values
+  public KeyValue? CustomMetadata(int j) { int o = __p.__offset(12); return o != 0 ? (KeyValue?)(new KeyValue()).__assign(__p.__indirect(__p.__vector(o) + j * 4), __p.bb) : null; }
+  public int CustomMetadataLength { get { int o = __p.__offset(12); return o != 0 ? __p.__vector_len(o) : 0; } }
 
   public static Offset<DictionaryEncoding> CreateDictionaryEncoding(FlatBufferBuilder builder,
       long id = 0,
       Offset<Int> indexTypeOffset = default(Offset<Int>),
       bool isOrdered = false,
-      DictionaryKind dictionaryKind = DictionaryKind.DenseArray) {
-    builder.StartTable(4);
+      DictionaryKind dictionaryKind = DictionaryKind.DenseArray,
+      VectorOffset custom_metadataOffset = default(VectorOffset)) {
+    builder.StartTable(5);
     DictionaryEncoding.AddId(builder, id);
+    DictionaryEncoding.AddCustomMetadata(builder, custom_metadataOffset);
     DictionaryEncoding.AddIndexType(builder, indexTypeOffset);
     DictionaryEncoding.AddDictionaryKind(builder, dictionaryKind);
     DictionaryEncoding.AddIsOrdered(builder, isOrdered);
     return DictionaryEncoding.EndDictionaryEncoding(builder);
   }
 
-  public static void StartDictionaryEncoding(FlatBufferBuilder builder) { builder.StartTable(4); }
+  public static void StartDictionaryEncoding(FlatBufferBuilder builder) { builder.StartTable(5); }
   public static void AddId(FlatBufferBuilder builder, long id) { builder.AddLong(0, id, 0); }
   public static void AddIndexType(FlatBufferBuilder builder, Offset<Int> indexTypeOffset) { builder.AddOffset(1, indexTypeOffset.Value, 0); }
   public static void AddIsOrdered(FlatBufferBuilder builder, bool isOrdered) { builder.AddBool(2, isOrdered, false); }
   public static void AddDictionaryKind(FlatBufferBuilder builder, DictionaryKind dictionaryKind) { builder.AddShort(3, (short)dictionaryKind, 0); }
+  public static void AddCustomMetadata(FlatBufferBuilder builder, VectorOffset customMetadataOffset) { builder.AddOffset(4, customMetadataOffset.Value, 0); }
+  public static VectorOffset CreateCustomMetadataVector(FlatBufferBuilder builder, Offset<KeyValue>[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
+  public static VectorOffset CreateCustomMetadataVectorBlock(FlatBufferBuilder builder, Offset<KeyValue>[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateCustomMetadataVectorBlock(FlatBufferBuilder builder, ArraySegment<Offset<KeyValue>> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateCustomMetadataVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<Offset<KeyValue>>(dataPtr, sizeInBytes); return builder.EndVector(); }
+  public static void StartCustomMetadataVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
   public static Offset<DictionaryEncoding> EndDictionaryEncoding(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<DictionaryEncoding>(o);
@@ -70,6 +81,7 @@ static internal class DictionaryEncodingVerify
       && verifier.VerifyTable(tablePos, 6 /*IndexType*/, IntVerify.Verify, false)
       && verifier.VerifyField(tablePos, 8 /*IsOrdered*/, 1 /*bool*/, 1, false)
       && verifier.VerifyField(tablePos, 10 /*DictionaryKind*/, 2 /*DictionaryKind*/, 2, false)
+      && verifier.VerifyVectorOfTables(tablePos, 12 /*CustomMetadata*/, KeyValueVerify.Verify, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }
