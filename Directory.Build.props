@@ -55,8 +55,8 @@
 
   <ItemGroup Condition="'$(IsPackable)' == 'true'">
     <Content Include="$(CSharpDir)LICENSE.txt" Pack="true" PackagePath="" />
-    <Content Include="$(CSharpDir)logo_asf.png" Link="logo_asf.png" Pack="true" PackagePath="\" />
-    <Content Include="$(CSharpDir)src/README.md" Link="README.md" Pack="true" PackagePath="\" />
+    <Content Include="$(CSharpDir)logo_asf.png" Link="logo_asf.png" Pack="true" PackagePath="" />
+    <Content Include="$(CSharpDir)src/README.md" Link="README.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>
