@@ -172,7 +172,10 @@ test_binary_distribution() {
   fi
 
   pushd nuget
-  for package in $(cd ../src && echo *); do
+  for package in ../src/*/; do
+    [ -d "${package}" ] || continue
+    package="${package%/}"
+    package="${package##*/}"
     for package_type in nupkg snupkg; do
       fetch_artifact "${package}.${VERSION}.${package_type}"
     done
