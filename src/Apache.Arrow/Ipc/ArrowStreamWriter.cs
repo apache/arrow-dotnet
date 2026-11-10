@@ -1248,6 +1248,8 @@ namespace Apache.Arrow.Ipc
                 targetDataType = extType.StorageType;
             if (targetDataType is DictionaryType dictionaryType)
                 targetDataType = dictionaryType.ValueType;
+            if (targetDataType is ExtensionType valueExtType)
+                targetDataType = valueExtType.StorageType;
 
             if (!(targetDataType is NestedType type))
             {
@@ -1279,12 +1281,24 @@ namespace Apache.Arrow.Ipc
         {
             IReadOnlyDictionary<string, string> metadata = field.Metadata;
 
-            // Inject extension type metadata if the field type is/wraps an ExtensionType
-            ExtensionType extType = field.DataType as ExtensionType;
-            if (extType == null && field.DataType is DictionaryType dt && dt.ValueType is ExtensionType dext)
-                extType = dext;
+            // A dictionary value type's extension metadata goes in DictionaryEncoding.custom_metadata;
+            // in Field.custom_metadata, it would mean the extension's storage is the whole dictionary.
+            // Field metadata that names the value type, which is how earlier versions of this
+            // library's IPC reader left it, is dropped rather than written there.
+            if (field.DataType is DictionaryType dt &&
+                dt.ValueType is ExtensionType valueType &&
+                metadata != null &&
+                metadata.TryGetValue("ARROW:extension:name", out string extName) &&
+                extName == valueType.Name)
+            {
+                var filtered = new Dictionary<string, string>((IDictionary<string, string>)metadata);
+                filtered.Remove("ARROW:extension:name");
+                filtered.Remove("ARROW:extension:metadata");
+                metadata = filtered;
+            }
 
-            if (extType != null)
+            // Inject extension type metadata if the field type is an ExtensionType
+            if (field.DataType is ExtensionType extType)
             {
                 // Merge extension metadata with existing field metadata
                 var merged = metadata != null
@@ -1319,7 +1333,21 @@ namespace Apache.Arrow.Ipc
             var indexType = dicType.IndexType as NumberType;
 
             Offset<Flatbuf.Int> indexOffset = Flatbuf.Int.CreateInt(Builder, indexType.BitWidth, indexType.IsSigned);
-            return Flatbuf.DictionaryEncoding.CreateDictionaryEncoding(Builder, id, indexOffset, dicType.Ordered);
+
+            // DictionaryEncoding.custom_metadata (format 1.6) holds the value type's extension metadata
+            VectorOffset valueMetadataOffset = default;
+            if (dicType.ValueType is ExtensionType valueType)
+            {
+                Offset<Flatbuf.KeyValue>[] valueMetadataOffsets = GetMetadataOffsets(new Dictionary<string, string>
+                {
+                    ["ARROW:extension:name"] = valueType.Name,
+                    ["ARROW:extension:metadata"] = valueType.ExtensionMetadata ?? "",
+                });
+                valueMetadataOffset = Flatbuf.DictionaryEncoding.CreateCustomMetadataVector(Builder, valueMetadataOffsets);
+            }
+
+            return Flatbuf.DictionaryEncoding.CreateDictionaryEncoding(Builder, id, indexOffset, dicType.Ordered,
+                Flatbuf.DictionaryKind.DenseArray, valueMetadataOffset);
         }
 
         /// <summary>

@@ -90,29 +90,20 @@ namespace Apache.Arrow.Ipc
             Flatbuf.DictionaryEncoding? dictionaryEncoding = flatbufField.Dictionary;
             IArrowType type = GetFieldArrowType(flatbufField, childFields);
 
-            // Build metadata first (needed for extension type resolution)
-            Dictionary<string, string> metadata = flatbufField.CustomMetadataLength > 0 ? new Dictionary<string, string>() : null;
-            for (int i = 0; i < flatbufField.CustomMetadataLength; i++)
-            {
-                Flatbuf.KeyValue keyValue = flatbufField.CustomMetadata(i).GetValueOrDefault();
-                metadata[keyValue.Key] = keyValue.Value;
-            }
-
-            // Resolve extension type from metadata (before dictionary wrapping)
-            if (metadata != null &&
-                metadata.TryGetValue("ARROW:extension:name", out string extName) &&
-                extensionRegistry != null &&
-                extensionRegistry.TryGetDefinition(extName, out ExtensionDefinition extDef))
-            {
-                metadata.TryGetValue("ARROW:extension:metadata", out string extMeta);
-                if (extDef.TryCreateType(type, extMeta, out ExtensionType extType))
-                {
-                    type = extType;
-                }
-            }
-
             if (dictionaryEncoding.HasValue)
             {
+                // DictionaryEncoding.custom_metadata (format 1.6) describes the dictionary value
+                // type. DictionaryType has nowhere to keep it, so, as in Arrow C++, only extension
+                // metadata is used and an unresolved value type's metadata is dropped.
+                Dictionary<string, string> valueMetadata = null;
+                for (int i = 0; i < dictionaryEncoding.Value.CustomMetadataLength; i++)
+                {
+                    Flatbuf.KeyValue keyValue = dictionaryEncoding.Value.CustomMetadata(i).GetValueOrDefault();
+                    valueMetadata ??= new Dictionary<string, string>();
+                    valueMetadata[keyValue.Key] = keyValue.Value;
+                }
+                type = ResolveExtensionType(type, valueMetadata, extensionRegistry);
+
                 Flatbuf.Int? indexTypeAsInt = dictionaryEncoding.Value.IndexType;
                 IArrowType indexType = indexTypeAsInt.HasValue ?
                     GetNumberType(indexTypeAsInt.Value.BitWidth, indexTypeAsInt.Value.IsSigned) :
@@ -120,6 +111,17 @@ namespace Apache.Arrow.Ipc
 
                 type = new DictionaryType(indexType, type, dictionaryEncoding.Value.IsOrdered);
             }
+
+            Dictionary<string, string> metadata = flatbufField.CustomMetadataLength > 0 ? new Dictionary<string, string>() : null;
+            for (int i = 0; i < flatbufField.CustomMetadataLength; i++)
+            {
+                Flatbuf.KeyValue keyValue = flatbufField.CustomMetadata(i).GetValueOrDefault();
+                metadata[keyValue.Key] = keyValue.Value;
+            }
+
+            // Field.custom_metadata describes the field's whole type, so on a dictionary-encoded
+            // field its extension metadata names an extension type whose storage is the dictionary.
+            type = ResolveExtensionType(type, metadata, extensionRegistry);
 
             var arrowField = new Field(flatbufField.Name, type, flatbufField.Nullable, metadata, copyCollections: false);
 
@@ -130,6 +132,23 @@ namespace Apache.Arrow.Ipc
             }
 
             return arrowField;
+        }
+
+        private static IArrowType ResolveExtensionType(IArrowType type, Dictionary<string, string> metadata, ExtensionTypeRegistry extensionRegistry)
+        {
+            if (metadata != null &&
+                metadata.TryGetValue("ARROW:extension:name", out string extName) &&
+                extensionRegistry != null &&
+                extensionRegistry.TryGetDefinition(extName, out ExtensionDefinition extDef))
+            {
+                metadata.TryGetValue("ARROW:extension:metadata", out string extMeta);
+                if (extDef.TryCreateType(type, extMeta, out ExtensionType extType))
+                {
+                    return extType;
+                }
+            }
+
+            return type;
         }
 
         private static Types.IArrowType GetFieldArrowType(Flatbuf.Field field, Field[] childFields = null)
