@@ -605,16 +605,12 @@ namespace Apache.Arrow
                 }
 
                 var slicedValues = new List<ArrayData>(_arrayDataList.Count);
-                ArrowBuffer.Builder<short> int16Builder = null;
-                ArrowBuffer.Builder<int> int32Builder = null;
-                ArrowBuffer.Builder<long> int64Builder = null;
-
-                switch (runEndsTypeId)
-                {
-                    case ArrowTypeId.Int16: int16Builder = new ArrowBuffer.Builder<short>(0, _allocator); break;
-                    case ArrowTypeId.Int32: int32Builder = new ArrowBuffer.Builder<int>(0, _allocator); break;
-                    case ArrowTypeId.Int64: int64Builder = new ArrowBuffer.Builder<long>(0, _allocator); break;
-                }
+                // Only the builder for the run-ends type is used. A builder with no capacity
+                // allocates nothing, and the using declarations release working memory even if
+                // concatenation throws partway through (for example on run-end overflow).
+                using ArrowBuffer.Builder<short> int16Builder = new ArrowBuffer.Builder<short>(0, _allocator);
+                using ArrowBuffer.Builder<int> int32Builder = new ArrowBuffer.Builder<int>(0, _allocator);
+                using ArrowBuffer.Builder<long> int64Builder = new ArrowBuffer.Builder<long>(0, _allocator);
 
                 long baseOffset = 0;
                 int physicalRunCount = 0;
@@ -704,10 +700,6 @@ namespace Apache.Arrow
                     ArrowTypeId.Int32 => int32Builder.Build(_allocator),
                     _ => int64Builder.Build(_allocator),
                 };
-
-                int16Builder?.Dispose();
-                int32Builder?.Dispose();
-                int64Builder?.Dispose();
 
                 ArrayData runEndsResult = new ArrayData(
                     type.RunEndsDataType, physicalRunCount, 0, 0,

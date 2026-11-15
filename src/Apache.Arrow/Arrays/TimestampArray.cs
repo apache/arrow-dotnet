@@ -81,7 +81,8 @@ namespace Apache.Arrow
             /// what it builds into <see cref="MemoryAllocator.Default"/>, as builders always have.
             /// </param>
             public Builder(TimestampType type, int capacity, MemoryAllocator allocator = null)
-                : base(new TimestampBuilder(type, capacity, allocator))
+                // Checked before the inner builder allocates, so that a failure leaks nothing.
+                : base(new TimestampBuilder(type ?? throw new ArgumentNullException(nameof(type)), capacity, allocator))
             {
                 DataType = type;
             }

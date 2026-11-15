@@ -35,7 +35,7 @@ namespace Apache.Arrow
             /// <summary>
             /// Gets the number of bits that can be contained in the memory allocated by the current instance.
             /// </summary>
-            public int Capacity => _buffer.Capacity * 8;
+            public int Capacity => (int)Math.Min((long)_buffer.Capacity * 8, int.MaxValue);
 
             /// <summary>
             /// Gets the number of bits currently appended.
@@ -125,6 +125,13 @@ namespace Apache.Arrow
             {
                 if (!source.IsEmpty && validBits > source.Length * 8)
                     throw new ArgumentException($"Number of valid bits ({validBits}) cannot be greater than the source span length ({source.Length * 8} bits).", nameof(validBits));
+
+                // Growing releases the current working memory, so a source that is part of this
+                // builder's own span would be read after release. Copy such a source first.
+                if (validBits > Capacity - Length && source.Overlaps(Span))
+                {
+                    source = source.ToArray();
+                }
 
                 // Check if memory copy can be used from the source array (performance optimization for byte-aligned coping)
                 if (!source.IsEmpty && Length % 8 == 0)
@@ -283,6 +290,14 @@ namespace Apache.Arrow
                 }
 
                 EnsureCapacity(capacity);
+
+                if (capacity > Length)
+                {
+                    // The added bits must be unset (null), not whatever the memory held: allocators
+                    // need not zero it, and earlier truncated bits may remain.
+                    BitUtility.SetBits(Span, Length, capacity - Length, false);
+                }
+
                 Length = capacity;
 
                 SetBitCount = BitUtility.CountBits(Span, 0, Length);

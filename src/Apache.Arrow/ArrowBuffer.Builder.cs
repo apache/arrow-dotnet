@@ -152,6 +152,13 @@ namespace Apache.Arrow
             /// <returns>Returns the builder (for fluent-style composition).</returns>
             public Builder<T> Append(ReadOnlySpan<T> source)
             {
+                // Growing releases the current working memory, so a source that is part of this
+                // builder's own span would be read after release. Copy such a source first.
+                if (source.Length > Capacity - Length && source.Overlaps(Span))
+                {
+                    source = source.ToArray();
+                }
+
                 EnsureAdditionalCapacity(source.Length);
                 source.CopyTo(Span.Slice(Length, source.Length));
                 Length += source.Length;

@@ -69,6 +69,10 @@ namespace Apache.Arrow.Memory
         private ArrowBuffer _shared;
         private bool _isShared;
 
+        // How many bytes of _shared hold data, as opposed to padding. A later build can share
+        // the same buffer only if it would hold exactly the same bytes.
+        private int _sharedUsedBytes;
+
         /// <param name="allocator">
         /// The allocator for both working memory and built buffers, or <c>null</c> for managed
         /// working memory copied into <see cref="MemoryAllocator.Default"/> when built.
@@ -123,8 +127,12 @@ namespace Apache.Arrow.Memory
 
         /// <summary>
         /// Grows the working memory to at least <paramref name="capacityBytes"/>, preserving
-        /// its contents and zeroing the added region.
+        /// its contents.
         /// </summary>
+        /// <remarks>
+        /// The contents of the added region are unspecified: allocators are not required to zero
+        /// memory, so callers that need zeroes must write them.
+        /// </remarks>
         public void Grow(int capacityBytes)
         {
             int rounded = RoundUp(capacityBytes);
@@ -156,9 +164,9 @@ namespace Apache.Arrow.Memory
                 ReleaseShared();
                 _owner = _temporary.Allocate(capacity);
                 _memory = _owner.Memory;
-                return;
             }
 
+            // Cleared explicitly in both cases, since allocators need not zero what they return.
             _memory.Span.Clear();
         }
 
@@ -179,13 +187,17 @@ namespace Apache.Arrow.Memory
 
             if (_isShared)
             {
-                // Built again without being written to: share the same memory.
-                if (handOver && padded == _shared.Length)
+                // Built again holding exactly the same bytes: share the same memory. A Resize can
+                // change the length without writing to the builder, so the padded length alone
+                // is not enough; sharing after a shrink would expose the removed values.
+                if (handOver && usedBytes == _sharedUsedBytes && padded == _shared.Length)
                 {
                     return _shared.Retain();
                 }
 
-                return Copy(_shared.Span, usedBytes, padded, destination);
+                ArrowBuffer sharedCopy = Copy(_shared.Span, usedBytes, padded, destination);
+                GC.KeepAlive(this);
+                return sharedCopy;
             }
 
             ThrowIfDisposed();
@@ -193,7 +205,13 @@ namespace Apache.Arrow.Memory
             if (!handOver || padded == 0 || padded > _memory.Length ||
                 _memory.Length - padded > _memory.Length / MaxSlackDivisor)
             {
-                return Copy(_memory.Span, usedBytes, padded, destination);
+                ArrowBuffer copy = Copy(_memory.Span, usedBytes, padded, destination);
+
+                // The span copied from refers to working memory this object owns. With a
+                // finalized native allocator, a collection during Allocate could otherwise free
+                // that memory before it was read (see the same issue in ArrowStreamWriter).
+                GC.KeepAlive(this);
+                return copy;
             }
 
             // The bytes between the data and the padding boundary may hold values left behind
@@ -206,6 +224,7 @@ namespace Apache.Arrow.Memory
 
             ArrowBuffer result = new ArrowBuffer(owner, _temporary.Lifetime);
             _shared = result.Retain();
+            _sharedUsedBytes = usedBytes;
             _isShared = true;
             _owner = null;
             _memory = Memory<byte>.Empty;
@@ -247,7 +266,11 @@ namespace Apache.Arrow.Memory
         private static ArrowBuffer Copy(ReadOnlySpan<byte> source, int usedBytes, int padded, MemoryAllocator allocator)
         {
             IMemoryOwner<byte> owner = allocator.Allocate(padded);
-            source.Slice(0, usedBytes).CopyTo(owner.Memory.Span);
+            Span<byte> destination = owner.Memory.Span;
+            source.Slice(0, usedBytes).CopyTo(destination);
+
+            // Allocators need not zero memory, and the padding must not hold garbage.
+            destination.Slice(usedBytes).Clear();
             return new ArrowBuffer(owner, allocator.Lifetime);
         }
 
