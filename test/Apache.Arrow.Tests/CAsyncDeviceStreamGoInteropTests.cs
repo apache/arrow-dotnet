@@ -19,10 +19,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Apache.Arrow.C;
 using Apache.Arrow.Ipc;
+using Apache.Arrow.Types;
 using Xunit;
 
 namespace Apache.Arrow.Tests
@@ -167,6 +169,79 @@ namespace Apache.Arrow.Tests
                     extra.Dispose();
                 }
             });
+        }
+
+        [SkippableFact]
+        public async Task GoConsumerRejectingSchemaReleasesCleanly()
+        {
+            // Act as a producer by hand, sending a schema arrow-go can't import. After
+            // a failed on_schema the spec says the producer calls only release, which
+            // must not crash (arrow-go v18.8.0 frees its handler state in on_schema
+            // but leaves its release callback installed; apache/arrow-go#1573).
+            IntPtr handlerPtr;
+            IntPtr producerPtr = IntPtr.Zero;
+            ArrowGoInteropFixture.GoConsumer consumer;
+            unsafe
+            {
+                CArrowAsyncDeviceStreamHandler* handler = CArrowAsyncDeviceStreamHandler.Create();
+                handlerPtr = (IntPtr)handler;
+                consumer = _go.CreateConsumer(handler, 1);
+            }
+
+            try
+            {
+                Task<IArrowArrayStream> resultTask = consumer.ToStreamAsync();
+
+                unsafe
+                {
+                    var handler = (CArrowAsyncDeviceStreamHandler*)handlerPtr;
+                    CArrowAsyncProducer* producer = CArrowAsyncProducer.Create();
+                    producerPtr = (IntPtr)producer;
+                    producer->device_type = ArrowDeviceType.Cpu;
+                    producer->request = &NoOpRequest;
+                    producer->cancel = &NoOpCancel;
+                    handler->producer = producer;
+
+                    CArrowSchema* schema = CArrowSchema.Create();
+                    CArrowSchemaExporter.ExportType(Int32Type.Default, schema);
+                    byte* exportedFormat = schema->format;
+                    schema->format = StringUtil.ToCStringUtf8("~bogus");
+                    Marshal.FreeHGlobal((IntPtr)exportedFormat);
+
+                    int errno = handler->on_schema(handler, schema);
+                    Assert.NotEqual(0, errno);
+
+                    // As the spec requires after a failed on_schema: only release.
+                    handler->release(handler);
+                    CArrowSchema.Free(schema);
+                }
+
+                // arrow-go reports the import failure instead of a stream.
+                await Assert.ThrowsAsync<ArrowGoInteropException>(() => resultTask.WaitAsync(Timeout));
+            }
+            finally
+            {
+                bool released = await WaitForHandlerReleaseAsync(handlerPtr);
+                consumer.Dispose();
+                if (released)
+                {
+                    unsafe
+                    {
+                        CArrowAsyncDeviceStreamHandler.Free((CArrowAsyncDeviceStreamHandler*)handlerPtr);
+                        CArrowAsyncProducer.Free((CArrowAsyncProducer*)producerPtr);
+                    }
+                }
+            }
+        }
+
+        [UnmanagedCallersOnly]
+        private static unsafe void NoOpRequest(CArrowAsyncProducer* producer, long n)
+        {
+        }
+
+        [UnmanagedCallersOnly]
+        private static unsafe void NoOpCancel(CArrowAsyncProducer* producer)
+        {
         }
 
         [SkippableFact]

@@ -28,6 +28,11 @@
 // The proxy producer forwards request/cancel to the real producer only until the
 // outer handler is released, and stays allocated until arrow-go is done with it.
 // Remove this once arrow-go is fixed: https://github.com/apache/arrow-go/issues/1572
+//
+// The proxy also works around a second arrow-go (v18.8.0) bug: after a failed
+// on_schema, arrow-go's own release callback uses state it has already freed, so
+// the proxy doesn't forward release in that case. See outer_release and
+// https://github.com/apache/arrow-go/issues/1573
 
 #pragma once
 

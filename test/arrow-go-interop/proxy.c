@@ -34,6 +34,10 @@ struct InteropProxy {
   volatile char lock;
   struct ArrowAsyncProducer* real_producer;
   int released;
+
+  // Set if arrow-go's on_schema failed; see outer_release. Only touched by the
+  // producer's thread, which calls on_schema and release in order.
+  int inner_schema_failed;
 };
 
 static void proxy_lock(struct InteropProxy* p) {
@@ -85,7 +89,11 @@ static int outer_on_schema(struct ArrowAsyncDeviceStreamHandler* self,
   p->inner.producer = &p->producer;
 
   // Not under the lock: arrow-go calls request() synchronously from on_schema.
-  return p->inner.on_schema(&p->inner, schema);
+  int status = p->inner.on_schema(&p->inner, schema);
+  if (status != 0) {
+    p->inner_schema_failed = 1;
+  }
+  return status;
 }
 
 static int outer_on_next_task(struct ArrowAsyncDeviceStreamHandler* self,
@@ -111,7 +119,13 @@ static void outer_release(struct ArrowAsyncDeviceStreamHandler* self) {
   // arrow-go keeps writing to the inner handler (which lives in the proxy) after
   // its task goroutine may have exited, so the proxy must not be reported as
   // released until this returns.
-  if (p->inner.release != NULL) {
+  //
+  // WORKAROUND: when arrow-go's on_schema fails, it frees its handler state but
+  // leaves its release callback installed, and that callback then reads the freed
+  // state and panics. The spec has the producer call release after a failed
+  // on_schema, so don't forward it in that case; arrow-go has already cleaned up.
+  // Remove once arrow-go is fixed: https://github.com/apache/arrow-go/issues/1573
+  if (p->inner.release != NULL && !p->inner_schema_failed) {
     p->inner.release(&p->inner);
   }
 
