@@ -54,6 +54,13 @@ static struct InteropProxy* from_outer(struct ArrowAsyncDeviceStreamHandler* sel
 }
 
 // ---- proxy producer, called by arrow-go ----
+//
+// These hold the (non-reentrant) spinlock while calling into the real producer,
+// and outer_release takes it too. That relies on the real producer never calling
+// release synchronously from request or cancel; if it did, outer_release would
+// spin forever on the lock its own thread holds. Apache.Arrow's producer never
+// does: request and cancel only update state, and release always happens on the
+// produce loop's thread.
 
 static void proxy_request(struct ArrowAsyncProducer* self, int64_t n) {
   struct InteropProxy* p = (struct InteropProxy*)self->private_data;
