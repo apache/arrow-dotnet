@@ -25,6 +25,13 @@ namespace Apache.Arrow.Memory
         public SharedMemoryHandle(SharedMemoryOwner owner)
         {
             _owner = owner ?? throw new ArgumentNullException(nameof(owner));
+
+            if (!owner.FinalizeWhenUnreachable)
+            {
+                // The memory came from an allocator whose Lifetime is not Finalized, which
+                // opts out of release by collection: see the finalizer below.
+                GC.SuppressFinalize(this);
+            }
         }
 
         public Memory<byte> Memory => _owner.Memory;
@@ -40,6 +47,10 @@ namespace Apache.Arrow.Memory
             GC.SuppressFinalize(this);
         }
 
+        // Releases buffers that were never disposed, as it always has. Doing so lets the GC
+        // decide when memory is freed or recycled, which can invalidate a span that is still in
+        // use (https://github.com/apache/arrow-dotnet/issues/397), so allocators can opt out by
+        // reporting a Lifetime other than Finalized; existing allocators keep this behaviour.
         ~SharedMemoryHandle()
         {
             Release();

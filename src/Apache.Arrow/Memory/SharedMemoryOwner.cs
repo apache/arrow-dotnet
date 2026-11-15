@@ -26,13 +26,24 @@ namespace Apache.Arrow.Memory
         private int _refCount;
 
         public SharedMemoryOwner(IMemoryOwner<byte> inner)
+            : this(inner, finalizeWhenUnreachable: true)
         {
+        }
+
+        public SharedMemoryOwner(IMemoryOwner<byte> inner, bool finalizeWhenUnreachable)
+        {
+            FinalizeWhenUnreachable = finalizeWhenUnreachable;
             _inner = inner ?? throw new ArgumentNullException(nameof(inner));
             _memory = inner.Memory;
             _refCount = 1;
         }
 
         public Memory<byte> Memory => _memory;
+
+        /// <summary>
+        /// Whether handles to this memory release it from a finalizer when they are not disposed.
+        /// </summary>
+        public bool FinalizeWhenUnreachable { get; }
 
         public SharedMemoryHandle Retain()
         {
