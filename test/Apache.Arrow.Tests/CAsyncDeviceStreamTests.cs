@@ -393,7 +393,135 @@ namespace Apache.Arrow.Tests
             Assert.Contains("must be positive", events[1]);
             Assert.Equal("release", events[2]);
             Assert.False(consumer.SawOverlappingCallbacks);
-            Assert.True(source.IsDisposed);
+
+            // The producer disposes its source after the release callback returns,
+            // which can be after Released completes.
+            Assert.True(await WaitUntilAsync(() => source.IsDisposed), "Source was not disposed after release.");
+        }
+
+        [Fact]
+        public async Task DisposingConsumerBeforeProducerAttachesReleases()
+        {
+            // The consumer can't cancel a producer that isn't attached yet, so it has
+            // to send the cancel once on_schema arrives; otherwise the producer gets
+            // neither demand nor cancel and never releases.
+            var source = new EndlessArrayStream(CreateBatch(0, 1));
+
+            unsafe
+            {
+                IArrowArrayStream received = CArrowAsyncDeviceStreamConsumer.CreateStream(out CArrowAsyncDeviceStreamHandler* handler);
+                received.Dispose();
+                CArrowAsyncDeviceStreamProducer.Produce(source, handler);
+            }
+
+            Assert.True(await WaitUntilAsync(() => source.IsDisposed), "Producer did not release after cancel.");
+        }
+
+        [Fact]
+        public async Task CancelInterruptsPendingSourceRead()
+        {
+            // A source waiting for input must be woken by cancel; otherwise the
+            // producer never gets to release.
+            var source = new WaitingArrayStream(CreateBatch(0, 1).Schema);
+
+            IArrowArrayStream received;
+            unsafe
+            {
+                received = CArrowAsyncDeviceStreamConsumer.CreateStream(out CArrowAsyncDeviceStreamHandler* handler);
+                CArrowAsyncDeviceStreamProducer.Produce(source, handler);
+            }
+
+            Assert.True(await WaitUntilAsync(() => source.ReadStarted), "Producer never started reading.");
+            received.Dispose();
+
+            Assert.True(await WaitUntilAsync(() => source.IsDisposed), "Producer did not release after cancel.");
+            Assert.True(source.ReadWasCancelled);
+        }
+
+        [Fact]
+        public async Task SchemaImportFailureIsReported()
+        {
+            IArrowArrayStream received;
+            unsafe
+            {
+                received = CArrowAsyncDeviceStreamConsumer.CreateStream(out CArrowAsyncDeviceStreamHandler* handler);
+
+                // Act as a producer that sends a schema the importer rejects.
+                CArrowSchema* schema = CArrowSchema.Create();
+                CArrowSchemaExporter.ExportType(Int32Type.Default, schema);
+                byte* exportedFormat = schema->format;
+                schema->format = StringUtil.ToCStringUtf8("~bogus");
+                Marshal.FreeHGlobal((IntPtr)exportedFormat);
+
+#if NET5_0_OR_GREATER
+                int errno = handler->on_schema(handler, schema);
+#else
+                int errno = NativeDelegate.GetDelegateForFunctionPointer<CArrowAsyncDeviceStreamConsumer.OnSchemaDelegate>(handler->on_schema)(handler, schema);
+#endif
+                Assert.NotEqual(0, errno);
+
+                // Per the spec, a failed on_schema is followed only by release.
+#if NET5_0_OR_GREATER
+                handler->release(handler);
+#else
+                NativeDelegate.GetDelegateForFunctionPointer<CArrowAsyncDeviceStreamConsumer.ReleaseHandlerDelegate>(handler->release)(handler);
+#endif
+                CArrowSchema.Free(schema);
+            }
+
+            using (received)
+            {
+                // The reader must see the import failure, not an empty stream.
+                Exception readError = await Assert.ThrowsAnyAsync<Exception>(
+                    () => received.ReadNextRecordBatchAsync().AsTask());
+                Assert.Contains("not yet supported", readError.Message);
+
+                Exception schemaError = Assert.ThrowsAny<Exception>(() => received.Schema);
+                Assert.Contains("not yet supported", schemaError.Message);
+            }
+        }
+
+        /// <summary>
+        /// Stream whose reads wait for input that never comes, but honor cancellation.
+        /// </summary>
+        private sealed class WaitingArrayStream : IArrowArrayStream
+        {
+            private int _readStarted;
+            private int _readWasCancelled;
+            private int _disposed;
+
+            public WaitingArrayStream(Schema schema)
+            {
+                Schema = schema;
+            }
+
+            public Schema Schema { get; }
+
+            public bool ReadStarted => Volatile.Read(ref _readStarted) != 0;
+
+            public bool ReadWasCancelled => Volatile.Read(ref _readWasCancelled) != 0;
+
+            public bool IsDisposed => Volatile.Read(ref _disposed) != 0;
+
+            public async ValueTask<RecordBatch> ReadNextRecordBatchAsync(CancellationToken cancellationToken = default)
+            {
+                Interlocked.Exchange(ref _readStarted, 1);
+                try
+                {
+                    await Task.Delay(Timeout.Infinite, cancellationToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    Interlocked.Exchange(ref _readWasCancelled, 1);
+                    throw;
+                }
+                return null;
+            }
+
+            public void Dispose()
+            {
+                Interlocked.Exchange(ref _disposed, 1);
+            }
         }
 
         /// <summary>

@@ -27,7 +27,8 @@ struct InteropProxy {
   struct ArrowAsyncProducer producer;
 
   // Guards real_producer and released. Held while forwarding request/cancel,
-  // so release can't complete (and the real producer be freed) mid-call. A
+  // so release can't proceed (and the real producer be freed) mid-call.
+  // released means outer_release has finished with the proxy, not just begun. A
   // spinlock keeps this free of threading-library dependencies; critical
   // sections are short because request/cancel must not block or call back.
   volatile char lock;
@@ -53,7 +54,8 @@ static struct InteropProxy* from_outer(struct ArrowAsyncDeviceStreamHandler* sel
 static void proxy_request(struct ArrowAsyncProducer* self, int64_t n) {
   struct InteropProxy* p = (struct InteropProxy*)self->private_data;
   proxy_lock(p);
-  if (!p->released && p->real_producer != NULL) {
+  // real_producer is cleared as soon as release starts.
+  if (p->real_producer != NULL) {
     p->real_producer->request(p->real_producer, n);
   }
   proxy_unlock(p);
@@ -62,7 +64,7 @@ static void proxy_request(struct ArrowAsyncProducer* self, int64_t n) {
 static void proxy_cancel(struct ArrowAsyncProducer* self) {
   struct InteropProxy* p = (struct InteropProxy*)self->private_data;
   proxy_lock(p);
-  if (!p->released && p->real_producer != NULL) {
+  if (p->real_producer != NULL) {
     p->real_producer->cancel(p->real_producer);
   }
   proxy_unlock(p);
@@ -101,18 +103,27 @@ static void outer_on_error(struct ArrowAsyncDeviceStreamHandler* self, int code,
 static void outer_release(struct ArrowAsyncDeviceStreamHandler* self) {
   struct InteropProxy* p = from_outer(self);
 
-  // From here on the real producer may be freed; stop forwarding to it.
+  // The real producer may be freed once this returns: stop forwarding to it now.
   proxy_lock(p);
-  p->released = 1;
   p->real_producer = NULL;
   proxy_unlock(p);
 
+  // arrow-go keeps writing to the inner handler (which lives in the proxy) after
+  // its task goroutine may have exited, so the proxy must not be reported as
+  // released until this returns.
   if (p->inner.release != NULL) {
     p->inner.release(&p->inner);
   }
 
-  self->release = NULL;
   self->private_data = NULL;
+
+  // Publish completion only after the last access to each struct: once released
+  // is set, ArrowGoAsync_ConsumerFree may free the proxy, and once self->release
+  // is cleared, the test may free the outer handler.
+  proxy_lock(p);
+  p->released = 1;
+  proxy_unlock(p);
+  __atomic_store_n(&self->release, NULL, __ATOMIC_RELEASE);
 }
 
 // ---- lifetime ----

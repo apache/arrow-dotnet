@@ -117,18 +117,22 @@ namespace Apache.Arrow.C
 #endif
         private unsafe static int OnSchema(CArrowAsyncDeviceStreamHandler* handler, CArrowSchema* schema)
         {
+            ConsumerState state = null;
             try
             {
-                var state = ConsumerState.FromPointer(handler->private_data);
+                state = ConsumerState.FromPointer(handler->private_data);
                 Schema importedSchema = CArrowSchemaImporter.ImportSchema(schema);
                 state.SetSchema(importedSchema);
 
                 // Calling request() synchronously from on_schema is explicitly allowed.
-                state.RequestFromProducer(state.QueueSize);
+                state.StartRequesting();
                 return 0;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                // After a failed on_schema the producer only calls release, so record
+                // the failure here or the reader would just see an empty stream.
+                state?.SignalError(ex);
                 return EOTHER;
             }
         }
@@ -274,6 +278,7 @@ namespace Apache.Arrow.C
             private readonly object _producerGate = new object();
             private bool _released;
             private bool _cancelled;
+            private bool _cancelSent;
 
             private volatile bool _disposed;
 
@@ -311,6 +316,44 @@ namespace Apache.Arrow.C
                 _schemaReady.TrySetResult(schema);
             }
 
+            /// <summary>
+            /// Called from on_schema, once the producer is attached: make the initial
+            /// request, or, if the stream was disposed before a producer attached, send
+            /// the cancellation that couldn't be sent then. Otherwise the producer would
+            /// get neither demand nor cancel and never release the handler.
+            /// </summary>
+            public void StartRequesting()
+            {
+                lock (_producerGate)
+                {
+                    CArrowAsyncProducer* producer = _handler->producer;
+                    if (_released || producer == null)
+                    {
+                        return;
+                    }
+
+                    if (_cancelled)
+                    {
+                        if (!_cancelSent)
+                        {
+                            _cancelSent = true;
+#if NET5_0_OR_GREATER
+                            producer->cancel(producer);
+#else
+                            NativeDelegate.GetDelegateForFunctionPointer<CArrowAsyncDeviceStreamProducer.CancelDelegate>(producer->cancel)(producer);
+#endif
+                        }
+                        return;
+                    }
+
+#if NET5_0_OR_GREATER
+                    producer->request(producer, QueueSize);
+#else
+                    NativeDelegate.GetDelegateForFunctionPointer<CArrowAsyncDeviceStreamProducer.RequestDelegate>(producer->request)(producer, QueueSize);
+#endif
+                }
+            }
+
             public void RequestFromProducer(long n)
             {
                 lock (_producerGate)
@@ -342,9 +385,12 @@ namespace Apache.Arrow.C
                     CArrowAsyncProducer* producer = _handler->producer;
                     if (producer == null)
                     {
-                        // Never attached to a producer, so there's nothing to cancel.
+                        // No producer attached yet; StartRequesting sends the cancel
+                        // once one is.
                         return;
                     }
+
+                    _cancelSent = true;
 #if NET5_0_OR_GREATER
                     producer->cancel(producer);
 #else
@@ -378,24 +424,40 @@ namespace Apache.Arrow.C
             public void EnqueueBatch(RecordBatch batch)
             {
                 Waiter waiter = null;
+                bool rejected = false;
                 lock (_gate)
                 {
-                    // Skip waiters whose read was cancelled; handing the batch to
-                    // one of them would lose it.
-                    while (_waiters.Count > 0)
+                    // Dispose sets _disposed before it drains the queue under this
+                    // lock, so a batch either gets drained or is rejected here.
+                    if (_disposed)
                     {
-                        Waiter candidate = _waiters.Dequeue();
-                        if (candidate.Completion.TrySetResult(batch))
+                        rejected = true;
+                    }
+                    else
+                    {
+                        // Skip waiters whose read was cancelled; handing the batch to
+                        // one of them would lose it.
+                        while (_waiters.Count > 0)
                         {
-                            waiter = candidate;
-                            break;
+                            Waiter candidate = _waiters.Dequeue();
+                            if (candidate.Completion.TrySetResult(batch))
+                            {
+                                waiter = candidate;
+                                break;
+                            }
+                        }
+
+                        if (waiter == null)
+                        {
+                            _buffered.Enqueue(batch);
                         }
                     }
+                }
 
-                    if (waiter == null)
-                    {
-                        _buffered.Enqueue(batch);
-                    }
+                if (rejected)
+                {
+                    batch.Dispose();
+                    return;
                 }
 
                 if (waiter != null)
@@ -524,14 +586,24 @@ namespace Apache.Arrow.C
                 CancelProducer();
 
                 List<RecordBatch> buffered;
+                List<Waiter> waiters;
                 lock (_gate)
                 {
                     buffered = new List<RecordBatch>(_buffered);
                     _buffered.Clear();
+                    waiters = DrainWaiters();
                 }
                 foreach (RecordBatch batch in buffered)
                 {
                     batch.Dispose();
+                }
+
+                // Don't leave a read that's still waiting hanging forever.
+                var disposedException = new ObjectDisposedException(nameof(ConsumerState));
+                foreach (Waiter waiter in waiters)
+                {
+                    waiter.Completion.TrySetException(disposedException);
+                    waiter.Registration.Dispose();
                 }
             }
 

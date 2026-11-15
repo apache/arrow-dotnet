@@ -270,6 +270,7 @@ namespace Apache.Arrow.Tests
                 consumer = _go.CreateConsumer(handler, queueSize);
             }
 
+            bool released = false;
             try
             {
                 // arrow-go's on_schema blocks until someone is waiting for the stream.
@@ -286,7 +287,9 @@ namespace Apache.Arrow.Tests
             }
             finally
             {
-                bool released = await WaitForHandlerReleaseAsync(handlerPtr);
+                // If release never happens, leak the handler rather than free memory
+                // the producer may still use.
+                released = await WaitForHandlerReleaseAsync(handlerPtr);
                 consumer.Dispose();
                 if (released)
                 {
@@ -296,12 +299,15 @@ namespace Apache.Arrow.Tests
                     }
                 }
             }
+
+            // Only reached if the body succeeded, so this doesn't mask its failure.
+            Assert.True(released, "The .NET producer never released the handler.");
         }
 
         /// <summary>
         /// The .NET producer releases the handler after it signals end-of-stream,
-        /// so the consumer can finish reading before release happens. arrow-go
-        /// clears the release callback when it runs.
+        /// so the consumer can finish reading before release happens. The shim
+        /// clears the release callback as its very last access to the handler.
         /// </summary>
         private static async Task<bool> WaitForHandlerReleaseAsync(IntPtr handlerPtr)
         {
@@ -319,7 +325,10 @@ namespace Apache.Arrow.Tests
 
         private static unsafe bool IsReleased(IntPtr handlerPtr)
         {
-            return ((CArrowAsyncDeviceStreamHandler*)handlerPtr)->release == default;
+            // Pairs with the shim's release-ordered store, so nothing it wrote to the
+            // handler can land after we see the callback cleared and free it.
+            var handler = (CArrowAsyncDeviceStreamHandler*)handlerPtr;
+            return Volatile.Read(ref *(IntPtr*)&handler->release) == IntPtr.Zero;
         }
 
         private static async Task AssertStreamEquals(List<RecordBatch> expected, IArrowArrayStream actual)

@@ -16,6 +16,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using Apache.Arrow.Ipc;
 
@@ -191,10 +192,18 @@ namespace Apache.Arrow.C
             private bool _schemaDelivered;
             private bool _running;
             private bool _cancelled;
+            // Set once the loop has committed to its final callbacks (end of stream,
+            // on_error or release); later request/cancel/errors are ignored, so a
+            // decision made under _gate can't be overtaken.
+            private bool _completing;
             private bool _finished;
             private bool _hasPendingError;
             private int _pendingErrorCode;
             private string _pendingErrorMessage;
+
+            // Cancelled by cancel() so a source read that's waiting for input wakes
+            // up. Never disposed: it has no timer, and a late Cancel() must not throw.
+            private readonly CancellationTokenSource _cancellation = new CancellationTokenSource();
 
             public ProducerState(IArrowArrayStream arrayStream, CArrowAsyncDeviceStreamHandler* handler)
             {
@@ -203,6 +212,8 @@ namespace Apache.Arrow.C
             }
 
             public IArrowArrayStream ArrayStream => _arrayStream;
+
+            public CancellationToken CancellationToken => _cancellation.Token;
 
             public static ProducerState FromPointer(void* ptr)
             {
@@ -282,7 +293,7 @@ namespace Apache.Arrow.C
                 lock (_gate)
                 {
                     // After cancel, request must be a no-op.
-                    if (_cancelled || _finished)
+                    if (_cancelled || _completing || _finished)
                     {
                         return;
                     }
@@ -310,7 +321,7 @@ namespace Apache.Arrow.C
                 lock (_gate)
                 {
                     // cancel must be idempotent.
-                    if (_cancelled || _finished)
+                    if (_cancelled || _completing || _finished)
                     {
                         return;
                     }
@@ -322,6 +333,22 @@ namespace Apache.Arrow.C
                 {
                     StartLoop();
                 }
+
+                // Wake a source read that's waiting for input. Done on the thread pool
+                // because cancelling can run the read's continuation inline, and that
+                // would call release from inside the consumer's call to cancel().
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        _cancellation.Cancel();
+                    }
+                    catch (Exception)
+                    {
+                        // A source's cancellation callback threw; the loop will still
+                        // see _cancelled and release.
+                    }
+                });
             }
 
             /// <summary>
@@ -333,7 +360,7 @@ namespace Apache.Arrow.C
                 bool startLoop;
                 lock (_gate)
                 {
-                    if (_finished)
+                    if (_completing || _finished)
                     {
                         return;
                     }
@@ -395,16 +422,10 @@ namespace Apache.Arrow.C
                 errorMessage = null;
                 lock (_gate)
                 {
-                    if (_hasPendingError)
+                    Step step = TakeTerminalStepLocked(out errorCode, out errorMessage);
+                    if (step != Step.Produce)
                     {
-                        errorCode = _pendingErrorCode;
-                        errorMessage = _pendingErrorMessage;
-                        return Step.Error;
-                    }
-
-                    if (_cancelled)
-                    {
-                        return Step.Release;
+                        return step;
                     }
 
                     if (_demand == 0)
@@ -419,29 +440,69 @@ namespace Apache.Arrow.C
             }
 
             /// <summary>
-            /// Deliver a batch (or end of stream, if null) to the consumer. Returns
-            /// false if the stream is now finished.
+            /// If a pending error or cancellation must end the stream, commit to that
+            /// (setting <see cref="_completing"/>) and return the step; otherwise
+            /// return <see cref="Step.Produce"/>. A pending error wins over cancel.
+            /// </summary>
+            private Step TakeTerminalStepLocked(out int errorCode, out string errorMessage)
+            {
+                errorCode = 0;
+                errorMessage = null;
+
+                if (_hasPendingError)
+                {
+                    _completing = true;
+                    errorCode = _pendingErrorCode;
+                    errorMessage = _pendingErrorMessage;
+                    return Step.Error;
+                }
+
+                if (_cancelled)
+                {
+                    _completing = true;
+                    return Step.Release;
+                }
+
+                return Step.Produce;
+            }
+
+            /// <summary>
+            /// Handle the result of a source read: deliver the batch, or end the
+            /// stream. Errors or cancellation that arrived while the read was in
+            /// progress take precedence. Returns false if the stream is now finished.
             /// Separated from the async loop because unsafe pointer operations
             /// cannot appear in async methods.
             /// </summary>
             public bool DeliverBatch(RecordBatch batch)
             {
+                Step step;
+                int errorCode;
+                string errorMessage;
+                lock (_gate)
+                {
+                    step = TakeTerminalStepLocked(out errorCode, out errorMessage);
+                    if (step == Step.Produce && batch == null)
+                    {
+                        _completing = true;
+                    }
+                }
+
+                switch (step)
+                {
+                    case Step.Error:
+                        batch?.Dispose();
+                        FailWithError(errorCode, errorMessage);
+                        return false;
+                    case Step.Release:
+                        // Cancelled while reading: drop the batch and just release.
+                        batch?.Dispose();
+                        Finish();
+                        return false;
+                }
+
                 if (batch == null)
                 {
                     SignalEndOfStream();
-                    Finish();
-                    return false;
-                }
-
-                bool cancelled;
-                lock (_gate)
-                {
-                    cancelled = _cancelled;
-                }
-                if (cancelled)
-                {
-                    // Cancelled while reading: drop the batch and just release.
-                    batch.Dispose();
                     Finish();
                     return false;
                 }
@@ -467,6 +528,36 @@ namespace Apache.Arrow.C
                 }
 
                 return true;
+            }
+
+            /// <summary>
+            /// Handle a source read that threw. If the stream was cancelled meanwhile
+            /// (including by our own cancellation token), just release; a pending
+            /// error is reported in preference to the read's own exception.
+            /// </summary>
+            public void HandleReadFailure(Exception ex)
+            {
+                Step step;
+                int errorCode;
+                string errorMessage;
+                lock (_gate)
+                {
+                    step = TakeTerminalStepLocked(out errorCode, out errorMessage);
+                    _completing = true;
+                }
+
+                switch (step)
+                {
+                    case Step.Error:
+                        FailWithError(errorCode, errorMessage);
+                        break;
+                    case Step.Release:
+                        Finish();
+                        break;
+                    default:
+                        FailWithError(EOTHER, ex.Message);
+                        break;
+                }
             }
 
             public void FailWithError(int code, string message)
@@ -574,11 +665,11 @@ namespace Apache.Arrow.C
                     RecordBatch batch;
                     try
                     {
-                        batch = await state.ArrayStream.ReadNextRecordBatchAsync().ConfigureAwait(false);
+                        batch = await state.ArrayStream.ReadNextRecordBatchAsync(state.CancellationToken).ConfigureAwait(false);
                     }
                     catch (Exception ex)
                     {
-                        state.FailWithError(EOTHER, ex.Message);
+                        state.HandleReadFailure(ex);
                         return;
                     }
 
