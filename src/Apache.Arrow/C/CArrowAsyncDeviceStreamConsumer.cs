@@ -273,6 +273,16 @@ namespace Apache.Arrow.C
             // freed in release, and the producer may free its struct as soon as
             // release returns. Held while calling request/cancel, so release
             // (which takes it too) can't complete in the middle of one.
+            //
+            // Holding it across those calls is deliberate. The spec only keeps the
+            // producer valid until release, so the consumer must keep release from
+            // completing while it's calling into the producer; releasing the lock
+            // before the call would let the producer free the struct the call uses.
+            // A producer that calls release synchronously from cancel is fine: it
+            // runs on the same thread, and monitors are reentrant. A producer whose
+            // cancel blocks until another thread has called release would deadlock
+            // with any consumer that does this.
+            //
             // Separate from _gate so a producer that blocks in request() while
             // delivering a batch can't deadlock against EnqueueBatch.
             private readonly object _producerGate = new object();
@@ -540,6 +550,15 @@ namespace Apache.Arrow.C
                 RecordBatch buffered = null;
                 lock (_gate)
                 {
+                    // Check again under the lock: Dispose may have drained the queue
+                    // and the waiters since the check above, and a waiter added now
+                    // would never be completed.
+                    if (_disposed)
+                    {
+                        return new ValueTask<RecordBatch>(Task.FromException<RecordBatch>(
+                            new ObjectDisposedException(nameof(ConsumerState))));
+                    }
+
                     if (_buffered.Count > 0)
                     {
                         buffered = _buffered.Dequeue();

@@ -481,6 +481,108 @@ namespace Apache.Arrow.Tests
             }
         }
 
+        [Fact]
+        public async Task ProducerReleasingSynchronouslyFromCancelDoesNotDeadlock()
+        {
+            // The consumer holds a lock while calling cancel so release can't free the
+            // producer mid-call; release takes the same lock. A producer may call
+            // release from inside cancel, on the same thread, and that must not deadlock.
+            Schema schema = CreateBatch(0, 1).Schema;
+            var producer = new ReleaseOnCancelProducer();
+
+            IArrowArrayStream received;
+            unsafe
+            {
+                received = CArrowAsyncDeviceStreamConsumer.CreateStream(out CArrowAsyncDeviceStreamHandler* handler);
+                producer.Attach(handler, schema);
+            }
+
+            // On another task so a deadlock fails the test instead of hanging it.
+            Task dispose = Task.Run(() => received.Dispose());
+            Assert.True(await Task.WhenAny(dispose, Task.Delay(TimeSpan.FromSeconds(10))) == dispose, "Dispose deadlocked.");
+            await dispose;
+
+            Assert.True(producer.ReleasedInsideCancel, "The producer's cancel did not release the handler.");
+        }
+
+        /// <summary>
+        /// A minimal producer whose cancel calls the handler's release synchronously,
+        /// then frees itself, as the spec allows.
+        /// </summary>
+        private sealed unsafe class ReleaseOnCancelProducer
+        {
+            private CArrowAsyncDeviceStreamHandler* _handler;
+            private CArrowAsyncProducer* _producer;
+            private GCHandle _self;
+            private int _releasedInsideCancel;
+
+            public bool ReleasedInsideCancel => Volatile.Read(ref _releasedInsideCancel) != 0;
+
+            public void Attach(CArrowAsyncDeviceStreamHandler* handler, Schema schema)
+            {
+                _handler = handler;
+                _self = GCHandle.Alloc(this);
+
+                _producer = CArrowAsyncProducer.Create();
+                _producer->device_type = ArrowDeviceType.Cpu;
+#if NET5_0_OR_GREATER
+                _producer->request = &Request;
+                _producer->cancel = &Cancel;
+#else
+                _producer->request = Marshal.GetFunctionPointerForDelegate(s_request);
+                _producer->cancel = Marshal.GetFunctionPointerForDelegate(s_cancel);
+#endif
+                _producer->private_data = (void*)GCHandle.ToIntPtr(_self);
+                handler->producer = _producer;
+
+                CArrowSchema cSchema = default;
+                CArrowSchemaExporter.ExportSchema(schema, &cSchema);
+#if NET5_0_OR_GREATER
+                int errno = handler->on_schema(handler, &cSchema);
+#else
+                int errno = NativeDelegate.GetDelegateForFunctionPointer<CArrowAsyncDeviceStreamConsumer.OnSchemaDelegate>(handler->on_schema)(handler, &cSchema);
+#endif
+                Assert.Equal(0, errno);
+            }
+
+#if NET5_0_OR_GREATER
+            [UnmanagedCallersOnly]
+#endif
+            private static void Request(CArrowAsyncProducer* producer, long n)
+            {
+                // This producer never delivers anything.
+            }
+
+#if NET5_0_OR_GREATER
+            [UnmanagedCallersOnly]
+#endif
+            private static void Cancel(CArrowAsyncProducer* producer)
+            {
+                var self = (ReleaseOnCancelProducer)GCHandle.FromIntPtr((IntPtr)producer->private_data).Target;
+                CArrowAsyncDeviceStreamHandler* handler = self._handler;
+
+#if NET5_0_OR_GREATER
+                handler->release(handler);
+#else
+                NativeDelegate.GetDelegateForFunctionPointer<CArrowAsyncDeviceStreamConsumer.ReleaseHandlerDelegate>(handler->release)(handler);
+#endif
+                Interlocked.Exchange(ref self._releasedInsideCancel, 1);
+
+                // After release, the producer may free itself.
+                self._self.Free();
+                CArrowAsyncProducer.Free(producer);
+            }
+
+#if !NET5_0_OR_GREATER
+            private delegate void RequestDelegate(CArrowAsyncProducer* producer, long n);
+            private delegate void CancelDelegate(CArrowAsyncProducer* producer);
+
+            // Kept in static fields so the delegates outlive the function pointers.
+            private static readonly RequestDelegate s_request = Request;
+            private static readonly CancelDelegate s_cancel = Cancel;
+#endif
+        }
+
         /// <summary>
         /// Stream whose reads wait for input that never comes, but honor cancellation.
         /// </summary>
