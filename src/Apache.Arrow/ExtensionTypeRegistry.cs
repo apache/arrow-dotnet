@@ -32,7 +32,16 @@ namespace Apache.Arrow
         /// </summary>
         public static ExtensionTypeRegistry Default => s_default;
 
-        private readonly Dictionary<string, ExtensionDefinition> _definitions;
+        // Guards _definitions and _shared. A separate object is needed because copy-on-write
+        // replaces the dictionary, so it cannot serve as its own lock.
+        private readonly object _lock = new object();
+
+        private Dictionary<string, ExtensionDefinition> _definitions;
+
+        // True when _definitions may also be referenced by a clone (or by the registry this
+        // one was cloned from). A shared dictionary is never modified: whichever registry
+        // mutates first copies it, so every registry sees the contents it had when cloned.
+        private bool _shared;
 
         public ExtensionTypeRegistry()
         {
@@ -41,7 +50,8 @@ namespace Apache.Arrow
 
         private ExtensionTypeRegistry(Dictionary<string, ExtensionDefinition> definitions)
         {
-            _definitions = new Dictionary<string, ExtensionDefinition>(definitions);
+            _definitions = definitions;
+            _shared = true;
         }
 
         /// <summary>
@@ -50,9 +60,9 @@ namespace Apache.Arrow
         public void Register(ExtensionDefinition definition)
         {
             if (definition == null) throw new ArgumentNullException(nameof(definition));
-            lock (_definitions)
+            lock (_lock)
             {
-                _definitions[definition.ExtensionName] = definition;
+                GetWritableDefinitions()[definition.ExtensionName] = definition;
             }
         }
 
@@ -63,14 +73,15 @@ namespace Apache.Arrow
         public IDisposable RegisterTemporary(ExtensionDefinition definition)
         {
             if (definition == null) throw new ArgumentNullException(nameof(definition));
-            lock (_definitions)
+            lock (_lock)
             {
-                if (!_definitions.TryGetValue(definition.ExtensionName, out ExtensionDefinition previousDefinition))
+                Dictionary<string, ExtensionDefinition> definitions = GetWritableDefinitions();
+                if (!definitions.TryGetValue(definition.ExtensionName, out ExtensionDefinition previousDefinition))
                 {
                     previousDefinition = null;
                 }
                 IDisposable scope = new Registration(this, definition.ExtensionName, previousDefinition);
-                _definitions[definition.ExtensionName] = definition;
+                definitions[definition.ExtensionName] = definition;
                 return scope;
             }
         }
@@ -81,9 +92,9 @@ namespace Apache.Arrow
         public void Unregister(ExtensionDefinition definition)
         {
             if (definition == null) throw new ArgumentNullException(nameof(definition));
-            lock (_definitions)
+            lock (_lock)
             {
-                _definitions.Remove(definition.ExtensionName);
+                GetWritableDefinitions().Remove(definition.ExtensionName);
             }
         }
 
@@ -92,7 +103,7 @@ namespace Apache.Arrow
         /// </summary>
         public bool TryGetDefinition(string extensionName, out ExtensionDefinition definition)
         {
-            lock (_definitions)
+            lock (_lock)
             {
                 return _definitions.TryGetValue(extensionName, out definition);
             }
@@ -101,12 +112,33 @@ namespace Apache.Arrow
         /// <summary>
         /// Create a snapshot copy of this registry.
         /// </summary>
+        /// <remarks>
+        /// The snapshot reflects this registry's contents at the time of the call; later changes
+        /// to either registry do not affect the other. The copy is made lazily, by whichever
+        /// registry is modified first, so cloning a registry that is never modified is cheap.
+        /// </remarks>
         public ExtensionTypeRegistry Clone()
         {
-            lock (_definitions)
+            lock (_lock)
             {
+                _shared = true;
                 return new ExtensionTypeRegistry(_definitions);
             }
+        }
+
+        /// <summary>
+        /// Returns a dictionary that only this registry references, copying a shared one first.
+        /// Must be called while holding <see cref="_lock"/>.
+        /// </summary>
+        private Dictionary<string, ExtensionDefinition> GetWritableDefinitions()
+        {
+            if (_shared)
+            {
+                _definitions = new Dictionary<string, ExtensionDefinition>(_definitions);
+                _shared = false;
+            }
+
+            return _definitions;
         }
 
         sealed class Registration : IDisposable
@@ -127,15 +159,16 @@ namespace Apache.Arrow
 
             public void Dispose()
             {
-                lock (_registry._definitions)
+                lock (_registry._lock)
                 {
+                    Dictionary<string, ExtensionDefinition> definitions = _registry.GetWritableDefinitions();
                     if (_previousDefinition == null)
                     {
-                        _registry._definitions.Remove(_extensionName);
+                        definitions.Remove(_extensionName);
                     }
                     else
                     {
-                        _registry._definitions[_previousDefinition.ExtensionName] = _previousDefinition;
+                        definitions[_previousDefinition.ExtensionName] = _previousDefinition;
                     }
                 }
             }
