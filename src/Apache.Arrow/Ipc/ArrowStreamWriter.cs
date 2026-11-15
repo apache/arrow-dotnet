@@ -425,7 +425,7 @@ namespace Apache.Arrow.Ipc
                         newValueOffsets[i] = originalOffsets[i] - firstOffset;
                     }
 
-                    return new ArrowBuffer(newValueOffsetsBuffer);
+                    return new ArrowBuffer(newValueOffsetsBuffer, _allocator.Lifetime);
                 }
                 else if (valueOffsetsBuffer.Length > requiredBytes)
                 {
@@ -457,7 +457,7 @@ namespace Apache.Arrow.Ipc
                     {
                         newValueOffsets[i] = originalOffsets[i] - firstOffset;
                     }
-                    return new ArrowBuffer(newValueOffsetsBuffer);
+                    return new ArrowBuffer(newValueOffsetsBuffer, _allocator.Lifetime);
                 }
                 else if (valueOffsetsBuffer.Length > requiredBytes)
                 {
@@ -526,7 +526,7 @@ namespace Apache.Arrow.Ipc
                     newOffsets[i] = offsets[i] - minOffset;
                 }
 
-                return (new ArrowBuffer(newOffsetsBuffer), minOffset, maxEnd);
+                return (new ArrowBuffer(newOffsetsBuffer, _allocator.Lifetime), minOffset, maxEnd);
             }
 
             private (ArrowBuffer Buffer, long minOffset, long maxEnd) GetZeroBasedLargeListViewOffsets(LargeListViewArray array)
@@ -577,7 +577,7 @@ namespace Apache.Arrow.Ipc
                     newOffsets[i] = offsets[i] - minOffset;
                 }
 
-                return (new ArrowBuffer(newOffsetsBuffer), minOffset, maxEnd);
+                return (new ArrowBuffer(newOffsetsBuffer, _allocator.Lifetime), minOffset, maxEnd);
             }
 
             private Buffer CreateBitmapBuffer(ArrowBuffer buffer, int offset, int length, bool locallyOwned)
@@ -739,6 +739,7 @@ namespace Apache.Arrow.Ipc
         private readonly bool _leaveOpen;
         private readonly IpcOptions _options;
         private readonly MemoryAllocator _allocator;
+        private readonly ICompressionCodecFactory _compressionCodecFactory;
         // Fallback for compression codec, not implementing TryCompress.
         // Reuse a single memory stream for writing compressed
         private readonly MemoryStream _fallbackCompressionStream = new MemoryStream();
@@ -768,6 +769,34 @@ namespace Apache.Arrow.Ipc
         }
 
         public ArrowStreamWriter(Stream baseStream, Schema schema, bool leaveOpen, IpcOptions options, MemoryAllocator allocator)
+            : this(baseStream, schema, leaveOpen, options, allocator, fallbackCompressionCodecFactory: null)
+        {
+        }
+
+        /// <summary>
+        /// Creates a writer that takes its allocator and compression codec factory from
+        /// <paramref name="context"/>.
+        /// </summary>
+        /// <param name="context">
+        /// Supplies the allocator for the writer's temporary buffers, and the compression codec
+        /// factory used when <paramref name="options"/> does not specify one.
+        /// </param>
+        /// <param name="baseStream">The stream to write to.</param>
+        /// <param name="schema">The schema of the record batches to be written.</param>
+        /// <param name="leaveOpen">Whether to leave <paramref name="baseStream"/> open when the writer is disposed.</param>
+        /// <param name="options">IPC options; <c>null</c> uses <see cref="IpcOptions.Default"/>.</param>
+        public ArrowStreamWriter(ArrowContext context, Stream baseStream, Schema schema, bool leaveOpen = false, IpcOptions options = null)
+            : this(baseStream, schema, leaveOpen, options, RequireContext(context).Allocator, context.CompressionCodecFactory)
+        {
+        }
+
+        private protected ArrowStreamWriter(
+            Stream baseStream,
+            Schema schema,
+            bool leaveOpen,
+            IpcOptions options,
+            MemoryAllocator allocator,
+            ICompressionCodecFactory fallbackCompressionCodecFactory)
         {
             BaseStream = baseStream ?? throw new ArgumentNullException(nameof(baseStream));
             Schema = schema ?? throw new ArgumentNullException(nameof(schema));
@@ -780,13 +809,20 @@ namespace Apache.Arrow.Ipc
             _fieldTypeBuilder = new ArrowTypeFlatbufferBuilder(Builder);
             _options = options ?? IpcOptions.Default;
 
-            if (_options.CompressionCodec.HasValue && _options.CompressionCodecFactory == null)
+            // A factory in the options wins; the context's is only a fallback, so that callers
+            // never need to modify (possibly shared) IpcOptions to use a context.
+            _compressionCodecFactory = _options.CompressionCodecFactory ?? fallbackCompressionCodecFactory;
+
+            if (_options.CompressionCodec.HasValue && _compressionCodecFactory == null)
             {
                 throw new ArgumentException(
                     $"A {nameof(_options.CompressionCodecFactory)} must be provided when a {nameof(_options.CompressionCodec)} is specified",
                     nameof(options));
             }
         }
+
+        private protected static ArrowContext RequireContext(ArrowContext context) =>
+            context ?? throw new ArgumentNullException(nameof(context));
 
         private Offset<Flatbuf.BodyCompression> GetBodyCompression()
         {
@@ -854,6 +890,12 @@ namespace Apache.Arrow.Ipc
 
             long bufferLength = WriteBufferData(recordBatchBuilder.Buffers);
 
+            // The buffers just written are views of recordBatch's memory, so it must stay
+            // reachable until they have been copied out. Otherwise, once its last other use above
+            // has passed, a collection during the write can finalize the batch's buffers and free
+            // that memory while it is being read (https://github.com/apache/arrow-dotnet/issues/397).
+            GC.KeepAlive(recordBatch);
+
             FinishedWritingRecordBatch(bufferLength, metadataLength);
         }
 
@@ -906,6 +948,12 @@ namespace Apache.Arrow.Ipc
                 cancellationToken).ConfigureAwait(false);
 
             long bufferLength = await WriteBufferDataAsync(recordBatchBuilder.Buffers, cancellationToken).ConfigureAwait(false);
+
+            // The buffers just written are views of recordBatch's memory, so it must stay
+            // reachable until they have been copied out. Otherwise, once its last other use above
+            // has passed, a collection during the write can finalize the batch's buffers and free
+            // that memory while it is being read (https://github.com/apache/arrow-dotnet/issues/397).
+            GC.KeepAlive(recordBatch);
 
             FinishedWritingRecordBatch(bufferLength, metadataLength);
         }
@@ -983,7 +1031,7 @@ namespace Apache.Arrow.Ipc
             // CompressionCodec can be disposed after all data is visited by the builder,
             // and doesn't need to be alive for the full lifetime of the ArrowRecordBatchFlatBufferBuilder
             using var compressionCodec = _options.CompressionCodec.HasValue
-                ? _options.CompressionCodecFactory.CreateCodec(_options.CompressionCodec.Value, _options.CompressionLevel)
+                ? _compressionCodecFactory.CreateCodec(_options.CompressionCodec.Value, _options.CompressionLevel)
                 : null;
 
             var recordBatchBuilder = new ArrowRecordBatchFlatBufferBuilder(compressionCodec, _allocator, _fallbackCompressionStream);

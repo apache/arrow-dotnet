@@ -58,7 +58,7 @@ namespace Apache.Arrow.Ipc
                 throw new Exception($"Expected to decompress {uncompressedLength} bytes, but got {decompressedLength} bytes");
             }
 
-            return new ArrowBuffer(outputData);
+            return new ArrowBuffer(outputData, _allocator.Lifetime);
         }
 
         public void Dispose()

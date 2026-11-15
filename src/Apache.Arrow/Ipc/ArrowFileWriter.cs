@@ -49,7 +49,35 @@ namespace Apache.Arrow.Ipc
         }
 
         public ArrowFileWriter(Stream stream, Schema schema, bool leaveOpen, IpcOptions options, MemoryAllocator allocator)
-            : base(stream, schema, leaveOpen, options, allocator)
+            : this(stream, schema, leaveOpen, options, allocator, fallbackCompressionCodecFactory: null)
+        {
+        }
+
+        /// <summary>
+        /// Creates a writer that takes its allocator and compression codec factory from
+        /// <paramref name="context"/>.
+        /// </summary>
+        /// <param name="context">
+        /// Supplies the allocator for the writer's temporary buffers, and the compression codec
+        /// factory used when <paramref name="options"/> does not specify one.
+        /// </param>
+        /// <param name="stream">The stream to write to; must be writable.</param>
+        /// <param name="schema">The schema of the record batches to be written.</param>
+        /// <param name="leaveOpen">Whether to leave <paramref name="stream"/> open when the writer is disposed.</param>
+        /// <param name="options">IPC options; <c>null</c> uses <see cref="IpcOptions.Default"/>.</param>
+        public ArrowFileWriter(ArrowContext context, Stream stream, Schema schema, bool leaveOpen = false, IpcOptions options = null)
+            : this(stream, schema, leaveOpen, options, RequireContext(context).Allocator, context.CompressionCodecFactory)
+        {
+        }
+
+        private ArrowFileWriter(
+            Stream stream,
+            Schema schema,
+            bool leaveOpen,
+            IpcOptions options,
+            MemoryAllocator allocator,
+            ICompressionCodecFactory fallbackCompressionCodecFactory)
+            : base(stream, schema, leaveOpen, options, allocator, fallbackCompressionCodecFactory)
         {
             if (!stream.CanWrite)
             {

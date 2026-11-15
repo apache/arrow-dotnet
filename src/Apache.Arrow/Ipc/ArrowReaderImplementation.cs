@@ -47,6 +47,10 @@ namespace Apache.Arrow.Ipc
         private protected DictionaryMemo _dictionaryMemo;
         private protected DictionaryMemo DictionaryMemo => _dictionaryMemo ??= new DictionaryMemo();
         private protected readonly MemoryAllocator _allocator;
+
+        // The allocator exactly as given, possibly null, for operations that build arrays:
+        // those keep their historical behaviour when no allocator was passed.
+        private readonly MemoryAllocator _requestedAllocator;
         private readonly ICompressionCodecFactory _compressionCodecFactory;
         private protected readonly ExtensionTypeRegistry _extensionRegistry;
         private protected Schema _schema;
@@ -60,6 +64,7 @@ namespace Apache.Arrow.Ipc
 
         private protected ArrowReaderImplementation(MemoryAllocator allocator, ICompressionCodecFactory compressionCodecFactory, ExtensionTypeRegistry extensionRegistry)
         {
+            _requestedAllocator = allocator;
             _allocator = allocator ?? MemoryAllocator.Default.Value;
             _compressionCodecFactory = compressionCodecFactory;
             _extensionRegistry = extensionRegistry ?? ExtensionTypeRegistry.Default;
@@ -209,7 +214,7 @@ namespace Apache.Arrow.Ipc
 
             if (dictionaryBatch.IsDelta)
             {
-                DictionaryMemo.AddDeltaDictionary(id, arrays[0], _allocator);
+                DictionaryMemo.AddDeltaDictionary(id, arrays[0], _requestedAllocator);
             }
             else
             {
