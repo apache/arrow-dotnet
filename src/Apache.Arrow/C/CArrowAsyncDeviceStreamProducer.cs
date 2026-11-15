@@ -360,6 +360,10 @@ namespace Apache.Arrow.C
                 bool startLoop;
                 lock (_gate)
                 {
+                    // Too late to report: nothing may follow release, and an on_error
+                    // after end-of-stream would contradict it. Consumers may extract
+                    // after either (arrow-go does), so they can't rely on on_error for
+                    // a failed extract; extract_data's return value tells them.
                     if (_completing || _finished)
                     {
                         return;

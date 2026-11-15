@@ -505,6 +505,109 @@ namespace Apache.Arrow.Tests
             Assert.True(producer.ReleasedInsideCancel, "The producer's cancel did not release the handler.");
         }
 
+        [Fact]
+        public async Task FailedExtractIsReportedWithoutOnError()
+        {
+            // A producer can't always follow a failed extract_data with on_error (for
+            // example if the consumer extracts after it has finished), so the consumer
+            // must not silently drop the batch and end the stream normally.
+            Schema schema = CreateBatch(0, 1).Schema;
+            var producer = new FailingExtractProducer();
+
+            IArrowArrayStream received;
+            int status;
+            unsafe
+            {
+                received = CArrowAsyncDeviceStreamConsumer.CreateStream(out CArrowAsyncDeviceStreamHandler* handler);
+                status = producer.DeliverFailingTaskAndRelease(handler, schema);
+            }
+
+            // The consumer tells the producer to stop...
+            Assert.NotEqual(0, status);
+
+            using (received)
+            {
+                // ...and the reader sees the failure instead of an empty stream.
+                Exception readError = await Assert.ThrowsAnyAsync<Exception>(
+                    () => received.ReadNextRecordBatchAsync().AsTask());
+                Assert.Contains($"Error code: {FailingExtractProducer.ExtractError}", readError.Message);
+            }
+        }
+
+        /// <summary>
+        /// A minimal producer that delivers one task whose extract_data fails, then
+        /// releases the handler without calling on_error.
+        /// </summary>
+        private sealed unsafe class FailingExtractProducer
+        {
+            public const int ExtractError = 5; // EIO
+
+            public int DeliverFailingTaskAndRelease(CArrowAsyncDeviceStreamHandler* handler, Schema schema)
+            {
+                CArrowAsyncProducer* producer = CArrowAsyncProducer.Create();
+                producer->device_type = ArrowDeviceType.Cpu;
+#if NET5_0_OR_GREATER
+                producer->request = &Request;
+                producer->cancel = &Cancel;
+#else
+                producer->request = Marshal.GetFunctionPointerForDelegate(s_request);
+                producer->cancel = Marshal.GetFunctionPointerForDelegate(s_cancel);
+#endif
+                handler->producer = producer;
+
+                CArrowSchema cSchema = default;
+                CArrowSchemaExporter.ExportSchema(schema, &cSchema);
+                CArrowAsyncTask task = default;
+#if NET5_0_OR_GREATER
+                Assert.Equal(0, handler->on_schema(handler, &cSchema));
+                task.extract_data = &FailingExtract;
+                int status = handler->on_next_task(handler, &task, null);
+                handler->release(handler);
+#else
+                Assert.Equal(0, NativeDelegate.GetDelegateForFunctionPointer<CArrowAsyncDeviceStreamConsumer.OnSchemaDelegate>(handler->on_schema)(handler, &cSchema));
+                task.extract_data = Marshal.GetFunctionPointerForDelegate(s_extract);
+                int status = NativeDelegate.GetDelegateForFunctionPointer<CArrowAsyncDeviceStreamConsumer.OnNextTaskDelegate>(handler->on_next_task)(handler, &task, null);
+                NativeDelegate.GetDelegateForFunctionPointer<CArrowAsyncDeviceStreamConsumer.ReleaseHandlerDelegate>(handler->release)(handler);
+#endif
+                // After release, the producer may free itself.
+                CArrowAsyncProducer.Free(producer);
+                return status;
+            }
+
+#if NET5_0_OR_GREATER
+            [UnmanagedCallersOnly]
+#endif
+            private static void Request(CArrowAsyncProducer* producer, long n)
+            {
+            }
+
+#if NET5_0_OR_GREATER
+            [UnmanagedCallersOnly]
+#endif
+            private static void Cancel(CArrowAsyncProducer* producer)
+            {
+            }
+
+#if NET5_0_OR_GREATER
+            [UnmanagedCallersOnly]
+#endif
+            private static int FailingExtract(CArrowAsyncTask* task, CArrowDeviceArray* array)
+            {
+                return ExtractError;
+            }
+
+#if !NET5_0_OR_GREATER
+            private delegate void RequestDelegate(CArrowAsyncProducer* producer, long n);
+            private delegate void CancelDelegate(CArrowAsyncProducer* producer);
+            private delegate int ExtractDelegate(CArrowAsyncTask* task, CArrowDeviceArray* array);
+
+            // Kept in static fields so the delegates outlive the function pointers.
+            private static readonly RequestDelegate s_request = Request;
+            private static readonly CancelDelegate s_cancel = Cancel;
+            private static readonly ExtractDelegate s_extract = FailingExtract;
+#endif
+        }
+
         /// <summary>
         /// A minimal producer whose cancel calls the handler's release synchronously,
         /// then frees itself, as the spec allows.

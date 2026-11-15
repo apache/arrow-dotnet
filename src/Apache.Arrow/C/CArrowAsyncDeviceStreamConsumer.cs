@@ -165,8 +165,12 @@ namespace Apache.Arrow.C
 #endif
                 if (errno != 0)
                 {
-                    // The producer follows a failed extract with on_error.
-                    return 0;
+                    // Record the failure here rather than relying on the producer's
+                    // on_error: it can't always send one (e.g. if it has already
+                    // finished), and without it the batch would be silently lost.
+                    // Returning non-zero also tells the producer to stop and release.
+                    state.SignalError(new Exception($"Failed to extract data from an async task. Error code: {errno}"));
+                    return errno;
                 }
 
                 if (cDeviceArray.array.release == default)
