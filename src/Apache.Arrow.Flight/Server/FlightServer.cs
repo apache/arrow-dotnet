@@ -21,6 +21,33 @@ namespace Apache.Arrow.Flight.Server
 {
     public abstract class FlightServer
     {
+        protected FlightServer()
+            : this(context: null)
+        {
+        }
+
+        /// <summary>
+        /// Creates a server whose record-batch readers and writers use <paramref name="context"/>.
+        /// </summary>
+        /// <remarks>
+        /// This applies however the server is hosted, including when it is created by dependency
+        /// injection: the derived server receives the context in its own constructor and passes it on.
+        /// </remarks>
+        /// <param name="context">
+        /// Supplies the allocator, compression codec factory and extension type registry; <c>null</c>
+        /// uses the defaults.
+        /// </param>
+        protected FlightServer(ArrowContext context)
+        {
+            Context = context;
+        }
+
+        /// <summary>
+        /// The context used for the record batches this server reads and writes, or <c>null</c>
+        /// for the defaults.
+        /// </summary>
+        public ArrowContext Context { get; }
+
         public virtual Task DoPut(FlightServerRecordBatchStreamReader requestStream, IAsyncStreamWriter<FlightPutResult> responseStream, ServerCallContext context)
         {
             throw new NotImplementedException();

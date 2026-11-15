@@ -22,11 +22,20 @@ namespace Apache.Arrow.Flight.Server
     public class FlightServerRecordBatchStreamReader : FlightRecordBatchStreamReader
     {
         public FlightServerRecordBatchStreamReader(IAsyncStreamReader<FlightData> flightDataStream)
-            : this(flightDataStream, null)
+            : this(flightDataStream, context: null)
         {
         }
 
-        public FlightServerRecordBatchStreamReader(IAsyncStreamReader<FlightData> flightDataStream, ArrowContext context) : base(new StreamReader<FlightData, Protocol.FlightData>(flightDataStream, data => data.ToProtocol()), context)
+        /// <summary>
+        /// Creates a reader that decodes record batches using <paramref name="context"/>.
+        /// </summary>
+        /// <param name="flightDataStream">The stream of Flight data to read.</param>
+        /// <param name="context">
+        /// Supplies the allocator, compression codec factory and extension type registry; <c>null</c>
+        /// uses the defaults.
+        /// </param>
+        public FlightServerRecordBatchStreamReader(IAsyncStreamReader<FlightData> flightDataStream, ArrowContext context)
+            : base(new StreamReader<FlightData, Protocol.FlightData>(flightDataStream, data => data.ToProtocol()), context)
         {
         }
 

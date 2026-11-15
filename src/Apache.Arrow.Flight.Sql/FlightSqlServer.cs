@@ -211,6 +211,20 @@ public abstract class FlightSqlServer : FlightServer
     }
 
     protected FlightSqlServer(ILoggerFactory? factory = null)
+        : this(context: null, factory)
+    {
+    }
+
+    /// <summary>
+    /// Creates a server whose record-batch readers and writers use <paramref name="context"/>.
+    /// </summary>
+    /// <param name="context">
+    /// Supplies the allocator, compression codec factory and extension type registry; <c>null</c>
+    /// uses the defaults.
+    /// </param>
+    /// <param name="factory">Creates the logger for the server; <c>null</c> disables logging.</param>
+    protected FlightSqlServer(ArrowContext? context, ILoggerFactory? factory)
+        : base(context)
     {
         Logger = factory?.CreateLogger(typeof(FlightSqlServer));
     }

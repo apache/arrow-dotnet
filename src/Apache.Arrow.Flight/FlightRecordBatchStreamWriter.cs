@@ -29,11 +29,13 @@ namespace Apache.Arrow.Flight
         private FlightDataStream _flightDataStream;
         private readonly IAsyncStreamWriter<Protocol.FlightData> _clientStreamWriter;
         private readonly FlightDescriptor _flightDescriptor;
+        private readonly ArrowContext _context;
 
         private bool _disposed;
 
-        private protected FlightRecordBatchStreamWriter(IAsyncStreamWriter<Protocol.FlightData> clientStreamWriter, FlightDescriptor flightDescriptor)
+        private protected FlightRecordBatchStreamWriter(IAsyncStreamWriter<Protocol.FlightData> clientStreamWriter, FlightDescriptor flightDescriptor, ArrowContext context)
         {
+            _context = context;
             _clientStreamWriter = clientStreamWriter;
             _flightDescriptor = flightDescriptor;
         }
@@ -52,7 +54,7 @@ namespace Apache.Arrow.Flight
             {
                 throw new InvalidOperationException("Flight data stream is already set");
             }
-            _flightDataStream = new FlightDataStream(_clientStreamWriter, _flightDescriptor, schema);
+            _flightDataStream = new FlightDataStream(_clientStreamWriter, _flightDescriptor, schema, _context);
             await _flightDataStream.SendSchema().ConfigureAwait(false);
         }
 

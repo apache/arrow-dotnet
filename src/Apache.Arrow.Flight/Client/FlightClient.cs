@@ -19,6 +19,7 @@ using Apache.Arrow.Flight.Internal;
 using Apache.Arrow.Flight.Protocol;
 using Apache.Arrow.Flight.Server.Internal;
 using Grpc.Core;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Apache.Arrow.Flight.Client
 {
@@ -30,10 +31,18 @@ namespace Apache.Arrow.Flight.Client
         private readonly ArrowContext _context;
 
         public FlightClient(ChannelBase grpcChannel)
-            : this(grpcChannel, null)
+            : this(grpcChannel, context: null)
         {
         }
 
+        /// <summary>
+        /// Creates a client whose record-batch readers and writers use <paramref name="context"/>.
+        /// </summary>
+        /// <param name="grpcChannel">The gRPC channel to the Flight server.</param>
+        /// <param name="context">
+        /// Supplies the allocator, compression codec factory and extension type registry; <c>null</c>
+        /// uses the defaults.
+        /// </param>
         public FlightClient(ChannelBase grpcChannel, ArrowContext context)
         {
             _client = new FlightService.FlightServiceClient(grpcChannel);
@@ -41,11 +50,26 @@ namespace Apache.Arrow.Flight.Client
         }
 
         public FlightClient(CallInvoker callInvoker)
-            : this(callInvoker, null)
+            : this(callInvoker, context: null)
         {
         }
 
-        private FlightClient(CallInvoker callInvoker, ArrowContext context)
+        /// <summary>
+        /// Creates a client whose record-batch readers and writers use <paramref name="context"/>.
+        /// </summary>
+        /// <remarks>
+        /// Grpc.Net.ClientFactory creates clients through <c>ActivatorUtilities</c>, passing a
+        /// <see cref="CallInvoker"/>. With two constructors accepting one it could not choose, so
+        /// this one is marked as the constructor to use. A client created that way gets the
+        /// <see cref="ArrowContext"/> registered for dependency injection, if there is one.
+        /// </remarks>
+        /// <param name="callInvoker">The gRPC call invoker for the Flight server.</param>
+        /// <param name="context">
+        /// Supplies the allocator, compression codec factory and extension type registry; <c>null</c>
+        /// uses the defaults.
+        /// </param>
+        [ActivatorUtilitiesConstructor]
+        public FlightClient(CallInvoker callInvoker, ArrowContext context = null)
         {
             _client = new FlightService.FlightServiceClient(callInvoker);
             _context = context;
@@ -55,8 +79,7 @@ namespace Apache.Arrow.Flight.Client
         /// Creates a <see cref="FlightClient"/> from a <see cref="CallInvoker"/> with an <see cref="ArrowContext"/>.
         /// </summary>
         /// <remarks>
-        /// A factory method is used instead of a constructor overload so that dependency injection
-        /// (e.g. Grpc.Net.ClientFactory) can still resolve the single-argument constructor unambiguously.
+        /// Equivalent to <see cref="FlightClient(CallInvoker, ArrowContext)"/>.
         /// </remarks>
         /// <param name="callInvoker">The <see cref="CallInvoker"/> to use for gRPC calls</param>
         /// <param name="context">The <see cref="ArrowContext"/> carrying the compression codec factory and other reader configuration</param>
@@ -78,7 +101,7 @@ namespace Apache.Arrow.Flight.Client
             }
 
             var response = _client.ListFlights(criteria.ToProtocol(), headers, deadline, cancellationToken);
-            var convertStream = new StreamReader<Protocol.FlightInfo, FlightInfo>(response.ResponseStream, inFlight => new FlightInfo(inFlight));
+            var convertStream = new StreamReader<Protocol.FlightInfo, FlightInfo>(response.ResponseStream, inFlight => new FlightInfo(inFlight, _context?.ExtensionRegistry));
 
             return new AsyncServerStreamingCall<FlightInfo>(convertStream, response.ResponseHeadersAsync, response.GetStatus, response.GetTrailers, response.Dispose);
         }
@@ -119,7 +142,7 @@ namespace Apache.Arrow.Flight.Client
 
             var flightInfo = flightInfoResult
                 .ResponseAsync
-                .ContinueWith(async flightInfo => new FlightInfo(await flightInfo.ConfigureAwait(false)))
+                .ContinueWith(async flightInfo => new FlightInfo(await flightInfo.ConfigureAwait(false), _context?.ExtensionRegistry))
                 .Unwrap();
 
             return new AsyncUnaryCall<FlightInfo>(
@@ -166,7 +189,7 @@ namespace Apache.Arrow.Flight.Client
         public FlightRecordBatchDuplexStreamingCall StartPut(FlightDescriptor flightDescriptor, Metadata headers, System.DateTime? deadline, CancellationToken cancellationToken = default)
         {
             var channels = _client.DoPut(headers, deadline, cancellationToken);
-            var requestStream = new FlightClientRecordBatchStreamWriter(channels.RequestStream, flightDescriptor);
+            var requestStream = new FlightClientRecordBatchStreamWriter(channels.RequestStream, flightDescriptor, _context);
             var readStream = new StreamReader<Protocol.PutResult, FlightPutResult>(channels.ResponseStream, putResult => new FlightPutResult(putResult));
             return new FlightRecordBatchDuplexStreamingCall(
                 requestStream,
@@ -191,7 +214,7 @@ namespace Apache.Arrow.Flight.Client
         public async Task<FlightRecordBatchDuplexStreamingCall> StartPut(FlightDescriptor flightDescriptor, Schema schema, Metadata headers, System.DateTime? deadline, CancellationToken cancellationToken = default)
         {
             var channels = _client.DoPut(headers, deadline, cancellationToken);
-            var requestStream = new FlightClientRecordBatchStreamWriter(channels.RequestStream, flightDescriptor);
+            var requestStream = new FlightClientRecordBatchStreamWriter(channels.RequestStream, flightDescriptor, _context);
             var readStream = new StreamReader<Protocol.PutResult, FlightPutResult>(channels.ResponseStream, putResult => new FlightPutResult(putResult));
             var streamingCall = new FlightRecordBatchDuplexStreamingCall(
                 requestStream,
@@ -233,7 +256,7 @@ namespace Apache.Arrow.Flight.Client
         public FlightRecordBatchExchangeCall DoExchange(FlightDescriptor flightDescriptor, Metadata headers, System.DateTime? deadline, CancellationToken cancellationToken = default)
         {
             var channel = _client.DoExchange(headers, deadline, cancellationToken);
-            var requestStream = new FlightClientRecordBatchStreamWriter(channel.RequestStream, flightDescriptor);
+            var requestStream = new FlightClientRecordBatchStreamWriter(channel.RequestStream, flightDescriptor, _context);
             var responseStream = new FlightClientRecordBatchStreamReader(channel.ResponseStream, _context);
             var call = new FlightRecordBatchExchangeCall(
                 requestStream,
@@ -269,7 +292,7 @@ namespace Apache.Arrow.Flight.Client
 
             var schema = schemaResult
                 .ResponseAsync
-                .ContinueWith(async schema => FlightMessageSerializer.DecodeSchema((await schemaResult.ResponseAsync.ConfigureAwait(false)).Schema.Memory))
+                .ContinueWith(async schema => FlightMessageSerializer.DecodeSchema((await schemaResult.ResponseAsync.ConfigureAwait(false)).Schema.Memory, _context?.ExtensionRegistry))
                 .Unwrap();
 
             return new AsyncUnaryCall<Schema>(

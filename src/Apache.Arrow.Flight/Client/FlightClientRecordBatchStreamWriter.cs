@@ -27,7 +27,7 @@ namespace Apache.Arrow.Flight.Client
     {
         private readonly IClientStreamWriter<Protocol.FlightData> _clientStreamWriter;
         private bool _completed = false;
-        internal FlightClientRecordBatchStreamWriter(IClientStreamWriter<Protocol.FlightData> clientStreamWriter, FlightDescriptor flightDescriptor) : base(clientStreamWriter, flightDescriptor)
+        internal FlightClientRecordBatchStreamWriter(IClientStreamWriter<Protocol.FlightData> clientStreamWriter, FlightDescriptor flightDescriptor, ArrowContext context) : base(clientStreamWriter, flightDescriptor, context)
         {
             _clientStreamWriter = clientStreamWriter;
         }

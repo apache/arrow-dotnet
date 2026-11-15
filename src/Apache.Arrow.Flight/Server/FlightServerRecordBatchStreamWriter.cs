@@ -20,11 +20,25 @@ namespace Apache.Arrow.Flight.Server
 {
     public class FlightServerRecordBatchStreamWriter : FlightRecordBatchStreamWriter, IServerStreamWriter<RecordBatch>
     {
-        public FlightServerRecordBatchStreamWriter(IServerStreamWriter<FlightData> clientStreamWriter) : base(new StreamWriter<Protocol.FlightData, FlightData>(clientStreamWriter, data => new FlightData(data)), null)
+        public FlightServerRecordBatchStreamWriter(IServerStreamWriter<FlightData> clientStreamWriter)
+            : this(clientStreamWriter, context: null)
         {
         }
 
-        internal FlightServerRecordBatchStreamWriter(IServerStreamWriter<Protocol.FlightData> clientStreamWriter) : base(clientStreamWriter, null)
+        /// <summary>
+        /// Creates a writer that encodes record batches using <paramref name="context"/>.
+        /// </summary>
+        /// <param name="clientStreamWriter">The stream to write Flight data to.</param>
+        /// <param name="context">
+        /// Supplies the allocator, compression codec factory and extension type registry; <c>null</c>
+        /// uses the defaults.
+        /// </param>
+        public FlightServerRecordBatchStreamWriter(IServerStreamWriter<FlightData> clientStreamWriter, ArrowContext context)
+            : base(new StreamWriter<Protocol.FlightData, FlightData>(clientStreamWriter, data => new FlightData(data)), null, context)
+        {
+        }
+
+        internal FlightServerRecordBatchStreamWriter(IServerStreamWriter<Protocol.FlightData> clientStreamWriter, ArrowContext context) : base(clientStreamWriter, null, context)
         {
         }
     }
