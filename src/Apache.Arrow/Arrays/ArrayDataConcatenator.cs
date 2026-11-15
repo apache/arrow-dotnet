@@ -1101,12 +1101,15 @@ namespace Apache.Arrow
                 return owner;
             }
 
-            private static ArrowBuffer BuildBuffer(IMemoryOwner<byte> owner, int byteLength)
+            private ArrowBuffer BuildBuffer(IMemoryOwner<byte> owner, int byteLength)
             {
                 // Allocators don't have to return zeroed memory, and may return more than was requested,
                 // so clear everything past the written bytes explicitly
                 owner.Memory.Span.Slice(byteLength).Clear();
-                return new ArrowBuffer(owner);
+
+                // Carry the allocator's lifetime, as built buffers do, so that allocators which opt
+                // out of release by finalization are not released by it here.
+                return new ArrowBuffer(owner, (_allocator ?? MemoryAllocator.Default.Value).Lifetime);
             }
 
             private ArrowBuffer ConcatenateLargeOffsetBuffer()

@@ -47,7 +47,12 @@ namespace Apache.Arrow.Memory
             }
         }
 
+        private int _liveAllocations;
+
         public override AllocationLifetime Lifetime => AllocationLifetime.CallerOwned;
+
+        /// <summary>The number of allocations not yet freed.</summary>
+        internal int LiveAllocations => Volatile.Read(ref _liveAllocations);
 
         protected override IMemoryOwner<byte> AllocateInternal(int length, out int bytesAllocated)
         {
@@ -64,21 +69,33 @@ namespace Apache.Arrow.Memory
             new Span<byte>((byte*)ptr + offset, length).Clear();
 
             bytesAllocated = length + Alignment;
-            return new CallerOwnedMemoryManager(ptr, offset, length);
+            Interlocked.Increment(ref _liveAllocations);
+            return new CallerOwnedMemoryManager(this, ptr, offset, length);
         }
 
         /// <summary>
         /// A <see cref="MemoryManager{T}"/> over native memory with no finalizer, so that
         /// reachability never determines when the memory is freed (CA2015).
         /// </summary>
+        /// <remarks>
+        /// Disposal while the memory is pinned marks the manager disposed but defers freeing the
+        /// memory until the last pin is released, so a pinned pointer never dangles. This differs
+        /// from <see cref="NativeMemoryManager"/>, which throws instead; throwing from disposal is
+        /// discouraged (CA1065), and deferral cannot leak unless a pin is never released.
+        /// </remarks>
         private sealed class CallerOwnedMemoryManager : MemoryManager<byte>
         {
+            private readonly CallerOwnedNativeAllocator _allocator;
             private readonly int _offset;
             private readonly int _length;
+            private readonly object _sync = new object();
             private IntPtr _ptr;
+            private int _pinCount;
+            private bool _disposed;
 
-            public CallerOwnedMemoryManager(void* ptr, int offset, int length)
+            public CallerOwnedMemoryManager(CallerOwnedNativeAllocator allocator, void* ptr, int offset, int length)
             {
+                _allocator = allocator;
                 _ptr = (IntPtr)ptr;
                 _offset = offset;
                 _length = length;
@@ -87,7 +104,7 @@ namespace Apache.Arrow.Memory
             public override Span<byte> GetSpan()
             {
                 IntPtr ptr = Volatile.Read(ref _ptr);
-                if (ptr == IntPtr.Zero)
+                if (ptr == IntPtr.Zero || Volatile.Read(ref _disposed))
                 {
                     throw new ObjectDisposedException(nameof(CallerOwnedMemoryManager));
                 }
@@ -102,22 +119,64 @@ namespace Apache.Arrow.Memory
                     throw new ArgumentOutOfRangeException(nameof(elementIndex));
                 }
 
-                IntPtr ptr = Volatile.Read(ref _ptr);
-                if (ptr == IntPtr.Zero)
+                IntPtr ptr;
+                lock (_sync)
                 {
-                    throw new ObjectDisposedException(nameof(CallerOwnedMemoryManager));
+                    if (_disposed)
+                    {
+                        throw new ObjectDisposedException(nameof(CallerOwnedMemoryManager));
+                    }
+
+                    _pinCount++;
+                    ptr = _ptr;
                 }
 
-                // Native memory does not move, so there is nothing to pin; the handle
-                // holds a reference to this manager so the memory stays reachable.
+                // Native memory does not move, so there is nothing to pin in the GC sense; the
+                // count only keeps disposal from freeing the memory while the pointer is in use.
                 return new MemoryHandle((byte*)ptr + _offset + elementIndex, default, this);
             }
 
             public override void Unpin()
             {
+                bool free;
+                lock (_sync)
+                {
+                    if (_pinCount == 0)
+                    {
+                        return;
+                    }
+
+                    _pinCount--;
+                    free = _disposed && _pinCount == 0;
+                }
+
+                if (free)
+                {
+                    Free();
+                }
             }
 
             protected override void Dispose(bool disposing)
+            {
+                bool free;
+                lock (_sync)
+                {
+                    if (_disposed)
+                    {
+                        return;
+                    }
+
+                    _disposed = true;
+                    free = _pinCount == 0;
+                }
+
+                if (free)
+                {
+                    Free();
+                }
+            }
+
+            private void Free()
             {
                 IntPtr ptr = Interlocked.Exchange(ref _ptr, IntPtr.Zero);
                 if (ptr != IntPtr.Zero)
@@ -127,6 +186,7 @@ namespace Apache.Arrow.Memory
 #else
                     AlignedNative.AlignedFree((void*)ptr);
 #endif
+                    Interlocked.Decrement(ref _allocator._liveAllocations);
                 }
             }
         }

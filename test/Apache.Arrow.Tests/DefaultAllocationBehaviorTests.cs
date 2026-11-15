@@ -116,6 +116,67 @@ namespace Apache.Arrow.Tests
             Assert.Equal(1, allocator.LiveAllocations);
         }
 
+        [Fact]
+        public void UndisposedConcatenationsFromFinalizedAllocatorsAreReleasedByCollection()
+        {
+            CountingAllocator allocator = new CountingAllocator(AllocationLifetime.Finalized);
+            ConcatenateAndAbandon(allocator);
+
+            Collect();
+
+            Assert.Equal(0, allocator.LiveAllocations);
+        }
+
+        [Theory]
+        [InlineData(AllocationLifetime.CallerOwned)]
+        [InlineData(AllocationLifetime.GarbageCollected)]
+        public void ConcatenationsFromOtherLifetimesOptOutOfReleaseByCollection(AllocationLifetime lifetime)
+        {
+            // Concatenation writes directly into allocator memory, so its buffers must carry the
+            // allocator's lifetime just as built buffers do.
+            CountingAllocator allocator = new CountingAllocator(lifetime);
+            ConcatenateAndAbandon(allocator);
+            int allocated = allocator.LiveAllocations;
+
+            Collect();
+
+            Assert.True(allocated > 0);
+            Assert.Equal(allocated, allocator.LiveAllocations);
+        }
+
+        [Fact]
+        public void CallerOwnedMemoryIsNotFreedWhilePinned()
+        {
+            CallerOwnedNativeAllocator allocator = new CallerOwnedNativeAllocator();
+            IMemoryOwner<byte> owner = allocator.Allocate(64);
+            MemoryHandle pin = owner.Memory.Pin();
+
+            owner.Dispose();
+
+            // The pointer is still in use, so freeing waits until the last pin is released.
+            Assert.Equal(1, allocator.LiveAllocations);
+            Assert.Throws<ObjectDisposedException>(() => owner.Memory.Span.Length);
+
+            pin.Dispose();
+            Assert.Equal(0, allocator.LiveAllocations);
+
+            // Releasing again is harmless.
+            owner.Dispose();
+            Assert.Equal(0, allocator.LiveAllocations);
+        }
+
+        [Fact]
+        public void CallerOwnedMemoryIsFreedOnDisposalWhenNotPinned()
+        {
+            CallerOwnedNativeAllocator allocator = new CallerOwnedNativeAllocator();
+            IMemoryOwner<byte> owner = allocator.Allocate(64);
+            owner.Memory.Pin().Dispose();
+
+            owner.Dispose();
+
+            Assert.Equal(0, allocator.LiveAllocations);
+        }
+
         [Theory]
         [InlineData(MemoryAllocator.DefaultAlignment)]
         [InlineData(128)]
@@ -139,6 +200,18 @@ namespace Apache.Arrow.Tests
         {
             using ArrowBuffer.Builder<int> builder = new ArrowBuffer.Builder<int>(16, allocator);
             builder.Append(1).Build();
+        }
+
+        /// <summary>
+        /// Concatenates two arrays into buffers from <paramref name="allocator"/> and abandons the
+        /// result without disposing it.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void ConcatenateAndAbandon(MemoryAllocator allocator)
+        {
+            Int32Array first = new Int32Array.Builder().Append(1).AppendNull().Build();
+            Int32Array second = new Int32Array.Builder().Append(3).Build();
+            ArrowArrayConcatenator.Concatenate(new IArrowArray[] { first, second }, allocator);
         }
 
         private static void Collect()
