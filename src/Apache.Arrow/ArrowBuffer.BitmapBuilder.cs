@@ -26,14 +26,16 @@ namespace Apache.Arrow
         /// The <see cref="BitmapBuilder"/> class is a complement to <see cref="ArrowBuffer.Builder{T}"/>
         /// and is designed for boolean fields, which are efficiently bit-packed into byte-aligned memory.
         /// </summary>
-        public class BitmapBuilder
+        public class BitmapBuilder : IDisposable
         {
             private const int DefaultBitCapacity = 64;
+
+            private readonly BuilderMemory _buffer;
 
             /// <summary>
             /// Gets the number of bits that can be contained in the memory allocated by the current instance.
             /// </summary>
-            public int Capacity { get; private set; }
+            public int Capacity => _buffer.Capacity * 8;
 
             /// <summary>
             /// Gets the number of bits currently appended.
@@ -43,7 +45,12 @@ namespace Apache.Arrow
             /// <summary>
             /// Gets the raw byte memory underpinning the builder.
             /// </summary>
-            public Memory<byte> Memory { get; private set; }
+            /// <remarks>
+            /// If this memory was handed to a buffer by <see cref="Build(MemoryAllocator)"/>,
+            /// reading this property first copies it, so that writes through the result can
+            /// never modify that buffer.
+            /// </remarks>
+            public Memory<byte> Memory => _buffer.Memory;
 
             /// <summary>
             /// Gets the span of (bit-packed byte) memory underpinning the builder.
@@ -65,9 +72,28 @@ namespace Apache.Arrow
             /// </summary>
             /// <param name="capacity">Number of bits of initial capacity to reserve.</param>
             public BitmapBuilder(int capacity = DefaultBitCapacity)
+                : this(capacity, null)
             {
-                Memory = new byte[BitUtility.ByteCount(capacity)];
-                Capacity = capacity;
+            }
+
+            /// <summary>
+            /// Creates an instance of the <see cref="BitmapBuilder"/> class.
+            /// </summary>
+            /// <param name="capacity">Number of bits of initial capacity to reserve.</param>
+            /// <param name="allocator">
+            /// Allocator used for the builder's working memory, which by default also becomes
+            /// the memory of the buffer that <see cref="Build(MemoryAllocator)"/> returns.
+            /// When <c>null</c>, the builder works in managed memory and copies
+            /// what it builds into <see cref="MemoryAllocator.Default"/>, as builders always have.
+            /// </param>
+            public BitmapBuilder(int capacity, MemoryAllocator allocator)
+            {
+                if (capacity < 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(capacity));
+                }
+
+                _buffer = new BuilderMemory(allocator, BitUtility.ByteCount(capacity));
             }
 
             /// <summary>
@@ -270,7 +296,7 @@ namespace Apache.Arrow
             /// <returns>Returns the builder (for fluent-style composition).</returns>
             public BitmapBuilder Clear()
             {
-                Span.Fill(default);
+                _buffer.Reset();
                 Length = 0;
                 SetBitCount = 0;
                 return this;
@@ -279,15 +305,23 @@ namespace Apache.Arrow
             /// <summary>
             /// Build an Arrow buffer from the appended contents so far.
             /// </summary>
+            /// <remarks>
+            /// If the builder was created with an allocator, and <paramref name="allocator"/> is
+            /// <c>null</c> or that same allocator, the builder's working memory usually becomes the
+            /// buffer's memory, with no allocation or copy. Otherwise the contents are copied into
+            /// <paramref name="allocator"/>, or into <see cref="MemoryAllocator.Default"/> when it is
+            /// <c>null</c>. After a hand-over the builder stays usable: it copies the contents back into
+            /// memory of its own the next time it is written to, and <see cref="Clear"/> discards
+            /// them without copying.
+            /// </remarks>
             /// <param name="allocator">Optional memory allocator.</param>
             /// <returns>Returns an <see cref="ArrowBuffer"/> object.</returns>
             public ArrowBuffer Build(MemoryAllocator allocator = default)
             {
-                int bufferLength = checked((int)BitUtility.RoundUpToMultipleOf64(Memory.Length));
-                var memoryAllocator = allocator ?? MemoryAllocator.Default.Value;
-                var memoryOwner = memoryAllocator.Allocate(bufferLength);
-                Memory.Slice(0, Memory.Length).CopyTo(memoryOwner.Memory);
-                return new ArrowBuffer(memoryOwner);
+                // Without an allocator, keep the historical buffer length, which covers the whole
+                // working memory rather than just the bytes the bits need.
+                int usedBytes = _buffer.CanHandOver ? BitUtility.ByteCount(Length) : _buffer.Capacity;
+                return _buffer.Build(usedBytes, 64, allocator);
             }
 
             private void CheckIndex(int index)
@@ -310,22 +344,28 @@ namespace Apache.Arrow
                     // TODO: specifiable growth strategy
                     // Double the length of the in-memory array, or use the byte count of the capacity, whichever is
                     // greater.
-                    int byteCount = Math.Max(BitUtility.ByteCount(requiredCapacity), Memory.Length * 2);
-                    Reallocate(byteCount);
-                    Capacity = byteCount * 8;
+                    int byteCount = Math.Max(BitUtility.ByteCount(requiredCapacity), _buffer.Capacity * 2);
+
+                    // Grow through the allocator so that the builder's working memory is
+                    // visible to it. Newly added bytes are zeroed, which the bitmap relies on.
+                    _buffer.Grow(byteCount);
                 }
             }
 
-            private void Reallocate(int numBytes)
+            /// <summary>
+            /// Releases the builder's working memory.
+            /// </summary>
+            /// <remarks>
+            /// Disposal is required only when the working memory came from an allocator whose
+            /// <see cref="MemoryAllocator.Lifetime"/> is
+            /// <see cref="AllocationLifetime.CallerOwned"/>; otherwise it merely returns the
+            /// memory for reuse.
+            /// </remarks>
+            public void Dispose()
             {
-                if (numBytes != 0)
-                {
-                    Debug.Assert(numBytes > Memory.Length);
-                    var memory = new Memory<byte>(new byte[numBytes]);
-                    Memory.CopyTo(memory);
-
-                    Memory = memory;
-                }
+                _buffer.Dispose();
+                Length = 0;
+                SetBitCount = 0;
             }
         }
     }

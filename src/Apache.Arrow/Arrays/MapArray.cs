@@ -23,7 +23,7 @@ namespace Apache.Arrow
     public class MapArray : ListArray // MapArray = ListArray(StructArray("key", "value")) 
     {
         // Same as ListArray.Builder, but with KeyBuilder
-        public new class Builder : IArrowArrayBuilder<MapArray, Builder>
+        public new class Builder : IArrowArrayBuilder<MapArray, Builder>, IDisposable
         {
             public IArrowArrayBuilder<IArrowArray, IArrowArrayBuilder<IArrowArray>> KeyBuilder { get; }
             public IArrowArrayBuilder<IArrowArray, IArrowArrayBuilder<IArrowArray>> ValueBuilder { get; }
@@ -39,11 +39,25 @@ namespace Apache.Arrow
             public MapType DataType { get; }
 
             public Builder(MapType type)
+                : this(type, null)
             {
-                KeyBuilder = ArrowArrayBuilderFactory.Build(type.KeyField.DataType);
-                ValueBuilder = ArrowArrayBuilderFactory.Build(type.ValueField.DataType);
-                ValueOffsetsBufferBuilder = new ArrowBuffer.Builder<int>();
-                ValidityBufferBuilder = new ArrowBuffer.BitmapBuilder();
+            }
+
+            /// <summary>
+            /// Creates a builder whose working memory comes from <paramref name="allocator"/>.
+            /// </summary>
+            /// <param name="type">The map type to build.</param>
+            /// <param name="allocator">
+            /// Allocator for the builder's working memory, which usually becomes the built array's
+            /// memory. When <c>null</c>, the builder works in managed memory and copies
+            /// what it builds into <see cref="MemoryAllocator.Default"/>, as builders always have.
+            /// </param>
+            public Builder(MapType type, MemoryAllocator allocator)
+            {
+                KeyBuilder = ArrowArrayBuilderFactory.Build(type.KeyField.DataType, allocator);
+                ValueBuilder = ArrowArrayBuilderFactory.Build(type.ValueField.DataType, allocator);
+                ValueOffsetsBufferBuilder = new ArrowBuffer.Builder<int>(0, allocator);
+                ValidityBufferBuilder = new ArrowBuffer.BitmapBuilder(0, allocator);
                 DataType = type;
             }
 
@@ -69,6 +83,31 @@ namespace Apache.Arrow
                 NullCount++;
 
                 return this;
+            }
+
+            /// <summary>
+            /// Releases the builder's working memory. Arrays already built are unaffected.
+            /// </summary>
+            /// <remarks>
+            /// Disposal is required only when the working memory comes from an allocator whose
+            /// <see cref="MemoryAllocator.Lifetime"/> is <see cref="AllocationLifetime.CallerOwned"/>;
+            /// otherwise it only releases memory sooner.
+            /// </remarks>
+            public void Dispose()
+            {
+                Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+
+            protected virtual void Dispose(bool disposing)
+            {
+                if (disposing)
+                {
+                    (KeyBuilder as IDisposable)?.Dispose();
+                    (ValueBuilder as IDisposable)?.Dispose();
+                    ValueOffsetsBufferBuilder.Dispose();
+                    ValidityBufferBuilder.Dispose();
+                }
             }
 
             public MapArray Build(MemoryAllocator allocator = default)

@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using Apache.Arrow.Memory;
 using Apache.Arrow.Types;
 
 namespace Apache.Arrow
@@ -30,6 +31,12 @@ namespace Apache.Arrow
             internal class TimestampBuilder : PrimitiveArrayBuilder<long, TimestampArray, TimestampBuilder>
             {
                 internal TimestampBuilder(TimestampType type)
+                {
+                    DataType = type ?? throw new ArgumentNullException(nameof(type));
+                }
+
+                internal TimestampBuilder(TimestampType type, int capacity, MemoryAllocator allocator)
+                    : base(capacity, allocator)
                 {
                     DataType = type ?? throw new ArgumentNullException(nameof(type));
                 }
@@ -59,6 +66,22 @@ namespace Apache.Arrow
 
             public Builder(TimestampType type)
                 : base(new TimestampBuilder(type))
+            {
+                DataType = type;
+            }
+
+            /// <summary>
+            /// Construct a new instance of the <see cref="Builder"/> class with room for
+            /// <paramref name="capacity"/> values.
+            /// </summary>
+            /// <param name="capacity">Number of values to allocate room for.</param>
+            /// <param name="allocator">
+            /// Allocator for the builder's working memory, which usually becomes the built array's
+            /// memory. When <c>null</c>, the builder works in managed memory and copies
+            /// what it builds into <see cref="MemoryAllocator.Default"/>, as builders always have.
+            /// </param>
+            public Builder(TimestampType type, int capacity, MemoryAllocator allocator = null)
+                : base(new TimestampBuilder(type, capacity, allocator))
             {
                 DataType = type;
             }

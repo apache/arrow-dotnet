@@ -30,6 +30,17 @@ namespace Apache.Arrow
             public Builder() : base(BinaryViewType.Default) { }
             public Builder(IArrowType dataType) : base(dataType) { }
 
+            /// <summary>
+            /// Creates a builder whose working memory comes from <paramref name="allocator"/>.
+            /// </summary>
+            /// <param name="dataType">The binary type to build.</param>
+            /// <param name="allocator">
+            /// Allocator for the builder's working memory, which usually becomes the built array's
+            /// memory. When <c>null</c>, the builder works in managed memory and copies
+            /// what it builds into <see cref="MemoryAllocator.Default"/>, as builders always have.
+            /// </param>
+            public Builder(IArrowType dataType, MemoryAllocator allocator) : base(dataType, allocator) { }
+
             protected override BinaryViewArray Build(ArrayData data)
             {
                 return new BinaryViewArray(data);
@@ -50,7 +61,7 @@ namespace Apache.Arrow
             data.EnsureVariadicBufferCount(2);
         }
 
-        public abstract class BuilderBase<TArray, TBuilder> : IArrowArrayBuilder<byte, TArray, TBuilder>
+        public abstract class BuilderBase<TArray, TBuilder> : IArrowArrayBuilder<byte, TArray, TBuilder>, IDisposable
             where TArray : IArrowArray
             where TBuilder : class, IArrowArrayBuilder<byte, TArray, TBuilder>
         {
@@ -62,11 +73,16 @@ namespace Apache.Arrow
             protected int NullCount => this.ValidityBuffer.UnsetBitCount;
 
             protected BuilderBase(IArrowType dataType)
+                : this(dataType, null)
+            {
+            }
+
+            protected BuilderBase(IArrowType dataType, MemoryAllocator allocator)
             {
                 DataType = dataType;
-                BinaryViews = new ArrowBuffer.Builder<BinaryView>();
-                ValueBuffer = new ArrowBuffer.Builder<byte>();
-                ValidityBuffer = new ArrowBuffer.BitmapBuilder();
+                BinaryViews = new ArrowBuffer.Builder<BinaryView>(0, allocator);
+                ValueBuffer = new ArrowBuffer.Builder<byte>(0, allocator);
+                ValidityBuffer = new ArrowBuffer.BitmapBuilder(0, allocator);
             }
 
             protected abstract TArray Build(ArrayData data);
@@ -75,6 +91,30 @@ namespace Apache.Arrow
             /// Gets the length of the array built so far.
             /// </summary>
             public int Length => BinaryViews.Length;
+
+            /// <summary>
+            /// Releases the builder's working memory. Arrays already built are unaffected.
+            /// </summary>
+            /// <remarks>
+            /// Disposal is required only when the working memory comes from an allocator whose
+            /// <see cref="MemoryAllocator.Lifetime"/> is <see cref="AllocationLifetime.CallerOwned"/>;
+            /// otherwise it only releases memory sooner.
+            /// </remarks>
+            public void Dispose()
+            {
+                Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+
+            protected virtual void Dispose(bool disposing)
+            {
+                if (disposing)
+                {
+                    BinaryViews.Dispose();
+                    ValueBuffer.Dispose();
+                    ValidityBuffer.Dispose();
+                }
+            }
 
             /// <summary>
             /// Build an Arrow array from the appended contents so far.

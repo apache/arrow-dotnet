@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using Apache.Arrow.Memory;
 using Apache.Arrow.Types;
 
 namespace Apache.Arrow
@@ -40,6 +41,10 @@ namespace Apache.Arrow
         {
             private class DateBuilder : PrimitiveArrayBuilder<int, Date32Array, DateBuilder>
             {
+                public DateBuilder() { }
+
+                public DateBuilder(int capacity, MemoryAllocator allocator) : base(capacity, allocator) { }
+
                 protected override Date32Array Build(ArrowBuffer valueBuffer, ArrowBuffer nullBitmapBuffer, int length,
                     int nullCount, int offset) =>
                     new(valueBuffer, nullBitmapBuffer, length, nullCount, offset);
@@ -49,6 +54,18 @@ namespace Apache.Arrow
             /// Construct a new instance of the <see cref="Builder"/> class.
             /// </summary>
             public Builder() : base(new DateBuilder()) { }
+
+            /// <summary>
+            /// Construct a new instance of the <see cref="Builder"/> class with room for
+            /// <paramref name="capacity"/> values.
+            /// </summary>
+            /// <param name="capacity">Number of values to allocate room for.</param>
+            /// <param name="allocator">
+            /// Allocator for the builder's working memory, which usually becomes the built array's
+            /// memory. When <c>null</c>, the builder works in managed memory and copies
+            /// what it builds into <see cref="MemoryAllocator.Default"/>, as builders always have.
+            /// </param>
+            public Builder(int capacity, MemoryAllocator allocator = null) : base(new DateBuilder(capacity, allocator)) { }
 
             protected override int Convert(DateTime dateTime)
             {

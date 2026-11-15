@@ -18,6 +18,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Apache.Arrow.Arrays;
+using Apache.Arrow.Memory;
 using Apache.Arrow.Types;
 
 namespace Apache.Arrow
@@ -27,6 +28,20 @@ namespace Apache.Arrow
         public class Builder : BuilderBase<Decimal64Array, Builder>
         {
             public Builder(Decimal64Type type) : base(type, 8)
+            {
+                DataType = type;
+            }
+
+            /// <summary>
+            /// Creates a builder whose working memory comes from <paramref name="allocator"/>.
+            /// </summary>
+            /// <param name="type">The decimal type to build.</param>
+            /// <param name="allocator">
+            /// Allocator for the builder's working memory, which usually becomes the built array's
+            /// memory. When <c>null</c>, the builder works in managed memory and copies
+            /// what it builds into <see cref="MemoryAllocator.Default"/>, as builders always have.
+            /// </param>
+            public Builder(Decimal64Type type, MemoryAllocator allocator) : base(type, 8, allocator)
             {
                 DataType = type;
             }

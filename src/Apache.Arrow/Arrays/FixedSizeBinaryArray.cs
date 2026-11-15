@@ -84,7 +84,7 @@ namespace Apache.Arrow.Arrays
 
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<byte[]>)this).GetEnumerator();
 
-        public abstract class BuilderBase<TArray, TBuilder> : IArrowArrayBuilder<byte[], TArray, TBuilder>
+        public abstract class BuilderBase<TArray, TBuilder> : IArrowArrayBuilder<byte[], TArray, TBuilder>, IDisposable
             where TArray : IArrowArray
             where TBuilder : class, IArrowArrayBuilder<byte[], TArray, TBuilder>
         {
@@ -98,11 +98,39 @@ namespace Apache.Arrow.Arrays
             protected abstract TArray Build(ArrayData data);
 
             protected BuilderBase(IArrowType dataType, int byteWidth)
+                : this(dataType, byteWidth, null)
+            {
+            }
+
+            protected BuilderBase(IArrowType dataType, int byteWidth, MemoryAllocator allocator)
             {
                 DataType = dataType;
                 ByteWidth = byteWidth;
-                ValueBuffer = new ArrowBuffer.Builder<byte>();
-                ValidityBuffer = new ArrowBuffer.BitmapBuilder();
+                ValueBuffer = new ArrowBuffer.Builder<byte>(0, allocator);
+                ValidityBuffer = new ArrowBuffer.BitmapBuilder(0, allocator);
+            }
+
+            /// <summary>
+            /// Releases the builder's working memory. Arrays already built are unaffected.
+            /// </summary>
+            /// <remarks>
+            /// Disposal is required only when the working memory comes from an allocator whose
+            /// <see cref="MemoryAllocator.Lifetime"/> is <see cref="AllocationLifetime.CallerOwned"/>;
+            /// otherwise it only releases memory sooner.
+            /// </remarks>
+            public void Dispose()
+            {
+                Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+
+            protected virtual void Dispose(bool disposing)
+            {
+                if (disposing)
+                {
+                    ValueBuffer.Dispose();
+                    ValidityBuffer.Dispose();
+                }
             }
 
             public TArray Build(MemoryAllocator allocator = default)

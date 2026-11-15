@@ -18,6 +18,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using Apache.Arrow.Memory;
 using Apache.Arrow.Types;
 
 namespace Apache.Arrow
@@ -31,6 +32,16 @@ namespace Apache.Arrow
         public new class Builder : BuilderBase<StringArray, Builder>
         {
             public Builder() : base(StringType.Default) { }
+
+            /// <summary>
+            /// Creates a builder whose working memory comes from <paramref name="allocator"/>.
+            /// </summary>
+            /// <param name="allocator">
+            /// Allocator for the builder's working memory, which usually becomes the built array's
+            /// memory. When <c>null</c>, the builder works in managed memory and copies
+            /// what it builds into <see cref="MemoryAllocator.Default"/>, as builders always have.
+            /// </param>
+            public Builder(MemoryAllocator allocator) : base(StringType.Default, allocator) { }
 
             protected override StringArray Build(ArrayData data)
             {

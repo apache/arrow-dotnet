@@ -611,9 +611,9 @@ namespace Apache.Arrow
 
                 switch (runEndsTypeId)
                 {
-                    case ArrowTypeId.Int16: int16Builder = new ArrowBuffer.Builder<short>(); break;
-                    case ArrowTypeId.Int32: int32Builder = new ArrowBuffer.Builder<int>(); break;
-                    case ArrowTypeId.Int64: int64Builder = new ArrowBuffer.Builder<long>(); break;
+                    case ArrowTypeId.Int16: int16Builder = new ArrowBuffer.Builder<short>(0, _allocator); break;
+                    case ArrowTypeId.Int32: int32Builder = new ArrowBuffer.Builder<int>(0, _allocator); break;
+                    case ArrowTypeId.Int64: int64Builder = new ArrowBuffer.Builder<long>(0, _allocator); break;
                 }
 
                 long baseOffset = 0;
@@ -704,6 +704,10 @@ namespace Apache.Arrow
                     ArrowTypeId.Int32 => int32Builder.Build(_allocator),
                     _ => int64Builder.Build(_allocator),
                 };
+
+                int16Builder?.Dispose();
+                int32Builder?.Dispose();
+                int64Builder?.Dispose();
 
                 ArrayData runEndsResult = new ArrayData(
                     type.RunEndsDataType, physicalRunCount, 0, 0,

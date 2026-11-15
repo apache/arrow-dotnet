@@ -16,6 +16,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Apache.Arrow.Memory;
 using Apache.Arrow.Types;
 
 namespace Apache.Arrow
@@ -27,6 +28,21 @@ namespace Apache.Arrow
             public DurationType DataType { get; }
 
             public Builder(DurationType dataType)
+            {
+                DataType = dataType;
+            }
+
+            /// <summary>
+            /// Creates a builder with room for <paramref name="capacity"/> values.
+            /// </summary>
+            /// <param name="capacity">Number of values to allocate room for.</param>
+            /// <param name="allocator">
+            /// Allocator for the builder's working memory, which usually becomes the built array's
+            /// memory. When <c>null</c>, the builder works in managed memory and copies
+            /// what it builds into <see cref="MemoryAllocator.Default"/>, as builders always have.
+            /// </param>
+            public Builder(DurationType dataType, int capacity, MemoryAllocator allocator = null)
+                : base(capacity, allocator)
             {
                 DataType = dataType;
             }

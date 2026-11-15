@@ -197,7 +197,7 @@ namespace Apache.Arrow
         /// <summary>
         /// Builder for <see cref="TimestampWithOffsetArray"/>.
         /// </summary>
-        public class Builder : IArrowArrayBuilder<DateTimeOffset, TimestampWithOffsetArray, Builder>
+        public class Builder : IArrowArrayBuilder<DateTimeOffset, TimestampWithOffsetArray, Builder>, IDisposable
         {
             private static readonly DateTimeOffset s_nullPlaceholder =
                 new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero);
@@ -213,11 +213,25 @@ namespace Apache.Arrow
             }
 
             public Builder(TimestampWithOffsetType type)
+                : this(type, null)
+            {
+            }
+
+            /// <summary>
+            /// Creates a builder whose working memory comes from <paramref name="allocator"/>.
+            /// </summary>
+            /// <param name="type">The timestamp-with-offset type to build.</param>
+            /// <param name="allocator">
+            /// Allocator for the builder's working memory, which usually becomes the built array's
+            /// memory. When <c>null</c>, the builder works in managed memory and copies
+            /// what it builds into <see cref="MemoryAllocator.Default"/>, as builders always have.
+            /// </param>
+            public Builder(TimestampWithOffsetType type, MemoryAllocator allocator)
             {
                 _type = type ?? throw new ArgumentNullException(nameof(type));
-                _timestampBuilder = new TimestampArray.Builder(type.Unit, "UTC");
-                _offsetBuilder = new Int16Array.Builder();
-                _validityBuilder = new ArrowBuffer.BitmapBuilder();
+                _timestampBuilder = new TimestampArray.Builder(new TimestampType(type.Unit, "UTC"), 0, allocator);
+                _offsetBuilder = new Int16Array.Builder(0, allocator);
+                _validityBuilder = new ArrowBuffer.BitmapBuilder(0, allocator);
             }
 
             public int Length => _validityBuilder.Length;
@@ -276,6 +290,30 @@ namespace Apache.Arrow
                 }
 
                 return this;
+            }
+
+            /// <summary>
+            /// Releases the builder's working memory. Arrays already built are unaffected.
+            /// </summary>
+            /// <remarks>
+            /// Disposal is required only when the working memory comes from an allocator whose
+            /// <see cref="MemoryAllocator.Lifetime"/> is <see cref="AllocationLifetime.CallerOwned"/>;
+            /// otherwise it only releases memory sooner.
+            /// </remarks>
+            public void Dispose()
+            {
+                Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+
+            protected virtual void Dispose(bool disposing)
+            {
+                if (disposing)
+                {
+                    _timestampBuilder.Dispose();
+                    _offsetBuilder.Dispose();
+                    _validityBuilder.Dispose();
+                }
             }
 
             public Builder Reserve(int capacity)

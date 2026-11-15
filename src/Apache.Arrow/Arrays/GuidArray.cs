@@ -17,6 +17,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Apache.Arrow.Arrays;
+using Apache.Arrow.Memory;
 using Apache.Arrow.Types;
 
 namespace Apache.Arrow
@@ -81,6 +82,18 @@ namespace Apache.Arrow
         public class Builder : FixedSizeBinaryArray.BuilderBase<GuidArray, Builder>
         {
             public Builder() : base(GuidType.Default.StorageType, GuidType.ByteWidth)
+            {
+            }
+
+            /// <summary>
+            /// Creates a builder whose working memory comes from <paramref name="allocator"/>.
+            /// </summary>
+            /// <param name="allocator">
+            /// Allocator for the builder's working memory, which usually becomes the built array's
+            /// memory. When <c>null</c>, the builder works in managed memory and copies
+            /// what it builds into <see cref="MemoryAllocator.Default"/>, as builders always have.
+            /// </param>
+            public Builder(MemoryAllocator allocator) : base(GuidType.Default.StorageType, GuidType.ByteWidth, allocator)
             {
             }
 

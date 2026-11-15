@@ -23,7 +23,7 @@ namespace Apache.Arrow
 {
     public class BooleanArray : Array, IReadOnlyList<bool?>, ICollection<bool?>
     {
-        public class Builder : IArrowArrayBuilder<bool, BooleanArray, Builder>
+        public class Builder : IArrowArrayBuilder<bool, BooleanArray, Builder>, IDisposable
         {
             private ArrowBuffer.BitmapBuilder ValueBuffer { get; }
             private ArrowBuffer.BitmapBuilder ValidityBuffer { get; }
@@ -33,9 +33,22 @@ namespace Apache.Arrow
             public int NullCount => ValidityBuffer.UnsetBitCount;
 
             public Builder()
+                : this(null)
             {
-                ValueBuffer = new ArrowBuffer.BitmapBuilder();
-                ValidityBuffer = new ArrowBuffer.BitmapBuilder();
+            }
+
+            /// <summary>
+            /// Creates a builder whose working memory comes from <paramref name="allocator"/>.
+            /// </summary>
+            /// <param name="allocator">
+            /// Allocator for the builder's working memory, which usually becomes the built array's
+            /// memory. When <c>null</c>, the builder works in managed memory and copies
+            /// what it builds into <see cref="MemoryAllocator.Default"/>, as builders always have.
+            /// </param>
+            public Builder(MemoryAllocator allocator)
+            {
+                ValueBuffer = new ArrowBuffer.BitmapBuilder(0, allocator);
+                ValidityBuffer = new ArrowBuffer.BitmapBuilder(0, allocator);
             }
 
             public Builder Append(bool value)
@@ -72,6 +85,29 @@ namespace Apache.Arrow
             public Builder AppendNull()
             {
                 return NullableAppend(null);
+            }
+
+            /// <summary>
+            /// Releases the builder's working memory. Arrays already built are unaffected.
+            /// </summary>
+            /// <remarks>
+            /// Disposal is required only when the working memory comes from an allocator whose
+            /// <see cref="MemoryAllocator.Lifetime"/> is <see cref="AllocationLifetime.CallerOwned"/>;
+            /// otherwise it only releases memory sooner.
+            /// </remarks>
+            public void Dispose()
+            {
+                Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+
+            protected virtual void Dispose(bool disposing)
+            {
+                if (disposing)
+                {
+                    ValueBuffer.Dispose();
+                    ValidityBuffer.Dispose();
+                }
             }
 
             public BooleanArray Build(MemoryAllocator allocator = default)

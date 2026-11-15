@@ -21,7 +21,7 @@ namespace Apache.Arrow
 {
     public class LargeListViewArray : Array
     {
-        public class Builder : IArrowArrayBuilder<LargeListViewArray, Builder>
+        public class Builder : IArrowArrayBuilder<LargeListViewArray, Builder>, IDisposable
         {
             public IArrowArrayBuilder<IArrowArray, IArrowArrayBuilder<IArrowArray>> ValueBuilder { get; }
 
@@ -39,20 +39,46 @@ namespace Apache.Arrow
 
             private int Start { get; set; }
 
-            public Builder(IArrowType valueDataType) : this(new LargeListViewType(valueDataType))
+            public Builder(IArrowType valueDataType) : this(new LargeListViewType(valueDataType), null)
             {
             }
 
-            public Builder(Field valueField) : this(new LargeListViewType(valueField))
+            /// <summary>
+            /// Creates a builder whose working memory comes from <paramref name="allocator"/>.
+            /// </summary>
+            /// <param name="valueDataType">The type of the list elements.</param>
+            /// <param name="allocator">
+            /// Allocator for the builder's working memory, which usually becomes the built array's
+            /// memory. When <c>null</c>, the builder works in managed memory and copies
+            /// what it builds into <see cref="MemoryAllocator.Default"/>, as builders always have.
+            /// </param>
+            public Builder(IArrowType valueDataType, MemoryAllocator allocator) : this(new LargeListViewType(valueDataType), allocator)
             {
             }
 
-            internal Builder(LargeListViewType dataType)
+            public Builder(Field valueField) : this(new LargeListViewType(valueField), null)
             {
-                ValueBuilder = ArrowArrayBuilderFactory.Build(dataType.ValueDataType);
-                ValueOffsetsBufferBuilder = new ArrowBuffer.Builder<long>();
-                SizesBufferBuilder = new ArrowBuffer.Builder<long>();
-                ValidityBufferBuilder = new ArrowBuffer.BitmapBuilder();
+            }
+
+            /// <summary>
+            /// Creates a builder whose working memory comes from <paramref name="allocator"/>.
+            /// </summary>
+            /// <param name="valueField">The field describing the list elements.</param>
+            /// <param name="allocator">
+            /// Allocator for the builder's working memory, which usually becomes the built array's
+            /// memory. When <c>null</c>, the builder works in managed memory and copies
+            /// what it builds into <see cref="MemoryAllocator.Default"/>, as builders always have.
+            /// </param>
+            public Builder(Field valueField, MemoryAllocator allocator) : this(new LargeListViewType(valueField), allocator)
+            {
+            }
+
+            internal Builder(LargeListViewType dataType, MemoryAllocator allocator)
+            {
+                ValueBuilder = ArrowArrayBuilderFactory.Build(dataType.ValueDataType, allocator);
+                ValueOffsetsBufferBuilder = new ArrowBuffer.Builder<long>(0, allocator);
+                SizesBufferBuilder = new ArrowBuffer.Builder<long>(0, allocator);
+                ValidityBufferBuilder = new ArrowBuffer.BitmapBuilder(0, allocator);
                 DataType = dataType;
                 Start = -1;
             }
@@ -93,6 +119,31 @@ namespace Apache.Arrow
                     SizesBufferBuilder.Append(ValueBuilder.Length - Start);
                 }
                 Start = ValueBuilder.Length;
+            }
+
+            /// <summary>
+            /// Releases the builder's working memory. Arrays already built are unaffected.
+            /// </summary>
+            /// <remarks>
+            /// Disposal is required only when the working memory comes from an allocator whose
+            /// <see cref="MemoryAllocator.Lifetime"/> is <see cref="AllocationLifetime.CallerOwned"/>;
+            /// otherwise it only releases memory sooner.
+            /// </remarks>
+            public void Dispose()
+            {
+                Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+
+            protected virtual void Dispose(bool disposing)
+            {
+                if (disposing)
+                {
+                    (ValueBuilder as IDisposable)?.Dispose();
+                    ValueOffsetsBufferBuilder.Dispose();
+                    SizesBufferBuilder.Dispose();
+                    ValidityBufferBuilder.Dispose();
+                }
             }
 
             public LargeListViewArray Build(MemoryAllocator allocator = default)

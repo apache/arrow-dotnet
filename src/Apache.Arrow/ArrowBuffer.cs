@@ -34,8 +34,20 @@ namespace Apache.Arrow
         }
 
         internal ArrowBuffer(IMemoryOwner<byte> memoryOwner)
+            : this(memoryOwner, AllocationLifetime.Finalized)
         {
-            _handle = new SharedMemoryHandle(new SharedMemoryOwner(memoryOwner));
+        }
+
+        /// <param name="memoryOwner">The owner of the buffer's memory.</param>
+        /// <param name="lifetime">
+        /// The <see cref="MemoryAllocator.Lifetime"/> of the allocator the memory came from. Only
+        /// <see cref="AllocationLifetime.Finalized"/> memory is released by a finalizer when the
+        /// buffer is not disposed, as all buffers have been historically; other lifetimes opt out,
+        /// so that collection can never release memory a span is still using.
+        /// </param>
+        internal ArrowBuffer(IMemoryOwner<byte> memoryOwner, AllocationLifetime lifetime)
+        {
+            _handle = new SharedMemoryHandle(new SharedMemoryOwner(memoryOwner, finalizeWhenUnreachable: lifetime == AllocationLifetime.Finalized));
             _memory = Memory<byte>.Empty;
         }
 
@@ -81,9 +93,13 @@ namespace Apache.Arrow
 
         public ArrowBuffer Clone(MemoryAllocator allocator = default)
         {
-            return Span.Length == 0 ? Empty : new Builder<byte>(Span.Length)
-                .Append(Span)
-                .Build(allocator);
+            if (Span.Length == 0)
+            {
+                return Empty;
+            }
+
+            using Builder<byte> builder = new Builder<byte>(Span.Length, allocator);
+            return builder.Append(Span).Build(allocator);
         }
 
         public bool Equals(ArrowBuffer other)
