@@ -99,12 +99,20 @@ namespace Apache.Arrow
             }
 
             using Builder<byte> builder = new Builder<byte>(Span.Length, allocator);
-            return builder.Append(Span).Build(allocator);
+            ArrowBuffer clone = builder.Append(Span).Build(allocator);
+
+            // Nothing else roots the handle while its memory is read through a span, so without
+            // this a buffer that is otherwise unreachable could be finalized mid-copy.
+            GC.KeepAlive(_handle);
+            return clone;
         }
 
         public bool Equals(ArrowBuffer other)
         {
-            return Span.SequenceEqual(other.Span);
+            bool equal = Span.SequenceEqual(other.Span);
+            GC.KeepAlive(_handle);
+            GC.KeepAlive(other._handle);
+            return equal;
         }
 
         public void Dispose()
