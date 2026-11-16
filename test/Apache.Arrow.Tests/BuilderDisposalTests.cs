@@ -528,6 +528,61 @@ namespace Apache.Arrow.Tests
         }
 
         [Fact]
+        public void FailingPartwayThroughAFieldReleasesItsBuffers()
+        {
+            // Nulls give the columns a validity buffer as well as their data buffers, and the list
+            // column has a child, so failures land between a field's buffers and in its children.
+            ListArray.Builder listBuilder = new ListArray.Builder(Int32Type.Default);
+            Int32Array.Builder listValues = (Int32Array.Builder)listBuilder.ValueBuilder;
+            listBuilder.Append();
+            listValues.Append(1).Append(2);
+            listBuilder.AppendNull();
+            listBuilder.Append();
+            listValues.Append(3);
+            IArrowArray[] columns =
+            {
+                new Int32Array.Builder().Append(1).AppendNull().Append(3).Build(),
+                new StringArray.Builder().Append("a").AppendNull().Append("ccc").Build(),
+                listBuilder.Build(),
+            };
+            Schema schema = new Schema.Builder()
+                .Field(f => f.Name("i").DataType(Int32Type.Default))
+                .Field(f => f.Name("s").DataType(StringType.Default))
+                .Field(f => f.Name("l").DataType(new ListType(Int32Type.Default)))
+                .Build();
+            using RecordBatch batch = new RecordBatch(schema, columns, 3);
+
+            IpcOptions options = new IpcOptions { CompressionCodec = CompressionCodecType.Lz4Frame, CompressionCodecFactory = new PassThroughCodecFactory() };
+            MemoryStream written = new MemoryStream();
+            using (ArrowStreamWriter writer = new ArrowStreamWriter(written, schema, leaveOpen: true, options))
+            {
+                writer.WriteRecordBatch(batch);
+                writer.WriteEnd();
+            }
+            byte[] data = written.ToArray();
+
+            // Count the decompressions a successful read makes, then fail at each in turn.
+            FailOnNthDecompressionFactory counter = new FailOnNthDecompressionFactory(int.MaxValue);
+            using (ArrowStreamReader reader = new ArrowStreamReader(new ArrowContext(new TrackingAllocator(), counter), new MemoryStream(data)))
+            using (RecordBatch read = reader.ReadNextRecordBatch())
+            {
+                Assert.Equal(3, read.Length);
+            }
+            Assert.True(counter.Decompressions > 4);
+
+            for (int failOn = 1; failOn <= counter.Decompressions; failOn++)
+            {
+                int failure = failOn;
+                Run(allocator =>
+                {
+                    ArrowContext context = new ArrowContext(allocator, new FailOnNthDecompressionFactory(failure));
+                    using ArrowStreamReader reader = new ArrowStreamReader(context, new BufferedStream(new MemoryStream(data)));
+                    Assert.Throws<InvalidDataException>(() => reader.ReadNextRecordBatch());
+                });
+            }
+        }
+
+        [Fact]
         public void FailedDecompressionReleasesItsOutputBuffer()
         {
             using RecordBatch original = new RecordBatch.Builder()
@@ -778,6 +833,49 @@ namespace Apache.Arrow.Tests
             public override int Read(byte[] buffer, int offset, int count) => throw new NotSupportedException();
             public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
             public override void SetLength(long value) => throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Creates codecs that pass data through, except that the n-th non-empty decompression
+        /// (counted across all of the factory's codecs) fails as it would on corrupt input.
+        /// </summary>
+        private sealed class FailOnNthDecompressionFactory : ICompressionCodecFactory
+        {
+            private readonly int _failOn;
+            private int _decompressions;
+
+            public FailOnNthDecompressionFactory(int failOn) => _failOn = failOn;
+
+            public int Decompressions => Volatile.Read(ref _decompressions);
+
+            public ICompressionCodec CreateCodec(CompressionCodecType compressionCodecType) => new Codec(this);
+
+            public ICompressionCodec CreateCodec(CompressionCodecType compressionCodecType, int? compressionLevel) =>
+                CreateCodec(compressionCodecType);
+
+            private sealed class Codec : ICompressionCodec
+            {
+                private readonly FailOnNthDecompressionFactory _factory;
+
+                public Codec(FailOnNthDecompressionFactory factory) => _factory = factory;
+
+                public int Decompress(ReadOnlyMemory<byte> source, Memory<byte> destination)
+                {
+                    if (!source.IsEmpty && Interlocked.Increment(ref _factory._decompressions) == _factory._failOn)
+                    {
+                        throw new InvalidDataException("Corrupt compressed data.");
+                    }
+                    source.CopyTo(destination);
+                    return source.Length;
+                }
+
+                public void Compress(ReadOnlyMemory<byte> source, Stream destination) =>
+                    throw new NotSupportedException();
+
+                public void Dispose()
+                {
+                }
+            }
         }
 
         private sealed class FailingCodecFactory : ICompressionCodecFactory

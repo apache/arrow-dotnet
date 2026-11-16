@@ -56,7 +56,7 @@ namespace Apache.Arrow.Operations.Shredding
             // Top-level validity. Children of a null row are emitted as missing
             // (value and typed_value both null); metadata is still populated
             // because the metadata field is non-nullable.
-            ArrowBuffer.BitmapBuilder validity = new ArrowBuffer.BitmapBuilder(rowCount);
+            using ArrowBuffer.BitmapBuilder validity = new ArrowBuffer.BitmapBuilder(rowCount, allocator);
             int nullCount = 0;
             ShredResult[] childRows = null;
             for (int i = 0; i < rowCount; i++)

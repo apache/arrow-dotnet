@@ -428,19 +428,34 @@ namespace Apache.Arrow.Ipc
             }
 
             ArrowBuffer[] arrowBuff = new ArrowBuffer[buffers];
-            for (int i = 0; i < buffers; i++)
-            {
-                arrowBuff[i] = BuildArrowBuffer(bodyData, recordBatchEnumerator.CurrentBuffer, bufferCreator);
-                recordBatchEnumerator.MoveNextBuffer();
-            }
-
-            ArrayData[] children = GetChildren(version, ref recordBatchEnumerator, field, bodyData, bufferCreator);
-
+            ArrayData[] children = null;
             IArrowArray dictionary = null;
-            if (storageType.TypeId == ArrowTypeId.Dictionary)
+            try
             {
-                long id = DictionaryMemo.GetId(field);
-                dictionary = DictionaryMemo.GetDictionary(id);
+                for (int i = 0; i < buffers; i++)
+                {
+                    arrowBuff[i] = BuildArrowBuffer(bodyData, recordBatchEnumerator.CurrentBuffer, bufferCreator);
+                    recordBatchEnumerator.MoveNextBuffer();
+                }
+
+                children = GetChildren(version, ref recordBatchEnumerator, field, bodyData, bufferCreator);
+
+                if (storageType.TypeId == ArrowTypeId.Dictionary)
+                {
+                    long id = DictionaryMemo.GetId(field);
+                    dictionary = DictionaryMemo.GetDictionary(id);
+                }
+            }
+            catch
+            {
+                // The buffers can be decompressed copies or references to a shared body. Entries
+                // not yet built are default buffers, which own nothing.
+                foreach (ArrowBuffer buffer in arrowBuff)
+                {
+                    buffer.Dispose();
+                }
+                DisposeAll(children);
+                throw;
             }
 
             // Each batch holds its own reference to the dictionary, which the reader releases when
@@ -466,9 +481,29 @@ namespace Apache.Arrow.Ipc
                 Flatbuf.FieldNode childFieldNode = recordBatchEnumerator.CurrentNode;
 
                 Field childField = type.Fields[index];
-                children[index] = LoadField(version, ref recordBatchEnumerator, childField, in childFieldNode, bodyData, bufferCreator);
+                try
+                {
+                    children[index] = LoadField(version, ref recordBatchEnumerator, childField, in childFieldNode, bodyData, bufferCreator);
+                }
+                catch
+                {
+                    // LoadField releases what it built for the failing child; release its siblings.
+                    DisposeAll(children);
+                    throw;
+                }
             }
             return children;
+        }
+
+        private static void DisposeAll(ArrayData[] arrays)
+        {
+            if (arrays != null)
+            {
+                foreach (ArrayData array in arrays)
+                {
+                    array?.Dispose();
+                }
+            }
         }
 
         private ArrowBuffer BuildArrowBuffer(ByteBuffer bodyData, Flatbuf.Buffer buffer, IBufferCreator bufferCreator)
