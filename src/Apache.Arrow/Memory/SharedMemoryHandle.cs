@@ -21,10 +21,23 @@ namespace Apache.Arrow.Memory
     internal sealed class SharedMemoryHandle : IMemoryOwner<byte>
     {
         private SharedMemoryOwner _owner;
+        private readonly Memory<byte> _memory;
+        private readonly int _start;
 
         public SharedMemoryHandle(SharedMemoryOwner owner)
+            : this(owner, 0, owner?.Memory.Length ?? 0)
+        {
+        }
+
+        /// <summary>
+        /// Creates a handle to a slice of the owner's memory. The handle holds a reference to all
+        /// of it.
+        /// </summary>
+        public SharedMemoryHandle(SharedMemoryOwner owner, int start, int length)
         {
             _owner = owner ?? throw new ArgumentNullException(nameof(owner));
+            _memory = owner.Memory.Slice(start, length);
+            _start = start;
 
             if (!owner.FinalizeWhenUnreachable)
             {
@@ -34,12 +47,29 @@ namespace Apache.Arrow.Memory
             }
         }
 
-        public Memory<byte> Memory => _owner.Memory;
+        public Memory<byte> Memory
+        {
+            get
+            {
+                if (_owner == null)
+                {
+                    ThrowDisposed();
+                }
+                return _memory;
+            }
+        }
 
         public SharedMemoryHandle Retain()
         {
-            return _owner.Retain();
+            if (_owner == null)
+            {
+                ThrowDisposed();
+            }
+
+            return _owner.Retain(_start, _memory.Length);
         }
+
+        private static void ThrowDisposed() => throw new ObjectDisposedException(nameof(SharedMemoryHandle));
 
         public void Dispose()
         {

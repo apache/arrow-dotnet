@@ -390,6 +390,143 @@ namespace Apache.Arrow.Tests
             return stream.ToArray();
         }
 
+        [Theory]
+        [InlineData(false, Compression.None)]
+        [InlineData(true, Compression.None)]
+        [InlineData(false, Compression.Compressed)]
+        [InlineData(false, Compression.StoredUncompressed)]
+        [InlineData(true, Compression.StoredUncompressed)]
+        public void ReadingDictionaryBatchesReleasesTheirBodies(bool fromMemoryStream, Compression compression)
+        {
+            byte[] data = Concat(WriteDictionaryStream(compression, "x", "y"), WriteDictionaryStream(compression, "p", "q"));
+
+            Run(allocator =>
+            {
+                List<RecordBatch> batches = ReadAll(data, Context(allocator, compression), fromMemoryStream, out ArrowStreamReader reader);
+                reader.Dispose();
+                Assert.Equal(2, batches.Count);
+                batches.ForEach(b => b.Dispose());
+            });
+        }
+
+        [Theory]
+        [InlineData(false, Compression.None)]
+        [InlineData(true, Compression.None)]
+        [InlineData(false, Compression.StoredUncompressed)]
+        public void BatchesKeepTheirDictionaryAfterItIsReplacedAndTheReaderIsDisposed(bool fromMemoryStream, Compression compression)
+        {
+            // The second stream's dictionary replaces the first's (both have id 0), and the
+            // reader is disposed while both batches are still in use.
+            byte[] data = Concat(WriteDictionaryStream(compression, "x", "y"), WriteDictionaryStream(compression, "p", "q"));
+            PooledManagedAllocator allocator = new PooledManagedAllocator(new PooledManagedAllocatorOptions { PoisonDisposedBuffers = true });
+
+            List<RecordBatch> batches = ReadAll(data, Context(allocator, compression), fromMemoryStream, out ArrowStreamReader reader);
+            reader.Dispose();
+
+            // Churn the pool, so that released memory would be reused and overwritten.
+            for (int i = 0; i < 4; i++)
+            {
+                using StringArray filler = new StringArray.Builder(allocator).Append("zzzzzzzzzzzzzzzz").Build();
+            }
+
+            AssertDictionaryValues(batches[0], "x", "y");
+            AssertDictionaryValues(batches[1], "p", "q");
+
+            // Each batch holds its own reference: disposing one leaves the other intact.
+            batches[0].Dispose();
+            AssertDictionaryValues(batches[1], "p", "q");
+            batches[1].Dispose();
+        }
+
+        public enum Compression
+        {
+            None,
+            Compressed,
+
+            /// <summary>Compressed, but every buffer is stored uncompressed (length -1).</summary>
+            StoredUncompressed,
+        }
+
+        private static ICompressionCodecFactory Codecs(Compression compression) => compression switch
+        {
+            Compression.Compressed => new PassThroughCodecFactory(),
+            Compression.StoredUncompressed => new IncompressibleCodecFactory(),
+            _ => null,
+        };
+
+        private static ArrowContext Context(MemoryAllocator allocator, Compression compression) =>
+            compression == Compression.None ? new ArrowContext(allocator) : new ArrowContext(allocator, Codecs(compression));
+
+        private static void AssertDictionaryValues(RecordBatch batch, params string[] expected)
+        {
+            DictionaryArray column = (DictionaryArray)batch.Column(0);
+            StringArray dictionary = (StringArray)column.Dictionary;
+            Assert.Equal(expected.Length, dictionary.Length);
+            for (int i = 0; i < expected.Length; i++)
+            {
+                Assert.Equal(expected[i], dictionary.GetString(i));
+            }
+            Assert.Equal(1, ((Int32Array)column.Indices).GetValue(1));
+        }
+
+        private static List<RecordBatch> ReadAll(byte[] data, ArrowContext context, bool fromMemoryStream, out ArrowStreamReader reader)
+        {
+            // A stream that is not a MemoryStream makes the reader read through a different path.
+            Stream stream = fromMemoryStream
+                ? new MemoryStream(data)
+                : new BufferedStream(new MemoryStream(data));
+            reader = new ArrowStreamReader(context, stream);
+
+            List<RecordBatch> batches = new List<RecordBatch>();
+            RecordBatch batch;
+            while ((batch = reader.ReadNextRecordBatch()) != null)
+            {
+                batches.Add(batch);
+            }
+            return batches;
+        }
+
+        /// <summary>
+        /// Writes a stream holding one batch with a dictionary-encoded column, without the
+        /// end-of-stream marker, so that streams can be concatenated. Later schema messages are
+        /// ignored by the reader, and each stream's dictionary has id 0, so each replaces the last.
+        /// </summary>
+        private static byte[] WriteDictionaryStream(Compression compression, params string[] values)
+        {
+            StringArray.Builder dictionaryBuilder = new StringArray.Builder();
+            foreach (string value in values)
+            {
+                dictionaryBuilder.Append(value);
+            }
+            DictionaryType type = new DictionaryType(Int32Type.Default, StringType.Default, false);
+            DictionaryArray column = new DictionaryArray(
+                type,
+                new Int32Array.Builder().Append(0).Append(1).Append(0).Build(),
+                dictionaryBuilder.Build());
+            Schema schema = new Schema.Builder().Field(f => f.Name("d").DataType(type).Nullable(false)).Build();
+            using RecordBatch batch = new RecordBatch(schema, new IArrowArray[] { column }, column.Length);
+
+            MemoryStream stream = new MemoryStream();
+            IpcOptions options = compression == Compression.None
+                ? null
+                : new IpcOptions { CompressionCodec = CompressionCodecType.Lz4Frame, CompressionCodecFactory = Codecs(compression) };
+            using (ArrowStreamWriter writer = new ArrowStreamWriter(stream, schema, leaveOpen: true, options))
+            {
+                writer.WriteRecordBatch(batch);
+            }
+            return stream.ToArray();
+        }
+
+        private static byte[] Concat(params byte[][] parts)
+        {
+            MemoryStream result = new MemoryStream();
+            foreach (byte[] part in parts)
+            {
+                result.Write(part, 0, part.Length);
+            }
+            return result.ToArray();
+        }
+
         [Fact]
         public void FailedDecompressionReleasesItsOutputBuffer()
         {
@@ -665,6 +802,38 @@ namespace Apache.Arrow.Tests
 
             public void Dispose()
             {
+            }
+        }
+
+        /// <summary>
+        /// A codec that never manages to compress, so the writer stores every buffer uncompressed
+        /// and the reader views those buffers in the message body.
+        /// </summary>
+        private sealed class IncompressibleCodecFactory : ICompressionCodecFactory
+        {
+            public ICompressionCodec CreateCodec(CompressionCodecType compressionCodecType) => new IncompressibleCodec();
+
+            public ICompressionCodec CreateCodec(CompressionCodecType compressionCodecType, int? compressionLevel) =>
+                CreateCodec(compressionCodecType);
+
+            private sealed class IncompressibleCodec : ITryCompressionCodec
+            {
+                // Only empty buffers, which the writer records as compressed, reach this.
+                public int Decompress(ReadOnlyMemory<byte> source, Memory<byte> destination) =>
+                    source.IsEmpty ? 0 : throw new InvalidOperationException("Nothing should have been compressed.");
+
+                public void Compress(ReadOnlyMemory<byte> source, Stream destination) =>
+                    throw new NotSupportedException();
+
+                public bool TryCompress(ReadOnlyMemory<byte> source, Memory<byte> destination, out int bytesWritten)
+                {
+                    bytesWritten = 0;
+                    return false;
+                }
+
+                public void Dispose()
+                {
+                }
             }
         }
 

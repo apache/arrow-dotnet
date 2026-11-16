@@ -45,6 +45,8 @@ namespace Apache.Arrow.Ipc
             {
                 BaseStream.Dispose();
             }
+
+            base.Dispose(disposing);
         }
 
         public override ValueTask<RecordBatch> ReadNextRecordBatchAsync(CancellationToken cancellationToken)

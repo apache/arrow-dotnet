@@ -45,7 +45,12 @@ namespace Apache.Arrow.Memory
         /// </summary>
         public bool FinalizeWhenUnreachable { get; }
 
-        public SharedMemoryHandle Retain()
+        public SharedMemoryHandle Retain() => Retain(0, _memory.Length);
+
+        /// <summary>
+        /// Adds a reference, returning a handle to the given slice of the memory.
+        /// </summary>
+        public SharedMemoryHandle Retain(int start, int length)
         {
             while (true)
             {
@@ -57,7 +62,7 @@ namespace Apache.Arrow.Memory
 
                 if (Interlocked.CompareExchange(ref _refCount, current + 1, current) == current)
                 {
-                    return new SharedMemoryHandle(this);
+                    return new SharedMemoryHandle(this, start, length);
                 }
             }
         }

@@ -51,7 +51,7 @@ namespace Apache.Arrow
             _memory = Memory<byte>.Empty;
         }
 
-        private ArrowBuffer(SharedMemoryHandle handle)
+        internal ArrowBuffer(SharedMemoryHandle handle)
         {
             _handle = handle;
             _memory = Memory<byte>.Empty;
