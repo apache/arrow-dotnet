@@ -128,6 +128,45 @@ namespace Apache.Arrow.Tests
         }
 
         [Fact]
+        public void AppendingASpanCapturedBeforeBuildSurvivesTheHandOver()
+        {
+            // After a hand-over, the builder holds the only remaining reference once the built
+            // buffer is disposed; writing to the builder releases it. A span captured earlier
+            // points into that memory, so it must be copied before the release.
+            PooledManagedAllocator allocator = new PooledManagedAllocator(new PooledManagedAllocatorOptions { PoisonDisposedBuffers = true });
+            using ArrowBuffer.Builder<int> builder = new ArrowBuffer.Builder<int>(16, allocator);
+            builder.Append(0).Append(1).Append(2).Append(3);
+            Span<int> captured = builder.Span.Slice(0, 4);
+            builder.Build().Dispose();
+
+            builder.Append(captured);
+
+            Assert.Equal(new[] { 0, 1, 2, 3, 0, 1, 2, 3 }, builder.Span.Slice(0, 8).ToArray());
+        }
+
+        [Fact]
+        public void AppendingABitmapSpanCapturedBeforeBuildSurvivesTheHandOver()
+        {
+            PooledManagedAllocator allocator = new PooledManagedAllocator(new PooledManagedAllocatorOptions { PoisonDisposedBuffers = true });
+            using ArrowBuffer.BitmapBuilder builder = new ArrowBuffer.BitmapBuilder(64, allocator);
+            for (int i = 0; i < 16; i++)
+            {
+                builder.Append(i % 3 == 0);
+            }
+            Span<byte> captured = builder.Span.Slice(0, 2);
+            builder.Build().Dispose();
+
+            builder.Append(captured, 16);
+
+            Assert.Equal(32, builder.Length);
+            Assert.Equal(12, builder.SetBitCount);
+            for (int i = 0; i < 16; i++)
+            {
+                Assert.Equal(i % 3 == 0, BitUtility.GetBit(builder.Span, 16 + i));
+            }
+        }
+
+        [Fact]
         public void RebuildingAfterShrinkingDoesNotExposeRemovedValues()
         {
             using ArrowBuffer.Builder<int> builder = new ArrowBuffer.Builder<int>(16, new CallerOwnedNativeAllocator());

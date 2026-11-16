@@ -52,10 +52,20 @@ namespace Apache.Arrow.Ipc
             }
 
             var outputData = _allocator.Allocate(Convert.ToInt32(uncompressedLength));
-            var decompressedLength = _compressionCodec.Decompress(source.Slice(8), outputData.Memory);
-            if (decompressedLength != uncompressedLength)
+            try
             {
-                throw new Exception($"Expected to decompress {uncompressedLength} bytes, but got {decompressedLength} bytes");
+                var decompressedLength = _compressionCodec.Decompress(source.Slice(8), outputData.Memory);
+                if (decompressedLength != uncompressedLength)
+                {
+                    throw new Exception($"Expected to decompress {uncompressedLength} bytes, but got {decompressedLength} bytes");
+                }
+            }
+            catch
+            {
+                // Nothing else owns the output yet, so a failure (for example on corrupt input)
+                // would otherwise leak it; with a caller-owned allocator, permanently.
+                outputData.Dispose();
+                throw;
             }
 
             return new ArrowBuffer(outputData, _allocator.Lifetime);

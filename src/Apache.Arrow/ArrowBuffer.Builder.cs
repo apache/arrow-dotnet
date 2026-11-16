@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Apache.Arrow.Memory;
 
 namespace Apache.Arrow
@@ -152,9 +153,12 @@ namespace Apache.Arrow
             /// <returns>Returns the builder (for fluent-style composition).</returns>
             public Builder<T> Append(ReadOnlySpan<T> source)
             {
-                // Growing releases the current working memory, so a source that is part of this
-                // builder's own span would be read after release. Copy such a source first.
-                if (source.Length > Capacity - Length && source.Overlaps(Span))
+                // Writing can release the memory backing the builder: growing releases the working
+                // memory, and the first write after a build releases the builder's reference to the
+                // built buffer. A source that points into that memory must be copied first. The check
+                // reads the memory without detaching, since detaching would itself release it.
+                if ((source.Length > Capacity - Length || _buffer.IsShared) &&
+                    MemoryMarshal.AsBytes(source).Overlaps(_buffer.CurrentBytes))
                 {
                     source = source.ToArray();
                 }

@@ -109,6 +109,19 @@ namespace Apache.Arrow.Memory
         public int Capacity => _isShared ? _shared.Length : _memory.Length;
 
         /// <summary>
+        /// Whether the builder's memory currently belongs to a built buffer, in which case the
+        /// next write releases the builder's reference to it.
+        /// </summary>
+        public bool IsShared => _isShared;
+
+        /// <summary>
+        /// The bytes currently backing the builder, read without detaching: the working memory,
+        /// or the buffer it was handed to. Callers use this to tell whether a span points into
+        /// memory that writing to the builder could release.
+        /// </summary>
+        public ReadOnlySpan<byte> CurrentBytes => _isShared ? _shared.Span : _memory.Span;
+
+        /// <summary>
         /// The writable working memory. If it has been handed to a built buffer, the contents
         /// are first copied into memory the builder owns, so writes never reach that buffer.
         /// </summary>

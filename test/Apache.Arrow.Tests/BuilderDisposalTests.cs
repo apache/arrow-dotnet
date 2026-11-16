@@ -293,6 +293,36 @@ namespace Apache.Arrow.Tests
         }
 
         [Fact]
+        public void FailedDecompressionReleasesItsOutputBuffer()
+        {
+            using RecordBatch original = new RecordBatch.Builder()
+                .Append("ints", false, col => col.Int32(b => b.Append(1).Append(2)))
+                .Build();
+
+            MemoryStream stream = new MemoryStream();
+            IpcOptions options = new IpcOptions
+            {
+                CompressionCodec = CompressionCodecType.Lz4Frame,
+                CompressionCodecFactory = new PassThroughCodecFactory(),
+            };
+            using (ArrowStreamWriter writer = new ArrowStreamWriter(stream, original.Schema, leaveOpen: true, options))
+            {
+                writer.WriteRecordBatch(original);
+                writer.WriteEnd();
+            }
+
+            // The in-memory reader allocates nothing but decompression output, so anything left
+            // outstanding after the failure is a leaked output buffer.
+            Run(allocator =>
+            {
+                ArrowContext context = new ArrowContext(allocator, new FailingCodecFactory());
+                using ArrowStreamReader reader = new ArrowStreamReader(context, new ReadOnlyMemory<byte>(stream.ToArray()));
+
+                Assert.Throws<InvalidDataException>(() => reader.ReadNextRecordBatch());
+            });
+        }
+
+        [Fact]
         public void CodecFactoryInOptionsTakesPrecedenceOverContext()
         {
             PassThroughCodecFactory fromOptions = new PassThroughCodecFactory();
@@ -463,6 +493,31 @@ namespace Apache.Arrow.Tests
 
             public ICompressionCodec CreateCodec(CompressionCodecType compressionCodecType, int? compressionLevel) =>
                 CreateCodec(compressionCodecType);
+        }
+
+        private sealed class FailingCodecFactory : ICompressionCodecFactory
+        {
+            public ICompressionCodec CreateCodec(CompressionCodecType compressionCodecType) => new FailingCodec();
+
+            public ICompressionCodec CreateCodec(CompressionCodecType compressionCodecType, int? compressionLevel) =>
+                CreateCodec(compressionCodecType);
+        }
+
+        /// <summary>
+        /// A codec whose decompression fails on any data, as it would on corrupt input. Empty
+        /// buffers still succeed, so that the failure happens after an output buffer is allocated.
+        /// </summary>
+        private sealed class FailingCodec : ICompressionCodec
+        {
+            public int Decompress(ReadOnlyMemory<byte> source, Memory<byte> destination) =>
+                source.IsEmpty ? 0 : throw new InvalidDataException("Corrupt compressed data.");
+
+            public void Compress(ReadOnlyMemory<byte> source, Stream destination) =>
+                throw new NotSupportedException();
+
+            public void Dispose()
+            {
+            }
         }
 
         private sealed class PassThroughCodec : ITryCompressionCodec
