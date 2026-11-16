@@ -126,11 +126,12 @@ namespace Apache.Arrow
                 if (!source.IsEmpty && validBits > source.Length * 8)
                     throw new ArgumentException($"Number of valid bits ({validBits}) cannot be greater than the source span length ({source.Length * 8} bits).", nameof(validBits));
 
-                // Writing can release the memory backing the builder: growing releases the working
-                // memory, and the first write after a build releases the builder's reference to the
-                // built buffer. A source that points into that memory must be copied first. The check
-                // reads the memory without detaching, since detaching would itself release it.
-                if ((validBits > Capacity - Length || _buffer.IsShared) && source.Overlaps(_buffer.CurrentBytes))
+                // A source that points into the builder's own memory is copied first. Writing can
+                // release that memory (growing releases the working memory, and the first write after
+                // a build releases the builder's reference to the built buffer), and appending bit by
+                // bit can overwrite source bits before they are read. The check reads the memory
+                // without detaching, since detaching would itself release it.
+                if (source.Overlaps(_buffer.CurrentBytes))
                 {
                     source = source.ToArray();
                 }

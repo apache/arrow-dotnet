@@ -103,6 +103,8 @@ namespace Apache.Arrow.Ipc
                     _owner = owner;
                 }
                 public void Dispose() => _owner?.Dispose();
+
+                internal Buffer WithoutOwner() => new Buffer(DataBuffer, Offset, null);
             }
 
             private readonly List<FieldNode> _fieldNodes;
@@ -131,8 +133,30 @@ namespace Apache.Arrow.Ipc
                 TotalLength = 0;
             }
 
+            /// <summary>
+            /// Releases the buffer at <paramref name="index"/> once it has been written, so that
+            /// temporary buffers are freed as early as possible.
+            /// </summary>
+            public void ReleaseBuffer(int index)
+            {
+                Buffer buffer = _buffers[index];
+                _buffers[index] = buffer.WithoutOwner();
+                buffer.Dispose();
+            }
+
+            /// <summary>
+            /// Releases every buffer not yet released, along with arrays whose buffers they refer
+            /// to. Writing releases buffers as it goes; this also covers a write that fails partway
+            /// through, which would otherwise leak the rest (permanently, with a caller-owned
+            /// allocator).
+            /// </summary>
             public void Dispose()
             {
+                for (int i = 0; i < _buffers.Count; i++)
+                {
+                    ReleaseBuffer(i);
+                }
+
                 if (_deferredDisposals == null)
                 {
                     return;
@@ -888,7 +912,7 @@ namespace Apache.Arrow.Ipc
             long metadataLength = WriteMessage(Flatbuf.MessageHeader.RecordBatch,
                 recordBatchOffset, recordBatchBuilder.TotalLength, customMetadataVectorOffset);
 
-            long bufferLength = WriteBufferData(recordBatchBuilder.Buffers);
+            long bufferLength = WriteBufferData(recordBatchBuilder);
 
             // The buffers just written are views of recordBatch's memory, so it must stay
             // reachable until they have been copied out. Otherwise, once its last other use above
@@ -947,7 +971,7 @@ namespace Apache.Arrow.Ipc
                 customMetadataVectorOffset,
                 cancellationToken).ConfigureAwait(false);
 
-            long bufferLength = await WriteBufferDataAsync(recordBatchBuilder.Buffers, cancellationToken).ConfigureAwait(false);
+            long bufferLength = await WriteBufferDataAsync(recordBatchBuilder, cancellationToken).ConfigureAwait(false);
 
             // The buffers just written are views of recordBatch's memory, so it must stay
             // reachable until they have been copied out. Otherwise, once its last other use above
@@ -958,24 +982,29 @@ namespace Apache.Arrow.Ipc
             FinishedWritingRecordBatch(bufferLength, metadataLength);
         }
 
-        private long WriteBufferData(IReadOnlyList<ArrowRecordBatchFlatBufferBuilder.Buffer> buffers)
+        private long WriteBufferData(ArrowRecordBatchFlatBufferBuilder builder)
         {
+            IReadOnlyList<ArrowRecordBatchFlatBufferBuilder.Buffer> buffers = builder.Buffers;
             long bodyLength = 0;
 
             for (int i = 0; i < buffers.Count; i++)
             {
-                using var buffer = buffers[i]; // Dispose the buffer after writing
-                ReadOnlyMemory<byte> dataBuffer = buffer.DataBuffer;
-                if (dataBuffer.IsEmpty)
-                    continue;
-                BaseStream.Write(dataBuffer);
-                int paddedLength = checked((int)BitUtility.RoundUpToMultipleOf8(dataBuffer.Length));
-                int padding = paddedLength - dataBuffer.Length;
-                if (padding > 0)
+                ReadOnlyMemory<byte> dataBuffer = buffers[i].DataBuffer;
+                if (!dataBuffer.IsEmpty)
                 {
-                    WritePadding(padding);
+                    BaseStream.Write(dataBuffer);
+                    int paddedLength = checked((int)BitUtility.RoundUpToMultipleOf8(dataBuffer.Length));
+                    int padding = paddedLength - dataBuffer.Length;
+                    if (padding > 0)
+                    {
+                        WritePadding(padding);
+                    }
+                    bodyLength += paddedLength;
                 }
-                bodyLength += paddedLength;
+
+                // Release the buffer after writing. If a write throws, the builder's Dispose
+                // releases the buffers not reached.
+                builder.ReleaseBuffer(i);
             }
 
             // Write padding so the record batch message body length is a multiple of 8 bytes
@@ -987,27 +1016,31 @@ namespace Apache.Arrow.Ipc
             return bodyLength + bodyPaddingLength;
         }
 
-        private async ValueTask<long> WriteBufferDataAsync(IReadOnlyList<ArrowRecordBatchFlatBufferBuilder.Buffer> buffers, CancellationToken cancellationToken = default)
+        private async ValueTask<long> WriteBufferDataAsync(ArrowRecordBatchFlatBufferBuilder builder, CancellationToken cancellationToken = default)
         {
+            IReadOnlyList<ArrowRecordBatchFlatBufferBuilder.Buffer> buffers = builder.Buffers;
             long bodyLength = 0;
 
             for (int i = 0; i < buffers.Count; i++)
             {
-                using var buffer = buffers[i]; // Dispose the buffer after writing
-                ReadOnlyMemory<byte> dataBuffer = buffer.DataBuffer;
-                if (dataBuffer.IsEmpty)
-                    continue;
-
-                await BaseStream.WriteAsync(dataBuffer, cancellationToken).ConfigureAwait(false);
-
-                int paddedLength = checked((int)BitUtility.RoundUpToMultipleOf8(dataBuffer.Length));
-                int padding = paddedLength - dataBuffer.Length;
-                if (padding > 0)
+                ReadOnlyMemory<byte> dataBuffer = buffers[i].DataBuffer;
+                if (!dataBuffer.IsEmpty)
                 {
-                    await WritePaddingAsync(padding).ConfigureAwait(false);
+                    await BaseStream.WriteAsync(dataBuffer, cancellationToken).ConfigureAwait(false);
+
+                    int paddedLength = checked((int)BitUtility.RoundUpToMultipleOf8(dataBuffer.Length));
+                    int padding = paddedLength - dataBuffer.Length;
+                    if (padding > 0)
+                    {
+                        await WritePaddingAsync(padding).ConfigureAwait(false);
+                    }
+
+                    bodyLength += paddedLength;
                 }
 
-                bodyLength += paddedLength;
+                // Release the buffer after writing. If a write throws, the builder's Dispose
+                // releases the buffers not reached.
+                builder.ReleaseBuffer(i);
             }
 
             // Write padding so the record batch message body length is a multiple of 8 bytes
@@ -1035,7 +1068,21 @@ namespace Apache.Arrow.Ipc
                 : null;
 
             var recordBatchBuilder = new ArrowRecordBatchFlatBufferBuilder(compressionCodec, _allocator, _fallbackCompressionStream);
+            try
+            {
+                return PrepareWritingRecordBatch(recordBatchBuilder, fields, arrays);
+            }
+            catch
+            {
+                // The caller only takes ownership of the builder once this returns.
+                recordBatchBuilder.Dispose();
+                throw;
+            }
+        }
 
+        private Tuple<ArrowRecordBatchFlatBufferBuilder, VectorOffset, VectorOffset> PrepareWritingRecordBatch(
+            ArrowRecordBatchFlatBufferBuilder recordBatchBuilder, IReadOnlyList<Field> fields, IReadOnlyList<IArrowArray> arrays)
+        {
             // Visit all arrays recursively
             for (int i = 0; i < fields.Count; i++)
             {
@@ -1104,7 +1151,7 @@ namespace Apache.Arrow.Ipc
             long metadataLength = WriteMessage(Flatbuf.MessageHeader.DictionaryBatch,
                 dictionaryBatchOffset, recordBatchBuilder.TotalLength);
 
-            long bufferLength = WriteBufferData(recordBatchBuilder.Buffers);
+            long bufferLength = WriteBufferData(recordBatchBuilder);
 
             FinishedWritingDictionary(bufferLength, metadataLength);
         }
@@ -1130,7 +1177,7 @@ namespace Apache.Arrow.Ipc
             long metadataLength = await WriteMessageAsync(Flatbuf.MessageHeader.DictionaryBatch,
                 dictionaryBatchOffset, recordBatchBuilder.TotalLength, default, cancellationToken).ConfigureAwait(false);
 
-            long bufferLength = await WriteBufferDataAsync(recordBatchBuilder.Buffers, cancellationToken).ConfigureAwait(false);
+            long bufferLength = await WriteBufferDataAsync(recordBatchBuilder, cancellationToken).ConfigureAwait(false);
 
             FinishedWritingDictionary(bufferLength, metadataLength);
         }

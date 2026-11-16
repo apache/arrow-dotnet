@@ -20,6 +20,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 using Apache.Arrow.Ipc;
 using Apache.Arrow.Memory;
 using Apache.Arrow.Types;
@@ -292,6 +293,103 @@ namespace Apache.Arrow.Tests
             });
         }
 
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void FailedWritesReleaseTheWritersTemporaryBuffers(bool async)
+        {
+            // A sliced string column makes the writer re-base its offsets, and compression gives
+            // it an output buffer per array buffer, so the writer holds several temporary buffers.
+            StringArray strings = new StringArray.Builder().Append("a").Append("bb").Append("ccc").Append("dddd").Build();
+            using RecordBatch batch = new RecordBatch.Builder()
+                .Append("s", false, (StringArray)strings.Slice(1, 3))
+                .Append("i", false, col => col.Int32(b => b.Append(1).Append(2).Append(3)))
+                .Build();
+            IpcOptions options = new IpcOptions { CompressionCodec = CompressionCodecType.Lz4Frame };
+
+            // Count the writes a successful run makes, then fail at each of them in turn.
+            FailingStream counter = new FailingStream(failOnWrite: int.MaxValue);
+            Write(counter, new TrackingAllocator());
+            Assert.True(counter.Writes > 3);
+
+            for (int failOn = 1; failOn <= counter.Writes; failOn++)
+            {
+                int failure = failOn;
+                Run(allocator =>
+                {
+                    FailingStream stream = new FailingStream(failure);
+                    Assert.ThrowsAny<IOException>(() => Write(stream, allocator));
+                }, expectAllocations: false);
+            }
+
+            void Write(Stream stream, TrackingAllocator allocator)
+            {
+                ArrowContext context = new ArrowContext(allocator, new PassThroughCodecFactory());
+                using ArrowStreamWriter writer = new ArrowStreamWriter(context, stream, batch.Schema, leaveOpen: true, options);
+                if (async)
+                {
+                    writer.WriteRecordBatchAsync(batch).GetAwaiter().GetResult();
+                }
+                else
+                {
+                    writer.WriteRecordBatch(batch);
+                }
+            }
+        }
+
+        [Fact]
+        public void TruncatedStreamReleasesTheMessageBody()
+        {
+            byte[] data = WriteBatch(compress: false);
+            byte[] truncated = new byte[data.Length - 16];
+            System.Array.Copy(data, truncated, truncated.Length);
+
+            Run(allocator =>
+            {
+                // A stream that is not a MemoryStream makes the reader allocate the body.
+                using Stream stream = new BufferedStream(new MemoryStream(truncated));
+                using ArrowStreamReader reader = new ArrowStreamReader(new ArrowContext(allocator), stream);
+                Assert.ThrowsAny<Exception>(() => reader.ReadNextRecordBatch());
+            });
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void FailedParsingReleasesTheMessageBody(bool fromMemoryStream)
+        {
+            byte[] data = WriteBatch(compress: true);
+
+            // Decompression fails while the message is being parsed, after the body is allocated.
+            Run(allocator =>
+            {
+                ArrowContext context = new ArrowContext(allocator, new FailingCodecFactory());
+                using Stream stream = fromMemoryStream
+                    ? new MemoryStream(data)
+                    : new BufferedStream(new MemoryStream(data));
+                using ArrowStreamReader reader = new ArrowStreamReader(context, stream);
+                Assert.Throws<InvalidDataException>(() => reader.ReadNextRecordBatch());
+            });
+        }
+
+        private static byte[] WriteBatch(bool compress)
+        {
+            using RecordBatch batch = new RecordBatch.Builder()
+                .Append("i", false, col => col.Int32(b => b.Append(1).Append(2).Append(3)))
+                .Build();
+            IpcOptions options = compress
+                ? new IpcOptions { CompressionCodec = CompressionCodecType.Lz4Frame, CompressionCodecFactory = new PassThroughCodecFactory() }
+                : null;
+
+            MemoryStream stream = new MemoryStream();
+            using (ArrowStreamWriter writer = new ArrowStreamWriter(stream, batch.Schema, leaveOpen: true, options))
+            {
+                writer.WriteRecordBatch(batch);
+                writer.WriteEnd();
+            }
+            return stream.ToArray();
+        }
+
         [Fact]
         public void FailedDecompressionReleasesItsOutputBuffer()
         {
@@ -493,6 +591,56 @@ namespace Apache.Arrow.Tests
 
             public ICompressionCodec CreateCodec(CompressionCodecType compressionCodecType, int? compressionLevel) =>
                 CreateCodec(compressionCodecType);
+        }
+
+        /// <summary>
+        /// A writable stream whose n-th write throws, once, and which counts the writes it
+        /// receives. Writes before and after the failure succeed.
+        /// </summary>
+        private sealed class FailingStream : Stream
+        {
+            private readonly int _failOnWrite;
+            private readonly MemoryStream _inner = new MemoryStream();
+
+            public FailingStream(int failOnWrite) => _failOnWrite = failOnWrite;
+
+            public int Writes { get; private set; }
+
+            public override bool CanRead => false;
+            public override bool CanSeek => false;
+            public override bool CanWrite => true;
+            public override long Length => _inner.Length;
+            public override long Position { get => _inner.Position; set => throw new NotSupportedException(); }
+
+            public override void Write(byte[] buffer, int offset, int count)
+            {
+                if (++Writes == _failOnWrite)
+                {
+                    throw new IOException("Simulated write failure.");
+                }
+                _inner.Write(buffer, offset, count);
+            }
+
+            public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+            {
+                Write(buffer, offset, count);
+                return Task.CompletedTask;
+            }
+
+#if NET5_0_OR_GREATER
+            public override void Write(ReadOnlySpan<byte> buffer) => Write(buffer.ToArray(), 0, buffer.Length);
+
+            public override ValueTask WriteAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken = default)
+            {
+                Write(buffer.ToArray(), 0, buffer.Length);
+                return default;
+            }
+#endif
+
+            public override void Flush() { }
+            public override int Read(byte[] buffer, int offset, int count) => throw new NotSupportedException();
+            public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
+            public override void SetLength(long value) => throw new NotSupportedException();
         }
 
         private sealed class FailingCodecFactory : ICompressionCodecFactory

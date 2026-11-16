@@ -137,36 +137,61 @@ namespace Apache.Arrow.Ipc
         /// The record batch when the message type is RecordBatch.
         /// Null when the message type is not RecordBatch.
         /// </returns>
+        /// <summary>
+        /// Creates the object a message describes. Takes ownership of <paramref name="memoryOwner"/>,
+        /// the message body: it either passes it to the result or releases it, including when the
+        /// message cannot be read.
+        /// </summary>
         protected RecordBatch CreateArrowObjectFromMessage(
             Flatbuf.Message message, ByteBuffer bodyByteBuffer, IMemoryOwner<byte> memoryOwner)
         {
-            switch (message.HeaderType)
+            bool bodyKept = false;
+            try
             {
-                case Flatbuf.MessageHeader.Schema:
-                    // TODO: Read schema and verify equality?
-                    break;
-                case Flatbuf.MessageHeader.DictionaryBatch:
-                    Flatbuf.DictionaryBatch dictionaryBatch = message.Header<Flatbuf.DictionaryBatch>().Value;
-                    ReadDictionaryBatch(message.Version, dictionaryBatch, bodyByteBuffer, memoryOwner);
-                    break;
-                case Flatbuf.MessageHeader.RecordBatch:
-                    Flatbuf.RecordBatch rb = message.Header<Flatbuf.RecordBatch>().Value;
-                    if (rb.Length < 0 || rb.Length > int.MaxValue)
-                    {
-                        throw new InvalidDataException(
-                            $"Cannot read batch. Message body of {rb.Length} rows is out of range.");
-                    }
+                switch (message.HeaderType)
+                {
+                    case Flatbuf.MessageHeader.Schema:
+                        // TODO: Read schema and verify equality?
+                        break;
+                    case Flatbuf.MessageHeader.DictionaryBatch:
+                        Flatbuf.DictionaryBatch dictionaryBatch = message.Header<Flatbuf.DictionaryBatch>().Value;
+                        ReadDictionaryBatch(message.Version, dictionaryBatch, bodyByteBuffer, memoryOwner);
 
-                    List<IArrowArray> arrays = BuildArrays(message.Version, Schema, bodyByteBuffer, rb);
-                    LastBatchCustomMetadata = ReadMessageCustomMetadata(message);
-                    return new RecordBatch(Schema, memoryOwner, arrays, (int)rb.Length);
-                default:
-                    // NOTE: Skip unsupported message type
-                    Debug.WriteLine($"Skipping unsupported message type '{message.HeaderType}'");
-                    break;
+                        // The dictionary's arrays refer to the body, so it must stay alive. Nothing
+                        // owns it yet: it is reclaimed only by finalization, which leaks it with a
+                        // caller-owned allocator.
+                        bodyKept = true;
+                        break;
+                    case Flatbuf.MessageHeader.RecordBatch:
+                        Flatbuf.RecordBatch rb = message.Header<Flatbuf.RecordBatch>().Value;
+                        if (rb.Length < 0 || rb.Length > int.MaxValue)
+                        {
+                            throw new InvalidDataException(
+                                $"Cannot read batch. Message body of {rb.Length} rows is out of range.");
+                        }
+
+                        List<IArrowArray> arrays = BuildArrays(message.Version, Schema, bodyByteBuffer, rb);
+                        LastBatchCustomMetadata = ReadMessageCustomMetadata(message);
+                        RecordBatch batch = new RecordBatch(Schema, memoryOwner, arrays, (int)rb.Length);
+                        bodyKept = true;
+                        return batch;
+                    default:
+                        // NOTE: Skip unsupported message type
+                        Debug.WriteLine($"Skipping unsupported message type '{message.HeaderType}'");
+                        break;
+                }
+
+                return null;
             }
-
-            return null;
+            finally
+            {
+                // Release a body that no result refers to: one whose message has no use for it,
+                // or one that could not be read.
+                if (!bodyKept)
+                {
+                    memoryOwner?.Dispose();
+                }
+            }
         }
 
         private static IReadOnlyDictionary<string, string> ReadMessageCustomMetadata(Flatbuf.Message message)

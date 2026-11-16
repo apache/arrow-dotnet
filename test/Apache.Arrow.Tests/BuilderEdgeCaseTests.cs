@@ -128,6 +128,23 @@ namespace Apache.Arrow.Tests
         }
 
         [Fact]
+        public void AppendingOwnBitsBeyondTheLengthUsesTheOriginalBits()
+        {
+            // Appending bit by bit (the length is not a whole number of bytes) writes into the
+            // byte the source is read from. The source must be read as it was before the append.
+            using ArrowBuffer.BitmapBuilder builder = new ArrowBuffer.BitmapBuilder(64);
+            builder.Append(true).Append(false).Append(true).Append(true);
+            byte[] before = builder.Span.Slice(0, 1).ToArray();
+
+            builder.Append(builder.Span.Slice(0, 1), 8);
+
+            for (int i = 0; i < 8; i++)
+            {
+                Assert.Equal(BitUtility.GetBit(before, i), BitUtility.GetBit(builder.Span, 4 + i));
+            }
+        }
+
+        [Fact]
         public void AppendingASpanCapturedBeforeBuildSurvivesTheHandOver()
         {
             // After a hand-over, the builder holds the only remaining reference once the built
