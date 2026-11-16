@@ -372,18 +372,32 @@ namespace Apache.Arrow
 
             public TimestampWithOffsetArray Build(MemoryAllocator allocator = default)
             {
-                TimestampArray timestamps = _timestampBuilder.Build(allocator);
-                Int16Array offsets = _offsetBuilder.Build(allocator);
-                int nullCount = _validityBuilder.UnsetBitCount;
-                ArrowBuffer validityBuffer = nullCount > 0 ? _validityBuilder.Build(allocator) : ArrowBuffer.Empty;
+                TimestampArray timestamps = null;
+                Int16Array offsets = null;
+                ArrowBuffer validityBuffer = default;
+                try
+                {
+                    timestamps = _timestampBuilder.Build(allocator);
+                    offsets = _offsetBuilder.Build(allocator);
+                    int nullCount = _validityBuilder.UnsetBitCount;
+                    validityBuffer = nullCount > 0 ? _validityBuilder.Build(allocator) : ArrowBuffer.Empty;
 
-                var structType = (StructType)_type.StorageType;
-                var structArray = new StructArray(
-                    structType, Length,
-                    new IArrowArray[] { timestamps, offsets },
-                    validityBuffer, nullCount);
+                    var structType = (StructType)_type.StorageType;
+                    var structArray = new StructArray(
+                        structType, Length,
+                        new IArrowArray[] { timestamps, offsets },
+                        validityBuffer, nullCount);
 
-                return new TimestampWithOffsetArray(_type, structArray);
+                    return new TimestampWithOffsetArray(_type, structArray);
+                }
+                catch
+                {
+                    // For example an allocator that has run out of its budget; release what was built.
+                    timestamps?.Dispose();
+                    offsets?.Dispose();
+                    validityBuffer.Dispose();
+                    throw;
+                }
             }
         }
     }

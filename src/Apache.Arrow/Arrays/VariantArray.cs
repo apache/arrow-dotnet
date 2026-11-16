@@ -527,15 +527,29 @@ namespace Apache.Arrow
             /// </summary>
             public VariantArray Build(MemoryAllocator allocator = default)
             {
-                var metadataArray = _metadataBuilder.Build(allocator);
-                var valueArray = _valueBuilder.Build(allocator);
-                var structType = (StructType)VariantType.Default.StorageType;
-                var nullBitmap = _nullCount > 0 ? _validityBuilder.Build(allocator) : ArrowBuffer.Empty;
-                var structArray = new StructArray(
-                    structType, _length,
-                    new IArrowArray[] { metadataArray, valueArray },
-                    nullBitmap, _nullCount);
-                return new VariantArray(VariantType.Default, structArray);
+                BinaryArray metadataArray = null;
+                BinaryArray valueArray = null;
+                ArrowBuffer nullBitmap = default;
+                try
+                {
+                    metadataArray = _metadataBuilder.Build(allocator);
+                    valueArray = _valueBuilder.Build(allocator);
+                    var structType = (StructType)VariantType.Default.StorageType;
+                    nullBitmap = _nullCount > 0 ? _validityBuilder.Build(allocator) : ArrowBuffer.Empty;
+                    var structArray = new StructArray(
+                        structType, _length,
+                        new IArrowArray[] { metadataArray, valueArray },
+                        nullBitmap, _nullCount);
+                    return new VariantArray(VariantType.Default, structArray);
+                }
+                catch
+                {
+                    // For example an allocator that has run out of its budget; release what was built.
+                    metadataArray?.Dispose();
+                    valueArray?.Dispose();
+                    nullBitmap.Dispose();
+                    throw;
+                }
             }
         }
     }

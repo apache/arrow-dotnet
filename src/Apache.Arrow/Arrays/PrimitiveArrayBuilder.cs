@@ -310,13 +310,24 @@ namespace Apache.Arrow
 
         public TArray Build(MemoryAllocator allocator = default)
         {
-            ArrowBuffer validityBuffer = NullCount > 0
+            ArrowBuffer validityBuffer = default;
+            ArrowBuffer valueBuffer = default;
+            try
+            {
+                validityBuffer = NullCount > 0
                                     ? _validity.Build(allocator)
                                     : ArrowBuffer.Empty;
+                valueBuffer = ValueBuffer.Build(allocator);
 
-            return Build(
-                ValueBuffer.Build(allocator), validityBuffer,
-                ValueBuffer.Length, NullCount, 0);
+                return Build(valueBuffer, validityBuffer, ValueBuffer.Length, NullCount, 0);
+            }
+            catch
+            {
+                // For example an allocator that has run out of its budget; release what was built.
+                validityBuffer.Dispose();
+                valueBuffer.Dispose();
+                throw;
+            }
         }
 
         protected abstract TArray Build(

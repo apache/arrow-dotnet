@@ -651,6 +651,92 @@ namespace Apache.Arrow.Tests
             });
         }
 
+        public static TheoryData<string> LeafBuilders => new TheoryData<string>
+        {
+            "Int32", "Boolean", "String", "LargeString", "Decimal128", "TimestampWithOffset", "Variant", "RunEndEncoded",
+        };
+
+        [Theory]
+        [MemberData(nameof(LeafBuilders))]
+        public void BuildingIntoAnAllocatorThatRunsOutReleasesWhatWasBuilt(string kind)
+        {
+            // An allocator with a memory budget refuses an allocation by throwing. Building into a
+            // different allocator copies each buffer, so every buffer is a separate allocation that
+            // can be refused, after earlier ones succeeded. Each builder has a null, so it builds a
+            // validity bitmap as well as its data.
+            TrackingAllocator counter = new TrackingAllocator();
+            using (IArrowArray built = BuildInto(kind, new TrackingAllocator(), counter))
+            {
+            }
+            int allocations = counter.Allocations;
+            Assert.True(allocations > 1, $"{kind} should build several buffers.");
+
+            for (int failOn = 1; failOn <= allocations; failOn++)
+            {
+                int failure = failOn;
+                Run(target =>
+                {
+                    target.FailOnAllocation = failure;
+                    TrackingAllocator working = new TrackingAllocator();
+                    Assert.Throws<OutOfMemoryException>(() => BuildInto(kind, working, target));
+                    Assert.Equal(0, working.LiveAllocations);
+                }, expectAllocations: false);
+            }
+        }
+
+        /// <summary>
+        /// Fills a builder whose working memory comes from <paramref name="working"/>, builds it
+        /// into <paramref name="target"/>, and disposes the builder.
+        /// </summary>
+        private static IArrowArray BuildInto(string kind, MemoryAllocator working, MemoryAllocator target)
+        {
+            switch (kind)
+            {
+                case "Int32":
+                    using (Int32Array.Builder b = new Int32Array.Builder(8, working))
+                    {
+                        return b.Append(1).AppendNull().Build(target);
+                    }
+                case "Boolean":
+                    using (BooleanArray.Builder b = new BooleanArray.Builder(working))
+                    {
+                        return b.Append(true).AppendNull().Build(target);
+                    }
+                case "String":
+                    using (StringArray.Builder b = new StringArray.Builder(working))
+                    {
+                        return b.Append("a").AppendNull().Build(target);
+                    }
+                case "LargeString":
+                    using (LargeStringArray.Builder b = new LargeStringArray.Builder(working))
+                    {
+                        return b.Append("a").AppendNull().Build(target);
+                    }
+                case "Decimal128":
+                    using (Decimal128Array.Builder b = new Decimal128Array.Builder(new Decimal128Type(10, 2), working))
+                    {
+                        return b.Append(1.5m).AppendNull().Build(target);
+                    }
+                case "TimestampWithOffset":
+                    using (TimestampWithOffsetArray.Builder b = new TimestampWithOffsetArray.Builder(TimestampWithOffsetType.Default, working))
+                    {
+                        return b.Append(new DateTimeOffset(2000, 1, 1, 0, 0, 0, TimeSpan.Zero)).AppendNull().Build(target);
+                    }
+                case "Variant":
+                    using (VariantArray.Builder b = new VariantArray.Builder(working))
+                    {
+                        return b.Append(Apache.Arrow.Scalars.Variant.VariantValue.FromInt32(1)).AppendNull().Build(target);
+                    }
+                default:
+                    using (Int32Array.Builder runEnds = new Int32Array.Builder(8, working))
+                    using (StringArray.Builder values = new StringArray.Builder(working))
+                    {
+                        var b = new RunEndEncodedArray.Builder<Int32Array.Builder, StringArray.Builder, Int32Array, StringArray, string>(runEnds, values);
+                        return b.Append("a").Append("a").AppendNull().Build(target);
+                    }
+            }
+        }
+
         [Fact]
         public void FailedDecompressionReleasesItsOutputBuffer()
         {
@@ -752,8 +838,24 @@ namespace Apache.Arrow.Tests
 
             public override AllocationLifetime Lifetime => AllocationLifetime.CallerOwned;
 
+            /// <summary>
+            /// The allocation, counting from 1, that fails as if the allocator had run out of its
+            /// budget.
+            /// </summary>
+            public int FailOnAllocation { get; set; } = int.MaxValue;
+
+            /// <summary>The number of allocations requested, including one refused.</summary>
+            public int Allocations => Volatile.Read(ref _allocations);
+
+            private int _allocations;
+
             protected override IMemoryOwner<byte> AllocateInternal(int length, out int bytesAllocated)
             {
+                if (Interlocked.Increment(ref _allocations) == FailOnAllocation)
+                {
+                    throw new OutOfMemoryException("Simulated allocation budget exhausted.");
+                }
+
                 byte[] buffer = new byte[length];
                 lock (_handedOut)
                 {

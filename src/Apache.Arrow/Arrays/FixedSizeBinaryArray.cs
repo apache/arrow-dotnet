@@ -135,19 +135,29 @@ namespace Apache.Arrow.Arrays
 
             public TArray Build(MemoryAllocator allocator = default)
             {
-                var bufs = new[]
+                var bufs = new ArrowBuffer[2];
+                try
                 {
-                    NullCount > 0 ? ValidityBuffer.Build(allocator) : ArrowBuffer.Empty,
-                    ValueBuffer.Build(ByteWidth, allocator),
-                };
-                var data = new ArrayData(
-                    DataType,
-                    Length,
-                    NullCount,
-                    0,
-                    bufs);
+                    bufs[0] = NullCount > 0 ? ValidityBuffer.Build(allocator) : ArrowBuffer.Empty;
+                    bufs[1] = ValueBuffer.Build(ByteWidth, allocator);
+                    var data = new ArrayData(
+                        DataType,
+                        Length,
+                        NullCount,
+                        0,
+                        bufs);
 
-                return Build(data);
+                    return Build(data);
+                }
+                catch
+                {
+                    // For example an allocator that has run out of its budget; release what was built.
+                    foreach (ArrowBuffer buffer in bufs)
+                    {
+                        buffer.Dispose();
+                    }
+                    throw;
+                }
             }
 
             public TBuilder Reserve(int capacity)

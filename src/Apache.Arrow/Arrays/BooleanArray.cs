@@ -112,13 +112,24 @@ namespace Apache.Arrow
 
             public BooleanArray Build(MemoryAllocator allocator = default)
             {
-                ArrowBuffer validityBuffer = NullCount > 0
+                ArrowBuffer validityBuffer = default;
+                ArrowBuffer valueBuffer = default;
+                try
+                {
+                    validityBuffer = NullCount > 0
                                         ? ValidityBuffer.Build(allocator)
                                         : ArrowBuffer.Empty;
+                    valueBuffer = ValueBuffer.Build(allocator);
 
-                return new BooleanArray(
-                    ValueBuffer.Build(allocator), validityBuffer,
-                    Length, NullCount, 0);
+                    return new BooleanArray(valueBuffer, validityBuffer, Length, NullCount, 0);
+                }
+                catch
+                {
+                    // For example an allocator that has run out of its budget; release what was built.
+                    validityBuffer.Dispose();
+                    valueBuffer.Dispose();
+                    throw;
+                }
             }
 
             public Builder Clear()
