@@ -114,15 +114,35 @@ namespace Apache.Arrow
             {
                 ValueOffsetsBufferBuilder.Append(KeyBuilder.Length);
 
-                ArrowBuffer validityBuffer = NullCount > 0 ? ValidityBufferBuilder.Build(allocator) : ArrowBuffer.Empty;
+                ArrowBuffer validityBuffer = default;
+                ArrowBuffer offsetsBuffer = default;
+                IArrowArray keys = null;
+                IArrowArray values = null;
+                try
+                {
+                    validityBuffer = NullCount > 0 ? ValidityBufferBuilder.Build(allocator) : ArrowBuffer.Empty;
+                    keys = KeyBuilder.Build(allocator);
+                    values = ValueBuilder.Build(allocator);
+                    offsetsBuffer = ValueOffsetsBufferBuilder.Build(allocator);
 
-                StructArray structs = new StructArray(
-                    DataType.KeyValueType, KeyBuilder.Length,
-                    new IArrowArray[] { KeyBuilder.Build(allocator), ValueBuilder.Build(allocator) },
-                    ArrowBuffer.Empty, 0
-                );
+                    StructArray structs = new StructArray(
+                        DataType.KeyValueType, KeyBuilder.Length,
+                        new IArrowArray[] { keys, values },
+                        ArrowBuffer.Empty, 0
+                    );
 
-                return new MapArray(DataType, Length - 1, ValueOffsetsBufferBuilder.Build(allocator), structs, validityBuffer, NullCount);
+                    return new MapArray(DataType, Length - 1, offsetsBuffer, structs, validityBuffer, NullCount);
+                }
+                catch
+                {
+                    // A child that fails to build (for example a fixed-size list child of the wrong
+                    // length) would otherwise leak the buffers already built.
+                    validityBuffer.Dispose();
+                    offsetsBuffer.Dispose();
+                    keys?.Dispose();
+                    values?.Dispose();
+                    throw;
+                }
             }
 
             public Builder Reserve(int capacity)

@@ -34,11 +34,21 @@ namespace Apache.Arrow.Memory
     /// single native allocation of the exact size. Passing an allocator opts into the hand-over.
     /// </para>
     /// <para>
-    /// After a hand-over the builder no longer owns writable memory. It keeps a retained
-    /// reference to the built buffer so that its contents stay readable, and copies them into
-    /// fresh working memory the first time the builder is written to again. Code that builds
-    /// once and discards the builder therefore allocates once; code that keeps appending after
-    /// a build pays one copy, which is what every build cost before.
+    /// After a hand-over the builder no longer owns writable memory. Its contents are the built
+    /// buffer's, which it copies into fresh working memory the first time it is written to
+    /// again. Code that builds once and discards the builder therefore allocates once; code
+    /// that keeps appending after a build pays one copy, which is what every build cost before.
+    /// </para>
+    /// <para>
+    /// The builder holds a reference to the built buffer only when the allocator's lifetime is
+    /// <see cref="AllocationLifetime.Finalized"/>, where collection reclaims it, so contents
+    /// survive a built array that is dropped without being disposed, as they always have. Other
+    /// lifetimes are never reclaimed by collection, so holding a reference would leak whenever
+    /// the builder is not disposed, as in <c>new Builder(allocator).Append(x).Build()</c>.
+    /// Instead the builder takes a reference only while it reads the buffer, which it can do
+    /// while the buffer is alive. Once the buffer has been disposed the builder's contents are
+    /// gone with it: using them throws <see cref="ObjectDisposedException"/>, and
+    /// <see cref="Reset"/> makes the builder usable again.
     /// </para>
     /// <para>
     /// When it can hand over, working memory is always a multiple of <see cref="Padding"/>
@@ -62,15 +72,19 @@ namespace Apache.Arrow.Memory
         private readonly bool _canHandOver;
 
         // Exactly one of these is in use: _owner/_memory while the builder owns its working
-        // memory, _shared after that memory has been handed to a built buffer. Both are empty
-        // after disposal.
+        // memory, _sharedOwner after that memory has been handed to a built buffer. Both are
+        // empty after disposal.
         private IMemoryOwner<byte> _owner;
         private Memory<byte> _memory;
-        private ArrowBuffer _shared;
+        private SharedMemoryOwner _sharedOwner;
         private bool _isShared;
 
-        // How many bytes of _shared hold data, as opposed to padding. A later build can share
-        // the same buffer only if it would hold exactly the same bytes.
+        // The builder's own reference to the built buffer, held only for finalized lifetimes.
+        private SharedMemoryHandle _sharedHold;
+        private int _sharedLength;
+
+        // How many bytes of the built buffer hold data, as opposed to padding. A later build can
+        // share the same buffer only if it would hold exactly the same bytes.
         private int _sharedUsedBytes;
 
         /// <param name="allocator">
@@ -106,20 +120,43 @@ namespace Apache.Arrow.Memory
         /// <summary>
         /// Size of the working memory in bytes. Reading this never copies.
         /// </summary>
-        public int Capacity => _isShared ? _shared.Length : _memory.Length;
+        public int Capacity => _isShared ? _sharedLength : _memory.Length;
 
         /// <summary>
         /// Whether the builder's memory currently belongs to a built buffer, in which case the
-        /// next write releases the builder's reference to it.
+        /// next write may release the builder's reference to it.
         /// </summary>
         public bool IsShared => _isShared;
 
         /// <summary>
-        /// The bytes currently backing the builder, read without detaching: the working memory,
-        /// or the buffer it was handed to. Callers use this to tell whether a span points into
-        /// memory that writing to the builder could release.
+        /// Whether <paramref name="source"/> points into the memory currently backing the
+        /// builder, read without detaching: the working memory, or the buffer it was handed to.
+        /// Callers use this to tell whether a span points into memory that writing to the
+        /// builder could release.
         /// </summary>
-        public ReadOnlySpan<byte> CurrentBytes => _isShared ? _shared.Span : _memory.Span;
+        public bool Overlaps(ReadOnlySpan<byte> source)
+        {
+            if (!_isShared)
+            {
+                return source.Overlaps(_memory.Span);
+            }
+
+            SharedMemoryHandle handle = _sharedOwner.TryRetain();
+            if (handle == null)
+            {
+                // Released memory: no valid span can point into it.
+                return false;
+            }
+
+            try
+            {
+                return source.Overlaps(handle.Memory.Span);
+            }
+            finally
+            {
+                handle.Dispose();
+            }
+        }
 
         /// <summary>
         /// The writable working memory. If it has been handed to a built buffer, the contents
@@ -131,7 +168,7 @@ namespace Apache.Arrow.Memory
             {
                 if (_isShared)
                 {
-                    Detach(_shared.Length);
+                    Detach(_sharedLength);
                 }
 
                 return _memory;
@@ -173,7 +210,8 @@ namespace Apache.Arrow.Memory
         {
             if (_isShared)
             {
-                int capacity = _shared.Length;
+                // Needs no access to the built buffer, so works even once it has been disposed.
+                int capacity = _sharedLength;
                 ReleaseShared();
                 _owner = _temporary.Allocate(capacity);
                 _memory = _owner.Memory;
@@ -203,14 +241,21 @@ namespace Apache.Arrow.Memory
                 // Built again holding exactly the same bytes: share the same memory. A Resize can
                 // change the length without writing to the builder, so the padded length alone
                 // is not enough; sharing after a shrink would expose the removed values.
-                if (handOver && usedBytes == _sharedUsedBytes && padded == _shared.Length)
+                SharedMemoryHandle handle = AcquireShared();
+                if (handOver && usedBytes == _sharedUsedBytes && padded == _sharedLength)
                 {
-                    return _shared.Retain();
+                    return new ArrowBuffer(handle);
                 }
 
-                ArrowBuffer sharedCopy = Copy(_shared.Span, usedBytes, padded, destination);
-                GC.KeepAlive(this);
-                return sharedCopy;
+                try
+                {
+                    return Copy(handle.Memory.Span, usedBytes, padded, destination);
+                }
+                finally
+                {
+                    // Also keeps the memory alive while it is copied.
+                    handle.Dispose();
+                }
             }
 
             ThrowIfDisposed();
@@ -235,8 +280,12 @@ namespace Apache.Arrow.Memory
                 ? _owner
                 : new SlicedMemoryOwner(_owner, padded);
 
-            ArrowBuffer result = new ArrowBuffer(owner, _temporary.Lifetime);
-            _shared = result.Retain();
+            AllocationLifetime lifetime = _temporary.Lifetime;
+            SharedMemoryOwner shared = new SharedMemoryOwner(owner, finalizeWhenUnreachable: lifetime == AllocationLifetime.Finalized);
+            ArrowBuffer result = new ArrowBuffer(new SharedMemoryHandle(shared));
+            _sharedOwner = shared;
+            _sharedHold = lifetime == AllocationLifetime.Finalized ? shared.TryRetain() : null;
+            _sharedLength = padded;
             _sharedUsedBytes = usedBytes;
             _isShared = true;
             _owner = null;
@@ -261,19 +310,41 @@ namespace Apache.Arrow.Memory
 
         private void Detach(int capacityBytes)
         {
-            IMemoryOwner<byte> owner = _temporary.Allocate(capacityBytes);
-            _shared.Span.CopyTo(owner.Memory.Span);
+            IMemoryOwner<byte> owner;
+            SharedMemoryHandle handle = AcquireShared();
+            try
+            {
+                owner = _temporary.Allocate(capacityBytes);
+                handle.Memory.Span.CopyTo(owner.Memory.Span);
+            }
+            finally
+            {
+                handle.Dispose();
+            }
+
             ReleaseShared();
             _owner = owner;
             _memory = owner.Memory;
         }
 
+        /// <summary>
+        /// Takes a reference to the built buffer the builder's contents belong to.
+        /// </summary>
+        private SharedMemoryHandle AcquireShared()
+        {
+            return _sharedOwner.TryRetain() ?? throw new ObjectDisposedException(
+                nameof(ArrowBuffer.Builder<byte>),
+                "The buffer built from this builder has been disposed, and the builder's contents with it. Clear the builder before using it again.");
+        }
+
         private void ReleaseShared()
         {
-            ArrowBuffer shared = _shared;
-            _shared = default;
+            SharedMemoryHandle hold = _sharedHold;
+            _sharedHold = null;
+            _sharedOwner = null;
+            _sharedLength = 0;
             _isShared = false;
-            shared.Dispose();
+            hold?.Dispose();
         }
 
         private static ArrowBuffer Copy(ReadOnlySpan<byte> source, int usedBytes, int padded, MemoryAllocator allocator)

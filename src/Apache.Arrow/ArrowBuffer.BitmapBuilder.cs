@@ -131,7 +131,7 @@ namespace Apache.Arrow
                 // a build releases the builder's reference to the built buffer), and appending bit by
                 // bit can overwrite source bits before they are read. The check reads the memory
                 // without detaching, since detaching would itself release it.
-                if (source.Overlaps(_buffer.CurrentBytes))
+                if (_buffer.Overlaps(source))
                 {
                     source = source.ToArray();
                 }

@@ -137,13 +137,25 @@ namespace Apache.Arrow
                 ValidateChildLength();
 
                 int nullCount = NullCount;
-                ArrowBuffer validityBuffer = nullCount > 0
+                ArrowBuffer validityBuffer = default;
+                IArrowArray values = null;
+                try
+                {
+                    validityBuffer = nullCount > 0
                                         ? ValidityBufferBuilder.Build(allocator)
                                         : ArrowBuffer.Empty;
+                    values = ValueBuilder.Build(allocator);
 
-                return new FixedSizeListArray(DataType, Length,
-                    ValueBuilder.Build(allocator),
-                    validityBuffer, nullCount, 0);
+                    return new FixedSizeListArray(DataType, Length, values, validityBuffer, nullCount, 0);
+                }
+                catch
+                {
+                    // A child that fails to build (for example a fixed-size list child of the wrong
+                    // length) would otherwise leak the buffers already built.
+                    validityBuffer.Dispose();
+                    values?.Dispose();
+                    throw;
+                }
             }
 
             public Builder Reserve(int capacity)

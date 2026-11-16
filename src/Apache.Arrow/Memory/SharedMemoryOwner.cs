@@ -52,12 +52,23 @@ namespace Apache.Arrow.Memory
         /// </summary>
         public SharedMemoryHandle Retain(int start, int length)
         {
+            return TryRetain(start, length) ?? throw new ObjectDisposedException(nameof(SharedMemoryOwner));
+        }
+
+        /// <summary>
+        /// Adds a reference to the whole memory, or returns <c>null</c> if it has already been
+        /// released. Once released, memory can never be retained again.
+        /// </summary>
+        public SharedMemoryHandle TryRetain() => TryRetain(0, _memory.Length);
+
+        private SharedMemoryHandle TryRetain(int start, int length)
+        {
             while (true)
             {
                 int current = Volatile.Read(ref _refCount);
                 if (current <= 0)
                 {
-                    throw new ObjectDisposedException(nameof(SharedMemoryOwner));
+                    return null;
                 }
 
                 if (Interlocked.CompareExchange(ref _refCount, current + 1, current) == current)

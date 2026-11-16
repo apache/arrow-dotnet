@@ -61,8 +61,36 @@ namespace Apache.Arrow.Tests
                 Int64Array array = builder.Build();
 
                 array.Dispose();
-                Assert.True(allocator.LiveAllocations > 0, "The builder still holds the shared memory.");
                 builder.Dispose();
+            });
+
+            Run(allocator =>
+            {
+                Int64Array.Builder builder = new Int64Array.Builder(8, allocator).Append(1).Append(2);
+                Int64Array array = builder.Build();
+
+                builder.Dispose();
+                Assert.Equal(2, array.GetValue(1));
+                array.Dispose();
+            });
+        }
+
+        [Fact]
+        public void DisposingTheArrayReleasesItsMemoryWhenTheBuilderIsNeverDisposed()
+        {
+            // The usual chained style never disposes the builder. With a caller-owned allocator,
+            // a builder that held a reference to what it built would leak it permanently.
+            Run(allocator =>
+            {
+                using (Int32Array array = new Int32Array.Builder(16, allocator).Append(1).AppendNull().Build())
+                {
+                    Assert.Equal(1, array.GetValue(0));
+                }
+
+                using (StringArray strings = new StringArray.Builder(allocator).Append("a").AppendNull().Build())
+                {
+                    Assert.Equal("a", strings.GetString(0));
+                }
             });
         }
 
@@ -580,6 +608,47 @@ namespace Apache.Arrow.Tests
                     Assert.Throws<InvalidDataException>(() => reader.ReadNextRecordBatch());
                 });
             }
+        }
+
+        public static TheoryData<string> CompositeTypes => new TheoryData<string> { "List", "LargeList", "ListView", "LargeListView", "FixedSizeList", "Map" };
+
+        [Theory]
+        [MemberData(nameof(CompositeTypes))]
+        public void FailingToBuildAChildReleasesTheParentsBuffers(string kind)
+        {
+            // The child is a fixed-size list holding one value where it needs two, so its Build
+            // throws, after the parent has built its own buffers. The parent's null makes it build
+            // a validity bitmap as well.
+            FixedSizeListType pair = new FixedSizeListType(Int32Type.Default, 2);
+            IArrowType type = kind switch
+            {
+                "List" => new ListType(pair),
+                "LargeList" => new LargeListType(pair),
+                "ListView" => new ListViewType(pair),
+                "LargeListView" => new LargeListViewType(pair),
+                "FixedSizeList" => new FixedSizeListType(pair, 1),
+                _ => new MapType(pair, Int32Type.Default),
+            };
+
+            Run(allocator =>
+            {
+                IArrowArrayBuilder<IArrowArray, IArrowArrayBuilder<IArrowArray>> builder = ArrowArrayBuilderFactory.Build(type, allocator);
+                IArrowArrayBuilder<IArrowArray, IArrowArrayBuilder<IArrowArray>> child;
+                switch (builder)
+                {
+                    case ListArray.Builder b: b.AppendNull(); child = b.ValueBuilder; break;
+                    case LargeListArray.Builder b: b.AppendNull(); child = b.ValueBuilder; break;
+                    case ListViewArray.Builder b: b.AppendNull(); child = b.ValueBuilder; break;
+                    case LargeListViewArray.Builder b: b.AppendNull(); child = b.ValueBuilder; break;
+                    case FixedSizeListArray.Builder b: b.AppendNull(); child = b.ValueBuilder; break;
+                    case MapArray.Builder b: b.AppendNull(); child = b.KeyBuilder; break;
+                    default: throw new InvalidOperationException(builder.GetType().Name);
+                }
+                ((Int32Array.Builder)((FixedSizeListArray.Builder)child).ValueBuilder).Append(1);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => builder.Build(allocator));
+                ((IDisposable)builder).Dispose();
+            });
         }
 
         [Fact]

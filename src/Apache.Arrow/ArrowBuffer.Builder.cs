@@ -158,7 +158,7 @@ namespace Apache.Arrow
                 // built buffer. A source that points into that memory must be copied first. The check
                 // reads the memory without detaching, since detaching would itself release it.
                 if ((source.Length > Capacity - Length || _buffer.IsShared) &&
-                    MemoryMarshal.AsBytes(source).Overlaps(_buffer.CurrentBytes))
+                    _buffer.Overlaps(MemoryMarshal.AsBytes(source)))
                 {
                     source = source.ToArray();
                 }

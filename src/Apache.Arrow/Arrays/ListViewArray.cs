@@ -151,14 +151,31 @@ namespace Apache.Arrow
             {
                 AppendPrevious();
 
-                ArrowBuffer validityBuffer = NullCount > 0
+                ArrowBuffer validityBuffer = default;
+                ArrowBuffer offsetsBuffer = default;
+                ArrowBuffer sizesBuffer = default;
+                IArrowArray values = null;
+                try
+                {
+                    validityBuffer = NullCount > 0
                                         ? ValidityBufferBuilder.Build(allocator)
                                         : ArrowBuffer.Empty;
+                    offsetsBuffer = ValueOffsetsBufferBuilder.Build(allocator);
+                    sizesBuffer = SizesBufferBuilder.Build(allocator);
+                    values = ValueBuilder.Build(allocator);
 
-                return new ListViewArray(DataType, Length,
-                    ValueOffsetsBufferBuilder.Build(allocator), SizesBufferBuilder.Build(allocator),
-                    ValueBuilder.Build(allocator),
-                    validityBuffer, NullCount, 0);
+                    return new ListViewArray(DataType, Length, offsetsBuffer, sizesBuffer, values, validityBuffer, NullCount, 0);
+                }
+                catch
+                {
+                    // A child that fails to build (for example a fixed-size list child of the wrong
+                    // length) would otherwise leak the buffers already built.
+                    validityBuffer.Dispose();
+                    offsetsBuffer.Dispose();
+                    sizesBuffer.Dispose();
+                    values?.Dispose();
+                    throw;
+                }
             }
 
             public Builder Reserve(int capacity)

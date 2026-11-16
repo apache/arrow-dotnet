@@ -122,13 +122,28 @@ namespace Apache.Arrow
             {
                 ValueOffsetsBufferBuilder.Append(ValueBuilder.Length);
 
-                ArrowBuffer validityBuffer = NullCount > 0
+                ArrowBuffer validityBuffer = default;
+                ArrowBuffer offsetsBuffer = default;
+                IArrowArray values = null;
+                try
+                {
+                    validityBuffer = NullCount > 0
                                         ? ValidityBufferBuilder.Build(allocator)
                                         : ArrowBuffer.Empty;
+                    offsetsBuffer = ValueOffsetsBufferBuilder.Build(allocator);
+                    values = ValueBuilder.Build(allocator);
 
-                return new LargeListArray(DataType, Length - 1,
-                    ValueOffsetsBufferBuilder.Build(allocator), ValueBuilder.Build(allocator),
-                    validityBuffer, NullCount, 0);
+                    return new LargeListArray(DataType, Length - 1, offsetsBuffer, values, validityBuffer, NullCount, 0);
+                }
+                catch
+                {
+                    // A child that fails to build (for example a fixed-size list child of the wrong
+                    // length) would otherwise leak the buffers already built.
+                    validityBuffer.Dispose();
+                    offsetsBuffer.Dispose();
+                    values?.Dispose();
+                    throw;
+                }
             }
 
             public Builder Reserve(int capacity)

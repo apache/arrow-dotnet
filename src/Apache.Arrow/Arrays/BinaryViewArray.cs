@@ -125,9 +125,21 @@ namespace Apache.Arrow
             {
                 bool hasValues = ValueBuffer.Length > 0;
                 var bufs = new ArrowBuffer[hasValues ? 3 : 2];
-                bufs[0] = NullCount > 0 ? ValidityBuffer.Build(allocator) : ArrowBuffer.Empty;
-                bufs[1] = BinaryViews.Build(allocator);
-                if (hasValues) { bufs[2] = ValueBuffer.Build(allocator); }
+                try
+                {
+                    bufs[0] = NullCount > 0 ? ValidityBuffer.Build(allocator) : ArrowBuffer.Empty;
+                    bufs[1] = BinaryViews.Build(allocator);
+                    if (hasValues) { bufs[2] = ValueBuffer.Build(allocator); }
+                }
+                catch
+                {
+                    // For example running out of memory; release the buffers already built.
+                    foreach (ArrowBuffer buffer in bufs)
+                    {
+                        buffer.Dispose();
+                    }
+                    throw;
+                }
 
                 var data = new ArrayData(
                     DataType,

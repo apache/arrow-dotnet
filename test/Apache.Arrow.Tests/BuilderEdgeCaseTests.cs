@@ -144,34 +144,51 @@ namespace Apache.Arrow.Tests
             }
         }
 
-        [Fact]
-        public void AppendingASpanCapturedBeforeBuildSurvivesTheHandOver()
+        [Theory]
+        [InlineData(AllocationLifetime.Finalized)]
+        [InlineData(AllocationLifetime.GarbageCollected)]
+        [InlineData(AllocationLifetime.CallerOwned)]
+        public void AppendingASpanCapturedBeforeBuildSurvivesTheHandOver(AllocationLifetime lifetime)
         {
-            // After a hand-over, the builder holds the only remaining reference once the built
-            // buffer is disposed; writing to the builder releases it. A span captured earlier
-            // points into that memory, so it must be copied before the release.
-            PooledManagedAllocator allocator = new PooledManagedAllocator(new PooledManagedAllocatorOptions { PoisonDisposedBuffers = true });
+            PoisoningAllocator allocator = new PoisoningAllocator(lifetime);
             using ArrowBuffer.Builder<int> builder = new ArrowBuffer.Builder<int>(16, allocator);
             builder.Append(0).Append(1).Append(2).Append(3);
             Span<int> captured = builder.Span.Slice(0, 4);
-            builder.Build().Dispose();
+            ArrowBuffer built = builder.Build();
+
+            // With a Finalized lifetime the builder holds the only remaining reference once the
+            // built buffer is disposed, and writing to the builder releases it. The span points
+            // into that memory, so it must be copied before the release. With other lifetimes
+            // the builder holds no reference, and its contents last as long as the built buffer.
+            if (lifetime == AllocationLifetime.Finalized)
+            {
+                built.Dispose();
+            }
 
             builder.Append(captured);
 
             Assert.Equal(new[] { 0, 1, 2, 3, 0, 1, 2, 3 }, builder.Span.Slice(0, 8).ToArray());
+            built.Dispose();
         }
 
-        [Fact]
-        public void AppendingABitmapSpanCapturedBeforeBuildSurvivesTheHandOver()
+        [Theory]
+        [InlineData(AllocationLifetime.Finalized)]
+        [InlineData(AllocationLifetime.GarbageCollected)]
+        [InlineData(AllocationLifetime.CallerOwned)]
+        public void AppendingABitmapSpanCapturedBeforeBuildSurvivesTheHandOver(AllocationLifetime lifetime)
         {
-            PooledManagedAllocator allocator = new PooledManagedAllocator(new PooledManagedAllocatorOptions { PoisonDisposedBuffers = true });
+            PoisoningAllocator allocator = new PoisoningAllocator(lifetime);
             using ArrowBuffer.BitmapBuilder builder = new ArrowBuffer.BitmapBuilder(64, allocator);
             for (int i = 0; i < 16; i++)
             {
                 builder.Append(i % 3 == 0);
             }
             Span<byte> captured = builder.Span.Slice(0, 2);
-            builder.Build().Dispose();
+            ArrowBuffer built = builder.Build();
+            if (lifetime == AllocationLifetime.Finalized)
+            {
+                built.Dispose();
+            }
 
             builder.Append(captured, 16);
 
@@ -181,6 +198,27 @@ namespace Apache.Arrow.Tests
             {
                 Assert.Equal(i % 3 == 0, BitUtility.GetBit(builder.Span, 16 + i));
             }
+            built.Dispose();
+        }
+
+        [Theory]
+        [InlineData(AllocationLifetime.GarbageCollected)]
+        [InlineData(AllocationLifetime.CallerOwned)]
+        public void UsingABuilderAfterItsBuiltBufferIsDisposedThrowsUntilCleared(AllocationLifetime lifetime)
+        {
+            PoisoningAllocator allocator = new PoisoningAllocator(lifetime);
+            using ArrowBuffer.BitmapBuilder builder = new ArrowBuffer.BitmapBuilder(64, allocator);
+            builder.Append(true).Append(false);
+            builder.Build().Dispose();
+
+            Assert.Throws<ObjectDisposedException>(() => builder.Append(true));
+            Assert.Throws<ObjectDisposedException>(() => builder.Build());
+
+            builder.Clear();
+            builder.Append(true);
+            using ArrowBuffer rebuilt = builder.Build();
+            Assert.Equal(1, BitUtility.CountBits(rebuilt.Span, 0, 1));
+            Assert.Equal(0, allocator.Live - 1);
         }
 
         [Fact]
@@ -225,6 +263,53 @@ namespace Apache.Arrow.Tests
             Assert.ThrowsAny<Exception>(() => ArrowArrayConcatenator.Concatenate(new IArrowArray[] { first, second }, allocator));
 
             Assert.Equal(0, allocator.Outstanding);
+        }
+
+        /// <summary>
+        /// Hands out managed memory with a chosen lifetime, and overwrites it when it is released
+        /// so that reading released memory shows up as wrong values.
+        /// </summary>
+        private sealed class PoisoningAllocator : MemoryAllocator
+        {
+            private readonly AllocationLifetime _lifetime;
+            private int _live;
+
+            public PoisoningAllocator(AllocationLifetime lifetime) => _lifetime = lifetime;
+
+            public override AllocationLifetime Lifetime => _lifetime;
+
+            public int Live => System.Threading.Volatile.Read(ref _live);
+
+            protected override System.Buffers.IMemoryOwner<byte> AllocateInternal(int length, out int bytesAllocated)
+            {
+                bytesAllocated = length;
+                System.Threading.Interlocked.Increment(ref _live);
+                return new Owner(this, new byte[length]);
+            }
+
+            private sealed class Owner : System.Buffers.IMemoryOwner<byte>
+            {
+                private readonly PoisoningAllocator _allocator;
+                private byte[] _array;
+
+                public Owner(PoisoningAllocator allocator, byte[] array)
+                {
+                    _allocator = allocator;
+                    _array = array;
+                }
+
+                public Memory<byte> Memory => _array ?? throw new ObjectDisposedException(nameof(Owner));
+
+                public void Dispose()
+                {
+                    byte[] array = System.Threading.Interlocked.Exchange(ref _array, null);
+                    if (array != null)
+                    {
+                        array.AsSpan().Fill(0xDE);
+                        System.Threading.Interlocked.Decrement(ref _allocator._live);
+                    }
+                }
+            }
         }
 
         [Fact]

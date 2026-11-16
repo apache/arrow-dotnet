@@ -155,15 +155,45 @@ namespace Apache.Arrow.Tests
         }
 
         [Fact]
-        public void DisposingBuiltBufferLeavesBuilderReadable()
+        public void DisposingBuiltBufferLeavesBuilderReadableWithAFinalizedAllocator()
         {
-            using ArrowBuffer.Builder<int> builder = new ArrowBuffer.Builder<int>(8, new CallerOwnedNativeAllocator());
+            // With a Finalized lifetime the builder holds its own reference to what it built,
+            // which collection reclaims, so its contents outlive the built buffer as before.
+            using ArrowBuffer.Builder<int> builder = new ArrowBuffer.Builder<int>(8, MemoryAllocator.Default.Value);
             builder.Append(1).Append(2);
 
             builder.Build().Dispose();
             builder.Append(3);
 
             Assert.Equal(new[] { 1, 2, 3 }, builder.Span.Slice(0, 3).ToArray());
+        }
+
+        [Fact]
+        public void BuilderContentsLastAsLongAsTheBuiltBufferWithOtherLifetimes()
+        {
+            // Other lifetimes hold no reference, so that a builder that is never disposed cannot
+            // leak what it built. Its contents are the built buffer's, and go when it does.
+            using ArrowBuffer.Builder<int> builder = new ArrowBuffer.Builder<int>(8, new CallerOwnedNativeAllocator());
+            builder.Append(1).Append(2);
+
+            using (ArrowBuffer built = builder.Build())
+            {
+                // While the built buffer is alive, the builder can still be read and extended.
+                builder.Append(3);
+                Assert.Equal(new[] { 1, 2, 3 }, builder.Span.Slice(0, 3).ToArray());
+                Assert.Equal(new[] { 1, 2 }, built.Span.CastTo<int>().Slice(0, 2).ToArray());
+            }
+
+            builder.Build().Dispose();
+
+            Assert.Throws<ObjectDisposedException>(() => builder.Append(4));
+            Assert.Throws<ObjectDisposedException>(() => builder.Build());
+
+            // Clearing needs none of the old contents, so it makes the builder usable again.
+            builder.Clear();
+            builder.Append(5);
+            using ArrowBuffer rebuilt = builder.Build();
+            Assert.Equal(5, rebuilt.Span.CastTo<int>()[0]);
         }
 
         [Fact]
