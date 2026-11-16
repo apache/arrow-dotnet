@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Apache.Arrow.Memory;
 using Apache.Arrow.Types;
 
 namespace Apache.Arrow
@@ -40,6 +41,9 @@ namespace Apache.Arrow
 
                 public TimeBuilder(Time64Type dataType) => DataType = dataType;
 
+                public TimeBuilder(Time64Type dataType, int capacity, MemoryAllocator allocator)
+                    : base(capacity, allocator) => DataType = dataType;
+
                 protected override Time64Array Build(
                     ArrowBuffer valueBuffer, ArrowBuffer nullBitmapBuffer,
                     int length, int nullCount, int offset) =>
@@ -57,6 +61,21 @@ namespace Apache.Arrow
             /// </summary>
             public Builder(Time64Type type)
                 : base(new TimeBuilder(type))
+            {
+            }
+
+            /// <summary>
+            /// Construct a new instance of the <see cref="Builder"/> class with room for
+            /// <paramref name="capacity"/> values.
+            /// </summary>
+            /// <param name="capacity">Number of values to allocate room for.</param>
+            /// <param name="allocator">
+            /// Allocator for the builder's working memory, which usually becomes the built array's
+            /// memory. When <c>null</c>, the builder works in managed memory and copies
+            /// what it builds into <see cref="MemoryAllocator.Default"/>, as builders always have.
+            /// </param>
+            public Builder(Time64Type type, int capacity, MemoryAllocator allocator = null)
+                : base(new TimeBuilder(type, capacity, allocator))
             {
             }
 

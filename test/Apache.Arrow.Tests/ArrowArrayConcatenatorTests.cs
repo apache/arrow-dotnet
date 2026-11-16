@@ -1251,7 +1251,7 @@ namespace Apache.Arrow.Tests
                 where TArrayBuilder : IArrowArrayBuilder<TArray, TArrayBuilder>
                 where TArray : IArrowArray
             {
-                var resultBuilder = (TArrayBuilder)ArrowArrayBuilderFactory.Build(type);
+                var resultBuilder = (TArrayBuilder)ArrowArrayBuilderFactory.Build(type, allocator: null);
                 if (initAction != null)
                 {
                     initAction(resultBuilder, _resultTotalElementCount);
@@ -1264,7 +1264,7 @@ namespace Apache.Arrow.Tests
                 for (int i = 0; i < _baseDataListCount; i++)
                 {
                     List<int?> dataList = _baseData[i];
-                    var builder = (TArrayBuilder)ArrowArrayBuilderFactory.Build(type);
+                    var builder = (TArrayBuilder)ArrowArrayBuilderFactory.Build(type, allocator: null);
                     if (initAction != null)
                     {
                         initAction(builder, dataList.Count);
@@ -1688,7 +1688,7 @@ namespace Apache.Arrow.Tests
         private static FixedSizeListArray BuildFixedSizeListArray(int listSize, int[] flatValues)
         {
             var type = new FixedSizeListType(Int32Type.Default, listSize);
-            var builder = new FixedSizeListArray.Builder(type);
+            var builder = new FixedSizeListArray.Builder(type, allocator: null);
             int listCount = flatValues.Length / listSize;
             var valueBuilder = (Int32Array.Builder)builder.ValueBuilder;
             for (int i = 0; i < listCount; i++)

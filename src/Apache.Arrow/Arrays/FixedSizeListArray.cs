@@ -21,7 +21,7 @@ namespace Apache.Arrow
 {
     public class FixedSizeListArray : Array
     {
-        public class Builder : IArrowArrayBuilder<FixedSizeListArray, Builder>
+        public class Builder : IArrowArrayBuilder<FixedSizeListArray, Builder>, IDisposable
         {
             public IArrowArrayBuilder<IArrowArray, IArrowArrayBuilder<IArrowArray>> ValueBuilder { get; }
 
@@ -35,18 +35,46 @@ namespace Apache.Arrow
 
             private int ExpectedValueLength => Length * DataType.ListSize;
 
-            public Builder(IArrowType valueDataType, int listSize) : this(new FixedSizeListType(valueDataType, listSize))
+            public Builder(IArrowType valueDataType, int listSize) : this(new FixedSizeListType(valueDataType, listSize), null)
             {
             }
 
-            public Builder(Field valueField, int listSize) : this(new FixedSizeListType(valueField, listSize))
+            /// <summary>
+            /// Creates a builder whose working memory comes from <paramref name="allocator"/>.
+            /// </summary>
+            /// <param name="valueDataType">The type of the list elements.</param>
+            /// <param name="listSize">The number of elements in each list.</param>
+            /// <param name="allocator">
+            /// Allocator for the builder's working memory, which usually becomes the built array's
+            /// memory. When <c>null</c>, the builder works in managed memory and copies
+            /// what it builds into <see cref="MemoryAllocator.Default"/>, as builders always have.
+            /// </param>
+            public Builder(IArrowType valueDataType, int listSize, MemoryAllocator allocator) : this(new FixedSizeListType(valueDataType, listSize), allocator)
             {
             }
 
-            internal Builder(FixedSizeListType dataType)
+            public Builder(Field valueField, int listSize) : this(new FixedSizeListType(valueField, listSize), null)
             {
-                ValueBuilder = ArrowArrayBuilderFactory.Build(dataType.ValueDataType);
-                ValidityBufferBuilder = new ArrowBuffer.BitmapBuilder();
+            }
+
+            /// <summary>
+            /// Creates a builder whose working memory comes from <paramref name="allocator"/>.
+            /// </summary>
+            /// <param name="valueField">The field describing the list elements.</param>
+            /// <param name="listSize">The number of elements in each list.</param>
+            /// <param name="allocator">
+            /// Allocator for the builder's working memory, which usually becomes the built array's
+            /// memory. When <c>null</c>, the builder works in managed memory and copies
+            /// what it builds into <see cref="MemoryAllocator.Default"/>, as builders always have.
+            /// </param>
+            public Builder(Field valueField, int listSize, MemoryAllocator allocator) : this(new FixedSizeListType(valueField, listSize), allocator)
+            {
+            }
+
+            internal Builder(FixedSizeListType dataType, MemoryAllocator allocator)
+            {
+                ValueBuilder = ArrowArrayBuilderFactory.Build(dataType.ValueDataType, allocator);
+                ValidityBufferBuilder = new ArrowBuffer.BitmapBuilder(0, allocator);
                 DataType = dataType;
             }
 
@@ -81,18 +109,53 @@ namespace Apache.Arrow
                 return this;
             }
 
+            /// <summary>
+            /// Releases the builder's working memory. Arrays already built are unaffected.
+            /// </summary>
+            /// <remarks>
+            /// Disposal is required only when the working memory comes from an allocator whose
+            /// <see cref="MemoryAllocator.Lifetime"/> is <see cref="AllocationLifetime.CallerOwned"/>;
+            /// otherwise it only releases memory sooner.
+            /// </remarks>
+            public void Dispose()
+            {
+                Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+
+            protected virtual void Dispose(bool disposing)
+            {
+                if (disposing)
+                {
+                    (ValueBuilder as IDisposable)?.Dispose();
+                    ValidityBufferBuilder.Dispose();
+                }
+            }
+
             public FixedSizeListArray Build(MemoryAllocator allocator = default)
             {
                 ValidateChildLength();
 
                 int nullCount = NullCount;
-                ArrowBuffer validityBuffer = nullCount > 0
+                ArrowBuffer validityBuffer = default;
+                IArrowArray values = null;
+                try
+                {
+                    validityBuffer = nullCount > 0
                                         ? ValidityBufferBuilder.Build(allocator)
                                         : ArrowBuffer.Empty;
+                    values = ValueBuilder.Build(allocator);
 
-                return new FixedSizeListArray(DataType, Length,
-                    ValueBuilder.Build(allocator),
-                    validityBuffer, nullCount, 0);
+                    return new FixedSizeListArray(DataType, Length, values, validityBuffer, nullCount, 0);
+                }
+                catch
+                {
+                    // A child that fails to build (for example a fixed-size list child of the wrong
+                    // length) would otherwise leak the buffers already built.
+                    validityBuffer.Dispose();
+                    values?.Dispose();
+                    throw;
+                }
             }
 
             public Builder Reserve(int capacity)

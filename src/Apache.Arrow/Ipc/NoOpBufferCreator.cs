@@ -25,11 +25,21 @@ namespace Apache.Arrow.Ipc
         /// <summary>
         /// Singleton instance, used as this class doesn't need to be disposed and has no state
         /// </summary>
-        public static readonly NoOpBufferCreator Instance = new NoOpBufferCreator();
+        public static readonly NoOpBufferCreator Instance = new NoOpBufferCreator(null);
+
+        private readonly MessageBody _body;
+
+        /// <param name="body">
+        /// The shared message body the buffers lie within, or null to create plain views.
+        /// </param>
+        public NoOpBufferCreator(MessageBody body)
+        {
+            _body = body;
+        }
 
         public ArrowBuffer CreateBuffer(ReadOnlyMemory<byte> source)
         {
-            return new ArrowBuffer(source);
+            return _body != null ? _body.CreateBuffer(source) : new ArrowBuffer(source);
         }
 
         public void Dispose()

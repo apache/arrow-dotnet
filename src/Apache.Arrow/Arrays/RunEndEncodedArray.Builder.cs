@@ -235,10 +235,22 @@ public partial class RunEndEncodedArray
                 FlushCurrentRun();
             }
 
-            TRunEndArray runEnds = RunEndsBuilder.Build(allocator);
-            TValueArray values = ValuesBuilder.Build(allocator);
+            TRunEndArray runEnds = default;
+            TValueArray values = default;
+            try
+            {
+                runEnds = RunEndsBuilder.Build(allocator);
+                values = ValuesBuilder.Build(allocator);
 
-            return new RunEndEncodedArray(runEnds, values);
+                return new RunEndEncodedArray(runEnds, values);
+            }
+            catch
+            {
+                // For example an allocator that has run out of its budget; release what was built.
+                runEnds?.Dispose();
+                values?.Dispose();
+                throw;
+            }
         }
 
         private void StartNewRun(TValue value, bool isNull)

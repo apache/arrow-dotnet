@@ -47,6 +47,10 @@ namespace Apache.Arrow.Ipc
         private protected DictionaryMemo _dictionaryMemo;
         private protected DictionaryMemo DictionaryMemo => _dictionaryMemo ??= new DictionaryMemo();
         private protected readonly MemoryAllocator _allocator;
+
+        // The allocator exactly as given, possibly null, for operations that build arrays:
+        // those keep their historical behaviour when no allocator was passed.
+        private readonly MemoryAllocator _requestedAllocator;
         private readonly ICompressionCodecFactory _compressionCodecFactory;
         private protected readonly ExtensionTypeRegistry _extensionRegistry;
         private protected Schema _schema;
@@ -60,6 +64,7 @@ namespace Apache.Arrow.Ipc
 
         private protected ArrowReaderImplementation(MemoryAllocator allocator, ICompressionCodecFactory compressionCodecFactory, ExtensionTypeRegistry extensionRegistry)
         {
+            _requestedAllocator = allocator;
             _allocator = allocator ?? MemoryAllocator.Default.Value;
             _compressionCodecFactory = compressionCodecFactory;
             _extensionRegistry = extensionRegistry ?? ExtensionTypeRegistry.Default;
@@ -73,6 +78,11 @@ namespace Apache.Arrow.Ipc
 
         protected virtual void Dispose(bool disposing)
         {
+            if (disposing)
+            {
+                // Batches already read hold their own references to the dictionaries they use.
+                _dictionaryMemo?.DisposeOwnedDictionaries();
+            }
         }
 
         public abstract ValueTask<Schema> ReadSchemaAsync(CancellationToken cancellationToken);
@@ -132,36 +142,58 @@ namespace Apache.Arrow.Ipc
         /// The record batch when the message type is RecordBatch.
         /// Null when the message type is not RecordBatch.
         /// </returns>
+        /// <summary>
+        /// Creates the object a message describes. Takes ownership of <paramref name="memoryOwner"/>,
+        /// the message body: it either passes it to the result or releases it, including when the
+        /// message cannot be read.
+        /// </summary>
         protected RecordBatch CreateArrowObjectFromMessage(
             Flatbuf.Message message, ByteBuffer bodyByteBuffer, IMemoryOwner<byte> memoryOwner)
         {
-            switch (message.HeaderType)
+            bool bodyKept = false;
+            try
             {
-                case Flatbuf.MessageHeader.Schema:
-                    // TODO: Read schema and verify equality?
-                    break;
-                case Flatbuf.MessageHeader.DictionaryBatch:
-                    Flatbuf.DictionaryBatch dictionaryBatch = message.Header<Flatbuf.DictionaryBatch>().Value;
-                    ReadDictionaryBatch(message.Version, dictionaryBatch, bodyByteBuffer, memoryOwner);
-                    break;
-                case Flatbuf.MessageHeader.RecordBatch:
-                    Flatbuf.RecordBatch rb = message.Header<Flatbuf.RecordBatch>().Value;
-                    if (rb.Length < 0 || rb.Length > int.MaxValue)
-                    {
-                        throw new InvalidDataException(
-                            $"Cannot read batch. Message body of {rb.Length} rows is out of range.");
-                    }
+                switch (message.HeaderType)
+                {
+                    case Flatbuf.MessageHeader.Schema:
+                        // TODO: Read schema and verify equality?
+                        break;
+                    case Flatbuf.MessageHeader.DictionaryBatch:
+                        Flatbuf.DictionaryBatch dictionaryBatch = message.Header<Flatbuf.DictionaryBatch>().Value;
+                        // Takes ownership of the body, including on failure.
+                        bodyKept = true;
+                        ReadDictionaryBatch(message.Version, dictionaryBatch, bodyByteBuffer, memoryOwner);
+                        break;
+                    case Flatbuf.MessageHeader.RecordBatch:
+                        Flatbuf.RecordBatch rb = message.Header<Flatbuf.RecordBatch>().Value;
+                        if (rb.Length < 0 || rb.Length > int.MaxValue)
+                        {
+                            throw new InvalidDataException(
+                                $"Cannot read batch. Message body of {rb.Length} rows is out of range.");
+                        }
 
-                    List<IArrowArray> arrays = BuildArrays(message.Version, Schema, bodyByteBuffer, rb);
-                    LastBatchCustomMetadata = ReadMessageCustomMetadata(message);
-                    return new RecordBatch(Schema, memoryOwner, arrays, (int)rb.Length);
-                default:
-                    // NOTE: Skip unsupported message type
-                    Debug.WriteLine($"Skipping unsupported message type '{message.HeaderType}'");
-                    break;
+                        List<IArrowArray> arrays = BuildArrays(message.Version, Schema, bodyByteBuffer, rb);
+                        LastBatchCustomMetadata = ReadMessageCustomMetadata(message);
+                        RecordBatch batch = new RecordBatch(Schema, memoryOwner, arrays, (int)rb.Length);
+                        bodyKept = true;
+                        return batch;
+                    default:
+                        // NOTE: Skip unsupported message type
+                        Debug.WriteLine($"Skipping unsupported message type '{message.HeaderType}'");
+                        break;
+                }
+
+                return null;
             }
-
-            return null;
+            finally
+            {
+                // Release a body that no result refers to: one whose message has no use for it,
+                // or one that could not be read.
+                if (!bodyKept)
+                {
+                    memoryOwner?.Dispose();
+                }
+            }
         }
 
         private static IReadOnlyDictionary<string, string> ReadMessageCustomMetadata(Flatbuf.Message message)
@@ -189,31 +221,62 @@ namespace Apache.Arrow.Ipc
             ByteBuffer bodyByteBuffer,
             IMemoryOwner<byte> memoryOwner)
         {
-            long id = dictionaryBatch.Id;
-            IArrowType valueType = DictionaryMemo.GetDictionaryType(id);
-            Flatbuf.RecordBatch? recordBatch = dictionaryBatch.Data;
-
-            if (!recordBatch.HasValue)
+            // The dictionary is shared by every batch that uses it and can outlive both the reader
+            // and the dictionaries that replace it, so its buffers count references to the body.
+            MessageBody body = memoryOwner == null ? null : new MessageBody(memoryOwner, _allocator.Lifetime);
+            IList<IArrowArray> arrays = null;
+            try
             {
-                throw new InvalidDataException("Dictionary must contain RecordBatch");
+                long id = dictionaryBatch.Id;
+                IArrowType valueType = DictionaryMemo.GetDictionaryType(id);
+                Flatbuf.RecordBatch? recordBatch = dictionaryBatch.Data;
+
+                if (!recordBatch.HasValue)
+                {
+                    throw new InvalidDataException("Dictionary must contain RecordBatch");
+                }
+
+                Field valueField = new Field("dummy", valueType, true);
+                var schema = new Schema(new[] { valueField }, default);
+                arrays = BuildArrays(version, schema, bodyByteBuffer, recordBatch.Value, body);
+
+                if (arrays.Count != 1)
+                {
+                    throw new InvalidDataException("Dictionary record batch must contain only one field");
+                }
+
+                // The memo takes ownership of the array, including on failure.
+                IArrowArray dictionary = arrays[0];
+                arrays = null;
+                if (dictionaryBatch.IsDelta)
+                {
+                    DictionaryMemo.AddOwnedDeltaDictionary(id, dictionary, _requestedAllocator);
+                }
+                else
+                {
+                    DictionaryMemo.ReplaceOwnedDictionary(id, dictionary);
+                }
             }
-
-            Field valueField = new Field("dummy", valueType, true);
-            var schema = new Schema(new[] { valueField }, default);
-            IList<IArrowArray> arrays = BuildArrays(version, schema, bodyByteBuffer, recordBatch.Value);
-
-            if (arrays.Count != 1)
+            catch
             {
-                throw new InvalidDataException("Dictionary record batch must contain only one field");
+                DisposeAll(arrays);
+                throw;
             }
-
-            if (dictionaryBatch.IsDelta)
+            finally
             {
-                DictionaryMemo.AddDeltaDictionary(id, arrays[0], _allocator);
+                // The dictionary's buffers hold their own references to the body.
+                body?.Release();
             }
-            else
+        }
+
+        private static void DisposeAll(IList<IArrowArray> arrays)
+        {
+            if (arrays != null)
             {
-                DictionaryMemo.AddOrReplaceDictionary(id, arrays[0]);
+                foreach (IArrowArray array in arrays)
+                {
+                    array.Dispose();
+                }
             }
         }
 
@@ -221,7 +284,8 @@ namespace Apache.Arrow.Ipc
             MetadataVersion version,
             Schema schema,
             ByteBuffer messageBuffer,
-            Flatbuf.RecordBatch recordBatchMessage)
+            Flatbuf.RecordBatch recordBatchMessage,
+            MessageBody body = null)
         {
             var arrays = new List<IArrowArray>(recordBatchMessage.NodesLength);
 
@@ -230,27 +294,39 @@ namespace Apache.Arrow.Ipc
                 return arrays;
             }
 
-            using var bufferCreator = GetBufferCreator(recordBatchMessage.Compression);
-            var recordBatchEnumerator = new RecordBatchEnumerator(in recordBatchMessage);
-            int schemaFieldIndex = 0;
-            do
+            try
             {
-                Field field = schema.GetFieldByIndex(schemaFieldIndex++);
-                Flatbuf.FieldNode fieldNode = recordBatchEnumerator.CurrentNode;
+                using var bufferCreator = GetBufferCreator(recordBatchMessage.Compression, body);
+                var recordBatchEnumerator = new RecordBatchEnumerator(in recordBatchMessage);
+                int schemaFieldIndex = 0;
+                do
+                {
+                    Field field = schema.GetFieldByIndex(schemaFieldIndex++);
+                    Flatbuf.FieldNode fieldNode = recordBatchEnumerator.CurrentNode;
 
-                ArrayData arrayData = LoadField(version, ref recordBatchEnumerator, field, in fieldNode, messageBuffer, bufferCreator);
+                    ArrayData arrayData = LoadField(version, ref recordBatchEnumerator, field, in fieldNode, messageBuffer, bufferCreator);
 
-                arrays.Add(ArrowArrayFactory.BuildArray(arrayData));
-            } while (recordBatchEnumerator.MoveNextNode());
+                    arrays.Add(ArrowArrayFactory.BuildArray(arrayData));
+                } while (recordBatchEnumerator.MoveNextNode());
+            }
+            catch
+            {
+                // Arrays already built can hold decompressed buffers and dictionary references.
+                DisposeAll(arrays);
+                throw;
+            }
 
             return arrays;
         }
 
-        private IBufferCreator GetBufferCreator(BodyCompression? compression)
+        /// <param name="body">
+        /// The shared message body, when buffers that view it must count references to it.
+        /// </param>
+        private IBufferCreator GetBufferCreator(BodyCompression? compression, MessageBody body)
         {
             if (!compression.HasValue)
             {
-                return NoOpBufferCreator.Instance;
+                return body == null ? NoOpBufferCreator.Instance : new NoOpBufferCreator(body);
             }
 
             var method = compression.Value.Method;
@@ -271,7 +347,7 @@ namespace Apache.Arrow.Ipc
                 Apache.Arrow.Flatbuf.CompressionType.ZSTD => _compressionCodecFactory.CreateCodec(CompressionCodecType.Zstd),
                 _ => throw new NotImplementedException($"Compression codec {codec} is not supported")
             };
-            return new DecompressingBufferCreator(decompressor, _allocator);
+            return new DecompressingBufferCreator(decompressor, _allocator, body);
         }
 
         private ArrayData LoadField(
@@ -352,22 +428,39 @@ namespace Apache.Arrow.Ipc
             }
 
             ArrowBuffer[] arrowBuff = new ArrowBuffer[buffers];
-            for (int i = 0; i < buffers; i++)
-            {
-                arrowBuff[i] = BuildArrowBuffer(bodyData, recordBatchEnumerator.CurrentBuffer, bufferCreator);
-                recordBatchEnumerator.MoveNextBuffer();
-            }
-
-            ArrayData[] children = GetChildren(version, ref recordBatchEnumerator, field, bodyData, bufferCreator);
-
+            ArrayData[] children = null;
             IArrowArray dictionary = null;
-            if (storageType.TypeId == ArrowTypeId.Dictionary)
+            try
             {
-                long id = DictionaryMemo.GetId(field);
-                dictionary = DictionaryMemo.GetDictionary(id);
+                for (int i = 0; i < buffers; i++)
+                {
+                    arrowBuff[i] = BuildArrowBuffer(bodyData, recordBatchEnumerator.CurrentBuffer, bufferCreator);
+                    recordBatchEnumerator.MoveNextBuffer();
+                }
+
+                children = GetChildren(version, ref recordBatchEnumerator, field, bodyData, bufferCreator);
+
+                if (storageType.TypeId == ArrowTypeId.Dictionary)
+                {
+                    long id = DictionaryMemo.GetId(field);
+                    dictionary = DictionaryMemo.GetDictionary(id);
+                }
+            }
+            catch
+            {
+                // The buffers can be decompressed copies or references to a shared body. Entries
+                // not yet built are default buffers, which own nothing.
+                foreach (ArrowBuffer buffer in arrowBuff)
+                {
+                    buffer.Dispose();
+                }
+                DisposeAll(children);
+                throw;
             }
 
-            return new ArrayData(field.DataType, fieldLength, fieldNullCount, 0, arrowBuff, children, dictionary?.Data);
+            // Each batch holds its own reference to the dictionary, which the reader releases when
+            // it is replaced or the reader is disposed.
+            return new ArrayData(field.DataType, fieldLength, fieldNullCount, 0, arrowBuff, children, dictionary?.Data.Retain());
         }
 
         private ArrayData[] GetChildren(
@@ -388,9 +481,29 @@ namespace Apache.Arrow.Ipc
                 Flatbuf.FieldNode childFieldNode = recordBatchEnumerator.CurrentNode;
 
                 Field childField = type.Fields[index];
-                children[index] = LoadField(version, ref recordBatchEnumerator, childField, in childFieldNode, bodyData, bufferCreator);
+                try
+                {
+                    children[index] = LoadField(version, ref recordBatchEnumerator, childField, in childFieldNode, bodyData, bufferCreator);
+                }
+                catch
+                {
+                    // LoadField releases what it built for the failing child; release its siblings.
+                    DisposeAll(children);
+                    throw;
+                }
             }
             return children;
+        }
+
+        private static void DisposeAll(ArrayData[] arrays)
+        {
+            if (arrays != null)
+            {
+                foreach (ArrayData array in arrays)
+                {
+                    array?.Dispose();
+                }
+            }
         }
 
         private ArrowBuffer BuildArrowBuffer(ByteBuffer bodyData, Flatbuf.Buffer buffer, IBufferCreator bufferCreator)

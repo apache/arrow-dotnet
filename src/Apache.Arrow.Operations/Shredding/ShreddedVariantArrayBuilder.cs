@@ -56,7 +56,7 @@ namespace Apache.Arrow.Operations.Shredding
             // Top-level validity. Children of a null row are emitted as missing
             // (value and typed_value both null); metadata is still populated
             // because the metadata field is non-nullable.
-            ArrowBuffer.BitmapBuilder validity = new ArrowBuffer.BitmapBuilder(rowCount);
+            using ArrowBuffer.BitmapBuilder validity = new ArrowBuffer.BitmapBuilder(rowCount, allocator);
             int nullCount = 0;
             ShredResult[] childRows = null;
             for (int i = 0; i < rowCount; i++)
@@ -83,7 +83,7 @@ namespace Apache.Arrow.Operations.Shredding
             // metadata column: emit the shared bytes once per row. (A dictionary-encoded
             // or run-end-encoded representation would compress this; VariantArray's reader
             // already handles those, but for simplicity we emit the plain binary form.)
-            BinaryArray.Builder metadataBuilder = new BinaryArray.Builder();
+            using BinaryArray.Builder metadataBuilder = new BinaryArray.Builder(BinaryType.Default, allocator);
             for (int i = 0; i < rowCount; i++)
             {
                 metadataBuilder.Append((ReadOnlySpan<byte>)metadata);
@@ -125,7 +125,7 @@ namespace Apache.Arrow.Operations.Shredding
 
         private static BinaryArray BuildBinaryColumn(IReadOnlyList<ShredResult> rows, MemoryAllocator allocator)
         {
-            BinaryArray.Builder b = new BinaryArray.Builder();
+            using BinaryArray.Builder b = new BinaryArray.Builder(BinaryType.Default, allocator);
             foreach (ShredResult r in rows)
             {
                 if (r.Value == null) b.AppendNull();
@@ -189,9 +189,9 @@ namespace Apache.Arrow.Operations.Shredding
         {
             int rowCount = typedValues.Count;
             List<ShredResult> flatElements = new List<ShredResult>();
-            ArrowBuffer.Builder<int> offsets = new ArrowBuffer.Builder<int>();
+            using ArrowBuffer.Builder<int> offsets = new ArrowBuffer.Builder<int>(0, allocator);
             offsets.Append(0);
-            ArrowBuffer.BitmapBuilder validity = new ArrowBuffer.BitmapBuilder();
+            using ArrowBuffer.BitmapBuilder validity = new ArrowBuffer.BitmapBuilder(0, allocator);
             int nullCount = 0;
 
             foreach (object tv in typedValues)
@@ -246,7 +246,7 @@ namespace Apache.Arrow.Operations.Shredding
             }
 
             // Outer slot validity: non-null iff the slot isn't "missing" (both columns null).
-            ArrowBuffer.BitmapBuilder validity = new ArrowBuffer.BitmapBuilder();
+            using ArrowBuffer.BitmapBuilder validity = new ArrowBuffer.BitmapBuilder(0, allocator);
             int nullCount = 0;
             foreach (ShredResult r in results)
             {
@@ -272,7 +272,7 @@ namespace Apache.Arrow.Operations.Shredding
             {
                 case ShredType.Boolean:
                     {
-                        BooleanArray.Builder b = new BooleanArray.Builder();
+                        using BooleanArray.Builder b = new BooleanArray.Builder(allocator);
                         foreach (object v in typedValues)
                         {
                             if (v == null) b.AppendNull(); else b.Append((bool)v);
@@ -281,7 +281,7 @@ namespace Apache.Arrow.Operations.Shredding
                     }
                 case ShredType.Int8:
                     {
-                        Int8Array.Builder b = new Int8Array.Builder();
+                        using Int8Array.Builder b = new Int8Array.Builder(0, allocator);
                         foreach (object v in typedValues)
                         {
                             if (v == null) b.AppendNull(); else b.Append((sbyte)v);
@@ -290,7 +290,7 @@ namespace Apache.Arrow.Operations.Shredding
                     }
                 case ShredType.Int16:
                     {
-                        Int16Array.Builder b = new Int16Array.Builder();
+                        using Int16Array.Builder b = new Int16Array.Builder(0, allocator);
                         foreach (object v in typedValues)
                         {
                             if (v == null) b.AppendNull(); else b.Append((short)v);
@@ -299,7 +299,7 @@ namespace Apache.Arrow.Operations.Shredding
                     }
                 case ShredType.Int32:
                     {
-                        Int32Array.Builder b = new Int32Array.Builder();
+                        using Int32Array.Builder b = new Int32Array.Builder(0, allocator);
                         foreach (object v in typedValues)
                         {
                             if (v == null) b.AppendNull(); else b.Append((int)v);
@@ -308,7 +308,7 @@ namespace Apache.Arrow.Operations.Shredding
                     }
                 case ShredType.Int64:
                     {
-                        Int64Array.Builder b = new Int64Array.Builder();
+                        using Int64Array.Builder b = new Int64Array.Builder(0, allocator);
                         foreach (object v in typedValues)
                         {
                             if (v == null) b.AppendNull(); else b.Append((long)v);
@@ -317,7 +317,7 @@ namespace Apache.Arrow.Operations.Shredding
                     }
                 case ShredType.Float:
                     {
-                        FloatArray.Builder b = new FloatArray.Builder();
+                        using FloatArray.Builder b = new FloatArray.Builder(0, allocator);
                         foreach (object v in typedValues)
                         {
                             if (v == null) b.AppendNull(); else b.Append((float)v);
@@ -326,7 +326,7 @@ namespace Apache.Arrow.Operations.Shredding
                     }
                 case ShredType.Double:
                     {
-                        DoubleArray.Builder b = new DoubleArray.Builder();
+                        using DoubleArray.Builder b = new DoubleArray.Builder(0, allocator);
                         foreach (object v in typedValues)
                         {
                             if (v == null) b.AppendNull(); else b.Append((double)v);
@@ -351,7 +351,7 @@ namespace Apache.Arrow.Operations.Shredding
                     return BuildTime64(typedValues, allocator);
                 case ShredType.String:
                     {
-                        StringArray.Builder b = new StringArray.Builder();
+                        using StringArray.Builder b = new StringArray.Builder(allocator);
                         foreach (object v in typedValues)
                         {
                             if (v == null) b.AppendNull(); else b.Append((string)v);
@@ -360,7 +360,7 @@ namespace Apache.Arrow.Operations.Shredding
                     }
                 case ShredType.Binary:
                     {
-                        BinaryArray.Builder b = new BinaryArray.Builder();
+                        using BinaryArray.Builder b = new BinaryArray.Builder(BinaryType.Default, allocator);
                         foreach (object v in typedValues)
                         {
                             if (v == null) b.AppendNull(); else b.Append((ReadOnlySpan<byte>)(byte[])v);
@@ -401,8 +401,8 @@ namespace Apache.Arrow.Operations.Shredding
         private static (ArrowBuffer values, ArrowBuffer nullBitmap, int nullCount) BuildLongBuffers(
             IList<object> typedValues, MemoryAllocator allocator)
         {
-            ArrowBuffer.Builder<long> values = new ArrowBuffer.Builder<long>(typedValues.Count);
-            ArrowBuffer.BitmapBuilder bitmap = new ArrowBuffer.BitmapBuilder(typedValues.Count);
+            using ArrowBuffer.Builder<long> values = new ArrowBuffer.Builder<long>(typedValues.Count, allocator);
+            using ArrowBuffer.BitmapBuilder bitmap = new ArrowBuffer.BitmapBuilder(typedValues.Count, allocator);
             int nullCount = 0;
             foreach (object v in typedValues)
             {
@@ -425,8 +425,8 @@ namespace Apache.Arrow.Operations.Shredding
         private static (ArrowBuffer values, ArrowBuffer nullBitmap, int nullCount) BuildIntBuffers(
             IList<object> typedValues, MemoryAllocator allocator)
         {
-            ArrowBuffer.Builder<int> values = new ArrowBuffer.Builder<int>(typedValues.Count);
-            ArrowBuffer.BitmapBuilder bitmap = new ArrowBuffer.BitmapBuilder(typedValues.Count);
+            using ArrowBuffer.Builder<int> values = new ArrowBuffer.Builder<int>(typedValues.Count, allocator);
+            using ArrowBuffer.BitmapBuilder bitmap = new ArrowBuffer.BitmapBuilder(typedValues.Count, allocator);
             int nullCount = 0;
             foreach (object v in typedValues)
             {
@@ -465,7 +465,7 @@ namespace Apache.Arrow.Operations.Shredding
                 }
             }
 
-            Decimal128Array.Builder b = new Decimal128Array.Builder(new Decimal128Type(precision, scale));
+            using Decimal128Array.Builder b = new Decimal128Array.Builder(new Decimal128Type(precision, scale), allocator);
             foreach (object v in typedValues)
             {
                 if (v == null) b.AppendNull(); else b.Append((decimal)v);
@@ -483,8 +483,8 @@ namespace Apache.Arrow.Operations.Shredding
         {
             FixedSizeBinaryType type = new FixedSizeBinaryType(16);
             int rowCount = typedValues.Count;
-            ArrowBuffer.Builder<byte> values = new ArrowBuffer.Builder<byte>(rowCount * 16);
-            ArrowBuffer.BitmapBuilder bitmap = new ArrowBuffer.BitmapBuilder(rowCount);
+            using ArrowBuffer.Builder<byte> values = new ArrowBuffer.Builder<byte>(rowCount * 16, allocator);
+            using ArrowBuffer.BitmapBuilder bitmap = new ArrowBuffer.BitmapBuilder(rowCount, allocator);
             int nullCount = 0;
             byte[] scratch = new byte[16];
 
@@ -529,7 +529,7 @@ namespace Apache.Arrow.Operations.Shredding
             IList<T> items, Func<T, bool> isValid, int rowCount,
             MemoryAllocator allocator, out int nullCount)
         {
-            ArrowBuffer.BitmapBuilder bitmap = new ArrowBuffer.BitmapBuilder(rowCount);
+            using ArrowBuffer.BitmapBuilder bitmap = new ArrowBuffer.BitmapBuilder(rowCount, allocator);
             int nulls = 0;
             for (int i = 0; i < rowCount; i++)
             {

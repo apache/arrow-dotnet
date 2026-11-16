@@ -24,8 +24,23 @@ namespace Apache.Arrow
     /// </summary>
     public class ArrowContext
     {
+        /// <summary>
+        /// The allocator for memory allocated by operations given this context. <c>null</c> means
+        /// <see cref="MemoryAllocator.Default"/>.
+        /// </summary>
         public MemoryAllocator Allocator { get; }
+
+        /// <summary>
+        /// The compression codec factory used to decompress when reading, and to compress when
+        /// writing if the <see cref="IpcOptions"/> passed to the writer do not specify one.
+        /// </summary>
         public ICompressionCodecFactory CompressionCodecFactory { get; }
+
+        /// <summary>
+        /// The extension type registry. When none is passed to the constructor, this is a snapshot
+        /// of <see cref="ExtensionTypeRegistry.Default"/> as it was when the context was created;
+        /// taking the snapshot is cheap, as the registries share storage until either changes.
+        /// </summary>
         public ExtensionTypeRegistry ExtensionRegistry { get; }
 
         public ArrowContext(

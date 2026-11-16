@@ -376,11 +376,11 @@ namespace Apache.Arrow
         /// <summary>
         /// Builder for constructing <see cref="VariantArray"/> instances.
         /// </summary>
-        public class Builder
+        public class Builder : IDisposable
         {
-            private readonly BinaryArray.Builder _metadataBuilder = new BinaryArray.Builder();
-            private readonly BinaryArray.Builder _valueBuilder = new BinaryArray.Builder();
-            private readonly ArrowBuffer.BitmapBuilder _validityBuilder = new ArrowBuffer.BitmapBuilder();
+            private readonly BinaryArray.Builder _metadataBuilder;
+            private readonly BinaryArray.Builder _valueBuilder;
+            private readonly ArrowBuffer.BitmapBuilder _validityBuilder;
             private readonly VariantBuilder _encoder = new VariantBuilder();
             private int _length;
             private int _nullCount;
@@ -389,6 +389,26 @@ namespace Apache.Arrow
             // We use encoded VariantValue.Null so child arrays always have valid binary data.
             private static readonly Lazy<(byte[] Metadata, byte[] Value)> NullPlaceholder =
                 new Lazy<(byte[], byte[])>(() => new VariantBuilder().Encode(VariantValue.Null));
+
+            public Builder()
+                : this(null)
+            {
+            }
+
+            /// <summary>
+            /// Creates a builder whose working memory comes from <paramref name="allocator"/>.
+            /// </summary>
+            /// <param name="allocator">
+            /// Allocator for the builder's working memory, which usually becomes the built array's
+            /// memory. When <c>null</c>, the builder works in managed memory and copies
+            /// what it builds into <see cref="MemoryAllocator.Default"/>, as builders always have.
+            /// </param>
+            public Builder(MemoryAllocator allocator)
+            {
+                _metadataBuilder = new BinaryArray.Builder(BinaryType.Default, allocator);
+                _valueBuilder = new BinaryArray.Builder(BinaryType.Default, allocator);
+                _validityBuilder = new ArrowBuffer.BitmapBuilder(0, allocator);
+            }
 
             /// <summary>
             /// Gets the number of elements appended so far.
@@ -479,19 +499,57 @@ namespace Apache.Arrow
             }
 
             /// <summary>
+            /// Releases the builder's working memory. Arrays already built are unaffected.
+            /// </summary>
+            /// <remarks>
+            /// Disposal is required only when the working memory comes from an allocator whose
+            /// <see cref="MemoryAllocator.Lifetime"/> is <see cref="AllocationLifetime.CallerOwned"/>;
+            /// otherwise it only releases memory sooner.
+            /// </remarks>
+            public void Dispose()
+            {
+                Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+
+            protected virtual void Dispose(bool disposing)
+            {
+                if (disposing)
+                {
+                    _metadataBuilder.Dispose();
+                    _valueBuilder.Dispose();
+                    _validityBuilder.Dispose();
+                }
+            }
+
+            /// <summary>
             /// Builds the <see cref="VariantArray"/> from appended values.
             /// </summary>
             public VariantArray Build(MemoryAllocator allocator = default)
             {
-                var metadataArray = _metadataBuilder.Build(allocator);
-                var valueArray = _valueBuilder.Build(allocator);
-                var structType = (StructType)VariantType.Default.StorageType;
-                var nullBitmap = _nullCount > 0 ? _validityBuilder.Build(allocator) : ArrowBuffer.Empty;
-                var structArray = new StructArray(
-                    structType, _length,
-                    new IArrowArray[] { metadataArray, valueArray },
-                    nullBitmap, _nullCount);
-                return new VariantArray(VariantType.Default, structArray);
+                BinaryArray metadataArray = null;
+                BinaryArray valueArray = null;
+                ArrowBuffer nullBitmap = default;
+                try
+                {
+                    metadataArray = _metadataBuilder.Build(allocator);
+                    valueArray = _valueBuilder.Build(allocator);
+                    var structType = (StructType)VariantType.Default.StorageType;
+                    nullBitmap = _nullCount > 0 ? _validityBuilder.Build(allocator) : ArrowBuffer.Empty;
+                    var structArray = new StructArray(
+                        structType, _length,
+                        new IArrowArray[] { metadataArray, valueArray },
+                        nullBitmap, _nullCount);
+                    return new VariantArray(VariantType.Default, structArray);
+                }
+                catch
+                {
+                    // For example an allocator that has run out of its budget; release what was built.
+                    metadataArray?.Dispose();
+                    valueArray?.Dispose();
+                    nullBitmap.Dispose();
+                    throw;
+                }
             }
         }
     }

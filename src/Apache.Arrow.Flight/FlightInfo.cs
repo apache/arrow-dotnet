@@ -24,9 +24,9 @@ namespace Apache.Arrow.Flight
 {
     public class FlightInfo
     {
-        internal FlightInfo(Protocol.FlightInfo flightInfo)
+        internal FlightInfo(Protocol.FlightInfo flightInfo, ExtensionTypeRegistry extensionRegistry = null)
         {
-            Schema = flightInfo.Schema?.Length > 0 ? FlightMessageSerializer.DecodeSchema(flightInfo.Schema.Memory) : null;
+            Schema = flightInfo.Schema?.Length > 0 ? FlightMessageSerializer.DecodeSchema(flightInfo.Schema.Memory, extensionRegistry) : null;
             Descriptor = new FlightDescriptor(flightInfo.FlightDescriptor);
 
             var endpoints = new List<FlightEndpoint>();

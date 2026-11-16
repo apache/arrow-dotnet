@@ -19,6 +19,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Apache.Arrow.Flatbuf;
+using Apache.Arrow.Memory;
 using Google.FlatBuffers;
 
 namespace Apache.Arrow.Ipc
@@ -29,12 +30,12 @@ namespace Apache.Arrow.Ipc
         private int _bufferPosition;
 
         public ArrowMemoryReaderImplementation(ReadOnlyMemory<byte> buffer, ICompressionCodecFactory compressionCodecFactory)
-            : this(buffer, compressionCodecFactory, null)
+            : this(buffer, allocator: null, compressionCodecFactory, null)
         {
         }
 
-        public ArrowMemoryReaderImplementation(ReadOnlyMemory<byte> buffer, ICompressionCodecFactory compressionCodecFactory, ExtensionTypeRegistry extensionRegistry)
-            : base(null, compressionCodecFactory, extensionRegistry)
+        public ArrowMemoryReaderImplementation(ReadOnlyMemory<byte> buffer, MemoryAllocator allocator, ICompressionCodecFactory compressionCodecFactory, ExtensionTypeRegistry extensionRegistry)
+            : base(allocator, compressionCodecFactory, extensionRegistry)
         {
             _buffer = buffer;
         }

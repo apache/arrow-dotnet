@@ -103,7 +103,7 @@ namespace Apache.Arrow.Flight.Internal
                 switch (message.HeaderType)
                 {
                     case MessageHeader.Schema:
-                        _schema = FlightMessageSerializer.DecodeSchema(message.ByteBuffer);
+                        _schema = FlightMessageSerializer.DecodeSchema(message.ByteBuffer, _extensionRegistry);
                         break;
                     default:
                         throw new Exception($"Expected schema as the first message, but got: {message.HeaderType.ToString()}");

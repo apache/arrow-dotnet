@@ -14,6 +14,7 @@
 // limitations under the License.
 
 using System.Collections.Generic;
+using Apache.Arrow.Memory;
 using Apache.Arrow.Types;
 
 namespace Apache.Arrow
@@ -22,6 +23,22 @@ namespace Apache.Arrow
     {
         public class Builder : PrimitiveArrayBuilder<uint, UInt32Array, Builder>
         {
+            /// <summary>
+            /// Creates a builder with room for a few values, which grows as values are appended.
+            /// </summary>
+            public Builder() { }
+
+            /// <summary>
+            /// Creates a builder with room for <paramref name="capacity"/> values.
+            /// </summary>
+            /// <param name="capacity">Number of values to allocate room for.</param>
+            /// <param name="allocator">
+            /// Allocator for the builder's working memory, which usually becomes the built array's
+            /// memory. When <c>null</c>, the builder works in managed memory and copies
+            /// what it builds into <see cref="MemoryAllocator.Default"/>, as builders always have.
+            /// </param>
+            public Builder(int capacity, MemoryAllocator allocator = null) : base(capacity, allocator) { }
+
             protected override UInt32Array Build(
                 ArrowBuffer valueBuffer, ArrowBuffer nullBitmapBuffer,
                 int length, int nullCount, int offset) =>

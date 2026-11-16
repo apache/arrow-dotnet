@@ -97,7 +97,7 @@ namespace Apache.Arrow.Ipc
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            _implementation = new ArrowMemoryReaderImplementation(buffer, context.CompressionCodecFactory, context.ExtensionRegistry);
+            _implementation = new ArrowMemoryReaderImplementation(buffer, context.Allocator, context.CompressionCodecFactory, context.ExtensionRegistry);
         }
 
         private protected ArrowStreamReader(ArrowReaderImplementation implementation)

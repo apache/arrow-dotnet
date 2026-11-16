@@ -34,9 +34,9 @@ namespace Apache.Arrow.Flight.Tests
         readonly IHost host;
         private int _port;
 
-        public TestWebFactory(FlightStore flightStore)
+        public TestWebFactory(FlightStore flightStore, ArrowContext serverContext = null)
         {
-            host = WebHostBuilder(flightStore).Build(); //Create the server
+            host = WebHostBuilder(flightStore, serverContext).Build(); //Create the server
             host.Start();
             var addressInfo = host.Services.GetRequiredService<IServer>().Features.Get<IServerAddressesFeature>();
             if (addressInfo == null)
@@ -50,7 +50,7 @@ namespace Apache.Arrow.Flight.Tests
                 "System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
         }
 
-        private IHostBuilder WebHostBuilder(FlightStore flightStore)
+        private IHostBuilder WebHostBuilder(FlightStore flightStore, ArrowContext serverContext)
         {
             return Host.CreateDefaultBuilder()
                         .ConfigureWebHostDefaults(webBuilder =>
@@ -64,6 +64,10 @@ namespace Apache.Arrow.Flight.Tests
                             .ConfigureServices(services =>
                             {
                                 services.AddSingleton(flightStore);
+                                if (serverContext != null)
+                                {
+                                    services.AddSingleton(serverContext);
+                                }
                             });
                         });
         }

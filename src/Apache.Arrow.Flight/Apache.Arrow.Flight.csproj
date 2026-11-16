@@ -9,6 +9,8 @@
     <PackageReference Include="Google.Protobuf" />
     <PackageReference Include="Grpc.Net.Client" />
     <PackageReference Include="Grpc.Tools" PrivateAssets="All" />
+    <!-- For [ActivatorUtilitiesConstructor] on FlightClient; see the comment there. -->
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
     <PackageReference Include="System.Memory" />
   </ItemGroup>
 

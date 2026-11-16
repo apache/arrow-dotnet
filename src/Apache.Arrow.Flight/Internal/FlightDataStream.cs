@@ -37,8 +37,8 @@ namespace Apache.Arrow.Flight.Internal
         private readonly IAsyncStreamWriter<Protocol.FlightData> _clientStreamWriter;
         private Protocol.FlightData _currentFlightData;
 
-        public FlightDataStream(IAsyncStreamWriter<Protocol.FlightData> clientStreamWriter, FlightDescriptor flightDescriptor, Schema schema)
-            : base(new MemoryStream(), schema)
+        public FlightDataStream(IAsyncStreamWriter<Protocol.FlightData> clientStreamWriter, FlightDescriptor flightDescriptor, Schema schema, ArrowContext context)
+            : base(new MemoryStream(), schema, leaveOpen: false, options: null, context?.Allocator, context?.CompressionCodecFactory)
         {
             _clientStreamWriter = clientStreamWriter;
             _flightDescriptor = flightDescriptor;

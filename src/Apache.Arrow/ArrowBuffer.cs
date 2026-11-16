@@ -34,12 +34,24 @@ namespace Apache.Arrow
         }
 
         internal ArrowBuffer(IMemoryOwner<byte> memoryOwner)
+            : this(memoryOwner, AllocationLifetime.Finalized)
         {
-            _handle = new SharedMemoryHandle(new SharedMemoryOwner(memoryOwner));
+        }
+
+        /// <param name="memoryOwner">The owner of the buffer's memory.</param>
+        /// <param name="lifetime">
+        /// The <see cref="MemoryAllocator.Lifetime"/> of the allocator the memory came from. Only
+        /// <see cref="AllocationLifetime.Finalized"/> memory is released by a finalizer when the
+        /// buffer is not disposed, as all buffers have been historically; other lifetimes opt out,
+        /// so that collection can never release memory a span is still using.
+        /// </param>
+        internal ArrowBuffer(IMemoryOwner<byte> memoryOwner, AllocationLifetime lifetime)
+        {
+            _handle = new SharedMemoryHandle(new SharedMemoryOwner(memoryOwner, finalizeWhenUnreachable: lifetime == AllocationLifetime.Finalized));
             _memory = Memory<byte>.Empty;
         }
 
-        private ArrowBuffer(SharedMemoryHandle handle)
+        internal ArrowBuffer(SharedMemoryHandle handle)
         {
             _handle = handle;
             _memory = Memory<byte>.Empty;
@@ -81,14 +93,26 @@ namespace Apache.Arrow
 
         public ArrowBuffer Clone(MemoryAllocator allocator = default)
         {
-            return Span.Length == 0 ? Empty : new Builder<byte>(Span.Length)
-                .Append(Span)
-                .Build(allocator);
+            if (Span.Length == 0)
+            {
+                return Empty;
+            }
+
+            using Builder<byte> builder = new Builder<byte>(Span.Length, allocator);
+            ArrowBuffer clone = builder.Append(Span).Build(allocator);
+
+            // Nothing else roots the handle while its memory is read through a span, so without
+            // this a buffer that is otherwise unreachable could be finalized mid-copy.
+            GC.KeepAlive(_handle);
+            return clone;
         }
 
         public bool Equals(ArrowBuffer other)
         {
-            return Span.SequenceEqual(other.Span);
+            bool equal = Span.SequenceEqual(other.Span);
+            GC.KeepAlive(_handle);
+            GC.KeepAlive(other._handle);
+            return equal;
         }
 
         public void Dispose()

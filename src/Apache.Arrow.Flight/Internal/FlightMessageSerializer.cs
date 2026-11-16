@@ -25,7 +25,7 @@ namespace Apache.Arrow.Flight
 {
     internal static class FlightMessageSerializer
     {
-        public static Schema DecodeSchema(ReadOnlyMemory<byte> buffer)
+        public static Schema DecodeSchema(ReadOnlyMemory<byte> buffer, ExtensionTypeRegistry extensionRegistry = null)
         {
             if (buffer.IsEmpty) return null;
             int bufferPosition = 0;
@@ -47,15 +47,15 @@ namespace Apache.Arrow.Flight
             ByteBuffer schemaBuffer = ArrowReaderImplementation.CreateByteBuffer(buffer.Slice(bufferPosition));
             //DictionaryBatch not supported for now
             DictionaryMemo dictionaryMemo = null;
-            var schema = MessageSerializer.GetSchema(ArrowReaderImplementation.ReadMessage<Flatbuf.Schema>(schemaBuffer), ref dictionaryMemo);
+            var schema = MessageSerializer.GetSchema(ArrowReaderImplementation.ReadMessage<Flatbuf.Schema>(schemaBuffer), ref dictionaryMemo, extensionRegistry ?? ExtensionTypeRegistry.Default);
             return schema;
         }
 
-        internal static Schema DecodeSchema(ByteBuffer schemaBuffer)
+        internal static Schema DecodeSchema(ByteBuffer schemaBuffer, ExtensionTypeRegistry extensionRegistry = null)
         {
             //DictionaryBatch not supported for now
             DictionaryMemo dictionaryMemo = null;
-            var schema = MessageSerializer.GetSchema(ArrowReaderImplementation.ReadMessage<Flatbuf.Schema>(schemaBuffer), ref dictionaryMemo);
+            var schema = MessageSerializer.GetSchema(ArrowReaderImplementation.ReadMessage<Flatbuf.Schema>(schemaBuffer), ref dictionaryMemo, extensionRegistry ?? ExtensionTypeRegistry.Default);
             return schema;
         }
     }

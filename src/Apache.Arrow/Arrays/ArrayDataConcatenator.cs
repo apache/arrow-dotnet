@@ -605,16 +605,12 @@ namespace Apache.Arrow
                 }
 
                 var slicedValues = new List<ArrayData>(_arrayDataList.Count);
-                ArrowBuffer.Builder<short> int16Builder = null;
-                ArrowBuffer.Builder<int> int32Builder = null;
-                ArrowBuffer.Builder<long> int64Builder = null;
-
-                switch (runEndsTypeId)
-                {
-                    case ArrowTypeId.Int16: int16Builder = new ArrowBuffer.Builder<short>(); break;
-                    case ArrowTypeId.Int32: int32Builder = new ArrowBuffer.Builder<int>(); break;
-                    case ArrowTypeId.Int64: int64Builder = new ArrowBuffer.Builder<long>(); break;
-                }
+                // Only the builder for the run-ends type is used. A builder with no capacity
+                // allocates nothing, and the using declarations release working memory even if
+                // concatenation throws partway through (for example on run-end overflow).
+                using ArrowBuffer.Builder<short> int16Builder = new ArrowBuffer.Builder<short>(0, _allocator);
+                using ArrowBuffer.Builder<int> int32Builder = new ArrowBuffer.Builder<int>(0, _allocator);
+                using ArrowBuffer.Builder<long> int64Builder = new ArrowBuffer.Builder<long>(0, _allocator);
 
                 long baseOffset = 0;
                 int physicalRunCount = 0;
@@ -1105,12 +1101,15 @@ namespace Apache.Arrow
                 return owner;
             }
 
-            private static ArrowBuffer BuildBuffer(IMemoryOwner<byte> owner, int byteLength)
+            private ArrowBuffer BuildBuffer(IMemoryOwner<byte> owner, int byteLength)
             {
                 // Allocators don't have to return zeroed memory, and may return more than was requested,
                 // so clear everything past the written bytes explicitly
                 owner.Memory.Span.Slice(byteLength).Clear();
-                return new ArrowBuffer(owner);
+
+                // Carry the allocator's lifetime, as built buffers do, so that allocators which opt
+                // out of release by finalization are not released by it here.
+                return new ArrowBuffer(owner, (_allocator ?? MemoryAllocator.Default.Value).Lifetime);
             }
 
             private ArrowBuffer ConcatenateLargeOffsetBuffer()

@@ -45,6 +45,8 @@ namespace Apache.Arrow.Ipc
             {
                 BaseStream.Dispose();
             }
+
+            base.Dispose(disposing);
         }
 
         public override ValueTask<RecordBatch> ReadNextRecordBatchAsync(CancellationToken cancellationToken)
@@ -95,9 +97,18 @@ namespace Apache.Arrow.Ipc
 
                 IMemoryOwner<byte> bodyBuffOwner = AllocateMessageBodyBuffer(bodyLength);
                 Memory<byte> bodyBuff = bodyBuffOwner.Memory.Slice(0, bodyLength);
-                bytesRead = await BaseStream.ReadFullBufferAsync(bodyBuff, cancellationToken)
-                    .ConfigureAwait(false);
-                EnsureFullRead(bodyBuff, bytesRead);
+                try
+                {
+                    bytesRead = await BaseStream.ReadFullBufferAsync(bodyBuff, cancellationToken)
+                        .ConfigureAwait(false);
+                    EnsureFullRead(bodyBuff, bytesRead);
+                }
+                catch
+                {
+                    // For example a truncated stream; nothing else owns the body yet.
+                    bodyBuffOwner.Dispose();
+                    throw;
+                }
 
                 Google.FlatBuffers.ByteBuffer bodybb = CreateByteBuffer(bodyBuff);
                 result = CreateArrowObjectFromMessage(message, bodybb, bodyBuffOwner);
@@ -146,8 +157,17 @@ namespace Apache.Arrow.Ipc
 
                 IMemoryOwner<byte> bodyBuffOwner = AllocateMessageBodyBuffer(bodyLength);
                 Memory<byte> bodyBuff = bodyBuffOwner.Memory.Slice(0, bodyLength);
-                bytesRead = BaseStream.ReadFullBuffer(bodyBuff);
-                EnsureFullRead(bodyBuff, bytesRead);
+                try
+                {
+                    bytesRead = BaseStream.ReadFullBuffer(bodyBuff);
+                    EnsureFullRead(bodyBuff, bytesRead);
+                }
+                catch
+                {
+                    // For example a truncated stream; nothing else owns the body yet.
+                    bodyBuffOwner.Dispose();
+                    throw;
+                }
 
                 Google.FlatBuffers.ByteBuffer bodybb = CreateByteBuffer(bodyBuff);
                 result = CreateArrowObjectFromMessage(message, bodybb, bodyBuffOwner);

@@ -21,10 +21,32 @@ namespace Apache.Arrow.Memory
 {
     public class NativeMemoryAllocator : MemoryAllocator
     {
-        internal static readonly INativeAllocationOwner ExclusiveOwner = new NativeAllocationOwner();
+        internal static readonly INativeAllocationOwner ExclusiveOwner = new NativeAllocationOwner(DefaultAlignment);
+
+        // Releases memory and removes exactly the pressure that was added for it, which includes
+        // this allocator's alignment padding (https://github.com/apache/arrow-dotnet/issues/50).
+        private readonly NativeAllocationOwner _owner;
 
         public NativeMemoryAllocator(int alignment = DefaultAlignment)
-            : base(alignment) { }
+            : base(alignment)
+        {
+            _owner = alignment == DefaultAlignment
+                ? (NativeAllocationOwner)ExclusiveOwner
+                : new NativeAllocationOwner(alignment);
+        }
+
+        /// <summary>The number of bytes of memory pressure reported for an allocation.</summary>
+        internal static int PressureBytes(int length, int alignment) => length + alignment;
+
+        internal int ReleasedPressureBytes(int length) => _owner.PressureBytes(length);
+
+        /// <summary>
+        /// Buffers from this allocator are released by <see cref="NativeMemoryManager"/>'s
+        /// finalizer when they are not disposed, which means a span over one of them can be
+        /// invalidated while still in use. See
+        /// https://github.com/apache/arrow-dotnet/issues/397.
+        /// </summary>
+        public override AllocationLifetime Lifetime => AllocationLifetime.Finalized;
 
         protected override IMemoryOwner<byte> AllocateInternal(int length, out int bytesAllocated)
         {
@@ -38,9 +60,9 @@ namespace Apache.Arrow.Memory
             int size = length + Alignment;
             IntPtr ptr = Marshal.AllocHGlobal(size);
             int offset = (int)(Alignment - (ptr.ToInt64() & (Alignment - 1)));
-            var manager = new NativeMemoryManager(ptr, offset, length);
+            var manager = new NativeMemoryManager(_owner, ptr, offset, length);
 
-            bytesAllocated = (length + Alignment);
+            bytesAllocated = PressureBytes(length, Alignment);
 
             GC.AddMemoryPressure(bytesAllocated);
 
@@ -52,10 +74,16 @@ namespace Apache.Arrow.Memory
 
         private sealed class NativeAllocationOwner : INativeAllocationOwner
         {
+            private readonly int _alignment;
+
+            public NativeAllocationOwner(int alignment) => _alignment = alignment;
+
+            public int PressureBytes(int length) => NativeMemoryAllocator.PressureBytes(length, _alignment);
+
             public void Release(IntPtr ptr, int offset, int length)
             {
                 Marshal.FreeHGlobal(ptr);
-                GC.RemoveMemoryPressure(length + DefaultAlignment); // See https://github.com/apache/arrow-dotnet/issues/50
+                GC.RemoveMemoryPressure(PressureBytes(length));
             }
         }
     }

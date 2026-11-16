@@ -26,7 +26,13 @@ namespace Apache.Arrow.Memory
         private int _refCount;
 
         public SharedMemoryOwner(IMemoryOwner<byte> inner)
+            : this(inner, finalizeWhenUnreachable: true)
         {
+        }
+
+        public SharedMemoryOwner(IMemoryOwner<byte> inner, bool finalizeWhenUnreachable)
+        {
+            FinalizeWhenUnreachable = finalizeWhenUnreachable;
             _inner = inner ?? throw new ArgumentNullException(nameof(inner));
             _memory = inner.Memory;
             _refCount = 1;
@@ -34,19 +40,40 @@ namespace Apache.Arrow.Memory
 
         public Memory<byte> Memory => _memory;
 
-        public SharedMemoryHandle Retain()
+        /// <summary>
+        /// Whether handles to this memory release it from a finalizer when they are not disposed.
+        /// </summary>
+        public bool FinalizeWhenUnreachable { get; }
+
+        public SharedMemoryHandle Retain() => Retain(0, _memory.Length);
+
+        /// <summary>
+        /// Adds a reference, returning a handle to the given slice of the memory.
+        /// </summary>
+        public SharedMemoryHandle Retain(int start, int length)
+        {
+            return TryRetain(start, length) ?? throw new ObjectDisposedException(nameof(SharedMemoryOwner));
+        }
+
+        /// <summary>
+        /// Adds a reference to the whole memory, or returns <c>null</c> if it has already been
+        /// released. Once released, memory can never be retained again.
+        /// </summary>
+        public SharedMemoryHandle TryRetain() => TryRetain(0, _memory.Length);
+
+        private SharedMemoryHandle TryRetain(int start, int length)
         {
             while (true)
             {
                 int current = Volatile.Read(ref _refCount);
                 if (current <= 0)
                 {
-                    throw new ObjectDisposedException(nameof(SharedMemoryOwner));
+                    return null;
                 }
 
                 if (Interlocked.CompareExchange(ref _refCount, current + 1, current) == current)
                 {
-                    return new SharedMemoryHandle(this);
+                    return new SharedMemoryHandle(this, start, length);
                 }
             }
         }

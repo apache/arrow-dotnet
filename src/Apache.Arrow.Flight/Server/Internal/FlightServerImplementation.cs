@@ -34,7 +34,7 @@ namespace Apache.Arrow.Flight.Server.Internal
 
         public override async Task DoPut(IAsyncStreamReader<Protocol.FlightData> requestStream, IServerStreamWriter<Protocol.PutResult> responseStream, ServerCallContext context)
         {
-            var readStream = new FlightServerRecordBatchStreamReader(requestStream);
+            var readStream = new FlightServerRecordBatchStreamReader(requestStream, _flightServer.Context);
             var writeStream = new StreamWriter<FlightPutResult, PutResult>(responseStream, putResult => putResult.ToProtocol());
 
             await _flightServer.DoPut(readStream, writeStream, context).ConfigureAwait(false);
@@ -43,7 +43,7 @@ namespace Apache.Arrow.Flight.Server.Internal
         public override Task DoGet(Protocol.Ticket request, IServerStreamWriter<Protocol.FlightData> responseStream, ServerCallContext context)
         {
             var flightTicket = new FlightTicket(request.Ticket_);
-            var flightServerRecordBatchStreamWriter = new FlightServerRecordBatchStreamWriter(responseStream);
+            var flightServerRecordBatchStreamWriter = new FlightServerRecordBatchStreamWriter(responseStream, _flightServer.Context);
 
             return _flightServer.DoGet(flightTicket, flightServerRecordBatchStreamWriter, context);
         }
@@ -84,8 +84,8 @@ namespace Apache.Arrow.Flight.Server.Internal
 
         public override Task DoExchange(IAsyncStreamReader<Protocol.FlightData> requestStream, IServerStreamWriter<Protocol.FlightData> responseStream, ServerCallContext context)
         {
-            var readStream = new FlightServerRecordBatchStreamReader(requestStream);
-            var writeStream = new FlightServerRecordBatchStreamWriter(responseStream);
+            var readStream = new FlightServerRecordBatchStreamReader(requestStream, _flightServer.Context);
+            var writeStream = new FlightServerRecordBatchStreamWriter(responseStream, _flightServer.Context);
             return _flightServer.DoExchange(readStream, writeStream, context);
         }
 

@@ -29,7 +29,7 @@ namespace Apache.Arrow
     /// <typeparam name="T">Type of item accepted by inner array builder.</typeparam>
     /// <typeparam name="TArray">Type of array produced by this (and the inner) builder.</typeparam>
     /// <typeparam name="TBuilder">Type of builder (see Curiously-Recurring Template Pattern).</typeparam>
-    public abstract class DelegatingArrayBuilder<T, TArray, TBuilder> : IArrowArrayBuilder<TArray, TBuilder>
+    public abstract class DelegatingArrayBuilder<T, TArray, TBuilder> : IArrowArrayBuilder<TArray, TBuilder>, IDisposable
         where TArray : IArrowArray
         where TBuilder : class, IArrowArrayBuilder<TArray>
     {
@@ -50,6 +50,28 @@ namespace Apache.Arrow
         protected DelegatingArrayBuilder(IArrowArrayBuilder<T, TArray, IArrowArrayBuilder<TArray>> innerBuilder)
         {
             InnerBuilder = innerBuilder ?? throw new ArgumentNullException(nameof(innerBuilder));
+        }
+
+        /// <summary>
+        /// Releases the builder's working memory. Arrays already built are unaffected.
+        /// </summary>
+        /// <remarks>
+        /// Disposal is required only when the working memory comes from an allocator whose
+        /// <see cref="MemoryAllocator.Lifetime"/> is <see cref="AllocationLifetime.CallerOwned"/>;
+        /// otherwise it only releases memory sooner.
+        /// </remarks>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                (InnerBuilder as IDisposable)?.Dispose();
+            }
         }
 
         /// <summary>

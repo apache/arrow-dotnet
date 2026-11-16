@@ -29,13 +29,24 @@ public class LargeBinaryArray : Array, IBinaryArray, IReadOnlyList<byte[]>, ICol
         public Builder() : base(LargeBinaryType.Default) { }
         public Builder(IArrowType dataType) : base(dataType) { }
 
+        /// <summary>
+        /// Creates a builder whose working memory comes from <paramref name="allocator"/>.
+        /// </summary>
+        /// <param name="dataType">The binary type to build.</param>
+        /// <param name="allocator">
+        /// Allocator for the builder's working memory, which usually becomes the built array's
+        /// memory. When <c>null</c>, the builder works in managed memory and copies
+        /// what it builds into <see cref="MemoryAllocator.Default"/>, as builders always have.
+        /// </param>
+        public Builder(IArrowType dataType, MemoryAllocator allocator) : base(dataType, allocator) { }
+
         protected override LargeBinaryArray Build(ArrayData data)
         {
             return new LargeBinaryArray(data);
         }
     }
 
-    public abstract class BuilderBase<TArray, TBuilder> : IArrowArrayBuilder<byte, TArray, TBuilder>
+    public abstract class BuilderBase<TArray, TBuilder> : IArrowArrayBuilder<byte, TArray, TBuilder>, IDisposable
         where TArray : IArrowArray
         where TBuilder : class, IArrowArrayBuilder<byte, TArray, TBuilder>
     {
@@ -48,11 +59,16 @@ public class LargeBinaryArray : Array, IBinaryArray, IReadOnlyList<byte[]>, ICol
         protected int NullCount => this.ValidityBuffer.UnsetBitCount;
 
         protected BuilderBase(IArrowType dataType)
+            : this(dataType, null)
+        {
+        }
+
+        protected BuilderBase(IArrowType dataType, MemoryAllocator allocator)
         {
             DataType = dataType;
-            ValueOffsets = new ArrowBuffer.Builder<long>();
-            ValueBuffer = new ArrowBuffer.Builder<byte>();
-            ValidityBuffer = new ArrowBuffer.BitmapBuilder();
+            ValueOffsets = new ArrowBuffer.Builder<long>(0, allocator);
+            ValueBuffer = new ArrowBuffer.Builder<byte>(0, allocator);
+            ValidityBuffer = new ArrowBuffer.BitmapBuilder(0, allocator);
             ValueOffsets.Append(this.Offset);
         }
 
@@ -60,22 +76,56 @@ public class LargeBinaryArray : Array, IBinaryArray, IReadOnlyList<byte[]>, ICol
 
         public int Length => ValueOffsets.Length - 1;
 
+        /// <summary>
+        /// Releases the builder's working memory. Arrays already built are unaffected.
+        /// </summary>
+        /// <remarks>
+        /// Disposal is required only when the working memory comes from an allocator whose
+        /// <see cref="MemoryAllocator.Lifetime"/> is <see cref="AllocationLifetime.CallerOwned"/>;
+        /// otherwise it only releases memory sooner.
+        /// </remarks>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                ValueOffsets.Dispose();
+                ValueBuffer.Dispose();
+                ValidityBuffer.Dispose();
+            }
+        }
+
         public TArray Build(MemoryAllocator allocator = default)
         {
-            var bufs = new[]
+            var bufs = new ArrowBuffer[3];
+            try
             {
-                NullCount > 0 ? ValidityBuffer.Build(allocator) : ArrowBuffer.Empty,
-                ValueOffsets.Build(allocator),
-                ValueBuffer.Build(allocator),
-            };
-            var data = new ArrayData(
-                DataType,
-                length: Length,
-                NullCount,
-                offset: 0,
-                bufs);
+                bufs[0] = NullCount > 0 ? ValidityBuffer.Build(allocator) : ArrowBuffer.Empty;
+                bufs[1] = ValueOffsets.Build(allocator);
+                bufs[2] = ValueBuffer.Build(allocator);
+                var data = new ArrayData(
+                    DataType,
+                    length: Length,
+                    NullCount,
+                    offset: 0,
+                    bufs);
 
-            return Build(data);
+                return Build(data);
+            }
+            catch
+            {
+                // For example an allocator that has run out of its budget; release what was built.
+                foreach (ArrowBuffer buffer in bufs)
+                {
+                    buffer.Dispose();
+                }
+                throw;
+            }
         }
 
         public TBuilder AppendNull()

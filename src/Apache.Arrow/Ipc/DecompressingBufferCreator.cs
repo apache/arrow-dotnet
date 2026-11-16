@@ -26,11 +26,17 @@ namespace Apache.Arrow.Ipc
     {
         private readonly ICompressionCodec _compressionCodec;
         private readonly MemoryAllocator _allocator;
+        private readonly MessageBody _body;
 
-        public DecompressingBufferCreator(ICompressionCodec compressionCodec, MemoryAllocator allocator)
+        /// <param name="body">
+        /// The shared message body the buffers lie within, or null to view uncompressed buffers
+        /// directly.
+        /// </param>
+        public DecompressingBufferCreator(ICompressionCodec compressionCodec, MemoryAllocator allocator, MessageBody body = null)
         {
             _compressionCodec = compressionCodec;
             _allocator = allocator;
+            _body = body;
         }
 
         public ArrowBuffer CreateBuffer(ReadOnlyMemory<byte> source)
@@ -48,17 +54,27 @@ namespace Apache.Arrow.Ipc
             if (uncompressedLength == -1)
             {
                 // The buffer is not actually compressed
-                return new ArrowBuffer(source.Slice(8));
+                return _body != null ? _body.CreateBuffer(source.Slice(8)) : new ArrowBuffer(source.Slice(8));
             }
 
             var outputData = _allocator.Allocate(Convert.ToInt32(uncompressedLength));
-            var decompressedLength = _compressionCodec.Decompress(source.Slice(8), outputData.Memory);
-            if (decompressedLength != uncompressedLength)
+            try
             {
-                throw new Exception($"Expected to decompress {uncompressedLength} bytes, but got {decompressedLength} bytes");
+                var decompressedLength = _compressionCodec.Decompress(source.Slice(8), outputData.Memory);
+                if (decompressedLength != uncompressedLength)
+                {
+                    throw new Exception($"Expected to decompress {uncompressedLength} bytes, but got {decompressedLength} bytes");
+                }
+            }
+            catch
+            {
+                // Nothing else owns the output yet, so a failure (for example on corrupt input)
+                // would otherwise leak it; with a caller-owned allocator, permanently.
+                outputData.Dispose();
+                throw;
             }
 
-            return new ArrowBuffer(outputData);
+            return new ArrowBuffer(outputData, _allocator.Lifetime);
         }
 
         public void Dispose()

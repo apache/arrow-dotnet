@@ -107,6 +107,50 @@ namespace Apache.Arrow.Ipc
             _idToDictionary[id] = dictionary;
         }
 
+        /// <summary>
+        /// Adds or replaces a dictionary the memo owns, releasing the one it replaces. Readers own
+        /// their dictionaries; each record batch retains its own reference.
+        /// </summary>
+        public void ReplaceOwnedDictionary(long id, IArrowArray dictionary)
+        {
+            _idToDictionary.TryGetValue(id, out IArrowArray previous);
+            _idToDictionary[id] = dictionary;
+            if (!ReferenceEquals(previous, dictionary))
+            {
+                previous?.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Appends a delta to a dictionary the memo owns, releasing both the delta and the
+        /// dictionary it replaces.
+        /// </summary>
+        public void AddOwnedDeltaDictionary(long id, IArrowArray deltaDictionary, MemoryAllocator allocator = default)
+        {
+            try
+            {
+                IArrowArray currentDictionary = _idToDictionary[id];
+                IArrowArray dictionary = ArrowArrayConcatenator.Concatenate(new List<IArrowArray> { currentDictionary, deltaDictionary }, allocator);
+                ReplaceOwnedDictionary(id, dictionary);
+            }
+            finally
+            {
+                deltaDictionary.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Releases the dictionaries the memo owns.
+        /// </summary>
+        public void DisposeOwnedDictionaries()
+        {
+            foreach (IArrowArray dictionary in _idToDictionary.Values)
+            {
+                dictionary.Dispose();
+            }
+            _idToDictionary.Clear();
+        }
+
         public void AddDeltaDictionary(long id, IArrowArray deltaDictionary, MemoryAllocator allocator = default)
         {
             IArrowArray currentDictionary = _idToDictionary[id];

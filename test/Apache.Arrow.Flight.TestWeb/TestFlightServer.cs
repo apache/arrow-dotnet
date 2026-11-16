@@ -28,7 +28,10 @@ namespace Apache.Arrow.Flight.TestWeb
     {
         private readonly FlightStore _flightStore;
 
-        public TestFlightServer(FlightStore flightStore)
+        // The context is optional: it is resolved from dependency injection when a test registers
+        // one, which exercises the path where ASP.NET Core creates the server.
+        public TestFlightServer(FlightStore flightStore, ArrowContext context = null)
+            : base(context)
         {
             _flightStore = flightStore;
         }
