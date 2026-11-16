@@ -73,6 +73,12 @@ setup_tmpdir() {
   else
     mkdir -p "${VERIFY_TMPDIR}"
   fi
+
+  # Work under the physical path. On macOS the temporary directory is under /var,
+  # which is a symlink to /private/var. Working under the symlinked path lets
+  # tools see the same files under both paths, and MSBuild then treats each
+  # project as two and builds them concurrently into the same outputs.
+  VERIFY_TMPDIR="$(cd "${VERIFY_TMPDIR}" && pwd -P)"
 }
 
 download() {
