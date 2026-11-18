@@ -19,6 +19,7 @@
 *.resx
 *.sln
 *.slnf
+test/arrow-go-interop/go.sum
 .github/pull_request_template.md
 src/Apache.Arrow/Flatbuf/*
 docs/images/*.png
