@@ -54,7 +54,10 @@ public static async Task<List<RecordBatch>> ReadArrowFileAsync(string filename)
     using (var stream = File.OpenRead(filename))
     using (var reader = new ArrowFileReader(stream))
     {
-        RecordBatch batch;
+        // ReadNextRecordBatchAsync() returns null once the reader is drained.
+        // The nullable local keeps this sample warning-free in projects that
+        // enable nullable reference types.
+        RecordBatch? batch;
         while ((batch = await reader.ReadNextRecordBatchAsync()) != null)
         {
             batches.Add(batch);
