@@ -172,10 +172,11 @@ test_binary_distribution() {
   fi
 
   pushd nuget
-  for package in ../src/*/; do
-    [ -d "${package}" ] || continue
-    package="${package%/}"
-    package="${package##*/}"
+  # Derive the package names from the packable projects rather than from
+  # every entry under src/, so directories without a package (and files such
+  # as src/README.md) cannot make the verification fail.
+  for project in ../src/*/*.csproj; do
+    package="$(basename "${project}" .csproj)"
     for package_type in nupkg snupkg; do
       fetch_artifact "${package}.${VERSION}.${package_type}"
     done
