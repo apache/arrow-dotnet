@@ -103,8 +103,7 @@ namespace Apache.Arrow.Flight.Internal
                 switch (message.HeaderType)
                 {
                     case MessageHeader.Schema:
-                        // Use the base reader's DictionaryMemo so dictionary-encoded
-                        // fields are registered (FlightMessageSerializer discards them).
+                        // Use the base reader's DictionaryMemo so dictionary fields are registered
                         _schema = ReadSchemaFromMessage(message.ByteBuffer);
                         break;
                     default:

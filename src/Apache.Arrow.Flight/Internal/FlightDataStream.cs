@@ -74,9 +74,8 @@ namespace Apache.Arrow.Flight.Internal
             // Resend the full dictionary before every record batch rather than just the first (#180).
             HasWrittenDictionaryBatch = false;
 
-            // Writes any dictionary-batch messages followed by the record-batch message. Each is
-            // flushed as its own FlightData frame (see WriteMessageAsync) so that dictionary batches
-            // are delivered before the record batch that references them.
+            // Writes the dictionary-batch messages, then the record-batch message; each is
+            // flushed as its own FlightData frame (see WriteMessageAsync).
             await WriteRecordBatchInternalAsync(recordBatch, customMetadata: null).ConfigureAwait(false);
 
             // Flush the final (record-batch) message.
@@ -86,8 +85,7 @@ namespace Apache.Arrow.Flight.Internal
 
         private protected override async ValueTask<long> WriteMessageAsync<T>(MessageHeader headerType, Offset<T> headerOffset, int bodyLength, VectorOffset customMetadataOffset, CancellationToken cancellationToken)
         {
-            // A new message is beginning; the previous message's body is now fully buffered, so flush
-            // it as its own FlightData frame before starting the next one.
+            // The previous message's body is now fully buffered; flush it as its own frame.
             if (_hasPendingMessage)
             {
                 await FlushCurrentMessageAsync().ConfigureAwait(false);

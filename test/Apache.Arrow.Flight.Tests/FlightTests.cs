@@ -67,25 +67,34 @@ namespace Apache.Arrow.Flight.Tests
                 .Build();
         }
 
-        private RecordBatch CreateTestBatchWithDictionaryColumn(Schema schema, int startValue, int length, string[] dictionaryValues)
+        private static Int32Array CreateInt32Column(int startValue, int length)
         {
             Int32Array.Builder valueBuilder = new Int32Array.Builder();
             for (int i = 0; i < length; i++)
             {
                 valueBuilder.Append(startValue + i);
             }
+            return valueBuilder.Build();
+        }
 
-            // Dictionary-encoded (categorical) string column: dictionary<int32, string>.
+        // Dictionary-encoded (categorical) string column: dictionary<int32, string>.
+        private static DictionaryArray CreateDictionaryColumn(DictionaryType dictionaryType, int length, string[] dictionaryValues)
+        {
             StringArray dictionary = new StringArray.Builder().AppendRange(dictionaryValues).Build();
             Int32Array.Builder indicesBuilder = new Int32Array.Builder();
             for (int i = 0; i < length; i++)
             {
                 indicesBuilder.Append(i % dictionaryValues.Length);
             }
-            var dictionaryType = (DictionaryType)schema.GetFieldByIndex(1).DataType;
-            var dictionaryArray = new DictionaryArray(dictionaryType, indicesBuilder.Build(), dictionary);
+            return new DictionaryArray(dictionaryType, indicesBuilder.Build(), dictionary);
+        }
 
-            return new RecordBatch(schema, new IArrowArray[] { valueBuilder.Build(), dictionaryArray }, length);
+        private RecordBatch CreateTestBatchWithDictionaryColumn(Schema schema, int startValue, int length, string[] dictionaryValues)
+        {
+            var dictionaryType = (DictionaryType)schema.GetFieldByIndex(1).DataType;
+            var dictionaryArray = CreateDictionaryColumn(dictionaryType, length, dictionaryValues);
+
+            return new RecordBatch(schema, new IArrowArray[] { CreateInt32Column(startValue, length), dictionaryArray }, length);
         }
 
         private RecordBatch CreateTestBatchWithDictionaryColumn(int startValue, int length)
@@ -129,14 +138,49 @@ namespace Apache.Arrow.Flight.Tests
             ArrowReaderVerifier.CompareBatches(expectedBatch2, batches[1]);
         }
 
+        private static Schema CreateNestedDictionaryTestSchema()
+        {
+            var symbolField = new Field("symbol", new DictionaryType(Int32Type.Default, StringType.Default, false), true);
+            var structType = new StructType(new[] { symbolField });
+            return new Schema.Builder()
+                .Field(f => f.Name("value").DataType(Int32Type.Default).Nullable(true))
+                .Field(f => f.Name("info").DataType(structType).Nullable(false))
+                .Build();
+        }
+
+        private RecordBatch CreateTestBatchWithNestedDictionaryColumn(Schema schema, int startValue, int length, string[] dictionaryValues)
+        {
+            var structType = (StructType)schema.GetFieldByIndex(1).DataType;
+            var dictionaryType = (DictionaryType)structType.Fields[0].DataType;
+            var dictionaryArray = CreateDictionaryColumn(dictionaryType, length, dictionaryValues);
+            var structArray = new StructArray(structType, length, new IArrowArray[] { dictionaryArray }, ArrowBuffer.Empty);
+
+            return new RecordBatch(schema, new IArrowArray[] { CreateInt32Column(startValue, length), structArray }, length);
+        }
+
+        [Fact]
+        public async Task TestGetRecordBatchesWithNestedDictionaryColumn()
+        {
+            // As above, but with the dictionary column nested inside a struct.
+            var flightDescriptor = FlightDescriptor.CreatePathDescriptor("test");
+            var expectedBatch1 = CreateTestBatchWithNestedDictionaryColumn(CreateNestedDictionaryTestSchema(), 0, 50, new[] { "a", "b", "c" });
+            var expectedBatch2 = CreateTestBatchWithNestedDictionaryColumn(CreateNestedDictionaryTestSchema(), 50, 50, new[] { "a", "b", "c" });
+            GivenStoreBatches(flightDescriptor, new RecordBatchWithMetadata(expectedBatch1), new RecordBatchWithMetadata(expectedBatch2));
+
+            var flightInfo = await _flightClient.GetInfo(flightDescriptor);
+            var endpoint = flightInfo.Endpoints.First();
+            var getStream = _flightClient.GetStream(endpoint.Ticket);
+            var batches = await getStream.ResponseStream.ToListAsync();
+
+            Assert.Equal(2, batches.Count);
+            ArrowReaderVerifier.CompareBatches(expectedBatch1, batches[0]);
+            ArrowReaderVerifier.CompareBatches(expectedBatch2, batches[1]);
+        }
+
         [Fact]
         public async Task TestGetRecordBatchesWithDistinctSchemaInstancesPerBatch()
         {
-            // Each batch is built from its own Schema instance (equal by value, distinct by
-            // reference) rather than sharing one Schema/Field object across the stream. The
-            // writer must assign dictionary ids from its own schema, not from whichever Field
-            // object a batch happens to carry, or later batches get assigned ids the client's
-            // schema never declared.
+            // Each batch has its own Schema instance; dictionary ids must come from the writer's schema, not the batch's.
             var flightDescriptor = FlightDescriptor.CreatePathDescriptor("test");
             var expectedBatch1 = CreateTestBatchWithDictionaryColumn(CreateDictionaryTestSchema(), 0, 50, new[] { "a", "b", "c" });
             var expectedBatch2 = CreateTestBatchWithDictionaryColumn(CreateDictionaryTestSchema(), 50, 50, new[] { "a", "b", "c" });
