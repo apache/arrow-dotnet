@@ -131,6 +131,16 @@ namespace Apache.Arrow.Ipc
             return arrowField;
         }
 
+        private static int[] DefaultUnionTypeIds(int childCount)
+        {
+            var typeIds = new int[childCount];
+            for (int i = 0; i < childCount; i++)
+            {
+                typeIds[i] = i;
+            }
+            return typeIds;
+        }
+
         private static Types.IArrowType GetFieldArrowType(Flatbuf.Field field, Field[] childFields = null)
         {
             switch (field.TypeType)
@@ -254,8 +264,10 @@ namespace Apache.Arrow.Ipc
                     return new Types.StructType(childFields ?? System.Array.Empty<Field>());
                 case Flatbuf.Type.Union:
                     Flatbuf.Union unionMetadata = field.Type<Flatbuf.Union>().Value;
-                    return new Types.UnionType(
-                        childFields ?? System.Array.Empty<Field>(), unionMetadata.GetTypeIdsArray(), unionMetadata.Mode.ToArrow());
+                    Field[] unionFields = childFields ?? System.Array.Empty<Field>();
+                    // typeIds is optional; without it, the ids in the type vector are the children's offsets.
+                    int[] typeIds = unionMetadata.GetTypeIdsArray() ?? DefaultUnionTypeIds(unionFields.Length);
+                    return new Types.UnionType(unionFields, typeIds, unionMetadata.Mode.ToArrow());
                 case Flatbuf.Type.Map:
                     if (childFields == null || childFields.Length != 1)
                     {

@@ -316,7 +316,8 @@ namespace Apache.Arrow.C
                     UnionMode unionMode = format[2] == 'd' ? UnionMode.Dense : UnionMode.Sparse;
                     List<int> typeIds = new List<int>();
                     int pos = 4;
-                    do
+                    // A union with no children has an empty type-id list ("+us:" or "+ud:").
+                    while (pos < format.Length)
                     {
                         int next = format.IndexOf(',', pos);
                         if (next < 0) { next = format.Length; }
@@ -329,7 +330,7 @@ namespace Apache.Arrow.C
                         typeIds.Add(code);
 
                         pos = next + 1;
-                    } while (pos < format.Length);
+                    }
 
                     return new UnionType(ParseChildren("union", extensionRegistry), typeIds, unionMode);
                 }
