@@ -25,9 +25,12 @@ namespace Apache.Arrow.Types
 
         public IReadOnlyList<Field> Fields { get; }
 
+        /// <remarks>
+        /// <paramref name="fields"/> may be empty: the Arrow format allows a struct or a union with no children.
+        /// </remarks>
         protected NestedType(IReadOnlyList<Field> fields)
         {
-            if (fields == null || fields.Count == 0)
+            if (fields == null)
             {
                 throw new ArgumentNullException(nameof(fields));
             }

@@ -15,7 +15,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using Apache.Arrow.Types;
 
@@ -251,12 +250,12 @@ namespace Apache.Arrow.Ipc
                     Flatbuf.FixedSizeList fixedSizeListMetadata = field.Type<Flatbuf.FixedSizeList>().Value;
                     return new Types.FixedSizeListType(childFields[0], fixedSizeListMetadata.ListSize);
                 case Flatbuf.Type.Struct_:
-                    Debug.Assert(childFields != null);
-                    return new Types.StructType(childFields);
+                    // A struct or a union may have no children.
+                    return new Types.StructType(childFields ?? System.Array.Empty<Field>());
                 case Flatbuf.Type.Union:
-                    Debug.Assert(childFields != null);
                     Flatbuf.Union unionMetadata = field.Type<Flatbuf.Union>().Value;
-                    return new Types.UnionType(childFields, unionMetadata.GetTypeIdsArray(), unionMetadata.Mode.ToArrow());
+                    return new Types.UnionType(
+                        childFields ?? System.Array.Empty<Field>(), unionMetadata.GetTypeIdsArray(), unionMetadata.Mode.ToArrow());
                 case Flatbuf.Type.Map:
                     if (childFields == null || childFields.Length != 1)
                     {
