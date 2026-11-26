@@ -29,16 +29,17 @@ namespace Apache.Arrow.Tests
     /// </summary>
     public class EmptyStructTests
     {
-        private static readonly StructType EmptyStruct = new StructType(new List<Field>());
+        internal static readonly StructType EmptyStruct = new StructType(new List<Field>());
 
         /// <summary>Three rows, the second null.</summary>
-        private static StructArray EmptyStructArray()
+        internal static StructArray EmptyStructArray()
         {
             ArrowBuffer validity = new ArrowBuffer.BitmapBuilder().Append(true).Append(false).Append(true).Build();
             return new StructArray(EmptyStruct, 3, new List<IArrowArray>(), validity, nullCount: 1);
         }
 
-        private static RecordBatch Batch()
+        /// <summary>An empty struct column, a list of empty structs, and an int column; three rows.</summary>
+        internal static RecordBatch Batch()
         {
             var listType = new ListType(new Field("item", EmptyStruct, true));
             var offsets = new ArrowBuffer.Builder<int>().Append(0).Append(2).Append(2).Append(3).Build();
