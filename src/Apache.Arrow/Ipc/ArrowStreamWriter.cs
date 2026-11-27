@@ -728,7 +728,7 @@ namespace Apache.Arrow.Ipc
 
         protected bool HasWrittenSchema { get; set; }
 
-        private bool HasWrittenDictionaryBatch { get; set; }
+        protected bool HasWrittenDictionaryBatch { get; set; }
 
         private bool HasWrittenStart { get; set; }
 
@@ -825,7 +825,7 @@ namespace Apache.Arrow.Ipc
 
             if (!HasWrittenDictionaryBatch)
             {
-                DictionaryCollector.Collect(recordBatch, ref _dictionaryMemo);
+                DictionaryCollector.Collect(Schema, recordBatch, ref _dictionaryMemo);
                 WriteDictionaries(_dictionaryMemo);
                 HasWrittenDictionaryBatch = true;
             }
@@ -876,7 +876,7 @@ namespace Apache.Arrow.Ipc
 
             if (!HasWrittenDictionaryBatch)
             {
-                DictionaryCollector.Collect(recordBatch, ref _dictionaryMemo);
+                DictionaryCollector.Collect(Schema, recordBatch, ref _dictionaryMemo);
                 await WriteDictionariesAsync(_dictionaryMemo, cancellationToken).ConfigureAwait(false);
                 HasWrittenDictionaryBatch = true;
             }
@@ -1570,12 +1570,15 @@ namespace Apache.Arrow.Ipc
 
     internal static class DictionaryCollector
     {
-        internal static void Collect(RecordBatch recordBatch, ref DictionaryMemo dictionaryMemo)
+        // Dictionary ids were assigned to the writer schema's own Field instances when the
+        // schema was serialized, and DictionaryMemo keys on Field reference identity — a batch
+        // built with its own (value-equal) Schema would be minted a fresh, undeclared id.
+        // Resolve ids against the writer's schema; only take column data from the batch.
+        internal static void Collect(Schema writerSchema, RecordBatch recordBatch, ref DictionaryMemo dictionaryMemo)
         {
-            Schema schema = recordBatch.Schema;
-            for (int i = 0; i < schema.FieldsList.Count; i++)
+            for (int i = 0; i < writerSchema.FieldsList.Count; i++)
             {
-                Field field = schema.GetFieldByIndex(i);
+                Field field = writerSchema.GetFieldByIndex(i);
                 IArrowArray array = recordBatch.Column(i);
 
                 CollectDictionary(field, array.Data, ref dictionaryMemo);
@@ -1594,7 +1597,7 @@ namespace Apache.Arrow.Ipc
                 arrayData.Dictionary.EnsureDataType(dictionaryType.ValueType.TypeId);
 
                 IArrowArray dictionary = ArrowArrayFactory.BuildArray(arrayData.Dictionary);
-                WalkChildren(dictionary.Data, ref dictionaryMemo);
+                WalkChildren(dictionaryType.ValueType, dictionary.Data, ref dictionaryMemo);
 
                 dictionaryMemo ??= new DictionaryMemo();
                 long id = dictionaryMemo.GetOrAssignId(field);
@@ -1603,11 +1606,13 @@ namespace Apache.Arrow.Ipc
             }
             else
             {
-                WalkChildren(arrayData, ref dictionaryMemo);
+                WalkChildren(fieldType, arrayData, ref dictionaryMemo);
             }
         }
 
-        private static void WalkChildren(ArrayData arrayData, ref DictionaryMemo dictionaryMemo)
+        // writerType comes from the writer schema's type tree, so nested dictionary fields
+        // resolve to the ids assigned at schema serialization, not the batch's own Fields.
+        private static void WalkChildren(IArrowType writerType, ArrayData arrayData, ref DictionaryMemo dictionaryMemo)
         {
             ArrayData[] children = arrayData.Children;
 
@@ -1616,7 +1621,7 @@ namespace Apache.Arrow.Ipc
                 return;
             }
 
-            IArrowType walkType = arrayData.DataType is ExtensionType ext ? ext.StorageType : arrayData.DataType;
+            IArrowType walkType = writerType is ExtensionType ext ? ext.StorageType : writerType;
             if (walkType is NestedType nestedType)
             {
                 for (int i = 0; i < nestedType.Fields.Count; i++)
