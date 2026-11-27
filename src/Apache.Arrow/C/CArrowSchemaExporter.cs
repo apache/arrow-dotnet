@@ -280,7 +280,9 @@ namespace Apache.Arrow.C
                 numChildren = numFields;
                 if (numFields == 0)
                 {
-                    throw new NotSupportedException("Exporting nested data types with zero children.");
+                    // A struct or a union may have no children; the C data interface allows a null children
+                    // pointer when n_children is 0.
+                    return null;
                 }
 
                 var pointerList = (CArrowSchema**)Marshal.AllocHGlobal(numFields * IntPtr.Size);
